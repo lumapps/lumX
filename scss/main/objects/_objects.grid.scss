@@ -1,0 +1,31 @@
+///*------------------------------------*\
+//    #OBJECTS-GRID
+//\*------------------------------------*/
+
+// Grid base styles
+.grid {
+	position: relative;
+
+	@include media-query(desk) {
+		@include outer-container;
+	}
+}
+	
+	// Columns
+	@for $i from 1 through 12 {
+		.grid__col#{$i} {
+			position: relative;
+			
+			@include media-query(portable) {
+				margin-bottom: $base-spacing-unit;
+
+				&:last-child {
+					margin-bottom: 0;
+				}
+			}
+
+			@include media-query(desk) {
+				@include span-columns($i);
+			}
+		}
+	}

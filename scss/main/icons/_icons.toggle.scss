@@ -1,0 +1,25 @@
+///*------------------------------------*\
+//    #ICONS-TOGGLE
+//\*------------------------------------*/
+
+// Variables
+$mdi-var-check-box: "\f2e1";
+$mdi-var-check-box-outline-blank: "\f2e2";
+$mdi-var-radio-button-off: "\f2e3";
+$mdi-var-radio-button-on: "\f2e4";
+$mdi-var-star: "\f2e5";
+$mdi-var-star-half: "\f2e6";
+$mdi-var-star-outline: "\f2e7";
+
+
+
+
+
+// Icons
+.mdi--check-box:before { content: $mdi-var-check-box; }
+.mdi--check-box-outline-blank:before { content: $mdi-var-check-box-outline-blank; }
+.mdi--radio-button-off:before { content: $mdi-var-radio-button-off; }
+.mdi--radio-button-on:before { content: $mdi-var-radio-button-on; }
+.mdi--star:before { content: $mdi-var-star; }
+.mdi--star-half:before { content: $mdi-var-star-half; }
+.mdi--star-outline:before { content: $mdi-var-star-outline; }

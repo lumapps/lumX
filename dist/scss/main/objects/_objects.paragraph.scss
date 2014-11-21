@@ -1,0 +1,22 @@
+///*------------------------------------*\
+//    #OBJECTS-PARAGRAPH
+//\*------------------------------------*/
+
+// Paragraph base styles
+.paragraph {
+    @include font-size(14px);
+
+    p:last-child,
+    ul:last-child {
+        margin-bottom: 0;
+    }
+
+    a {
+        color: $blue;
+        text-decoration: none;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+}

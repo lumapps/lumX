@@ -1,0 +1,17 @@
+<div class="sidebar-filter" ng-class="{ 'sidebar-filter--is-shown': SidebarService.isSidebarShown() }" ng-click="SidebarService.toggleSidebar()"></div>
+
+<div class="sidebar" ng-class="{ 'sidebar--is-shown': SidebarService.isSidebarShown() }">
+    <div class="sidebar-menu">
+        <ul>
+            <li>
+                <a href="/getting-started/installation" class="sidebar-menu__link" lx-ripple ng-click="toggleSidebar()">Installation</a>
+            </li>
+            <li>
+                <a href="/getting-started/customization" class="sidebar-menu__link" lx-ripple ng-click="toggleSidebar()">Customization</a>
+            </li>
+            <li>
+                <a href="/getting-started/contribute" class="sidebar-menu__link" lx-ripple ng-click="toggleSidebar()">Contribute</a>
+            </li>
+        </ul>
+    </div>
+</div>

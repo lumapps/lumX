@@ -1,0 +1,79 @@
+///*------------------------------------*\
+//    #ICONS-CONTENT
+//\*------------------------------------*/
+
+// Variables
+$mdi-var-add: "\f0fb";
+$mdi-var-add-box: "\f0fc";
+$mdi-var-add-circle: "\f0fd";
+$mdi-var-add-circle-outline: "\f0fe";
+$mdi-var-archive: "\f0ff";
+$mdi-var-backspace: "\f100";
+$mdi-var-block: "\f101";
+$mdi-var-clear: "\f102";
+$mdi-var-content-copy: "\f103";
+$mdi-var-content-cut: "\f104";
+$mdi-var-content-paste: "\f105";
+$mdi-var-create: "\f106";
+$mdi-var-drafts: "\f107";
+$mdi-var-filter-list: "\f108";
+$mdi-var-flag: "\f109";
+$mdi-var-forward: "\f10a";
+$mdi-var-gesture: "\f10b";
+$mdi-var-inbox: "\f10c";
+$mdi-var-link: "\f10d";
+$mdi-var-mail: "\f10e";
+$mdi-var-markunread: "\f10f";
+$mdi-var-redo: "\f110";
+$mdi-var-remove: "\f111";
+$mdi-var-remove-circle: "\f112";
+$mdi-var-remove-circle-outline: "\f113";
+$mdi-var-reply: "\f114";
+$mdi-var-reply-all: "\f115";
+$mdi-var-report: "\f116";
+$mdi-var-save: "\f117";
+$mdi-var-select-all: "\f118";
+$mdi-var-send: "\f119";
+$mdi-var-sort: "\f11a";
+$mdi-var-text-format: "\f11b";
+$mdi-var-undo: "\f11c";
+
+
+
+
+
+// Icons
+.mdi--add:before { content: $mdi-var-add; }
+.mdi--add-box:before { content: $mdi-var-add-box; }
+.mdi--add-circle:before { content: $mdi-var-add-circle; }
+.mdi--add-circle-outline:before { content: $mdi-var-add-circle-outline; }
+.mdi--archive:before { content: $mdi-var-archive; }
+.mdi--backspace:before { content: $mdi-var-backspace; }
+.mdi--block:before { content: $mdi-var-block; }
+.mdi--clear:before { content: $mdi-var-clear; }
+.mdi--content-copy:before { content: $mdi-var-content-copy; }
+.mdi--content-cut:before { content: $mdi-var-content-cut; }
+.mdi--content-paste:before { content: $mdi-var-content-paste; }
+.mdi--create:before { content: $mdi-var-create; }
+.mdi--drafts:before { content: $mdi-var-drafts; }
+.mdi--filter-list:before { content: $mdi-var-filter-list; }
+.mdi--flag:before { content: $mdi-var-flag; }
+.mdi--forward:before { content: $mdi-var-forward; }
+.mdi--gesture:before { content: $mdi-var-gesture; }
+.mdi--inbox:before { content: $mdi-var-inbox; }
+.mdi--link:before { content: $mdi-var-link; }
+.mdi--mail:before { content: $mdi-var-mail; }
+.mdi--markunread:before { content: $mdi-var-markunread; }
+.mdi--redo:before { content: $mdi-var-redo; }
+.mdi--remove:before { content: $mdi-var-remove; }
+.mdi--remove-circle:before { content: $mdi-var-remove-circle; }
+.mdi--remove-circle-outline:before { content: $mdi-var-remove-circle-outline; }
+.mdi--reply:before { content: $mdi-var-reply; }
+.mdi--reply-all:before { content: $mdi-var-reply-all; }
+.mdi--report:before { content: $mdi-var-report; }
+.mdi--save:before { content: $mdi-var-save; }
+.mdi--select-all:before { content: $mdi-var-select-all; }
+.mdi--send:before { content: $mdi-var-send; }
+.mdi--sort:before { content: $mdi-var-sort; }
+.mdi--text-format:before { content: $mdi-var-text-format; }
+.mdi--undo:before { content: $mdi-var-undo; }

@@ -1,0 +1,93 @@
+///*------------------------------------*\
+//    #ICONS-HARDWARE
+//\*------------------------------------*/
+
+// Variables
+$mdi-var-cast: "\f1a9";
+$mdi-var-cast-connected: "\f1aa";
+$mdi-var-computer: "\f1ab";
+$mdi-var-desktop-mac: "\f1ac";
+$mdi-var-desktop-windows: "\f1ad";
+$mdi-var-dock: "\f1ae";
+$mdi-var-gamepad: "\f1af";
+$mdi-var-headset: "\f1b0";
+$mdi-var-headset-mic: "\f1b1";
+$mdi-var-keyboard: "\f1b2";
+$mdi-var-keyboard-alt: "\f1b3";
+$mdi-var-keyboard-arrow-down: "\f1b4";
+$mdi-var-keyboard-arrow-left: "\f1b5";
+$mdi-var-keyboard-arrow-right: "\f1b6";
+$mdi-var-keyboard-arrow-up: "\f1b7";
+$mdi-var-keyboard-backspace: "\f1b8";
+$mdi-var-keyboard-capslock: "\f1b9";
+$mdi-var-keyboard-control: "\f1ba";
+$mdi-var-keyboard-hide: "\f1bb";
+$mdi-var-keyboard-return: "\f1bc";
+$mdi-var-keyboard-tab: "\f1bd";
+$mdi-var-keyboard-voice: "\f1be";
+$mdi-var-laptop: "\f1bf";
+$mdi-var-laptop-chromebook: "\f1c0";
+$mdi-var-laptop-mac: "\f1c1";
+$mdi-var-laptop-windows: "\f1c2";
+$mdi-var-memory: "\f1c3";
+$mdi-var-mouse: "\f1c4";
+$mdi-var-phone-android: "\f1c5";
+$mdi-var-phone-iphone: "\f1c6";
+$mdi-var-phonelink: "\f1c7";
+$mdi-var-phonelink-off: "\f1c8";
+$mdi-var-security: "\f1c9";
+$mdi-var-sim-card: "\f1ca";
+$mdi-var-smartphone: "\f1cb";
+$mdi-var-speaker: "\f1cc";
+$mdi-var-tablet: "\f1cd";
+$mdi-var-tablet-android: "\f1ce";
+$mdi-var-tablet-mac: "\f1cf";
+$mdi-var-tv: "\f1d0";
+$mdi-var-watch: "\f1d1";
+
+
+
+
+
+// Icons
+.mdi--cast:before { content: $mdi-var-cast; }
+.mdi--cast-connected:before { content: $mdi-var-cast-connected; }
+.mdi--computer:before { content: $mdi-var-computer; }
+.mdi--desktop-mac:before { content: $mdi-var-desktop-mac; }
+.mdi--desktop-windows:before { content: $mdi-var-desktop-windows; }
+.mdi--dock:before { content: $mdi-var-dock; }
+.mdi--gamepad:before { content: $mdi-var-gamepad; }
+.mdi--headset:before { content: $mdi-var-headset; }
+.mdi--headset-mic:before { content: $mdi-var-headset-mic; }
+.mdi--keyboard:before { content: $mdi-var-keyboard; }
+.mdi--keyboard-alt:before { content: $mdi-var-keyboard-alt; }
+.mdi--keyboard-arrow-down:before { content: $mdi-var-keyboard-arrow-down; }
+.mdi--keyboard-arrow-left:before { content: $mdi-var-keyboard-arrow-left; }
+.mdi--keyboard-arrow-right:before { content: $mdi-var-keyboard-arrow-right; }
+.mdi--keyboard-arrow-up:before { content: $mdi-var-keyboard-arrow-up; }
+.mdi--keyboard-backspace:before { content: $mdi-var-keyboard-backspace; }
+.mdi--keyboard-capslock:before { content: $mdi-var-keyboard-capslock; }
+.mdi--keyboard-control:before { content: $mdi-var-keyboard-control; }
+.mdi--keyboard-hide:before { content: $mdi-var-keyboard-hide; }
+.mdi--keyboard-return:before { content: $mdi-var-keyboard-return; }
+.mdi--keyboard-tab:before { content: $mdi-var-keyboard-tab; }
+.mdi--keyboard-voice:before { content: $mdi-var-keyboard-voice; }
+.mdi--laptop:before { content: $mdi-var-laptop; }
+.mdi--laptop-chromebook:before { content: $mdi-var-laptop-chromebook; }
+.mdi--laptop-mac:before { content: $mdi-var-laptop-mac; }
+.mdi--laptop-windows:before { content: $mdi-var-laptop-windows; }
+.mdi--memory:before { content: $mdi-var-memory; }
+.mdi--mouse:before { content: $mdi-var-mouse; }
+.mdi--phone-android:before { content: $mdi-var-phone-android; }
+.mdi--phone-iphone:before { content: $mdi-var-phone-iphone; }
+.mdi--phonelink:before { content: $mdi-var-phonelink; }
+.mdi--phonelink-off:before { content: $mdi-var-phonelink-off; }
+.mdi--security:before { content: $mdi-var-security; }
+.mdi--sim-card:before { content: $mdi-var-sim-card; }
+.mdi--smartphone:before { content: $mdi-var-smartphone; }
+.mdi--speaker:before { content: $mdi-var-speaker; }
+.mdi--tablet:before { content: $mdi-var-tablet; }
+.mdi--tablet-android:before { content: $mdi-var-tablet-android; }
+.mdi--tablet-mac:before { content: $mdi-var-tablet-mac; }
+.mdi--tv:before { content: $mdi-var-tv; }
+.mdi--watch:before { content: $mdi-var-watch; }

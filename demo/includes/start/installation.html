@@ -1,0 +1,60 @@
+<!-- Sidebar -->
+<ng-include src="'/demo/includes/sidebar/sidebar-start.html'"></ng-include>
+
+<div class="main-section">
+    <h3 class="main-section__title">Installation</h3>
+
+    <div class="main-section__content">
+        <p class="main-section__intro">
+            lumX is the first responsive front-end framework based on AngularJS and Google Material Design specifications.<br />
+            It provides a CSS Framework built with Sass and a bunch of AngularJS directives.
+        </p>
+
+        <h4 class="main-section__subtitle">Dependencies</h4>
+
+        <p>
+            lumX is available through Bower:<br />
+            <code>bower install lumx</code>
+        </p>
+
+        <p>
+            Don’t want bower? You first need to install lumX dependencies :
+            <ul>
+                <li>AngularJS</li>
+                <li>jQuery</li>
+                <li>Underscore</li>
+                <li>Velocity</li>
+                <li>Bourbon</li>
+                <li>Neat</li>
+            </ul>
+        </p>
+
+        <h4 class="main-section__subtitle">Why these dependencies?</h4>
+
+        <p>
+            Our CSS framework is based on bourbon, a simple and lightweight mixin library for Sass:<br />
+            <a href="http://bourbon.io" target="_blank">http://bourbon.io</a>
+        </p>
+
+        <p>
+            Neat is a lightweight semantic grid framework for Sass and Bourbon, used to build our grid system:<br />
+            <a href="http://neat.bourbon.io" target="_blank">http://neat.bourbon.io</a>
+        </p>
+
+        <p>
+            Velocity is used to provide smooth animations for the dropdown directive:<br />
+            <a href="http://julian.com/research/velocity" target="_blank">http://julian.com/research/velocity</a>
+        </p>
+
+        <h4 class="main-section__subtitle">Use lumX in your project</h4>
+
+        <p>
+            When you have downloaded all the dependencies you need to add dependencies on the lumX AngularJS module:<br />
+            <code>angular.module('myModule', ['lumx']);</code>
+        </p>
+
+        <p>
+            Then you juste have to link to the main css file (dist/css/lumx.css).
+        </p>
+    </div>
+</div>

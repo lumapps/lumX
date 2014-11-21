@@ -1,0 +1,23 @@
+<lx-dropdown-menu full-width="32" from-top class="lx-select__choices">
+    <ul ng-if="!selectController.isTree()">
+        <li ng-if="selectController.selectedElements().length > 0">
+            <div class="lx-select__chosen"
+                 ng-class="{ 'lx-select__chosen--is-multiple': selectController.isMultiple() }"
+                 ng-bind-html="selectController.getSelectedTemplate()"></div>
+        </li>
+
+        <li>
+            <div class="lx-select__filter dropdown-filter">
+                <input type="text" ng-model="search" lx-dropdown-filter>
+            </div>
+        </li>
+
+        <li ng-repeat="$choice in choices | filter:search">
+            <a class="lx-select__choice dropdown-link"
+               ng-class="{ 'lx-select__choice--is-multiple': selectController.isMultiple(),
+                           'lx-select__choice--is-selected': isSelected($choice) }"
+               ng-click="select($choice, $event)"
+               ng-transclude="child"></a>
+        </li>
+    </ul>
+</lx-dropdown-menu>

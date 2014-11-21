@@ -1,0 +1,63 @@
+///*------------------------------------*\
+//    #MODULES-COMMON-FEATURES
+//\*------------------------------------*/
+
+// Features
+.features {
+	padding: 60px 0;
+	text-align: center;
+}
+
+
+
+
+
+// Features Header
+.features-header {}
+
+	// Features Title
+	.features-header__title {
+		color: #f0564f;
+		@include font-size(32px);
+		line-height: 36px;
+	}
+
+	// Features description
+	.features-header__subtitle {
+		margin: 0 0 60px;
+		@include font-size(24px);
+		line-height: 32px;
+	}
+
+
+
+
+
+// Feature
+.feature {}
+
+	// Feature picture Box
+	.feature__picture-box {
+		padding: $base-spacing-unit;
+
+		img {
+			display: block;
+			margin: 0 auto;
+			max-height: 80px;
+		}
+	}
+
+	// Feature title
+	.feature-title {
+		margin-bottom: halve($base-spacing-unit);
+		@include font-size(24px);
+		font-weight: 700;
+		color: #f0564f;
+	}
+
+	// Feature description
+	.feature-description {
+		margin: 0;
+		@include font-size(18px);
+		font-weight: 300;
+	}

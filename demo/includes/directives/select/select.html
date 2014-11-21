@@ -1,0 +1,35 @@
+<ul class="form-fields" ng-init="myVar = 'ouioui'">
+    <li>
+        <div class="grid">
+            <div class="grid__col4">
+                <lx-input-group label="'Name'">
+                    <input type="text">
+                </lx-input-group>
+            </div>
+ 
+            <div class="grid__col4">
+                <lx-select selected="dataFilter.values[myVar]" change="cbSelect.exec()" placeholder="'Lorem Ipsum'">
+                    <lx-select-selected>
+                        {{ $selected.name }} - {{ $selected.age }}
+                    </lx-select-selected>
+ 
+                    <lx-select-choices choices="people">
+                        {{ $choice.email }}
+                    </lx-select-choices>
+                </lx-select>
+            </div>
+ 
+            <div class="grid__col4">
+                <lx-select selected="selectedPersons" placeholder="'Lorem Ipsum'" multiple>
+                    <lx-select-selected>
+                        {{ $selected.name }} - {{ $selected.age }}
+                    </lx-select-selected>
+ 
+                    <lx-select-choices choices="people">
+                        {{ $choice.email }}
+                    </lx-select-choices>
+                </lx-select>
+            </div>
+        </div>
+    </li>
+</ul>

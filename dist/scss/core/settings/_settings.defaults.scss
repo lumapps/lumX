@@ -1,0 +1,49 @@
+///*------------------------------------*\
+//    #SETTINGS-DEFAULTS
+//\*------------------------------------*/
+
+// High-level base settings.
+$base-font-size:        16px    !default;
+$base-line-height:      24px    !default;
+$base-text-color:       #505050 !default;
+$base-background-color: #e5e5e5 !default;
+
+
+
+
+
+// Material Design settings.
+$md-spacing-unit:       16px !default;
+$md-base-round:         2px  !default;
+
+
+
+
+
+// Colors and sizes.
+//
+// Feel free to override and set new values for your project.
+$blue:                  #5fa2db !default;
+$green:                 #9cbe35 !default;
+$orange:                #f3a641 !default;
+$red:                   #e25a31 !default;
+$grey:                  #bbbbbb !default;
+$black:                 #444444 !default;
+$white:                 #ffffff !default;
+$colors:                ('blue': $blue, 'green': $green, 'orange': $orange, 'red': $red, 'grey': $grey, 'black': $black, 'white': $white);
+
+$size-xs:               18px !default;
+$size-s:                24px !default;
+$size-m:                30px !default;
+$size-l:                36px !default;
+$size-xl:               42px !default;
+$sizes:                 ('xs': $size-xs, 's': $size-s, 'm': $size-m, 'l': $size-l, 'xl': $size-xl);
+
+
+
+
+
+// These variables are framework variables, sourced from variables defined
+// above. Feel free to use these variables throughout your project, but do not
+// modify or reassign them.
+$base-spacing-unit:     $base-line-height;

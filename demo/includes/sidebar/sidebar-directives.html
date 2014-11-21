@@ -1,0 +1,38 @@
+<div class="sidebar-filter" ng-class="{ 'sidebar-filter--is-shown': SidebarService.isSidebarShown() }" ng-click="SidebarService.toggleSidebar()"></div>
+
+<div class="sidebar" ng-class="{ 'sidebar--is-shown': SidebarService.isSidebarShown() }">
+    <div class="sidebar-menu">
+        <ul>
+            <li>
+                <a class="sidebar-menu__link" href="/directives/fab" lx-ripple ng-click="SidebarService.toggleSidebar()">Floating action button</a>
+            </li>
+            <li>
+                <a class="sidebar-menu__link" href="/directives/dropdowns" lx-ripple ng-click="SidebarService.toggleSidebar()">Dropdowns</a>
+            </li>
+            <li>
+                <a class="sidebar-menu__link" href="/directives/tabs" lx-ripple ng-click="SidebarService.toggleSidebar()">Tabs</a>
+            </li>
+            <li>
+                <a class="sidebar-menu__link" href="/directives/text-fields" lx-ripple ng-click="SidebarService.toggleSidebar()">Text fields</a>
+            </li>
+            <li>
+                <a class="sidebar-menu__link" href="/directives/selects" lx-ripple ng-click="SidebarService.toggleSidebar()">Selects</a>
+            </li>
+            <li>
+                <a class="sidebar-menu__link" href="/directives/tooltips" lx-ripple ng-click="SidebarService.toggleSidebar()">Tooltips</a>
+            </li>
+            <li>
+                <a class="sidebar-menu__link" href="/directives/notifications" target="_self" lx-ripple ng-click="SidebarService.toggleSidebar()">Notifications</a>
+            </li>
+            <li>
+                <a class="sidebar-menu__link" href="/directives/dialogs" lx-ripple ng-click="SidebarService.toggleSidebar()">Dialogs</a>
+            </li>
+            <li>
+                <a class="sidebar-menu__link" href="/directives/thumbnails" lx-ripple ng-click="SidebarService.toggleSidebar()">Thumbnails</a>
+            </li>
+            <li>
+                <a class="sidebar-menu__link" href="/directives/scrollbar" lx-ripple ng-click="SidebarService.toggleSidebar()">Scrollbar</a>
+            </li>
+        </ul>
+    </div>
+</div>

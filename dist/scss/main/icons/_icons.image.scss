@@ -1,0 +1,285 @@
+///*------------------------------------*\
+//    #ICONS-IMAGE
+//\*------------------------------------*/
+
+// Variables
+$mdi-var-add-to-photos: "\f1d2";
+$mdi-var-adjust: "\f1d3";
+$mdi-var-assistant-photo: "\f1d4";
+$mdi-var-audiotrack: "\f1d5";
+$mdi-var-blur-circular: "\f1d6";
+$mdi-var-blur-linear: "\f1d7";
+$mdi-var-blur-off: "\f1d8";
+$mdi-var-blur-on: "\f1d9";
+$mdi-var-brightness-1: "\f1da";
+$mdi-var-brightness-2: "\f1db";
+$mdi-var-brightness-3: "\f1dc";
+$mdi-var-brightness-4: "\f1dd";
+$mdi-var-brightness-5: "\f1de";
+$mdi-var-brightness-6: "\f1df";
+$mdi-var-brightness-7: "\f1e0";
+$mdi-var-brush: "\f1e1";
+$mdi-var-camera: "\f1e2";
+$mdi-var-camera-alt: "\f1e3";
+$mdi-var-camera-front: "\f1e4";
+$mdi-var-camera-rear: "\f1e5";
+$mdi-var-camera-roll: "\f1e6";
+$mdi-var-center-focus-strong: "\f1e7";
+$mdi-var-center-focus-weak: "\f1e8";
+$mdi-var-collections: "\f1e9";
+$mdi-var-colorize: "\f1ea";
+$mdi-var-color-lens: "\f1eb";
+$mdi-var-compare: "\f1ec";
+$mdi-var-control-point: "\f1ed";
+$mdi-var-control-point-duplicate: "\f1ee";
+$mdi-var-crop: "\f1ef";
+$mdi-var-crop-3-2: "\f1f0";
+$mdi-var-crop-5-4: "\f1f1";
+$mdi-var-crop-7-5: "\f1f2";
+$mdi-var-crop-16-9: "\f1f3";
+$mdi-var-crop-din: "\f1f4";
+$mdi-var-crop-free: "\f1f5";
+$mdi-var-crop-landscape: "\f1f6";
+$mdi-var-crop-original: "\f1f7";
+$mdi-var-crop-portrait: "\f1f8";
+$mdi-var-crop-square: "\f1f9";
+$mdi-var-dehaze: "\f1fa";
+$mdi-var-details: "\f1fb";
+$mdi-var-edit: "\f1fc";
+$mdi-var-exposure: "\f1fd";
+$mdi-var-exposure-minus-1: "\f1fe";
+$mdi-var-exposure-minus-2: "\f1ff";
+$mdi-var-exposure-zero: "\f200";
+$mdi-var-exposure-plus-1: "\f201";
+$mdi-var-exposure-plus-2: "\f202";
+$mdi-var-filter: "\f203";
+$mdi-var-filter-1: "\f204";
+$mdi-var-filter-2: "\f205";
+$mdi-var-filter-3: "\f206";
+$mdi-var-filter-4: "\f207";
+$mdi-var-filter-5: "\f208";
+$mdi-var-filter-6: "\f209";
+$mdi-var-filter-7: "\f20a";
+$mdi-var-filter-8: "\f20b";
+$mdi-var-filter-9: "\f20c";
+$mdi-var-filter-9-plus: "\f20d";
+$mdi-var-filter-b-and-w: "\f20e";
+$mdi-var-filter-center-focus: "\f20f";
+$mdi-var-filter-drama: "\f210";
+$mdi-var-filter-frames: "\f211";
+$mdi-var-filter-hdr: "\f212";
+$mdi-var-filter-none: "\f213";
+$mdi-var-filter-tilt-shift: "\f214";
+$mdi-var-filter-vintage: "\f215";
+$mdi-var-flare: "\f216";
+$mdi-var-flash-auto: "\f217";
+$mdi-var-flash-off: "\f218";
+$mdi-var-flash-on: "\f219";
+$mdi-var-flip: "\f21a";
+$mdi-var-gradient: "\f21b";
+$mdi-var-grain: "\f21c";
+$mdi-var-grid-off: "\f21d";
+$mdi-var-grid-on: "\f21e";
+$mdi-var-hdr-off: "\f21f";
+$mdi-var-hdr-on: "\f220";
+$mdi-var-hdr-strong: "\f221";
+$mdi-var-hdr-weak: "\f222";
+$mdi-var-healing: "\f223";
+$mdi-var-image: "\f224";
+$mdi-var-image-aspect-ratio: "\f225";
+$mdi-var-iso: "\f226";
+$mdi-var-landscape: "\f227";
+$mdi-var-leak-add: "\f228";
+$mdi-var-leak-remove: "\f229";
+$mdi-var-lens: "\f22a";
+$mdi-var-looks: "\f22b";
+$mdi-var-looks-1: "\f22c";
+$mdi-var-looks-2: "\f22d";
+$mdi-var-looks-3: "\f22e";
+$mdi-var-looks-4: "\f22f";
+$mdi-var-looks-5: "\f230";
+$mdi-var-looks-6: "\f231";
+$mdi-var-loupe: "\f232";
+$mdi-var-movie-creation: "\f233";
+$mdi-var-nature: "\f234";
+$mdi-var-nature-people: "\f235";
+$mdi-var-navigate-before: "\f236";
+$mdi-var-navigate-next: "\f237";
+$mdi-var-palette: "\f238";
+$mdi-var-panorama: "\f239";
+$mdi-var-panorama-fisheye: "\f23a";
+$mdi-var-panorama-horizontal: "\f23b";
+$mdi-var-panorama-vertical: "\f23c";
+$mdi-var-panorama-wide-angle: "\f23d";
+$mdi-var-photo: "\f23e";
+$mdi-var-photo-album: "\f23f";
+$mdi-var-photo-camera: "\f240";
+$mdi-var-photo-library: "\f241";
+$mdi-var-portrait: "\f242";
+$mdi-var-remove-red-eye: "\f243";
+$mdi-var-rotate-left: "\f244";
+$mdi-var-rotate-right: "\f245";
+$mdi-var-slideshow: "\f246";
+$mdi-var-straighten: "\f247";
+$mdi-var-style: "\f248";
+$mdi-var-switch-camera: "\f249";
+$mdi-var-switch-video: "\f24a";
+$mdi-var-tag-faces: "\f24b";
+$mdi-var-texture: "\f24c";
+$mdi-var-timelapse: "\f24d";
+$mdi-var-timer: "\f24e";
+$mdi-var-timer-3: "\f24f";
+$mdi-var-timer-10: "\f250";
+$mdi-var-timer-auto: "\f251";
+$mdi-var-timer-off: "\f252";
+$mdi-var-tonality: "\f253";
+$mdi-var-transform: "\f254";
+$mdi-var-tune: "\f255";
+$mdi-var-wb-auto: "\f256";
+$mdi-var-wb-cloudy: "\f257";
+$mdi-var-wb-incandescent: "\f258";
+$mdi-var-wb-irradescent: "\f259";
+$mdi-var-wb-sunny: "\f25a";
+
+
+
+
+
+// Icons
+.mdi--add-to-photos:before { content: $mdi-var-add-to-photos; }
+.mdi--adjust:before { content: $mdi-var-adjust; }
+.mdi--assistant-photo:before { content: $mdi-var-assistant-photo; }
+.mdi--audiotrack:before { content: $mdi-var-audiotrack; }
+.mdi--blur-circular:before { content: $mdi-var-blur-circular; }
+.mdi--blur-linear:before { content: $mdi-var-blur-linear; }
+.mdi--blur-off:before { content: $mdi-var-blur-off; }
+.mdi--blur-on:before { content: $mdi-var-blur-on; }
+.mdi--brightness-1:before { content: $mdi-var-brightness-1; }
+.mdi--brightness-2:before { content: $mdi-var-brightness-2; }
+.mdi--brightness-3:before { content: $mdi-var-brightness-3; }
+.mdi--brightness-4:before { content: $mdi-var-brightness-4; }
+.mdi--brightness-5:before { content: $mdi-var-brightness-5; }
+.mdi--brightness-6:before { content: $mdi-var-brightness-6; }
+.mdi--brightness-7:before { content: $mdi-var-brightness-7; }
+.mdi--brush:before { content: $mdi-var-brush; }
+.mdi--camera:before { content: $mdi-var-camera; }
+.mdi--camera-alt:before { content: $mdi-var-camera-alt; }
+.mdi--camera-front:before { content: $mdi-var-camera-front; }
+.mdi--camera-rear:before { content: $mdi-var-camera-rear; }
+.mdi--camera-roll:before { content: $mdi-var-camera-roll; }
+.mdi--center-focus-strong:before { content: $mdi-var-center-focus-strong; }
+.mdi--center-focus-weak:before { content: $mdi-var-center-focus-weak; }
+.mdi--collections:before { content: $mdi-var-collections; }
+.mdi--colorize:before { content: $mdi-var-colorize; }
+.mdi--color-lens:before { content: $mdi-var-color-lens; }
+.mdi--compare:before { content: $mdi-var-compare; }
+.mdi--control-point:before { content: $mdi-var-control-point; }
+.mdi--control-point-duplicate:before { content: $mdi-var-control-point-duplicate; }
+.mdi--crop:before { content: $mdi-var-crop; }
+.mdi--crop-3-2:before { content: $mdi-var-crop-3-2; }
+.mdi--crop-5-4:before { content: $mdi-var-crop-5-4; }
+.mdi--crop-7-5:before { content: $mdi-var-crop-7-5; }
+.mdi--crop-16-9:before { content: $mdi-var-crop-16-9; }
+.mdi--crop-din:before { content: $mdi-var-crop-din; }
+.mdi--crop-free:before { content: $mdi-var-crop-free; }
+.mdi--crop-landscape:before { content: $mdi-var-crop-landscape; }
+.mdi--crop-original:before { content: $mdi-var-crop-original; }
+.mdi--crop-portrait:before { content: $mdi-var-crop-portrait; }
+.mdi--crop-square:before { content: $mdi-var-crop-square; }
+.mdi--dehaze:before { content: $mdi-var-dehaze; }
+.mdi--details:before { content: $mdi-var-details; }
+.mdi--edit:before { content: $mdi-var-edit; }
+.mdi--exposure:before { content: $mdi-var-exposure; }
+.mdi--exposure-minus-1:before { content: $mdi-var-exposure-minus-1; }
+.mdi--exposure-minus-2:before { content: $mdi-var-exposure-minus-2; }
+.mdi--exposure-zero:before { content: $mdi-var-exposure-zero; }
+.mdi--exposure-plus-1:before { content: $mdi-var-exposure-plus-1; }
+.mdi--exposure-plus-2:before { content: $mdi-var-exposure-plus-2; }
+.mdi--filter:before { content: $mdi-var-filter; }
+.mdi--filter-1:before { content: $mdi-var-filter-1; }
+.mdi--filter-2:before { content: $mdi-var-filter-2; }
+.mdi--filter-3:before { content: $mdi-var-filter-3; }
+.mdi--filter-4:before { content: $mdi-var-filter-4; }
+.mdi--filter-5:before { content: $mdi-var-filter-5; }
+.mdi--filter-6:before { content: $mdi-var-filter-6; }
+.mdi--filter-7:before { content: $mdi-var-filter-7; }
+.mdi--filter-8:before { content: $mdi-var-filter-8; }
+.mdi--filter-9:before { content: $mdi-var-filter-9; }
+.mdi--filter-9-plus:before { content: $mdi-var-filter-9-plus; }
+.mdi--filter-b-and-w:before { content: $mdi-var-filter-b-and-w; }
+.mdi--filter-center-focus:before { content: $mdi-var-filter-center-focus; }
+.mdi--filter-drama:before { content: $mdi-var-filter-drama; }
+.mdi--filter-frames:before { content: $mdi-var-filter-frames; }
+.mdi--filter-hdr:before { content: $mdi-var-filter-hdr; }
+.mdi--filter-none:before { content: $mdi-var-filter-none; }
+.mdi--filter-tilt-shift:before { content: $mdi-var-filter-tilt-shift; }
+.mdi--filter-vintage:before { content: $mdi-var-filter-vintage; }
+.mdi--flare:before { content: $mdi-var-flare; }
+.mdi--flash-auto:before { content: $mdi-var-flash-auto; }
+.mdi--flash-off:before { content: $mdi-var-flash-off; }
+.mdi--flash-on:before { content: $mdi-var-flash-on; }
+.mdi--flip:before { content: $mdi-var-flip; }
+.mdi--gradient:before { content: $mdi-var-gradient; }
+.mdi--grain:before { content: $mdi-var-grain; }
+.mdi--grid-off:before { content: $mdi-var-grid-off; }
+.mdi--grid-on:before { content: $mdi-var-grid-on; }
+.mdi--hdr-off:before { content: $mdi-var-hdr-off; }
+.mdi--hdr-on:before { content: $mdi-var-hdr-on; }
+.mdi--hdr-strong:before { content: $mdi-var-hdr-strong; }
+.mdi--hdr-weak:before { content: $mdi-var-hdr-weak; }
+.mdi--healing:before { content: $mdi-var-healing; }
+.mdi--image:before { content: $mdi-var-image; }
+.mdi--image-aspect-ratio:before { content: $mdi-var-image-aspect-ratio; }
+.mdi--iso:before { content: $mdi-var-iso; }
+.mdi--landscape:before { content: $mdi-var-landscape; }
+.mdi--leak-add:before { content: $mdi-var-leak-add; }
+.mdi--leak-remove:before { content: $mdi-var-leak-remove; }
+.mdi--lens:before { content: $mdi-var-lens; }
+.mdi--looks:before { content: $mdi-var-looks; }
+.mdi--looks-1:before { content: $mdi-var-looks-1; }
+.mdi--looks-2:before { content: $mdi-var-looks-2; }
+.mdi--looks-3:before { content: $mdi-var-looks-3; }
+.mdi--looks-4:before { content: $mdi-var-looks-4; }
+.mdi--looks-5:before { content: $mdi-var-looks-5; }
+.mdi--looks-6:before { content: $mdi-var-looks-6; }
+.mdi--loupe:before { content: $mdi-var-loupe; }
+.mdi--movie-creation:before { content: $mdi-var-movie-creation; }
+.mdi--nature:before { content: $mdi-var-nature; }
+.mdi--nature-people:before { content: $mdi-var-nature-people; }
+.mdi--navigate-before:before { content: $mdi-var-navigate-before; }
+.mdi--navigate-next:before { content: $mdi-var-navigate-next; }
+.mdi--palette:before { content: $mdi-var-palette; }
+.mdi--panorama:before { content: $mdi-var-panorama; }
+.mdi--panorama-fisheye:before { content: $mdi-var-panorama-fisheye; }
+.mdi--panorama-horizontal:before { content: $mdi-var-panorama-horizontal; }
+.mdi--panorama-vertical:before { content: $mdi-var-panorama-vertical; }
+.mdi--panorama-wide-angle:before { content: $mdi-var-panorama-wide-angle; }
+.mdi--photo:before { content: $mdi-var-photo; }
+.mdi--photo-album:before { content: $mdi-var-photo-album; }
+.mdi--photo-camera:before { content: $mdi-var-photo-camera; }
+.mdi--photo-library:before { content: $mdi-var-photo-library; }
+.mdi--portrait:before { content: $mdi-var-portrait; }
+.mdi--remove-red-eye:before { content: $mdi-var-remove-red-eye; }
+.mdi--rotate-left:before { content: $mdi-var-rotate-left; }
+.mdi--rotate-right:before { content: $mdi-var-rotate-right; }
+.mdi--slideshow:before { content: $mdi-var-slideshow; }
+.mdi--straighten:before { content: $mdi-var-straighten; }
+.mdi--style:before { content: $mdi-var-style; }
+.mdi--switch-camera:before { content: $mdi-var-switch-camera; }
+.mdi--switch-video:before { content: $mdi-var-switch-video; }
+.mdi--tag-faces:before { content: $mdi-var-tag-faces; }
+.mdi--texture:before { content: $mdi-var-texture; }
+.mdi--timelapse:before { content: $mdi-var-timelapse; }
+.mdi--timer:before { content: $mdi-var-timer; }
+.mdi--timer-3:before { content: $mdi-var-timer-3; }
+.mdi--timer-10:before { content: $mdi-var-timer-10; }
+.mdi--timer-auto:before { content: $mdi-var-timer-auto; }
+.mdi--timer-off:before { content: $mdi-var-timer-off; }
+.mdi--tonality:before { content: $mdi-var-tonality; }
+.mdi--transform:before { content: $mdi-var-transform; }
+.mdi--tune:before { content: $mdi-var-tune; }
+.mdi--wb-auto:before { content: $mdi-var-wb-auto; }
+.mdi--wb-cloudy:before { content: $mdi-var-wb-cloudy; }
+.mdi--wb-incandescent:before { content: $mdi-var-wb-incandescent; }
+.mdi--wb-irradescent:before { content: $mdi-var-wb-irradescent; }
+.mdi--wb-sunny:before { content: $mdi-var-wb-sunny; }

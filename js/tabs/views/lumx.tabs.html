@@ -1,0 +1,16 @@
+<div class="tabs">
+    <ul class="tabs__links">
+        <li ng-repeat="tab in tabsCtrl.getTabs()">
+            <a class="tabs-link"
+               ng-class="{ 'tabs-link--is-active': $index === tabsCtrl.getActiveTab() }"
+               ng-click="tabsCtrl.switchTab($index)"
+               lx-ripple>
+               {{ tab.heading }}
+            </a>
+        </li>
+    </ul>
+
+    <div class="tabs__panes" ng-transclude></div>
+
+    <div class="tabs__indicator" lx-tab-indicator></div>
+</div>

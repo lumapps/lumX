@@ -1,0 +1,111 @@
+///*------------------------------------*\
+//    #ICONS-AUDIO-VIDEO
+//\*------------------------------------*/
+
+// Variables
+$mdi-var-album: "\f0a2";
+$mdi-var-av-timer: "\f0a3";
+$mdi-var-closed-caption: "\f0a4";
+$mdi-var-equalizer: "\f0a5";
+$mdi-var-explicit: "\f0a6";
+$mdi-var-fast-forward: "\f0a7";
+$mdi-var-fast-rewind: "\f0a8";
+$mdi-var-games: "\f0a9";
+$mdi-var-hearing: "\f0aa";
+$mdi-var-high-quality: "\f0ab";
+$mdi-var-loop: "\f0ac";
+$mdi-var-mic: "\f0ad";
+$mdi-var-mic-none: "\f0ae";
+$mdi-var-mic-off: "\f0af";
+$mdi-var-movie: "\f0b0";
+$mdi-var-my-library-add: "\f0b1";
+$mdi-var-my-library-books: "\f0b2";
+$mdi-var-my-library-music: "\f0b3";
+$mdi-var-new-releases: "\f0b4";
+$mdi-var-not-interested: "\f0b5";
+$mdi-var-pause: "\f0b6";
+$mdi-var-pause-circle-fill: "\f0b7";
+$mdi-var-pause-circle-outline: "\f0b8";
+$mdi-var-play-arrow: "\f0b9";
+$mdi-var-play-circle-fill: "\f0ba";
+$mdi-var-play-circle-outline: "\f0bb";
+$mdi-var-playlist-add: "\f0bc";
+$mdi-var-play-shopping-bag: "\f0bd";
+$mdi-var-queue: "\f0be";
+$mdi-var-queue-music: "\f0bf";
+$mdi-var-radio: "\f0c0";
+$mdi-var-recent-actors: "\f0c1";
+$mdi-var-repeat: "\f0c2";
+$mdi-var-repeat-one: "\f0c3";
+$mdi-var-replay: "\f0c4";
+$mdi-var-shuffle: "\f0c5";
+$mdi-var-skip-next: "\f0c6";
+$mdi-var-skip-previous: "\f0c7";
+$mdi-var-snooze: "\f0c8";
+$mdi-var-stop: "\f0c9";
+$mdi-var-subtitles: "\f0ca";
+$mdi-var-surround-sound: "\f0cb";
+$mdi-var-videocam: "\f0cc";
+$mdi-var-videocam-off: "\f0cd";
+$mdi-var-video-collection: "\f0ce";
+$mdi-var-volume-down: "\f0cf";
+$mdi-var-volume-mute: "\f0d0";
+$mdi-var-volume-off: "\f0d1";
+$mdi-var-volume-up: "\f0d2";
+$mdi-var-web: "\f0d3";
+
+
+
+
+
+// Icons
+.mdi--album:before { content: $mdi-var-album; }
+.mdi--av-timer:before { content: $mdi-var-av-timer; }
+.mdi--closed-caption:before { content: $mdi-var-closed-caption; }
+.mdi--equalizer:before { content: $mdi-var-equalizer; }
+.mdi--explicit:before { content: $mdi-var-explicit; }
+.mdi--fast-forward:before { content: $mdi-var-fast-forward; }
+.mdi--fast-rewind:before { content: $mdi-var-fast-rewind; }
+.mdi--games:before { content: $mdi-var-games; }
+.mdi--hearing:before { content: $mdi-var-hearing; }
+.mdi--high-quality:before { content: $mdi-var-high-quality; }
+.mdi--loop:before { content: $mdi-var-loop; }
+.mdi--mic:before { content: $mdi-var-mic; }
+.mdi--mic-none:before { content: $mdi-var-mic-none; }
+.mdi--mic-off:before { content: $mdi-var-mic-off; }
+.mdi--movie:before { content: $mdi-var-movie; }
+.mdi--my-library-add:before { content: $mdi-var-my-library-add; }
+.mdi--my-library-books:before { content: $mdi-var-my-library-books; }
+.mdi--my-library-music:before { content: $mdi-var-my-library-music; }
+.mdi--new-releases:before { content: $mdi-var-new-releases; }
+.mdi--not-interested:before { content: $mdi-var-not-interested; }
+.mdi--pause:before { content: $mdi-var-pause; }
+.mdi--pause-circle-fill:before { content: $mdi-var-pause-circle-fill; }
+.mdi--pause-circle-outline:before { content: $mdi-var-pause-circle-outline; }
+.mdi--play-arrow:before { content: $mdi-var-play-arrow; }
+.mdi--play-circle-fill:before { content: $mdi-var-play-circle-fill; }
+.mdi--play-circle-outline:before { content: $mdi-var-play-circle-outline; }
+.mdi--playlist-add:before { content: $mdi-var-playlist-add; }
+.mdi--play-shopping-bag:before { content: $mdi-var-play-shopping-bag; }
+.mdi--queue:before { content: $mdi-var-queue; }
+.mdi--queue-music:before { content: $mdi-var-queue-music; }
+.mdi--radio:before { content: $mdi-var-radio; }
+.mdi--recent-actors:before { content: $mdi-var-recent-actors; }
+.mdi--repeat:before { content: $mdi-var-repeat; }
+.mdi--repeat-one:before { content: $mdi-var-repeat-one; }
+.mdi--replay:before { content: $mdi-var-replay; }
+.mdi--shuffle:before { content: $mdi-var-shuffle; }
+.mdi--skip-next:before { content: $mdi-var-skip-next; }
+.mdi--skip-previous:before { content: $mdi-var-skip-previous; }
+.mdi--snooze:before { content: $mdi-var-snooze; }
+.mdi--stop:before { content: $mdi-var-stop; }
+.mdi--subtitles:before { content: $mdi-var-subtitles; }
+.mdi--surround-sound:before { content: $mdi-var-surround-sound; }
+.mdi--videocam:before { content: $mdi-var-videocam; }
+.mdi--videocam-off:before { content: $mdi-var-videocam-off; }
+.mdi--video-collection:before { content: $mdi-var-video-collection; }
+.mdi--volume-down:before { content: $mdi-var-volume-down; }
+.mdi--volume-mute:before { content: $mdi-var-volume-mute; }
+.mdi--volume-off:before { content: $mdi-var-volume-off; }
+.mdi--volume-up:before { content: $mdi-var-volume-up; }
+.mdi--web:before { content: $mdi-var-web; }

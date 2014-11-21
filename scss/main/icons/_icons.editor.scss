@@ -1,0 +1,115 @@
+///*------------------------------------*\
+//    #ICONS-EDITOR
+//\*------------------------------------*/
+
+// Variables
+$mdi-var-attach-file: "\f168";
+$mdi-var-attach-money: "\f169";
+$mdi-var-border-all: "\f16a";
+$mdi-var-border-bottom: "\f16b";
+$mdi-var-border-clear: "\f16c";
+$mdi-var-border-color: "\f16d";
+$mdi-var-border-horizontal: "\f16e";
+$mdi-var-border-inner: "\f16f";
+$mdi-var-border-left: "\f170";
+$mdi-var-border-outer: "\f171";
+$mdi-var-border-right: "\f172";
+$mdi-var-border-style: "\f173";
+$mdi-var-border-top: "\f174";
+$mdi-var-border-vertical: "\f175";
+$mdi-var-format-align-center: "\f176";
+$mdi-var-format-align-justify: "\f177";
+$mdi-var-format-align-left: "\f178";
+$mdi-var-format-align-right: "\f179";
+$mdi-var-format-bold: "\f17a";
+$mdi-var-format-clear: "\f17b";
+$mdi-var-format-color-fill: "\f17c";
+$mdi-var-format-color-reset: "\f17d";
+$mdi-var-format-color-text: "\f17e";
+$mdi-var-format-indent-decrease: "\f17f";
+$mdi-var-format-indent-increase: "\f180";
+$mdi-var-format-italic: "\f181";
+$mdi-var-format-line-spacing: "\f182";
+$mdi-var-format-list-bulleted: "\f183";
+$mdi-var-format-list-numbered: "\f184";
+$mdi-var-format-paint: "\f185";
+$mdi-var-format-quote: "\f186";
+$mdi-var-format-size: "\f187";
+$mdi-var-format-strikethrough: "\f188";
+$mdi-var-format-textdirection-l-to-r: "\f189";
+$mdi-var-format-textdirection-r-to-l: "\f18a";
+$mdi-var-format-underline: "\f18b";
+$mdi-var-functions: "\f18c";
+$mdi-var-insert-chart: "\f18d";
+$mdi-var-insert-comment: "\f18e";
+$mdi-var-insert-drive-file: "\f18f";
+$mdi-var-insert-emoticon: "\f190";
+$mdi-var-insert-invitation: "\f191";
+$mdi-var-insert-link: "\f192";
+$mdi-var-insert-photo: "\f193";
+$mdi-var-merge-type: "\f194";
+$mdi-var-mode-comment: "\f195";
+$mdi-var-mode-edit: "\f196";
+$mdi-var-publish: "\f197";
+$mdi-var-vertical-align-bottom: "\f198";
+$mdi-var-vertical-align-center: "\f199";
+$mdi-var-vertical-align-top: "\f19a";
+$mdi-var-wrap-text: "\f19b";
+
+
+
+
+
+// Icons
+.mdi--attach-file:before { content: $mdi-var-attach-file; }
+.mdi--attach-money:before { content: $mdi-var-attach-money; }
+.mdi--border-all:before { content: $mdi-var-border-all; }
+.mdi--border-bottom:before { content: $mdi-var-border-bottom; }
+.mdi--border-clear:before { content: $mdi-var-border-clear; }
+.mdi--border-color:before { content: $mdi-var-border-color; }
+.mdi--border-horizontal:before { content: $mdi-var-border-horizontal; }
+.mdi--border-inner:before { content: $mdi-var-border-inner; }
+.mdi--border-left:before { content: $mdi-var-border-left; }
+.mdi--border-outer:before { content: $mdi-var-border-outer; }
+.mdi--border-right:before { content: $mdi-var-border-right; }
+.mdi--border-style:before { content: $mdi-var-border-style; }
+.mdi--border-top:before { content: $mdi-var-border-top; }
+.mdi--border-vertical:before { content: $mdi-var-border-vertical; }
+.mdi--format-align-center:before { content: $mdi-var-format-align-center; }
+.mdi--format-align-justify:before { content: $mdi-var-format-align-justify; }
+.mdi--format-align-left:before { content: $mdi-var-format-align-left; }
+.mdi--format-align-right:before { content: $mdi-var-format-align-right; }
+.mdi--format-bold:before { content: $mdi-var-format-bold; }
+.mdi--format-clear:before { content: $mdi-var-format-clear; }
+.mdi--format-color-fill:before { content: $mdi-var-format-color-fill; }
+.mdi--format-color-reset:before { content: $mdi-var-format-color-reset; }
+.mdi--format-color-text:before { content: $mdi-var-format-color-text; }
+.mdi--format-indent-decrease:before { content: $mdi-var-format-indent-decrease; }
+.mdi--format-indent-increase:before { content: $mdi-var-format-indent-increase; }
+.mdi--format-italic:before { content: $mdi-var-format-italic; }
+.mdi--format-line-spacing:before { content: $mdi-var-format-line-spacing; }
+.mdi--format-list-bulleted:before { content: $mdi-var-format-list-bulleted; }
+.mdi--format-list-numbered:before { content: $mdi-var-format-list-numbered; }
+.mdi--format-paint:before { content: $mdi-var-format-paint; }
+.mdi--format-quote:before { content: $mdi-var-format-quote; }
+.mdi--format-size:before { content: $mdi-var-format-size; }
+.mdi--format-strikethrough:before { content: $mdi-var-format-strikethrough; }
+.mdi--format-textdirection-l-to-r:before { content: $mdi-var-format-textdirection-l-to-r; }
+.mdi--format-textdirection-r-to-l:before { content: $mdi-var-format-textdirection-r-to-l; }
+.mdi--format-underline:before { content: $mdi-var-format-underline; }
+.mdi--functions:before { content: $mdi-var-functions; }
+.mdi--insert-chart:before { content: $mdi-var-insert-chart; }
+.mdi--insert-comment:before { content: $mdi-var-insert-comment; }
+.mdi--insert-drive-file:before { content: $mdi-var-insert-drive-file; }
+.mdi--insert-emoticon:before { content: $mdi-var-insert-emoticon; }
+.mdi--insert-invitation:before { content: $mdi-var-insert-invitation; }
+.mdi--insert-link:before { content: $mdi-var-insert-link; }
+.mdi--insert-photo:before { content: $mdi-var-insert-photo; }
+.mdi--merge-type:before { content: $mdi-var-merge-type; }
+.mdi--mode-comment:before { content: $mdi-var-mode-comment; }
+.mdi--mode-edit:before { content: $mdi-var-mode-edit; }
+.mdi--publish:before { content: $mdi-var-publish; }
+.mdi--vertical-align-bottom:before { content: $mdi-var-vertical-align-bottom; }
+.mdi--vertical-align-center:before { content: $mdi-var-vertical-align-center; }
+.mdi--vertical-align-top:before { content: $mdi-var-vertical-align-top; }
+.mdi--wrap-text:before { content: $mdi-var-wrap-text; }

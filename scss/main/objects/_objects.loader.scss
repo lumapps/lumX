@@ -1,0 +1,72 @@
+///*------------------------------------*\
+//    #OBJECTS-LOADER
+//\*------------------------------------*/
+
+// Loader base styles
+.loader {
+    position: relative;
+    @include size(50px);
+    overflow: hidden;
+    @include animation(spin 2s linear infinite);
+}
+
+    // Loader background
+    .loader__bg {
+        @include size(50px);
+        border-radius: 50%;
+        background-color: $blue;
+    }
+
+    // Loader first mask 1
+    .loader__mask1 {
+        @include position(absolute, 0 null null 0);
+        @include size(50px);
+        clip: rect(0, 25px, 25px, 0);
+        background-color: #fff;
+        @include transform(rotate(-10deg));
+        @include animation(mask1 2s linear infinite);
+    }
+
+    // Loader second mask 2
+    .loader__mask2 {
+        @include position(absolute, 0 null null 0);
+        @include size(50px);
+        clip: rect(0, 50px, 25px, 25px);
+        background-color: #fff;
+        @include transform(rotate(10deg));
+        @include animation(mask2 2s linear infinite);
+    }
+
+    // Loader second mask 3
+    .loader__mask3 {
+        @include position(absolute, 25px 0 null 0);
+        height: 25px;
+        background-color: #fff;
+        @include animation(mask3 2s linear infinite);
+    }
+
+    // Loader center
+    .loader__center {
+        @include position(absolute, 3px null null 3px);
+        @include size(44px);
+        border-radius: 50%;
+        background-color: #fff;
+    }
+
+@include keyframes(mask1) {
+    0% { @include transform(rotate(-10deg)); }
+    50% { @include transform(rotate(-135deg)); }
+    100% { @include transform(rotate(-10deg)); }
+}
+
+@include keyframes(mask2) {
+    0% { @include transform(rotate(10deg)); }
+    50% { @include transform(rotate(135deg)); }
+    100% { @include transform(rotate(10deg)); }
+}
+
+@include keyframes(mask3) {
+    0% { @include transform(translateY(0)); }
+    50% { @include transform(translateY(25px)); }
+    100% { @include transform(translateY(0)); }
+}
