@@ -29,7 +29,7 @@ For example, using bash in a Unix system with the default path will need to edit
 
 ## How to get help, contribute, or provide feedback
 
-Please refer to our [contributing ghidelines](CONTRIBUTING.md).
+Please refer to our [contributing guidelines](CONTRIBUTING.md).
 
 ## Copyright and license
 

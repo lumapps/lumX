@@ -137,7 +137,7 @@ We have very precise rules over how our git commit messages can be formatted.  T
 Each commit message consists of a **header**, a **body** and a **footer**.  The header has a special format that includes a **type**, a **scope** and a **subject**:
 
 ```
-<type>(<scope>): <subject>
+<type> <scope>: <subject>
 <BLANK LINE>
 <body>
 <BLANK LINE>
