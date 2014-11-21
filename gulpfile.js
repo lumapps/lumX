@@ -77,6 +77,8 @@ gulp.task('scss', function()
     return gulp.src('demo/scss/lumx.scss')
         .pipe(plugins.plumber())
         .pipe(plugins.rubySass())
+        // Gulp ruby sass doesn't handle disabling css map for Sass 3.4 and after
+        .pipe(plugins.removeLines({'filters': [/\/\*# sourceMappingURL=/]}))
         .pipe(gulp.dest('demo/css'));
 });
 
