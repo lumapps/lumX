@@ -3982,7 +3982,11 @@ html {
   padding-left: 30px;
   font-weight: 400;
   line-height: 24px;
-  cursor: pointer; }
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none; }
   .checkbox__label:before, .checkbox__label:after {
     display: inline-block;
     font: normal normal normal 14px/1 md-icons;
