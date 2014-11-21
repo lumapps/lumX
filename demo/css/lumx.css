@@ -5556,7 +5556,11 @@ html {
   padding-left: 45px;
   font-weight: 400;
   line-height: 24px;
-  cursor: pointer; }
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none; }
   .switch__label:before {
     content: '';
     position: absolute;
