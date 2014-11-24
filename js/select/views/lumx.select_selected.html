@@ -14,8 +14,7 @@
         <div ng-if="selectController.isMultiple()">
             <span class="lx-select__tag"
                   ng-repeat="$selected in selectController.selectedElements()"
-                  ng-transclude="child"
-                  ng-click="unselect($selected)"></span>
+                  ng-transclude="child"></span>
         </div>
     </div>
 </div>
