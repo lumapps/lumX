@@ -16,5 +16,6 @@ angular.module('lumx', [
     'lumx.scrollbar',
     'lumx.thumbnail',
     'lumx.tabs',
-    'lumx.tooltip'
+    'lumx.tooltip',
+    'lumx.file-input'
 ]);

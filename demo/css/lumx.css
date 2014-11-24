@@ -833,6 +833,7 @@ html {
 
 .visuallyhidden,
 .checkbox__input,
+.input-file__input,
 .radio-button__input,
 .switch__input {
   border: 0 !important;
@@ -4519,6 +4520,131 @@ html {
       -webkit-transition-delay: 0.5s;
       -moz-transition-delay: 0.5s;
       transition-delay: 0.5s; }
+
+.input-file {
+  position: relative;
+  padding-top: 32px;
+  padding-bottom: 8px; }
+  .input-file:before, .input-file:after {
+    content: ''; }
+  .input-file:before {
+    position: absolute;
+    right: 0;
+    bottom: 7px;
+    left: 0;
+    height: 1px;
+    border-bottom: 1px solid #ddd; }
+  .input-file:after {
+    position: absolute;
+    right: 0;
+    bottom: 6px;
+    left: 0;
+    height: 2px;
+    background-color: #5fa2db;
+    -webkit-transform: scale(0);
+    -moz-transform: scale(0);
+    -ms-transform: scale(0);
+    -o-transform: scale(0);
+    transform: scale(0);
+    -webkit-transition-property: -webkit-transform;
+    -moz-transition-property: -moz-transform;
+    transition-property: transform;
+    -webkit-transition-duration: 0.6s;
+    -moz-transition-duration: 0.6s;
+    transition-duration: 0.6s;
+    -webkit-transition-timing-function: cubic-bezier(0.23, 1, 0.32, 1);
+    -moz-transition-timing-function: cubic-bezier(0.23, 1, 0.32, 1);
+    transition-timing-function: cubic-bezier(0.23, 1, 0.32, 1); }
+
+label {
+  display: block;
+  position: relative;
+  height: 32px;
+  cursor: pointer; }
+
+.input-file--is-active .input-file__label {
+  font-size: 12px;
+  font-size: 0.75rem;
+  -webkit-transform: translateY(16px);
+  -moz-transform: translateY(16px);
+  -ms-transform: translateY(16px);
+  -o-transform: translateY(16px);
+  transform: translateY(16px); }
+.input-file--is-active .input-file__filename {
+  opacity: 1;
+  -webkit-transform: translateX(0);
+  -moz-transform: translateX(0);
+  -ms-transform: translateX(0);
+  -o-transform: translateX(0);
+  transform: translateX(0); }
+
+.input-file--is-focused:after {
+  -webkit-transform: scale(1);
+  -moz-transform: scale(1);
+  -ms-transform: scale(1);
+  -o-transform: scale(1);
+  transform: scale(1); }
+.input-file--is-focused .input-file__label {
+  color: #5fa2db; }
+
+.input-file--has-error:after {
+  background-color: #e25a31;
+  -webkit-transform: scale(1);
+  -moz-transform: scale(1);
+  -ms-transform: scale(1);
+  -o-transform: scale(1);
+  transform: scale(1); }
+.input-file--has-error .input-file__label {
+  font-size: 12px;
+  font-size: 0.75rem;
+  -webkit-transform: translateY(16px);
+  -moz-transform: translateY(16px);
+  -ms-transform: translateY(16px);
+  -o-transform: translateY(16px);
+  transform: translateY(16px);
+  color: #e25a31; }
+
+.input-file__label {
+  position: absolute;
+  top: -32px;
+  left: 0;
+  color: #aaa;
+  line-height: 16px;
+  pointer-events: none;
+  -webkit-transform: translateY(40px);
+  -moz-transform: translateY(40px);
+  -ms-transform: translateY(40px);
+  -o-transform: translateY(40px);
+  transform: translateY(40px);
+  -webkit-transition-property: -webkit-transform, font-size, color;
+  -moz-transition-property: -moz-transform, font-size, color;
+  transition-property: transform, font-size, color;
+  -webkit-transition-duration: 0.6s;
+  -moz-transition-duration: 0.6s;
+  transition-duration: 0.6s;
+  -webkit-transition-timing-function: cubic-bezier(0.23, 1, 0.32, 1);
+  -moz-transition-timing-function: cubic-bezier(0.23, 1, 0.32, 1);
+  transition-timing-function: cubic-bezier(0.23, 1, 0.32, 1); }
+
+.input-file__filename {
+  position: relative;
+  top: 4px;
+  opacity: 0;
+  -webkit-transform: translateX(48px);
+  -moz-transform: translateX(48px);
+  -ms-transform: translateX(48px);
+  -o-transform: translateX(48px);
+  transform: translateX(48px);
+  -webkit-transition-property: -webkit-transform, opacity;
+  -moz-transition-property: -moz-transform, opacity;
+  transition-property: transform, opacity;
+  -webkit-transition-duration: 0.6s;
+  -moz-transition-duration: 0.6s;
+  transition-duration: 0.6s;
+  -webkit-transition-timing-function: cubic-bezier(0.23, 1, 0.32, 1);
+  -moz-transition-timing-function: cubic-bezier(0.23, 1, 0.32, 1);
+  transition-timing-function: cubic-bezier(0.23, 1, 0.32, 1);
+  font-weight: 400; }
 
 .form-error {
   position: relative;
