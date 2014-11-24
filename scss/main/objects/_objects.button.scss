@@ -37,6 +37,10 @@ $btn-font-size: ('xs': 9px, 's': 11px, 'm': 11px, 'l': 13px, 'xl': 14px);
         border: 0;
         padding: 0;
     }
+
+    .ripple {
+        z-index: -1;
+    }
 }
 
 // Sizes

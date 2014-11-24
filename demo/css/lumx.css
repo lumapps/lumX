@@ -3662,6 +3662,8 @@ html {
   .btn::-moz-focus-inner {
     border: 0;
     padding: 0; }
+  .btn .ripple {
+    z-index: -1; }
 
 .btn--xs {
   padding-left: 8px;
@@ -5450,14 +5452,14 @@ label {
 .ripple {
   display: block;
   position: absolute;
-  z-index: -1;
   background: rgba(255, 255, 255, 0.3);
   border-radius: 100%;
   -webkit-transform: scale(0);
   -moz-transform: scale(0);
   -ms-transform: scale(0);
   -o-transform: scale(0);
-  transform: scale(0); }
+  transform: scale(0);
+  pointer-events: none; }
 
 .ripple--is-animated {
   -webkit-animation: ripple 0.65s linear;
