@@ -7827,7 +7827,11 @@ label {
   background-color: #f5f5f5;
   font-size: 14px;
   font-size: 0.875rem;
-  line-height: 24px; }
+  line-height: 24px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none; }
   .lx-select__tag:last-child {
     margin-right: 0; }
 
