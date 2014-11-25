@@ -1,6 +1,6 @@
 <lx-dropdown-menu width="32" from-top class="lx-select__choices">
     <ul ng-if="!tree">
-        <li ng-if="selectedElements().length > 0">
+        <li ng-if="getSelectedElements().length > 0">
             <div class="lx-select__chosen"
                  ng-class="{ 'lx-select__chosen--is-multiple': multiple }"
                  ng-bind-html="getSelectedTemplate()"></div>

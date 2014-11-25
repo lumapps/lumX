@@ -2,18 +2,18 @@
     <div class="lx-select__selected"
          ng-class="{ 'lx-select__selected--is-unique': !multiple,
                      'lx-select__selected--is-multiple': multiple,
-                     'lx-select__selected--placeholder': selectedElements().length === 0 }"
+                     'lx-select__selected--placeholder': getSelectedElements().length === 0 }"
          lx-ripple>
-        <span ng-if="selectedElements().length === 0">{{ placeholder }}</span>
+        <span ng-if="getSelectedElements().length === 0">{{ placeholder }}</span>
 
-        <div ng-repeat="$selected in selectedElements()"
+        <div ng-repeat="$selected in getSelectedElements()"
              ng-if="!multiple">
             <span ng-transclude="parent"></span>
         </div>
 
         <div ng-if="multiple">
             <span class="lx-select__tag"
-                  ng-repeat="$selected in selectedElements()"
+                  ng-repeat="$selected in getSelectedElements()"
                   ng-transclude="child"></span>
         </div>
     </div>
