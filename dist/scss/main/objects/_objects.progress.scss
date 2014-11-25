@@ -1,0 +1,117 @@
+///*------------------------------------*\
+//    #OBJECTS-PROGRESS
+//\*------------------------------------*/
+
+// Progress circular base styles
+.progress-circular {
+    position: relative;
+    @include size(60px);
+    padding: 5px;
+    border-radius: 50%;
+    overflow: hidden;
+    @include animation(spin 2s linear infinite);
+}
+
+.progress-circular--is-shown {
+    .progress-circular__center {
+        @include transform(none);
+    }
+}
+
+    // Progress circular background
+    .progress-circular__background {
+        @include size(50px);
+        border-radius: 50%;
+    }
+
+    // Progress circular first mask
+    .progress-circular__mask1 {
+        @include position(absolute, 0 null null 0);
+        @include size(30px);
+        @include transform-origin(bottom right);
+    }
+
+    // Progress circular second mask
+    .progress-circular__mask2 {
+        @include position(absolute, 0 0 null null);
+        @include size(30px);
+        @include transform-origin(bottom left);
+    }
+
+    // Progress circular third mask
+    .progress-circular__mask3 {
+        @include position(absolute, 30px 5px null 5px);
+        height: 25px;
+        @include transform-origin(top center);
+    }
+
+    .progress-circular__mask3-translate {
+        @include size(50px 25px);
+    }
+
+    // Progress circular center
+    .progress-circular__center {
+        @include position(absolute, 10px null null 10px);
+        @include size(40px);
+        border-radius: 50%;
+        @include transform(scale(2));
+        @include transition-property(transform);
+        @include transition-duration(0.6s);
+    }
+
+
+
+
+
+// Progress linear base styles
+.progress-linear {
+    position: relative;
+    height: quarter($md-spacing-unit);
+    overflow: hidden;
+    @include transform(scale(1, 0));
+    @include transition-property(transform);
+    @include transition-duration(0.4s);
+}
+
+.progress-linear--is-shown {
+    @include transform(none);
+}
+
+    // Progress linear background
+    .progress-linear__background {
+        @include position(absolute, 0 0 0 0);
+        opacity: 0.4;
+    }
+
+    // Progress linear bars
+    .progress-linear__bar {
+        @include transform(scale(1) translateX(50%));
+    }
+
+    .progress-linear__bar--first {
+        @include position(absolute, -$base-spacing-unit/2 null null null);
+        @include size(100% $base-spacing-unit);
+        @include animation(bar1 2s linear infinite);
+    }
+
+    .progress-linear__bar--second {
+        @include position(absolute, double(-$base-spacing-unit) null null null);
+        @include size(100% quadruple($base-spacing-unit));
+        @include animation(bar2 2s linear infinite); 
+    }
+
+@include keyframes(bar1) {
+    0% { @include transform(scale(0.5) translateX(-150%)); }
+    37.5% { @include transform(scale(0.75) translateX(0%)); }
+    75% { @include transform(scale(0.5) translateX(150%));  }
+    100% { @include transform(scale(0.5) translateX(150%)); }
+}
+
+@include keyframes(bar2) {
+    0% { @include transform(scale(0.5) translateX(-250%)); }
+    40% { @include transform(scale(0.5) translateX(-250%)); }
+    55% { @include transform(scale(0.5) translateX(-150%)); }
+    70% { @include transform(scale(0.5) translateX(-50%)); }
+    85% { @include transform(scale(0.25) translateX(150%)); }
+    100% { @include transform(scale(0.25) translateX(250%)); }
+}
