@@ -11,9 +11,9 @@ handlers:
 #   upload: directives/\1/index.html
 
 # TODO Remove once all directives are single app
-- url: /directives/notifications
-  static_files: demo/directives/notifications/index.html
-  upload: directives/notifications/index.html
+- url: /services/notifications
+  static_files: demo/services/notifications/index.html
+  upload: services/notifications/index.html
 
 - url: /demo
   static_dir: demo
