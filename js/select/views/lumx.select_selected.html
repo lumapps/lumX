@@ -1,19 +1,19 @@
 <div lx-dropdown-toggle>
     <div class="lx-select__selected"
-         ng-class="{ 'lx-select__selected--is-unique': !selectController.isMultiple(),
-                     'lx-select__selected--is-multiple': selectController.isMultiple(),
-                     'lx-select__selected--placeholder': selectController.selectedElements().length === 0 }"
+         ng-class="{ 'lx-select__selected--is-unique': !multiple,
+                     'lx-select__selected--is-multiple': multiple,
+                     'lx-select__selected--placeholder': selectedElements().length === 0 }"
          lx-ripple>
-        <span ng-if="selectController.selectedElements().length === 0">{{ selectController.getPlaceholder() }}</span>
+        <span ng-if="selectedElements().length === 0">{{ placeholder }}</span>
 
-        <div ng-repeat="$selected in selectController.selectedElements()"
-             ng-if="!selectController.isMultiple()">
-            <span ng-transclude="child"></span>
+        <div ng-repeat="$selected in selectedElements()"
+             ng-if="!multiple">
+            <span ng-transclude="parent"></span>
         </div>
 
-        <div ng-if="selectController.isMultiple()">
+        <div ng-if="multiple">
             <span class="lx-select__tag"
-                  ng-repeat="$selected in selectController.selectedElements()"
+                  ng-repeat="$selected in selectedElements()"
                   ng-transclude="child"></span>
         </div>
     </div>

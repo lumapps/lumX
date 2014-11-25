@@ -8,7 +8,7 @@ angular.module('lumx.utils.transclude', [])
         $provide.decorator('ngTranscludeDirective', ['$delegate', function($delegate)
         {
             $delegate.shift();
-            
+
             return $delegate;
         }]);
     })
@@ -19,18 +19,19 @@ angular.module('lumx.utils.transclude', [])
             link: function(scope, element, attrs, ctrl, transclude)
             {
                 var iScopeType = attrs.ngTransclude || 'sibling';
+                // console.log('iScopeType: ' + iScopeType);
 
                 switch (iScopeType)
                 {
                     case 'sibling':
-                        transclude( function(clone)
+                        transclude(function(clone)
                         {
                             element.empty();
                             element.append(clone);
                         });
                         break;
                     case 'parent':
-                        transclude( scope, function(clone)
+                        transclude(scope, function(clone)
                         {
                             element.empty();
                             element.append(clone);
@@ -38,7 +39,7 @@ angular.module('lumx.utils.transclude', [])
                         break;
                     case 'child':
                         var iChildScope = scope.$new();
-                        
+
                         transclude(iChildScope, function(clone)
                         {
                             element.empty();
@@ -46,7 +47,7 @@ angular.module('lumx.utils.transclude', [])
                             element.on('$destroy', function()
                             {
                                 iChildScope.$destroy();
-                            });            
+                            });
                         });
                         break;
                 }
