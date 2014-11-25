@@ -74,13 +74,13 @@ app.config(function($locationProvider, $routeProvider)
         when('/directives/scrollbar', {
             templateUrl: '/demo/includes/directives/scrollbar.html'
         })
-        .when('/directives/progress', {
-            templateUrl: '/demo/includes/directives/progress.html'
+        .when('/services/progress', {
+            templateUrl: '/demo/includes/services/progress.html'
         });
 });
 
 app.controller('AppController',
-               function($http, $scope, $location, LxNotificationService, LxDialogService, SidebarService)
+               function($http, $scope, $location, LxNotificationService, LxDialogService, LxProgressService, SidebarService)
 {
     $scope.SidebarService = SidebarService;
 
@@ -185,5 +185,25 @@ app.controller('AppController',
     $scope.opendDialog = function(dialogId)
     {
         LxDialogService.open(dialogId);
+    };
+
+    $scope.showCircularProgress = function()
+    {
+        LxProgressService.showCircular('#5fa2db', '#fff', '#progress');
+    };
+
+    $scope.hideCircularProgress = function()
+    {
+        LxProgressService.hideCircular();
+    };
+
+    $scope.showLinearProgress = function()
+    {
+        LxProgressService.showLinear('#5fa2db', '#progress');
+    };
+
+    $scope.hideLinearProgress = function()
+    {
+        LxProgressService.hideLinear();
     };
 });
