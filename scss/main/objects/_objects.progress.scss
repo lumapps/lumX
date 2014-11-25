@@ -1,0 +1,55 @@
+///*------------------------------------*\
+//    #OBJECTS-PROGRESS
+//\*------------------------------------*/
+
+// Progress circular base styles
+.progress-circular {
+    position: relative;
+    @include size(60px);
+    padding: 5px;
+    overflow: hidden;
+    @include animation(spin 2s linear infinite);
+}
+
+    // Progress circular background
+    .progress-circular__background {
+        @include size(50px);
+        border-radius: 50%;
+        background-color: $blue;
+    }
+
+    // Progress circular first mask
+    .progress-circular__mask1 {
+        @include position(absolute, 0 null null 0);
+        @include size(30px);
+        background-color: #fff;
+        @include transform-origin(bottom right);
+    }
+
+    // Progress circular second mask
+    .progress-circular__mask2 {
+        @include position(absolute, 0 0 null null);
+        @include size(30px);
+        background-color: #fff;
+        @include transform-origin(bottom left);
+    }
+
+    // Progress circular third mask
+    .progress-circular__mask3-spin {
+        @include position(absolute, 30px 5px null 5px);
+        height: 25px;
+        @include transform-origin(top center);
+    }
+
+    .progress-circular__mask3-translate {
+        @include size(50px 25px);
+        background-color: #fff;
+    }
+
+    // Progress circular center
+    .progress-circular__center {
+        @include position(absolute, 10px null null 10px);
+        @include size(40px);
+        border-radius: 50%;
+        background-color: #fff;
+    }

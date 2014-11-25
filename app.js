@@ -1,6 +1,4 @@
 /* global angular */
-/* global console */
-/* global window */
 'use strict'; // jshint ignore:line
 
 var app = angular.module('lx', ['ngRoute', 'lumx', 'hljs', 'Sidebar']);
@@ -76,8 +74,8 @@ app.config(function($locationProvider, $routeProvider)
         when('/directives/scrollbar', {
             templateUrl: '/demo/includes/directives/scrollbar.html'
         })
-        .when('/directives/loader', {
-            templateUrl: '/demo/includes/directives/loader.html'
+        .when('/directives/progress', {
+            templateUrl: '/demo/includes/directives/progress.html'
         });
 });
 
