@@ -70,3 +70,78 @@
     50% { @include transform(translateY(25px)); }
     100% { @include transform(translateY(0)); }
 }
+
+
+
+
+
+// Progress base styles
+.progress-linear {
+    @include size(null quarter($md-spacing-unit));
+    overflow: hidden;
+    background-color: lighten($blue, 25%);
+    position: relative;
+}
+
+    // Progress bar
+    .progress-linear__bar {
+
+        @include transform(scale(1) translateX(50%));
+        background-color: $blue;
+    }
+
+    .progress-linear__bar--first {
+        @include position(absolute, -$base-spacing-unit/2 null null null);
+        @include size(100% $base-spacing-unit);
+        @include animation(bar1 2s linear infinite);
+    }
+
+    .progress-linear__bar--second {
+        @include position(absolute, double(-$base-spacing-unit) null null null);
+        @include size(100% quadruple($base-spacing-unit));
+        @include animation(bar2 2s linear infinite); 
+    }
+
+@include keyframes(bar1) {
+    0% {
+        @include transform(scale(0.5) translateX(-150%));
+    }
+
+    37.5% {
+        @include transform(scale(0.75) translateX(0%));
+    }
+
+    75% {
+        @include transform(scale(0.5) translateX(150%)); 
+    }
+
+    100% {
+        @include transform(scale(0.5) translateX(150%));
+    }
+}
+
+@include keyframes(bar2) {
+    0% {
+        @include transform(scale(0.5) translateX(-250%));
+    }
+
+    40% {
+        @include transform(scale(0.5) translateX(-250%));
+    }
+
+    55% {
+        @include transform(scale(0.5) translateX(-150%));
+    }
+
+    70% {
+        @include transform(scale(0.5) translateX(-50%)); 
+    }
+
+    85% {
+        @include transform(scale(0.25) translateX(150%));  
+    }
+
+    100% {
+        @include transform(scale(0.25) translateX(250%)); 
+    }
+}
