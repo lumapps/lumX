@@ -32,7 +32,9 @@
     "index.html",
     "app.yaml",
     "app.js",
-    "launch.sh"
+    "launch.sh",
+    "/scss",
+    "/js"
   ],
   "dependencies": {
     "angular": "~1.3.3",
