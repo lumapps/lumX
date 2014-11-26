@@ -189,21 +189,21 @@ app.controller('AppController',
 
     $scope.showCircularProgress = function()
     {
-        LxProgressService.showCircular('#5fa2db', '#fff', '#progress');
+        LxProgressService.circular.show('#5fa2db', '#fff', '#progress');
     };
 
     $scope.hideCircularProgress = function()
     {
-        LxProgressService.hideCircular();
+        LxProgressService.circular.hide();
     };
 
     $scope.showLinearProgress = function()
     {
-        LxProgressService.showLinear('#5fa2db', '#progress');
+        LxProgressService.linear.show('#5fa2db', '#progress');
     };
 
     $scope.hideLinearProgress = function()
     {
-        LxProgressService.hideLinear();
+        LxProgressService.linear.hide();
     };
 });
