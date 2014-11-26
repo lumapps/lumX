@@ -1,6 +1,4 @@
 /* global angular */
-/* global console */
-/* global window */
 'use strict'; // jshint ignore:line
 
 var app = angular.module('lx', ['ngRoute', 'lumx', 'hljs', 'Sidebar']);
@@ -76,13 +74,13 @@ app.config(function($locationProvider, $routeProvider)
         when('/directives/scrollbar', {
             templateUrl: '/demo/includes/directives/scrollbar.html'
         })
-        .when('/directives/loader', {
-            templateUrl: '/demo/includes/directives/loader.html'
+        .when('/services/progress', {
+            templateUrl: '/demo/includes/services/progress.html'
         });
 });
 
 app.controller('AppController',
-               function($http, $scope, $location, LxNotificationService, LxDialogService, SidebarService)
+               function($http, $scope, $location, LxNotificationService, LxDialogService, LxProgressService, SidebarService)
 {
     $scope.SidebarService = SidebarService;
 
@@ -187,5 +185,25 @@ app.controller('AppController',
     $scope.opendDialog = function(dialogId)
     {
         LxDialogService.open(dialogId);
+    };
+
+    $scope.showCircularProgress = function()
+    {
+        LxProgressService.circular.show('#5fa2db', '#fff', '#progress');
+    };
+
+    $scope.hideCircularProgress = function()
+    {
+        LxProgressService.circular.hide();
+    };
+
+    $scope.showLinearProgress = function()
+    {
+        LxProgressService.linear.show('#5fa2db', '#progress');
+    };
+
+    $scope.hideLinearProgress = function()
+    {
+        LxProgressService.linear.hide();
     };
 });

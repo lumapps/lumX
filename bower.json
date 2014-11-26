@@ -1,7 +1,11 @@
 {
   "name": "lumx",
   "description": "The first responsive front-end framework based on AngularJS & Google Material Design specifications",
-  "kewords": ["AngularJS", "Material Design", "Framework"],
+  "kewords": [
+    "AngularJS",
+    "Material Design",
+    "Framework"
+  ],
   "homepage": "ui.lumapps.com",
   "version": "0.0.0",
   "authors": [
@@ -35,7 +39,8 @@
     "jquery": "~2.1.1",
     "underscore": "~1.7.0",
     "velocity": "~1.1.0",
-    "neat": "~1.6.0"
+    "neat": "~1.6.0",
+    "jquery.transit": "git@github.com:lumapps/jquery.transit.git#feat/stop-transition"
   },
   "devDependencies": {
     "angular-route": "~1.3.3",

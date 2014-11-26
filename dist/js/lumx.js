@@ -17,7 +17,8 @@ angular.module('lumx', [
     'lumx.thumbnail',
     'lumx.tabs',
     'lumx.tooltip',
-    'lumx.file-input'
+    'lumx.file-input',
+    'lumx.progress'
 ]);
 /* global angular */
 'use strict'; // jshint ignore:line
@@ -439,6 +440,210 @@ angular.module('lumx.notification', [])
             notify: notify,
             success: success,
             warning: warning
+        };
+    }]);
+
+/* global angular */
+'use strict'; // jshint ignore:line
+
+
+angular.module('lumx.progress', [])
+    .service('LxProgressService', ['$timeout', '$interval', function($timeout, $interval)
+    {
+        var progressCircularIsShown = false,
+            progressCircularInterval,
+            progressCircular,
+            progressCircularBackground,
+            progressCircularMask1,
+            progressCircularMask2,
+            progressCircularMask3,
+            progressCircularMask3Translate,
+            progressCircularCenter,
+            progressLinearIsShown = false,
+            progressLinear,
+            progressLinearBackground,
+            progressLinearFirstBar,
+            progressLinearSecondBar;
+
+        function init()
+        {
+            // Circular
+            progressCircular = angular.element('<div/>', { class: 'progress-circular' });
+            progressCircularBackground = angular.element('<div/>', { class: 'progress-circular__background' });
+            progressCircularMask1 = angular.element('<div/>', { class: 'progress-circular__mask1' });
+            progressCircularMask2 = angular.element('<div/>', { class: 'progress-circular__mask2' });
+            progressCircularMask3 = angular.element('<div/>', { class: 'progress-circular__mask3' });
+            progressCircularMask3Translate = angular.element('<div/>', { class: 'progress-circular__mask3-translate' });
+            progressCircularCenter = angular.element('<div/>', { class: 'progress-circular__center' });
+
+            progressCircularMask3.append(progressCircularMask3Translate);
+
+            progressCircular
+                .append(progressCircularBackground)
+                .append(progressCircularMask1)
+                .append(progressCircularMask2)
+                .append(progressCircularMask3)
+                .append(progressCircularCenter);
+
+            // Linear
+            progressLinear = angular.element('<div/>', { class: 'progress-linear' });
+            progressLinearBackground = angular.element('<div/>', { class: 'progress-linear__background' });
+            progressLinearFirstBar = angular.element('<div/>', { class: 'progress-linear__bar progress-linear__bar--first' });
+            progressLinearSecondBar = angular.element('<div/>', { class: 'progress-linear__bar progress-linear__bar--second' });
+
+            progressLinear
+                .append(progressLinearBackground)
+                .append(progressLinearFirstBar)
+                .append(progressLinearSecondBar);
+        }
+
+        function showCircular(foreground, background, container)
+        {
+            if (!progressCircularIsShown)
+            {
+                showCircularProgress(foreground, background, container);
+            }
+        }
+
+        function hideCircular()
+        {
+            if (progressCircularIsShown)
+            {
+                hideCircularProgress();
+            }
+        }
+
+        function showCircularProgress(foreground, background, container)
+        {
+            progressCircularIsShown = true;
+
+            progressCircularBackground.css({ backgroundColor: foreground });
+            progressCircularMask1.removeAttr('style').css({ backgroundColor: background });
+            progressCircularMask2.removeAttr('style').css({ backgroundColor: background });
+            progressCircularMask3.removeAttr('style');
+            progressCircularMask3Translate.removeAttr('style').css({ backgroundColor: background });
+            progressCircularCenter.css({ backgroundColor: background });
+
+            progressCircularMask1.css({ transform: 'rotate(-10deg)' });
+            progressCircularMask2.css({ transform: 'rotate(10deg)' });
+
+            if (angular.isDefined(container))
+            {
+                progressCircular.appendTo(container);
+            }
+            else
+            {
+                progressCircular.appendTo('body');
+            }
+
+            $timeout(function()
+            {
+                progressCircular.addClass('progress-circular--is-shown');
+
+                animateCircularProgress();
+
+                progressCircularInterval = $interval(animateCircularProgress, 2000);
+            });
+        }
+
+        function hideCircularProgress()
+        {
+            progressCircular.removeClass('progress-circular--is-shown');
+
+            $timeout(function()
+            {
+                progressCircularMask1.transitionStop();
+                progressCircularMask2.transitionStop();
+                progressCircularMask3.transitionStop();
+                progressCircularMask3Translate.transitionStop();
+
+                progressCircular.remove();
+
+                progressCircularIsShown = false;
+
+                $interval.cancel(progressCircularInterval);
+            }, 600);
+        }
+
+        function animateCircularProgress()
+        {
+            progressCircularMask1
+                .transition({ rotate: '+=250deg', delay: 1000 }, 1000, 'easeInOutQuint');
+
+            progressCircularMask2
+                .transition({ rotate: '+=250deg' }, 1000, 'easeInOutQuint');
+
+            progressCircularMask3
+                .transition({ rotate: '+=125deg' }, 1000, 'easeInOutQuint')
+                .transition({ rotate: '+=125deg' }, 1000, 'easeInOutQuint');
+
+            progressCircularMask3Translate
+                .transition({ y: '25px' }, 1000, 'easeInOutQuint')
+                .transition({ y: '0' }, 1000, 'easeInOutQuint');
+        }
+
+        function showLinear(color, container)
+        {
+            if (!progressLinearIsShown)
+            {
+                showLinearProgress(color, container);
+            }
+        }
+
+        function hideLinear()
+        {
+            if (progressLinearIsShown)
+            {
+                hideLinearProgress();
+            }
+        }
+
+        function showLinearProgress(color, container)
+        {
+            progressLinearIsShown = true;
+
+            progressLinearBackground.css({ backgroundColor: color });
+            progressLinearFirstBar.css({ backgroundColor: color });
+            progressLinearSecondBar.css({ backgroundColor: color });
+
+            if (angular.isDefined(container))
+            {
+                progressLinear.appendTo(container);
+            }
+            else
+            {
+                progressLinear.appendTo('body');
+            }
+
+            $timeout(function()
+            {
+                progressLinear.addClass('progress-linear--is-shown');
+            });
+        }
+
+        function hideLinearProgress()
+        {
+            progressLinear.removeClass('progress-linear--is-shown');
+
+            $timeout(function()
+            {
+                progressLinear.remove();
+
+                progressLinearIsShown = false;
+            }, 400);
+        }
+
+        init();
+
+        return {
+            circular: {
+                show: showCircular,
+                hide: hideCircular
+            },
+            linear: {
+                show: showLinear,
+                hide: hideLinear
+            }
         };
     }]);
 
@@ -1382,46 +1587,41 @@ angular.module('lumx.dropdown', [])
 
 
 angular.module('lumx.file-input', [])
-    .directive('lxFileInput', function()
+    .directive('lxFileInput', ['$timeout', function($timeout)
     {
         return {
             restrict: 'E',
             scope: {
-                label: '=',
-                isDisabled: '=',
-                hasError: '='
+                label: '='
             },
             templateUrl: 'lumx.file_input.html',
             transclude: true,
             replace: true,
             link: function(scope, element)
             {
-                var $input = element.find('input, textarea');
+                var $input = element.find('input');
+                var $fileName = element.find('.input-file__filename');
 
-                $input.addClass('input-group__input');
-
-                if ($input.val())
-                {
-                    element.addClass('input-group--is-active');
-                }
-
-                $input.on('focus', function()
-                {
-                    element.addClass('input-group--is-focused input-group--is-active');
-                });
-
-                $input.on('blur', function()
-                {
-                    element.removeClass('input-group--is-focused');
-
-                    if (!$input.val())
+                $input
+                    .addClass('input-file__input')
+                    .on('change', function()
                     {
-                        element.removeClass('input-group--is-active');
-                    }
-                });
+                        var file = $input.val().replace(/C:\\fakepath\\/i, '');
+
+                        $fileName.text(file);
+
+                        $timeout(function()
+                        {
+                            element.addClass('input-file--is-focused input-file--is-active');
+                        });
+                    })
+                    .on('blur', function()
+                    {
+                        element.removeClass('input-file--is-focused');
+                    });
             }
         };
-    });
+    }]);
 /* global angular */
 'use strict'; // jshint ignore:line
 
@@ -1462,165 +1662,6 @@ angular.module('lumx.input-group', [])
                     if (!$input.val())
                     {
                         element.removeClass('input-group--is-active');
-                    }
-                });
-            }
-        };
-    });
-/* global angular */
-'use strict'; // jshint ignore:line
-
-
-angular.module('lumx.tabs', [])
-    .controller('LxTabsController', function()
-    {
-        var tabs = [],
-            activeTab = 0;
-
-        this.addTab = function(heading, active)
-        {
-            tabs.push({ heading: heading });
-
-            if (active)
-            {
-                activeTab = tabs.length - 1;
-            }
-
-            return (tabs.length - 1);
-        };
-
-        this.getTabs = function()
-        {
-            return tabs;
-        };
-
-        this.getActiveTab = function()
-        {
-            return activeTab;
-        };
-
-        this.switchTab = function(index)
-        {
-            activeTab = index;
-        };
-    })
-    .directive('lxTabs', function()
-    {
-        return {
-            restrict: 'E',
-            controller: 'LxTabsController',
-            templateUrl: 'lumx.tabs.html',
-            transclude: true,
-            replace: true,
-            link: function(scope, element, attrs, ctrl)
-            {
-                scope.tabsCtrl = ctrl;
-            }
-        };
-    })
-    .directive('lxTab', function()
-    {
-        return {
-            require: '^lxTabs',
-            restrict: 'E',
-            scope: {
-                active: '@',
-                heading: '@'
-            },
-            templateUrl: 'lumx.tab.html',
-            transclude: true,
-            replace: true,
-            link: function(scope, element, attrs, ctrl)
-            {
-                scope.tabsCtrl = ctrl;
-                scope.index = ctrl.addTab(scope.heading, scope.active);
-            }
-        };
-    })
-    .directive('lxTabIndicator', function()
-    {
-        return {
-            require: '^lxTabs',
-            restrict: 'A',
-            link: function(scope, element, attrs, ctrl)
-            {
-                scope.activeTab = ctrl.getActiveTab();
-
-                function setIndicatorPosition(init)
-                {
-                    var direction;
-
-                    if (ctrl.getActiveTab() > scope.activeTab)
-                    {
-                        direction = 'right';
-                    }
-                    else
-                    {
-                        direction = 'left';
-                    }
-
-                    scope.activeTab = ctrl.getActiveTab();
-
-                    var tabsLength = ctrl.getTabs().length,
-                        indicatorWidth = 100 / tabsLength,
-                        indicatorLeft = (indicatorWidth * scope.activeTab),
-                        indicatorRight = 100 - (indicatorLeft + indicatorWidth);
-
-                    if (init)
-                    {
-                        element.css({
-                            left: indicatorLeft + '%',
-                            right: indicatorRight  + '%'
-                        });
-                    }
-                    else
-                    {
-                        if (direction === 'left')
-                        {
-                            element.velocity({ 
-                                left: indicatorLeft + '%'
-                            }, {
-                                duration: 200,
-                                easing: 'easeOutQuint'
-                            });
-
-                            element.velocity({ 
-                                right: indicatorRight  + '%'
-                            }, {
-                                duration: 200,
-                                easing: 'easeOutQuint'
-                            });
-                        }
-                        else
-                        {
-                            element.velocity({ 
-                                right: indicatorRight  + '%'
-                            }, {
-                                duration: 200,
-                                easing: 'easeOutQuint'
-                            });
-
-                            element.velocity({ 
-                                left: indicatorLeft + '%'
-                            }, {
-                                duration: 200,
-                                easing: 'easeOutQuint'
-                            });
-                        }
-                    }
-                }
-
-                setIndicatorPosition(true);
-
-                scope.$watch(function()
-                {
-                    return ctrl.getActiveTab();
-                },
-                function(newValue, oldValue)
-                {
-                    if (newValue !== oldValue)
-                    {
-                        setIndicatorPosition(false);
                     }
                 });
             }
@@ -1820,6 +1861,165 @@ angular.module('lumx.select', [])
 /* global angular */
 'use strict'; // jshint ignore:line
 
+
+angular.module('lumx.tabs', [])
+    .controller('LxTabsController', function()
+    {
+        var tabs = [],
+            activeTab = 0;
+
+        this.addTab = function(heading, active)
+        {
+            tabs.push({ heading: heading });
+
+            if (active)
+            {
+                activeTab = tabs.length - 1;
+            }
+
+            return (tabs.length - 1);
+        };
+
+        this.getTabs = function()
+        {
+            return tabs;
+        };
+
+        this.getActiveTab = function()
+        {
+            return activeTab;
+        };
+
+        this.switchTab = function(index)
+        {
+            activeTab = index;
+        };
+    })
+    .directive('lxTabs', function()
+    {
+        return {
+            restrict: 'E',
+            controller: 'LxTabsController',
+            templateUrl: 'lumx.tabs.html',
+            transclude: true,
+            replace: true,
+            link: function(scope, element, attrs, ctrl)
+            {
+                scope.tabsCtrl = ctrl;
+            }
+        };
+    })
+    .directive('lxTab', function()
+    {
+        return {
+            require: '^lxTabs',
+            restrict: 'E',
+            scope: {
+                active: '@',
+                heading: '@'
+            },
+            templateUrl: 'lumx.tab.html',
+            transclude: true,
+            replace: true,
+            link: function(scope, element, attrs, ctrl)
+            {
+                scope.tabsCtrl = ctrl;
+                scope.index = ctrl.addTab(scope.heading, scope.active);
+            }
+        };
+    })
+    .directive('lxTabIndicator', function()
+    {
+        return {
+            require: '^lxTabs',
+            restrict: 'A',
+            link: function(scope, element, attrs, ctrl)
+            {
+                scope.activeTab = ctrl.getActiveTab();
+
+                function setIndicatorPosition(init)
+                {
+                    var direction;
+
+                    if (ctrl.getActiveTab() > scope.activeTab)
+                    {
+                        direction = 'right';
+                    }
+                    else
+                    {
+                        direction = 'left';
+                    }
+
+                    scope.activeTab = ctrl.getActiveTab();
+
+                    var tabsLength = ctrl.getTabs().length,
+                        indicatorWidth = 100 / tabsLength,
+                        indicatorLeft = (indicatorWidth * scope.activeTab),
+                        indicatorRight = 100 - (indicatorLeft + indicatorWidth);
+
+                    if (init)
+                    {
+                        element.css({
+                            left: indicatorLeft + '%',
+                            right: indicatorRight  + '%'
+                        });
+                    }
+                    else
+                    {
+                        if (direction === 'left')
+                        {
+                            element.velocity({ 
+                                left: indicatorLeft + '%'
+                            }, {
+                                duration: 200,
+                                easing: 'easeOutQuint'
+                            });
+
+                            element.velocity({ 
+                                right: indicatorRight  + '%'
+                            }, {
+                                duration: 200,
+                                easing: 'easeOutQuint'
+                            });
+                        }
+                        else
+                        {
+                            element.velocity({ 
+                                right: indicatorRight  + '%'
+                            }, {
+                                duration: 200,
+                                easing: 'easeOutQuint'
+                            });
+
+                            element.velocity({ 
+                                left: indicatorLeft + '%'
+                            }, {
+                                duration: 200,
+                                easing: 'easeOutQuint'
+                            });
+                        }
+                    }
+                }
+
+                setIndicatorPosition(true);
+
+                scope.$watch(function()
+                {
+                    return ctrl.getActiveTab();
+                },
+                function(newValue, oldValue)
+                {
+                    if (newValue !== oldValue)
+                    {
+                        setIndicatorPosition(false);
+                    }
+                });
+            }
+        };
+    });
+/* global angular */
+'use strict'; // jshint ignore:line
+
 var sidebar = angular.module('Sidebar', []).service('SidebarService', function()
 {
     var sidebarIsShown = false;
@@ -1843,9 +2043,12 @@ angular.module("lumx.dropdown").run(['$templateCache', function(a) { a.put('lumx
     '</div>');
 	a.put('lumx.dropdown.html', '<div class="dropdown" ng-transclude></div>');
 	 }]);
-angular.module("lumx.file-input").run(['$templateCache', function(a) { a.put('lumx.file_input.html', '<div class="input-group" ng-class="{ \'input-group--has-error\': hasError, \'input-group--is-disabled\': isDisabled }">\n' +
-    '    <label class="input-group__label">{{ label }}</label>\n' +
-    '    <div ng-transclude-replace></div>\n' +
+angular.module("lumx.file-input").run(['$templateCache', function(a) { a.put('lumx.file_input.html', '<div class="input-file" ng-class="{ \'input-file--has-error\': hasError }">\n' +
+    '    <label>\n' +
+    '        <span class="input-file__label">{{ label }}</span>\n' +
+    '        <span class="input-file__filename"></span>\n' +
+    '        <div ng-transclude-replace></div>\n' +
+    '    </label>\n' +
     '</div>');
 	 }]);
 angular.module("lumx.input-group").run(['$templateCache', function(a) { a.put('lumx.input_group.html', '<div class="input-group" ng-class="{ \'input-group--has-error\': hasError, \'input-group--is-disabled\': isDisabled }">\n' +
@@ -1869,8 +2072,7 @@ angular.module("lumx.select").run(['$templateCache', function(a) { a.put('lumx.s
     '        <div ng-if="selectController.isMultiple()">\n' +
     '            <span class="lx-select__tag"\n' +
     '                  ng-repeat="$selected in selectController.selectedElements()"\n' +
-    '                  ng-transclude="child"\n' +
-    '                  ng-click="unselect($selected)"></span>\n' +
+    '                  ng-transclude="child"></span>\n' +
     '        </div>\n' +
     '    </div>\n' +
     '</div>');

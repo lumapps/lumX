@@ -17,5 +17,6 @@ angular.module('lumx', [
     'lumx.thumbnail',
     'lumx.tabs',
     'lumx.tooltip',
-    'lumx.file-input'
+    'lumx.file-input',
+    'lumx.progress'
 ]);
