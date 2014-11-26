@@ -23,13 +23,13 @@ $md-base-round:         2px  !default;
 // Colors and sizes.
 //
 // Feel free to override and set new values for your project.
-$blue:                  #5fa2db !default;
-$green:                 #9cbe35 !default;
-$orange:                #f3a641 !default;
-$red:                   #e25a31 !default;
-$grey:                  #bbbbbb !default;
-$black:                 #444444 !default;
-$white:                 #ffffff !default;
+$blue:                  $blue-500 !default;
+$green:                 $green-500 !default;
+$orange:                $orange-500 !default;
+$red:                   $red-500 !default;
+$grey:                  $grey-500 !default;
+$black:                 $black !default;
+$white:                 $white !default;
 $colors:                ('blue': $blue, 'green': $green, 'orange': $orange, 'red': $red, 'grey': $grey, 'black': $black, 'white': $white);
 
 $size-xs:               18px !default;
