@@ -8,11 +8,11 @@
 
         <li>
             <div class="lx-select__filter dropdown-filter">
-                <input type="text" ng-model="search" lx-dropdown-filter>
+                <input type="text" ng-model="data.filter" lx-dropdown-filter>
             </div>
         </li>
 
-        <li ng-repeat="$choice in choices | filter:search">
+        <li ng-repeat="$choice in choices | filter:data.filter">
             <a class="lx-select__choice dropdown-link"
                ng-class="{ 'lx-select__choice--is-multiple': multiple,
                            'lx-select__choice--is-selected': isSelected($choice) }"

@@ -139,9 +139,17 @@ app.controller('AppController',
         { name: 'Adrian',    email: 'adrian@email.com',    age: 21 }
     ];
 
+    $scope.updatePeople = function(newFilter, oldFilter)
+    {
+        console.log("new filter: " + newFilter, "old filter: " + oldFilter);
+    };
+
     $scope.cbSelect = {
-        exec: function(){
+        exec: function(newVal, oldVal)
+        {
             LxNotificationService.notify('Change detected!');
+            console.log('oldVal: ', oldVal);
+            console.log('newVal: ', newVal);
         }
     };
 
