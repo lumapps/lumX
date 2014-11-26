@@ -465,7 +465,7 @@ angular.module('lumx.progress', [])
             progressLinearFirstBar,
             progressLinearSecondBar;
 
-        this.init = function()
+        function init()
         {
             // Circular
             progressCircular = angular.element('<div/>', { class: 'progress-circular' });
@@ -495,23 +495,23 @@ angular.module('lumx.progress', [])
                 .append(progressLinearBackground)
                 .append(progressLinearFirstBar)
                 .append(progressLinearSecondBar);
-        };
+        }
 
-        this.showCircular = function(foreground, background, container)
+        function showCircular(foreground, background, container)
         {
             if (!progressCircularIsShown)
             {
                 showCircularProgress(foreground, background, container);
             }
-        };
+        }
 
-        this.hideCircular = function()
+        function hideCircular()
         {
             if (progressCircularIsShown)
             {
                 hideCircularProgress();
             }
-        };
+        }
 
         function showCircularProgress(foreground, background, container)
         {
@@ -551,7 +551,7 @@ angular.module('lumx.progress', [])
             progressCircular.removeClass('progress-circular--is-shown');
 
             $timeout(function()
-            {                
+            {
                 progressCircularMask1.transitionStop();
                 progressCircularMask2.transitionStop();
                 progressCircularMask3.transitionStop();
@@ -582,21 +582,21 @@ angular.module('lumx.progress', [])
                 .transition({ y: '0' }, 1000, 'easeInOutQuint');
         }
 
-        this.showLinear = function(color, container)
+        function showLinear(color, container)
         {
             if (!progressLinearIsShown)
             {
                 showLinearProgress(color, container);
             }
-        };
+        }
 
-        this.hideLinear = function()
+        function hideLinear()
         {
             if (progressLinearIsShown)
             {
                 hideLinearProgress();
             }
-        };
+        }
 
         function showLinearProgress(color, container)
         {
@@ -626,15 +626,27 @@ angular.module('lumx.progress', [])
             progressLinear.removeClass('progress-linear--is-shown');
 
             $timeout(function()
-            {                
+            {
                 progressLinear.remove();
 
                 progressLinearIsShown = false;
             }, 400);
         }
 
-        this.init();
+        init();
+
+        return {
+            circular: {
+                show: showCircular,
+                hide: hideCircular
+            },
+            linear: {
+                show: showLinear,
+                hide: hideLinear
+            }
+        };
     }]);
+
 /* global angular */
 'use strict'; // jshint ignore:line
 
