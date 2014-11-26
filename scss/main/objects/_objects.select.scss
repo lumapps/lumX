@@ -117,6 +117,18 @@
         }
     }
 
+    .lx-select__help {
+        padding: auto 16px;
+        @include font-size(12px);
+        font-weight: 300;
+        color: #999;
+        text-align: center;
+    }
+
+    .lx-select__loader {
+        @include animation(spin 1.5s linear infinite);
+    }
+
     // Select chosen
     .lx-select__chosen {
         display: block;

@@ -3,8 +3,8 @@
 
 
 angular.module('lumx.select', [])
-    .controller('LxSelectController', ['$scope', '$compile', '$interpolate', '$sce',
-                                       function($scope, $compile, $interpolate, $sce)
+    .controller('LxSelectController', ['$scope', '$compile', '$filter', '$interpolate', '$sce',
+                                       function($scope, $compile, $filter, $interpolate, $sce)
     {
         var self = this;
 
@@ -63,6 +63,16 @@ angular.module('lumx.select', [])
             return $scope.selected.indexOf(choice) !== -1;
         }
 
+        function hasNoResults()
+        {
+            return angular.isUndefined($scope.choices) || $filter('filter')($scope.choices, $scope.data.filter).length === 0;
+        }
+
+        function filterNeeded()
+        {
+            return angular.isDefined($scope.minLength) && $scope.data.filter.length < $scope.minLength;
+        }
+
         /**
          * Return the array of selected elements. Always return an array (ie. returns an empty array in case
          * selected list is undefined in the scope).
@@ -115,7 +125,10 @@ angular.module('lumx.select', [])
 
         $scope.$watch('data.filter', function(newValue, oldValue)
         {
-            $scope.filter({ newValue: newValue, oldValue: oldValue });
+            if(angular.isUndefined($scope.minLength) || (newValue && $scope.minLength <= newValue.length))
+            {
+                $scope.filter({ newValue: newValue, oldValue: oldValue });
+            }
         });
 
         // Public API
@@ -123,8 +136,10 @@ angular.module('lumx.select', [])
         $scope.unselect = unselect;
         $scope.toggle = toggle;
         $scope.isSelected = isSelected;
+        $scope.filterNeeded = filterNeeded;
         $scope.getSelectedElements = getSelectedElements;
         $scope.getSelectedTemplate = getSelectedTemplate;
+        $scope.hasNoResults = hasNoResults;
     }])
     .directive('lxSelect', function()
     {
@@ -135,6 +150,8 @@ angular.module('lumx.select', [])
                 selected: '=',
                 placeholder: '=',
                 choices: '=',
+                loading: '=',
+                minLength: '=',
                 change: '&', // Parameters: newValue, oldValue
                 filter: '&' // Parameters: newValue, oldValue
             },

@@ -12,12 +12,21 @@
             </div>
         </li>
 
-        <li ng-repeat="$choice in choices | filter:data.filter">
+        <li class="lx-select__help" ng-if="!loading && (filterNeeded() || (hasNoResults() && !filterNeeded()))">
+            <span ng-if="!loading && filterNeeded()">Type minimum {{ minLength }} to search</span>
+            <span ng-if="!loading && hasNoResults() && !filterNeeded()">No results!</span>
+        </li>
+
+        <li ng-repeat="$choice in choices | filter:data.filter" ng-if="!loading && !hasNoResults() && !filterNeeded()">
             <a class="lx-select__choice dropdown-link"
                ng-class="{ 'lx-select__choice--is-multiple': multiple,
                            'lx-select__choice--is-selected': isSelected($choice) }"
                ng-click="toggle($choice, $event)"
                ng-transclude="parent"></a>
+        </li>
+
+        <li class="text--center" ng-if="loading">
+            <i class="mdi mdi--loop lx-select__loader"></i>
         </li>
     </ul>
 </lx-dropdown-menu>
