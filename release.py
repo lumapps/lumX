@@ -36,6 +36,8 @@ def updateHomepage(version):
 
 
 def commit(version):
+    untrackedFiles = subprocess.Popen('git ls-files -o --exclude-standard'.split(), stdout=subprocess.PIPE)
+    subprocess.call(('git add %s' % untrackedFiles.stdout.read().replace('\n', ' ')).split())
     subprocess.call(['git', 'commit', '-am', '"chore release: new release %s"' % version], stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
     subprocess.call(('git tag %s' % version).split())
     # print "Publishing new commit to master"
