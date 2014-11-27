@@ -13,6 +13,7 @@ var paths = {
         'build/js/lumx.dropdown.tpl.js',
         'build/js/lumx.file-input.tpl.js',
         'build/js/lumx.input-group.tpl.js',
+        'build/js/lumx.search-filter.tpl.js',
         'build/js/lumx.select.tpl.js',
         'build/js/lumx.tabs.tpl.js'
     ],
@@ -145,6 +146,18 @@ gulp.task('tpl:input-group', function()
         .pipe(gulp.dest('build/js'));
 });
 
+gulp.task('tpl:search-filter', function()
+{
+    return gulp.src('js/search-filter/**/*.html')
+        .pipe(plugins.plumber())
+        .pipe(plugins.templatecache({
+            output: 'lumx.search-filter.tpl.js',
+            moduleName: 'lumx.search-filter',
+            strip: 'views/'
+        }))
+        .pipe(gulp.dest('build/js'));
+});
+
 gulp.task('tpl:select', function()
 {
     return gulp.src('js/select/**/*.html')
@@ -169,7 +182,7 @@ gulp.task('tpl:tabs', function()
         .pipe(gulp.dest('build/js'));
 });
 
-gulp.task('dist:scripts', ['tpl:dropdown', 'tpl:file-input', 'tpl:input-group', 'tpl:select', 'tpl:tabs'], function()
+gulp.task('dist:scripts', ['tpl:dropdown', 'tpl:file-input', 'tpl:input-group', 'tpl:search-filter', 'tpl:select', 'tpl:tabs'], function()
 {
     return gulp.src(paths.js)
         .pipe(plugins.plumber())
@@ -186,13 +199,14 @@ gulp.task('dist:fonts', function()
         .pipe(gulp.dest('dist/fonts'));
 });
 
-gulp.task('watch', ['lint', 'scss', 'tpl:dropdown', 'tpl:file-input', 'tpl:input-group', 'tpl:select', 'tpl:tabs'], function()
+gulp.task('watch', ['lint', 'scss', 'tpl:dropdown', 'tpl:file-input', 'tpl:input-group', 'tpl:search-filter', 'tpl:select', 'tpl:tabs'], function()
 {
     watcherWithCache('lint', paths.scripts, ['lint']);
     watcherWithCache('scss', [paths.scss, 'demo/scss/**/*.scss'], ['scss']);
     watcherWithCache('tpl:dropdown', 'js/dropdown/**/*.html', ['tpl:dropdown']);
     watcherWithCache('tpl:file-input', 'js/file-input/**/*.html', ['tpl:file-input']);
     watcherWithCache('tpl:input-group', 'js/input-group/**/*.html', ['tpl:input-group']);
+    watcherWithCache('tpl:search-filter', 'js/search-filter/**/*.html', ['tpl:search-filter']);
     watcherWithCache('tpl:select', 'js/select/**/*.html', ['tpl:select']);
     watcherWithCache('tpl:tabs', 'js/tabs/**/*.html', ['tpl:tabs']);
 });
