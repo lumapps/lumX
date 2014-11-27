@@ -47,6 +47,9 @@ app.config(function($locationProvider, $routeProvider)
         when('/css/switches', {
             templateUrl: '/demo/includes/css/switch.html'
         }).
+        when('/css/toolbars', {
+            templateUrl: '/demo/includes/css/toolbar.html'
+        }).
         when('/directives/fab', {
             templateUrl: '/demo/includes/directives/fab.html'
         }).
