@@ -8,12 +8,12 @@
 
     @include media-query(portable) {
         height: $md-spacing-unit * 3.5;
-        padding-top: 7px;
+        padding-top: halve($md-spacing-unit);
     }
 
     @include media-query(desk) {
         height: quadruple($md-spacing-unit);
-        padding-top: 11px;
+        padding-top: halve($base-spacing-unit);
     }
 }
     
