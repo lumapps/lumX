@@ -36,7 +36,8 @@
     "/scss",
     "/favicon.png",
     "/fonts",
-    "/js"
+    "/js",
+    "release.py"
   ],
   "dependencies": {
     "angular": "~1.3.3",
