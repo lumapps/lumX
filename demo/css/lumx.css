@@ -4029,56 +4029,86 @@ html {
 .btn--fab.btn--xs {
   height: 18px;
   width: 18px;
-  padding: 0;
-  font-size: 13px;
-  font-size: 0.8125rem; }
+  padding: 0; }
   .btn--icon.btn--xs .mdi,
   .btn--fab.btn--xs .mdi {
     line-height: 18px; }
+
+.btn--icon.btn--xs {
+  font-size: 19px;
+  font-size: 1.1875rem; }
+
+.btn--fab.btn--xs {
+  font-size: 13px;
+  font-size: 0.8125rem; }
 
 .btn--icon.btn--s,
 .btn--fab.btn--s {
   height: 24px;
   width: 24px;
-  padding: 0;
-  font-size: 15px;
-  font-size: 0.9375rem; }
+  padding: 0; }
   .btn--icon.btn--s .mdi,
   .btn--fab.btn--s .mdi {
     line-height: 24px; }
+
+.btn--icon.btn--s {
+  font-size: 21px;
+  font-size: 1.3125rem; }
+
+.btn--fab.btn--s {
+  font-size: 15px;
+  font-size: 0.9375rem; }
 
 .btn--icon.btn--m,
 .btn--fab.btn--m {
   height: 30px;
   width: 30px;
-  padding: 0;
-  font-size: 15px;
-  font-size: 0.9375rem; }
+  padding: 0; }
   .btn--icon.btn--m .mdi,
   .btn--fab.btn--m .mdi {
     line-height: 30px; }
+
+.btn--icon.btn--m {
+  font-size: 21px;
+  font-size: 1.3125rem; }
+
+.btn--fab.btn--m {
+  font-size: 15px;
+  font-size: 0.9375rem; }
 
 .btn--icon.btn--l,
 .btn--fab.btn--l {
   height: 36px;
   width: 36px;
-  padding: 0;
-  font-size: 17px;
-  font-size: 1.0625rem; }
+  padding: 0; }
   .btn--icon.btn--l .mdi,
   .btn--fab.btn--l .mdi {
     line-height: 36px; }
+
+.btn--icon.btn--l {
+  font-size: 23px;
+  font-size: 1.4375rem; }
+
+.btn--fab.btn--l {
+  font-size: 17px;
+  font-size: 1.0625rem; }
 
 .btn--icon.btn--xl,
 .btn--fab.btn--xl {
   height: 42px;
   width: 42px;
-  padding: 0;
-  font-size: 18px;
-  font-size: 1.125rem; }
+  padding: 0; }
   .btn--icon.btn--xl .mdi,
   .btn--fab.btn--xl .mdi {
     line-height: 42px; }
+
+.btn--icon.btn--xl {
+  font-size: 24px;
+  font-size: 1.5rem; }
+
+.btn--fab.btn--xl {
+  font-size: 18px;
+  font-size: 1.125rem; }
 
 .card {
   border-radius: 2px;
