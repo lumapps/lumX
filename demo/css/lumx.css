@@ -6217,6 +6217,30 @@ label {
 .tabs-pane--is-active {
   display: block; }
 
+.toolbar {
+  padding: 0 8px; }
+  @media screen and (max-width: 1023px) {
+    .toolbar {
+      height: 56px;
+      padding-top: 7px; } }
+  @media screen and (min-width: 1024px) {
+    .toolbar {
+      height: 64px;
+      padding-top: 11px; } }
+
+.toolbar__left {
+  float: left; }
+
+.toolbar__right {
+  float: right; }
+
+.toolbar__label {
+  margin-left: 20px;
+  font-size: 20px;
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 42px; }
+
 .tooltip {
   position: absolute;
   z-index: 999;
