@@ -182,7 +182,7 @@ angular.module('lumx.notification', [])
             });
 
             var dialogLastBtn = angular.element('<button/>', {
-                class: 'btn btn--l btn--blue btn--flat',
+                class: 'btn btn--m btn--blue btn--flat',
                 text: buttons.ok
             });
 
@@ -191,7 +191,7 @@ angular.module('lumx.notification', [])
             {
                 // DOM elements
                 var dialogFirstBtn = angular.element('<button/>', {
-                    class: 'btn btn--l btn--red btn--flat',
+                    class: 'btn btn--m btn--red btn--flat',
                     text: buttons.cancel
                 });
 
