@@ -23,14 +23,25 @@ $md-base-round:         2px  !default;
 // Colors and sizes.
 //
 // Feel free to override and set new values for your project.
-$blue:                  #5fa2db !default;
-$green:                 #9cbe35 !default;
-$orange:                #f3a641 !default;
-$red:                   #e25a31 !default;
-$grey:                  #bbbbbb !default;
-$black:                 #444444 !default;
-$white:                 #ffffff !default;
-$colors:                ('blue': $blue, 'green': $green, 'orange': $orange, 'red': $red, 'grey': $grey, 'black': $black, 'white': $white);
+$red:                   $red-500            !default;
+$pink:                  $pink-500           !default;
+$purple:                $purple-500         !default;
+$deep-purple:           $deep-purple-500    !default;
+$indigo:                $indigo-500         !default;
+$blue:                  $blue-500           !default;
+$light-blue:            $light-blue-500     !default;
+$teal:                  $teal-500           !default;
+$green:                 $green-500          !default;
+$light-green:           $light-green-500    !default;
+$lime:                  $lime-500           !default;
+$yellow:                $yellow-500         !default;
+$amber:                 $amber-500          !default;
+$orange:                $orange-500         !default;
+$deep-orange:           $deep-orange-500    !default;
+$brown:                 $brown-500          !default;
+$grey:                  $grey-500           !default;
+$blue-grey:             $blue-grey-500      !default;
+$colors:                ('red': $red, 'pink': $pink, 'purple': $purple, 'deep-purple': $deep-purple, 'indigo': $indigo, 'blue': $blue, 'light-blue': $light-blue, 'teal': $teal, 'green': $green, 'light-green': $light-green, 'lime': $lime, 'yellow': $yellow, 'amber': $amber, 'orange': $orange, 'deep-orange': $deep-orange, 'brown': $brown, 'grey': $grey, 'blue-grey': $blue-grey, 'black': $black, 'white': $white);
 
 $size-xs:               18px !default;
 $size-s:                24px !default;

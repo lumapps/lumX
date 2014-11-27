@@ -23,6 +23,9 @@ app.config(function($locationProvider, $routeProvider)
         when('/getting-started/contribute', {
             templateUrl: '/demo/includes/start/contribute.html'
         }).
+        when('/css/colors', {
+            templateUrl: '/demo/includes/css/colors.html'
+        }).
         when('/css/buttons', {
             templateUrl: '/demo/includes/css/button.html'
         }).
