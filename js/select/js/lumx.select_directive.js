@@ -1,5 +1,4 @@
 /* global angular */
-/* global _ */
 'use strict'; // jshint ignore:line
 
 
@@ -13,12 +12,12 @@ angular.module('lumx.select', [])
             $scope.multiple = angular.isDefined(attrs.multiple);
             $scope.tree = angular.isDefined(attrs.tree);
         };
-        
+
         this.select = function(choice)
         {
             if ($scope.multiple)
             {
-                if (_.indexOf($scope.selected, choice) === -1)
+                if ($scope.selected.indexOf(choice) === -1)
                 {
                     $scope.selected.push(choice);
                 }
@@ -28,12 +27,12 @@ angular.module('lumx.select', [])
                 $scope.selected = [choice];
             }
         };
-        
+
         this.unselect = function(element)
         {
-            if (_.indexOf($scope.selected, element) !== -1)
+            if ($scope.selected.indexOf(element) !== -1)
             {
-                $scope.selected.splice(_.indexOf($scope.selected, element), 1);
+                $scope.selected.splice($scope.selected.indexOf(element), 1);
             }
         };
 
@@ -51,7 +50,7 @@ angular.module('lumx.select', [])
         {
             return $sce.trustAsHtml($scope.selectedTemplate);
         };
-        
+
         this.isMultiple = function()
         {
             return $scope.multiple;
@@ -180,7 +179,7 @@ angular.module('lumx.select', [])
 
                 $scope.isSelected = function(choice)
                 {
-                    return _.indexOf($scope.selectController.selectedElements(), choice) > -1;
+                    return $scope.selectController.selectedElements().indexOf(choice) > -1;
                 };
             },
             link: function(scope, element, attrs, ctrl)
