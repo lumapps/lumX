@@ -4657,8 +4657,8 @@ html {
 
 .fab__actions--up {
   position: absolute;
-  bottom: 42px;
-  left: 3px; }
+  bottom: 56px;
+  left: 7px; }
   .fab__actions--up .btn {
     margin-bottom: 6px; }
     .fab__actions--up .btn:nth-child(1) {
@@ -4704,8 +4704,8 @@ html {
 
 .fab__actions--down {
   position: absolute;
-  top: 42px;
-  left: 3px; }
+  top: 56px;
+  left: 7px; }
   .fab__actions--down .btn {
     margin-top: 6px; }
     .fab__actions--down .btn:nth-child(1) {
