@@ -40,4 +40,4 @@ Code and documentation copyright 2014 LumApps. Code released under the [MIT lice
 [gae]: https://cloud.google.com/appengine/
 [gulp]: http://gulpjs.com/
 [material]: http://www.google.com/design/spec/material-design/introduction.html
-[release]: https://github.com/lumapps/lumx/archive/v0.0.0.zip
+[release]: https://github.com/lumapps/lumX/tags
