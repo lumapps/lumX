@@ -6222,11 +6222,11 @@ label {
   @media screen and (max-width: 1023px) {
     .toolbar {
       height: 56px;
-      padding-top: 7px; } }
+      padding-top: 8px; } }
   @media screen and (min-width: 1024px) {
     .toolbar {
       height: 64px;
-      padding-top: 11px; } }
+      padding-top: 12px; } }
 
 .toolbar__left {
   float: left; }
