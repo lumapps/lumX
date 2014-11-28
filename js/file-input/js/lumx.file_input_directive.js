@@ -8,10 +8,11 @@ angular.module('lumx.file-input', [])
         return {
             restrict: 'E',
             scope: {
-                label: '='
+                label: '=',
+                value: '=',
+                change: '='
             },
             templateUrl: 'lumx.file_input.html',
-            transclude: true,
             replace: true,
             link: function(scope, element)
             {
@@ -22,19 +23,35 @@ angular.module('lumx.file-input', [])
                     .addClass('input-file__input')
                     .on('change', function()
                     {
-                        var file = $input.val().replace(/C:\\fakepath\\/i, '');
+                        setFileName($input.val());
+                        element.addClass('input-file--is-focused');
 
-                        $fileName.text(file);
-
-                        $timeout(function()
+                        // Handle change function
+                        if(angular.isDefined(scope.change))
                         {
-                            element.addClass('input-file--is-focused input-file--is-active');
-                        });
+                            // return the file element, the new value and the old value to the callback
+                            scope.change({e: $input[0].files[0], newValue: $input.val(), oldValue: $fileName.text()});
+                        }
                     })
                     .on('blur', function()
                     {
                         element.removeClass('input-file--is-focused');
                     });
+
+                function setFileName(val)
+                {
+                    if(angular.isDefined(val))
+                    {
+                        $fileName.text(val.replace(/C:\\fakepath\\/i, ''));
+                        // if val is empty, we re-set the input val to empty else we set the input class active
+                        val === '' ? $input.val('') : element.addClass('input-file--is-active');
+                    }
+                }
+
+                scope.$watch('value', function(value)
+                {
+                    setFileName(value);
+                });
             }
         };
     }]);
