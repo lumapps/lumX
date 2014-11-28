@@ -50,6 +50,7 @@ angular.module('lumx.search-filter', [])
 
                 $label.on('click', function()
                 {
+                    console.log("test click");
                     if (angular.isDefined(attrs.closed))
                     {
                         element.addClass('search-filter--is-focus');
@@ -58,21 +59,23 @@ angular.module('lumx.search-filter', [])
                         $timeout(function()
                         {
                             $input.focus();
+
+                            // Detect all clicks outside the components, and close it
+                            $('html').on('click', function()
+                            {
+                                console.log("test html click");
+                                element.removeClass('search-filter--is-focus');
+
+                                $('html').off('click');
+                                element.off('click');
+                            });
+
+                            element.on('click', function(event)
+                            {
+                                console.log("test stop propagation");
+                                event.stopPropagation();
+                            });
                         }, 600);
-
-                        // Detect all clicks outside the components, and close it
-                        $('html').on('click', function()
-                        {
-                            element.removeClass('search-filter--is-focus');
-
-                            $('html').off('click');
-                            $('lx-search-filter').off('click');
-                        });
-
-                        $('lx-search-filter').on('click', function(event)
-                        {
-                            event.stopPropagation();
-                        });
                     }
                     else
                     {
