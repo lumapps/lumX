@@ -55,7 +55,7 @@
     }
 
     .fab__actions--up {
-        @include position(absolute, null null 42px 3px);
+        @include position(absolute, null null 56px 7px);
 
         .btn {
             margin-bottom: quarter($base-spacing-unit);
@@ -69,7 +69,7 @@
     }
 
     .fab__actions--down {
-        @include position(absolute, 42px null null 3px);
+        @include position(absolute, 56px null null 7px);
 
         .btn {
             margin-top: quarter($base-spacing-unit);

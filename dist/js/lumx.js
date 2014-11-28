@@ -18,7 +18,8 @@ angular.module('lumx', [
     'lumx.tabs',
     'lumx.tooltip',
     'lumx.file-input',
-    'lumx.progress'
+    'lumx.progress',
+    'lumx.search-filter',
 ]);
 /* global angular */
 'use strict'; // jshint ignore:line
@@ -311,7 +312,7 @@ angular.module('lumx.notification', [])
             });
 
             var dialogLastBtn = angular.element('<button/>', {
-                class: 'btn btn--l btn--blue btn--flat',
+                class: 'btn btn--m btn--blue btn--flat',
                 text: buttons.ok
             });
 
@@ -320,7 +321,7 @@ angular.module('lumx.notification', [])
             {
                 // DOM elements
                 var dialogFirstBtn = angular.element('<button/>', {
-                    class: 'btn btn--l btn--red btn--flat',
+                    class: 'btn btn--m btn--red btn--flat',
                     text: buttons.cancel
                 });
 
@@ -1592,10 +1593,11 @@ angular.module('lumx.file-input', [])
         return {
             restrict: 'E',
             scope: {
-                label: '='
+                label: '=',
+                value: '=',
+                change: '='
             },
             templateUrl: 'lumx.file_input.html',
-            transclude: true,
             replace: true,
             link: function(scope, element)
             {
@@ -1606,19 +1608,35 @@ angular.module('lumx.file-input', [])
                     .addClass('input-file__input')
                     .on('change', function()
                     {
-                        var file = $input.val().replace(/C:\\fakepath\\/i, '');
+                        setFileName($input.val());
+                        element.addClass('input-file--is-focused');
 
-                        $fileName.text(file);
-
-                        $timeout(function()
+                        // Handle change function
+                        if(angular.isDefined(scope.change))
                         {
-                            element.addClass('input-file--is-focused input-file--is-active');
-                        });
+                            // return the file element, the new value and the old value to the callback
+                            scope.change({e: $input[0].files[0], newValue: $input.val(), oldValue: $fileName.text()});
+                        }
                     })
                     .on('blur', function()
                     {
                         element.removeClass('input-file--is-focused');
                     });
+
+                function setFileName(val)
+                {
+                    if(angular.isDefined(val))
+                    {
+                        $fileName.text(val.replace(/C:\\fakepath\\/i, ''));
+                        // if val is empty, we re-set the input val to empty else we set the input class active
+                        val === '' ? $input.val('') : element.addClass('input-file--is-active');
+                    }
+                }
+
+                scope.$watch('value', function(value)
+                {
+                    setFileName(value);
+                });
             }
         };
     }]);
@@ -1668,7 +1686,97 @@ angular.module('lumx.input-group', [])
         };
     });
 /* global angular */
-/* global _ */
+/* global $ */
+'use strict'; // jshint ignore:line
+
+
+angular.module('lumx.search-filter', [])
+    .directive('lxSearchFilter', ['$timeout', function($timeout)
+    {
+        return {
+            restrict: 'E',
+            templateUrl: 'lumx.search_filter.html',
+            link: function(scope, element, attrs)
+            {
+                var $input = element.find('input');
+                var $label = element.find('label');
+                var $cancel = element.find('span');
+
+                if (angular.isDefined(attrs.closed))
+                {
+                    element.addClass('search-filter--is-closed');
+                }
+
+                if (angular.isDefined(attrs.theme))
+                {
+                    if (attrs.theme == 'light')
+                    {
+                        element.addClass('search-filter--light-theme');
+                    }
+                    else
+                    {
+                        element.addClass('search-filter--dark-theme');
+                    }
+                }
+                else
+                {
+                    element.addClass('search-filter--dark-theme');
+                }
+
+                $input.on('input', function()
+                {
+                    if ($input.val())
+                    {
+                        element.addClass('search-filter--is-active');
+                    }
+                    else
+                    {
+                        element.removeClass('search-filter--is-active');
+                    }
+                });
+
+                $label.on('click', function()
+                {
+                    if (angular.isDefined(attrs.closed))
+                    {
+                        element.addClass('search-filter--is-focus');
+
+                        // After the end of the CSS animation, focus on the input
+                        $timeout(function()
+                        {
+                            $input.focus();
+
+                            // Detect all clicks outside the components, and close it
+                            $('html').on('click', function()
+                            {
+                                element.removeClass('search-filter--is-focus');
+
+                                $('html').off('click');
+                                element.off('click');
+                            });
+
+                            element.on('click', function(event)
+                            {
+                                event.stopPropagation();
+                            });
+                        }, 600);
+                    }
+                    else
+                    {
+                        $input.focus();
+                    }
+                });
+
+                $cancel.on('click', function()
+                {
+                    $input.val('').focus();
+                    element.removeClass('search-filter--is-active');
+                });
+            }
+        };
+    }]);
+
+/* global angular */
 'use strict'; // jshint ignore:line
 
 
@@ -1682,12 +1790,12 @@ angular.module('lumx.select', [])
             $scope.multiple = angular.isDefined(attrs.multiple);
             $scope.tree = angular.isDefined(attrs.tree);
         };
-        
+
         this.select = function(choice)
         {
             if ($scope.multiple)
             {
-                if (_.indexOf($scope.selected, choice) === -1)
+                if ($scope.selected.indexOf(choice) === -1)
                 {
                     $scope.selected.push(choice);
                 }
@@ -1697,12 +1805,12 @@ angular.module('lumx.select', [])
                 $scope.selected = [choice];
             }
         };
-        
+
         this.unselect = function(element)
         {
-            if (_.indexOf($scope.selected, element) !== -1)
+            if ($scope.selected.indexOf(element) !== -1)
             {
-                $scope.selected.splice(_.indexOf($scope.selected, element), 1);
+                $scope.selected.splice($scope.selected.indexOf(element), 1);
             }
         };
 
@@ -1720,7 +1828,7 @@ angular.module('lumx.select', [])
         {
             return $sce.trustAsHtml($scope.selectedTemplate);
         };
-        
+
         this.isMultiple = function()
         {
             return $scope.multiple;
@@ -1849,7 +1957,7 @@ angular.module('lumx.select', [])
 
                 $scope.isSelected = function(choice)
                 {
-                    return _.indexOf($scope.selectController.selectedElements(), choice) > -1;
+                    return $scope.selectController.selectedElements().indexOf(choice) > -1;
                 };
             },
             link: function(scope, element, attrs, ctrl)
@@ -1858,6 +1966,7 @@ angular.module('lumx.select', [])
             }
         };
     });
+
 /* global angular */
 'use strict'; // jshint ignore:line
 
@@ -2047,13 +2156,21 @@ angular.module("lumx.file-input").run(['$templateCache', function(a) { a.put('lu
     '    <label>\n' +
     '        <span class="input-file__label">{{ label }}</span>\n' +
     '        <span class="input-file__filename"></span>\n' +
-    '        <div ng-transclude-replace></div>\n' +
+    '        <input type="file">\n' +
     '    </label>\n' +
     '</div>');
 	 }]);
 angular.module("lumx.input-group").run(['$templateCache', function(a) { a.put('lumx.input_group.html', '<div class="input-group" ng-class="{ \'input-group--has-error\': hasError, \'input-group--is-disabled\': isDisabled }">\n' +
     '    <label class="input-group__label">{{ label }}</label>\n' +
     '    <div ng-transclude-replace></div>\n' +
+    '</div>');
+	 }]);
+angular.module("lumx.search-filter").run(['$templateCache', function(a) { a.put('lumx.search_filter.html', '<div class="search-filter">\n' +
+    '    <div class="search-filter__container">\n' +
+    '        <label class="search-filter__label"><i class="mdi mdi--search"></i></label>\n' +
+    '        <input type="text" class="search-filter__input">\n' +
+    '        <span class="search-filter__cancel"><i class="mdi mdi--cancel"></i></span>\n' +
+    '    </div>\n' +
     '</div>');
 	 }]);
 angular.module("lumx.select").run(['$templateCache', function(a) { a.put('lumx.select_selected.html', '<div lx-dropdown-toggle>\n' +
