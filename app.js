@@ -65,6 +65,9 @@ app.config(function($locationProvider, $routeProvider)
         when('/directives/text-fields', {
             templateUrl: '/demo/includes/directives/text-field.html'
         }).
+        when('/directives/search-filter', {
+            templateUrl: '/demo/includes/directives/search-filter.html'
+        }).
         when('/directives/selects', {
             templateUrl: '/demo/includes/directives/select.html'
         }).

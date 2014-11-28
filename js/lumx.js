@@ -18,5 +18,6 @@ angular.module('lumx', [
     'lumx.tabs',
     'lumx.tooltip',
     'lumx.file-input',
-    'lumx.progress'
+    'lumx.progress',
+    'lumx.search-filter',
 ]);
