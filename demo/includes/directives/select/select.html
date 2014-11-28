@@ -8,19 +8,20 @@
             </div>
 
             <div class="grid__col4">
-                <lx-select selected="dataFilter.values[myVar]" change="cbSelect.exec(newValue, oldValue)" placeholder="'Lorem Ipsum'" choices="people">
+                <lx-select selected="selectedMovie" change="cbSelect.exec(newValue, oldValue)" placeholder="'Lorem Ipsum'"
+                           choices="ajax.list"  filter="ajax.update(newValue, oldValue)" loading="ajax.loading" min-length="2">
                     <lx-select-selected>
-                        {{ $selected.name }} - {{ $selected.age }}
+                        {{ $selected.Title }} ({{ $selected.Year }})
                     </lx-select-selected>
 
                     <lx-select-choices>
-                        {{ $choice.email }}
+                        {{ $choice.Title }} - {{ $choice.Type }}
                     </lx-select-choices>
                 </lx-select>
             </div>
 
             <div class="grid__col4">
-                <lx-select selected="selectedPersons" placeholder="'Lorem Ipsum'" choices="people" filter="updatePeople(newValue, oldValue)" multiple>
+                <lx-select selected="selectedPersons" placeholder="'Lorem Ipsum'" choices="people" multiple>
                     <lx-select-selected>
                         {{ $selected.name }} - {{ $selected.age }}
                     </lx-select-selected>

@@ -1,4 +1,5 @@
 /* global angular */
+/* global escape */
 'use strict'; // jshint ignore:line
 
 var app = angular.module('lx', ['ngRoute', 'lumx', 'hljs', 'Sidebar']);
@@ -139,9 +140,30 @@ app.controller('AppController',
         { name: 'Adrian',    email: 'adrian@email.com',    age: 21 }
     ];
 
-    $scope.updatePeople = function(newFilter, oldFilter)
-    {
-        console.log("new filter: " + newFilter, "old filter: " + oldFilter);
+    $scope.ajax = {
+        list: [],
+        update: function(newFilter, oldFilter)
+        {
+            if (newFilter)
+            {
+                $scope.ajax.loading = true;
+                $http.get('http://www.omdbapi.com/?s=' + escape(newFilter)).
+                    success(function(data)
+                    {
+                        $scope.ajax.list = data.Search;
+                        $scope.ajax.loading = false;
+                    }).
+                    error(function()
+                    {
+                        $scope.ajax.loading = false;
+                    });
+            }
+            else
+            {
+                $scope.ajax.list = false;
+            }
+        },
+        loading: false
     };
 
     $scope.cbSelect = {
