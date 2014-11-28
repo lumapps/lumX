@@ -54,6 +54,23 @@
         line-height: double($md-spacing-unit) !important;
     }
 
+    .lx-select__close {
+        @include position(absolute, null ($md-spacing-unit + quarter($md-spacing-unit)) null null);
+        display: block;
+
+        &:after {
+            @include mdi;
+            content: $mdi-var-close;
+            @include font-size(14px);
+            color: $grey;
+            line-height: 16px;
+        }
+
+        &:hover:after {
+            color: $red;
+        }
+    }
+
     // Select tag
     .lx-select__tag {
         position: relative;

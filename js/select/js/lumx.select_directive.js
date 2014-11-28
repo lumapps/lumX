@@ -31,8 +31,18 @@ angular.module('lumx.select', [])
             }
         }
 
-        function unselect(element)
+        function unselect(element, event)
         {
+            if (!$scope.allowClear && !$scope.multiple)
+            {
+                return;
+            }
+
+            if (angular.isDefined(event) && !$scope.multiple)
+            {
+                event.stopPropagation();
+            }
+
             var index = $scope.selected.indexOf(element);
             if (index !== -1)
             {
@@ -152,6 +162,7 @@ angular.module('lumx.select', [])
                 choices: '=',
                 loading: '=',
                 minLength: '=',
+                allowClear: '=',
                 change: '&', // Parameters: newValue, oldValue
                 filter: '&' // Parameters: newValue, oldValue
             },

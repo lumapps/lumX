@@ -7818,6 +7818,25 @@ label {
   color: #aaa;
   line-height: 32px !important; }
 
+.lx-select__close {
+  position: absolute;
+  right: 20px;
+  display: block; }
+  .lx-select__close:after {
+    display: inline-block;
+    font: normal normal normal 14px/1 md-icons;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    content: "";
+    font-size: 14px;
+    font-size: 0.875rem;
+    color: #9E9E9E;
+    line-height: 16px; }
+  .lx-select__close:hover:after {
+    color: #F44336; }
+
 .lx-select__tag {
   position: relative;
   float: left;

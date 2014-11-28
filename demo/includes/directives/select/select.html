@@ -9,7 +9,8 @@
 
             <div class="grid__col4">
                 <lx-select selected="selectedMovie" change="cbSelect.exec(newValue, oldValue)" placeholder="'Lorem Ipsum'"
-                           choices="ajax.list"  filter="ajax.update(newValue, oldValue)" loading="ajax.loading" min-length="2">
+                           choices="ajax.list"  filter="ajax.update(newValue, oldValue)" loading="ajax.loading"
+                           min-length="2" allow-clear="true">
                     <lx-select-selected>
                         {{ $selected.Title }} ({{ $selected.Year }})
                     </lx-select-selected>

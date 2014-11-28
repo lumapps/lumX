@@ -6,8 +6,8 @@
          lx-ripple>
         <span ng-if="getSelectedElements().length === 0">{{ placeholder }}</span>
 
-        <div ng-repeat="$selected in getSelectedElements()"
-             ng-if="!multiple">
+        <div ng-repeat="$selected in getSelectedElements()" ng-if="!multiple">
+            <span class="lx-select__close" ng-click="unselect($selected, $event)" ng-if="allowClear"></span>
             <span ng-transclude="parent"></span>
         </div>
 
