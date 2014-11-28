@@ -4855,8 +4855,12 @@ label {
   transition-timing-function: cubic-bezier(0.23, 1, 0.32, 1); }
 
 .input-file__filename {
+  display: block;
   position: relative;
   top: 4px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   opacity: 0;
   -webkit-transform: translateX(48px);
   -moz-transform: translateX(48px);
