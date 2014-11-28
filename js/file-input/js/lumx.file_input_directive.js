@@ -8,7 +8,9 @@ angular.module('lumx.file-input', [])
         return {
             restrict: 'E',
             scope: {
-                label: '='
+                label: '=',
+                value: '=',
+                change: '='
             },
             templateUrl: 'lumx.file_input.html',
             replace: true,
@@ -21,19 +23,30 @@ angular.module('lumx.file-input', [])
                     .addClass('input-file__input')
                     .on('change', function()
                     {
-                        var file = $input.val().replace(/C:\\fakepath\\/i, '');
+                        setFileName($input.val());
+                        element.addClass('input-file--is-focused');
 
-                        $fileName.text(file);
-
-                        $timeout(function()
-                        {
-                            element.addClass('input-file--is-focused input-file--is-active');
-                        });
+                        // Handle change function
+                        if(angular.isDefined(scope.change)) {
+                            scope.change($input[0]);
+                        }
                     })
                     .on('blur', function()
                     {
                         element.removeClass('input-file--is-focused');
                     });
+
+                function setFileName(val){
+                    if(angular.isDefined(val))
+                    {
+                        $fileName.text(val.replace(/C:\\fakepath\\/i, ''));
+                        val === '' ? $input.val('') : element.addClass('input-file--is-active');
+                    }
+                }
+
+                scope.$watch('value', function(value){
+                    setFileName(value);
+                });
             }
         };
     }]);
