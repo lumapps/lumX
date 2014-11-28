@@ -46,6 +46,35 @@ angular.module('lumx.tabs', [])
             link: function(scope, element, attrs, ctrl)
             {
                 scope.tabsCtrl = ctrl;
+                var $indicator = element.find('.tabs__indicator');
+                var $link = element.find('.tabs__links');
+
+                if (angular.isDefined(attrs.indicatorTheme))
+                {
+                    $indicator.addClass('tabs__indicator--' + attrs.indicatorTheme);
+                }
+                else
+                {
+                    $indicator.addClass('tabs__indicator--blue');
+                }
+
+                if (angular.isDefined(attrs.linkTheme))
+                {
+                    $link.addClass('tabs__links--link-' + attrs.linkTheme);
+                }
+                else
+                {
+                    $link.addClass('tabs__links--link-blue');
+                }
+
+                if (angular.isDefined(attrs.rippleTheme))
+                {
+                    $link.addClass('tabs__links--ripple-' + attrs.rippleTheme);
+                }
+                else
+                {
+                    $link.addClass('tabs__links--ripple-blue');
+                }
             }
         };
     })
