@@ -46,17 +46,18 @@ angular.module('lumx.search-filter', [])
                         {
                             element.removeClass('search-filter--is-active');
                         }
-                    })
-                    .on('blur', function()
+                    });
+
+                $('html')
+                    .on('click', function()
                     {
-                        if ($input.val())
-                        {
-                            element.addClass('search-filter--is-active');
-                        }
-                        else
-                        {
-                            element.removeClass('search-filter--is-focus');
-                        }
+                        element.removeClass('search-filter--is-focus');
+                    });
+
+                $('lx-search-filter')
+                    .on('click', function(event)
+                    {
+                        event.stopPropagation();
                     });
 
                 $label
