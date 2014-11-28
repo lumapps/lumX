@@ -29,8 +29,8 @@ angular.module('lumx.file-input', [])
                         // Handle change function
                         if(angular.isDefined(scope.change))
                         {
-                            // return the DOM input element to the callback
-                            scope.change($input[0]);
+                            // return the file element, the new value and the old value to the callback
+                            scope.change({e: $input[0].files[0], newValue: $input.val(), oldValue: $fileName.text()});
                         }
                     })
                     .on('blur', function()
