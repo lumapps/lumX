@@ -1,4 +1,5 @@
 /* global angular */
+/* global $ */
 'use strict'; // jshint ignore:line
 
 
@@ -35,56 +36,55 @@ angular.module('lumx.search-filter', [])
                     element.addClass('search-filter--dark-theme');
                 }
 
-                $input
-                    .on('input', function()
+                $input.on('input', function()
+                {
+                    if ($input.val())
                     {
-                        if ($input.val())
-                        {
-                            element.addClass('search-filter--is-active');
-                        }
-                        else
-                        {
-                            element.removeClass('search-filter--is-active');
-                        }
-                    });
-
-                $('html')
-                    .on('click', function()
+                        element.addClass('search-filter--is-active');
+                    }
+                    else
                     {
-                        element.removeClass('search-filter--is-focus');
-                    });
+                        element.removeClass('search-filter--is-active');
+                    }
+                });
 
-                $('lx-search-filter')
-                    .on('click', function(event)
+                $label.on('click', function()
+                {
+                    if (angular.isDefined(attrs.closed))
                     {
-                        event.stopPropagation();
-                    });
+                        element.addClass('search-filter--is-focus');
 
-                $label
-                    .on('click', function()
-                    {
-                        if (angular.isDefined(attrs.closed))
-                        {
-                            element.addClass('search-filter--is-focus');
-
-                            // After the end of the CSS animation, focus on the input
-                            $timeout(function()
-                            {
-                                $input.focus();
-                            }, 600);
-                        }
-                        else
+                        // After the end of the CSS animation, focus on the input
+                        $timeout(function()
                         {
                             $input.focus();
-                        }
-                    });
+                        }, 600);
 
-                $cancel
-                    .on('click', function()
+                        // Detect all clicks outside the components, and close it
+                        $('html').on('click', function()
+                        {
+                            element.removeClass('search-filter--is-focus');
+
+                            $('html').off('click');
+                            $('lx-search-filter').off('click');
+                        });
+
+                        $('lx-search-filter').on('click', function(event)
+                        {
+                            event.stopPropagation();
+                        });
+                    }
+                    else
                     {
-                        $input.val('').focus();
-                        element.removeClass('search-filter--is-active');
-                    });
+                        $input.focus();
+                    }
+                });
+
+                $cancel.on('click', function()
+                {
+                    $input.val('').focus();
+                    element.removeClass('search-filter--is-active');
+                });
             }
         };
     }]);
