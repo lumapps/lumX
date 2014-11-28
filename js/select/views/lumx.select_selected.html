@@ -12,9 +12,11 @@
         </div>
 
         <div ng-if="multiple">
-            <span class="lx-select__tag"
-                  ng-repeat="$selected in getSelectedElements()"
-                  ng-transclude="child"></span>
+            <div class="lx-select__tag"
+                  ng-repeat="$selected in getSelectedElements()">
+                <span class="lx-select__tag__close" ng-click="toggle($selected, $event)"></span>
+                <span ng-transclude="parent"></span>
+            </div>
         </div>
     </div>
 </div>

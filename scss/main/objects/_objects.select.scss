@@ -56,20 +56,48 @@
 
     // Select tag
     .lx-select__tag {
+        position: relative;
         float: left;
-        padding: 0 quarter($md-spacing-unit);
         margin-right: quarter($md-spacing-unit);
         margin-bottom: quarter($md-spacing-unit);
         border-radius: $md-base-round;
         background-color: #f5f5f5;
-        @include font-size(14px);
+        padding: 0 quarter($md-spacing-unit);
         line-height: 24px;
+
+        @include font-size(14px);
         @include user-select(none);
 
         &:last-child {
             margin-right: 0;
         }
+
+        &:hover {
+            .lx-select__tag__close {
+                display: block;
+            }
+        }
     }
+
+        .lx-select__tag__close {
+            @include position(absolute, 0 0 null null);
+
+            display: none;
+            background-color: $white;
+
+            &:after {
+                content: $mdi-var-close;
+                color: $grey;
+                line-height: 24px;
+
+                @include mdi;
+                @include font-size(14px);
+            }
+
+            &:hover:after {
+                color: $red;
+            }
+        }
 
     // Select choices
     .lx-select__choices {
