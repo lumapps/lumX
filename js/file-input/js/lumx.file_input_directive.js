@@ -27,7 +27,9 @@ angular.module('lumx.file-input', [])
                         element.addClass('input-file--is-focused');
 
                         // Handle change function
-                        if(angular.isDefined(scope.change)) {
+                        if(angular.isDefined(scope.change))
+                        {
+                            // return the DOM input element to the callback
                             scope.change($input[0]);
                         }
                     })
@@ -36,7 +38,8 @@ angular.module('lumx.file-input', [])
                         element.removeClass('input-file--is-focused');
                     });
 
-                function setFileName(val){
+                function setFileName(val)
+                {
                     if(angular.isDefined(val))
                     {
                         $fileName.text(val.replace(/C:\\fakepath\\/i, ''));
@@ -44,7 +47,8 @@ angular.module('lumx.file-input', [])
                     }
                 }
 
-                scope.$watch('value', function(value){
+                scope.$watch('value', function(value)
+                {
                     setFileName(value);
                 });
             }
