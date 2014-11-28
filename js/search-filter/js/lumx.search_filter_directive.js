@@ -50,7 +50,6 @@ angular.module('lumx.search-filter', [])
 
                 $label.on('click', function()
                 {
-                    console.log("test click");
                     if (angular.isDefined(attrs.closed))
                     {
                         element.addClass('search-filter--is-focus');
@@ -63,7 +62,6 @@ angular.module('lumx.search-filter', [])
                             // Detect all clicks outside the components, and close it
                             $('html').on('click', function()
                             {
-                                console.log("test html click");
                                 element.removeClass('search-filter--is-focus');
 
                                 $('html').off('click');
@@ -72,7 +70,6 @@ angular.module('lumx.search-filter', [])
 
                             element.on('click', function(event)
                             {
-                                console.log("test stop propagation");
                                 event.stopPropagation();
                             });
                         }, 600);
