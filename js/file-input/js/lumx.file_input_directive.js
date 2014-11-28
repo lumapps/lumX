@@ -43,6 +43,7 @@ angular.module('lumx.file-input', [])
                     if(angular.isDefined(val))
                     {
                         $fileName.text(val.replace(/C:\\fakepath\\/i, ''));
+                        // if val is empty, we re-set the input val to empty else we set the input class active
                         val === '' ? $input.val('') : element.addClass('input-file--is-active');
                     }
                 }
