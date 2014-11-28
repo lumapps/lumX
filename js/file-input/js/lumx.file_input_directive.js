@@ -11,7 +11,6 @@ angular.module('lumx.file-input', [])
                 label: '='
             },
             templateUrl: 'lumx.file_input.html',
-            transclude: true,
             replace: true,
             link: function(scope, element)
             {
