@@ -3,10 +3,10 @@
 //\*------------------------------------*/
 
 // High-level base settings.
-$base-font-size:        16px    !default;
-$base-line-height:      24px    !default;
-$base-text-color:       #505050 !default;
-$base-background-color: #e5e5e5 !default;
+$base-font-size:        16px            !default;
+$base-line-height:      24px            !default;
+$base-text-color:       $black-first    !default;
+$base-background-color: $grey-200       !default;
 
 
 
@@ -49,6 +49,20 @@ $size-m:                36px !default;
 $size-l:                40px !default;
 $size-xl:               56px !default;
 $sizes:                 ('xs': $size-xs, 's': $size-s, 'm': $size-m, 'l': $size-l, 'xl': $size-xl);
+
+
+
+
+
+// Primary palette colors and accent colors
+//
+// Feel free to override and set new values for your project.
+$primary-color--main: $indigo       !default;
+$primary-color--100: $indigo-100    !default;
+$primary-color--700: $indigo-700    !default;
+$accent-color--main: $pink-A200     !default;
+$accent-color--A100: $pink-A100     !default;
+$accent-color--A400: $pink-A400     !default;
 
 
 
