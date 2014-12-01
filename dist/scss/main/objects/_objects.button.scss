@@ -3,8 +3,8 @@
 //\*------------------------------------*/
 
 // Button vars
-$btn-padding:   ('xs': 8px, 's': 10px, 'm': 12px, 'l': 14px, 'xl': 16px);
-$btn-font-size: ('xs': 9px, 's': 11px, 'm': 11px, 'l': 13px, 'xl': 14px);
+$btn-padding:   ('xs': 10px, 's': 12px, 'm': 14px, 'l': 16px, 'xl': 26px);
+$btn-font-size: ('xs': 11px, 's': 11px, 'm': 13px, 'l': 14px, 'xl': 16px);
 
 
 
@@ -126,10 +126,17 @@ $btn-font-size: ('xs': 9px, 's': 11px, 'm': 11px, 'l': 13px, 'xl': 14px);
     .btn--fab.btn--#{$key} {
         @include size($size);
         padding: 0;
-        @include font-size((map-get($btn-font-size, $key)) + 4);
 
         .mdi {
             line-height: $size;
         }
+    }
+
+    .btn--icon.btn--#{$key} {
+        @include font-size((map-get($btn-font-size, $key)) + 10);
+    }
+
+    .btn--fab.btn--#{$key} {
+        @include font-size((map-get($btn-font-size, $key)) + 4);
     }
 }

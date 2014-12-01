@@ -68,6 +68,33 @@
         color: $red;
     }
 }
+
+.input-group--fixed-label {
+    padding-top: halve($md-spacing-unit);
+
+    .input-group__label {
+        top: -$base-spacing-unit;
+        @include transform(translateY($md-spacing-unit * 2.5));
+        @include font-size(16px);
+    }
+}
+
+.input-group--label-hidden {
+    .input-group__label {
+        display: none;
+    }
+}
+
+.input-group--is-valid {
+    .input-group__label {
+        color: $green;
+    }
+
+    &:after {
+        background-color: $green;
+        @include transform(scale(1));
+    }
+}
     
     // Input group label
     .input-group__label {

@@ -1,0 +1,132 @@
+///*------------------------------------*\
+//    #OBJECTS-SEARCH-FILTER
+//\*------------------------------------*/
+
+// Search filter base styles
+.search-filter {
+    position: relative; 
+    overflow: hidden;
+}
+
+.search-filter--is-focus {
+    .search-filter__container {
+        @include transform(translateX(0));
+    }
+}
+
+.search-filter--is-active {
+    .search-filter__cancel {
+        @include transform(translateX(0));
+    }
+}
+
+.search-filter--is-closed {
+    .search-filter__container {
+        @include transform(translateX(100%));
+    }
+
+    .search-filter__label {
+        @include transform(translateX(-40px));
+    }
+}
+
+.search-filter--is-closed.search-filter--is-focus {
+    .search-filter__container {
+        @include transform(translateX(0));
+    }
+
+    .search-filter__label {
+        @include transform(translateX(0)); 
+    }
+}
+
+.search-filter--light-theme {
+    .search-filter__label {
+        color: #fff;
+    }
+
+    .search-filter__input {
+        color: #fff;
+    }
+
+    .search-filter__cancel {
+        color: #fff;
+    }
+}
+
+.search-filter--dark-theme {
+    .search-filter__label {
+        color: black;
+    }
+
+    .search-filter__input {
+        color: black;
+    }
+
+    .search-filter__cancel {
+        color: black;
+    }
+}
+
+
+
+
+
+// Search filter container
+.search-filter__container {
+    position: relative;
+    height: 40px;
+    padding: 0 40px 0 56px;
+    @include transform(translateX(0));
+    @include transition-property(transform);
+    @include transition-duration(0.6s);
+    @include transition-timing-function($ease-out-quint);
+}
+
+
+
+
+
+// Search filter label
+.search-filter__label {
+    @include position(absolute, 0 null null 0);
+    @include size(40px 40px);
+    @include font-size($base-spacing-unit);
+
+    i {
+        @include position(absolute, 9px null null 8px);
+    }
+}
+
+
+
+
+
+// Search filter input
+.search-filter__input {
+    display: block;
+    @include size(100% 40px);
+    border: none;
+    outline: none;
+    background: none;
+}
+
+
+
+
+
+// Search filter cancel
+.search-filter__cancel {
+    @include position(absolute, 0 0 null null);
+    @include size(40px 40px);
+    @include font-size($base-spacing-unit);
+    cursor: pointer;
+    @include transform(translateX(40px));
+    @include transition-property(transform);
+    @include transition-duration(0.6s);
+    @include transition-timing-function($ease-out-quint);
+
+    i {
+        @include position(absolute, 9px 8px null null);
+    }
+}
