@@ -6,27 +6,40 @@
 
     <div class="main-section__content">
         <p class="main-section__intro">
-            You can use lumX in your Sass project to get all variables and mixins available.<br />
-            We'll bring you soon a full documentation for our CSS framework.
+            You can use LumX in your Sass project to get all variables and mixins available.<br />
+            Check what amazing things you can do <a href="/css/colors">here</a>.
         </p>
 
-        <h4 class="main-section__subtitle">Instructions</h4>
+        <h4 class="main-section__subtitle">Common settings</h4>
 
-        <ul>
-            <li>
-                Create a settings file where you need to specify the roboto font path and the material design icons font path relative to your built css file.<br />
-                You can override lumX default settings (dist/scss/main/settings/_settings.common.scss) if you want to change sizes, colors, etc.
-            </li>
-            <li>
-                Then, create your main file where you will import your settings first and then lumX main scss file (dist/scss/main/_lumx.scss).
-            </li>
-        </ul>
+        <p>
+            Create a settings file where you need to specify the roboto font path and the material design icons font path relative to your built css file.<br />
+            For example, in a settings file located in your project (scss/settings/_settings.common.scss):
+        </p>
+
+        <div class="example__code mb" hljs include="'/demo/includes/start/customization/hljs.fonts.html'" language="scss"></div>
+
+        <p>
+            Moreover, you can override LumX default settings (dist/scss/core/settings/_settings.defaults.scss) if you want to change sizes, main colors, etc.<br />
+            For example, in the same file:
+        </p>
+
+        <div class="example__code mb" hljs include="'/demo/includes/start/customization/hljs.variables.html'" language="scss"></div>
+        
+        <h4 class="main-section__subtitle">Main SCSS file</h4>
+
+        <p>
+            Then, create your main file where you will import your settings first and then LumX main scss file (dist/scss/main/_lumx.scss).<br />
+            For example, in your main file located in your project (scss/my-project.scss):
+        </p>
+
+        <div class="example__code mb" hljs include="'/demo/includes/start/customization/hljs.main.html'" language="scss"></div>
 
         <h4 class="main-section__subtitle">Thanks to</h4>
 
         <p>
-            We’d like to thank Harry Roberts for his great CSS framework, <a href="https://github.com/inuitcss" target="_blank">Inuitcss</a>, which is a powerful, scalable, Sass-based, BEM, OOCSS framework.<br />
-            lumX CSS framework is largely inspired from his work.
+            We’d like to thank Harry Roberts for his CSS framework, <a href="https://github.com/inuitcss" target="_blank">Inuitcss</a>, which is a powerful, scalable, Sass-based, BEM, OOCSS framework.<br />
+            LumX CSS framework is largely inspired from his work.
         </p>
 
         <p>
