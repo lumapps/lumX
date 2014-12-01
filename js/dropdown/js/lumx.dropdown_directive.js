@@ -9,7 +9,7 @@ angular.module('lumx.dropdown', [])
 
         this.open = function(dropdownScope)
         {
-            if (!openScope && !dropdownScope.keepOpened)
+            if (!openScope)
             {
                 $document.bind('click', closeDropdown);
             }
@@ -24,12 +24,7 @@ angular.module('lumx.dropdown', [])
 
         this.close = function(dropdownScope)
         {
-            if (dropdownScope === undefined)
-            {
-                openScope.isOpen = false;
-            }
-
-            if (dropdownScope === undefined || openScope === dropdownScope)
+            if (openScope === dropdownScope)
             {
                 openScope = null;
                 $document.unbind('click', closeDropdown);
@@ -38,6 +33,8 @@ angular.module('lumx.dropdown', [])
 
         var closeDropdown = function()
         {
+            if (!openScope) { return; }
+
             openScope.$apply(function()
             {
                 openScope.isOpen = false;
@@ -46,28 +43,19 @@ angular.module('lumx.dropdown', [])
     }])
     .controller('LxDropdownController', ['$scope', 'LxDropdownService', function($scope, LxDropdownService)
     {
-        var self = this,
+        var $element,
             scope = $scope.$new();
 
-        this.init = function(element, attrs)
+        this.init = function(element)
         {
-            self.$element = element;
+            $element = element;
 
             scope.isOpen = false;
-
-            if (angular.isDefined(attrs.keepOpened))
-            {
-                scope.keepOpened = true;
-            }
-            else
-            {
-                scope.keepOpened = false;
-            }
         };
 
         this.getContainer = function()
         {
-            return self.$element;
+            return $element;
         };
 
         this.isOpen = function()
@@ -84,12 +72,10 @@ angular.module('lumx.dropdown', [])
         {
             if (isOpen)
             {
-                self.$element.addClass('dropdown--is-active');
                 LxDropdownService.open(scope);
             }
             else
             {
-                self.$element.removeClass('dropdown--is-active');
                 LxDropdownService.close(scope);
             }
         });
@@ -107,7 +93,7 @@ angular.module('lumx.dropdown', [])
     .directive('lxDropdown', function()
     {
         return {
-            restrict: 'AE',
+            restrict: 'E',
             controller: 'LxDropdownController',
             templateUrl: 'lumx.dropdown.html',
             transclude: true,
@@ -115,14 +101,14 @@ angular.module('lumx.dropdown', [])
             scope: {},
             link: function(scope, element, attrs, ctrl)
             {
-                ctrl.init(element, attrs);
+                ctrl.init(element);
             }
         };
     })
     .directive('lxDropdownToggle', function()
     {
         return {
-            restrict: 'AE',
+            restrict: 'A',
             require: '^lxDropdown',
             scope: {},
             link: function(scope, element, attrs, ctrl)
@@ -142,28 +128,17 @@ angular.module('lumx.dropdown', [])
     .directive('lxDropdownMenu', ['$timeout', '$window', function($timeout, $window)
     {
         return {
-            restrict: 'AE',
+            restrict: 'E',
             require: '^lxDropdown',
             templateUrl: 'lumx.dropdown_menu.html',
             transclude: true,
             replace: true,
-            scope: {},
+            scope: {
+                position: '@'
+            },
             link: function(scope, element, attrs, ctrl)
             {
-                scope.position = angular.isDefined(attrs.position) ? attrs.position : 'left';
-
-                if (angular.isDefined(attrs.fullWidth))
-                {
-                    scope.fullWidth = attrs.fullWidth ? parseInt(attrs.fullWidth) : 0;
-                }
-
-                element.bind('click', function()
-                {
-                    scope.$apply(function()
-                    {
-                        ctrl.toggle();
-                    });
-                });
+                scope.position = angular.isDefined(scope.position) ? scope.position : 'left';
 
                 scope.$watch(ctrl.isOpen, function(isOpen)
                 {
@@ -194,15 +169,15 @@ angular.module('lumx.dropdown', [])
 
                 function unlinkList()
                 {
-                    element.appendTo('body');
-
                     scope.isDropped = true;
+
+                    element.appendTo('body');
 
                     $timeout(function()
                     {
                         setDropdownMenuCss();
                         openDropdownMenu();
-                    }, 100);
+                    });
                 }
 
                 function setDropdownMenuCss()
@@ -242,9 +217,16 @@ angular.module('lumx.dropdown', [])
                         top: top
                     });
 
-                    if (angular.isDefined(scope.fullWidth))
+                    if (angular.isDefined(attrs.width))
                     {
-                        element.css('width', containerWidth + scope.fullWidth);
+                        if (attrs.width === 'full')
+                        {
+                            element.css('width', containerWidth);
+                        }
+                        else
+                        {
+                            element.css('width', containerWidth + parseInt(attrs.width));
+                        }
                     }
                 }
 
@@ -280,7 +262,7 @@ angular.module('lumx.dropdown', [])
                         queue: false,
                         complete: function()
                         {
-                            if (angular.isDefined(scope.fullWidth))
+                            if (angular.isDefined(attrs.width))
                             {
                                 element.css({ height: 'auto' });
                             }
@@ -296,7 +278,7 @@ angular.module('lumx.dropdown', [])
 
                 function closeDropdownMenu()
                 {
-                    element.velocity({ 
+                    element.velocity({
                         width: 0,
                         height: 0,
                     }, {
@@ -304,10 +286,8 @@ angular.module('lumx.dropdown', [])
                         easing: 'easeOutQuint',
                         complete: function()
                         {
-                            var container = ctrl.getContainer();
-
                             element
-                                .appendTo(container)
+                                .appendTo(ctrl.getContainer())
                                 .removeAttr('style');
                         }
                     });
@@ -315,7 +295,7 @@ angular.module('lumx.dropdown', [])
             }
         };
     }])
-    .directive('lxDropdownFilter', ['$timeout', function($timeout)
+    .directive('lxDropdownFilter', function()
     {
         return {
             restrict: 'A',
@@ -325,13 +305,6 @@ angular.module('lumx.dropdown', [])
                 {
                     event.stopPropagation();
                 });
-
-                $timeout(function()
-                {
-                    element
-                        .css({ width: element.parent().outerWidth() - 56 })
-                        .focus();
-                }, 200);
             }
         };
-    }]);
+    });
