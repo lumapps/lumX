@@ -10,7 +10,9 @@ angular.module('lumx.input-group', [])
             scope: {
                 label: '=',
                 isDisabled: '=',
-                hasError: '='
+                hasError: '=',
+                isValid: '=',
+                fixedLabel: '='
             },
             templateUrl: 'lumx.input_group.html',
             transclude: true,
@@ -18,16 +20,6 @@ angular.module('lumx.input-group', [])
             link: function(scope, element, attrs)
             {
                 var $input = element.find('input, textarea');
-
-                if (angular.isDefined(attrs.fixedLabel))
-                {
-                    element.addClass('input-group--fixed-label');
-                }
-
-                if (angular.isDefined(attrs.isValid))
-                {
-                    element.addClass('input-group--is-valid');
-                }
 
                 $input.addClass('input-group__input');
 
