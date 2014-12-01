@@ -6315,6 +6315,104 @@ html {
       -moz-transition-delay: 0.5s;
       transition-delay: 0.5s; }
 
+.fab__actions--left {
+  position: absolute;
+  right: 56px;
+  bottom: 7px;
+  white-space: nowrap; }
+  .fab__actions--left .btn {
+    display: inline-block;
+    margin-right: 6px; }
+    .fab__actions--left .btn:nth-child(1) {
+      -webkit-transition-delay: 0.05s;
+      -moz-transition-delay: 0.05s;
+      transition-delay: 0.05s; }
+    .fab__actions--left .btn:nth-child(2) {
+      -webkit-transition-delay: 0.1s;
+      -moz-transition-delay: 0.1s;
+      transition-delay: 0.1s; }
+    .fab__actions--left .btn:nth-child(3) {
+      -webkit-transition-delay: 0.15s;
+      -moz-transition-delay: 0.15s;
+      transition-delay: 0.15s; }
+    .fab__actions--left .btn:nth-child(4) {
+      -webkit-transition-delay: 0.2s;
+      -moz-transition-delay: 0.2s;
+      transition-delay: 0.2s; }
+    .fab__actions--left .btn:nth-child(5) {
+      -webkit-transition-delay: 0.25s;
+      -moz-transition-delay: 0.25s;
+      transition-delay: 0.25s; }
+    .fab__actions--left .btn:nth-child(6) {
+      -webkit-transition-delay: 0.3s;
+      -moz-transition-delay: 0.3s;
+      transition-delay: 0.3s; }
+    .fab__actions--left .btn:nth-child(7) {
+      -webkit-transition-delay: 0.35s;
+      -moz-transition-delay: 0.35s;
+      transition-delay: 0.35s; }
+    .fab__actions--left .btn:nth-child(8) {
+      -webkit-transition-delay: 0.4s;
+      -moz-transition-delay: 0.4s;
+      transition-delay: 0.4s; }
+    .fab__actions--left .btn:nth-child(9) {
+      -webkit-transition-delay: 0.45s;
+      -moz-transition-delay: 0.45s;
+      transition-delay: 0.45s; }
+    .fab__actions--left .btn:nth-child(10) {
+      -webkit-transition-delay: 0.5s;
+      -moz-transition-delay: 0.5s;
+      transition-delay: 0.5s; }
+
+.fab__actions--right {
+  position: absolute;
+  bottom: 7px;
+  left: 56px;
+  white-space: nowrap; }
+  .fab__actions--right .btn {
+    display: inline-block;
+    margin-left: 6px; }
+    .fab__actions--right .btn:nth-child(1) {
+      -webkit-transition-delay: 0.05s;
+      -moz-transition-delay: 0.05s;
+      transition-delay: 0.05s; }
+    .fab__actions--right .btn:nth-child(2) {
+      -webkit-transition-delay: 0.1s;
+      -moz-transition-delay: 0.1s;
+      transition-delay: 0.1s; }
+    .fab__actions--right .btn:nth-child(3) {
+      -webkit-transition-delay: 0.15s;
+      -moz-transition-delay: 0.15s;
+      transition-delay: 0.15s; }
+    .fab__actions--right .btn:nth-child(4) {
+      -webkit-transition-delay: 0.2s;
+      -moz-transition-delay: 0.2s;
+      transition-delay: 0.2s; }
+    .fab__actions--right .btn:nth-child(5) {
+      -webkit-transition-delay: 0.25s;
+      -moz-transition-delay: 0.25s;
+      transition-delay: 0.25s; }
+    .fab__actions--right .btn:nth-child(6) {
+      -webkit-transition-delay: 0.3s;
+      -moz-transition-delay: 0.3s;
+      transition-delay: 0.3s; }
+    .fab__actions--right .btn:nth-child(7) {
+      -webkit-transition-delay: 0.35s;
+      -moz-transition-delay: 0.35s;
+      transition-delay: 0.35s; }
+    .fab__actions--right .btn:nth-child(8) {
+      -webkit-transition-delay: 0.4s;
+      -moz-transition-delay: 0.4s;
+      transition-delay: 0.4s; }
+    .fab__actions--right .btn:nth-child(9) {
+      -webkit-transition-delay: 0.45s;
+      -moz-transition-delay: 0.45s;
+      transition-delay: 0.45s; }
+    .fab__actions--right .btn:nth-child(10) {
+      -webkit-transition-delay: 0.5s;
+      -moz-transition-delay: 0.5s;
+      transition-delay: 0.5s; }
+
 .input-file {
   position: relative;
   padding-top: 32px;
