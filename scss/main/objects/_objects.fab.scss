@@ -81,3 +81,35 @@
             }
         }
     }
+
+    .fab__actions--left {
+        @include position(absolute, null 56px 7px null);
+        white-space: nowrap;
+
+        .btn {
+            display: inline-block;
+            margin-right: quarter($base-spacing-unit);
+
+            @for $i from 1 through 10 {
+                &:nth-child(#{$i}) {
+                    @include transition-delay(0.05s * $i);
+                }
+            }
+        }
+    } 
+
+    .fab__actions--right {
+        @include position(absolute, null null 7px 56px); 
+        white-space: nowrap;
+
+        .btn {
+            display: inline-block;
+            margin-left: quarter($base-spacing-unit);
+
+            @for $i from 1 through 10 {
+                &:nth-child(#{$i}) {
+                    @include transition-delay(0.05s * $i);
+                }
+            }
+        }
+    }
