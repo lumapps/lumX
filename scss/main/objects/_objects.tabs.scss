@@ -13,7 +13,7 @@
         display: table;
         table-layout: fixed;
         width: 100%;
-        border-bottom: 1px solid #ddd;
+        border-bottom: 1px solid $black-fourth;
         text-align: center;
 
         li {
@@ -30,13 +30,7 @@
     .tabs__indicator {
         @include position(absolute, (($md-spacing-unit * 3) - 1) 0 null 0);
         height: 2px;
-    }
-
-    // Tabs indicator color
-    @each $key, $color in $colors {
-        .tabs__indicator--#{$key} {
-            background-color: $color;
-        }
+        background-color: $blue;
     }
 
 
@@ -56,34 +50,15 @@
     text-transform: uppercase;
     @include transition-property(color);
     @include transition-duration(0.2s);
-}
 
-@each $key, $color in $colors {
-    .tabs__links--link-#{$key} {
-        .tabs-link {
-            &:hover {
-                color: $color;
-            }
-        }
-
-        .tabs-link--is-active {
-            color: $color; 
-        }
-    }
-}
-
-@each $key, $color in $colors {
-    .tabs__links--ripple-#{$key} {
-        .tabs-link {
-            .ripple {
-                background-color: rgba($color, 0.3);
-            }
-        }
+    &:hover {
+        color: $blue;
     }
 
+    &.tabs-link--is-active {
+        color: $blue;
+    }
 }
-
-
 
 
 
@@ -96,4 +71,87 @@
 
 .tabs-pane--is-active {
     display: block;
+}
+
+
+
+
+
+// Ripple
+.ripple {
+    background-color: $black-fourth;
+}
+
+
+
+
+
+// Tabs theme light
+.tabs--theme-light {
+    .tabs-link {
+        color: $white-second;
+        border-bottom: 1px solid $white-second;
+    }
+
+    @each $key, $color in $colors {
+        .tabs-link--color-#{$key}{
+            &:hover {
+                color: $white;
+            }
+
+            &.tabs-link--is-active {
+                color: $white;
+            }
+
+            .ripple {
+                background-color: rgba($color, 0.6);
+            }
+        }
+    }
+
+    @each $key, $color in $colors {
+        .tabs__indicator--color-#{$key} {
+            background-color: $color;
+        }
+    }
+
+    .tabs__panes {
+        color: $white;
+        padding: 0 $base-spacing-unit $base-spacing-unit; 
+
+    }
+}
+
+
+
+
+
+// Tabs theme dark
+.tabs--theme-dark {
+    .tabs-link {
+        color: $black-second;
+        border-bottom: 1px solid $black-fourth;
+    }
+
+    @each $key, $color in $colors {
+        .tabs-link--color-#{$key}{
+            &:hover {
+                color: $color;
+            } 
+
+            &.tabs-link--is-active {
+                color: $color;
+            }
+        }
+    }
+
+    @each $key, $color in $colors {
+        .tabs__indicator--color-#{$key} {
+            background-color: $color;
+        }
+    }
+
+    .ripple {
+        background-color: $black-fourth;
+    }
 }
