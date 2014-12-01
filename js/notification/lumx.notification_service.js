@@ -4,7 +4,7 @@
 
 
 angular.module('lumx.notification', [])
-    .service('LxNotificationService', ['$rootScope', '$compile', '$timeout' , function($rootScope, $compile, $timeout)
+    .service('LxNotificationService', ['$injector', '$rootScope', '$timeout' , function($injector, $rootScope, $timeout)
     {
         //
         // PRIVATE MEMBERS
@@ -176,6 +176,8 @@ angular.module('lumx.notification', [])
         // private
         function buildDialogActions(buttons, callback)
         {
+            var $compile = $injector('$compile');
+
             // DOM elements
             var dialogActions = angular.element('<div/>', {
                 class: 'dialog__actions'
