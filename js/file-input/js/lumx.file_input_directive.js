@@ -10,7 +10,7 @@ angular.module('lumx.file-input', [])
             scope: {
                 label: '=',
                 value: '=',
-                change: '&change'
+                change: '&'
             },
             templateUrl: 'lumx.file_input.html',
             replace: true,
