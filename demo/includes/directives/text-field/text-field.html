@@ -8,7 +8,7 @@
             </div>
         </div>
     </li>
- 
+
     <li>
         <div class="grid">
             <div class="grid__col4">
@@ -16,7 +16,7 @@
                     <input type="text">
                 </lx-input-group>
             </div>
- 
+
             <div class="grid__col4">
                 <lx-input-group label="'Last name'">
                     <input type="text">
@@ -24,17 +24,45 @@
             </div>
         </div>
     </li>
- 
+
     <li>
         <div class="grid">
             <div class="grid__col4">
                 <lx-input-group label="'Email'" has-error="true">
                     <input type="email" value="Test">
                 </lx-input-group>
- 
+
                 <ul class="form-error">
                     <li>Lorem ipsum dolor sit amet.</li>
                 </ul>
+            </div>
+
+            <div class="grid__col4">
+                <lx-input-group label="'Email'" is-valid>
+                    <input type="email" value="hello@lumapps.com">
+                </lx-input-group>
+            </div>
+        </div>
+    </li>
+
+    <li>
+        <div class="grid mt">
+            <div class="grid__col4">
+                <lx-input-group label="'First name'" fixed-label="true">
+                    <input type="text">
+                </lx-input-group>
+
+                <lx-input-group label="'Last name'" fixed-label="true">
+                    <input type="text">
+                </lx-input-group>
+
+                <lx-input-group label="'Email'" fixed-label>
+                    <input type="Email">
+                </lx-input-group>
+
+                <lx-input-group label="'Address'" fixed-label>
+                    <input type="text">
+                </lx-input-group>
             </div>
         </div>
     </li>
