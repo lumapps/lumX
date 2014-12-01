@@ -1,7 +1,7 @@
-<div class="tabs">
+<div class="tabs tabs--theme-{{ theme }}">
     <ul class="tabs__links">
         <li ng-repeat="tab in tabsCtrl.getTabs()">
-            <a class="tabs-link"
+            <a class="tabs-link tabs-link--color-{{ indicatorColor }}"
                ng-class="{ 'tabs-link--is-active': $index === tabsCtrl.getActiveTab() }"
                ng-click="tabsCtrl.switchTab($index)"
                lx-ripple>
@@ -12,5 +12,5 @@
 
     <div class="tabs__panes" ng-transclude></div>
 
-    <div class="tabs__indicator" lx-tab-indicator></div>
+    <div class="tabs__indicator tabs__indicator--color-{{ indicatorColor }}" lx-tab-indicator></div>
 </div>

@@ -43,9 +43,23 @@ angular.module('lumx.tabs', [])
             templateUrl: 'lumx.tabs.html',
             transclude: true,
             replace: true,
+            scope: {
+                theme: '=?',
+                indicatorColor: '=?'
+            },
             link: function(scope, element, attrs, ctrl)
             {
                 scope.tabsCtrl = ctrl;
+
+                if (angular.isUndefined(scope.theme))
+                {
+                    scope.theme = 'dark';
+                }
+
+                if (angular.isUndefined(scope.indicatorColor))
+                {
+                    scope.indicatorColor = 'blue';
+                }
             }
         };
     })

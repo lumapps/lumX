@@ -13,7 +13,6 @@
         display: table;
         table-layout: fixed;
         width: 100%;
-        border-bottom: 1px solid #ddd;
         text-align: center;
 
         li {
@@ -30,7 +29,6 @@
     .tabs__indicator {
         @include position(absolute, (($md-spacing-unit * 3) - 1) 0 null 0);
         height: 2px;
-        background-color: $blue;
     }
 
 
@@ -50,18 +48,6 @@
     text-transform: uppercase;
     @include transition-property(color);
     @include transition-duration(0.2s);
-
-    &:hover {
-        color: $blue;
-    }
-
-    .ripple {
-        background-color: rgba($blue, 0.3);
-    }
-}
-
-.tabs-link--is-active {
-    color: $blue;
 }
 
 
@@ -75,4 +61,80 @@
 
 .tabs-pane--is-active {
     display: block;
+}
+
+
+
+
+
+// Tabs theme light
+.tabs--theme-light {
+    .tabs__links {
+        border-bottom: 1px solid $white-second;
+    }
+
+    .tabs-link {
+        color: $white-second;
+    }
+
+    @each $key, $color in $colors {
+        .tabs-link--color-#{$key} {
+            &:hover {
+                color: $white;
+            }
+
+            &.tabs-link--is-active {
+                color: $white;
+            }
+
+            .ripple {
+                background-color: rgba($color, 0.6);
+            }
+        }
+
+        .tabs__indicator--color-#{$key} {
+            background-color: $color;
+        }
+    }
+
+    .tabs__panes {
+        color: $white;
+        padding: 0 $base-spacing-unit $base-spacing-unit; 
+
+    }
+}
+
+
+
+
+
+// Tabs theme dark
+.tabs--theme-dark {
+    .tabs__links {
+        border-bottom: 1px solid $black-fourth;
+    }
+
+    .tabs-link {
+        color: $black-second;
+    }
+
+    @each $key, $color in $colors {
+        .tabs-link--color-#{$key} {
+            &:hover {
+                color: $color;
+            } 
+
+            &.tabs-link--is-active {
+                color: $color;
+            }
+
+            .ripple {
+                background-color: rgba($color, 0.3);
+            }
+        }
+
+        .tabs__indicator--color-#{$key} {
+            background-color: $color;
+        }
+    }
 }
