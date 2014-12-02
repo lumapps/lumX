@@ -176,7 +176,7 @@ angular.module('lumx.notification', [])
         // private
         function buildDialogActions(buttons, callback)
         {
-            var $compile = $injector('$compile');
+            var $compile = $injector.get('$compile');
 
             // DOM elements
             var dialogActions = angular.element('<div/>', {
