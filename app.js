@@ -29,6 +29,9 @@ app.config(function($locationProvider, $routeProvider)
         when('/css/buttons', {
             templateUrl: '/demo/includes/css/button.html'
         }).
+        when('/css/fab', {
+            templateUrl: '/demo/includes/css/fab.html'
+        }).
         when('/css/icons', {
             templateUrl: '/demo/includes/css/icon.html'
         }).
@@ -49,9 +52,6 @@ app.config(function($locationProvider, $routeProvider)
         }).
         when('/css/toolbars', {
             templateUrl: '/demo/includes/css/toolbar.html'
-        }).
-        when('/directives/fab', {
-            templateUrl: '/demo/includes/directives/fab.html'
         }).
         when('/directives/dropdowns', {
             templateUrl: '/demo/includes/directives/dropdown.html'
