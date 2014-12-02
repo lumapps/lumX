@@ -7857,27 +7857,6 @@ label {
   .lx-select__tag:hover .lx-select__tag__close {
     display: block; }
 
-.lx-select__tag__close {
-  position: absolute;
-  top: 0;
-  right: 0;
-  display: none;
-  background-color: #ffffff; }
-  .lx-select__tag__close:after {
-    content: "";
-    color: #9E9E9E;
-    line-height: 24px;
-    display: inline-block;
-    font: normal normal normal 14px/1 md-icons;
-    font-size: inherit;
-    text-rendering: auto;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    font-size: 14px;
-    font-size: 0.875rem; }
-  .lx-select__tag__close:hover:after {
-    color: #F44336; }
-
 .lx-select__choices {
   margin-left: -16px; }
   .lx-select__choices .dropdown-menu__content {

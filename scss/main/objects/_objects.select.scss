@@ -96,26 +96,6 @@
         }
     }
 
-        .lx-select__tag__close {
-            @include position(absolute, 0 0 null null);
-
-            display: none;
-            background-color: $white;
-
-            &:after {
-                content: $mdi-var-close;
-                color: $grey;
-                line-height: 24px;
-
-                @include mdi;
-                @include font-size(14px);
-            }
-
-            &:hover:after {
-                color: $red;
-            }
-        }
-
     // Select choices
     .lx-select__choices {
         margin-left: -16px;

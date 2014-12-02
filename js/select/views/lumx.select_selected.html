@@ -13,7 +13,6 @@
 
         <div ng-if="data.multiple">
             <div class="lx-select__tag"
-                <span class="lx-select__tag__close" ng-click="toggle($selected, $event)"></span>
                   ng-repeat="$selected in data.getSelectedElements()">
                 <span ng-transclude="child"></span>
             </div>
