@@ -1,4 +1,11 @@
-<div class="input-group" ng-class="{ 'input-group--has-error': hasError, 'input-group--is-disabled': isDisabled, 'input-group--fixed-label': fixedLabel, 'input-group--is-valid': isValid }">
-    <label class="input-group__label">{{ label }}</label>
+<div class="input-group"
+     ng-class="{ 'input-group--is-valid': isValid,
+                 'input-group--has-error': hasError,
+                 'input-group--is-disabled': isDisabled,
+                 'input-group--fixed-label': fixedLabel }">
+    <label class="input-group__label">
+        {{ label }}
+    </label>
+
     <div ng-transclude-replace></div>
 </div>

@@ -8,11 +8,11 @@ angular.module('lumx.input-group', [])
         return {
             restrict: 'E',
             scope: {
-                label: '=',
-                isDisabled: '=?',
-                hasError: '=?',
-                isValid: '=?',
-                fixedLabel: '=?'
+                label: '@',
+                isDisabled: '@',
+                hasError: '@',
+                isValid: '@',
+                fixedLabel: '@'
             },
             templateUrl: 'lumx.input_group.html',
             transclude: true,
@@ -20,11 +20,6 @@ angular.module('lumx.input-group', [])
             link: function(scope, element, attrs)
             {
                 var $input = element.find('input, textarea');
-
-                scope.isDisabled = angular.isDefined(scope.isDisabled) ? scope.isDisabled : angular.isDefined(attrs.isDisabled);
-                scope.hasError = angular.isDefined(scope.hasError) ? scope.hasError : angular.isDefined(attrs.hasError);
-                scope.isValid = angular.isDefined(scope.isValid) ? scope.isValid : angular.isDefined(attrs.isValid);
-                scope.fixedLabel = angular.isDefined(scope.fixedLabel) ? scope.fixedLabel : angular.isDefined(attrs.fixedLabel);
 
                 $input.addClass('input-group__input');
 
