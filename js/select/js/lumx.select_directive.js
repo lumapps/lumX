@@ -15,6 +15,16 @@ angular.module('lumx.select', [])
             $scope.tree = angular.isDefined(attrs.tree);
         };
 
+        this.registerTransclude = function(transclude)
+        {
+            $scope.selectedTransclude = transclude;
+        };
+
+        this.getScope = function()
+        {
+            return $scope;
+        };
+
         // Selection management
         function select(choice)
         {
@@ -83,6 +93,16 @@ angular.module('lumx.select', [])
             return angular.isDefined($scope.minLength) && $scope.data.filter.length < $scope.minLength;
         }
 
+        function isHelperVisible()
+        {
+            return $scope.loading !== 'true' && (filterNeeded() || (hasNoResults() && !filterNeeded()));
+        }
+
+        function isChoicesVisible()
+        {
+            return $scope.loading !== 'true' && !hasNoResults() && !filterNeeded();
+        }
+
         /**
          * Return the array of selected elements. Always return an array (ie. returns an empty array in case
          * selected list is undefined in the scope).
@@ -145,6 +165,8 @@ angular.module('lumx.select', [])
         $scope.select = select;
         $scope.unselect = unselect;
         $scope.toggle = toggle;
+        $scope.isChoicesVisible = isChoicesVisible;
+        $scope.isHelperVisible = isHelperVisible;
         $scope.isSelected = isSelected;
         $scope.filterNeeded = filterNeeded;
         $scope.getSelectedElements = getSelectedElements;
@@ -158,11 +180,11 @@ angular.module('lumx.select', [])
             controller: 'LxSelectController',
             scope: {
                 selected: '=',
-                placeholder: '=',
+                placeholder: '@',
                 choices: '=',
-                loading: '=',
-                minLength: '=',
-                allowClear: '=',
+                loading: '@',
+                minLength: '@',
+                allowClear: '@',
                 change: '&', // Parameters: newValue, oldValue
                 filter: '&' // Parameters: newValue, oldValue
             },
@@ -187,7 +209,8 @@ angular.module('lumx.select', [])
             transclude: true,
             link: function(scope, element, attrs, ctrl, transclude)
             {
-                scope.$parent.$parent.selectedTransclude = transclude;
+                ctrl.registerTransclude(transclude);
+                scope.data = ctrl.getScope();
             }
         };
     })
@@ -197,6 +220,10 @@ angular.module('lumx.select', [])
             restrict: 'E',
             require: '^lxSelect',
             templateUrl: 'lumx.select_choices.html',
-            transclude: true
+            transclude: true,
+            link: function(scope, element, attrs, ctrl)
+            {
+                scope.data = ctrl.getScope();
+            }
         };
     });

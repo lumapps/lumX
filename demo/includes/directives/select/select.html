@@ -8,8 +8,8 @@
             </div>
 
             <div class="grid__col4">
-                <lx-select selected="selectedMovie" change="cbSelect.exec(newValue, oldValue)" placeholder="'Lorem Ipsum'"
-                           choices="ajax.list"  filter="ajax.update(newValue, oldValue)" loading="ajax.loading"
+                <lx-select selected="selectedMovie" change="cbSelect.exec(newValue, oldValue)" placeholder="Lorem Ipsum"
+                           choices="ajax.list"  filter="ajax.update(newValue, oldValue)" loading="{{ ajax.loading }}"
                            min-length="2" allow-clear="true">
                     <lx-select-selected>
                         {{ $selected.Title }} ({{ $selected.Year }})
@@ -22,7 +22,7 @@
             </div>
 
             <div class="grid__col4">
-                <lx-select selected="selectedPersons" placeholder="'Lorem Ipsum'" choices="people" multiple>
+                <lx-select selected="selectedPersons" placeholder="Lorem Ipsum" choices="people" multiple>
                     <lx-select-selected>
                         {{ $selected.name }} - {{ $selected.age }}
                     </lx-select-selected>
