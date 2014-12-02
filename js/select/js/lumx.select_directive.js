@@ -80,7 +80,7 @@ angular.module('lumx.select', [])
         // Getters
         function isSelected(choice)
         {
-            return $scope.selected.indexOf(choice) !== -1;
+            return angular.isDefined($scope.selected) && $scope.selected.indexOf(choice) !== -1;
         }
 
         function hasNoResults()
