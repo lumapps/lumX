@@ -8761,6 +8761,13 @@ body {
   font-weight: 600;
   line-height: 64px; }
 
+.main-section__intro {
+  margin: 0;
+  padding: 24px;
+  font-size: 22px;
+  font-size: 1.375rem;
+  font-weight: 300; }
+
 .main-section__content {
   padding: 24px; }
   .main-section__content p > code {
@@ -8771,17 +8778,14 @@ body {
     border-radius: 4px; }
   .main-section__content p > a {
     color: #2196F3; }
+  .main-section__content p:last-child {
+    margin-bottom: 0; }
 
 .main-section__subtitle {
   font-size: 30px;
   font-size: 1.875rem;
   font-weight: 300;
   line-height: 1; }
-
-.main-section__intro {
-  font-size: 22px;
-  font-size: 1.375rem;
-  font-weight: 300; }
 
 .footer {
   padding-bottom: 24px;

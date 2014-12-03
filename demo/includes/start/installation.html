@@ -4,19 +4,20 @@
 <div class="main-section">
     <h3 class="main-section__title">Installation</h3>
 
-    <div class="main-section__content">
-        <p class="main-section__intro">
-            LumX is the first responsive front-end framework based on AngularJS & Google Material Design specifications.<br />
-            It provides a full CSS Framework built with Sass and a bunch of AngularJS components.
-        </p>
+    <p class="main-section__intro">
+        LumX is the first responsive front-end framework based on AngularJS & Google Material Design specifications.<br />
+        It provides a full CSS Framework built with Sass and a bunch of AngularJS components.
+    </p>
 
+    <div class="main-section__content">
         <h4 class="main-section__subtitle">Use LumX in your project</h4>
 
         <p>
             LumX is available through Bower:<br />
             <code>bower install lumx</code><br /><br />
 
-            All needed files are ine the <code>dist</code> folder. You can include the files in your html template:
+            All needed files are ine the <code>dist</code> folder.<br />
+            You can include the files in your html template.
         </p>
 
         <div class="example">
@@ -27,7 +28,7 @@
 
         <p>
             Moreover, you can include the main sccs file in your Sass project instead of including the compiled file.<br />
-            You'll get all all variables and mixins available (more informations <a href="/getting-started/customization">here</a>):
+            You'll get all all variables and mixins available: <a href="/getting-started/customization">read more</a>.
         </p>
 
         <div class="example">
@@ -35,9 +36,13 @@
             <ng-include src="'/demo/includes/start/installation/hljs.import.html'"></ng-include>
             <!-- /Example -->
         </div>
+    </div>
+
+    <div class="main-section__content">
+        <h4 class="main-section__subtitle">Don’t use bower?</h4>
 
         <p>
-            Don’t want bower? You first need to install lumX dependencies:
+            You first need to install dependencies and them in your project before including LumX:
             <ul>
                 <li>AngularJS</li>
                 <li>jQuery</li>
@@ -46,10 +51,10 @@
                 <li>Bourbon (scss only)</li>
                 <li>Neat (scss only)</li>
             </ul>
-
-            Include them in your project before including LumX.
         </p>
+    </div>
 
+    <div class="main-section__content">
         <h4 class="main-section__subtitle">Why these dependencies?</h4>
 
         <p>
@@ -67,7 +72,9 @@
             <a href="http://julian.com/research/velocity" target="_blank">http://julian.com/research/velocity</a><br />
             <a href="http://ricostacruz.com/jquery.transit" target="_blank">http://ricostacruz.com/jquery.transit</a>
         </p>
+    </div>
 
+    <div class="main-section__content">
         <h4 class="main-section__subtitle">Use the AngularJS directives and services</h4>
 
         <p>
