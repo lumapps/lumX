@@ -52,7 +52,7 @@ app.config(function($locationProvider, $routeProvider)
             templateUrl: '/demo/includes/css/radio-buttons.html'
         }).
         when('/css/switches', {
-            templateUrl: '/demo/includes/css/switch.html'
+            templateUrl: '/demo/includes/css/switches.html'
         }).
         when('/css/toolbars', {
             templateUrl: '/demo/includes/css/toolbar.html'
