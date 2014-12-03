@@ -31,7 +31,7 @@ app.config(function($locationProvider, $routeProvider)
             templateUrl: '/demo/includes/css/colors.html'
         }).
         when('/css/buttons', {
-            templateUrl: '/demo/includes/css/button.html'
+            templateUrl: '/demo/includes/css/buttons.html'
         }).
         when('/css/fab', {
             templateUrl: '/demo/includes/css/fab.html'
