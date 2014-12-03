@@ -40,7 +40,7 @@ app.config(function($locationProvider, $routeProvider)
             templateUrl: '/demo/includes/css/icons.html'
         }).
         when('/css/lists', {
-            templateUrl: '/demo/includes/css/list.html'
+            templateUrl: '/demo/includes/css/lists.html'
         }).
         when('/css/cards', {
             templateUrl: '/demo/includes/css/card.html'
