@@ -8767,6 +8767,9 @@ body {
   font-size: 22px;
   font-size: 1.375rem;
   font-weight: 300; }
+  .main-section__intro a {
+    color: #2196F3;
+    text-decoration: none; }
 
 .main-section__content {
   padding: 24px; }
@@ -8777,7 +8780,8 @@ body {
     background-color: #e3f2fd;
     border-radius: 4px; }
   .main-section__content p > a {
-    color: #2196F3; }
+    color: #2196F3;
+    text-decoration: none; }
   .main-section__content p:last-child {
     margin-bottom: 0; }
 

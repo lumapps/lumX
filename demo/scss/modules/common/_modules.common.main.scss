@@ -36,6 +36,11 @@
 		padding: $base-spacing-unit;
 		@include font-size(22px);
 		font-weight: 300;
+
+		a {
+			color: $blue;
+			text-decoration: none;
+		}
 	}
 
 	// Main section content
@@ -52,6 +57,7 @@
 
 		p > a {
 			color: $blue;
+			text-decoration: none;
 		}
 
 		p:last-child {
