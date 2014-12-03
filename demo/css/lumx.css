@@ -7978,7 +7978,7 @@ label {
     display: table-cell; }
 
 .tabs__panes {
-  margin-top: 24px; }
+  padding: 24px; }
 
 .tabs__indicator {
   position: absolute;
@@ -8175,9 +8175,6 @@ label {
   background-color: rgba(255, 255, 255, 0.6); }
 .tabs--theme-light .tabs__indicator--color-white {
   background-color: #ffffff; }
-.tabs--theme-light .tabs__panes {
-  color: #ffffff;
-  padding: 0 24px 24px; }
 
 .tabs--theme-dark .tabs__links {
   border-bottom: 1px solid rgba(0, 0, 0, 0.12); }
