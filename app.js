@@ -25,7 +25,7 @@ app.config(function($locationProvider, $routeProvider)
             templateUrl: '/demo/includes/start/contribute.html'
         }).
         when('/css/mixins', {
-            templateUrl: '/demo/includes/css/mixin.html'
+            templateUrl: '/demo/includes/css/mixins.html'
         }).
         when('/css/colors', {
             templateUrl: '/demo/includes/css/colors.html'
