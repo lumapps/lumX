@@ -8363,9 +8363,17 @@ label {
 
 .toolbar__left {
   float: left; }
+  .toolbar__left .btn,
+  .toolbar__left .dropdown,
+  .toolbar__left .search-filter {
+    float: left; }
 
 .toolbar__right {
   float: right; }
+  .toolbar__right .btn,
+  .toolbar__right .dropdown,
+  .toolbar__right .search-filter {
+    float: right; }
 
 .toolbar__label {
   margin-left: 8px;
