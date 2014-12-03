@@ -3,10 +3,23 @@
 
 
 angular.module('lumx.tabs', [])
-    .controller('LxTabsController', function()
+    .controller('LxTabsController', ['$scope', function($scope)
     {
         var tabs = [],
-            activeTab = 0;
+            indicator;
+        
+        $scope.activeTab = angular.isUndefined($scope.activeTab) ? 0 : $scope.activeTab;
+
+        this.init = function(element)
+        {
+            indicator = element.find('.tabs__indicator');
+            setIndicatorPosition();
+        };
+
+        this.getScope = function()
+        {
+            return $scope;
+        };
 
         this.addTab = function(heading, active)
         {
@@ -14,27 +27,88 @@ angular.module('lumx.tabs', [])
 
             if (active)
             {
-                activeTab = tabs.length - 1;
+                $scope.activeTab = tabs.length - 1;
             }
 
             return (tabs.length - 1);
         };
 
-        this.getTabs = function()
+        function getTabs()
         {
             return tabs;
-        };
+        }
 
-        this.getActiveTab = function()
+        function setActiveTab(index)
         {
-            return activeTab;
-        };
+            $scope.activeTab = index;
+        }
 
-        this.switchTab = function(index)
+        function setIndicatorPosition(oldTab)
         {
-            activeTab = index;
-        };
-    })
+            var direction;
+
+            if ($scope.activeTab > oldTab)
+            {
+                direction = 'right';
+            }
+            else
+            {
+                direction = 'left';
+            }
+
+            var indicatorWidth = 100 / tabs.length,
+                indicatorLeft = (indicatorWidth * $scope.activeTab),
+                indicatorRight = 100 - (indicatorLeft + indicatorWidth);
+
+            if (angular.isUndefined(oldTab))
+            {
+                indicator.css({
+                    left: indicatorLeft + '%',
+                    right: indicatorRight  + '%'
+                });
+            }
+            else
+            {
+                var animationProperties = {
+                    duration: 200,
+                    easing: 'easeOutQuint'
+                };
+
+                if (direction === 'left')
+                {
+                    indicator.velocity({ 
+                        left: indicatorLeft + '%'
+                    }, animationProperties);
+
+                    indicator.velocity({ 
+                        right: indicatorRight  + '%'
+                    }, animationProperties);
+                }
+                else
+                {
+                    indicator.velocity({ 
+                        right: indicatorRight  + '%'
+                    }, animationProperties);
+
+                    indicator.velocity({ 
+                        left: indicatorLeft + '%'
+                    }, animationProperties);
+                }
+            }
+        }
+
+        $scope.$watch('activeTab', function(newIndex, oldIndex)
+        {
+            if (newIndex !== oldIndex)
+            {
+                setIndicatorPosition(oldIndex);
+            }
+        });
+
+        // Public API
+        $scope.getTabs = getTabs;
+        $scope.setActiveTab = setActiveTab;
+    }])
     .directive('lxTabs', function()
     {
         return {
@@ -44,21 +118,22 @@ angular.module('lumx.tabs', [])
             transclude: true,
             replace: true,
             scope: {
-                theme: '=?',
-                indicatorColor: '=?'
+                activeTab: '=?',
+                theme: '@',
+                indicator: '@'
             },
             link: function(scope, element, attrs, ctrl)
             {
-                scope.tabsCtrl = ctrl;
+                ctrl.init(element);
 
                 if (angular.isUndefined(scope.theme))
                 {
                     scope.theme = 'dark';
                 }
 
-                if (angular.isUndefined(scope.indicatorColor))
+                if (angular.isUndefined(scope.indicator))
                 {
-                    scope.indicatorColor = 'blue';
+                    scope.indicator = 'blue';
                 }
             }
         };
@@ -69,7 +144,6 @@ angular.module('lumx.tabs', [])
             require: '^lxTabs',
             restrict: 'E',
             scope: {
-                active: '@',
                 heading: '@'
             },
             templateUrl: 'lumx.tab.html',
@@ -77,97 +151,8 @@ angular.module('lumx.tabs', [])
             replace: true,
             link: function(scope, element, attrs, ctrl)
             {
-                scope.tabsCtrl = ctrl;
-                scope.index = ctrl.addTab(scope.heading, scope.active);
-            }
-        };
-    })
-    .directive('lxTabIndicator', function()
-    {
-        return {
-            require: '^lxTabs',
-            restrict: 'A',
-            link: function(scope, element, attrs, ctrl)
-            {
-                scope.activeTab = ctrl.getActiveTab();
-
-                function setIndicatorPosition(init)
-                {
-                    var direction;
-
-                    if (ctrl.getActiveTab() > scope.activeTab)
-                    {
-                        direction = 'right';
-                    }
-                    else
-                    {
-                        direction = 'left';
-                    }
-
-                    scope.activeTab = ctrl.getActiveTab();
-
-                    var tabsLength = ctrl.getTabs().length,
-                        indicatorWidth = 100 / tabsLength,
-                        indicatorLeft = (indicatorWidth * scope.activeTab),
-                        indicatorRight = 100 - (indicatorLeft + indicatorWidth);
-
-                    if (init)
-                    {
-                        element.css({
-                            left: indicatorLeft + '%',
-                            right: indicatorRight  + '%'
-                        });
-                    }
-                    else
-                    {
-                        if (direction === 'left')
-                        {
-                            element.velocity({ 
-                                left: indicatorLeft + '%'
-                            }, {
-                                duration: 200,
-                                easing: 'easeOutQuint'
-                            });
-
-                            element.velocity({ 
-                                right: indicatorRight  + '%'
-                            }, {
-                                duration: 200,
-                                easing: 'easeOutQuint'
-                            });
-                        }
-                        else
-                        {
-                            element.velocity({ 
-                                right: indicatorRight  + '%'
-                            }, {
-                                duration: 200,
-                                easing: 'easeOutQuint'
-                            });
-
-                            element.velocity({ 
-                                left: indicatorLeft + '%'
-                            }, {
-                                duration: 200,
-                                easing: 'easeOutQuint'
-                            });
-                        }
-                    }
-                }
-
-                setIndicatorPosition(true);
-
-                scope.$watch(function()
-                {
-                    return ctrl.getActiveTab();
-                },
-                function(newValue, oldValue)
-                {
-                    if (newValue !== oldValue)
-                    {
-                        setIndicatorPosition(false);
-                    }
-                });
+                scope.data = ctrl.getScope();
+                scope.index = ctrl.addTab(scope.heading);
             }
         };
     });
