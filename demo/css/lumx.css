@@ -6206,6 +6206,7 @@ html {
     transform: scale(0); }
 
 .fab__actions {
+  z-index: 999;
   pointer-events: none; }
   .fab__actions .btn {
     display: block;
@@ -6221,52 +6222,121 @@ html {
     -moz-transition-duration: 0.2s;
     transition-duration: 0.2s; }
 
+.fab__actions--up .btn:nth-child(1),
+.fab__actions--left .btn:nth-child(1) {
+  -webkit-transition-delay: 0.2s;
+  -moz-transition-delay: 0.2s;
+  transition-delay: 0.2s; }
+.fab__actions--up .btn:nth-child(2),
+.fab__actions--left .btn:nth-child(2) {
+  -webkit-transition-delay: 0.1s;
+  -moz-transition-delay: 0.1s;
+  transition-delay: 0.1s; }
+.fab__actions--up .btn:nth-child(3),
+.fab__actions--left .btn:nth-child(3) {
+  -webkit-transition-delay: 0.0666666667s;
+  -moz-transition-delay: 0.0666666667s;
+  transition-delay: 0.0666666667s; }
+.fab__actions--up .btn:nth-child(4),
+.fab__actions--left .btn:nth-child(4) {
+  -webkit-transition-delay: 0.05s;
+  -moz-transition-delay: 0.05s;
+  transition-delay: 0.05s; }
+.fab__actions--up .btn:nth-child(5),
+.fab__actions--left .btn:nth-child(5) {
+  -webkit-transition-delay: 0.04s;
+  -moz-transition-delay: 0.04s;
+  transition-delay: 0.04s; }
+.fab__actions--up .btn:nth-child(6),
+.fab__actions--left .btn:nth-child(6) {
+  -webkit-transition-delay: 0.0333333333s;
+  -moz-transition-delay: 0.0333333333s;
+  transition-delay: 0.0333333333s; }
+.fab__actions--up .btn:nth-child(7),
+.fab__actions--left .btn:nth-child(7) {
+  -webkit-transition-delay: 0.0285714286s;
+  -moz-transition-delay: 0.0285714286s;
+  transition-delay: 0.0285714286s; }
+.fab__actions--up .btn:nth-child(8),
+.fab__actions--left .btn:nth-child(8) {
+  -webkit-transition-delay: 0.025s;
+  -moz-transition-delay: 0.025s;
+  transition-delay: 0.025s; }
+.fab__actions--up .btn:nth-child(9),
+.fab__actions--left .btn:nth-child(9) {
+  -webkit-transition-delay: 0.0222222222s;
+  -moz-transition-delay: 0.0222222222s;
+  transition-delay: 0.0222222222s; }
+.fab__actions--up .btn:nth-child(10),
+.fab__actions--left .btn:nth-child(10) {
+  -webkit-transition-delay: 0.02s;
+  -moz-transition-delay: 0.02s;
+  transition-delay: 0.02s; }
+
+.fab__actions--down .btn:nth-child(1),
+.fab__actions--right .btn:nth-child(1) {
+  -webkit-transition-delay: 0.05s;
+  -moz-transition-delay: 0.05s;
+  transition-delay: 0.05s; }
+.fab__actions--down .btn:nth-child(2),
+.fab__actions--right .btn:nth-child(2) {
+  -webkit-transition-delay: 0.1s;
+  -moz-transition-delay: 0.1s;
+  transition-delay: 0.1s; }
+.fab__actions--down .btn:nth-child(3),
+.fab__actions--right .btn:nth-child(3) {
+  -webkit-transition-delay: 0.15s;
+  -moz-transition-delay: 0.15s;
+  transition-delay: 0.15s; }
+.fab__actions--down .btn:nth-child(4),
+.fab__actions--right .btn:nth-child(4) {
+  -webkit-transition-delay: 0.2s;
+  -moz-transition-delay: 0.2s;
+  transition-delay: 0.2s; }
+.fab__actions--down .btn:nth-child(5),
+.fab__actions--right .btn:nth-child(5) {
+  -webkit-transition-delay: 0.25s;
+  -moz-transition-delay: 0.25s;
+  transition-delay: 0.25s; }
+.fab__actions--down .btn:nth-child(6),
+.fab__actions--right .btn:nth-child(6) {
+  -webkit-transition-delay: 0.3s;
+  -moz-transition-delay: 0.3s;
+  transition-delay: 0.3s; }
+.fab__actions--down .btn:nth-child(7),
+.fab__actions--right .btn:nth-child(7) {
+  -webkit-transition-delay: 0.35s;
+  -moz-transition-delay: 0.35s;
+  transition-delay: 0.35s; }
+.fab__actions--down .btn:nth-child(8),
+.fab__actions--right .btn:nth-child(8) {
+  -webkit-transition-delay: 0.4s;
+  -moz-transition-delay: 0.4s;
+  transition-delay: 0.4s; }
+.fab__actions--down .btn:nth-child(9),
+.fab__actions--right .btn:nth-child(9) {
+  -webkit-transition-delay: 0.45s;
+  -moz-transition-delay: 0.45s;
+  transition-delay: 0.45s; }
+.fab__actions--down .btn:nth-child(10),
+.fab__actions--right .btn:nth-child(10) {
+  -webkit-transition-delay: 0.5s;
+  -moz-transition-delay: 0.5s;
+  transition-delay: 0.5s; }
+
+.fab__actions--left,
+.fab__actions--right {
+  white-space: nowrap; }
+  .fab__actions--left .btn,
+  .fab__actions--right .btn {
+    display: inline-block; }
+
 .fab__actions--up {
   position: absolute;
   bottom: 56px;
   left: 7px; }
   .fab__actions--up .btn {
     margin-bottom: 6px; }
-    .fab__actions--up .btn:nth-child(1) {
-      -webkit-transition-delay: 0.2s;
-      -moz-transition-delay: 0.2s;
-      transition-delay: 0.2s; }
-    .fab__actions--up .btn:nth-child(2) {
-      -webkit-transition-delay: 0.1s;
-      -moz-transition-delay: 0.1s;
-      transition-delay: 0.1s; }
-    .fab__actions--up .btn:nth-child(3) {
-      -webkit-transition-delay: 0.0666666667s;
-      -moz-transition-delay: 0.0666666667s;
-      transition-delay: 0.0666666667s; }
-    .fab__actions--up .btn:nth-child(4) {
-      -webkit-transition-delay: 0.05s;
-      -moz-transition-delay: 0.05s;
-      transition-delay: 0.05s; }
-    .fab__actions--up .btn:nth-child(5) {
-      -webkit-transition-delay: 0.04s;
-      -moz-transition-delay: 0.04s;
-      transition-delay: 0.04s; }
-    .fab__actions--up .btn:nth-child(6) {
-      -webkit-transition-delay: 0.0333333333s;
-      -moz-transition-delay: 0.0333333333s;
-      transition-delay: 0.0333333333s; }
-    .fab__actions--up .btn:nth-child(7) {
-      -webkit-transition-delay: 0.0285714286s;
-      -moz-transition-delay: 0.0285714286s;
-      transition-delay: 0.0285714286s; }
-    .fab__actions--up .btn:nth-child(8) {
-      -webkit-transition-delay: 0.025s;
-      -moz-transition-delay: 0.025s;
-      transition-delay: 0.025s; }
-    .fab__actions--up .btn:nth-child(9) {
-      -webkit-transition-delay: 0.0222222222s;
-      -moz-transition-delay: 0.0222222222s;
-      transition-delay: 0.0222222222s; }
-    .fab__actions--up .btn:nth-child(10) {
-      -webkit-transition-delay: 0.02s;
-      -moz-transition-delay: 0.02s;
-      transition-delay: 0.02s; }
 
 .fab__actions--down {
   position: absolute;
@@ -6274,144 +6344,20 @@ html {
   left: 7px; }
   .fab__actions--down .btn {
     margin-top: 6px; }
-    .fab__actions--down .btn:nth-child(1) {
-      -webkit-transition-delay: 0.05s;
-      -moz-transition-delay: 0.05s;
-      transition-delay: 0.05s; }
-    .fab__actions--down .btn:nth-child(2) {
-      -webkit-transition-delay: 0.1s;
-      -moz-transition-delay: 0.1s;
-      transition-delay: 0.1s; }
-    .fab__actions--down .btn:nth-child(3) {
-      -webkit-transition-delay: 0.15s;
-      -moz-transition-delay: 0.15s;
-      transition-delay: 0.15s; }
-    .fab__actions--down .btn:nth-child(4) {
-      -webkit-transition-delay: 0.2s;
-      -moz-transition-delay: 0.2s;
-      transition-delay: 0.2s; }
-    .fab__actions--down .btn:nth-child(5) {
-      -webkit-transition-delay: 0.25s;
-      -moz-transition-delay: 0.25s;
-      transition-delay: 0.25s; }
-    .fab__actions--down .btn:nth-child(6) {
-      -webkit-transition-delay: 0.3s;
-      -moz-transition-delay: 0.3s;
-      transition-delay: 0.3s; }
-    .fab__actions--down .btn:nth-child(7) {
-      -webkit-transition-delay: 0.35s;
-      -moz-transition-delay: 0.35s;
-      transition-delay: 0.35s; }
-    .fab__actions--down .btn:nth-child(8) {
-      -webkit-transition-delay: 0.4s;
-      -moz-transition-delay: 0.4s;
-      transition-delay: 0.4s; }
-    .fab__actions--down .btn:nth-child(9) {
-      -webkit-transition-delay: 0.45s;
-      -moz-transition-delay: 0.45s;
-      transition-delay: 0.45s; }
-    .fab__actions--down .btn:nth-child(10) {
-      -webkit-transition-delay: 0.5s;
-      -moz-transition-delay: 0.5s;
-      transition-delay: 0.5s; }
 
 .fab__actions--left {
   position: absolute;
   right: 56px;
-  bottom: 7px;
-  white-space: nowrap; }
+  bottom: 7px; }
   .fab__actions--left .btn {
-    display: inline-block;
     margin-right: 6px; }
-    .fab__actions--left .btn:nth-child(1) {
-      -webkit-transition-delay: 0.05s;
-      -moz-transition-delay: 0.05s;
-      transition-delay: 0.05s; }
-    .fab__actions--left .btn:nth-child(2) {
-      -webkit-transition-delay: 0.1s;
-      -moz-transition-delay: 0.1s;
-      transition-delay: 0.1s; }
-    .fab__actions--left .btn:nth-child(3) {
-      -webkit-transition-delay: 0.15s;
-      -moz-transition-delay: 0.15s;
-      transition-delay: 0.15s; }
-    .fab__actions--left .btn:nth-child(4) {
-      -webkit-transition-delay: 0.2s;
-      -moz-transition-delay: 0.2s;
-      transition-delay: 0.2s; }
-    .fab__actions--left .btn:nth-child(5) {
-      -webkit-transition-delay: 0.25s;
-      -moz-transition-delay: 0.25s;
-      transition-delay: 0.25s; }
-    .fab__actions--left .btn:nth-child(6) {
-      -webkit-transition-delay: 0.3s;
-      -moz-transition-delay: 0.3s;
-      transition-delay: 0.3s; }
-    .fab__actions--left .btn:nth-child(7) {
-      -webkit-transition-delay: 0.35s;
-      -moz-transition-delay: 0.35s;
-      transition-delay: 0.35s; }
-    .fab__actions--left .btn:nth-child(8) {
-      -webkit-transition-delay: 0.4s;
-      -moz-transition-delay: 0.4s;
-      transition-delay: 0.4s; }
-    .fab__actions--left .btn:nth-child(9) {
-      -webkit-transition-delay: 0.45s;
-      -moz-transition-delay: 0.45s;
-      transition-delay: 0.45s; }
-    .fab__actions--left .btn:nth-child(10) {
-      -webkit-transition-delay: 0.5s;
-      -moz-transition-delay: 0.5s;
-      transition-delay: 0.5s; }
 
 .fab__actions--right {
   position: absolute;
   bottom: 7px;
-  left: 56px;
-  white-space: nowrap; }
+  left: 56px; }
   .fab__actions--right .btn {
-    display: inline-block;
     margin-left: 6px; }
-    .fab__actions--right .btn:nth-child(1) {
-      -webkit-transition-delay: 0.05s;
-      -moz-transition-delay: 0.05s;
-      transition-delay: 0.05s; }
-    .fab__actions--right .btn:nth-child(2) {
-      -webkit-transition-delay: 0.1s;
-      -moz-transition-delay: 0.1s;
-      transition-delay: 0.1s; }
-    .fab__actions--right .btn:nth-child(3) {
-      -webkit-transition-delay: 0.15s;
-      -moz-transition-delay: 0.15s;
-      transition-delay: 0.15s; }
-    .fab__actions--right .btn:nth-child(4) {
-      -webkit-transition-delay: 0.2s;
-      -moz-transition-delay: 0.2s;
-      transition-delay: 0.2s; }
-    .fab__actions--right .btn:nth-child(5) {
-      -webkit-transition-delay: 0.25s;
-      -moz-transition-delay: 0.25s;
-      transition-delay: 0.25s; }
-    .fab__actions--right .btn:nth-child(6) {
-      -webkit-transition-delay: 0.3s;
-      -moz-transition-delay: 0.3s;
-      transition-delay: 0.3s; }
-    .fab__actions--right .btn:nth-child(7) {
-      -webkit-transition-delay: 0.35s;
-      -moz-transition-delay: 0.35s;
-      transition-delay: 0.35s; }
-    .fab__actions--right .btn:nth-child(8) {
-      -webkit-transition-delay: 0.4s;
-      -moz-transition-delay: 0.4s;
-      transition-delay: 0.4s; }
-    .fab__actions--right .btn:nth-child(9) {
-      -webkit-transition-delay: 0.45s;
-      -moz-transition-delay: 0.45s;
-      transition-delay: 0.45s; }
-    .fab__actions--right .btn:nth-child(10) {
-      -webkit-transition-delay: 0.5s;
-      -moz-transition-delay: 0.5s;
-      transition-delay: 0.5s; }
 
 .input-file {
   position: relative;
