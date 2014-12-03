@@ -46,7 +46,7 @@ app.config(function($locationProvider, $routeProvider)
             templateUrl: '/demo/includes/css/cards.html'
         }).
         when('/css/checkboxes', {
-            templateUrl: '/demo/includes/css/checkbox.html'
+            templateUrl: '/demo/includes/css/checkboxes.html'
         }).
         when('/css/radio-buttons', {
             templateUrl: '/demo/includes/css/radio-button.html'
