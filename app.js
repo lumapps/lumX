@@ -49,7 +49,7 @@ app.config(function($locationProvider, $routeProvider)
             templateUrl: '/demo/includes/css/checkboxes.html'
         }).
         when('/css/radio-buttons', {
-            templateUrl: '/demo/includes/css/radio-button.html'
+            templateUrl: '/demo/includes/css/radio-buttons.html'
         }).
         when('/css/switches', {
             templateUrl: '/demo/includes/css/switch.html'
