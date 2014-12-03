@@ -7,22 +7,26 @@
     <div class="main-section__content">
         <div class="example">
             <div class="example__content">
-                <ng-include src="'/demo/includes/directives/dropdown/dropdown.html'"></ng-include>
+                <ng-include src="'/demo/includes/directives/dropdowns/example.dropdowns.html'"></ng-include>
             </div>
 
             <!-- Example -->
-            <div class="example__code" hljs include="'/demo/includes/directives/dropdown/dropdown.html'" language="html"></div>
+            <ng-include src="'/demo/includes/directives/dropdowns/hljs.dropdowns.html'"></ng-include>
             <!-- /Example -->
         </div>
+    </div>
 
+    <div class="main-section__content">
         <h4 class="main-section__subtitle">Usage</h4>
 
         <div class="example">
             <!-- Example -->
-            <div class="example__code" hljs include="'/demo/includes/directives/dropdown/usage.html'" language="html"></div>
+            <ng-include src="'/demo/includes/directives/dropdowns/usage.dropdowns.html'"></ng-include>
             <!-- /Example -->
         </div>
+    </div>
 
+    <div class="main-section__content">
         <h4 class="main-section__subtitle">API</h4>
 
         <table class="data-table">
@@ -37,7 +41,7 @@
 
             <tbody>
                 <tr>
-                    <td>position</td>
+                    <td>position<br /><i>(optionnal)</i></td>
                     <td><code>string</code></td>
                     <td>left</td>
                     <td>
@@ -46,16 +50,17 @@
                 </tr>
 
                 <tr>
-                    <td>full-width</td>
-                    <td><code>boolean</code></td>
-                    <td>false</td>
+                    <td>width<br /><i>(optionnal)</i></td>
+                    <td><code>string</code></td>
+                    <td>undefined</td>
                     <td>
-                        Fit dropdown menu width to dropdown toggle width.
+                        If 'full' specified, fit dropdown menu width to dropdown toggle width.<br />
+                        If a number is specified, fit to toggle width and add this value to dropdown menu.
                     </td>
                 </tr>
 
                 <tr>
-                    <td>from-top</td>
+                    <td>from-top<br /><i>(optionnal)</i></td>
                     <td><code>boolean</code></td>
                     <td>false</td>
                     <td>

@@ -58,7 +58,7 @@ app.config(function($locationProvider, $routeProvider)
             templateUrl: '/demo/includes/css/toolbars.html'
         }).
         when('/directives/dropdowns', {
-            templateUrl: '/demo/includes/directives/dropdown.html'
+            templateUrl: '/demo/includes/directives/dropdowns.html'
         }).
         when('/directives/file-inputs', {
             templateUrl: '/demo/includes/directives/file-input.html'
