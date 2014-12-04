@@ -82,7 +82,7 @@ app.config(function($locationProvider, $routeProvider)
             templateUrl: '/demo/includes/directives/dialogs.html'
         }).
         when('/directives/thumbnails', {
-            templateUrl: '/demo/includes/directives/thumbnail.html'
+            templateUrl: '/demo/includes/directives/thumbnails.html'
         }).
         when('/directives/scrollbar', {
             templateUrl: '/demo/includes/directives/scrollbar.html'
