@@ -76,7 +76,7 @@ app.config(function($locationProvider, $routeProvider)
             templateUrl: '/demo/includes/directives/file-inputs.html'
         }).
         when('/directives/tooltips', {
-            templateUrl: '/demo/includes/directives/tooltip.html'
+            templateUrl: '/demo/includes/directives/tooltips.html'
         }).
         when('/directives/dialogs', {
             templateUrl: '/demo/includes/directives/dialog.html'
