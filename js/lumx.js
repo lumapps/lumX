@@ -10,7 +10,7 @@ angular.module('lumx', [
     'lumx.ripple',
     'lumx.notification',
     'lumx.dropdown',
-    'lumx.input-group',
+    'lumx.text-field',
     'lumx.dialog',
     'lumx.select',
     'lumx.scrollbar',

@@ -2,56 +2,56 @@
 'use strict'; // jshint ignore:line
 
 
-angular.module('lumx.input-group', [])
-    .directive('lxInputGroup', function()
+angular.module('lumx.text-field', [])
+    .directive('lxTextField', function()
     {
         return {
             restrict: 'E',
             scope: {
                 label: '@',
-                isDisabled: '@',
-                hasError: '@',
-                isValid: '@',
+                disabled: '@',
+                error: '@',
+                valid: '@',
                 fixedLabel: '@'
             },
-            templateUrl: 'lumx.input_group.html',
+            templateUrl: 'lumx.text_field.html',
             transclude: true,
             replace: true,
             link: function(scope, element, attrs)
             {
                 var $input = element.find('input, textarea');
 
-                $input.addClass('input-group__input');
+                $input.addClass('text-field__input');
 
                 if ($input.val())
                 {
-                    element.addClass('input-group--is-active');
+                    element.addClass('text-field--is-active');
                 }
 
                 $input.on('focus', function()
                 {
-                    element.addClass('input-group--is-focused input-group--is-active');
+                    element.addClass('text-field--is-focused text-field--is-active');
                 });
 
                 $input.on('input', function()
                 {
                     if ((angular.isDefined(attrs.fixedLabel)) && $input.val())
                     {
-                        element.addClass('input-group--label-hidden');
+                        element.addClass('text-field--label-hidden');
                     }
                     else
                     {
-                        element.removeClass('input-group--label-hidden');
+                        element.removeClass('text-field--label-hidden');
                     }
                 });
 
                 $input.on('blur', function()
                 {
-                    element.removeClass('input-group--is-focused');
+                    element.removeClass('text-field--is-focused');
 
                     if (!$input.val())
                     {
-                        element.removeClass('input-group--is-active');
+                        element.removeClass('text-field--is-active');
                     }
                 });
             }

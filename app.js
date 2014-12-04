@@ -60,20 +60,20 @@ app.config(function($locationProvider, $routeProvider)
         when('/directives/dropdowns', {
             templateUrl: '/demo/includes/directives/dropdowns.html'
         }).
-        when('/directives/file-inputs', {
-            templateUrl: '/demo/includes/directives/file-input.html'
-        }).
         when('/directives/tabs', {
             templateUrl: '/demo/includes/directives/tabs.html'
         }).
         when('/directives/text-fields', {
-            templateUrl: '/demo/includes/directives/text-field.html'
+            templateUrl: '/demo/includes/directives/text-fields.html'
         }).
         when('/directives/search-filter', {
             templateUrl: '/demo/includes/directives/search-filter.html'
         }).
         when('/directives/selects', {
             templateUrl: '/demo/includes/directives/select.html'
+        }).
+        when('/directives/file-inputs', {
+            templateUrl: '/demo/includes/directives/file-input.html'
         }).
         when('/directives/tooltips', {
             templateUrl: '/demo/includes/directives/tooltip.html'
