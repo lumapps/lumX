@@ -22,7 +22,7 @@
 
     // Tabs panes
     .tabs__panes {
-        margin-top: $base-spacing-unit;
+       padding: $base-spacing-unit;
     }
 
     // Tabs indicator
@@ -95,12 +95,6 @@
         .tabs__indicator--color-#{$key} {
             background-color: $color;
         }
-    }
-
-    .tabs__panes {
-        color: $white;
-        padding: 0 $base-spacing-unit $base-spacing-unit; 
-
     }
 }
 

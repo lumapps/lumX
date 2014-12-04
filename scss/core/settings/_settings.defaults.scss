@@ -57,12 +57,12 @@ $sizes:                 ('xs': $size-xs, 's': $size-s, 'm': $size-m, 'l': $size-
 // Primary palette colors and accent colors
 //
 // Feel free to override and set new values for your project.
-$primary-color--main: $indigo       !default;
-$primary-color--100: $indigo-100    !default;
-$primary-color--700: $indigo-700    !default;
-$accent-color--main: $pink-A200     !default;
-$accent-color--A100: $pink-A100     !default;
-$accent-color--A400: $pink-A400     !default;
+$primary-color--1: $indigo       !default;
+$primary-color--2: $indigo-100   !default;
+$primary-color--3: $indigo-700   !default;
+$accent-color--1: $pink-A200     !default;
+$accent-color--2: $pink-A100     !default;
+$accent-color--3: $pink-A400     !default;
 
 
 

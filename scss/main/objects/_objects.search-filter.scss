@@ -75,8 +75,8 @@
 // Search filter container
 .search-filter__container {
     position: relative;
-    height: 40px;
-    padding: 0 40px 0 56px;
+    height: $size-l;
+    padding: 0 $size-l 0 $size-xl;
     @include transform(translateX(0));
     @include transition-property(transform);
     @include transition-duration(0.6s);
@@ -90,10 +90,10 @@
 // Search filter label
 .search-filter__label {
     @include position(absolute, 0 null null 0);
-    @include size(40px 40px);
-    @include font-size($base-spacing-unit);
-
-    i {
+    @include size($size-l);
+    @include font-size(24px);
+    
+    .mdi {
         @include position(absolute, 9px null null 8px);
     }
 }
@@ -105,7 +105,7 @@
 // Search filter input
 .search-filter__input {
     display: block;
-    @include size(100% 40px);
+    @include size(100% $size-l);
     border: none;
     outline: none;
     background: none;
@@ -118,15 +118,13 @@
 // Search filter cancel
 .search-filter__cancel {
     @include position(absolute, 0 0 null null);
-    @include size(40px 40px);
-    @include font-size($base-spacing-unit);
+    @include size($size-l);
+    @include font-size(24px);
+    line-height: $size-l;
+    text-align: center;
     cursor: pointer;
-    @include transform(translateX(40px));
+    @include transform(translateX($size-l));
     @include transition-property(transform);
     @include transition-duration(0.6s);
     @include transition-timing-function($ease-out-quint);
-
-    i {
-        @include position(absolute, 9px 8px null null);
-    }
 }

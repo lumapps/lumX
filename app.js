@@ -1,4 +1,5 @@
 /* global angular */
+/* global escape */
 'use strict'; // jshint ignore:line
 
 var app = angular.module('lx', ['ngRoute', 'lumx', 'hljs', 'Sidebar']);
@@ -23,62 +24,65 @@ app.config(function($locationProvider, $routeProvider)
         when('/getting-started/contribute', {
             templateUrl: '/demo/includes/start/contribute.html'
         }).
+        when('/css/mixins', {
+            templateUrl: '/demo/includes/css/mixins.html'
+        }).
         when('/css/colors', {
             templateUrl: '/demo/includes/css/colors.html'
         }).
         when('/css/buttons', {
-            templateUrl: '/demo/includes/css/button.html'
+            templateUrl: '/demo/includes/css/buttons.html'
+        }).
+        when('/css/fab', {
+            templateUrl: '/demo/includes/css/fab.html'
         }).
         when('/css/icons', {
-            templateUrl: '/demo/includes/css/icon.html'
+            templateUrl: '/demo/includes/css/icons.html'
         }).
         when('/css/lists', {
-            templateUrl: '/demo/includes/css/list.html'
+            templateUrl: '/demo/includes/css/lists.html'
         }).
         when('/css/cards', {
-            templateUrl: '/demo/includes/css/card.html'
+            templateUrl: '/demo/includes/css/cards.html'
         }).
         when('/css/checkboxes', {
-            templateUrl: '/demo/includes/css/checkbox.html'
+            templateUrl: '/demo/includes/css/checkboxes.html'
         }).
         when('/css/radio-buttons', {
-            templateUrl: '/demo/includes/css/radio-button.html'
+            templateUrl: '/demo/includes/css/radio-buttons.html'
         }).
         when('/css/switches', {
-            templateUrl: '/demo/includes/css/switch.html'
+            templateUrl: '/demo/includes/css/switches.html'
         }).
         when('/css/toolbars', {
-            templateUrl: '/demo/includes/css/toolbar.html'
-        }).
-        when('/directives/fab', {
-            templateUrl: '/demo/includes/directives/fab.html'
+            templateUrl: '/demo/includes/css/toolbars.html'
         }).
         when('/directives/dropdowns', {
-            templateUrl: '/demo/includes/directives/dropdown.html'
-        }).
-        when('/directives/file-inputs', {
-            templateUrl: '/demo/includes/directives/file-input.html'
+            templateUrl: '/demo/includes/directives/dropdowns.html'
         }).
         when('/directives/tabs', {
             templateUrl: '/demo/includes/directives/tabs.html'
         }).
         when('/directives/text-fields', {
-            templateUrl: '/demo/includes/directives/text-field.html'
+            templateUrl: '/demo/includes/directives/text-fields.html'
         }).
         when('/directives/search-filter', {
             templateUrl: '/demo/includes/directives/search-filter.html'
         }).
         when('/directives/selects', {
-            templateUrl: '/demo/includes/directives/select.html'
+            templateUrl: '/demo/includes/directives/selects.html'
+        }).
+        when('/directives/file-inputs', {
+            templateUrl: '/demo/includes/directives/file-inputs.html'
         }).
         when('/directives/tooltips', {
-            templateUrl: '/demo/includes/directives/tooltip.html'
+            templateUrl: '/demo/includes/directives/tooltips.html'
         }).
         when('/directives/dialogs', {
-            templateUrl: '/demo/includes/directives/dialog.html'
+            templateUrl: '/demo/includes/directives/dialogs.html'
         }).
         when('/directives/thumbnails', {
-            templateUrl: '/demo/includes/directives/thumbnail.html'
+            templateUrl: '/demo/includes/directives/thumbnails.html'
         }).
         when('/directives/scrollbar', {
             templateUrl: '/demo/includes/directives/scrollbar.html'
@@ -139,9 +143,38 @@ app.controller('AppController',
         { name: 'Adrian',    email: 'adrian@email.com',    age: 21 }
     ];
 
+    $scope.ajax = {
+        list: [],
+        update: function(newFilter, oldFilter)
+        {
+            if (newFilter)
+            {
+                $scope.ajax.loading = true;
+                $http.get('http://www.omdbapi.com/?s=' + escape(newFilter)).
+                    success(function(data)
+                    {
+                        $scope.ajax.list = data.Search;
+                        $scope.ajax.loading = false;
+                    }).
+                    error(function()
+                    {
+                        $scope.ajax.loading = false;
+                    });
+            }
+            else
+            {
+                $scope.ajax.list = false;
+            }
+        },
+        loading: false
+    };
+
     $scope.cbSelect = {
-        exec: function(){
+        exec: function(newVal, oldVal)
+        {
             LxNotificationService.notify('Change detected!');
+            console.log('oldVal: ', oldVal);
+            console.log('newVal: ', newVal);
         }
     };
 
@@ -215,4 +248,16 @@ app.controller('AppController',
     {
         LxProgressService.linear.hide();
     };
+
+    $scope.searchFilter = {
+        first: '',
+        second: '',
+        third: '',
+        fourth: ''
+    };
+
+    $scope.$watch('searchFilter.first', function(newVal, oldVal)
+    {
+        console.log("Filter changed: '" + newVal + "' from '" + oldVal + "'");
+    });
 });

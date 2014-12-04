@@ -4,33 +4,62 @@
 <div class="main-section">
     <h3 class="main-section__title">Customization</h3>
 
+    <p class="main-section__intro">
+        You can use LumX in your Sass project to get all variables and mixins available.<br />
+        <a href="/css/mixins">Check what amazing things you can do</a>.
+    </p>
+
     <div class="main-section__content">
-        <p class="main-section__intro">
-            You can use lumX in your Sass project to get all variables and mixins available.<br />
-            We'll bring you soon a full documentation for our CSS framework.
-        </p>
-
-        <h4 class="main-section__subtitle">Instructions</h4>
-
-        <ul>
-            <li>
-                Create a settings file where you need to specify the roboto font path and the material design icons font path relative to your built css file.<br />
-                You can override lumX default settings (dist/scss/main/settings/_settings.common.scss) if you want to change sizes, colors, etc.
-            </li>
-            <li>
-                Then, create your main file where you will import your settings first and then lumX main scss file (dist/scss/main/_lumx.scss).
-            </li>
-        </ul>
-
-        <h4 class="main-section__subtitle">Thanks to</h4>
+        <h4 class="main-section__subtitle">Common settings</h4>
 
         <p>
-            We’d like to thank Harry Roberts for his great CSS framework, <a href="https://github.com/inuitcss" target="_blank">Inuitcss</a>, which is a powerful, scalable, Sass-based, BEM, OOCSS framework.<br />
-            lumX CSS framework is largely inspired from his work.
+            Create a settings file where you need to specify the roboto font path and the material design icons font path relative to your built css file.<br />
+            For example, in a settings file located in your project <code>scss/settings/_settings.common.scss</code>:
+        </p>
+
+        <div class="example">
+            <!-- Example -->
+            <ng-include src="'/demo/includes/start/customization/hljs.fonts.html'"></ng-include>
+            <!-- /Example -->
+        </div>
+
+        <p>
+            Moreover, you can override LumX default settings <code>dist/scss/core/settings/_settings.defaults.scss</code> if you want to change sizes, main colors, etc.<br />
+            For example, in the same file:
+        </p>
+
+        <div class="example">
+            <!-- Example -->
+            <ng-include src="'/demo/includes/start/customization/hljs.variables.html'"></ng-include>
+            <!-- /Example -->
+        </div>
+    </div>
+
+    <div class="main-section__content">
+        <h4 class="main-section__subtitle">Main SCSS file</h4>
+
+        <p>
+            Then, create your main file where you will import your settings first and then LumX main scss file <code>dist/scss/main/_lumx.scss</code>.<br />
+            For example, in your main file located in your project <code>scss/my-project.scss</code>:
+        </p>
+
+        <div class="example">
+            <!-- Example -->
+            <ng-include src="'/demo/includes/start/customization/hljs.main.html'"></ng-include>
+            <!-- /Example -->
+        </div>
+    </div>
+    
+    <div class="main-section__content">
+        <h4 class="main-section__subtitle">Thanks to...</h4>
+
+        <p>
+            We’d like to thank Harry Roberts for his CSS framework, <a href="https://github.com/inuitcss" target="_blank">Inuitcss</a>, which is a powerful, scalable, Sass-based, BEM, OOCSS framework.<br />
+            LumX CSS framework is largely inspired from his work.
         </p>
 
         <p>
-            We invite you to follow these guidelines to build your project :<br />
+            We invite you to follow these guidelines to build your project:<br />
             <a href="https://github.com/csswizardry/CSS-Guidelines" target="_blank">https://github.com/csswizardry/CSS-Guidelines</a>
         </p>
     </div>

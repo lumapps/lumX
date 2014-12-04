@@ -1,28 +1,32 @@
 /* global angular */
-/* global $ */
 'use strict'; // jshint ignore:line
 
 
 angular.module('lumx.search-filter', [])
-    .directive('lxSearchFilter', ['$timeout', function($timeout)
+    .directive('lxSearchFilter', ['$timeout', '$document', function($timeout, $document)
     {
         return {
             restrict: 'E',
             templateUrl: 'lumx.search_filter.html',
+            scope: {
+                model: '=?'
+            },
             link: function(scope, element, attrs)
             {
-                var $input = element.find('input');
-                var $label = element.find('label');
-                var $cancel = element.find('span');
+                var $input = element.find('.search-filter__input'),
+                    $label = element.find('.search-filter__label'),
+                    $cancel = element.find('.search-filter__cancel');
 
                 if (angular.isDefined(attrs.closed))
                 {
                     element.addClass('search-filter--is-closed');
                 }
 
-                if (angular.isDefined(attrs.theme))
+                attrs.$observe('theme', function(theme)
                 {
-                    if (attrs.theme == 'light')
+                    element.removeClass('search-filter--light-theme search-filter--dark-theme');
+
+                    if (theme === 'light')
                     {
                         element.addClass('search-filter--light-theme');
                     }
@@ -30,8 +34,9 @@ angular.module('lumx.search-filter', [])
                     {
                         element.addClass('search-filter--dark-theme');
                     }
-                }
-                else
+                });
+
+                if (angular.isUndefined(attrs.theme))
                 {
                     element.addClass('search-filter--dark-theme');
                 }
@@ -60,11 +65,11 @@ angular.module('lumx.search-filter', [])
                             $input.focus();
 
                             // Detect all clicks outside the components, and close it
-                            $('html').on('click', function()
+                            $document.on('click', function()
                             {
                                 element.removeClass('search-filter--is-focus');
 
-                                $('html').off('click');
+                                $document.off('click');
                                 element.off('click');
                             });
 
@@ -83,6 +88,7 @@ angular.module('lumx.search-filter', [])
                 $cancel.on('click', function()
                 {
                     $input.val('').focus();
+
                     element.removeClass('search-filter--is-active');
                 });
             }

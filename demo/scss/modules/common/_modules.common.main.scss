@@ -30,6 +30,19 @@
         line-height: quadruple($md-spacing-unit);
 	}
 
+	// Main section intro
+	.main-section__intro {
+		margin: 0;
+		padding: $base-spacing-unit;
+		@include font-size(22px);
+		font-weight: 300;
+
+		a {
+			color: $blue;
+			text-decoration: none;
+		}
+	}
+
 	// Main section content
 	.main-section__content {
 		padding: $base-spacing-unit;
@@ -44,6 +57,11 @@
 
 		p > a {
 			color: $blue;
+			text-decoration: none;
+		}
+
+		p:last-child {
+			margin-bottom: 0;
 		}
 	}
 
@@ -52,10 +70,4 @@
 		@include font-size(30px);
 		font-weight: 300;
 		line-height: 1;
-	}
-
-	// Main section intro
-	.main-section__intro {
-		@include font-size(22px);
-		font-weight: 300;
 	}
