@@ -8,7 +8,7 @@
 
         <li>
             <div class="lx-select__filter dropdown-filter">
-                <input type="text" ng-model="data.data.filter" lx-dropdown-filter>
+                <lx-search-filter model="data.data.filter" lx-dropdown-filter></lx-search-filter>
             </div>
         </li>
 
@@ -25,8 +25,8 @@
                ng-transclude="child"></a>
         </li>
 
-        <li class="text--center" ng-if="data.loading === 'true'">
-            <i class="mdi mdi--loop lx-select__loader"></i>
+        <li class="lx-select__loader" ng-if="data.loading === 'true'">
+            <i class="mdi mdi--loop"></i>
         </li>
     </ul>
 </lx-dropdown-menu>

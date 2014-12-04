@@ -1,13 +1,13 @@
 <div lx-dropdown-toggle>
     <div class="lx-select__selected"
          ng-class="{ 'lx-select__selected--is-unique': !data.multiple,
-                     'lx-select__selected--is-multiple': data.multiple,
+                     'lx-select__selected--is-multiple': data.multiple && data.getSelectedElements().length > 0,
                      'lx-select__selected--placeholder': data.getSelectedElements().length === 0 }"
          lx-ripple>
         <span ng-if="data.getSelectedElements().length === 0">{{ data.placeholder }}</span>
 
         <div ng-repeat="$selected in data.getSelectedElements()" ng-if="!data.multiple">
-            <span class="lx-select__close" ng-click="data.unselect($selected, $event)" ng-if="data.allowClear"></span>
+            <i class="lx-select__close mdi mdi--cancel" ng-click="data.unselect($selected, $event)" ng-if="data.allowClear"></i>
             <span ng-transclude="child"></span>
         </div>
 
