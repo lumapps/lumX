@@ -286,7 +286,7 @@ angular.module('lumx.dropdown', [])
             }
         };
     })
-    .directive('lxDropdownFilter', function()
+    .directive('lxDropdownFilter', ['$timeout', function($timeout)
     {
         return {
             restrict: 'A',
@@ -296,6 +296,11 @@ angular.module('lumx.dropdown', [])
                 {
                     event.stopPropagation();
                 });
+
+                $timeout(function()
+                {
+                    element.find('input').focus();
+                }, 200);
             }
         };
-    });
+    }]);
