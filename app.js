@@ -70,7 +70,7 @@ app.config(function($locationProvider, $routeProvider)
             templateUrl: '/demo/includes/directives/search-filter.html'
         }).
         when('/directives/selects', {
-            templateUrl: '/demo/includes/directives/select.html'
+            templateUrl: '/demo/includes/directives/selects.html'
         }).
         when('/directives/file-inputs', {
             templateUrl: '/demo/includes/directives/file-input.html'
