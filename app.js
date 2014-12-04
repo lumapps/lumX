@@ -248,4 +248,16 @@ app.controller('AppController',
     {
         LxProgressService.linear.hide();
     };
+
+    $scope.searchFilter = {
+        first: '',
+        second: '',
+        third: '',
+        fourth: ''
+    };
+
+    $scope.$watch('searchFilter.first', function(newVal, oldVal)
+    {
+        console.log("Filter changed: '" + newVal + "' from '" + oldVal + "'");
+    });
 });

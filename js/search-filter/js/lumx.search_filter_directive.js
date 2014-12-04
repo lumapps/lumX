@@ -8,6 +8,9 @@ angular.module('lumx.search-filter', [])
         return {
             restrict: 'E',
             templateUrl: 'lumx.search_filter.html',
+            scope: {
+                model: '=?'
+            },
             link: function(scope, element, attrs)
             {
                 var $input = element.find('.search-filter__input'),
@@ -22,7 +25,7 @@ angular.module('lumx.search-filter', [])
                 attrs.$observe('theme', function(theme)
                 {
                     element.removeClass('search-filter--light-theme search-filter--dark-theme');
-                    
+
                     if (theme === 'light')
                     {
                         element.addClass('search-filter--light-theme');
