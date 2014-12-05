@@ -3,7 +3,7 @@
 
 
 angular.module('lumx.tabs', [])
-    .controller('LxTabsController', ['$scope', function($scope)
+    .controller('LxTabsController', ['$scope', '$sce', function($scope, $sce)
     {
         var tabs = [],
             indicator;
@@ -21,13 +21,15 @@ angular.module('lumx.tabs', [])
             return $scope;
         };
 
-        this.addTab = function(heading, active)
+        this.addTab = function(heading, icon)
         {
-            tabs.push({ heading: heading });
-
-            if (active)
+            if (angular.isDefined(icon))
             {
-                $scope.activeTab = tabs.length - 1;
+                tabs.push({ link: $sce.trustAsHtml('<i class="mdi mdi--' + icon + '"></i>') });
+            }
+            else
+            {
+                tabs.push({ link: $sce.trustAsHtml(heading) });
             }
 
             return (tabs.length - 1);
@@ -144,7 +146,8 @@ angular.module('lumx.tabs', [])
             require: '^lxTabs',
             restrict: 'E',
             scope: {
-                heading: '@'
+                heading: '@',
+                icon: '@'
             },
             templateUrl: 'lumx.tab.html',
             transclude: true,
@@ -152,7 +155,7 @@ angular.module('lumx.tabs', [])
             link: function(scope, element, attrs, ctrl)
             {
                 scope.data = ctrl.getScope();
-                scope.index = ctrl.addTab(scope.heading);
+                scope.index = ctrl.addTab(scope.heading, scope.icon);
             }
         };
     });

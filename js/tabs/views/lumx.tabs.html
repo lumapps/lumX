@@ -5,7 +5,7 @@
                ng-class="{ 'tabs-link--is-active': $index === activeTab }"
                ng-click="setActiveTab($index)"
                lx-ripple>
-               {{ tab.heading }}
+               <span ng-bind-html="tab.link"></span>
             </a>
         </li>
     </ul>
