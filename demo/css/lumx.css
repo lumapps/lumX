@@ -8530,6 +8530,15 @@ label {
   -o-transform: scale(3) translateX(-50%);
   transform: scale(3) translateX(-50%); }
 
+.z-depth1 {
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3); }
+
+.z-depth2 {
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.4); }
+
+.z-depth3 {
+  box-shadow: 0 9px 18px rgba(0, 0, 0, 0.5); }
+
 body {
   font-family: 'roboto', sans-serif; }
 
