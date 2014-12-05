@@ -51,37 +51,6 @@
 
 
 
-// Dropdown filter
-.dropdown-filter {
-    position: relative;
-
-    &:before {
-        @include mdi;
-        content: $mdi-var-search;
-        @include position(absolute, 50% null null $md-spacing-unit);
-        @include transform(translateY(-50%));
-    }
-
-    input {
-        display: block;
-        margin: 0;
-        padding: 0;
-        padding-left: 40px;
-        border: none;
-        font-weight: 400;
-        cursor: text;
-        @include appearance(none);
-
-        &:focus {
-            outline: none;
-        }
-    }
-}
-
-
-
-
-
 // Dropdown divider
 .dropdown-divider {
     height: 1px;

@@ -86,7 +86,11 @@ label {
     }
 
     .input-file__filename {
+        display: block;
         @include position(relative, 4px null null null);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
         opacity: 0;
         @include transform(translateX(double($base-spacing-unit)));
         @include transition-property(transform, opacity);

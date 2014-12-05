@@ -1,9 +1,9 @@
 ///*------------------------------------*\
-//    #OBJECTS-INPUT-GROUP
+//    #OBJECTS-TEXT-FIELD
 //\*------------------------------------*/
 
-// Input group base styles
-.input-group {
+// Text field base styles
+.text-field {
     position: relative;
     padding-top: double($md-spacing-unit);
     padding-bottom: halve($md-spacing-unit);
@@ -30,47 +30,74 @@
     }
 }
 
-.input-group--is-active {
-    .input-group__label {
+.text-field--is-active {
+    .text-field__label {
         @include font-size(12px);
         @include transform(translateY($md-spacing-unit));
     }
 }
 
-.input-group--is-focused {
+.text-field--is-focused {
     &:after {
         @include transform(scale(1));
     }
 
-    .input-group__label {
+    .text-field__label {
         color: $blue;
     }
 }
 
-.input-group--is-disabled {
+.text-field--is-disabled {
     &:before {
         border-bottom-style: dashed;
     }
 
-    .input-group__input {
+    .text-field__input {
         color: #aaa;
         cursor: not-allowed;
     }
 }
 
-.input-group--has-error {
+.text-field--has-error {
     &:after {
         background-color: $red;
         @include transform(scale(1));
     }
 
-    .input-group__label {
+    .text-field__label {
         color: $red;
     }
 }
+
+.text-field--fixed-label {
+    padding-top: halve($md-spacing-unit);
+
+    .text-field__label {
+        top: -$base-spacing-unit;
+        @include transform(translateY($md-spacing-unit * 2.5));
+        @include font-size(16px);
+    }
+}
+
+.text-field--label-hidden {
+    .text-field__label {
+        display: none;
+    }
+}
+
+.text-field--is-valid {
+    .text-field__label {
+        color: $green;
+    }
+
+    &:after {
+        background-color: $green;
+        @include transform(scale(1));
+    }
+}
     
-    // Input group label
-    .input-group__label {
+    // Text field label
+    .text-field__label {
         @include position(absolute, 0 null null 0);
         color: #aaa;
         line-height: $md-spacing-unit;
@@ -81,8 +108,8 @@
         @include transition-timing-function($ease-out-quint);
     }
 
-    // Input group input
-    .input-group__input {
+    // Text field input
+    .text-field__input {
         display: block;
         @include size(100% double($md-spacing-unit));
         margin: 0;
