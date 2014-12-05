@@ -8843,34 +8843,34 @@ body {
 .colors {
   margin-bottom: 24px; }
   .colors li {
-    display: block;
     height: 48px;
     padding: 0 16px;
     line-height: 48px; }
 
-li.colors__main {
+.colors__main {
   position: relative;
-  display: block;
-  height: 96px;
-  line-height: 1em; }
-  li.colors__main .colors__title {
-    position: absolute;
-    top: 16px;
-    left: 16px;
-    color: #FFFFFF;
-    font-size: 18px;
-    font-size: 1.125rem;
-    font-weight: 600; }
-  li.colors__main .colors__variable {
+  height: 96px !important;
+  margin-bottom: 6px;
+  line-height: 1em !important; }
+  .colors__main .colors__variable {
     position: absolute;
     bottom: 16px;
     left: 16px; }
 
+.colors__title {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  font-size: 18px;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #FFFFFF; }
+
 .colors__variable {
-  color: #FFFFFF;
   font-size: 14px;
   font-size: 0.875rem;
-  font-weight: 600; }
+  font-weight: 600;
+  color: #FFFFFF; }
 
 .colors__variable--black {
   color: #000000 !important; }
@@ -9423,6 +9423,8 @@ li.colors__main {
 .colors--white {
   background: #f9f9f9; }
   .colors--white .colors__main {
+    height: 102px !important;
+    margin-bottom: 0;
     border-bottom: solid 6px #fff;
     background-color: #FFFFFF; }
   .colors--white .colors__first {

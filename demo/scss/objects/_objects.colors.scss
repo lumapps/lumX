@@ -8,7 +8,6 @@
     @extend %bare-list;
 
     li {
-        display: block;
         height: double($base-spacing-unit);
         padding: 0 $md-spacing-unit;
         line-height: double($base-spacing-unit);
@@ -16,34 +15,35 @@
 }
 
     // Colors main
-    li.colors__main {
+    .colors__main {
         position: relative;
-        display: block;
-        height: quadruple($base-spacing-unit);
-        line-height: 1em;
-
-        .colors__title {
-            @include position(absolute, $md-spacing-unit null null $md-spacing-unit);
-            color: $white;
-            @include font-size(18px);
-            font-weight: 600;
-        }
+        height: quadruple($base-spacing-unit) !important;
+        margin-bottom: quarter($base-spacing-unit);
+        line-height: 1em !important;
 
         .colors__variable {
             @include position(absolute, null null $md-spacing-unit $md-spacing-unit);
         }
     }
 
-    // Colors variable
-    .colors__variable {
-        color: $white;
-        @include font-size(14px);
+    // Colors title
+    .colors__title {
+        @include position(absolute, $md-spacing-unit null null $md-spacing-unit);
+        @include font-size(18px);
         font-weight: 600;
+        color: $white;
     }
 
-        .colors__variable--black {
-            color: $black !important;
-        }
+    // Colors variable
+    .colors__variable {
+        @include font-size(14px);
+        font-weight: 600;
+        color: $white;
+    }
+
+    .colors__variable--black {
+        color: $black !important;
+    }
 
 
 
@@ -381,11 +381,11 @@
 
 // Colors Black
 .colors--black {
-    .colors__main   { background-color: $black;           }
-    .colors__first  { background-color: $black-1;     }
-    .colors__second { background-color: $black-2;    }
-    .colors__third  { background-color: $black-3;     }
-    .colors__fourth { background-color: $black-4;    }
+    .colors__main   { background-color: $black;     }
+    .colors__first  { background-color: $black-1;   }
+    .colors__second { background-color: $black-2;   }
+    .colors__third  { background-color: $black-3;   }
+    .colors__fourth { background-color: $black-4;   }
 }
 
 // Colors White
@@ -393,16 +393,18 @@
     background: #f9f9f9; 
 
     .colors__main {
+        height: quadruple($base-spacing-unit) + quarter($base-spacing-unit) !important;
+        margin-bottom: 0;
         border-bottom: solid 6px #fff;
         background-color: $white;
     }
 
-    .colors__first  { background-color: $white-1;     }
-    .colors__second { background-color: $white-2;    }
-    .colors__third  { background-color: $white-3;     }
-    .colors__fourth { background-color: $white-4;    }
+    .colors__first  { background-color: $white-1;   }
+    .colors__second { background-color: $white-2;   }
+    .colors__third  { background-color: $white-3;   }
+    .colors__fourth { background-color: $white-4;   }
 }
 
 
-.colors__black      { background-color: $black;           }
-.colors__white      { background-color: $white;           }
+.colors__black      { background-color: $black; }
+.colors__white      { background-color: $white; }
