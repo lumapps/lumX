@@ -42,6 +42,9 @@ app.config(function($locationProvider, $routeProvider)
         when('/css/lists', {
             templateUrl: '/demo/includes/css/lists.html'
         }).
+        when('/css/data-table', {
+            templateUrl: '/demo/includes/css/data-table.html'
+        }).
         when('/css/cards', {
             templateUrl: '/demo/includes/css/cards.html'
         }).
