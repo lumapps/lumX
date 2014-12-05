@@ -75,11 +75,11 @@
 // Tabs theme light
 .tabs--theme-light {
     .tabs__links {
-        border-bottom: 1px solid $white-second;
+        border-bottom: 1px solid $white-2;
     }
 
     .tabs-link {
-        color: $white-second;
+        color: $white-2;
     }
 
     @each $key, $color in $colors {
@@ -110,11 +110,11 @@
 // Tabs theme dark
 .tabs--theme-dark {
     .tabs__links {
-        border-bottom: 1px solid $black-fourth;
+        border-bottom: 1px solid $black-4;
     }
 
     .tabs-link {
-        color: $black-second;
+        color: $black-2;
     }
 
     @each $key, $color in $colors {
