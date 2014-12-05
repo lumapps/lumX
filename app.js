@@ -27,6 +27,9 @@ app.config(function($locationProvider, $routeProvider)
         when('/css/mixins', {
             templateUrl: '/demo/includes/css/mixins.html'
         }).
+        when('/css/typography', {
+            templateUrl: '/demo/includes/css/typography.html'
+        }).
         when('/css/colors', {
             templateUrl: '/demo/includes/css/colors.html'
         }).
