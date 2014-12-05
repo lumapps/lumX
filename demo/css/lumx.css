@@ -418,29 +418,68 @@ html {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased; }
 
-.alpha {
-  font-size: 36px;
-  font-size: 2.25rem; }
+.fs-caption {
+  font-size: 12px;
+  font-size: 0.75rem;
+  font-weight: 400; }
 
-.beta {
-  font-size: 30px;
-  font-size: 1.875rem; }
+@media screen and (max-width: 1023px) {
+  .fs-body1,
+  .fs-body2 {
+    font-size: 14px;
+    font-size: 0.875rem; } }
+@media screen and (min-width: 1024px) {
+  .fs-body1,
+  .fs-body2 {
+    font-size: 13px;
+    font-size: 0.8125rem; } }
 
-.gamma {
-  font-size: 24px;
-  font-size: 1.5rem; }
+.fs-body1 {
+  font-weight: 400; }
 
-.delta {
+.fs-body2 {
+  font-weight: 600; }
+
+.fs-subhead {
+  font-weight: 400; }
+  @media screen and (max-width: 1023px) {
+    .fs-subhead {
+      font-size: 16px;
+      font-size: 1rem; } }
+  @media screen and (min-width: 1024px) {
+    .fs-subhead {
+      font-size: 15px;
+      font-size: 0.9375rem; } }
+
+.fs-title {
   font-size: 20px;
-  font-size: 1.25rem; }
+  font-size: 1.25rem;
+  font-weight: 600; }
 
-.epsilon {
-  font-size: 16px;
-  font-size: 1rem; }
+.fs-headline {
+  font-size: 24px;
+  font-size: 1.5rem;
+  font-weight: 400; }
 
-.zeta {
-  font-size: 14px;
-  font-size: 0.875rem; }
+.fs-display1 {
+  font-size: 34px;
+  font-size: 2.125rem;
+  font-weight: 400; }
+
+.fs-display2 {
+  font-size: 45px;
+  font-size: 2.8125rem;
+  font-weight: 400; }
+
+.fs-display3 {
+  font-size: 56px;
+  font-size: 3.5rem;
+  font-weight: 400; }
+
+.fs-display4 {
+  font-size: 112px;
+  font-size: 7rem;
+  font-weight: 300; }
 
 .zero-whole {
   width: 0 !important; }
