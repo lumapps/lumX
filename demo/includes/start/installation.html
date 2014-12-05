@@ -14,15 +14,35 @@
 
         <p>
             LumX is available through Bower:<br />
-            <code>bower install lumx</code><br /><br />
+            <code>bower install lumx</code>
+        </p>
 
-            All needed files are ine the <code>dist</code> folder.<br />
-            You can include the files in your html template.
+        <p>
+            Don’t use bower?<br />
+            You first need to download all these dependencies:
+        </p>
+
+        <ul>
+            <li>AngularJS</li>
+            <li>jQuery</li>
+            <li>Velocity</li>
+            <li>Transit</li>
+            <li>Bourbon (scss only)</li>
+            <li>Neat (scss only)</li>
+        </ul>
+    </div>
+
+    <div class="main-section__content">
+        <h4 class="main-section__subtitle">Include files</h4>
+
+        <p>
+            All needed files are in the <code>dist</code> folder.<br />
+            You can include LumX files and dependencies in your html template.
         </p>
 
         <div class="example">
             <!-- Example -->
-            <ng-include src="'/demo/includes/start/installation/hljs.includes.html'"></ng-include>
+            <div class="example__code" hljs include="'/demo/includes/start/installation/hljs.includes.html'" language="html"></div>
             <!-- /Example -->
         </div>
 
@@ -30,27 +50,14 @@
             Moreover, you can include the main sccs file in your Sass project instead of including the compiled file.<br />
             You'll get all all variables and mixins available: <a href="/getting-started/customization">read more</a>.
         </p>
-
-        <div class="example">
-            <!-- Example -->
-            <ng-include src="'/demo/includes/start/installation/hljs.import.html'"></ng-include>
-            <!-- /Example -->
-        </div>
     </div>
 
     <div class="main-section__content">
-        <h4 class="main-section__subtitle">Don’t use bower?</h4>
+        <h4 class="main-section__subtitle">Use the AngularJS directives and services</h4>
 
         <p>
-            You first need to install dependencies and them in your project before including LumX:
-            <ul>
-                <li>AngularJS</li>
-                <li>jQuery</li>
-                <li>Velocity</li>
-                <li>Transit</li>
-                <li>Bourbon (scss only)</li>
-                <li>Neat (scss only)</li>
-            </ul>
+            When you have downloaded all the dependencies you need to add dependencies on the LumX AngularJS module:<br />
+            <code>angular.module('myModule', ['lumx']);</code>
         </p>
     </div>
 
@@ -71,15 +78,6 @@
             Velocity and Transit are used to provide smooth animations:<br />
             <a href="http://julian.com/research/velocity" target="_blank">http://julian.com/research/velocity</a><br />
             <a href="http://ricostacruz.com/jquery.transit" target="_blank">http://ricostacruz.com/jquery.transit</a>
-        </p>
-    </div>
-
-    <div class="main-section__content">
-        <h4 class="main-section__subtitle">Use the AngularJS directives and services</h4>
-
-        <p>
-            When you have downloaded all the dependencies you need to add dependencies on the LumX AngularJS module:<br />
-            <code>angular.module('myModule', ['lumx']);</code>
         </p>
     </div>
 </div>
