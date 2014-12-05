@@ -1,0 +1,44 @@
+///*------------------------------------*\
+//    #BASE-HEADINGS
+//\*------------------------------------*/
+
+// Headings 1–6, with corresponding Greek-alphabet abstract classes for double-
+// stranded heading hierarchy: csswizardry.com/2012/02/pragmatic-practical-font-sizing-in-css
+
+// Predefine the variables below in order to alter and enable specific features.
+$heading-size-1:  36px !default;
+$heading-size-2:  30px !default;
+$heading-size-3:  24px !default;
+$heading-size-4:  20px !default;
+$heading-size-5:  16px !default;
+$heading-size-6:  14px !default;
+
+.alpha,
+%alpha {
+    @include font-size($heading-size-1);
+}
+
+.beta,
+%beta {
+    @include font-size($heading-size-2);
+}
+
+.gamma,
+%gamma {
+    @include font-size($heading-size-3);
+}
+
+.delta,
+%delta {
+    @include font-size($heading-size-4);
+}
+
+.epsilon,
+%epsilon {
+    @include font-size($heading-size-5);
+}
+
+.zeta,
+%zeta {
+    @include font-size($heading-size-6);
+}
