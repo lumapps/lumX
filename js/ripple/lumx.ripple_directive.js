@@ -7,7 +7,7 @@ angular.module('lumx.ripple', [])
     {
         return {
             restrict: 'A',
-            link: function(scope, element)
+            link: function(scope, element, attrs)
             {
                 var ripple, d, x, y;
 
@@ -23,6 +23,11 @@ angular.module('lumx.ripple', [])
                             ripple = angular.element('<span/>', {
                                 class: 'ripple'
                             });
+
+                            if (attrs.lxRipple)
+                            {
+                                ripple.addClass('bg-' + attrs.lxRipple);
+                            }
 
                             element.prepend(ripple);
                         }
