@@ -8044,14 +8044,14 @@ html {
   white-space: nowrap; }
 
 .tooltip--black .tooltip__background {
-  background-color: #737373; }
+  background-color: #757575; }
 .tooltip--black .tooltip__label {
-  color: #fff; }
+  color: #FFFFFF; }
 
 .tooltip--white .tooltip__background {
-  background-color: #eee; }
+  background-color: #EEEEEE; }
 .tooltip--white .tooltip__label {
-  color: #000; }
+  color: #000000; }
 
 .tooltip--top .tooltip__background {
   -webkit-transform: scale(0) translateY(50%);
