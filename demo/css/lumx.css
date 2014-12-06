@@ -6038,7 +6038,7 @@ html {
   position: absolute;
   z-index: 999;
   border-radius: 2px;
-  background-color: #fff;
+  background-color: #FFFFFF;
   text-align: left;
   opacity: 0;
   overflow: hidden;
@@ -6063,7 +6063,7 @@ html {
   height: 1px;
   margin-top: 8px;
   margin-bottom: 8px;
-  background-color: #ddd; }
+  background-color: rgba(0, 0, 0, 0.12); }
 
 .dropdown-link {
   display: block;
@@ -6077,18 +6077,11 @@ html {
   text-decoration: none;
   white-space: nowrap; }
   .dropdown-link:not(.dropdown-link--is-header):hover {
-    background-color: #eee; }
+    background-color: #EEEEEE; }
 
 .dropdown-link--is-header {
-  color: #aaa;
+  color: rgba(0, 0, 0, 0.26);
   cursor: default; }
-
-.dropdown-action-link {
-  position: absolute;
-  top: 1px;
-  right: 4px; }
-  .dropdown-action-link:hover {
-    background-color: #eee; }
 
 .fab {
   display: inline-block;

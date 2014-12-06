@@ -18,7 +18,7 @@
     position: absolute;
     z-index: 999;
     border-radius: $md-base-round;
-    background-color: #fff;
+    background-color: $white;
     text-align: left;
     opacity: 0;
     overflow: hidden;
@@ -56,7 +56,7 @@
     height: 1px;
     margin-top: halve($md-spacing-unit);
     margin-bottom: halve($md-spacing-unit);
-    background-color: #ddd;
+    background-color: $black-4;
 }
 
 
@@ -70,30 +70,17 @@
     padding: 0 $md-spacing-unit;
     cursor: pointer;
     @include font-size(14px);
-    color: $base-text-color;
+    color: $black-1;
     line-height: double($md-spacing-unit);
     text-decoration: none;
     white-space: nowrap;
 
     &:not(.dropdown-link--is-header):hover {
-        background-color: #eee;
+        background-color: $grey-200;
     }
 }
 
 .dropdown-link--is-header {
-    color: #aaa;
+    color: $black-3;
     cursor: default;
-}
-
-
-
-
-
-// Dropdown action link
-.dropdown-action-link {
-    @include position(absolute, 1px quarter($md-spacing-unit) null null);
-
-    &:hover {
-        background-color: #eee;
-    }
 }
