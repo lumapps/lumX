@@ -7809,7 +7809,7 @@ html {
     bottom: 7px;
     left: 0;
     height: 1px;
-    border-bottom: 1px solid #ddd; }
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12); }
   .text-field:after {
     position: absolute;
     right: 0;
@@ -7853,7 +7853,7 @@ html {
 .text-field--is-disabled:before {
   border-bottom-style: dashed; }
 .text-field--is-disabled .text-field__input {
-  color: #aaa;
+  color: rgba(0, 0, 0, 0.26);
   cursor: not-allowed; }
 
 .text-field--has-error:after {
@@ -7895,7 +7895,7 @@ html {
   position: absolute;
   top: 0;
   left: 0;
-  color: #aaa;
+  color: rgba(0, 0, 0, 0.26);
   line-height: 16px;
   pointer-events: none;
   -webkit-transform: translateY(40px);

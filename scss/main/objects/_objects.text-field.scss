@@ -16,13 +16,13 @@
     &:before {
         @include position(absolute, null 0 (halve($md-spacing-unit) - 1) 0);
         height: 1px;
-        border-bottom: 1px solid #ddd;
+        border-bottom: 1px solid $black-4;
     }
 
     &:after {
         @include position(absolute, null 0 (halve($md-spacing-unit) - 2) 0);
         height: 2px;
-        background-color: $blue;
+        background-color: $blue-500;
         @include transform(scale(0));
         @include transition-property(transform);
         @include transition-duration(0.6s);
@@ -43,7 +43,7 @@
     }
 
     .text-field__label {
-        color: $blue;
+        color: $blue-500;
     }
 }
 
@@ -53,19 +53,19 @@
     }
 
     .text-field__input {
-        color: #aaa;
+        color: $black-3;
         cursor: not-allowed;
     }
 }
 
 .text-field--has-error {
     &:after {
-        background-color: $red;
+        background-color: $red-500;
         @include transform(scale(1));
     }
 
     .text-field__label {
-        color: $red;
+        color: $red-500;
     }
 }
 
@@ -99,7 +99,7 @@
     // Text field label
     .text-field__label {
         @include position(absolute, 0 null null 0);
-        color: #aaa;
+        color: $black-3;
         line-height: $md-spacing-unit;
         pointer-events: none;
         @include transform(translateY($md-spacing-unit * 2.5));
