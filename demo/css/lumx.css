@@ -6798,7 +6798,7 @@ html {
   bottom: 0;
   left: 0;
   height: 1px;
-  border-bottom: 1px solid #ddd; }
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12); }
 .list-row--has-separator:last-child:after {
   border-bottom: none; }
 
@@ -6826,7 +6826,7 @@ html {
   .list-content-tile span {
     font-size: 14px;
     font-size: 0.875rem;
-    color: #999; }
+    color: rgba(0, 0, 0, 0.54); }
 
 .list-content-tile--one-line strong {
   line-height: 1; }
@@ -6857,8 +6857,8 @@ html {
   padding: 16px;
   font-size: 14px;
   font-size: 0.875rem;
-  font-weight: 700;
-  color: #999;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.54);
   line-height: 16px; }
 
 .list-subheader--is-pushed {
