@@ -7389,7 +7389,8 @@ html {
   height: 40px;
   width: 40px;
   font-size: 24px;
-  font-size: 1.5rem; }
+  font-size: 1.5rem;
+  cursor: pointer; }
   .search-filter__label .mdi {
     position: absolute;
     top: 9px;

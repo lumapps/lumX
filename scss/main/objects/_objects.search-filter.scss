@@ -92,6 +92,7 @@
     @include position(absolute, 0 null null 0);
     @include size($size-l);
     @include font-size(24px);
+    cursor: pointer;
     
     .mdi {
         @include position(absolute, 9px null null 8px);
