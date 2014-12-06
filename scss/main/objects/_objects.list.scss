@@ -131,7 +131,7 @@ $big-icon-size: 40px;
 	height: 1px;
     margin-top: halve($md-spacing-unit);
     margin-bottom: halve($md-spacing-unit);
-    background-color: #ddd;
+    background-color: $black-4;
 }
 
 .list-divider--is-pushed {

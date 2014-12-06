@@ -6848,7 +6848,7 @@ html {
   height: 1px;
   margin-top: 8px;
   margin-bottom: 8px;
-  background-color: #ddd; }
+  background-color: rgba(0, 0, 0, 0.12); }
 
 .list-divider--is-pushed {
   margin-left: 72px; }
