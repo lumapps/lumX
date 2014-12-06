@@ -5974,7 +5974,7 @@ html {
   top: 30px;
   left: 50%;
   z-index: 1000;
-  background-color: #fff;
+  background-color: #FFFFFF;
   opacity: 0;
   pointer-events: none;
   box-shadow: 0 9px 18px rgba(0, 0, 0, 0.5);
@@ -6022,7 +6022,7 @@ html {
 
 .dialog__text {
   margin: 0;
-  color: #757575; }
+  color: rgba(0, 0, 0, 0.54); }
 
 .dialog__actions {
   padding: 16px;
