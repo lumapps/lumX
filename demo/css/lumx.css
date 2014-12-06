@@ -7377,18 +7377,18 @@ label {
   transform: translateX(0); }
 
 .search-filter--light-theme .search-filter__label {
-  color: #fff; }
+  color: #FFFFFF; }
 .search-filter--light-theme .search-filter__input {
-  color: #fff; }
+  color: #FFFFFF; }
 .search-filter--light-theme .search-filter__cancel {
-  color: #fff; }
+  color: #FFFFFF; }
 
 .search-filter--dark-theme .search-filter__label {
-  color: black; }
+  color: rgba(0, 0, 0, 0.87); }
 .search-filter--dark-theme .search-filter__input {
-  color: black; }
+  color: rgba(0, 0, 0, 0.87); }
 .search-filter--dark-theme .search-filter__cancel {
-  color: black; }
+  color: rgba(0, 0, 0, 0.87); }
 
 .search-filter__container {
   position: relative;
