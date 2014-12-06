@@ -12,7 +12,7 @@
         content: '';
         @include position(absolute, null 0 (halve($md-spacing-unit) - 1) 0);
         height: 1px;
-        border-bottom: 1px solid #ddd;
+        border-bottom: 1px solid $black-4;
     }
 
     .dropdown {
@@ -32,7 +32,7 @@
             content: $mdi-var-arrow-drop-down;
             @include position(absolute, null halve($md-spacing-unit) halve($md-spacing-unit) null);
             @include font-size(14px);
-            color: $grey;
+            color: $black-3;
             line-height: 16px;
         }
 
@@ -43,7 +43,7 @@
         }
 
         .ripple {
-            background-color: rgba($grey, 0.3);
+            background-color: $grey-500;
         }
     }
 
@@ -57,7 +57,7 @@
 
     .lx-select__selected--placeholder {
         padding-top: 0 !important;
-        color: #aaa;
+        color: $black-3;
         line-height: double($md-spacing-unit) !important;
     }
 
@@ -71,7 +71,7 @@
         @include transition-duration(0.2s);
 
         &:hover {
-            color: $red;
+            color: $red-500;
         }
     }
 
@@ -83,7 +83,7 @@
         margin-bottom: quarter($md-spacing-unit);
         padding: 0 quarter($md-spacing-unit);
         border-radius: $md-base-round;
-        background-color: #f5f5f5;
+        background-color: $grey-100;
         @include font-size(14px);
         line-height: 24px;
         @include user-select(none);
@@ -113,7 +113,7 @@
             @include mdi;
             @include position(absolute, 0 null null 16px);
             @include font-size(18px);
-            line-height: 32px;
+            line-height: double($md-spacing-unit);
             @include transition-property(transform);
             @include transition-duration(0.2s);
         }
@@ -145,7 +145,7 @@
         height: double($md-spacing-unit);
         padding: 0 $md-spacing-unit;
         @include font-size(14px);
-        color: $grey;
+        color: $black-3;
         line-height: double($md-spacing-unit);
         white-space: nowrap;
     }
@@ -166,7 +166,7 @@
         display: block;
         min-height: $md-spacing-unit * 2.5;
         padding: 0 40px 0 $md-spacing-unit;
-        border-bottom: 1px solid #ddd;
+        border-bottom: 1px solid $black-4;
         line-height: $md-spacing-unit * 2.5;
     }
 
@@ -180,5 +180,5 @@
     .lx-select__filter {
         padding: 0 halve($md-spacing-unit);
         margin-bottom: halve($md-spacing-unit);
-        border-bottom: 1px solid #ddd;
+        border-bottom: 1px solid $black-4;
     }

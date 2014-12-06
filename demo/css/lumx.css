@@ -7493,7 +7493,7 @@ html {
     bottom: 7px;
     left: 0;
     height: 1px;
-    border-bottom: 1px solid #ddd; }
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12); }
   .lx-select .dropdown {
     display: block; }
 
@@ -7515,12 +7515,12 @@ html {
     bottom: 8px;
     font-size: 14px;
     font-size: 0.875rem;
-    color: #9E9E9E;
+    color: rgba(0, 0, 0, 0.26);
     line-height: 16px; }
   .lx-select__selected:hover .lx-select__close {
     opacity: 1; }
   .lx-select__selected .ripple {
-    background-color: rgba(158, 158, 158, 0.3); }
+    background-color: #9E9E9E; }
 
 .lx-select__selected--is-unique {
   line-height: 32px; }
@@ -7530,7 +7530,7 @@ html {
 
 .lx-select__selected--placeholder {
   padding-top: 0 !important;
-  color: #aaa;
+  color: rgba(0, 0, 0, 0.26);
   line-height: 32px !important; }
 
 .lx-select__close {
@@ -7555,7 +7555,7 @@ html {
   margin-bottom: 4px;
   padding: 0 4px;
   border-radius: 2px;
-  background-color: #f5f5f5;
+  background-color: #F5F5F5;
   font-size: 14px;
   font-size: 0.875rem;
   line-height: 24px;
@@ -7628,7 +7628,7 @@ html {
   padding: 0 16px;
   font-size: 14px;
   font-size: 0.875rem;
-  color: #9E9E9E;
+  color: rgba(0, 0, 0, 0.26);
   line-height: 32px;
   white-space: nowrap; }
 
@@ -7645,7 +7645,7 @@ html {
   display: block;
   min-height: 40px;
   padding: 0 40px 0 16px;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
   line-height: 40px; }
 
 .lx-select__chosen--is-multiple {
@@ -7659,7 +7659,7 @@ html {
 .lx-select__filter {
   padding: 0 8px;
   margin-bottom: 8px;
-  border-bottom: 1px solid #ddd; }
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12); }
 
 /*------------------------------------*\
    #OBJECTS-SWITCH
