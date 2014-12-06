@@ -4266,7 +4266,7 @@ html {
 .checkbox__input[disabled] + .checkbox__label {
   cursor: not-allowed; }
   .checkbox__input[disabled] + .checkbox__label:before, .checkbox__input[disabled] + .checkbox__label:after {
-    color: #b0b0b0; }
+    color: rgba(0, 0, 0, 0.26); }
 
 .checkbox__label {
   position: relative;
@@ -4309,7 +4309,7 @@ html {
   font-size: 12px;
   font-size: 0.75rem;
   font-weight: 300;
-  color: #999;
+  color: rgba(0, 0, 0, 0.54);
   text-align: left; }
 
 .tc-red-500 {
@@ -7273,7 +7273,7 @@ label {
 .radio-button__input[disabled] + .radio-button__label {
   cursor: not-allowed; }
   .radio-button__input[disabled] + .radio-button__label:before, .radio-button__input[disabled] + .radio-button__label:after {
-    color: #b0b0b0; }
+    color: rgba(0, 0, 0, 0.26); }
 
 .radio-button__label {
   position: relative;
@@ -7312,7 +7312,7 @@ label {
   font-size: 12px;
   font-size: 0.75rem;
   font-weight: 300;
-  color: #999;
+  color: rgba(0, 0, 0, 0.54);
   text-align: left; }
 
 .ripple {
@@ -7692,11 +7692,11 @@ label {
    #OBJECTS-SWITCH
 \*------------------------------------*/
 .switch__input:not(:checked) + .switch__label:before {
-  background-color: #b0afaf; }
+  background-color: rgba(0, 0, 0, 0.26); }
 .switch__input:not(:checked) + .switch__label:after {
-  background-color: #FFFFFF; }
+  background-color: #FAFAFA; }
 .switch__input:checked + .switch__label:before {
-  background-color: #92cf94; }
+  background-color: rgba(76, 175, 80, 0.5); }
 .switch__input:checked + .switch__label:after {
   background-color: #4CAF50;
   -webkit-transform: translateX(15px);
@@ -7707,9 +7707,9 @@ label {
 .switch__input[disabled] + .switch__label {
   cursor: not-allowed; }
   .switch__input[disabled] + .switch__label:before {
-    background-color: #d5d5d5; }
+    background-color: rgba(0, 0, 0, 0.12); }
   .switch__input[disabled] + .switch__label:after {
-    background-color: #bdbdbd; }
+    background-color: #BDBDBD; }
 
 .switch__label {
   position: relative;
@@ -7760,7 +7760,7 @@ label {
   font-size: 12px;
   font-size: 0.75rem;
   font-weight: 300;
-  color: #999;
+  color: rgba(0, 0, 0, 0.54);
   text-align: left; }
 
 .tabs {

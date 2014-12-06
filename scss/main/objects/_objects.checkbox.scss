@@ -39,7 +39,7 @@
 
                 &:before,
                 &:after {
-                    color: #b0b0b0;
+                    color: $black-3;
                 }
             }
         }
@@ -80,6 +80,6 @@
         padding-left: 30px;
         @include font-size(12px);
         font-weight: 300;
-        color: #999;
+        color: $black-2;
         text-align: left;
     }
