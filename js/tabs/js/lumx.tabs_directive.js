@@ -6,13 +6,16 @@ angular.module('lumx.tabs', [])
     .controller('LxTabsController', ['$scope', '$sce', function($scope, $sce)
     {
         var tabs = [],
+            links,
             indicator;
         
         $scope.activeTab = angular.isUndefined($scope.activeTab) ? 0 : $scope.activeTab;
 
         this.init = function(element)
         {
+            links = element.find('.tabs__links');
             indicator = element.find('.tabs__indicator');
+
             setIndicatorPosition();
         };
 
@@ -43,6 +46,12 @@ angular.module('lumx.tabs', [])
         function setActiveTab(index)
         {
             $scope.activeTab = index;
+        }
+
+        function setLinksColor(newTab)
+        {
+            links.find('.tabs-link').removeClass('tc-' + $scope.indicator);
+            links.find('.tabs-link').eq(newTab).addClass('tc-' + $scope.indicator);
         }
 
         function setIndicatorPosition(oldTab)
@@ -103,6 +112,7 @@ angular.module('lumx.tabs', [])
         {
             if (newIndex !== oldIndex)
             {
+                setLinksColor(newIndex);
                 setIndicatorPosition(oldIndex);
             }
         });
@@ -135,7 +145,7 @@ angular.module('lumx.tabs', [])
 
                 if (angular.isUndefined(scope.indicator))
                 {
-                    scope.indicator = 'blue';
+                    scope.indicator = 'blue-500';
                 }
             }
         };
@@ -156,6 +166,36 @@ angular.module('lumx.tabs', [])
             {
                 scope.data = ctrl.getScope();
                 scope.index = ctrl.addTab(scope.heading, scope.icon);
+            }
+        };
+    })
+    .directive('lxTabLink', function()
+    {
+        return {
+            require: '^lxTabs',
+            restrict: 'A',
+            link: function(scope, element)
+            {
+                if (scope.activeTab === element.parent().index())
+                {
+                    element.addClass('tc-' + scope.indicator);
+                }
+
+                element
+                    .on('mouseenter', function()
+                    {
+                        if (scope.activeTab !== element.parent().index())
+                        {
+                            element.addClass('tc-' + scope.indicator);
+                        }
+                    })
+                    .on('mouseleave', function()
+                    {
+                        if (scope.activeTab !== element.parent().index())
+                        {
+                            element.removeClass('tc-' + scope.indicator);
+                        }
+                    });
             }
         };
     });

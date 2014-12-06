@@ -38,7 +38,6 @@
 // Tabs link
 .tabs-link {
     display: block;
-    position: relative;
     height: $md-spacing-unit * 3;
     cursor: pointer;
     @include font-size(14px);
@@ -82,24 +81,9 @@
         color: $white-2;
     }
 
-    @each $key, $color in $colors {
-        .tabs-link--color-#{$key} {
-            &:hover {
-                color: $white;
-            }
-
-            &.tabs-link--is-active {
-                color: $white;
-            }
-
-            .ripple {
-                background-color: rgba($color, 0.6);
-            }
-        }
-
-        .tabs__indicator--color-#{$key} {
-            background-color: $color;
-        }
+    .tabs-link:hover,
+    .tabs-link--is-active {
+        color: $white !important;
     }
 }
 
@@ -115,25 +99,5 @@
 
     .tabs-link {
         color: $black-2;
-    }
-
-    @each $key, $color in $colors {
-        .tabs-link--color-#{$key} {
-            &:hover {
-                color: $color;
-            } 
-
-            &.tabs-link--is-active {
-                color: $color;
-            }
-
-            .ripple {
-                background-color: rgba($color, 0.3);
-            }
-        }
-
-        .tabs__indicator--color-#{$key} {
-            background-color: $color;
-        }
     }
 }
