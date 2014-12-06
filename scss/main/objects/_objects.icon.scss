@@ -46,7 +46,7 @@
 // Icon colors
 @each $key, $color in $colors {
     .icon--circled.icon--#{$key} {
-        color: $white;
+        color: $white-1;
         background-color: $color;
     }
 

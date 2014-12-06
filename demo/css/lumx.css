@@ -8051,7 +8051,7 @@ html {
 .tooltip--white .tooltip__background {
   background-color: #EEEEEE; }
 .tooltip--white .tooltip__label {
-  color: #000000; }
+  color: rgba(0, 0, 0, 0.87); }
 
 .tooltip--top .tooltip__background {
   -webkit-transform: scale(0) translateY(50%);

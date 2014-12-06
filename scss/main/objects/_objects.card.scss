@@ -47,7 +47,7 @@
 
         .card-title {
             @include position(absolute, null $md-spacing-unit $md-spacing-unit $md-spacing-unit);
-            color: $white;
+            color: $white-1;
         }
     }
 
