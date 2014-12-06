@@ -24,11 +24,11 @@
         &:checked {
             & + .switch__label {
                 &:before {
-                    background-color: rgba($green, 0.5);
+                    background-color: rgba($teal-500, 0.5);
                 }
 
                 &:after {
-                    background-color: $green;
+                    background-color: $teal-500;
                     @include transform(translateX(15px));
                 }
             }

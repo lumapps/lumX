@@ -4301,7 +4301,7 @@ html {
     content: ""; }
   .checkbox__label:after {
     content: "";
-    color: #4CAF50; }
+    color: #009688; }
 
 .checkbox__help {
   display: block;
@@ -7277,7 +7277,7 @@ html {
     content: ""; }
   .radio-button__label:after {
     content: "";
-    color: #4CAF50; }
+    color: #009688; }
 
 .radio-button__help {
   display: block;
@@ -7608,7 +7608,7 @@ html {
     -ms-transform: scale(0);
     -o-transform: scale(0);
     transform: scale(0);
-    color: #4CAF50; }
+    color: #009688; }
 
 .lx-select__choice--is-selected:before {
   -webkit-transform: scale(0);
@@ -7669,9 +7669,9 @@ html {
 .switch__input:not(:checked) + .switch__label:after {
   background-color: #FAFAFA; }
 .switch__input:checked + .switch__label:before {
-  background-color: rgba(76, 175, 80, 0.5); }
+  background-color: rgba(0, 150, 136, 0.5); }
 .switch__input:checked + .switch__label:after {
-  background-color: #4CAF50;
+  background-color: #009688;
   -webkit-transform: translateX(15px);
   -moz-transform: translateX(15px);
   -ms-transform: translateX(15px);

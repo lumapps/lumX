@@ -126,7 +126,7 @@
         &:after {
             content: $mdi-var-check-box;
             @include transform(scale(0));
-            color: $green;
+            color: $teal-500;
         }
     }
 
