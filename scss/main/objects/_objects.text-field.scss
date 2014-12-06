@@ -87,11 +87,11 @@
 
 .text-field--is-valid {
     .text-field__label {
-        color: $green;
+        color: $green-500;
     }
 
     &:after {
-        background-color: $green;
+        background-color: $green-500;
         @include transform(scale(1));
     }
 }
