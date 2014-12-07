@@ -131,16 +131,23 @@ angular.module('lumx.tabs', [])
             replace: true,
             scope: {
                 activeTab: '=?',
-                theme: '@',
-                indicator: '@'
+                linksTc: '@',
+                linksBgc: '@',
+                indicator: '@',
+                noDivider: '@'
             },
             link: function(scope, element, attrs, ctrl)
             {
                 ctrl.init(element);
 
-                if (angular.isUndefined(scope.theme))
+                if (angular.isUndefined(scope.linksTc))
                 {
-                    scope.theme = 'dark';
+                    scope.linksTc = 'dark';
+                }
+
+                if (angular.isUndefined(scope.linksBgc))
+                {
+                    scope.linksBgc = 'white';
                 }
 
                 if (angular.isUndefined(scope.indicator))

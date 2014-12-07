@@ -20,6 +20,12 @@
         }
     }
 
+    .tabs__links--no-divider {
+        .tabs-link {
+            border-bottom: none !important;
+        }
+    }
+
     // Tabs panes
     .tabs__panes {
        padding: $base-spacing-unit;
@@ -27,7 +33,7 @@
 
     // Tabs indicator
     .tabs__indicator {
-        @include position(absolute, (($md-spacing-unit * 3) - 1) 0 null 0);
+        @include position(absolute, (($md-spacing-unit * 3) - 2) 0 null 0);
         height: 2px;
     }
 
@@ -73,11 +79,8 @@
 
 // Tabs theme light
 .tabs--theme-light {
-    .tabs__links {
-        border-bottom: 1px solid $white-2;
-    }
-
     .tabs-link {
+        border-bottom: 1px solid $white-2;
         color: $white-2;
     }
 
@@ -93,11 +96,8 @@
 
 // Tabs theme dark
 .tabs--theme-dark {
-    .tabs__links {
-        border-bottom: 1px solid $black-4;
-    }
-
     .tabs-link {
+        border-bottom: 1px solid $black-4;
         color: $black-2;
     }
 }

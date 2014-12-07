@@ -1,5 +1,6 @@
-<div class="tabs tabs--theme-{{ theme }}">
-    <ul class="tabs__links">
+<div class="tabs tabs--theme-{{ linksTc }}">
+    <ul class="tabs__links bg-{{ linksBgc }}"
+        ng-class="{ 'tabs__links--no-divider': noDivider }">
         <li ng-repeat="tab in getTabs()">
             <a lx-tab-link
                class="tabs-link"
