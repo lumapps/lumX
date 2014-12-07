@@ -20,6 +20,12 @@
         }
     }
 
+    .tabs__links--no-divider {
+        .tabs-link {
+            border-bottom: none !important;
+        }
+    }
+
     // Tabs panes
     .tabs__panes {
        padding: $base-spacing-unit;
@@ -27,7 +33,7 @@
 
     // Tabs indicator
     .tabs__indicator {
-        @include position(absolute, (($md-spacing-unit * 3) - 1) 0 null 0);
+        @include position(absolute, (($md-spacing-unit * 3) - 2) 0 null 0);
         height: 2px;
     }
 
@@ -38,7 +44,6 @@
 // Tabs link
 .tabs-link {
     display: block;
-    position: relative;
     height: $md-spacing-unit * 3;
     cursor: pointer;
     @include font-size(14px);
@@ -74,32 +79,14 @@
 
 // Tabs theme light
 .tabs--theme-light {
-    .tabs__links {
-        border-bottom: 1px solid $white-second;
-    }
-
     .tabs-link {
-        color: $white-second;
+        border-bottom: 1px solid $white-2;
+        color: $white-2;
     }
 
-    @each $key, $color in $colors {
-        .tabs-link--color-#{$key} {
-            &:hover {
-                color: $white;
-            }
-
-            &.tabs-link--is-active {
-                color: $white;
-            }
-
-            .ripple {
-                background-color: rgba($color, 0.6);
-            }
-        }
-
-        .tabs__indicator--color-#{$key} {
-            background-color: $color;
-        }
+    .tabs-link:hover,
+    .tabs-link--is-active {
+        color: $white-1 !important;
     }
 }
 
@@ -109,31 +96,8 @@
 
 // Tabs theme dark
 .tabs--theme-dark {
-    .tabs__links {
-        border-bottom: 1px solid $black-fourth;
-    }
-
     .tabs-link {
-        color: $black-second;
-    }
-
-    @each $key, $color in $colors {
-        .tabs-link--color-#{$key} {
-            &:hover {
-                color: $color;
-            } 
-
-            &.tabs-link--is-active {
-                color: $color;
-            }
-
-            .ripple {
-                background-color: rgba($color, 0.3);
-            }
-        }
-
-        .tabs__indicator--color-#{$key} {
-            background-color: $color;
-        }
+        border-bottom: 1px solid $black-4;
+        color: $black-2;
     }
 }

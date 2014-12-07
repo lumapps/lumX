@@ -47,5 +47,5 @@
         margin-left: halve($md-spacing-unit);
         @include font-size(20px);
         font-weight: 600;
-        line-height: 40px;
+        line-height: $size-l;
     }

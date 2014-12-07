@@ -26,7 +26,7 @@
     }
 
     .search-filter__label {
-        @include transform(translateX(-40px));
+        @include transform(translateX(-($size-l)));
     }
 }
 
@@ -42,29 +42,29 @@
 
 .search-filter--light-theme {
     .search-filter__label {
-        color: #fff;
+        color: $white-1;
     }
 
     .search-filter__input {
-        color: #fff;
+        color: $white-1;
     }
 
     .search-filter__cancel {
-        color: #fff;
+        color: $white-1;
     }
 }
 
 .search-filter--dark-theme {
     .search-filter__label {
-        color: black;
+        color: $black-1;
     }
 
     .search-filter__input {
-        color: black;
+        color: $black-1;
     }
 
     .search-filter__cancel {
-        color: black;
+        color: $black-1;
     }
 }
 
@@ -92,6 +92,7 @@
     @include position(absolute, 0 null null 0);
     @include size($size-l);
     @include font-size(24px);
+    cursor: pointer;
     
     .mdi {
         @include position(absolute, 9px null null 8px);
