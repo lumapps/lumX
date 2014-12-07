@@ -1,5 +1,5 @@
 <div class="tabs tabs--theme-{{ linksTc }}">
-    <ul class="tabs__links bg-{{ linksBgc }}"
+    <ul class="tabs__links bgc-{{ linksBgc }}"
         ng-class="{ 'tabs__links--no-divider': noDivider }">
         <li ng-repeat="tab in getTabs()">
             <a lx-tab-link
@@ -14,5 +14,5 @@
 
     <div class="tabs__panes" ng-transclude></div>
 
-    <div class="tabs__indicator bg-{{ indicator }}"></div>
+    <div class="tabs__indicator bgc-{{ indicator }}"></div>
 </div>

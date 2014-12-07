@@ -26,7 +26,7 @@ angular.module('lumx.ripple', [])
 
                             if (attrs.lxRipple)
                             {
-                                ripple.addClass('bg-' + attrs.lxRipple);
+                                ripple.addClass('bgc-' + attrs.lxRipple);
                             }
 
                             element.prepend(ripple);
