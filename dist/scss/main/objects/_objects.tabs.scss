@@ -13,7 +13,6 @@
         display: table;
         table-layout: fixed;
         width: 100%;
-        border-bottom: 1px solid #ddd;
         text-align: center;
 
         li {
@@ -21,16 +20,21 @@
         }
     }
 
+    .tabs__links--no-divider {
+        .tabs-link {
+            border-bottom: none !important;
+        }
+    }
+
     // Tabs panes
     .tabs__panes {
-        margin-top: $base-spacing-unit;
+       padding: $base-spacing-unit;
     }
 
     // Tabs indicator
     .tabs__indicator {
-        @include position(absolute, (($md-spacing-unit * 3) - 1) 0 null 0);
+        @include position(absolute, (($md-spacing-unit * 3) - 2) 0 null 0);
         height: 2px;
-        background-color: $blue;
     }
 
 
@@ -40,7 +44,6 @@
 // Tabs link
 .tabs-link {
     display: block;
-    position: relative;
     height: $md-spacing-unit * 3;
     cursor: pointer;
     @include font-size(14px);
@@ -51,17 +54,10 @@
     @include transition-property(color);
     @include transition-duration(0.2s);
 
-    &:hover {
-        color: $blue;
+    .mdi {
+        @include font-size(24px);
+        line-height: $md-spacing-unit * 3;
     }
-
-    .ripple {
-        background-color: rgba($blue, 0.3);
-    }
-}
-
-.tabs-link--is-active {
-    color: $blue;
 }
 
 
@@ -75,4 +71,33 @@
 
 .tabs-pane--is-active {
     display: block;
+}
+
+
+
+
+
+// Tabs theme light
+.tabs--theme-light {
+    .tabs-link {
+        border-bottom: 1px solid $white-2;
+        color: $white-2;
+    }
+
+    .tabs-link:hover,
+    .tabs-link--is-active {
+        color: $white-1 !important;
+    }
+}
+
+
+
+
+
+// Tabs theme dark
+.tabs--theme-dark {
+    .tabs-link {
+        border-bottom: 1px solid $black-4;
+        color: $black-2;
+    }
 }

@@ -368,24 +368,18 @@ $blue-grey-900:         #263238;
 
 // Black
 $black:                 #000000;
-$white:                 #ffffff;
+$black-1:               rgba(0, 0, 0, 0.87);
+$black-2:               rgba(0, 0, 0, 0.54);
+$black-3:               rgba(0, 0, 0, 0.26);
+$black-4:               rgba(0, 0, 0, 0.12);
 
 
 
 
 
-// Alpha black values
-$black-first:         rgba(0, 0, 0, 0.87);
-$black-second:        rgba(0, 0, 0, 0.54);
-$black-third:         rgba(0, 0, 0, 0.26);
-$black-fourth:        rgba(0, 0, 0, 0.12);
-
-
-
-
-
-// Alpha black values
-$white-first:         $white;
-$white-second:        rgba(255, 255, 255, 0.70);
-$white-third:         rgba(255, 255, 255, 0.30);
-$white-fourth:        rgba(255, 255, 255, 0.12);
+// White
+$white:                 #FFFFFF;
+$white-1:               #FFFFFF;
+$white-2:               rgba(255, 255, 255, 0.70);
+$white-3:               rgba(255, 255, 255, 0.30);
+$white-4:               rgba(255, 255, 255, 0.12);
