@@ -29,6 +29,14 @@
     & > thead > tr > th:first-child {
         border-bottom: none;
     }
+
+    & > tbody > tr > td:first-child {
+        img,
+        .thumbnail {
+            border-radius: 50%;
+            overflow: hidden;
+        }
+    }
 }
 
 .data-table--has-secondary {
