@@ -42,7 +42,7 @@ $big-icon-size: 40px;
 		content: '';
 		@include position(absolute, null 0 0 0);
 		height: 1px;
-		border-bottom: 1px solid #ddd;
+		border-bottom: 1px solid $black-4;
 	}
 
 	&:last-child:after {
@@ -89,7 +89,7 @@ $big-icon-size: 40px;
 
 	span {
 		@include font-size(14px);
-		color: #999;
+		color: $black-2;
 	}
 }
 
@@ -131,7 +131,7 @@ $big-icon-size: 40px;
 	height: 1px;
     margin-top: halve($md-spacing-unit);
     margin-bottom: halve($md-spacing-unit);
-    background-color: #ddd;
+    background-color: $black-4;
 }
 
 .list-divider--is-pushed {
@@ -146,8 +146,8 @@ $big-icon-size: 40px;
 .list-subheader {
 	padding: $md-spacing-unit;
 	@include font-size(14px);
-	font-weight: 700;
-	color: #999;
+	font-weight: 600;
+	color: $black-2;
 	line-height: $md-spacing-unit;
 }
 
