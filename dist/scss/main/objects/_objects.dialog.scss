@@ -27,7 +27,7 @@
 .dialog {
     @include position(fixed, 30px null null 50%);
     z-index: 1000;
-    background-color: #fff;
+    background-color: $white;
     opacity: 0;
     pointer-events: none;
     @include z-depth(3);
@@ -69,7 +69,7 @@
     // Dialog text
     .dialog__text {
         margin: 0;
-        color: #757575;
+        color: $black-2;
     }
 
     // Dialog actions
