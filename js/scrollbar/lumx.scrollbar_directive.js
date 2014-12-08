@@ -3,6 +3,13 @@
 
 
 angular.module('lumx.scrollbar', [])
+    .service('LxScrollbarService', function()
+    {
+        this.update = function()
+        {
+            $(window).trigger('resize');
+        };
+    })
     .controller('LxScrollbarController', ['$scope', '$window', function($scope, $window)
     {
         var mousePosition,
