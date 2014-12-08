@@ -39,7 +39,7 @@
 
                 &:before,
                 &:after {
-                    color: #b0b0b0;
+                    color: $black-3;
                 }
             }
         }
@@ -50,7 +50,7 @@
         position: relative;
         padding-left: 30px;
         font-weight: 400;
-        line-height: 24px;
+        line-height: $size-xs;
         cursor: pointer;
         @include user-select(none);
 
@@ -58,8 +58,8 @@
         &:after {
             @include mdi;
             @include position(absolute, 0 null null 0);
-            @include font-size(24px);
-            line-height: 24px;
+            @include font-size($size-xs);
+            line-height: $size-xs;
             @include transition-property(transform);
             @include transition-duration(0.2s);
         }
@@ -70,7 +70,7 @@
 
         &:after {
             content: $mdi-var-check-box;
-            color: $green;
+            color: $teal-500;
         }
     }
 
@@ -80,6 +80,6 @@
         padding-left: 30px;
         @include font-size(12px);
         font-weight: 300;
-        color: #999;
+        color: $black-2;
         text-align: left;
     }
