@@ -7786,12 +7786,6 @@ html {
     font-size: 1.5rem;
     line-height: 48px; }
 
-.tabs-pane {
-  display: none; }
-
-.tabs-pane--is-active {
-  display: block; }
-
 .tabs--theme-light .tabs-link {
   border-bottom: 1px solid rgba(255, 255, 255, 0.7);
   color: rgba(255, 255, 255, 0.7); }
