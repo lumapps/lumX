@@ -7,7 +7,7 @@ angular.module('lumx.scrollbar', [])
     {
         this.update = function()
         {
-            $(window).trigger('resize');
+            angular.element('window').trigger('resize');
         };
     })
     .controller('LxScrollbarController', ['$scope', '$window', function($scope, $window)
