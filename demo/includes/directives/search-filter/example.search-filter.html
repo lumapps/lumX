@@ -1,27 +1,53 @@
 <div class="grid">
-    <div class="grid__col6 card">
-        <div class="toolbar">
-            <lx-search-filter model="searchFilter.first"></lx-search-filter>
+    <div class="grid__col6">
+        <div class="card">
+            <div class="toolbar">
+                <lx-search-filter model="searchFilter.first" width="100%"></lx-search-filter>
+            </div>
         </div>
     </div>
 
-    <div class="grid__col6 card">
-        <div class="toolbar">
-            <lx-search-filter closed theme="dark" model="searchFilter.second"></lx-search-filter>
+    <div class="grid__col6">
+        <div class="card">
+            <div class="toolbar">
+                <div class="toolbar__right">
+                    <button class="btn btn--l btn--black btn--icon" lx-ripple>
+                        <i class="mdi mdi--apps"></i>
+                    </button>
+
+                    <lx-search-filter model="searchFilter.second" position="right" closed></lx-search-filter>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
 <div class="grid mt">
-    <div class="grid__col6 card bgc-indigo-500">
-        <div class="toolbar">
-            <lx-search-filter theme="light" model="searchFilter.third"></lx-search-filter>
+    <div class="grid__col6">
+        <div class="card bgc-indigo-500">
+            <div class="toolbar">
+                <div class="toolbar__right">
+                    <button class="btn btn--l btn--white btn--icon" lx-ripple>
+                        <i class="mdi mdi--apps"></i>
+                    </button>
+
+                    <lx-search-filter model="searchFilter.third" position="right" width="400px" theme="light" closed></lx-search-filter>
+                </div>
+            </div>
         </div>
     </div>
 
-    <div class="grid__col6 card bgc-indigo-500">
-        <div class="toolbar">
-            <lx-search-filter closed theme="light" model="searchFilter.fourth"></lx-search-filter>
+    <div class="grid__col6">
+        <div class="card bgc-indigo-500">
+            <div class="toolbar">
+                <div class="toolbar__left">
+                    <lx-search-filter model="searchFilter.fourth" position="left" theme="light" closed></lx-search-filter>
+
+                    <button class="btn btn--l btn--white btn--icon" lx-ripple>
+                        <i class="mdi mdi--apps"></i>
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 </div>
