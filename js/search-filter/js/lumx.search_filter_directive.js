@@ -15,7 +15,6 @@ angular.module('lumx.search-filter', [])
             {
                 var $input = element.find('.search-filter__input'),
                     $label = element.find('.search-filter__label'),
-                    $cancel = element.find('.search-filter__cancel'),
                     $searchFilter = element.find('.search-filter'),
                     $searchFilterContainer = element.find('.search-filter__container');
 
@@ -52,17 +51,6 @@ angular.module('lumx.search-filter', [])
 
                 // Events
                 $input
-                    .on('input', function()
-                    {
-                        if ($input.val())
-                        {
-                            $searchFilter.addClass('search-filter--is-focused');
-                        }
-                        else
-                        {
-                            $searchFilter.removeClass('search-filter--is-focused');
-                        }
-                    })
                     .on('blur', function()
                     {
                         if (angular.isDefined(attrs.closed) && !$input.val())
@@ -100,21 +88,12 @@ angular.module('lumx.search-filter', [])
                     }
                 });
 
-                $cancel.on('click', function()
+                scope.clear = function()
                 {
-                    $input.val('').focus();
+                    scope.model = undefined;
 
-                    $searchFilter.removeClass('search-filter--is-focused');
-                });
-
-                // Init the field
-                $timeout(function()
-                {
-                    if ($input.val())
-                    {
-                        element.addClass('search-filter--is-active');
-                    }
-                });
+                    $input.focus();
+                };
             }
         };
     }]);
