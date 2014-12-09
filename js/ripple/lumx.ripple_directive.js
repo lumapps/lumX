@@ -3,13 +3,13 @@
 
 
 angular.module('lumx.ripple', [])
-    .directive('lxRipple', function()
+    .directive('lxRipple', ['$timeout', function($timeout)
     {
         return {
             restrict: 'A',
             link: function(scope, element, attrs)
             {
-                var ripple, d, x, y;
+                var timeout;
 
                 element
                     .css({
@@ -18,6 +18,8 @@ angular.module('lumx.ripple', [])
                     })
                     .bind('mousedown', function(e)
                     {
+                        var ripple;
+
                         if (element.find('.ripple').length === 0)
                         {
                             ripple = angular.element('<span/>', {
@@ -35,21 +37,31 @@ angular.module('lumx.ripple', [])
                         {
                             ripple = element.find('.ripple');
                         }
-                             
+
                         ripple.removeClass('ripple--is-animated');
-                         
+
                         if (!ripple.height() && !ripple.width())
                         {
-                            d = Math.max(element.outerWidth(), element.outerHeight());
+                            var diameter = Math.max(element.outerWidth(), element.outerHeight());
 
-                            ripple.css({ height: d, width: d });
+                            ripple.css({ height: diameter, width: diameter });
                         }
-                         
-                        x = e.pageX - element.offset().left - ripple.width() / 2;
-                        y = e.pageY - element.offset().top - ripple.height() / 2;
-                         
+
+                        var x = e.pageX - element.offset().left - ripple.width() / 2;
+                        var y = e.pageY - element.offset().top - ripple.height() / 2;
+
                         ripple.css({ top: y+'px', left: x+'px' }).addClass('ripple--is-animated');
+
+                        timeout = $timeout(function()
+                        {
+                            ripple.removeClass('ripple--is-animated');
+                        }, 651);
                     });
+
+                scope.$on('$destroy', function()
+                {
+                    $timeout.cancel(timeout);
+                });
             }
         };
-    });
+    }]);
