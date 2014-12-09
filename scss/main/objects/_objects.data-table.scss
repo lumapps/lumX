@@ -6,16 +6,8 @@
 .data-table-container {
     position: relative;
     width: 100%;
-
-    @include media-query(portable) {
-        overflow-x: auto;
-        overflow-y: hidden;
-        -webkit-overflow-scrolling: touch;
-    }
-
-    @include media-query(desk) {
-        overflow: hidden;
-    }
+    overflow-x: auto;
+    overflow-y: hidden;
 }
 
 
@@ -30,7 +22,7 @@
     & > thead > tr > th,
     & > tbody > tr > td {
         height: quadruple($md-spacing-unit);
-        padding: 0 $md-spacing-unit;
+        padding: halve($base-spacing-unit) $md-spacing-unit;
     }
 
     & > thead > tr > th {
@@ -44,7 +36,8 @@
     & > thead > tr > th:first-child,
     & > tbody > tr > td:first-child {
         width: quadruple($md-spacing-unit) + $size-l;
-        padding: 0 double($md-spacing-unit);
+        padding-left: double($md-spacing-unit);
+        padding-right: double($md-spacing-unit);
     }
 
     & > thead > tr > th:first-child {
