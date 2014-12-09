@@ -9,59 +9,21 @@ angular.module('lumx.text-field', [])
             restrict: 'E',
             scope: {
                 label: '@',
+                type: '@?',
                 disabled: '&',
                 error: '&',
                 valid: '&',
-                fixedLabel: '&'
+                fixedLabel: '&',
+                model: '=?'
             },
             templateUrl: 'lumx.text_field.html',
-            transclude: true,
             replace: true,
             link: function(scope, element, attrs)
             {
-                var $input = element.find('input, textarea');
-
-                $input.addClass('text-field__input');
-
-                if ($input.val())
+                if (angular.isUndefined(attrs.type))
                 {
-                    element.addClass('text-field--is-active');
+                    scope.type = 'text';
                 }
-
-                $input.on('focus', function()
-                {
-                    element.addClass('text-field--is-focused text-field--is-active');
-                });
-
-                $input.on('input', function()
-                {
-                    if ((angular.isDefined(attrs.fixedLabel)) && $input.val())
-                    {
-                        element.addClass('text-field--label-hidden');
-                    }
-                    else
-                    {
-                        element.removeClass('text-field--label-hidden');
-                    }
-                });
-
-                $input.on('blur', function()
-                {
-                    element.removeClass('text-field--is-focused');
-
-                    if (!$input.val())
-                    {
-                        element.removeClass('text-field--is-active');
-                    }
-                });
-
-                $timeout(function()
-                {
-                    if ($input.val())
-                    {
-                        element.addClass('text-field--is-active');
-                    }
-                });
             }
         };
     }]);

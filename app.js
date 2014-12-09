@@ -263,6 +263,7 @@ app.controller('AppController',
     };
 
     $scope.textFields = {
+        disabled: 'LumApps',
         firstName: 'Leeloo',
         lastName: '',
         firstEmail: 'bad-email',

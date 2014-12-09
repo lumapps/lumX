@@ -2,10 +2,14 @@
      ng-class="{ 'text-field--is-valid': valid(),
                  'text-field--has-error': error(),
                  'text-field--is-disabled': disabled(),
-                 'text-field--fixed-label': fixedLabel() }">
+                 'text-field--fixed-label': fixedLabel(),
+                 'text-field--is-active': model || focused,
+                 'text-field--is-focused': focused,
+                 'text-field--label-hidden': fixedLabel() && model }">
     <label class="text-field__label">
         {{ label }}
     </label>
 
-    <div ng-transclude-replace></div>
+    <input class="text-field__input" type="{{ type }}"
+           ng-disabled="disabled()" ng-model="model" ng-focus="focused = true" ng-blur="focused = false">
 </div>
