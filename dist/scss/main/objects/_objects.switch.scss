@@ -12,11 +12,11 @@
         &:not(:checked) {
             & + .switch__label {
                 &:before {
-                    background-color: #b0afaf;
+                    background-color: $black-3;
                 }
 
                 &:after {
-                    background-color: $white;
+                    background-color: $grey-50;
                 }
             }
         }
@@ -24,11 +24,11 @@
         &:checked {
             & + .switch__label {
                 &:before {
-                    background-color: lighten($green, 20%);
+                    background-color: rgba($teal-500, 0.5);
                 }
 
                 &:after {
-                    background-color: $green;
+                    background-color: $teal-500;
                     @include transform(translateX(15px));
                 }
             }
@@ -39,11 +39,11 @@
                 cursor: not-allowed;
 
                 &:before {
-                    background-color: #d5d5d5;
+                    background-color: $black-4;
                 }
 
                 &:after {
-                    background-color: #bdbdbd;
+                    background-color: $grey-400;
                 }
             }
         }
@@ -87,6 +87,6 @@
         padding-left: 45px;
         @include font-size(12px);
         font-weight: 300;
-        color: #999;
+        color: $black-2;
         text-align: left;
     }
