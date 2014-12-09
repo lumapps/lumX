@@ -91,6 +91,15 @@ angular.module('lumx.search-filter', [])
 
                     element.removeClass('search-filter--is-active');
                 });
+
+                // Init the field
+                $timeout(function()
+                {
+                    if ($input.val())
+                    {
+                        element.addClass('search-filter--is-active');
+                    }
+                });
             }
         };
     }]);
