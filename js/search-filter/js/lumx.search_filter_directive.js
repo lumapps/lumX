@@ -3,7 +3,7 @@
 
 
 angular.module('lumx.search-filter', [])
-    .directive('lxSearchFilter', ['$timeout', '$document', function($timeout, $document)
+    .directive('lxSearchFilter', ['$timeout', function($timeout)
     {
         return {
             restrict: 'E',
@@ -15,69 +15,84 @@ angular.module('lumx.search-filter', [])
             {
                 var $input = element.find('.search-filter__input'),
                     $label = element.find('.search-filter__label'),
-                    $cancel = element.find('.search-filter__cancel');
+                    $cancel = element.find('.search-filter__cancel'),
+                    $searchFilter = element.find('.search-filter'),
+                    $searchFilterContainer = element.find('.search-filter__container');
 
                 if (angular.isDefined(attrs.closed))
                 {
-                    element.addClass('search-filter--is-closed');
+                    $searchFilter.addClass('search-filter--is-closed');
                 }
 
+                // Width
+                attrs.$observe('filterWidth', function(filterWidth)
+                {
+                    $searchFilterContainer.css({ width: filterWidth });
+                });
+
+                // Theme
                 attrs.$observe('theme', function(theme)
                 {
-                    element.removeClass('search-filter--light-theme search-filter--dark-theme');
+                    $searchFilter.removeClass('search-filter--light-theme search-filter--dark-theme');
 
                     if (theme === 'light')
                     {
-                        element.addClass('search-filter--light-theme');
+                        $searchFilter.addClass('search-filter--light-theme');
                     }
                     else
                     {
-                        element.addClass('search-filter--dark-theme');
+                        $searchFilter.addClass('search-filter--dark-theme');
                     }
                 });
 
                 if (angular.isUndefined(attrs.theme))
                 {
-                    element.addClass('search-filter--dark-theme');
+                    $searchFilter.addClass('search-filter--dark-theme');
                 }
 
-                $input.on('input', function()
-                {
-                    if ($input.val())
+                // Events
+                $input
+                    .on('input', function()
                     {
-                        element.addClass('search-filter--is-active');
-                    }
-                    else
+                        if ($input.val())
+                        {
+                            $searchFilter.addClass('search-filter--is-focused');
+                        }
+                        else
+                        {
+                            $searchFilter.removeClass('search-filter--is-focused');
+                        }
+                    })
+                    .on('blur', function()
                     {
-                        element.removeClass('search-filter--is-active');
-                    }
-                });
+                        if (angular.isDefined(attrs.closed) && !$input.val())
+                        {
+                            $searchFilter.velocity({ 
+                                width: 40
+                            }, {
+                                duration: 400,
+                                easing: 'easeOutQuint',
+                                queue: false
+                            });
+                        }
+                    });
 
                 $label.on('click', function()
                 {
                     if (angular.isDefined(attrs.closed))
                     {
-                        element.addClass('search-filter--is-focus');
+                        $searchFilter.velocity({ 
+                            width: attrs.filterWidth ? attrs.filterWidth: 240
+                        }, {
+                            duration: 400,
+                            easing: 'easeOutQuint',
+                            queue: false
+                        });
 
-                        // After the end of the CSS animation, focus on the input
                         $timeout(function()
                         {
                             $input.focus();
-
-                            // Detect all clicks outside the components, and close it
-                            $document.on('click', function()
-                            {
-                                element.removeClass('search-filter--is-focus');
-
-                                $document.off('click');
-                                element.off('click');
-                            });
-
-                            element.on('click', function(event)
-                            {
-                                event.stopPropagation();
-                            });
-                        }, 600);
+                        }, 401);
                     }
                     else
                     {
@@ -89,7 +104,7 @@ angular.module('lumx.search-filter', [])
                 {
                     $input.val('').focus();
 
-                    element.removeClass('search-filter--is-active');
+                    $searchFilter.removeClass('search-filter--is-focused');
                 });
 
                 // Init the field
