@@ -3,7 +3,7 @@
 
 
 angular.module('lumx.text-field', [])
-    .directive('lxTextField', function()
+    .directive('lxTextField', ['$timeout', function($timeout)
     {
         return {
             restrict: 'E',
@@ -54,6 +54,14 @@ angular.module('lumx.text-field', [])
                         element.removeClass('text-field--is-active');
                     }
                 });
+
+                $timeout(function()
+                {
+                    if ($input.val())
+                    {
+                        element.addClass('text-field--is-active');
+                    }
+                });
             }
         };
-    });
+    }]);

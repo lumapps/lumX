@@ -262,6 +262,11 @@ app.controller('AppController',
         fourth: ''
     };
 
+    $scope.textFields = {
+        firstName: 'Leeloo',
+        lastName: ''
+    };
+
     $scope.$watch('searchFilter.first', function(newVal, oldVal)
     {
         console.log("Filter changed: '" + newVal + "' from '" + oldVal + "'");
