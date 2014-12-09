@@ -6016,9 +6016,14 @@ html {
   width: 400px;
   margin-left: -200px; }
 
-.dialog--l {
-  width: 800px;
-  margin-left: -400px; }
+@media screen and (min-width: 1024px) {
+  .dialog--l {
+    width: 800px;
+    margin-left: -400px; } }
+@media screen and (max-width: 1023px) {
+  .dialog--l {
+    width: 80%;
+    margin-left: -40%; } }
 
 .dialog--is-shown {
   opacity: 1;
