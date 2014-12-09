@@ -43,8 +43,15 @@
 }
 
 .dialog--l {
-    width: 800px;
-    margin-left: -400px;
+    @include media-query(desk) {
+        width: 800px;
+        margin-left: -400px;
+    }
+
+    @include media-query(portable) {
+        width: 80%;
+        margin-left: -40%;
+    }
 }
 
 .dialog--is-shown {
