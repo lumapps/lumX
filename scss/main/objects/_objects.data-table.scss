@@ -2,6 +2,26 @@
 //    #OBJECTS-DATA-TABLE
 //\*------------------------------------*/
 
+// Data table container
+.data-table-container {
+    position: relative;
+    width: 100%;
+
+    @include media-query(portable) {
+        overflow-x: auto;
+        overflow-y: hidden;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    @include media-query(desk) {
+        overflow: hidden;
+    }
+}
+
+
+
+
+
 // Data table base styles
 .data-table {
     width: 100%;
@@ -10,6 +30,7 @@
     & > thead > tr > th,
     & > tbody > tr > td {
         height: quadruple($md-spacing-unit);
+        padding: 0 $md-spacing-unit;
     }
 
     & > thead > tr > th {
@@ -36,6 +57,11 @@
             border-radius: 50%;
             overflow: hidden;
         }
+    }
+
+    & > thead > tr > th:nth-child(2),
+    & > tbody > tr > td:nth-child(2) {
+        padding-left: 0;
     }
 }
 
