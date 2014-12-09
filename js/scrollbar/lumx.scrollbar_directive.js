@@ -3,11 +3,11 @@
 
 
 angular.module('lumx.scrollbar', [])
-    .service('LxScrollbarService', function()
+    .service('LxScrollbarService', function($window)
     {
         this.update = function()
         {
-            angular.element('window').trigger('resize');
+            angular.element($window).trigger('resize');
         };
     })
     .controller('LxScrollbarController', ['$scope', '$window', function($scope, $window)
