@@ -1,0 +1,81 @@
+///*------------------------------------*\
+//    #BASE-TYPOGRAPHY
+//\*------------------------------------*/
+
+.fs-caption,
+%fs-caption {
+    @include font-size(12px);
+    font-weight: 400;
+}
+
+.fs-body1,
+%fs-body1,
+.fs-body2,
+%fs-body2 {
+    @include media-query(portable) {
+        @include font-size(14px);
+    }
+
+    @include media-query(desk) {
+        @include font-size(13px);
+    }
+}
+
+.fs-body1,
+%fs-body1 {
+    font-weight: 400;
+}
+
+.fs-body2,
+%fs-body2 {
+    font-weight: 600;
+}
+
+.fs-subhead,
+%fs-subhead {
+    font-weight: 400;
+
+    @include media-query(portable) {
+        @include font-size(16px);
+    }
+
+    @include media-query(desk) {
+        @include font-size(15px);
+    }
+}
+
+.fs-title,
+%fs-title {
+    @include font-size(20px);
+    font-weight: 600;
+}
+
+.fs-headline,
+%fs-headline {
+    @include font-size(24px);
+    font-weight: 400;
+}
+
+.fs-display1,
+%fs-display1 {
+    @include font-size(34px);
+    font-weight: 400;
+}
+
+.fs-display2,
+%fs-display2 {
+    @include font-size(45px);
+    font-weight: 400;
+}
+
+.fs-display3,
+%fs-display3 {
+    @include font-size(56px);
+    font-weight: 400;
+}
+
+.fs-display4,
+%fs-display4 {
+    @include font-size(112px);
+    font-weight: 300;
+}
