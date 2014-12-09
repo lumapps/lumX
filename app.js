@@ -264,7 +264,15 @@ app.controller('AppController',
 
     $scope.textFields = {
         firstName: 'Leeloo',
-        lastName: ''
+        lastName: '',
+        firstEmail: 'bad-email',
+        secondEmail: 'hello@lumapps.com',
+        thirdEmail: 'hello@lumapps.com'
+    };
+
+    $scope.emailValidation = function(email)
+    {
+        return /^[0-9a-zA-Z]+([0-9a-zA-Z]*[-._+])*[0-9a-zA-Z]+@[0-9a-zA-Z]+([-.][0-9a-zA-Z]+)*([0-9a-zA-Z]*[.])[a-zA-Z]{2,6}$/.test(email);
     };
 
     $scope.$watch('searchFilter.first', function(newVal, oldVal)

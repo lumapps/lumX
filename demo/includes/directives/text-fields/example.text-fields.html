@@ -22,18 +22,26 @@
 
 <div class="grid">
     <div class="grid__col4">
-        <lx-text-field label="Email" error="true">
-            <input type="email" value="Test">
+        <lx-text-field label="Email" error="!emailValidation(textFields.firstEmail)">
+            <input type="email" ng-model="textFields.firstEmail">
         </lx-text-field>
 
-        <ul class="form-error">
+        <ul class="form-error" ng-if="!emailValidation(textFields.secondEmail)">
             <li>Lorem ipsum dolor sit amet.</li>
         </ul>
     </div>
 
     <div class="grid__col4">
-        <lx-text-field label="Email" valid="true">
-            <input type="email" value="hello@lumapps.com">
+        <lx-text-field label="Email" error="!emailValidation(textFields.secondEmail)">
+            <input type="email" ng-model="textFields.secondEmail">
+        </lx-text-field>
+    </div>
+
+    <div class="grid__col4">
+        <lx-text-field label="Repeat previous email"
+                       valid="emailValidation(textFields.secondEmail) && textFields.secondEmail === textFields.thirdEmail"
+                       error="!emailValidation(textFields.secondEmail) || textFields.secondEmail !== textFields.thirdEmail">
+            <input type="email" ng-model="textFields.thirdEmail">
         </lx-text-field>
     </div>
 </div>

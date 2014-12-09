@@ -9,10 +9,10 @@ angular.module('lumx.text-field', [])
             restrict: 'E',
             scope: {
                 label: '@',
-                disabled: '@',
-                error: '@',
-                valid: '@',
-                fixedLabel: '@'
+                disabled: '&',
+                error: '&',
+                valid: '&',
+                fixedLabel: '&'
             },
             templateUrl: 'lumx.text_field.html',
             transclude: true,
