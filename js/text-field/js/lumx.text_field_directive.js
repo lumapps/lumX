@@ -10,6 +10,7 @@ angular.module('lumx.text-field', [])
             scope: {
                 label: '@',
                 type: '@?',
+                name: '@?',
                 disabled: '&',
                 error: '&',
                 valid: '&',
