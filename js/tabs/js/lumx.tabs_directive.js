@@ -134,7 +134,8 @@ angular.module('lumx.tabs', [])
                 linksTc: '@',
                 linksBgc: '@',
                 indicator: '@',
-                noDivider: '@'
+                noDivider: '@',
+                zDepth: '@'
             },
             link: function(scope, element, attrs, ctrl)
             {
@@ -153,6 +154,11 @@ angular.module('lumx.tabs', [])
                 if (angular.isUndefined(scope.indicator))
                 {
                     scope.indicator = 'blue-500';
+                }
+
+                if (angular.isUndefined(scope.zDepth))
+                {
+                    scope.zDepth = '0';
                 }
             }
         };
