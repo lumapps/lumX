@@ -25,9 +25,9 @@ angular.module('lumx.search-filter', [])
                 }
 
                 // Width
-                attrs.$observe('width', function(width)
+                attrs.$observe('filterWidth', function(filterWidth)
                 {
-                    $searchFilterContainer.css({ width: width });
+                    $searchFilterContainer.css({ width: filterWidth });
                 });
 
                 // Theme
@@ -82,7 +82,7 @@ angular.module('lumx.search-filter', [])
                     if (angular.isDefined(attrs.closed))
                     {
                         $searchFilter.velocity({ 
-                            width: attrs.width ? attrs.width: 240
+                            width: attrs.filterWidth ? attrs.filterWidth: 240
                         }, {
                             duration: 400,
                             easing: 'easeOutQuint',
@@ -92,7 +92,7 @@ angular.module('lumx.search-filter', [])
                         $timeout(function()
                         {
                             $input.focus();
-                        }, 400);
+                        }, 401);
                     }
                     else
                     {
