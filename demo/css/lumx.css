@@ -7775,9 +7775,6 @@ html {
 .tabs__links--no-divider .tabs-link {
   border-bottom: none !important; }
 
-.tabs__panes {
-  padding: 24px; }
-
 .tabs__indicator {
   position: absolute;
   top: 46px;
