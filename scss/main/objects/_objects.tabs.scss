@@ -26,11 +26,6 @@
         }
     }
 
-    // Tabs panes
-    .tabs__panes {
-       padding: $base-spacing-unit;
-    }
-
     // Tabs indicator
     .tabs__indicator {
         @include position(absolute, (($md-spacing-unit * 3) - 2) 0 null 0);
