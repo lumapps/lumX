@@ -114,7 +114,9 @@
         @include size(100% double($md-spacing-unit));
         margin: 0;
         padding: 0;
+        overflow: hidden;
         border: none;
+        resize: none;
         font-weight: 400;
         cursor: text;
         @include appearance(none);
@@ -123,3 +125,27 @@
             outline: none;
         }
     }
+
+
+
+
+
+// Textarea
+textarea {
+    resize: none;
+}
+
+
+
+
+
+// Textarea copy
+.textarea-copy {
+    @include position(fixed, 0 null null 0);
+    padding: 0;
+    min-height: 34px;
+    overflow-y: scroll;
+    opacity: 0;
+    z-index: -1000;
+    visibility: hidden;
+}
