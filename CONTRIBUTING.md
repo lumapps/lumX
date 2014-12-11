@@ -169,7 +169,7 @@ The body should include the motivation for the change and contrast this with pre
 ### Footer
 
 The footer should contain any information about **Breaking Changes** and is also the place to reference GitHub issues that this commit **Closes**.
-The breaking changes must be at the end of the commit with only on "BROKEN :" before the list of breaking changes. They must be each on a new line.
+The breaking changes must be at the end of the commit with only on "BROKEN:" before the list of breaking changes. They must be each on a new line.
 
 ### Commit example
 
@@ -180,7 +180,7 @@ Before we had to do XXX. There was this and this problem. Now, by using TOTO, it
 
 Closes PR #25
 Fix #15
-BROKEN :
+BROKEN:
 first thing broken
 second thing broken
 ```
