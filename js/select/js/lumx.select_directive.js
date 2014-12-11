@@ -219,10 +219,10 @@ angular.module('lumx.select', [])
             {
                 newSelection = true;
 
-                var value = newConvertedValue !== undefined ? newConvertedValue : [];
+                var value = newConvertedValue !== undefined ? angular.copy(newConvertedValue) : [];
                 if (!$scope.multiple)
                 {
-                    value = newConvertedValue !== undefined ? [newConvertedValue] : [];
+                    value = newConvertedValue !== undefined ? [angular.copy(newConvertedValue)] : [];
                 }
 
                 $scope.data.selected = value;
@@ -257,8 +257,8 @@ angular.module('lumx.select', [])
             {
                 newModel = true;
 
-                $scope.change({ newValue: newConvertedValue, oldValue: $scope.model });
-                $scope.model = newConvertedValue;
+                $scope.change({ newValue: angular.copy(newConvertedValue), oldValue: angular.copy($scope.model) });
+                $scope.model = angular.copy(newConvertedValue);
             });
 
             if (angular.isDefined(newValue) && angular.isDefined($scope.data.selectedTransclude))
