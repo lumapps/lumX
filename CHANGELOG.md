@@ -1,5 +1,19 @@
 # Changelog
 
+## v0.2.11:
+
+#### New fetures:
+ - selects: converter model=>items & vice versa
+
+#### Bug fixes:
+ - selects: selected items init in the dropdown
+ - selects: indexof between objects
+ - selects: pointers between model & selected
+
+#### Breaking changes:
+ - selects "selected" is replaced by "model"
+
+
 ## v0.2.10:
 
 #### Bug fixes:

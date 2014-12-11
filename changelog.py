@@ -67,8 +67,9 @@ def buildNewLogs(fromTag, toTag):
                 logs += " - %s\n" % fix
         if len(brokens):
             logs += "\n#### Breaking changes:\n"
-            for borken in brokens:
-                logs += " - %s\n" % borken
+            for broken in brokens:
+                if broken.rstrip() != '':
+                    logs += " - %s\n" % broken
         logs += "\n\n"
 
     return logs
