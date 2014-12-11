@@ -3,21 +3,28 @@
 
 
 angular.module('lumx.select', [])
-    .controller('LxSelectController', ['$scope', '$compile', '$filter', '$interpolate', '$sce',
-                                       function($scope, $compile, $filter, $interpolate, $sce)
+    .controller('LxSelectController', ['$scope', '$compile', '$filter', '$interpolate', '$sce', '$timeout',
+                                       function($scope, $compile, $filter, $interpolate, $sce, $timeout)
     {
-        var self = this;
+        var self = this,
+            newModel = false,
+            newSelection = true,
+            modelToSelectionDefined = false,
+            selectionToModelDefined = false;
+
 
         // Link methods
         this.init = function(element, attrs)
         {
             $scope.multiple = angular.isDefined(attrs.multiple);
             $scope.tree = angular.isDefined(attrs.tree);
+            modelToSelectionDefined = angular.isDefined(attrs.modelToSelection);
+            selectionToModelDefined = angular.isDefined(attrs.selectionToModel);
         };
 
         this.registerTransclude = function(transclude)
         {
-            $scope.selectedTransclude = transclude;
+            $scope.data.selectedTransclude = transclude;
         };
 
         this.getScope = function()
@@ -30,14 +37,14 @@ angular.module('lumx.select', [])
         {
             if ($scope.multiple)
             {
-                if ($scope.selected.indexOf(choice) === -1)
+                if ($scope.data.selected.indexOf(choice) === -1)
                 {
-                    $scope.selected.push(choice);
+                    $scope.data.selected.push(choice);
                 }
             }
             else
             {
-                $scope.selected = [choice];
+                $scope.data.selected = [choice];
             }
         }
 
@@ -53,10 +60,10 @@ angular.module('lumx.select', [])
                 event.stopPropagation();
             }
 
-            var index = $scope.selected.indexOf(element);
+            var index = $scope.data.selected.indexOf(element);
             if (index !== -1)
             {
-                $scope.selected.splice(index, 1);
+                $scope.data.selected.splice(index, 1);
             }
         }
 
@@ -80,7 +87,7 @@ angular.module('lumx.select', [])
         // Getters
         function isSelected(choice)
         {
-            return angular.isDefined($scope.selected) && $scope.selected.indexOf(choice) !== -1;
+            return angular.isDefined($scope.data.selected) && $scope.data.selected.indexOf(choice) !== -1;
         }
 
         function hasNoResults()
@@ -109,31 +116,165 @@ angular.module('lumx.select', [])
          */
         function getSelectedElements()
         {
-            return angular.isDefined($scope.selected) ? $scope.selected : [];
+            return angular.isDefined($scope.data.selected) ? $scope.data.selected : [];
         }
 
         function getSelectedTemplate()
         {
-            return $sce.trustAsHtml($scope.selectedTemplate);
+            return $sce.trustAsHtml($scope.data.selectedTemplate);
+        }
+
+        function convertValue(newValue, conversion, defaultValue, callback)
+        {
+            var convertedData = angular.copy(defaultValue);
+            var loading = [];
+
+            if (!newValue)
+            {
+                callback(defaultValue);
+                return;
+            }
+
+            $scope.data.loading = true;
+            if ($scope.multiple)
+            {
+                if (angular.isDefined(conversion))
+                {
+                    var callbackCalled = false;
+                    var convertionCallback = function(idx)
+                    {
+                        return function(data)
+                        {
+                            // Timeout to be sure for the callbacks to be executed after the for loop is finished
+                            $timeout(function()
+                            {
+                                // Add the result in the selected list and remove the index from the loading list
+                                if (data !== undefined)
+                                {
+                                    convertedData.splice(idx, 0, data);
+                                }
+                                loading.splice(loading.indexOf(idx), 1);
+
+                                // If the loading list is empty, update the $scope and stop the loading animation
+                                if (loading.length === 0 && !callbackCalled)
+                                {
+                                    callbackCalled = true;
+                                    $scope.data.loading = false;
+                                    callback(convertedData);
+                                }
+                            });
+                        };
+                    };
+
+                    for (var idx in newValue)
+                    {
+                        loading.push(idx);
+
+                        // Call the method
+                        conversion({
+                            data: newValue[idx],
+                            callback: convertionCallback(idx)
+                        });
+                    }
+                }
+                else
+                {
+                    callback(newValue);
+                }
+            }
+            else
+            {
+                if (angular.isDefined(conversion))
+                {
+                    $scope.data.loading = true;
+                    conversion({
+                        data: newValue,
+                        callback: function(data)
+                        {
+                            $scope.data.loading = false;
+                            callback(data);
+                        }
+                    });
+                }
+                else
+                {
+                    callback(newValue);
+                }
+            }
         }
 
         // Watchers
-        $scope.$watch('selected', function(newValue, oldValue)
+        $scope.$watch('model', function(newValue)
         {
-            if (angular.isDefined(newValue) && angular.isDefined($scope.selectedTransclude))
+            if (newModel)
+            {
+                newModel = false;
+                return;
+            }
+
+            convertValue(newValue,
+                         modelToSelectionDefined ? $scope.modelToSelection : undefined,
+                         undefined,
+                         function(newConvertedValue)
+            {
+                newSelection = true;
+
+                var value = newConvertedValue !== undefined ? newConvertedValue : [];
+                if (!$scope.multiple)
+                {
+                    value = newConvertedValue !== undefined ? [newConvertedValue] : [];
+                }
+
+                $scope.data.selected = value;
+            });
+        }, true);
+
+        $scope.$watch('data.selected', function(newValue)
+        {
+            if (newSelection)
+            {
+                newSelection = false;
+                return;
+            }
+
+            var data = newValue;
+            if(!$scope.multiple)
+            {
+                if (newValue)
+                {
+                    data = newValue[0];
+                }
+                else
+                {
+                    data = undefined;
+                }
+            }
+
+            convertValue(data,
+                         selectionToModelDefined ? $scope.selectionToModel : undefined,
+                         $scope.multiple ? [] : undefined,
+                         function(newConvertedValue)
+            {
+                newModel = true;
+
+                $scope.change({ newValue: newConvertedValue, oldValue: $scope.model });
+                $scope.model = newConvertedValue;
+            });
+
+            if (angular.isDefined(newValue) && angular.isDefined($scope.data.selectedTransclude))
             {
                 var newScope = $scope.$new();
-                $scope.selectedTemplate = '';
+                $scope.data.selectedTemplate = '';
 
                 angular.forEach(newValue, function(selectedElement)
                 {
                     newScope.$selected = selectedElement;
 
-                    $scope.selectedTransclude(newScope, function(clone)
+                    $scope.data.selectedTransclude(newScope, function(clone)
                     {
                         var div = angular.element('<div/>'),
-                            element = $compile(clone)(newScope),
-                            content = $interpolate(clone.html())(newScope);
+                        element = $compile(clone)(newScope),
+                        content = $interpolate(clone.html())(newScope);
 
                         element.html(content);
 
@@ -144,12 +285,9 @@ angular.module('lumx.select', [])
                             div.find('span').addClass('lx-select__tag');
                         }
 
-                        $scope.selectedTemplate += div.html();
+                        $scope.data.selectedTemplate += div.html();
                     });
                 });
-
-                // Exec function callback if set
-                $scope.change({ newValue: newValue, oldValue: oldValue });
             }
         }, true);
 
@@ -179,14 +317,16 @@ angular.module('lumx.select', [])
             restrict: 'E',
             controller: 'LxSelectController',
             scope: {
-                selected: '=',
+                model: '=?',
                 placeholder: '@',
                 choices: '=',
                 loading: '@',
                 minLength: '@',
                 allowClear: '@',
                 change: '&', // Parameters: newValue, oldValue
-                filter: '&' // Parameters: newValue, oldValue
+                filter: '&', // Parameters: newValue, oldValue
+                selectionToModel: '&', // Parameters: data, callback
+                modelToSelection: '&' // Parameters: data, callback
             },
             templateUrl: 'lumx.select.html',
             transclude: true,
@@ -195,7 +335,9 @@ angular.module('lumx.select', [])
             {
                 ctrl.init(element, attrs);
                 scope.data = {
-                    filter: ''
+                    filter: '',
+                    selected: [],
+                    loading: false
                 };
             }
         };

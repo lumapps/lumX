@@ -150,6 +150,7 @@ app.controller('AppController',
     ];
 
     $scope.ajax = {
+        selected: 'Inception',
         list: [],
         update: function(newFilter, oldFilter)
         {
@@ -172,6 +173,36 @@ app.controller('AppController',
                 $scope.ajax.list = false;
             }
         },
+        toModel: function(data, callback)
+        {
+            if (data)
+            {
+                callback(data.Title);
+            }
+            else
+            {
+                callback();
+            }
+        },
+        toSelection: function(data, callback)
+        {
+            if (data)
+            {
+                $http.get('http://www.omdbapi.com/?s=' + escape(data)).
+                    success(function(response)
+                    {
+                        callback(response.Search[0]);
+                    }).
+                    error(function()
+                    {
+                        callback();
+                    });
+            }
+            else
+            {
+                callback();
+            }
+        },
         loading: false
     };
 
@@ -184,7 +215,7 @@ app.controller('AppController',
         }
     };
 
-    $scope.selectedPerson = [];
+    $scope.selectedPerson = undefined;
     $scope.selectedPersons = [$scope.people[2], $scope.people[4]];
 
     $scope.tree = [

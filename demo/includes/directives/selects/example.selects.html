@@ -1,6 +1,6 @@
 <div class="grid">
     <div class="grid__col4">
-        <lx-select selected="selectedPerson" placeholder="Lorem Ipsum" choices="people">
+        <lx-select model="selectedPerson" placeholder="Lorem Ipsum" choices="people">
             <lx-select-selected>
                 {{ $selected.name }} - {{ $selected.age }}
             </lx-select-selected>
@@ -9,12 +9,14 @@
                 {{ $choice.email }}
             </lx-select-choices>
         </lx-select>
+        Person selected : '{{ selectedPerson }}' (undefined: {{ selectedPerson === undefined }})
     </div>
 
     <div class="grid__col4">
-        <lx-select selected="selectedMovie" change="cbSelect.exec(newValue, oldValue)" placeholder="Lorem Ipsum"
+        <lx-select model="ajax.selected" change="cbSelect.exec(newValue, oldValue)" placeholder="Lorem Ipsum"
                    choices="ajax.list"  filter="ajax.update(newValue, oldValue)" loading="{{ ajax.loading }}"
-                   min-length="2" allow-clear="true">
+                   min-length="2" allow-clear="true" selection-to-model="ajax.toModel(data, callback)"
+                   model-to-selection="ajax.toSelection(data, callback)">
             <lx-select-selected>
                 {{ $selected.Title }} ({{ $selected.Year }})
             </lx-select-selected>
@@ -23,10 +25,11 @@
                 {{ $choice.Title }} - {{ $choice.Type }}
             </lx-select-choices>
         </lx-select>
+        Movie selected : '{{ ajax.selected }}' (undefined: {{ ajax.selected === undefined }})
     </div>
 
     <div class="grid__col4">
-        <lx-select selected="selectedPersons" placeholder="Lorem Ipsum" choices="people" multiple>
+        <lx-select model="selectedPersons" placeholder="Lorem Ipsum" choices="people" multiple>
             <lx-select-selected>
                 {{ $selected.name }} - {{ $selected.age }}
             </lx-select-selected>
@@ -35,5 +38,6 @@
                 {{ $choice.email }}
             </lx-select-choices>
         </lx-select>
+        Persons selected : {{ selectedPersons }} (undefined: {{ selectedPersons === undefined }})
     </div>
 </div>
