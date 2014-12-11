@@ -7905,12 +7905,14 @@ html {
 
 textarea {
   resize: none; }
+  textarea.text-field__input {
+    padding-top: 4px; }
 
 .textarea-copy {
   position: fixed;
   top: 0;
   left: 0;
-  padding: 0;
+  padding: 4px 0 0 0;
   min-height: 34px;
   overflow-y: scroll;
   opacity: 0;
