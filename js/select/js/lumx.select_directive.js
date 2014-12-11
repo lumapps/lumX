@@ -12,6 +12,18 @@ angular.module('lumx.select', [])
             modelToSelectionDefined = false,
             selectionToModelDefined = false;
 
+        function arrayObjectIndexOf(arr, obj)
+        {
+            for (var i = 0; i < arr.length; i++)
+            {
+                if (angular.equals(arr[i], obj))
+                {
+                    return i;
+                }
+            };
+            return -1;
+        }
+
 
         // Link methods
         this.init = function(element, attrs)
@@ -37,7 +49,7 @@ angular.module('lumx.select', [])
         {
             if ($scope.multiple)
             {
-                if ($scope.data.selected.indexOf(choice) === -1)
+                if (arrayObjectIndexOf($scope.data.selected, choice) === -1)
                 {
                     $scope.data.selected.push(choice);
                 }
@@ -60,7 +72,7 @@ angular.module('lumx.select', [])
                 event.stopPropagation();
             }
 
-            var index = $scope.data.selected.indexOf(element);
+            var index = arrayObjectIndexOf($scope.data.selected, element);
             if (index !== -1)
             {
                 $scope.data.selected.splice(index, 1);
@@ -87,7 +99,7 @@ angular.module('lumx.select', [])
         // Getters
         function isSelected(choice)
         {
-            return angular.isDefined($scope.data.selected) && $scope.data.selected.indexOf(choice) !== -1;
+            return angular.isDefined($scope.data.selected) && arrayObjectIndexOf($scope.data.selected, choice) !== -1;
         }
 
         function hasNoResults()
