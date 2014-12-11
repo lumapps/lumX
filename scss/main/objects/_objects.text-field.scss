@@ -133,6 +133,10 @@
 // Textarea
 textarea {
     resize: none;
+
+    &.text-field__input {
+        padding-top: 4px;
+    }
 }
 
 
@@ -142,7 +146,7 @@ textarea {
 // Textarea copy
 .textarea-copy {
     @include position(fixed, 0 null null 0);
-    padding: 0;
+    padding: 4px 0 0 0;
     min-height: 34px;
     overflow-y: scroll;
     opacity: 0;

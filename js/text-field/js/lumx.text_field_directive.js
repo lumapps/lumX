@@ -78,7 +78,7 @@ angular.module('lumx.text-field', [])
                             $textarea.content = $textarea.val();
                             $copy.val($textarea.content);
                             var $newHeight = $copy.prop('scrollHeight') + 24;
-                            $textarea.velocity({ 
+                            $textarea.velocity({
                                 height: $newHeight
                             }, {
                                 duration: 50,
@@ -89,8 +89,9 @@ angular.module('lumx.text-field', [])
                         $textarea.on('blur', function()
                         {
                             var lastHeight = $textarea.height();
+                            console.log(lastHeight);
 
-                            if (lastHeight == 56)
+                            if (lastHeight == 52)
                             {
                                 $textarea.height(lastHeight - 24);
                             }
