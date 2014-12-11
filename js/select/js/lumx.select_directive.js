@@ -243,6 +243,35 @@ angular.module('lumx.select', [])
 
         $scope.$watch('data.selected', function(newValue)
         {
+            if (angular.isDefined(newValue) && angular.isDefined($scope.data.selectedTransclude))
+            {
+                var newScope = $scope.$new();
+                $scope.data.selectedTemplate = '';
+
+                angular.forEach(newValue, function(selectedElement)
+                {
+                    newScope.$selected = selectedElement;
+
+                    $scope.data.selectedTransclude(newScope, function(clone)
+                    {
+                        var div = angular.element('<div/>'),
+                        element = $compile(clone)(newScope),
+                        content = $interpolate(clone.html())(newScope);
+
+                        element.html(content);
+
+                        div.append(element);
+
+                        if ($scope.multiple)
+                        {
+                            div.find('span').addClass('lx-select__tag');
+                        }
+
+                        $scope.data.selectedTemplate += div.html();
+                    });
+                });
+            }
+
             if (newSelection)
             {
                 newSelection = false;
@@ -272,35 +301,6 @@ angular.module('lumx.select', [])
                 $scope.change({ newValue: angular.copy(newConvertedValue), oldValue: angular.copy($scope.model) });
                 $scope.model = angular.copy(newConvertedValue);
             });
-
-            if (angular.isDefined(newValue) && angular.isDefined($scope.data.selectedTransclude))
-            {
-                var newScope = $scope.$new();
-                $scope.data.selectedTemplate = '';
-
-                angular.forEach(newValue, function(selectedElement)
-                {
-                    newScope.$selected = selectedElement;
-
-                    $scope.data.selectedTransclude(newScope, function(clone)
-                    {
-                        var div = angular.element('<div/>'),
-                        element = $compile(clone)(newScope),
-                        content = $interpolate(clone.html())(newScope);
-
-                        element.html(content);
-
-                        div.append(element);
-
-                        if ($scope.multiple)
-                        {
-                            div.find('span').addClass('lx-select__tag');
-                        }
-
-                        $scope.data.selectedTemplate += div.html();
-                    });
-                });
-            }
         }, true);
 
         $scope.$watch('data.filter', function(newValue, oldValue)
