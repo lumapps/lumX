@@ -1,5 +1,14 @@
 # Changelog
 
+## v0.2.13:
+
+#### New fetures:
+ - transclude: add iterative parent option
+
+#### Bug fixes:
+ - dropdown: "grand-parent" scope for transclude
+
+
 ## v0.2.12:
 
 #### New fetures:
