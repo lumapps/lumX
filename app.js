@@ -268,7 +268,8 @@ app.controller('AppController',
         lastName: '',
         firstEmail: 'bad-email',
         secondEmail: 'hello@lumapps.com',
-        thirdEmail: 'hello@lumapps.com'
+        thirdEmail: 'hello@lumapps.com',
+        description: ''
     };
 
     $scope.emailValidation = function(email)
