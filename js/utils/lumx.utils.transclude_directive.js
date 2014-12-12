@@ -19,7 +19,6 @@ angular.module('lumx.utils.transclude', [])
             link: function(scope, element, attrs, ctrl, transclude)
             {
                 var iScopeType = attrs.ngTransclude || 'sibling';
-                // console.log('iScopeType: ' + iScopeType);
 
                 switch (iScopeType)
                 {
@@ -50,6 +49,29 @@ angular.module('lumx.utils.transclude', [])
                             });
                         });
                         break;
+                    default:
+                        var count = parseInt(iScopeType);
+                        if (!isNaN(count))
+                        {
+                            var toClone = scope;
+                            for (var idx = 0; idx < count; idx++)
+                            {
+                                if (toClone.$parent)
+                                {
+                                    toClone = toClone.$parent;
+                                }
+                                else
+                                {
+                                    break;
+                                }
+                            }
+
+                            transclude(toClone, function(clone)
+                            {
+                                element.empty();
+                                element.append(clone);
+                            });
+                        }
                 }
             }
         };
