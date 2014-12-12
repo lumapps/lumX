@@ -20,7 +20,7 @@ angular.module('lumx.select', [])
                 {
                     return i;
                 }
-            };
+            }
             return -1;
         }
 
