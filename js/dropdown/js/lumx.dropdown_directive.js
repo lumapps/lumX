@@ -155,7 +155,7 @@ angular.module('lumx.dropdown', [])
                 height: dropdownMenuHeight
             });
 
-            dropdownMenu.velocity({ 
+            dropdownMenu.velocity({
                 width: dropdownMenuWidth
             }, {
                 duration: 200,
@@ -163,7 +163,7 @@ angular.module('lumx.dropdown', [])
                 queue: false
             });
 
-            dropdownMenu.velocity({ 
+            dropdownMenu.velocity({
                 height: dropdownMenuHeight
             }, {
                 duration: 500,
@@ -283,6 +283,15 @@ angular.module('lumx.dropdown', [])
             link: function(scope, element, attrs, ctrl)
             {
                 ctrl.registerDropdownMenu(element);
+                element.on('click', function(event)
+                {
+                    event.stopPropagation();
+
+                    scope.$apply(function()
+                    {
+                        ctrl.toggle();
+                    });
+                });
             }
         };
     })
