@@ -78,6 +78,11 @@ angular.module('lumx.dialog', [])
             scope: {},
             link: function(scope, element, attrs, ctrl)
             {
+                element.on('click', function(event)
+                {
+                    event.stopPropagation();
+                });
+
                 scope.$watch(function()
                 {
                     return attrs.id;
