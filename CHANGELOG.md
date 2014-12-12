@@ -1,5 +1,16 @@
 # Changelog
 
+## v0.2.12:
+
+#### New fetures:
+ - text-fields: fixing padding
+ - text-fields: add textarea in text fields components
+
+#### Bug fixes:
+ - dropdown: stop click propagation
+ - dialog: stop click propagation
+
+
 ## v0.2.11:
 
 #### New fetures:
