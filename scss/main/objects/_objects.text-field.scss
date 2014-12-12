@@ -5,8 +5,8 @@
 // Text field base styles
 .text-field {
     position: relative;
-    padding-top: double($md-spacing-unit);
-    padding-bottom: halve($md-spacing-unit);
+    padding-top: $base-spacing-unit * 1.5;
+    padding-bottom: halve($base-spacing-unit);
 
     &:before,
     &:after {
@@ -32,8 +32,7 @@
 
 .text-field--is-active {
     .text-field__label {
-        @include font-size(12px);
-        @include transform(translateY($md-spacing-unit));
+        @include transform(scale(0.75) translateY(0));
     }
 }
 
@@ -70,12 +69,10 @@
 }
 
 .text-field--fixed-label {
-    padding-top: halve($md-spacing-unit);
+    padding-top: halve($base-spacing-unit);
 
     .text-field__label {
-        top: -$base-spacing-unit;
-        @include transform(translateY($md-spacing-unit * 2.5));
-        @include font-size(16px);
+        @include transform(none);
     }
 }
 
@@ -98,24 +95,29 @@
     
     // Text field label
     .text-field__label {
-        @include position(absolute, 0 null null 0);
+        display: block;
+        @include position(absolute, halve($base-spacing-unit) null null 0);
         color: $black-3;
-        line-height: $md-spacing-unit;
+        line-height: 24px;
         pointer-events: none;
-        @include transform(translateY($md-spacing-unit * 2.5));
-        @include transition-property(transform, font-size, color);
-        @include transition-duration(0.6s);
+        @include transform(translateY($base-spacing-unit));
+        @include transform-origin(bottom left);
+        @include transition-property(transform, color);
+        @include transition-duration(0.4s);
         @include transition-timing-function($ease-out-quint);
     }
 
     // Text field input
     .text-field__input {
         display: block;
-        @include size(100% double($md-spacing-unit));
+        @include size(100% 24px);
         margin: 0;
         padding: 0;
         border: none;
+        overflow: hidden;
+        resize: none;
         font-weight: 400;
+        line-height: 24px;
         cursor: text;
         @include appearance(none);
 
