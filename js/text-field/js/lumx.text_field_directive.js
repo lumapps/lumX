@@ -19,7 +19,8 @@ angular.module('lumx.text-field', [])
             transclude: true,
             link: function(scope, element, attrs, ctrl, transclude)
             {
-                var modelController;
+                var modelController,
+                    $field;
 
                 scope.data = {
                     focused: false,
@@ -40,7 +41,8 @@ angular.module('lumx.text-field', [])
 
                 function modelUpdate()
                 {
-                    scope.data.model = modelController.$viewValue;
+                    scope.data.model = modelController.$viewValue || $field.val();
+                    scope.$apply();
                 }
 
                 transclude(function()
@@ -51,7 +53,7 @@ angular.module('lumx.text-field', [])
                         modelController.$viewChangeListeners.splice(modelController.$viewChangeListeners.indexOf(modelUpdate), 1);
                     }
 
-                    var $field = element.find('textarea');
+                    $field = element.find('textarea');
 
                     if ($field[0])
                     {
@@ -70,15 +72,17 @@ angular.module('lumx.text-field', [])
                         $field = element.find('input');
                     }
 
+                    $field.addClass('text-field__input');
+
                     $field.on('focus', focusUpdate);
                     $field.on('blur', blurUpdate);
+                    $field.on('propertychange change click keyup input paste', modelUpdate);
 
                     modelController = angular.element($field).data('$ngModelController');
                     modelController.$viewChangeListeners.push(modelUpdate);
 
                     $timeout(function()
                     {
-                        $field.addClass('text-field__input');
                         modelUpdate();
                     });
                 });
