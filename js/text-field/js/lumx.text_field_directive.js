@@ -9,62 +9,78 @@ angular.module('lumx.text-field', [])
             restrict: 'E',
             scope: {
                 label: '@',
-                type: '@?',
-                name: '@?fieldName',
                 disabled: '&',
                 error: '&',
                 valid: '&',
-                fixedLabel: '&',
-                model: '=?'
+                fixedLabel: '&'
             },
             templateUrl: 'lumx.text_field.html',
             replace: true,
-            link: function(scope, element, attrs)
+            transclude: true,
+            link: function(scope, element, attrs, ctrl, transclude)
             {
+                var modelController;
+
                 scope.data = {
                     focused: false,
                     model: ''
                 };
 
-                if (angular.isUndefined(attrs.type))
+                function focusUpdate()
                 {
-                    scope.type = 'text';
+                    scope.data.focused = true;
+                    scope.$apply();
                 }
 
-                scope.$watch('model', function(newValue)
+                function blurUpdate()
                 {
-                    if (angular.isDefined(newValue))
+                    scope.data.focused = false;
+                    scope.$apply();
+                }
+
+                function modelUpdate()
+                {
+                    scope.data.model = modelController.$viewValue;
+                }
+
+                transclude(function()
+                {
+                    scope.data.model = '';
+                    if (modelController && modelController.$viewChangeListeners.indexOf(modelUpdate) !== -1)
                     {
-                        scope.data.model = newValue;
+                        modelController.$viewChangeListeners.splice(modelController.$viewChangeListeners.indexOf(modelUpdate), 1);
                     }
-                });
 
-                scope.$watch('data.model', function(newValue)
-                {
-                    if (angular.isDefined(newValue))
+                    var $field = element.find('textarea');
+
+                    if ($field[0])
                     {
-                        scope.model = newValue;
-                    }
-                });
-
-                var $textarea;
-
-                scope.$watch('type', function(newValue)
-                {
-                    if (newValue === 'area')
-                    {
-                        $textarea = element.find('textarea');
-
-                        $textarea.on('cut paste drop keydown', function()
+                        $field.on('cut paste drop keydown', function()
                         {
                             $timeout(function()
                             {
-                                $textarea
+                                $field
                                     .removeAttr('style')
-                                    .css({height: $textarea[0].scrollHeight + 'px'});
+                                    .css({ height: $field[0].scrollHeight + 'px' });
                             });
                         });
                     }
+                    else
+                    {
+                        $field = element.find('input');
+                    }
+
+                    $field.on('focus', focusUpdate);
+                    $field.on('blur', blurUpdate);
+
+                    modelController = angular.element($field).data('$ngModelController');
+                    modelController.$viewChangeListeners.push(modelUpdate);
+
+                    $timeout(function()
+                    {
+                        $field.addClass('text-field__input');
+                        modelUpdate();
+                    });
                 });
             }
         };

@@ -10,9 +10,5 @@
         {{ label }}
     </label>
 
-    <input class="text-field__input" type="{{ type }}" name="{{ name }}" ng-if="type !== 'area'"
-           ng-disabled="disabled()" ng-model="data.model" ng-focus="data.focused = true" ng-blur="data.focused = false">
-
-    <textarea class="text-field__input" ng-if="type === 'area'"
-              ng-model="data.model" ng-focus="data.focused = true" ng-blur="data.focused = false"></textarea>
+    <div ng-transclude="1"></div>
 </div>
