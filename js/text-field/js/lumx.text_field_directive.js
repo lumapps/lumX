@@ -42,6 +42,11 @@ angular.module('lumx.text-field', [])
                 function modelUpdate()
                 {
                     scope.data.model = modelController.$viewValue || $field.val();
+                }
+
+                function valueUpdate()
+                {
+                    modelUpdate();
                     scope.$apply();
                 }
 
@@ -76,7 +81,7 @@ angular.module('lumx.text-field', [])
 
                     $field.on('focus', focusUpdate);
                     $field.on('blur', blurUpdate);
-                    $field.on('propertychange change click keyup input paste', modelUpdate);
+                    $field.on('propertychange change click keyup input paste', valueUpdate);
 
                     modelController = angular.element($field).data('$ngModelController');
                     modelController.$viewChangeListeners.push(modelUpdate);
