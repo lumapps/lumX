@@ -364,7 +364,6 @@ angular.module('lumx.select', [])
             link: function(scope, element, attrs, ctrl, transclude)
             {
                 ctrl.registerTransclude(transclude);
-                scope.data = ctrl.getScope();
             }
         };
     })
@@ -374,10 +373,6 @@ angular.module('lumx.select', [])
             restrict: 'E',
             require: '^lxSelect',
             templateUrl: 'lumx.select_choices.html',
-            transclude: true,
-            link: function(scope, element, attrs, ctrl)
-            {
-                scope.data = ctrl.getScope();
-            }
+            transclude: true
         };
     });

@@ -1,19 +1,19 @@
 <div lx-dropdown-toggle>
     <div class="lx-select__selected"
-         ng-class="{ 'lx-select__selected--is-unique': !data.multiple,
-                     'lx-select__selected--is-multiple': data.multiple && data.getSelectedElements().length > 0,
-                     'lx-select__selected--placeholder': data.getSelectedElements().length === 0 }"
+         ng-class="{ 'lx-select__selected--is-unique': !multiple,
+                     'lx-select__selected--is-multiple': multiple && getSelectedElements().length > 0,
+                     'lx-select__selected--placeholder': getSelectedElements().length === 0 }"
          lx-ripple>
-        <span ng-if="data.getSelectedElements().length === 0">{{ data.placeholder }}</span>
+        <span ng-if="getSelectedElements().length === 0">{{ placeholder }}</span>
 
-        <div ng-repeat="$selected in data.getSelectedElements()" ng-if="!data.multiple">
-            <i class="lx-select__close mdi mdi--cancel" ng-click="data.unselect($selected, $event)" ng-if="data.allowClear"></i>
+        <div ng-repeat="$selected in getSelectedElements()" ng-if="!multiple">
+            <i class="lx-select__close mdi mdi--cancel" ng-click="unselect($selected, $event)" ng-if="allowClear"></i>
             <span ng-transclude="child"></span>
         </div>
 
-        <div ng-if="data.multiple">
+        <div ng-if="multiple">
             <div class="lx-select__tag"
-                  ng-repeat="$selected in data.getSelectedElements()">
+                  ng-repeat="$selected in getSelectedElements()">
                 <span ng-transclude="child"></span>
             </div>
         </div>
