@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.2.15:
+
+#### Bug fixes:
+ - text-fields: $apply only for jquery events
+
+
 ## v0.2.14:
 
 #### Bug fixes:
