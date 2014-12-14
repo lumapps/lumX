@@ -27,7 +27,7 @@
 .dialog {
     @include position(fixed, 30px null null 50%);
     z-index: 1000;
-    background-color: #fff;
+    background-color: $white;
     opacity: 0;
     pointer-events: none;
     @include z-depth(3);
@@ -43,8 +43,15 @@
 }
 
 .dialog--l {
-    width: 800px;
-    margin-left: -400px;
+    @include media-query(desk) {
+        width: 800px;
+        margin-left: -400px;
+    }
+
+    @include media-query(portable) {
+        width: 80%;
+        margin-left: -40%;
+    }
 }
 
 .dialog--is-shown {
@@ -69,7 +76,7 @@
     // Dialog text
     .dialog__text {
         margin: 0;
-        color: #757575;
+        color: $black-2;
     }
 
     // Dialog actions
