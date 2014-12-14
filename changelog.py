@@ -50,7 +50,7 @@ def buildNewLogs(fromTag, toTag):
             fixs.append(data[1].rstrip())
 
         if 'BROKEN:' in body:
-            brokens += body.split('BROKEN: ')[1].splitlines()
+            brokens += body.split('BROKEN:')[1].splitlines()
 
     logs = "## %s:\n" % toTag
 

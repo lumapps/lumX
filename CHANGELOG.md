@@ -1,5 +1,17 @@
 # Changelog
 
+## v0.2.14:
+
+#### Bug fixes:
+ - select: scope management after dropdown fix
+ - dropdown: trasnclude to select toggle's scope
+ - text-fields: workaround HTML5 validation model
+ - text-fields: use ng-transclude again
+
+#### Breaking changes:
+ - text-fields must now have their own input or textarea with ng-model
+
+
 ## v0.2.13:
 
 #### New fetures:
