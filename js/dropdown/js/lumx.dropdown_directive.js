@@ -258,6 +258,9 @@ angular.module('lumx.dropdown', [])
         return {
             restrict: 'A',
             require: '^lxDropdown',
+            templateUrl: 'lumx.dropdown_toggle.html',
+            replace: true,
+            transclude: true,
             link: function(scope, element, attrs, ctrl)
             {
                 element.bind('click', function(event)
