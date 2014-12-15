@@ -1,5 +1,12 @@
 # Changelog
 
+## v0.2.16:
+
+#### Bug fixes:
+ - dropdown: increment z-index for use in dialog
+ - tabs: add timeout on tab links
+
+
 ## v0.2.15:
 
 #### Bug fixes:
