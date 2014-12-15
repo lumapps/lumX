@@ -226,7 +226,7 @@ angular.module('lumx.select', [])
 
             convertValue(newValue,
                          modelToSelectionDefined ? $scope.modelToSelection : undefined,
-                         undefined,
+                         [],
                          function(newConvertedValue)
             {
                 newSelection = true;
