@@ -7717,17 +7717,24 @@ html {
 
 .tabs {
   position: relative; }
+  .tabs:after {
+    content: '';
+    position: absolute;
+    top: 47px;
+    right: 0;
+    left: 0;
+    height: 1px; }
 
-.tabs--theme-light .tabs__links {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.7); }
+.tabs--theme-light:after {
+  background-color: rgba(255, 255, 255, 0.7); }
 .tabs--theme-light .tabs-link {
   color: rgba(255, 255, 255, 0.7); }
 .tabs--theme-light .tabs-link:hover,
 .tabs--theme-light .tabs-link--is-active {
   color: #FFFFFF !important; }
 
-.tabs--theme-dark .tabs__links {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.12); }
+.tabs--theme-dark:after {
+  background-color: rgba(0, 0, 0, 0.12); }
 .tabs--theme-dark .tabs-link {
   color: rgba(0, 0, 0, 0.54); }
 
@@ -7742,29 +7749,33 @@ html {
 .tabs--layout-inline .tabs__links li {
   display: inline-block;
   vertical-align: top; }
-.tabs--layout-inline .tabs-link {
-  padding-left: 12px;
-  padding-right: 12px; }
+@media screen and (max-width: 480px) {
+  .tabs--layout-inline .tabs-link {
+    padding-left: 12px;
+    padding-right: 12px; } }
+@media screen and (min-width: 481px) {
+  .tabs--layout-inline .tabs-link {
+    padding-left: 24px;
+    padding-right: 24px; } }
+
+.tabs--no-divider:after {
+  display: none; }
 
 .tabs__links {
-  height: 48px; }
-
-.tabs__links--no-divider {
-  border-bottom: none !important; }
+  position: relative; }
 
 .tabs__indicator {
   position: absolute;
   top: 46px;
   right: 0;
   left: 0;
+  z-index: 1;
   height: 2px; }
 
 .tabs-link {
   display: block;
   height: 48px;
   cursor: pointer;
-  font-size: 14px;
-  font-size: 0.875rem;
   font-weight: 600;
   line-height: 48px;
   text-align: center;
@@ -7775,6 +7786,14 @@ html {
   -webkit-transition-duration: 0.2s;
   -moz-transition-duration: 0.2s;
   transition-duration: 0.2s; }
+  @media screen and (max-width: 1023px) {
+    .tabs-link {
+      font-size: 14px;
+      font-size: 0.875rem; } }
+  @media screen and (min-width: 1024px) {
+    .tabs-link {
+      font-size: 13px;
+      font-size: 0.8125rem; } }
   .tabs-link .mdi {
     font-size: 24px;
     font-size: 1.5rem;
