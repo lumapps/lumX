@@ -3,7 +3,7 @@
 
 
 angular.module('lumx.tabs', [])
-    .controller('LxTabsController', ['$scope', '$sce', '$timeout', function($scope, $sce, $timeout)
+    .controller('LxTabsController', ['$scope', '$sce', '$timeout', '$window', function($scope, $sce, $timeout, $window)
     {
         var tabs = [],
             links,
@@ -123,6 +123,11 @@ angular.module('lumx.tabs', [])
                 setLinksColor(newIndex);
                 setIndicatorPosition(oldIndex);
             }
+        });
+
+        angular.element($window).bind('resize', function()
+        {
+            setIndicatorPosition();
         });
 
         // Public API
