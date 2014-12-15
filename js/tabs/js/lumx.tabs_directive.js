@@ -3,7 +3,7 @@
 
 
 angular.module('lumx.tabs', [])
-    .controller('LxTabsController', ['$scope', '$sce', function($scope, $sce)
+    .controller('LxTabsController', ['$scope', '$sce', '$timeout', function($scope, $sce, $timeout)
     {
         var tabs = [],
             links,
@@ -45,7 +45,10 @@ angular.module('lumx.tabs', [])
 
         function setActiveTab(index)
         {
-            $scope.activeTab = index;
+            $timeout(function()
+            {
+                $scope.activeTab = index;
+            });
         }
 
         function setLinksColor(newTab)
