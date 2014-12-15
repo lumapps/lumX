@@ -6055,7 +6055,7 @@ html {
 
 .dropdown-menu {
   position: absolute;
-  z-index: 999;
+  z-index: 1000;
   border-radius: 2px;
   background-color: #FFFFFF;
   text-align: left;
