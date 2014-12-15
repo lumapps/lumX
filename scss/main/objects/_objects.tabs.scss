@@ -6,10 +6,36 @@
 .tabs {
     position: relative;
 }
-    
-    // Tabs links
+
+// Tabs themes
+.tabs--theme-light {
     .tabs__links {
-        @extend %bare-list;
+        border-bottom: 1px solid $white-2;
+    }
+
+    .tabs-link {
+        color: $white-2;
+    }
+
+    .tabs-link:hover,
+    .tabs-link--is-active {
+        color: $white-1 !important;
+    }
+}
+
+.tabs--theme-dark {
+    .tabs__links {
+        border-bottom: 1px solid $black-4;
+    }
+
+    .tabs-link {
+        color: $black-2;
+    }
+}
+
+// Tabs layout
+.tabs--layout-full {
+    .tabs__links {
         display: table;
         table-layout: fixed;
         width: 100%;
@@ -19,11 +45,30 @@
             display: table-cell;
         }
     }
+}
+
+.tabs--layout-inline {
+    .tabs__links {
+        li {
+            display: inline-block;
+            vertical-align: top;
+        }
+    }
+
+    .tabs-link {
+        padding-left: halve($base-spacing-unit);
+        padding-right: halve($base-spacing-unit);
+    }
+}
+    
+    // Tabs links
+    .tabs__links {
+        @extend %bare-list;
+        height: $md-spacing-unit * 3;
+    }
 
     .tabs__links--no-divider {
-        .tabs-link {
-            border-bottom: none !important;
-        }
+        border-bottom: none !important;
     }
 
     // Tabs indicator
@@ -52,34 +97,5 @@
     .mdi {
         @include font-size(24px);
         line-height: $md-spacing-unit * 3;
-    }
-}
-
-
-
-
-
-// Tabs theme light
-.tabs--theme-light {
-    .tabs-link {
-        border-bottom: 1px solid $white-2;
-        color: $white-2;
-    }
-
-    .tabs-link:hover,
-    .tabs-link--is-active {
-        color: $white-1 !important;
-    }
-}
-
-
-
-
-
-// Tabs theme dark
-.tabs--theme-dark {
-    .tabs-link {
-        border-bottom: 1px solid $black-4;
-        color: $black-2;
     }
 }
