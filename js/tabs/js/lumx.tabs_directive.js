@@ -3,7 +3,7 @@
 
 
 angular.module('lumx.tabs', [])
-    .controller('LxTabsController', ['$scope', '$sce', '$timeout', function($scope, $sce, $timeout)
+    .controller('LxTabsController', ['$scope', '$sce', '$timeout', '$window', function($scope, $sce, $timeout, $window)
     {
         var tabs = [],
             links,
@@ -16,7 +16,10 @@ angular.module('lumx.tabs', [])
             links = element.find('.tabs__links');
             indicator = element.find('.tabs__indicator');
 
-            setIndicatorPosition();
+            $timeout(function()
+            {
+                setIndicatorPosition();
+            });
         };
 
         this.getScope = function()
@@ -70,15 +73,17 @@ angular.module('lumx.tabs', [])
                 direction = 'left';
             }
 
-            var indicatorWidth = 100 / tabs.length,
-                indicatorLeft = (indicatorWidth * $scope.activeTab),
-                indicatorRight = 100 - (indicatorLeft + indicatorWidth);
+            var tabsWidth = links.outerWidth(),
+                activeTab = links.find('.tabs-link').eq($scope.activeTab),
+                activeTabWidth = activeTab.outerWidth(),
+                indicatorLeft = activeTab.position().left,
+                indicatorRight = tabsWidth - (indicatorLeft + activeTabWidth);
 
             if (angular.isUndefined(oldTab))
             {
                 indicator.css({
-                    left: indicatorLeft + '%',
-                    right: indicatorRight  + '%'
+                    left: indicatorLeft,
+                    right: indicatorRight
                 });
             }
             else
@@ -91,21 +96,21 @@ angular.module('lumx.tabs', [])
                 if (direction === 'left')
                 {
                     indicator.velocity({ 
-                        left: indicatorLeft + '%'
+                        left: indicatorLeft
                     }, animationProperties);
 
                     indicator.velocity({ 
-                        right: indicatorRight  + '%'
+                        right: indicatorRight
                     }, animationProperties);
                 }
                 else
                 {
                     indicator.velocity({ 
-                        right: indicatorRight  + '%'
+                        right: indicatorRight
                     }, animationProperties);
 
                     indicator.velocity({ 
-                        left: indicatorLeft + '%'
+                        left: indicatorLeft
                     }, animationProperties);
                 }
             }
@@ -118,6 +123,11 @@ angular.module('lumx.tabs', [])
                 setLinksColor(newIndex);
                 setIndicatorPosition(oldIndex);
             }
+        });
+
+        angular.element($window).bind('resize', function()
+        {
+            setIndicatorPosition();
         });
 
         // Public API
@@ -138,7 +148,8 @@ angular.module('lumx.tabs', [])
                 linksBgc: '@',
                 indicator: '@',
                 noDivider: '@',
-                zDepth: '@'
+                zDepth: '@',
+                layout: '@'
             },
             link: function(scope, element, attrs, ctrl)
             {
@@ -162,6 +173,11 @@ angular.module('lumx.tabs', [])
                 if (angular.isUndefined(scope.zDepth))
                 {
                     scope.zDepth = '0';
+                }
+
+                if (angular.isUndefined(scope.layout))
+                {
+                    scope.layout = 'full';
                 }
             }
         };
