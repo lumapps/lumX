@@ -44,7 +44,8 @@
     "jquery": "~2.1.1",
     "velocity": "~1.1.0",
     "neat": "~1.6.0",
-    "jquery.transit": "https://github.com/lumapps/jquery.transit.git#feat/stop-transition"
+    "jquery.transit": "https://github.com/lumapps/jquery.transit.git#feat/stop-transition",
+    "moment": "~2.8.4"
   },
   "devDependencies": {
     "angular-route": "~1.3.3",
