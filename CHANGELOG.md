@@ -1,5 +1,26 @@
 # Changelog
 
+## v0.2.18:
+
+#### Bug fixes:
+ - select: null pointer for non-multiple
+
+
+## v0.2.17:
+
+#### New fetures:
+ - typography: line height and letter spacing
+ - tabs: add responsive behavior
+ - tabs: add layout attribute
+
+#### Bug fixes:
+ - tabs: set indicator position on window resize
+
+#### Breaking changes:
+ -  fs-display and fs-body variants now have a ‘-‘ to separate
+ - number. For example, fs-display4 is now fs-display-4.
+
+
 ## v0.2.16:
 
 #### Bug fixes:
