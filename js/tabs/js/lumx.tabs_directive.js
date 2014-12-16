@@ -8,7 +8,7 @@ angular.module('lumx.tabs', [])
         var tabs = [],
             links,
             indicator;
-        
+
         $scope.activeTab = angular.isUndefined($scope.activeTab) ? 0 : $scope.activeTab;
 
         this.init = function(element)
@@ -27,17 +27,9 @@ angular.module('lumx.tabs', [])
             return $scope;
         };
 
-        this.addTab = function(heading, icon)
+        this.addTab = function(tabScope)
         {
-            if (angular.isDefined(icon))
-            {
-                tabs.push({ link: $sce.trustAsHtml('<i class="mdi mdi--' + icon + '"></i>') });
-            }
-            else
-            {
-                tabs.push({ link: $sce.trustAsHtml(heading) });
-            }
-
+            tabs.push(tabScope);
             return (tabs.length - 1);
         };
 
@@ -95,21 +87,21 @@ angular.module('lumx.tabs', [])
 
                 if (direction === 'left')
                 {
-                    indicator.velocity({ 
+                    indicator.velocity({
                         left: indicatorLeft
                     }, animationProperties);
 
-                    indicator.velocity({ 
+                    indicator.velocity({
                         right: indicatorRight
                     }, animationProperties);
                 }
                 else
                 {
-                    indicator.velocity({ 
+                    indicator.velocity({
                         right: indicatorRight
                     }, animationProperties);
 
-                    indicator.velocity({ 
+                    indicator.velocity({
                         left: indicatorLeft
                     }, animationProperties);
                 }
@@ -197,7 +189,7 @@ angular.module('lumx.tabs', [])
             link: function(scope, element, attrs, ctrl)
             {
                 scope.data = ctrl.getScope();
-                scope.index = ctrl.addTab(scope.heading, scope.icon);
+                scope.index = ctrl.addTab(scope);
             }
         };
     })
