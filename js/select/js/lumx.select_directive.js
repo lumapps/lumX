@@ -12,6 +12,12 @@ angular.module('lumx.select', [])
             modelToSelectionDefined = false,
             selectionToModelDefined = false;
 
+        $scope.data = {
+            filter: '',
+            selected: [],
+            loading: false
+        };
+
         function arrayObjectIndexOf(arr, obj)
         {
             for (var i = 0; i < arr.length; i++)
@@ -346,11 +352,6 @@ angular.module('lumx.select', [])
             link: function(scope, element, attrs, ctrl)
             {
                 ctrl.init(element, attrs);
-                scope.data = {
-                    filter: '',
-                    selected: [],
-                    loading: false
-                };
             }
         };
     })
