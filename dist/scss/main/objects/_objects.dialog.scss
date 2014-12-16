@@ -8,7 +8,6 @@
     z-index: 999;
     background-color: rgba(0,0,0,0.6);
     opacity: 0;
-    pointer-events: none;
     @include transition-property(opacity);
     @include transition-duration(0.6s);
     @include transition-timing-function($ease-out-quint);
@@ -16,7 +15,6 @@
 
 .dialog-filter--is-shown {
     opacity: 1;
-    pointer-events: auto;
 }
 
 
@@ -25,11 +23,11 @@
 
 // Dialog base styles
 .dialog {
+    display: none;
     @include position(fixed, 30px null null 50%);
     z-index: 1000;
-    background-color: #fff;
+    background-color: $white;
     opacity: 0;
-    pointer-events: none;
     @include z-depth(3);
     @include transform(translateY(-50px));
     @include transition-property(opacity, transform);
@@ -43,13 +41,19 @@
 }
 
 .dialog--l {
-    width: 800px;
-    margin-left: -400px;
+    @include media-query(desk) {
+        width: 800px;
+        margin-left: -400px;
+    }
+
+    @include media-query(portable) {
+        width: 80%;
+        margin-left: -40%;
+    }
 }
 
 .dialog--is-shown {
     opacity: 1;
-    pointer-events: auto;
     @include transform(translateY(0));
 }
     
@@ -69,7 +73,7 @@
     // Dialog text
     .dialog__text {
         margin: 0;
-        color: #757575;
+        color: $black-2;
     }
 
     // Dialog actions
