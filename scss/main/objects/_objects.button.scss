@@ -56,10 +56,14 @@ $btn-font-size: ('xs': 11px, 's': 11px, 'm': 13px, 'l': 14px, 'xl': 16px);
 // Disabled states
 .btn[disabled],
 .btn--is-disabled {
-    background-color: $grey-300 !important;
     box-shadow: none !important;
     cursor: not-allowed;
-    color: $grey-500 !important;
+    color: $black-3 !important;
+
+    &.btn--raised,
+    &.btn--fab {
+        background-color: $grey-300 !important;
+    }
 }
 
 
