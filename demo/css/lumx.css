@@ -5981,7 +5981,6 @@ html {
   z-index: 999;
   background-color: rgba(0, 0, 0, 0.6);
   opacity: 0;
-  pointer-events: none;
   -webkit-transition-property: opacity;
   -moz-transition-property: opacity;
   transition-property: opacity;
@@ -5993,17 +5992,16 @@ html {
   transition-timing-function: cubic-bezier(0.23, 1, 0.32, 1); }
 
 .dialog-filter--is-shown {
-  opacity: 1;
-  pointer-events: auto; }
+  opacity: 1; }
 
 .dialog {
+  display: none;
   position: fixed;
   top: 30px;
   left: 50%;
   z-index: 1000;
   background-color: #FFFFFF;
   opacity: 0;
-  pointer-events: none;
   box-shadow: 0 9px 18px rgba(0, 0, 0, 0.5);
   -webkit-transform: translateY(-50px);
   -moz-transform: translateY(-50px);
@@ -6035,7 +6033,6 @@ html {
 
 .dialog--is-shown {
   opacity: 1;
-  pointer-events: auto;
   -webkit-transform: translateY(0);
   -moz-transform: translateY(0);
   -ms-transform: translateY(0);

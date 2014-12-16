@@ -35,7 +35,7 @@ angular.module('lumx.dialog', [])
             {
                 dialogFilter.addClass('dialog-filter--is-shown');
                 scopeMap[dialogId].element.addClass('dialog--is-shown');
-            });
+            }, 100);
         };
 
         this.close = function(dialogId)
