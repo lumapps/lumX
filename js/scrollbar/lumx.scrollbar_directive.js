@@ -218,8 +218,10 @@ angular.module('lumx.scrollbar', [])
             link: function(scope, element, attrs, ctrl)
             {
                 ctrl.init(element);
-                attrs.$observe('id', function (id) {
-                    if (angular.isDefined(id)) {
+                attrs.$observe('id', function (id)
+                {
+                    if (angular.isDefined(id))
+                    {
                         ctrl.setElementId(id);
                     }
                 });
