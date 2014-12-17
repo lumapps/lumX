@@ -14,7 +14,7 @@ angular.module('lumx.scrollbar', [])
 
         function setScrollPercent(id, newVal)
         {
-            if(angular.isDefined(id) && id != '')
+            if(angular.isDefined(id) && id !== '')
             {
                 $timeout(function() {
                     scopeMap[id] = newVal;
