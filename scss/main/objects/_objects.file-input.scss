@@ -74,6 +74,7 @@
     }
 
     .input-file__filename {
+        display: block;
         overflow: hidden;
         opacity: 0;
         line-height: double($md-spacing-unit);

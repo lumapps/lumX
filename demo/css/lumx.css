@@ -6402,6 +6402,7 @@ html {
   transition-timing-function: cubic-bezier(0.23, 1, 0.32, 1); }
 
 .input-file__filename {
+  display: block;
   overflow: hidden;
   opacity: 0;
   line-height: 32px;
@@ -9176,3 +9177,4 @@ body {
 
 .hljs-chunk {
   color: #aaa; }
+
