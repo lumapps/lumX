@@ -24,7 +24,7 @@ angular.module('lumx.text-field', [])
 
                 scope.data = {
                     focused: false,
-                    model: ''
+                    model: undefined
                 };
 
                 function focusUpdate()
@@ -41,7 +41,7 @@ angular.module('lumx.text-field', [])
 
                 function modelUpdate()
                 {
-                    scope.data.model = modelController.$viewValue || $field.val();
+                    scope.data.model = modelController.$modelValue || $field.val();
                 }
 
                 function valueUpdate()
@@ -52,12 +52,6 @@ angular.module('lumx.text-field', [])
 
                 transclude(function()
                 {
-                    scope.data.model = '';
-                    if (modelController && modelController.$viewChangeListeners.indexOf(modelUpdate) !== -1)
-                    {
-                        modelController.$viewChangeListeners.splice(modelController.$viewChangeListeners.indexOf(modelUpdate), 1);
-                    }
-
                     $field = element.find('textarea');
 
                     if ($field[0])
@@ -78,18 +72,16 @@ angular.module('lumx.text-field', [])
                     }
 
                     $field.addClass('text-field__input');
-
                     $field.on('focus', focusUpdate);
                     $field.on('blur', blurUpdate);
                     $field.on('propertychange change click keyup input paste', valueUpdate);
 
-                    modelController = angular.element($field).data('$ngModelController');
-                    modelController.$viewChangeListeners.push(modelUpdate);
+                    modelController = $field.data('$ngModelController');
 
-                    $timeout(function()
+                    scope.$watch(function()
                     {
-                        modelUpdate();
-                    });
+                        return modelController.$modelValue;
+                    }, modelUpdate);
                 });
             }
         };
