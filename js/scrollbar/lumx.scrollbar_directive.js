@@ -16,8 +16,7 @@ angular.module('lumx.scrollbar', [])
         {
             if(angular.isDefined(id) && id != '')
             {
-                $timeout(function()
-                {
+                $timeout(function() {
                     scopeMap[id] = newVal;
                 });
             }
@@ -49,10 +48,14 @@ angular.module('lumx.scrollbar', [])
             scrollbarYAxisHandlePosition,
             scrollBottom;
 
+        this.setElementId = function(id)
+        {
+            scrollbarId = id;
+        };
+
         this.init = function(element)
         {
             scrollbarContainer = element;
-            scrollbarId = element[0].id;
 
             scrollbarContainer
                 .addClass('scrollbar-container')
@@ -189,7 +192,10 @@ angular.module('lumx.scrollbar', [])
             scrollbarYAxisHandle.css({ top: handlePosition });
             scrollbarYAxis.css({ top: scrollPosition });
             scrollbarContainer.scrollTop(scrollPosition);
-            LxScrollbarService.setScrollPercent(scrollbarId, (scrollPosition / scrollBottom) * 100);
+            if(angular.isDefined(scrollbarId))
+            {
+                LxScrollbarService.setScrollPercent(scrollbarId, (scrollPosition / scrollBottom) * 100);
+            }
         }
 
         angular.element($window).bind('resize', function()
@@ -212,6 +218,11 @@ angular.module('lumx.scrollbar', [])
             link: function(scope, element, attrs, ctrl)
             {
                 ctrl.init(element);
+                attrs.$observe('id', function (id) {
+                    if (angular.isDefined(id)) {
+                        ctrl.setElementId(id);
+                    }
+                });
             }
         };
     });
