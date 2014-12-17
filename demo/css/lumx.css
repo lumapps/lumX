@@ -7403,7 +7403,6 @@ html {
   width: 40px;
   font-size: 24px;
   font-size: 1.5rem;
-  line-height: 40px;
   text-align: center;
   cursor: pointer;
   -webkit-transform: translateX(40px);
@@ -7420,6 +7419,8 @@ html {
   -webkit-transition-timing-function: cubic-bezier(0.23, 1, 0.32, 1);
   -moz-transition-timing-function: cubic-bezier(0.23, 1, 0.32, 1);
   transition-timing-function: cubic-bezier(0.23, 1, 0.32, 1); }
+  .search-filter__cancel .mdi {
+    line-height: 40px; }
 
 @media screen and (max-width: 1023px) {
   .scrollbar-container {
