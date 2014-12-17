@@ -54,7 +54,7 @@ angular.module('lumx.notification', [])
         {
             var notifIndex = notificationList.indexOf(notification);
 
-            for(var idx = 0; idx < notificationList.length && idx < notifIndex; idx++)
+            for (var idx = 0; idx < notificationList.length && idx < notifIndex; idx++)
             {
                 if (angular.isDefined(notificationList[idx + 1]))
                 {
@@ -189,7 +189,7 @@ angular.module('lumx.notification', [])
             });
 
             // Cancel button
-            if(angular.isDefined(buttons.cancel))
+            if (angular.isDefined(buttons.cancel))
             {
                 // DOM elements
                 var dialogFirstBtn = angular.element('<button/>', {
@@ -249,14 +249,15 @@ angular.module('lumx.notification', [])
             dialog
                 .append(dialogContent)
                 .append(dialogActions)
-                .appendTo('body');
+                .appendTo('body')
+                .show();
 
             // Starting animaton
             $timeout(function()
             {
                 dialogFilter.addClass('dialog-filter--is-shown');
                 dialog.addClass('dialog--is-shown');
-            });
+            }, 100);
         }
 
         function alert(title, text, button, callback)
@@ -279,14 +280,15 @@ angular.module('lumx.notification', [])
             dialog
                 .append(dialogContent)
                 .append(dialogActions)
-                .appendTo('body');
+                .appendTo('body')
+                .show();
 
             // Starting animaton
             $timeout(function()
             {
                 dialogFilter.addClass('dialog-filter--is-shown');
                 dialog.addClass('dialog--is-shown');
-            });
+            }, 100);
         }
 
         // private
