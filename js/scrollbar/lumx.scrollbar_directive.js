@@ -3,16 +3,42 @@
 
 
 angular.module('lumx.scrollbar', [])
-    .service('LxScrollbarService', function($window)
+    .service('LxScrollbarService', ['$window', '$timeout', function($window, $timeout)
     {
-        this.update = function()
+        var scopeMap = {};
+
+        function update()
         {
             angular.element($window).trigger('resize');
+        }
+
+        function setScrollPercent(id, newVal)
+        {
+            if(angular.isDefined(id) && id !== '')
+            {
+                $timeout(function() {
+                    scopeMap[id] = newVal;
+                });
+            }
+        }
+
+        function getScrollPercent(id)
+        {
+            return scopeMap[id];
+        }
+
+        return {
+            update: update,
+            setScrollPercent: setScrollPercent,
+            getScrollPercent: getScrollPercent
         };
-    })
-    .controller('LxScrollbarController', ['$scope', '$window', function($scope, $window)
+
+    }])
+    .controller('LxScrollbarController', ['$scope', '$window', 'LxScrollbarService',
+        function($scope, $window, LxScrollbarService)
     {
         var mousePosition,
+            scrollbarId,
             scrollbarContainer,
             scrollbarContainerHeight,
             scrollbarContent,
@@ -21,6 +47,11 @@ angular.module('lumx.scrollbar', [])
             scrollbarYAxisHandle,
             scrollbarYAxisHandlePosition,
             scrollBottom;
+
+        this.setElementId = function(id)
+        {
+            scrollbarId = id;
+        };
 
         this.init = function(element)
         {
@@ -131,7 +162,7 @@ angular.module('lumx.scrollbar', [])
                 scrollbarYAxis.show();
 
                 updatePosition(0, 0);
-            
+
                 scrollbarYAxis.css({ height: scrollbarContainerHeight });
                 scrollbarYAxisHandle.css({ height: (scrollbarContainerHeight / scrollbarContentHeight) * 100 + '%' });
             }
@@ -161,6 +192,10 @@ angular.module('lumx.scrollbar', [])
             scrollbarYAxisHandle.css({ top: handlePosition });
             scrollbarYAxis.css({ top: scrollPosition });
             scrollbarContainer.scrollTop(scrollPosition);
+            if(angular.isDefined(scrollbarId))
+            {
+                LxScrollbarService.setScrollPercent(scrollbarId, (scrollPosition / scrollBottom) * 100);
+            }
         }
 
         angular.element($window).bind('resize', function()
@@ -183,6 +218,13 @@ angular.module('lumx.scrollbar', [])
             link: function(scope, element, attrs, ctrl)
             {
                 ctrl.init(element);
+                attrs.$observe('id', function (id)
+                {
+                    if (angular.isDefined(id))
+                    {
+                        ctrl.setElementId(id);
+                    }
+                });
             }
         };
     });
