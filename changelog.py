@@ -58,7 +58,7 @@ def buildNewLogs(fromTag, toTag):
         logs += "*No major changes.*\n\n\n"
     else:
         if len(feats):
-            logs += "\n#### New fetures:\n"
+            logs += "\n#### New features:\n"
             for feat in feats:
                 logs += " - %s\n" % feat
         if len(fixs):
