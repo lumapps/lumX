@@ -142,14 +142,14 @@ angular.module('lumx.select', [])
             return $sce.trustAsHtml($scope.data.selectedTemplate);
         }
 
-        function convertValue(newValue, conversion, defaultValue, callback)
+        function convertValue(newValue, conversion, callback)
         {
-            var convertedData = angular.copy(defaultValue);
+            var convertedData = $scope.multiple ? [] : undefined;
             var loading = [];
 
             if (!newValue)
             {
-                callback(defaultValue);
+                callback(convertedData);
                 return;
             }
 
@@ -232,7 +232,6 @@ angular.module('lumx.select', [])
 
             convertValue(newValue,
                          modelToSelectionDefined ? $scope.modelToSelection : undefined,
-                         [],
                          function(newConvertedValue)
             {
                 newSelection = true;
@@ -299,7 +298,6 @@ angular.module('lumx.select', [])
 
             convertValue(data,
                          selectionToModelDefined ? $scope.selectionToModel : undefined,
-                         $scope.multiple ? [] : undefined,
                          function(newConvertedValue)
             {
                 newModel = true;

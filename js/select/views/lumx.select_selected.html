@@ -6,14 +6,14 @@
          lx-ripple>
         <span ng-if="getSelectedElements().length === 0">{{ placeholder }}</span>
 
+        <!-- ng-repeat is used to manage the initialization of the $select even for non-multiple selects -->
         <div ng-repeat="$selected in getSelectedElements()" ng-if="!multiple">
             <i class="lx-select__close mdi mdi--cancel" ng-click="unselect($selected, $event)" ng-if="allowClear"></i>
             <span ng-transclude="child"></span>
         </div>
 
         <div ng-if="multiple">
-            <div class="lx-select__tag"
-                  ng-repeat="$selected in getSelectedElements()">
+            <div class="lx-select__tag" ng-repeat="$selected in getSelectedElements()">
                 <span ng-transclude="child"></span>
             </div>
         </div>
