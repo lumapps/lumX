@@ -6,9 +6,8 @@
 angular.module('lumx.date-picker', [])
     .controller('lxDatePickerController', ['$scope', '$timeout', '$window', function($scope, $timeout, $window)
     {
-        moment.locale($window.navigator.language !== null ? $window.navigator.language : $window.navigator.browserLanguage);
-
-        var $element,
+        var locale = $window.navigator.language !== null ? $window.navigator.language : $window.navigator.browserLanguage,
+            $element,
             $dateFilter,
             $datePicker;
 
@@ -17,8 +16,8 @@ angular.module('lumx.date-picker', [])
             if ($scope.model)
             {
                 $scope.selectedDate = {
-                    date: moment($scope.model),
-                    formatted: moment($scope.model).format('LL')
+                    date: moment($scope.model).locale(locale),
+                    formatted: moment($scope.model).locale(locale).format('LL')
                 };
             }
             else
@@ -32,13 +31,11 @@ angular.module('lumx.date-picker', [])
             $element = element;
             $datePicker = element.find('.lx-date-picker');
 
-            var momentDaysOfWeek = moment().localeData()._weekdaysMin;
-
-            $scope.localeData = moment().localeData();
-            $scope.now = moment();
-            $scope.month = $scope.month || moment().startOf('day');
+            $scope.localeData = moment().locale(locale).localeData();
+            $scope.now = moment().locale(locale);
+            $scope.month = $scope.month || moment().locale(locale).startOf('day');
             $scope.days = [];
-            $scope.daysOfWeek = [momentDaysOfWeek[1], momentDaysOfWeek[2], momentDaysOfWeek[3], momentDaysOfWeek[4], momentDaysOfWeek[5], momentDaysOfWeek[6], momentDaysOfWeek[0]];
+            $scope.daysOfWeek = [$scope.localeData._weekdaysMin[1], $scope.localeData._weekdaysMin[2], $scope.localeData._weekdaysMin[3], $scope.localeData._weekdaysMin[4], $scope.localeData._weekdaysMin[5], $scope.localeData._weekdaysMin[6], $scope.localeData._weekdaysMin[0]];
 
             generateCalendar();
         };
@@ -58,8 +55,8 @@ angular.module('lumx.date-picker', [])
         $scope.select = function(day)
         {
             $scope.selectedDate = {
-                date: moment(day),
-                formatted: moment(day).format('LL')
+                date: moment(day).locale(locale),
+                formatted: moment(day).locale(locale).format('LL')
             };
 
             $scope.model = day;
@@ -108,10 +105,10 @@ angular.module('lumx.date-picker', [])
 
         function generateCalendar()
         {
-            var previousDay = moment($scope.month).date(0),
-                firstDayOfMonth = moment($scope.month).date(1),
+            var previousDay = moment($scope.month).locale(locale).date(0),
+                firstDayOfMonth = moment($scope.month).locale(locale).date(1),
                 days = [],
-                lastDayOfMonth = moment(firstDayOfMonth).endOf('month'),
+                lastDayOfMonth = moment(firstDayOfMonth).locale(locale).endOf('month'),
                 maxDays = lastDayOfMonth.date();
 
             $scope.emptyFirstDays = [];
@@ -123,8 +120,8 @@ angular.module('lumx.date-picker', [])
 
             for (var j = 0; j < maxDays; j++)
             {
-                var date = moment(previousDay.add(1, 'days'));
-                date.selected = date.isSame($scope.selectedDate.date, 'day');
+                var date = moment(previousDay.add(1, 'days')).locale(locale);
+                date.selected = date.isSame($scope.selectedDate.date, 'day') && angular.isDefined($scope.selectedDate.date);
                 date.today = date.isSame($scope.now, 'day');
                 days.push(date);
             }
