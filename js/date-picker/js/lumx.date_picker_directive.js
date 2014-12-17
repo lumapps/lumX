@@ -145,7 +145,8 @@ angular.module('lumx.date-picker', [])
             restrict: 'AE',
             controller: 'lxDatePickerController',
             scope: {
-                model: '='
+                model: '=',
+                label: '@'
             },
             templateUrl: 'lumx.date_picker.html',
             link: function(scope, element, attrs, ctrl)
