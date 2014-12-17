@@ -3,7 +3,7 @@
 
 
 angular.module('lumx.utils.transclude', [])
-    .config(function($provide)
+    .config(['$provide', function($provide)
     {
         $provide.decorator('ngTranscludeDirective', ['$delegate', function($delegate)
         {
@@ -11,7 +11,7 @@ angular.module('lumx.utils.transclude', [])
 
             return $delegate;
         }]);
-    })
+    }])
     .directive('ngTransclude', function()
     {
         return {
