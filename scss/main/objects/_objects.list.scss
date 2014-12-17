@@ -2,14 +2,6 @@
 //    #OBJECTS-LIST
 //\*------------------------------------*/
 
-// List vars
-$small-icon-size: 24px;
-$big-icon-size: 40px;
-
-
-
-
-
 // List base styles
 .list {
 	@extend %bare-list;
@@ -27,7 +19,7 @@ $big-icon-size: 40px;
 
 .list-row--has-primary {
 	.list-content-tile {
-		margin-left: $big-icon-size + $md-spacing-unit;
+		margin-left: $size-l + $md-spacing-unit;
 	}
 }
 
@@ -61,12 +53,12 @@ $big-icon-size: 40px;
 // List primary tile
 .list-primary-tile {
 	@include position(absolute, 50% null null $md-spacing-unit);
-	margin-top: -(halve($big-icon-size));
+	margin-top: -(halve($size-l));
 }
 	
 	// List primary tile image
 	.list-primary-tile__img {
-		@include size($big-icon-size);
+		@include size($size-l);
 		border-radius: 50%;
 	}
 
@@ -119,7 +111,7 @@ $big-icon-size: 40px;
 // List secondary tile
 .list-secondary-tile {
 	@include position(absolute, 50% $md-spacing-unit null null);
-	margin-top: -(halve($small-icon-size));
+	margin-top: -(halve($size-xs));
 }
 
 
@@ -152,5 +144,5 @@ $big-icon-size: 40px;
 }
 
 .list-subheader--is-pushed {
-	margin-left: $big-icon-size + $md-spacing-unit;
+	margin-left: $size-l + $md-spacing-unit;
 }

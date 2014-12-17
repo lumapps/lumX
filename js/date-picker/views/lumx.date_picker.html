@@ -1,0 +1,61 @@
+<div class="lx-date">
+    <lx-text-field class="lx-date-input" label="{{ label }}" ng-click="openPicker()">
+        <input type="text" ng-model="selectedDate.formatted" ng-disabled="true">
+    </lx-text-field>
+
+    <div class="lx-date-picker">
+        <div class="lx-date-picker__current-day-of-week">
+            <span ng-if="selectedDate.date">{{ localeData.weekdays(selectedDate.date) }}</span>
+            <span ng-if="!selectedDate.date">{{ localeData.weekdays(now) }}</span>
+        </div>
+
+        <div class="lx-date-picker__current-date">
+            <div ng-if="selectedDate.date">
+                <span>{{ localeData.monthsShort(selectedDate.date) }}</span>
+                <strong>{{ selectedDate.date.format('DD') }}</strong>
+                <em>{{ selectedDate.date.format('YYYY') }}</em>
+            </div>
+
+            <div ng-if="!selectedDate.date">
+                <span>{{ localeData.monthsShort(now) }}</span>
+                <strong>{{ now.format('DD') }}</strong>
+                <em>{{ now.format('YYYY') }}</em>
+            </div>
+        </div>
+
+        <div class="lx-date-picker__nav">
+            <button class="btn btn--xs btn--teal btn--icon" lx-ripple ng-click="previousMonth()">
+                <i class="mdi mdi--chevron-left"></i>
+            </button>
+
+            <span>{{ month.format('MMMM YYYY') }}</span>
+
+            <button class="btn btn--xs btn--teal btn--icon" lx-ripple ng-click="nextMonth()">
+                <i class="mdi mdi--chevron-right"></i>
+            </button>
+        </div>
+
+        <div class="lx-date-picker__days-of-week">
+            <span ng-repeat="day in daysOfWeek">{{ day }}</span>
+        </div>
+
+        <div class="lx-date-picker__days">
+            <span class="lx-date-picker__day lx-date-picker__day--is-empty"
+                  ng-repeat="x in emptyFirstDays">&nbsp;</span><!--
+
+         --><div class="lx-date-picker__day"
+                 ng-class="{ 'lx-date-picker__day--is-selected': day.selected,
+                             'lx-date-picker__day--is-today': day.today }"
+                 ng-repeat="day in days">
+                <a ng-click="select(day)">{{ day ? day.format('D') : '' }}</a>
+            </div><!--
+
+         --><span class="lx-date-picker__day lx-date-picker__day--is-empty"
+                  ng-repeat="x in emptyLastDays">&nbsp;</span>
+        </div>
+
+        <div class="lx-date-picker__actions">
+            <button class="btn btn--m btn--teal btn--flat" lx-ripple ng-click="closePicker()">Ok</button>
+        </div>
+    </div>
+</div>

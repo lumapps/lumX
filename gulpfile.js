@@ -15,7 +15,8 @@ var paths = {
         'build/js/lumx.text-field.tpl.js',
         'build/js/lumx.search-filter.tpl.js',
         'build/js/lumx.select.tpl.js',
-        'build/js/lumx.tabs.tpl.js'
+        'build/js/lumx.tabs.tpl.js',
+        'build/js/lumx.date-picker.tpl.js'
     ],
     scss: [
         'scss/**/*.scss',
@@ -182,7 +183,19 @@ gulp.task('tpl:tabs', function()
         .pipe(gulp.dest('build/js'));
 });
 
-gulp.task('dist:scripts', ['tpl:dropdown', 'tpl:file-input', 'tpl:text-field', 'tpl:search-filter', 'tpl:select', 'tpl:tabs'], function()
+gulp.task('tpl:date-picker', function()
+{
+    return gulp.src('js/date-picker/**/*.html')
+        .pipe(plugins.plumber())
+        .pipe(plugins.templatecache({
+            output: 'lumx.date-picker.tpl.js',
+            moduleName: 'lumx.date-picker',
+            strip: 'views/'
+        }))
+        .pipe(gulp.dest('build/js'));
+});
+
+gulp.task('dist:scripts', ['tpl:dropdown', 'tpl:file-input', 'tpl:text-field', 'tpl:search-filter', 'tpl:select', 'tpl:tabs', 'tpl:date-picker'], function()
 {
     return gulp.src(paths.js)
         .pipe(plugins.plumber())
@@ -199,7 +212,7 @@ gulp.task('dist:fonts', function()
         .pipe(gulp.dest('dist/fonts'));
 });
 
-gulp.task('watch', ['lint', 'scss', 'tpl:dropdown', 'tpl:file-input', 'tpl:text-field', 'tpl:search-filter', 'tpl:select', 'tpl:tabs'], function()
+gulp.task('watch', ['lint', 'scss', 'tpl:dropdown', 'tpl:file-input', 'tpl:text-field', 'tpl:search-filter', 'tpl:select', 'tpl:tabs', 'tpl:date-picker'], function()
 {
     watcherWithCache('lint', paths.scripts, ['lint']);
     watcherWithCache('scss', [paths.scss, 'demo/scss/**/*.scss'], ['scss']);
@@ -209,6 +222,7 @@ gulp.task('watch', ['lint', 'scss', 'tpl:dropdown', 'tpl:file-input', 'tpl:text-
     watcherWithCache('tpl:search-filter', 'js/search-filter/**/*.html', ['tpl:search-filter']);
     watcherWithCache('tpl:select', 'js/select/**/*.html', ['tpl:select']);
     watcherWithCache('tpl:tabs', 'js/tabs/**/*.html', ['tpl:tabs']);
+    watcherWithCache('tpl:date-picker', 'js/date-picker/**/*.html', ['tpl:date-picker']);
 });
 
 gulp.task('auto-reload', function()

@@ -87,6 +87,9 @@ app.config(function($locationProvider, $routeProvider)
         when('/directives/dialogs', {
             templateUrl: '/demo/includes/directives/dialogs.html'
         }).
+        when('/directives/date-picker', {
+            templateUrl: '/demo/includes/directives/date-picker.html'
+        }).
         when('/directives/thumbnails', {
             templateUrl: '/demo/includes/directives/thumbnails.html'
         }).
@@ -152,7 +155,7 @@ app.controller('AppController',
     $scope.ajax = {
         selected: 'Inception',
         list: [],
-        update: function(newFilter, oldFilter)
+        update: function(newFilter)
         {
             if (newFilter)
             {
@@ -317,4 +320,8 @@ app.controller('AppController',
     {
         console.log("Filter changed: '" + newVal + "' from '" + oldVal + "'");
     });
+
+    $scope.datepicker = {
+        date: new Date()
+    };
 });
