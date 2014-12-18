@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.2.26:
+
+#### Bug fixes:
+ - selects: add default scope values
+
+
 ## v0.2.25:
 
 #### Bug fixes:
