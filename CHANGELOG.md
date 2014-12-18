@@ -1,5 +1,32 @@
 # Changelog
 
+## v0.2.25:
+
+#### Bug fixes:
+ - dropdown: remove element on scope destroy
+ - tooltip: remove element on scope destroy
+ - selects: use child scope inside the directive
+
+#### Breaking changes:
+ - selects now use "ng-model" instead of "model"
+
+
+## v0.2.24:
+
+#### Bug fixes:
+ - select: better default value management
+
+
+## v0.2.23:
+
+#### New features:
+ - scrollbar: Observe id to handle dynamics variables
+ - scrollbar: Create getter & setter to watch scroll percentage
+
+#### Bug fixes:
+ - notification: show alert and confirm boxes
+
+
 ## v0.2.22:
 
 #### New features:
