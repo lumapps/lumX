@@ -108,6 +108,12 @@ angular.module('lumx.tooltip', [])
                 tooltip.remove();
             }, 200);
         };
+
+        $scope.$on('$destroy', function()
+        {
+            tooltip.remove();
+            $scope.$destroy();
+        });
     }])
     .directive('lxTooltip', function()
     {
