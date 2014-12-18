@@ -17,7 +17,7 @@
             <span ng-if="hasNoResults() && !filterNeeded()">No results!</span>
         </li>
 
-        <li ng-repeat="$choice in choices | filter:data.filter" ng-if="isChoicesVisible()">
+        <li ng-repeat="$choice in choices() | filter:data.filter" ng-if="isChoicesVisible()">
             <a class="lx-select__choice dropdown-link"
                ng-class="{ 'lx-select__choice--is-multiple': multiple,
                            'lx-select__choice--is-selected': isSelected($choice) }"

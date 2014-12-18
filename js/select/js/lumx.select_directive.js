@@ -32,14 +32,6 @@ angular.module('lumx.select', [])
 
 
         // Link methods
-        this.init = function(element, attrs)
-        {
-            $scope.multiple = angular.isDefined(attrs.multiple);
-            $scope.tree = angular.isDefined(attrs.tree);
-            modelToSelectionDefined = angular.isDefined(attrs.modelToSelection);
-            selectionToModelDefined = angular.isDefined(attrs.selectionToModel);
-        };
-
         this.registerTransclude = function(transclude)
         {
             $scope.data.selectedTransclude = transclude;
@@ -110,7 +102,7 @@ angular.module('lumx.select', [])
 
         function hasNoResults()
         {
-            return angular.isUndefined($scope.choices) || $filter('filter')($scope.choices, $scope.data.filter).length === 0;
+            return angular.isUndefined($scope.choices()) || $filter('filter')($scope.choices(), $scope.data.filter).length === 0;
         }
 
         function filterNeeded()
@@ -140,6 +132,30 @@ angular.module('lumx.select', [])
         function getSelectedTemplate()
         {
             return $sce.trustAsHtml($scope.data.selectedTemplate);
+        }
+
+        function ngModelWatcher()
+        {
+            if (newModel)
+            {
+                newModel = false;
+                return;
+            }
+
+            convertValue($scope.ngModel.$modelValue,
+                         $scope.modelToSelection,
+                         function(newConvertedValue)
+            {
+                newSelection = true;
+
+                var value = newConvertedValue !== undefined ? angular.copy(newConvertedValue) : [];
+                if (!$scope.multiple)
+                {
+                    value = newConvertedValue !== undefined ? [angular.copy(newConvertedValue)] : [];
+                }
+
+                $scope.data.selected = value;
+            });
         }
 
         function convertValue(newValue, conversion, callback)
@@ -189,10 +205,7 @@ angular.module('lumx.select', [])
                         loading.push(idx);
 
                         // Call the method
-                        conversion({
-                            data: newValue[idx],
-                            callback: convertionCallback(idx)
-                        });
+                        conversion(newValue[idx], convertionCallback(idx));
                     }
                 }
                 else
@@ -205,13 +218,10 @@ angular.module('lumx.select', [])
                 if (angular.isDefined(conversion))
                 {
                     $scope.data.loading = true;
-                    conversion({
-                        data: newValue,
-                        callback: function(data)
-                        {
-                            $scope.data.loading = false;
-                            callback(data);
-                        }
+                    conversion(newValue, function(data)
+                    {
+                        $scope.data.loading = false;
+                        callback(data);
                     });
                 }
                 else
@@ -222,29 +232,23 @@ angular.module('lumx.select', [])
         }
 
         // Watchers
-        $scope.$watch('model', function(newValue)
+        $scope.$watch('ngModel', function(newValue, oldValue)
         {
-            if (newModel)
+            if (oldValue)
             {
-                newModel = false;
-                return;
+                var oldIdx = oldValue.$viewChangeListeners.indexOf(ngModelWatcher);
+                if (oldIdx !== -1)
+                {
+                    newValue.$viewChangeListeners.splice(oldIdx, 1);
+                }
             }
 
-            convertValue(newValue,
-                         modelToSelectionDefined ? $scope.modelToSelection : undefined,
-                         function(newConvertedValue)
+            if (newValue)
             {
-                newSelection = true;
-
-                var value = newConvertedValue !== undefined ? angular.copy(newConvertedValue) : [];
-                if (!$scope.multiple)
-                {
-                    value = newConvertedValue !== undefined ? [angular.copy(newConvertedValue)] : [];
-                }
-
-                $scope.data.selected = value;
-            });
-        }, true);
+                newValue.$viewChangeListeners.push(ngModelWatcher);
+                ngModelWatcher();
+            }
+        });
 
         $scope.$watch('data.selected', function(newValue)
         {
@@ -297,13 +301,16 @@ angular.module('lumx.select', [])
             }
 
             convertValue(data,
-                         selectionToModelDefined ? $scope.selectionToModel : undefined,
+                         $scope.selectionToModel,
                          function(newConvertedValue)
             {
                 newModel = true;
 
-                $scope.change({ newValue: angular.copy(newConvertedValue), oldValue: angular.copy($scope.model) });
-                $scope.model = angular.copy(newConvertedValue);
+                if ($scope.change)
+                {
+                    $scope.change({ newValue: angular.copy(newConvertedValue), oldValue: angular.copy($scope.model) });
+                }
+                $scope.ngModel.$setViewValue(angular.copy(newConvertedValue));
             });
         }, true);
 
@@ -311,7 +318,10 @@ angular.module('lumx.select', [])
         {
             if(angular.isUndefined($scope.minLength) || (newValue && $scope.minLength <= newValue.length))
             {
-                $scope.filter({ newValue: newValue, oldValue: oldValue });
+                if ($scope.filter)
+                {
+                    $scope.filter(newValue, oldValue);
+                }
             }
         });
 
@@ -327,29 +337,81 @@ angular.module('lumx.select', [])
         $scope.getSelectedTemplate = getSelectedTemplate;
         $scope.hasNoResults = hasNoResults;
     }])
-    .directive('lxSelect', function()
+    .directive('lxSelect', function($timeout)
     {
         return {
-            restrict: 'E',
+            restrict: 'AE',
             controller: 'LxSelectController',
-            scope: {
-                model: '=?',
-                placeholder: '@',
-                choices: '=',
-                loading: '@',
-                minLength: '@',
-                allowClear: '@',
-                change: '&', // Parameters: newValue, oldValue
-                filter: '&', // Parameters: newValue, oldValue
-                selectionToModel: '&', // Parameters: data, callback
-                modelToSelection: '&' // Parameters: data, callback
-            },
+            require: '?ngModel',
+            scope: true,
             templateUrl: 'lumx.select.html',
             transclude: true,
             replace: true,
-            link: function(scope, element, attrs, ctrl)
+            link: function(scope, element, attrs, ngModel)
             {
-                ctrl.init(element, attrs);
+                scope.multiple = angular.isDefined(attrs.multiple);
+                scope.tree = angular.isDefined(attrs.tree);
+                scope.ngModel = ngModel;
+
+                attrs.$observe('placeholder', function(newValue)
+                {
+                    scope.placeholder = newValue;
+                });
+
+                attrs.$observe('loading', function(newValue)
+                {
+                    scope.loading = newValue;
+                });
+
+                attrs.$observe('minLength', function(newValue)
+                {
+                    scope.minLength = newValue;
+                });
+
+                attrs.$observe('allowClear', function(newValue)
+                {
+                    scope.allowClear = newValue;
+                });
+
+                attrs.$observe('choices', function(newValue)
+                {
+                    scope.choices = function()
+                    {
+                        return scope.$eval(newValue);
+                    };
+                });
+
+                attrs.$observe('change', function(newValue)
+                {
+                    scope.change = function(newData, oldData)
+                    {
+                        return scope.$eval(newValue, { newValue: newData, oldValue: oldData });
+                    };
+                });
+
+                attrs.$observe('filter', function(newValue)
+                {
+                    scope.filter = function(newFilter, oldFilter)
+                    {
+                        return scope.$eval(newValue, { newValue: newFilter, oldValue: oldFilter });
+                    };
+                });
+
+                attrs.$observe('selectionToModel', function(newValue)
+                {
+                    scope.selectionToModel = function(selection, callback)
+                    {
+                        return scope.$eval(newValue, { data: selection, callback: callback });
+                    };
+                });
+
+                attrs.$observe('modelToSelection', function(newValue)
+                {
+                    scope.modelToSelection = function(model, callback)
+                    {
+                        return scope.$eval(newValue, { data: model, callback: callback });
+                    };
+                });
             }
         };
     })

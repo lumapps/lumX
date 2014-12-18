@@ -218,8 +218,10 @@ app.controller('AppController',
         }
     };
 
-    $scope.selectedPerson = undefined;
-    $scope.selectedPersons = [$scope.people[2], $scope.people[4]];
+    $scope.selects = {
+        selectedPerson: undefined,
+        selectedPersons: [$scope.people[2], $scope.people[4]]
+    };
 
     $scope.tree = [
     {
