@@ -13,20 +13,10 @@ angular.module('lumx.date-picker', [])
 
         this.init = function(element)
         {
-            if ($scope.model)
-            {
-                $scope.selectedDate = {
-                    date: moment($scope.model).locale(locale),
-                    formatted: moment($scope.model).locale(locale).format('LL')
-                };
-            }
-            else
-            {
-                $scope.selectedDate = {
-                    date: undefined,
-                    formatted: undefined
-                };
-            }
+            $scope.selectedDate = {
+                date: undefined,
+                formatted: undefined
+            };
 
             $element = element;
             $datePicker = element.find('.lx-date-picker');
@@ -38,6 +28,16 @@ angular.module('lumx.date-picker', [])
             $scope.daysOfWeek = [$scope.localeData._weekdaysMin[1], $scope.localeData._weekdaysMin[2], $scope.localeData._weekdaysMin[3], $scope.localeData._weekdaysMin[4], $scope.localeData._weekdaysMin[5], $scope.localeData._weekdaysMin[6], $scope.localeData._weekdaysMin[0]];
 
             generateCalendar();
+        };
+
+        this.updateModel = function(val)
+        {
+            $scope.model = val;
+
+            $scope.selectedDate = {
+                date: moment($scope.model).locale(locale),
+                formatted: moment($scope.model).locale(locale).format('LL')
+            };
         };
 
         $scope.previousMonth = function()
@@ -149,6 +149,13 @@ angular.module('lumx.date-picker', [])
             link: function(scope, element, attrs, ctrl)
             {
                 ctrl.init(element);
+                scope.$watch('model', function (newVal)
+                {
+                    if (angular.isDefined(newVal))
+                    {
+                        ctrl.updateModel(newVal);
+                    }
+                });
             }
         };
     });
