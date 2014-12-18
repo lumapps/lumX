@@ -353,6 +353,17 @@ angular.module('lumx.select', [])
                 scope.tree = angular.isDefined(attrs.tree);
                 scope.ngModel = ngModel;
 
+                // Default values
+                scope.placeholder = '';
+                scope.loading = '';
+                scope.minLength = 0;
+                scope.allowClear = '';
+                scope.choices = function() { return []; };
+                scope.change = undefined;
+                scope.filter = undefined;
+                scope.selectionToModel = undefined;
+                scope.modelToSelection = undefined;
+
                 attrs.$observe('placeholder', function(newValue)
                 {
                     scope.placeholder = newValue;
