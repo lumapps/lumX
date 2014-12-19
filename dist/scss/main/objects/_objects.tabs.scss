@@ -5,32 +5,91 @@
 // Tabs base styles
 .tabs {
     position: relative;
+
+    &:after {
+        content: '';
+        @include position(absolute, (($md-spacing-unit * 3) - 1) 0 null 0);
+        height: 1px;
+    }
 }
-    
-    // Tabs links
+
+// Tabs themes
+.tabs--theme-light {
+    &:after {
+        background-color: $white-2;
+    }
+
+    .tabs-link {
+        color: $white-2;
+    }
+
+    .tabs-link:hover,
+    .tabs-link--is-active {
+        color: $white-1 !important;
+    }
+}
+
+.tabs--theme-dark {
+    &:after {
+        background-color: $black-4;
+    }
+
+    .tabs-link {
+        color: $black-2;
+    }
+}
+
+// Tabs layout
+.tabs--layout-full {
     .tabs__links {
-        @extend %bare-list;
         display: table;
         table-layout: fixed;
         width: 100%;
-        border-bottom: 1px solid #ddd;
         text-align: center;
 
         li {
             display: table-cell;
         }
     }
+}
 
-    // Tabs panes
-    .tabs__panes {
-        margin-top: $base-spacing-unit;
+.tabs--layout-inline {
+    .tabs__links {
+        li {
+            display: inline-block;
+            vertical-align: top;
+        }
+    }
+
+    .tabs-link {
+        @include media-query(palm) {
+            padding-left: halve($base-spacing-unit);
+            padding-right: halve($base-spacing-unit);
+        }
+
+        @include media-query(lap-and-up) {
+            padding-left: $base-spacing-unit;
+            padding-right: $base-spacing-unit;
+        }
+    }
+}
+
+// No divider
+.tabs--no-divider:after {
+    display: none;
+}
+    
+    // Tabs links
+    .tabs__links {
+        position: relative;
+        @extend %bare-list;
     }
 
     // Tabs indicator
     .tabs__indicator {
-        @include position(absolute, (($md-spacing-unit * 3) - 1) 0 null 0);
+        @include position(absolute, (($md-spacing-unit * 3) - 2) 0 null 0);
+        z-index: 1;
         height: 2px;
-        background-color: $blue;
     }
 
 
@@ -40,10 +99,8 @@
 // Tabs link
 .tabs-link {
     display: block;
-    position: relative;
     height: $md-spacing-unit * 3;
     cursor: pointer;
-    @include font-size(14px);
     font-weight: 600;
     line-height: $md-spacing-unit * 3;
     text-align: center;
@@ -51,28 +108,16 @@
     @include transition-property(color);
     @include transition-duration(0.2s);
 
-    &:hover {
-        color: $blue;
+    @include media-query(portable) {
+        @include font-size(14px);
     }
 
-    .ripple {
-        background-color: rgba($blue, 0.3);
+    @include media-query(desk) {
+        @include font-size(13px);
     }
-}
 
-.tabs-link--is-active {
-    color: $blue;
-}
-
-
-
-
-
-// Tabs pane
-.tabs-pane {
-    display: none;
-}
-
-.tabs-pane--is-active {
-    display: block;
+    .mdi {
+        @include font-size(24px);
+        line-height: $md-spacing-unit * 3;
+    }
 }
