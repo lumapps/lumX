@@ -1,0 +1,127 @@
+///*------------------------------------*\
+//    #OBJECTS-TEXT-FIELD
+//\*------------------------------------*/
+
+// Text field base styles
+.text-field {
+    position: relative;
+    padding-top: $base-spacing-unit * 1.5;
+    padding-bottom: halve($base-spacing-unit);
+
+    &:before,
+    &:after {
+        content: '';
+    }
+
+    &:before {
+        @include position(absolute, null 0 (halve($md-spacing-unit) - 1) 0);
+        height: 1px;
+        border-bottom: 1px solid $black-4;
+    }
+
+    &:after {
+        @include position(absolute, null 0 (halve($md-spacing-unit) - 2) 0);
+        height: 2px;
+        background-color: $blue-500;
+        @include transform(scale(0));
+        @include transition-property(transform);
+        @include transition-duration(0.6s);
+        @include transition-timing-function($ease-out-quint);
+    }
+}
+
+.text-field--is-active {
+    .text-field__label {
+        @include transform(scale(0.75) translateY(0));
+    }
+}
+
+.text-field--is-focused {
+    &:after {
+        @include transform(scale(1));
+    }
+
+    .text-field__label {
+        color: $blue-500;
+    }
+}
+
+.text-field--is-disabled {
+    &:before {
+        border-bottom-style: dashed;
+    }
+
+    .text-field__input {
+        color: $black-3;
+        cursor: not-allowed;
+    }
+}
+
+.text-field--has-error {
+    &:after {
+        background-color: $red-500;
+        @include transform(scale(1));
+    }
+
+    .text-field__label {
+        color: $red-500;
+    }
+}
+
+.text-field--fixed-label {
+    padding-top: halve($base-spacing-unit);
+
+    .text-field__label {
+        @include transform(none);
+    }
+}
+
+.text-field--label-hidden {
+    .text-field__label {
+        display: none;
+    }
+}
+
+.text-field--is-valid {
+    .text-field__label {
+        color: $green-500;
+    }
+
+    &:after {
+        background-color: $green-500;
+        @include transform(scale(1));
+    }
+}
+    
+    // Text field label
+    .text-field__label {
+        display: block;
+        @include position(absolute, halve($base-spacing-unit) null null 0);
+        color: $black-3;
+        line-height: 24px;
+        pointer-events: none;
+        @include transform(translateY($base-spacing-unit));
+        @include transform-origin(bottom left);
+        @include transition-property(transform, color);
+        @include transition-duration(0.4s);
+        @include transition-timing-function($ease-out-quint);
+    }
+
+    // Text field input
+    .text-field__input {
+        display: block;
+        @include size(100% 24px);
+        margin: 0;
+        padding: 0;
+        border: none;
+        overflow: hidden;
+        resize: none;
+        font-weight: 400;
+        line-height: 24px;
+        cursor: text;
+        @include appearance(none);
+
+        &:focus {
+            outline: none;
+        }
+    }
