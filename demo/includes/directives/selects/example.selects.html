@@ -25,6 +25,7 @@
                 {{ $choice.Title }} - {{ $choice.Type }}
             </lx-select-choices>
         </lx-select>
+        <button class="btn btn--m btn--blue btn--raised" ng-click="ajax.selected = 'Inception'" lx-ripple>Set to 'Inception'</button>
         Movie selected : '{{ ajax.selected }}' (undefined: {{ ajax.selected === undefined }})
     </div>
 
@@ -38,6 +39,6 @@
                 {{ $choice.email }}
             </lx-select-choices>
         </lx-select>
-        Persons selected : {{ selects.selectedPersons }} (undefined: {{ selectedPersons === undefined }})
+        Persons selected : {{ selects.selectedPersons }} (undefined: {{ selects.selectedPersons === undefined }})
     </div>
 </div>

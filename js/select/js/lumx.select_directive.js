@@ -134,30 +134,6 @@ angular.module('lumx.select', [])
             return $sce.trustAsHtml($scope.data.selectedTemplate);
         }
 
-        function ngModelWatcher()
-        {
-            if (newModel)
-            {
-                newModel = false;
-                return;
-            }
-
-            convertValue($scope.ngModel.$modelValue,
-                         $scope.modelToSelection,
-                         function(newConvertedValue)
-            {
-                newSelection = true;
-
-                var value = newConvertedValue !== undefined ? angular.copy(newConvertedValue) : [];
-                if (!$scope.multiple)
-                {
-                    value = newConvertedValue !== undefined ? [angular.copy(newConvertedValue)] : [];
-                }
-
-                $scope.data.selected = value;
-            });
-        }
-
         function convertValue(newValue, conversion, callback)
         {
             var convertedData = $scope.multiple ? [] : undefined;
@@ -232,22 +208,28 @@ angular.module('lumx.select', [])
         }
 
         // Watchers
-        $scope.$watch('ngModel', function(newValue, oldValue)
+        $scope.$watch('ngModel.$modelValue', function(newValue, oldValue)
         {
-            if (oldValue)
+            if (newModel)
             {
-                var oldIdx = oldValue.$viewChangeListeners.indexOf(ngModelWatcher);
-                if (oldIdx !== -1)
-                {
-                    newValue.$viewChangeListeners.splice(oldIdx, 1);
-                }
+                newModel = false;
+                return;
             }
 
-            if (newValue)
+            convertValue(newValue,
+                         $scope.modelToSelection,
+                         function(newConvertedValue)
             {
-                newValue.$viewChangeListeners.push(ngModelWatcher);
-                ngModelWatcher();
-            }
+                newSelection = true;
+
+                var value = newConvertedValue !== undefined ? angular.copy(newConvertedValue) : [];
+                if (!$scope.multiple)
+                {
+                    value = newConvertedValue !== undefined ? [angular.copy(newConvertedValue)] : [];
+                }
+
+                $scope.data.selected = value;
+            });
         });
 
         $scope.$watch('data.selected', function(newValue)
