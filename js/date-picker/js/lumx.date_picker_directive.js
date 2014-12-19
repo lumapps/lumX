@@ -32,12 +32,14 @@ angular.module('lumx.date-picker', [])
 
         this.updateModel = function(val)
         {
-            $scope.model = val;
+            if (angular.isDefined(val)) {
+                $scope.model = val;
 
-            $scope.selectedDate = {
-                date: moment($scope.model).locale(locale),
-                formatted: moment($scope.model).locale(locale).format('LL')
-            };
+                $scope.selectedDate = {
+                    date: moment($scope.model).locale(locale),
+                    formatted: moment($scope.model).locale(locale).format('LL')
+                };
+            }
         };
 
         $scope.previousMonth = function()
@@ -151,10 +153,7 @@ angular.module('lumx.date-picker', [])
                 ctrl.init(element);
                 scope.$watch('model', function (newVal)
                 {
-                    if (angular.isDefined(newVal))
-                    {
-                        ctrl.updateModel(newVal);
-                    }
+                    ctrl.updateModel(newVal);
                 });
             }
         };
