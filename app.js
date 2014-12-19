@@ -326,4 +326,30 @@ app.controller('AppController',
     $scope.datepicker = {
         date: new Date()
     };
+
+    var tabIndex = 4;
+    $scope.tabs = [
+        { heading: 'Tab 1', content: 'Tab 1 content' },
+        { heading: 'Tab 2', content: 'Tab 2 content' },
+        { heading: 'Tab 3', content: 'Tab 3 content' }
+    ];
+
+    $scope.addTab = function()
+    {
+        $scope.tabs.push({ heading: 'Tab ' + tabIndex, content: 'Tab ' + tabIndex + ' content' });
+        ++tabIndex;
+    };
+
+    $scope.removeFirstTab = function()
+    {
+        $scope.removeTab(0);
+    };
+
+    $scope.removeTab = function(idx)
+    {
+        if ($scope.tabs.length > idx)
+        {
+            $scope.tabs.splice(idx, 1);
+        }
+    };
 });

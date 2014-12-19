@@ -30,7 +30,54 @@ angular.module('lumx.tabs', [])
         this.addTab = function(tabScope)
         {
             tabs.push(tabScope);
+
+            $timeout(function()
+            {
+                setIndicatorPosition();
+            });
+
             return (tabs.length - 1);
+        };
+
+        this.removeTab = function(tabScope)
+        {
+            var idx = tabs.indexOf(tabScope);
+
+            if (idx !== -1)
+            {
+                for (var tabIdx = idx + 1; tabIdx < tabs.length; ++tabIdx)
+                {
+                    --tabs[tabIdx].index;
+                }
+
+                tabs.splice(idx, 1);
+
+                if (idx === $scope.activeTab)
+                {
+                    $scope.activeTab = 0;
+                    $timeout(function()
+                    {
+                        setIndicatorPosition(idx);
+                    });
+                }
+                else if(idx < $scope.activeTab)
+                {
+                    var old = $scope.activeTab;
+                    $scope.activeTab = old - 1;
+
+                    $timeout(function()
+                    {
+                        setIndicatorPosition(old);
+                    });
+                }
+                else
+                {
+                    $timeout(function()
+                    {
+                        setIndicatorPosition();
+                    });
+                }
+            }
         };
 
         function getTabs()
@@ -112,8 +159,11 @@ angular.module('lumx.tabs', [])
         {
             if (newIndex !== oldIndex)
             {
-                setLinksColor(newIndex);
-                setIndicatorPosition(oldIndex);
+                $timeout(function()
+                {
+                    setLinksColor(newIndex);
+                    setIndicatorPosition(oldIndex);
+                });
             }
         });
 
@@ -190,6 +240,11 @@ angular.module('lumx.tabs', [])
             {
                 scope.data = ctrl.getScope();
                 scope.index = ctrl.addTab(scope);
+
+                scope.$on('$destroy', function(scope)
+                {
+                    ctrl.removeTab(scope.currentScope);
+                });
             }
         };
     })

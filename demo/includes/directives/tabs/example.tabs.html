@@ -59,3 +59,17 @@
         </lx-tab>
     </lx-tabs>
 </div>
+
+<div class="mt">
+  <button class="btn btn--m btn--blue btn--raised" ng-click="addTab()" lx-ripple>Add a tab</button>
+  <button class="btn btn--m btn--white btn--raised" ng-click="removeFirstTab()" lx-ripple>Remove first tab</button>
+</div>
+
+<lx-tabs class="mt">
+    <lx-tab heading="{{ tab.heading }}" ng-repeat="tab in tabs">
+        <p class="p">
+          {{ tab.content }}
+        </p>
+        <button class="btn btn--m btn--white btn--raised" ng-click="removeTab(tabs.indexOf(tab))" lx-ripple>Remove current tab</button>
+    </lx-tab>
+</lx-tabs>
