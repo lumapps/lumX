@@ -1,5 +1,14 @@
 # Changelog
 
+## v0.2.27:
+
+#### Bug fixes:
+ - tabs: manage dynamic add/remove & ng-repeat
+ - date-picker: improve security by removing scope binding
+ - date-picker: move isDefined checking to controller
+ - date-picker: watch the scope to handle async binding
+
+
 ## v0.2.26:
 
 #### Bug fixes:
