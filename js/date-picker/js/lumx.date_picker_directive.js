@@ -33,11 +33,9 @@ angular.module('lumx.date-picker', [])
         this.updateModel = function(val)
         {
             if (angular.isDefined(val)) {
-                $scope.model = val;
-
                 $scope.selectedDate = {
-                    date: moment($scope.model).locale(locale),
-                    formatted: moment($scope.model).locale(locale).format('LL')
+                    date: moment(val).locale(locale),
+                    formatted: moment(val).locale(locale).format('LL')
                 };
             }
         };
