@@ -8158,10 +8158,7 @@ html {
     float: right; }
 
 .toolbar__label {
-  margin-left: 8px;
-  font-size: 20px;
-  font-size: 1.25rem;
-  font-weight: 600;
+  float: left;
   line-height: 40px; }
 
 .tooltip {

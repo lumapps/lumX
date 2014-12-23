@@ -44,8 +44,6 @@
 
     // Toolbar label
     .toolbar__label {
-        margin-left: halve($md-spacing-unit);
-        @include font-size(20px);
-        font-weight: 600;
+        float: left;
         line-height: $size-l;
     }
