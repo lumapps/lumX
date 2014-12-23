@@ -1,8 +1,30 @@
 <button class="btn btn--m btn--black btn--flat" ng-click="opendDialog('test')" lx-ripple>Open dialog</button>
 
 <div class="dialog dialog--l" id="test" lx-dialog>
-    <div class="dialog__content">
-        <strong class="dialog__title">Lorem Ipsum</strong>
+    <div class="dialog__header bgc-light-blue-500">
+        <div class="toolbar">
+            <div class="toolbar__left mr-">
+                <button class="btn btn--l btn--white btn--icon" lx-ripple>
+                    <i class="mdi mdi--menu"></i>
+                </button>
+            </div>
+
+            <strong class="toolbar__label tc-white">
+                Lorem Ipsum
+            </strong>
+
+            <div class="toolbar__right">
+                <button class="btn btn--l btn--white btn--icon" lx-ripple ng-click="addPerson()">
+                    <i class="mdi mdi--add"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="dialog__content p">
+        <div ng-repeat="person in people">
+            {{ person.name }} - {{ person.email }} - {{ person.age }}
+        </div>
     </div>
 
     <div class="dialog__actions">

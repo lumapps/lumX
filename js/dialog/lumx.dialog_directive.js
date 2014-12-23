@@ -3,10 +3,11 @@
 
 
 angular.module('lumx.dialog', [])
-    .service('LxDialogService', ['$timeout', function($timeout)
+    .service('LxDialogService', ['$timeout', '$window', function($timeout, $window)
     {
         var self = this,
             dialogFilter,
+            activeDialogId,
             scopeMap = {};
 
         this.registerScope = function(dialogId, dialogScope)
@@ -16,6 +17,8 @@ angular.module('lumx.dialog', [])
 
         this.open = function(dialogId)
         {
+            activeDialogId = dialogId;
+
             dialogFilter = angular.element('<div/>', {
                 class: 'dialog-filter'
             });
@@ -35,11 +38,15 @@ angular.module('lumx.dialog', [])
             {
                 dialogFilter.addClass('dialog-filter--is-shown');
                 scopeMap[dialogId].element.addClass('dialog--is-shown');
+
+                self.checkDialogHeight(dialogId);
             }, 100);
         };
 
         this.close = function(dialogId)
         {
+            activeDialogId = undefined;
+
             dialogFilter.removeClass('dialog-filter--is-shown');
             scopeMap[dialogId].element.removeClass('dialog--is-shown');
 
@@ -49,25 +56,71 @@ angular.module('lumx.dialog', [])
 
                 scopeMap[dialogId].element
                     .hide()
+                    .removeClass('dialog--is-fixed')
                     .appendTo(scopeMap[dialogId].parent);
             }, 600);
         };
+
+        this.checkDialogHeight = function(dialogId)
+        {
+            var dialogMargin = 60,
+                dialog = scopeMap[dialogId].element,
+                dialogHeader = dialog.find('.dialog__header'),
+                dialogContent = dialog.find('.dialog__content'),
+                dialogActions = dialog.find('.dialog__actions'),
+                dialogScrollable = angular.element('<div/>', { class: 'dialog__scrollable' }),
+                HeightToCheck = dialogMargin + dialogHeader.outerHeight() + dialogContent.outerHeight() + dialogActions.outerHeight();
+
+            if (HeightToCheck >= $window.innerHeight)
+            {
+                dialog.addClass('dialog--is-fixed');
+
+                if (dialog.find('.dialog__scrollable').length === 0)
+                {
+                    dialogScrollable.css({ top: dialogHeader.outerHeight(), bottom: dialogActions.outerHeight() });
+                    dialogContent.wrap(dialogScrollable);
+                }
+            }
+            else
+            {
+                dialog.removeClass('dialog--is-fixed');
+
+                if (dialog.find('.dialog__scrollable').length > 0)
+                {
+                    dialogContent.unwrap();
+                }
+            }
+        };
+
+        angular.element($window).bind('resize', function()
+        {
+            if (angular.isDefined(activeDialogId))
+            {
+                self.checkDialogHeight(activeDialogId);
+            }
+        });
     }])
     .controller('LxDialogController', ['$scope', 'LxDialogService', function($scope, LxDialogService)
     {
-        var dialogScope = $scope.$new();
+        var dialogId,
+            dialogScope = $scope.$new();
 
-        this.init = function(element, dialogId)
+        this.init = function(element, id)
         {
+            dialogId = id;
             dialogScope.element = element;
             dialogScope.parent = element.parent();
 
-            LxDialogService.registerScope(dialogId, dialogScope);
+            LxDialogService.registerScope(id, dialogScope);
         };
 
-        $scope.$on('$destroy', function()
+        $scope.$watch(function()
         {
-            dialogScope.$destroy();
+            return dialogScope.element.outerHeight();
+        },
+        function()
+        {
+            LxDialogService.checkDialogHeight(dialogId);
         });
     }])
     .directive('lxDialog', function()
@@ -83,15 +136,11 @@ angular.module('lumx.dialog', [])
                     event.stopPropagation();
                 });
 
-                scope.$watch(function()
+                attrs.$observe('id', function(newId)
                 {
-                    return attrs.id;
-                },
-                function(newValue)
-                {
-                    if (newValue)
+                    if (newId)
                     {
-                        ctrl.init(element, attrs.id);
+                        ctrl.init(element, newId);
                     }
                 });
             }
