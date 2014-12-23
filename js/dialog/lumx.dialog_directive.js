@@ -102,26 +102,24 @@ angular.module('lumx.dialog', [])
     }])
     .controller('LxDialogController', ['$scope', 'LxDialogService', function($scope, LxDialogService)
     {
-        var dialogId,
-            dialogScope = $scope.$new();
+        var dialogScope = $scope.$new();
 
         this.init = function(element, id)
         {
-            dialogId = id;
             dialogScope.element = element;
             dialogScope.parent = element.parent();
 
             LxDialogService.registerScope(id, dialogScope);
-        };
 
-        $scope.$watch(function()
-        {
-            return dialogScope.element.outerHeight();
-        },
-        function()
-        {
-            LxDialogService.checkDialogHeight(dialogId);
-        });
+            $scope.$watch(function()
+            {
+                return element.outerHeight();
+            },
+            function()
+            {
+                LxDialogService.checkDialogHeight(id);
+            });
+        };
     }])
     .directive('lxDialog', function()
     {
