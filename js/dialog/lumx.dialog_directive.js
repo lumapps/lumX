@@ -64,11 +64,6 @@ angular.module('lumx.dialog', [])
 
             LxDialogService.registerScope(dialogId, dialogScope);
         };
-
-        $scope.$on('$destroy', function()
-        {
-            dialogScope.$destroy();
-        });
     }])
     .directive('lxDialog', function()
     {
