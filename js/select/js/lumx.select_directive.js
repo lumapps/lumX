@@ -6,11 +6,8 @@ angular.module('lumx.select', [])
     .controller('LxSelectController', ['$scope', '$compile', '$filter', '$interpolate', '$sce', '$timeout',
                                        function($scope, $compile, $filter, $interpolate, $sce, $timeout)
     {
-        var self = this,
-            newModel = false,
-            newSelection = true,
-            modelToSelectionDefined = false,
-            selectionToModelDefined = false;
+        var newModel = false,
+            newSelection = true;
 
         $scope.data = {
             filter: '',
@@ -208,7 +205,7 @@ angular.module('lumx.select', [])
         }
 
         // Watchers
-        $scope.$watch('ngModel.$modelValue', function(newValue, oldValue)
+        $scope.$watch('ngModel.$modelValue', function(newValue)
         {
             if (newModel)
             {
@@ -319,7 +316,7 @@ angular.module('lumx.select', [])
         $scope.getSelectedTemplate = getSelectedTemplate;
         $scope.hasNoResults = hasNoResults;
     }])
-    .directive('lxSelect', function($timeout)
+    .directive('lxSelect', function()
     {
         return {
             restrict: 'AE',
@@ -390,21 +387,35 @@ angular.module('lumx.select', [])
                     };
                 });
 
-                attrs.$observe('selectionToModel', function(newValue)
+                var selectionToModel = function(newValue)
                 {
                     scope.selectionToModel = function(selection, callback)
                     {
                         return scope.$eval(newValue, { data: selection, callback: callback });
                     };
-                });
+                };
 
-                attrs.$observe('modelToSelection', function(newValue)
+                if (angular.isDefined(attrs.selectionToModel))
+                {
+                    selectionToModel(attrs.selectionToModel);
+                }
+
+                attrs.$observe('selectionToModel', selectionToModel);
+
+                var modelToSelection = function(newValue)
                 {
                     scope.modelToSelection = function(model, callback)
                     {
                         return scope.$eval(newValue, { data: model, callback: callback });
                     };
-                });
+                };
+
+                if (angular.isDefined(attrs.modelToSelection))
+                {
+                    modelToSelection(attrs.modelToSelection);
+                }
+                
+                attrs.$observe('modelToSelection', modelToSelection);
             }
         };
     })
