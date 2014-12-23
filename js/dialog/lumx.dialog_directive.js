@@ -83,15 +83,11 @@ angular.module('lumx.dialog', [])
                     event.stopPropagation();
                 });
 
-                scope.$watch(function()
+                attrs.$observe('id', function(newId)
                 {
-                    return attrs.id;
-                },
-                function(newValue)
-                {
-                    if (newValue)
+                    if (newId)
                     {
-                        ctrl.init(element, attrs.id);
+                        ctrl.init(element, newId);
                     }
                 });
             }
