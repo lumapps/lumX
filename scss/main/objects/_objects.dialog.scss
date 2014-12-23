@@ -2,6 +2,13 @@
 //    #OBJECTS-DIALOG
 //\*------------------------------------*/
 
+// Dialog vars
+$dialog-margin: 30px;
+
+
+
+
+
 // Dialog filter
 .dialog-filter {
     @include position(fixed, 0 0 0 0);
@@ -24,7 +31,7 @@
 // Dialog base styles
 .dialog {
     display: none;
-    @include position(fixed, 30px null null 50%);
+    @include position(fixed, $dialog-margin null null 50%);
     z-index: 1000;
     background-color: $white;
     opacity: 0;
@@ -56,19 +63,25 @@
     opacity: 1;
     @include transform(translateY(0));
 }
-    
-    // Dialog content
-    .dialog__content {
-        padding: $base-spacing-unit;
+
+.dialog--is-fixed {
+    bottom: $dialog-margin;
+
+    .dialog__header {
+        @include position(absolute, 0 0 null 0);
     }
 
-    // Dialog title
-    .dialog__title {
-        display: block;
-        margin-bottom: halve($base-spacing-unit);
-        @include font-size(20px);
-        font-weight: 600;
+    .dialog__scrollable {
+        @include position(absolute, null 0 null 0);
+        overflow-x: hidden;
+        overflow-y: auto;
     }
+
+    .dialog__actions {
+        @include position(absolute, null 0 0 0);
+        border-top: 1px solid $black-4;
+    }
+}
 
     // Dialog text
     .dialog__text {
@@ -78,7 +91,6 @@
 
     // Dialog actions
     .dialog__actions {
-        padding: $md-spacing-unit;
-        padding-top: 0;
+        padding: halve($md-spacing-unit) $md-spacing-unit;
         text-align: right;
     }

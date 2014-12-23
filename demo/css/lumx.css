@@ -6208,23 +6208,32 @@ html {
   -o-transform: translateY(0);
   transform: translateY(0); }
 
-.dialog__content {
-  padding: 24px; }
-
-.dialog__title {
-  display: block;
-  margin-bottom: 12px;
-  font-size: 20px;
-  font-size: 1.25rem;
-  font-weight: 600; }
+.dialog--is-fixed {
+  bottom: 30px; }
+  .dialog--is-fixed .dialog__header {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0; }
+  .dialog--is-fixed .dialog__scrollable {
+    position: absolute;
+    right: 0;
+    left: 0;
+    overflow-x: hidden;
+    overflow-y: auto; }
+  .dialog--is-fixed .dialog__actions {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.12); }
 
 .dialog__text {
   margin: 0;
   color: rgba(0, 0, 0, 0.54); }
 
 .dialog__actions {
-  padding: 16px;
-  padding-top: 0;
+  padding: 8px 16px;
   text-align: right; }
 
 .dropdown {
@@ -9343,4 +9352,3 @@ body {
 
 .hljs-chunk {
   color: #aaa; }
-

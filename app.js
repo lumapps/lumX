@@ -352,4 +352,9 @@ app.controller('AppController',
             $scope.tabs.splice(idx, 1);
         }
     };
+
+    $scope.addPerson = function()
+    {
+        $scope.people.push({ name: 'Lorem', email: 'lorem@email.com', age: 99 })
+    };
 });
