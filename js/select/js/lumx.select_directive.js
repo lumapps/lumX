@@ -58,6 +58,7 @@ angular.module('lumx.select', [])
 
         function unselect(element, event)
         {
+            newSelection = false;
             if (!$scope.allowClear && !$scope.multiple)
             {
                 return;
