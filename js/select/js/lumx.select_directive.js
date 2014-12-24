@@ -42,6 +42,7 @@ angular.module('lumx.select', [])
         // Selection management
         function select(choice)
         {
+            newSelection = false;
             if ($scope.multiple)
             {
                 if (arrayObjectIndexOf($scope.data.selected, choice) === -1)
