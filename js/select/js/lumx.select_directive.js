@@ -138,7 +138,7 @@ angular.module('lumx.select', [])
             var convertedData = $scope.multiple ? [] : undefined;
             var loading = [];
 
-            if (!newValue)
+            if (!newValue || ($scope.multiple && newValue.length === 0))
             {
                 callback(convertedData);
                 return;
