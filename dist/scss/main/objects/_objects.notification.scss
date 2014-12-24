@@ -19,7 +19,7 @@
     .notification__content {
         display: block;
         @include font-size(14px);
-        color: #fff;
+        color: $white-1;
         line-height: 20px;
     }
 
@@ -31,7 +31,7 @@
     .notification__icon {
         @include position(absolute, $md-spacing-unit null null $base-spacing-unit null);
         @include font-size(14px);
-        color: #fff;
+        color: $white-1;
         line-height: 20px;
     }
 
