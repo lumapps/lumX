@@ -83,12 +83,6 @@ $dialog-margin: 30px;
     }
 }
 
-    // Dialog text
-    .dialog__text {
-        margin: 0;
-        color: $black-2;
-    }
-
     // Dialog actions
     .dialog__actions {
         padding: halve($md-spacing-unit) $md-spacing-unit;

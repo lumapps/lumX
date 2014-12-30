@@ -6228,10 +6228,6 @@ html {
     left: 0;
     border-top: 1px solid rgba(0, 0, 0, 0.12); }
 
-.dialog__text {
-  margin: 0;
-  color: rgba(0, 0, 0, 0.54); }
-
 .dialog__actions {
   padding: 8px 16px;
   text-align: right; }
@@ -9349,3 +9345,4 @@ body {
 
 .hljs-chunk {
   color: #aaa; }
+

@@ -155,13 +155,13 @@ angular.module('lumx.notification', [])
                 class: 'dialog__content'
             });
 
-            var dialogTitle = angular.element('<strong/>', {
-                class: 'dialog__title',
+            var dialogTitle = angular.element('<div/>', {
+                class: 'dialog__header p fs-title',
                 text: title
             });
 
             var dialogText = angular.element('<p/>', {
-                class: 'dialog__text',
+                class: 'mb0 p pt0 tc-black-2',
                 text: text
             });
 
