@@ -18,13 +18,13 @@
 }
 
 .list-row--has-primary {
-	.list-content-tile {
+	& > .list-content-tile {
 		margin-left: $size-l + $md-spacing-unit;
 	}
 }
 
 .list-row--has-secondary {
-	.list-content-tile {
+	& > .list-content-tile {
 		margin-right: double($md-spacing-unit);
 	}
 }
@@ -91,7 +91,7 @@
 	}
 }
 
-.list-row--has-primary .list-content-tile--one-line {
+.list-row--has-primary > .list-content-tile--one-line {
 	strong {
 		line-height: 24px;
 	}

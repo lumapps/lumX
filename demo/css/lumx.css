@@ -6984,10 +6984,10 @@ html {
   position: relative;
   padding: 0 16px; }
 
-.list-row--has-primary .list-content-tile {
+.list-row--has-primary > .list-content-tile {
   margin-left: 56px; }
 
-.list-row--has-secondary .list-content-tile {
+.list-row--has-secondary > .list-content-tile {
   margin-right: 32px; }
 
 .list-row--has-separator:after {
@@ -7030,7 +7030,7 @@ html {
 .list-content-tile--one-line strong {
   line-height: 1; }
 
-.list-row--has-primary .list-content-tile--one-line strong {
+.list-row--has-primary > .list-content-tile--one-line strong {
   line-height: 24px; }
 
 .list-content-tile--two-lines strong,
