@@ -7,7 +7,7 @@
     background: #3bafda;
 
     @include media-query(desk) {
-        @include size(0 60px);
+        height: 60px;
         line-height: 60px;
     }
 

@@ -8583,7 +8583,6 @@ body {
   @media screen and (min-width: 1024px) {
     .github-activity {
       height: 60px;
-      width: 0;
       line-height: 60px; } }
   @media screen and (max-width: 1023px) {
     .github-activity {
