@@ -148,27 +148,25 @@ angular.module('lumx.notification', [])
         //
 
         // private
-        function buildDialogContent(title, text)
+        function buildDialogHeader(title)
         {
             // DOM elements
-            var dialogContent = angular.element('<div/>', {
-                class: 'dialog__content'
-            });
-
-            var dialogTitle = angular.element('<div/>', {
+            var dialogHeader = angular.element('<div/>', {
                 class: 'dialog__header p fs-title',
                 text: title
             });
 
-            var dialogText = angular.element('<p/>', {
-                class: 'mb0 p pt0 tc-black-2',
+            return dialogHeader;
+        }
+
+        // private
+        function buildDialogContent(text)
+        {
+            // DOM elements
+            var dialogContent = angular.element('<div/>', {
+                class: 'dialog__content p pt0 tc-black-2',
                 text: text
             });
-
-            // DOM link
-            dialogContent
-                .append(dialogTitle)
-                .append(dialogText);
 
             return dialogContent;
         }
@@ -240,13 +238,15 @@ angular.module('lumx.notification', [])
                 class: 'dialog dialog--alert'
             });
 
-            var dialogContent = buildDialogContent(title, text);
+            var dialogHeader = buildDialogHeader(title);
+            var dialogContent = buildDialogContent(text);
             var dialogActions = buildDialogActions(buttons, callback);
 
             // DOM link
             dialogFilter.appendTo('body');
 
             dialog
+                .append(dialogHeader)
                 .append(dialogContent)
                 .append(dialogActions)
                 .appendTo('body')
@@ -271,13 +271,15 @@ angular.module('lumx.notification', [])
                 class: 'dialog dialog--alert'
             });
 
-            var dialogContent = buildDialogContent(title, text);
+            var dialogHeader = buildDialogHeader(title);
+            var dialogContent = buildDialogContent(text);
             var dialogActions = buildDialogActions({ ok: button }, callback);
 
             // DOM link
             dialogFilter.appendTo('body');
 
             dialog
+                .append(dialogHeader)
                 .append(dialogContent)
                 .append(dialogActions)
                 .appendTo('body')
