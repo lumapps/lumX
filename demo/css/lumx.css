@@ -884,10 +884,10 @@ html {
   padding-top: 0 !important;
   padding-bottom: 0 !important; }
 
-.clearfix:after {
+.clearfix::after {
+  clear: both;
   content: "";
-  display: table;
-  clear: both; }
+  display: table; }
 
 .float--right {
   float: right !important; }
@@ -923,34 +923,29 @@ html {
 
 @font-face {
   font-family: roboto;
+  font-style: normal;
   font-weight: normal;
-  font-style: normal;
-  src: url("../../fonts/roboto/roboto-regular.eot");
-  src: url("../../fonts/roboto/roboto-regular.eot?#iefix") format("embedded-opentype"), url("../../fonts/roboto/roboto-regular.woff") format("woff"), url("../../fonts/roboto/roboto-regular.ttf") format("truetype"), url("../../fonts/roboto/roboto-regular.svg#roboto") format("svg"); }
+  src: url("../../fonts/roboto/roboto-regular.eot?#iefix") format("embedded-opentype"), url("../../fonts/roboto/roboto-regular.woff2") format("woff2"), url("../../fonts/roboto/roboto-regular.woff") format("woff"), url("../../fonts/roboto/roboto-regular.ttf") format("truetype"), url("../../fonts/roboto/roboto-regular.svg#roboto") format("svg"); }
 @font-face {
   font-family: roboto;
+  font-style: normal;
   font-weight: 300;
-  font-style: normal;
-  src: url("../../fonts/roboto/roboto-light.eot");
-  src: url("../../fonts/roboto/roboto-light.eot?#iefix") format("embedded-opentype"), url("../../fonts/roboto/roboto-light.woff") format("woff"), url("../../fonts/roboto/roboto-light.ttf") format("truetype"), url("../../fonts/roboto/roboto-light.svg#roboto") format("svg"); }
+  src: url("../../fonts/roboto/roboto-light.eot?#iefix") format("embedded-opentype"), url("../../fonts/roboto/roboto-light.woff2") format("woff2"), url("../../fonts/roboto/roboto-light.woff") format("woff"), url("../../fonts/roboto/roboto-light.ttf") format("truetype"), url("../../fonts/roboto/roboto-light.svg#roboto") format("svg"); }
 @font-face {
   font-family: roboto;
+  font-style: normal;
   font-weight: 600;
-  font-style: normal;
-  src: url("../../fonts/roboto/roboto-medium.eot");
-  src: url("../../fonts/roboto/roboto-medium.eot?#iefix") format("embedded-opentype"), url("../../fonts/roboto/roboto-medium.woff") format("woff"), url("../../fonts/roboto/roboto-medium.ttf") format("truetype"), url("../../fonts/roboto/roboto-medium.svg#roboto") format("svg"); }
+  src: url("../../fonts/roboto/roboto-medium.eot?#iefix") format("embedded-opentype"), url("../../fonts/roboto/roboto-medium.woff2") format("woff2"), url("../../fonts/roboto/roboto-medium.woff") format("woff"), url("../../fonts/roboto/roboto-medium.ttf") format("truetype"), url("../../fonts/roboto/roboto-medium.svg#roboto") format("svg"); }
 @font-face {
   font-family: roboto;
-  font-weight: 700;
   font-style: normal;
-  src: url("../../fonts/roboto/roboto-bold.eot");
-  src: url("../../fonts/roboto/roboto-bold.eot?#iefix") format("embedded-opentype"), url("../../fonts/roboto/roboto-bold.woff") format("woff"), url("../../fonts/roboto/roboto-bold.ttf") format("truetype"), url("../../fonts/roboto/roboto-bold.svg#roboto") format("svg"); }
+  font-weight: 700;
+  src: url("../../fonts/roboto/roboto-bold.eot?#iefix") format("embedded-opentype"), url("../../fonts/roboto/roboto-bold.woff2") format("woff2"), url("../../fonts/roboto/roboto-bold.woff") format("woff"), url("../../fonts/roboto/roboto-bold.ttf") format("truetype"), url("../../fonts/roboto/roboto-bold.svg#roboto") format("svg"); }
 @font-face {
   font-family: md-icons;
-  font-weight: normal;
   font-style: normal;
-  src: url("../../fonts/md-icons/md-icons.eot");
-  src: url("../../fonts/md-icons/md-icons.eot?#iefix") format("embedded-opentype"), url("../../fonts/md-icons/md-icons.woff") format("woff"), url("../../fonts/md-icons/md-icons.ttf") format("truetype"), url("../../fonts/md-icons/md-icons.svg#md-icons") format("svg"); }
+  font-weight: normal;
+  src: url("../../fonts/md-icons/md-icons.eot?#iefix") format("embedded-opentype"), url("../../fonts/md-icons/md-icons.woff2") format("woff2"), url("../../fonts/md-icons/md-icons.woff") format("woff"), url("../../fonts/md-icons/md-icons.ttf") format("truetype"), url("../../fonts/md-icons/md-icons.svg#md-icons") format("svg"); }
 .mdi {
   display: inline-block;
   font: normal normal normal 14px/1 md-icons;
@@ -6619,10 +6614,10 @@ html {
       max-width: 68em;
       margin-left: auto;
       margin-right: auto; }
-      .grid:after {
+      .grid::after {
+        clear: both;
         content: "";
-        display: table;
-        clear: both; } }
+        display: table; } }
 
 .grid__col1 {
   position: relative; }
@@ -7816,10 +7811,10 @@ html {
 .lx-select__chosen--is-multiple {
   padding-top: 8px;
   padding-bottom: 4px; }
-  .lx-select__chosen--is-multiple:after {
+  .lx-select__chosen--is-multiple::after {
+    clear: both;
     content: "";
-    display: table;
-    clear: both; }
+    display: table; }
 
 .lx-select__filter {
   padding: 0 8px;
@@ -8124,10 +8119,10 @@ html {
 
 .toolbar {
   padding: 0 16px; }
-  .toolbar:after {
+  .toolbar::after {
+    clear: both;
     content: "";
-    display: table;
-    clear: both; }
+    display: table; }
   @media screen and (max-width: 1023px) {
     .toolbar {
       height: 56px;
@@ -8425,10 +8420,10 @@ body {
   padding: 12px;
   background-color: #4fc1e9;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3); }
-  .header:after {
+  .header::after {
+    clear: both;
     content: "";
-    display: table;
-    clear: both; }
+    display: table; }
 
 @media screen and (min-width: 1024px) {
   .menubar {
@@ -8588,6 +8583,7 @@ body {
   @media screen and (min-width: 1024px) {
     .github-activity {
       height: 60px;
+      width: 0;
       line-height: 60px; } }
   @media screen and (max-width: 1023px) {
     .github-activity {
