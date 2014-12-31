@@ -5,6 +5,7 @@
 // Button vars
 $btn-padding:   ('xs': 10px, 's': 12px, 'm': 14px, 'l': 16px, 'xl': 26px);
 $btn-font-size: ('xs': 11px, 's': 11px, 'm': 13px, 'l': 14px, 'xl': 16px);
+$btn-icon-size: ('xs': 13px, 's': 15px, 'm': 20px, 'l': 24px, 'xl': 28px);
 
 
 
@@ -137,7 +138,7 @@ $btn-font-size: ('xs': 11px, 's': 11px, 'm': 13px, 'l': 14px, 'xl': 16px);
     }
 
     .btn--icon.btn--#{$key} {
-        @include font-size((map-get($btn-font-size, $key)) + 10);
+        @include font-size((map-get($btn-icon-size, $key)));
     }
 
     .btn--fab.btn--#{$key} {
