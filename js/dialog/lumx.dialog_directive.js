@@ -3,9 +3,10 @@
 
 
 angular.module('lumx.dialog', [])
-    .service('LxDialogService', ['$timeout', '$window', function($timeout, $window)
+    .service('LxDialogService', ['$timeout', '$interval', '$window', function($timeout, $interval, $window)
     {
         var self = this,
+            dialogInterval,
             dialogFilter,
             activeDialogId,
             scopeMap = {};
@@ -38,14 +39,23 @@ angular.module('lumx.dialog', [])
             {
                 dialogFilter.addClass('dialog-filter--is-shown');
                 scopeMap[dialogId].element.addClass('dialog--is-shown');
-
-                self.checkDialogHeight(dialogId);
             }, 100);
+
+            dialogInterval = $interval(function()
+            {
+                console.log('interval');
+                if (scopeMap[dialogId].element.outerHeight() !== scopeMap[dialogId].outerHeight)
+                {
+                    checkDialogHeight(dialogId);
+                }
+            }, 500);
         };
 
         this.close = function(dialogId)
         {
             activeDialogId = undefined;
+
+            $interval.cancel(dialogInterval);
 
             dialogFilter.removeClass('dialog-filter--is-shown');
             scopeMap[dialogId].element.removeClass('dialog--is-shown');
@@ -61,7 +71,7 @@ angular.module('lumx.dialog', [])
             }, 600);
         };
 
-        this.checkDialogHeight = function(dialogId)
+        function checkDialogHeight(dialogId)
         {
             var dialogMargin = 60,
                 dialog = scopeMap[dialogId].element,
@@ -90,17 +100,17 @@ angular.module('lumx.dialog', [])
                     dialogContent.unwrap();
                 }
             }
-        };
+        }
 
         angular.element($window).bind('resize', function()
         {
             if (angular.isDefined(activeDialogId))
             {
-                self.checkDialogHeight(activeDialogId);
+                checkDialogHeight(activeDialogId);
             }
         });
     }])
-    .controller('LxDialogController', ['$scope', '$interval', 'LxDialogService', function($scope, $interval, LxDialogService)
+    .controller('LxDialogController', ['$scope', 'LxDialogService', function($scope, LxDialogService)
     {
         var dialogScope = $scope.$new();
 
@@ -111,14 +121,6 @@ angular.module('lumx.dialog', [])
             dialogScope.outerHeight = element.outerHeight();
 
             LxDialogService.registerScope(id, dialogScope);
-
-            $interval(function()
-            {
-                if (dialogScope.element.outerHeight() !== dialogScope.outerHeight)
-                {
-                    LxDialogService.checkDialogHeight(id);
-                }
-            }, 500);
         };
     }])
     .directive('lxDialog', function()
