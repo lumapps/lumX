@@ -7172,89 +7172,77 @@ html {
       text-decoration: underline; }
 
 .progress-circular {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 999;
+  height: 100px;
+  width: 100px;
+  margin-top: -50px;
+  margin-left: -50px; }
+
+.progress-circular--is-shown .progress-circular__path {
+  stroke-width: 6; }
+
+.progress-circular__svg {
   position: relative;
-  height: 60px;
-  width: 60px;
-  padding: 5px;
-  border-radius: 50%;
-  overflow: hidden;
+  height: 100px;
+  width: 100px;
   -webkit-animation: spin 2s linear infinite;
   -moz-animation: spin 2s linear infinite;
   animation: spin 2s linear infinite; }
 
-.progress-circular--is-shown .progress-circular__center {
-  -webkit-transform: none;
-  -moz-transform: none;
-  -ms-transform: none;
-  -o-transform: none;
-  transform: none; }
+.progress-circular__path {
+  stroke-width: 0;
+  stroke-dasharray: 1,200;
+  stroke-dashoffset: 0;
+  stroke-linecap: round;
+  -webkit-animation: circular 1.5s ease-in-out infinite;
+  -moz-animation: circular 1.5s ease-in-out infinite;
+  animation: circular 1.5s ease-in-out infinite;
+  -webkit-transition-property: stroke-width;
+  -moz-transition-property: stroke-width;
+  transition-property: stroke-width;
+  -webkit-transition-duration: 0.4s;
+  -moz-transition-duration: 0.4s;
+  transition-duration: 0.4s; }
 
-.progress-circular__background {
-  height: 50px;
-  width: 50px;
-  border-radius: 50%; }
-
-.progress-circular__mask1 {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 30px;
-  width: 30px;
-  -webkit-transform-origin: bottom right;
-  -moz-transform-origin: bottom right;
-  -ms-transform-origin: bottom right;
-  -o-transform-origin: bottom right;
-  transform-origin: bottom right; }
-
-.progress-circular__mask2 {
-  position: absolute;
-  top: 0;
-  right: 0;
-  height: 30px;
-  width: 30px;
-  -webkit-transform-origin: bottom left;
-  -moz-transform-origin: bottom left;
-  -ms-transform-origin: bottom left;
-  -o-transform-origin: bottom left;
-  transform-origin: bottom left; }
-
-.progress-circular__mask3 {
-  position: absolute;
-  top: 30px;
-  right: 5px;
-  left: 5px;
-  height: 25px;
-  -webkit-transform-origin: top center;
-  -moz-transform-origin: top center;
-  -ms-transform-origin: top center;
-  -o-transform-origin: top center;
-  transform-origin: top center; }
-
-.progress-circular__mask3-translate {
-  height: 25px;
-  width: 50px; }
-
-.progress-circular__center {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  height: 40px;
-  width: 40px;
-  border-radius: 50%;
-  -webkit-transform: scale(2);
-  -moz-transform: scale(2);
-  -ms-transform: scale(2);
-  -o-transform: scale(2);
-  transform: scale(2);
-  -webkit-transition-property: -webkit-transform;
-  -moz-transition-property: -moz-transform;
-  transition-property: transform;
-  -webkit-transition-duration: 0.6s;
-  -moz-transition-duration: 0.6s;
-  transition-duration: 0.6s; }
-
+@-webkit-keyframes circular {
+  0% {
+    stroke-dasharray: 1,200;
+    stroke-dashoffset: 0; }
+  50% {
+    stroke-dasharray: 89,200;
+    stroke-dashoffset: -35; }
+  100% {
+    stroke-dasharray: 89,200;
+    stroke-dashoffset: -124; } }
+@-moz-keyframes circular {
+  0% {
+    stroke-dasharray: 1,200;
+    stroke-dashoffset: 0; }
+  50% {
+    stroke-dasharray: 89,200;
+    stroke-dashoffset: -35; }
+  100% {
+    stroke-dasharray: 89,200;
+    stroke-dashoffset: -124; } }
+@keyframes circular {
+  0% {
+    stroke-dasharray: 1,200;
+    stroke-dashoffset: 0; }
+  50% {
+    stroke-dasharray: 89,200;
+    stroke-dashoffset: -35; }
+  100% {
+    stroke-dasharray: 89,200;
+    stroke-dashoffset: -124; } }
 .progress-linear {
-  position: relative;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 999;
   height: 4px;
   overflow: hidden;
   -webkit-transform: scale(1, 0);
@@ -7267,7 +7255,12 @@ html {
   transition-property: transform;
   -webkit-transition-duration: 0.4s;
   -moz-transition-duration: 0.4s;
-  transition-duration: 0.4s; }
+  transition-duration: 0.4s;
+  -webkit-transform-origin: bottom center;
+  -moz-transform-origin: bottom center;
+  -ms-transform-origin: bottom center;
+  -o-transform-origin: bottom center;
+  transform-origin: bottom center; }
 
 .progress-linear--is-shown {
   -webkit-transform: none;
@@ -8670,6 +8663,7 @@ body {
     margin-bottom: 0; }
 
 .example__content {
+  position: relative;
   padding: 24px;
   border-bottom: 1px solid #ddd; }
 

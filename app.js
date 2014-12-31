@@ -278,7 +278,7 @@ app.controller('AppController',
 
     $scope.showCircularProgress = function()
     {
-        LxProgressService.circular.show('#5fa2db', '#fff', '#progress');
+        LxProgressService.circular.show('#5fa2db', '#progress');
     };
 
     $scope.hideCircularProgress = function()

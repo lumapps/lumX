@@ -16,6 +16,7 @@
 	
 	// Example content
 	.example__content {
+        position: relative;
 		padding: $base-spacing-unit;
 		border-bottom: 1px solid #ddd;
 	}

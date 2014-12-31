@@ -6,14 +6,9 @@ angular.module('lumx.progress', [])
     .service('LxProgressService', ['$timeout', '$interval', function($timeout, $interval)
     {
         var progressCircularIsShown = false,
-            progressCircularInterval,
             progressCircular,
-            progressCircularBackground,
-            progressCircularMask1,
-            progressCircularMask2,
-            progressCircularMask3,
-            progressCircularMask3Translate,
-            progressCircularCenter,
+            progressCircularSvg,
+            progressCircularPath,
             progressLinearIsShown = false,
             progressLinear,
             progressLinearBackground,
@@ -23,28 +18,28 @@ angular.module('lumx.progress', [])
         function init()
         {
             // Circular
-            progressCircular = angular.element('<div/>', { class: 'progress-circular' });
-            progressCircularBackground = angular.element('<div/>', { class: 'progress-circular__background' });
-            progressCircularMask1 = angular.element('<div/>', { class: 'progress-circular__mask1' });
-            progressCircularMask2 = angular.element('<div/>', { class: 'progress-circular__mask2' });
-            progressCircularMask3 = angular.element('<div/>', { class: 'progress-circular__mask3' });
-            progressCircularMask3Translate = angular.element('<div/>', { class: 'progress-circular__mask3-translate' });
-            progressCircularCenter = angular.element('<div/>', { class: 'progress-circular__center' });
+            progressCircular = document.createElement('div');
+            progressCircular.setAttribute('class', 'progress-circular');
 
-            progressCircularMask3.append(progressCircularMask3Translate);
+            progressCircularSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+            progressCircularSvg.setAttribute('class', 'progress-circular__svg');
 
-            progressCircular
-                .append(progressCircularBackground)
-                .append(progressCircularMask1)
-                .append(progressCircularMask2)
-                .append(progressCircularMask3)
-                .append(progressCircularCenter);
+            progressCircularPath = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+            progressCircularPath.setAttribute('class', 'progress-circular__path');
+            progressCircularPath.setAttribute('cx', '50');
+            progressCircularPath.setAttribute('cy', '50');
+            progressCircularPath.setAttribute('r', '20');
+            progressCircularPath.setAttribute('fill', 'none');
+            progressCircularPath.setAttribute('stroke-miterlimit', '10');
+
+            progressCircularSvg.appendChild(progressCircularPath);
+            progressCircular.appendChild(progressCircularSvg);
 
             // Linear
-            progressLinear = angular.element('<div/>', { class: 'progress-linear' });
-            progressLinearBackground = angular.element('<div/>', { class: 'progress-linear__background' });
-            progressLinearFirstBar = angular.element('<div/>', { class: 'progress-linear__bar progress-linear__bar--first' });
-            progressLinearSecondBar = angular.element('<div/>', { class: 'progress-linear__bar progress-linear__bar--second' });
+            progressLinear = angular.element('<div/>', { 'class': 'progress-linear' });
+            progressLinearBackground = angular.element('<div/>', { 'class': 'progress-linear__background' });
+            progressLinearFirstBar = angular.element('<div/>', { 'class': 'progress-linear__bar progress-linear__bar--first' });
+            progressLinearSecondBar = angular.element('<div/>', { 'class': 'progress-linear__bar progress-linear__bar--second' });
 
             progressLinear
                 .append(progressLinearBackground)
@@ -52,11 +47,11 @@ angular.module('lumx.progress', [])
                 .append(progressLinearSecondBar);
         }
 
-        function showCircular(foreground, background, container)
+        function showCircular(color, container)
         {
             if (!progressCircularIsShown)
             {
-                showCircularProgress(foreground, background, container);
+                showCircularProgress(color, container);
             }
         }
 
@@ -68,73 +63,37 @@ angular.module('lumx.progress', [])
             }
         }
 
-        function showCircularProgress(foreground, background, container)
+        function showCircularProgress(color, container)
         {
             progressCircularIsShown = true;
 
-            progressCircularBackground.css({ backgroundColor: foreground });
-            progressCircularMask1.removeAttr('style').css({ backgroundColor: background });
-            progressCircularMask2.removeAttr('style').css({ backgroundColor: background });
-            progressCircularMask3.removeAttr('style');
-            progressCircularMask3Translate.removeAttr('style').css({ backgroundColor: background });
-            progressCircularCenter.css({ backgroundColor: background });
-
-            progressCircularMask1.css({ transform: 'rotate(-10deg)' });
-            progressCircularMask2.css({ transform: 'rotate(10deg)' });
+            progressCircularPath.setAttribute('stroke', color);
 
             if (angular.isDefined(container))
             {
-                progressCircular.appendTo(container);
+                document.querySelector(container).appendChild(progressCircular);
             }
             else
             {
-                progressCircular.appendTo('body');
+                document.getElementsByTagName('body')[0].appendChild(progressCircular);
             }
 
             $timeout(function()
             {
-                progressCircular.addClass('progress-circular--is-shown');
-
-                animateCircularProgress();
-
-                progressCircularInterval = $interval(animateCircularProgress, 2000);
+                progressCircular.setAttribute('class', 'progress-circular progress-circular--is-shown');
             });
         }
 
         function hideCircularProgress()
         {
-            progressCircular.removeClass('progress-circular--is-shown');
+            progressCircular.setAttribute('class', 'progress-circular');
 
             $timeout(function()
             {
-                progressCircularMask1.transitionStop();
-                progressCircularMask2.transitionStop();
-                progressCircularMask3.transitionStop();
-                progressCircularMask3Translate.transitionStop();
-
                 progressCircular.remove();
 
                 progressCircularIsShown = false;
-
-                $interval.cancel(progressCircularInterval);
-            }, 600);
-        }
-
-        function animateCircularProgress()
-        {
-            progressCircularMask1
-                .transition({ rotate: '+=250deg', delay: 1000 }, 1000, 'easeInOutQuint');
-
-            progressCircularMask2
-                .transition({ rotate: '+=250deg' }, 1000, 'easeInOutQuint');
-
-            progressCircularMask3
-                .transition({ rotate: '+=125deg' }, 1000, 'easeInOutQuint')
-                .transition({ rotate: '+=125deg' }, 1000, 'easeInOutQuint');
-
-            progressCircularMask3Translate
-                .transition({ y: '25px' }, 1000, 'easeInOutQuint')
-                .transition({ y: '0' }, 1000, 'easeInOutQuint');
+            }, 400);
         }
 
         function showLinear(color, container)
