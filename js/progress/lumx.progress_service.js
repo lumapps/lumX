@@ -1,4 +1,5 @@
 /* global angular */
+/* global document */
 'use strict'; // jshint ignore:line
 
 
