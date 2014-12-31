@@ -4108,8 +4108,8 @@ html {
     line-height: 24px; }
 
 .btn--icon.btn--xs {
-  font-size: 21px;
-  font-size: 1.3125rem; }
+  font-size: 13px;
+  font-size: 0.8125rem; }
 
 .btn--fab.btn--xs {
   font-size: 15px;
@@ -4125,8 +4125,8 @@ html {
     line-height: 30px; }
 
 .btn--icon.btn--s {
-  font-size: 21px;
-  font-size: 1.3125rem; }
+  font-size: 15px;
+  font-size: 0.9375rem; }
 
 .btn--fab.btn--s {
   font-size: 15px;
@@ -4142,8 +4142,8 @@ html {
     line-height: 36px; }
 
 .btn--icon.btn--m {
-  font-size: 23px;
-  font-size: 1.4375rem; }
+  font-size: 20px;
+  font-size: 1.25rem; }
 
 .btn--fab.btn--m {
   font-size: 17px;
@@ -4176,8 +4176,8 @@ html {
     line-height: 56px; }
 
 .btn--icon.btn--xl {
-  font-size: 26px;
-  font-size: 1.625rem; }
+  font-size: 28px;
+  font-size: 1.75rem; }
 
 .btn--fab.btn--xl {
   font-size: 20px;
