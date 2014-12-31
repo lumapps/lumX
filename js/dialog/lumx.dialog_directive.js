@@ -100,7 +100,7 @@ angular.module('lumx.dialog', [])
             }
         });
     }])
-    .controller('LxDialogController', ['$scope', 'LxDialogService', function($scope, LxDialogService)
+    .controller('LxDialogController', ['$scope', '$interval', 'LxDialogService', function($scope, $interval, LxDialogService)
     {
         var dialogScope = $scope.$new();
 
@@ -108,17 +108,17 @@ angular.module('lumx.dialog', [])
         {
             dialogScope.element = element;
             dialogScope.parent = element.parent();
+            dialogScope.outerHeight = element.outerHeight();
 
             LxDialogService.registerScope(id, dialogScope);
 
-            $scope.$watch(function()
+            $interval(function()
             {
-                return element.outerHeight();
-            },
-            function()
-            {
-                LxDialogService.checkDialogHeight(id);
-            });
+                if (dialogScope.element.outerHeight() !== dialogScope.outerHeight)
+                {
+                    LxDialogService.checkDialogHeight(id);
+                }
+            }, 500);
         };
     }])
     .directive('lxDialog', function()
