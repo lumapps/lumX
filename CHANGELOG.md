@@ -1,5 +1,93 @@
 # Changelog
 
+## v0.2.40:
+ - fix css: bourbon path is updated according to v4
+
+
+## v0.2.39:
+
+#### Bug fixes:
+ - dialog: check dialog height with interval
+ - progress: add document global for linter
+
+
+## v0.2.38:
+
+#### Bug fixes:
+ - progress: use svg instead of animating divs
+
+#### Breaking changes:
+ - LxProgressService.circular.show takes only to args: color and container
+
+
+## v0.2.37:
+*No major changes.*
+
+
+## v0.2.36:
+
+#### Bug fixes:
+ - list: apply style only to direct children
+ - notification: alert and confirm dialog DOM
+ - notification: alert and confirm box style
+
+
+## v0.2.35:
+
+#### Bug fixes:
+ - select: Empty multiple selects now updates the model
+
+
+## v0.2.34:
+
+#### Bug fixes:
+ - select: set newSelection to false when user unselect an item
+
+
+## v0.2.33:
+
+#### Bug fixes:
+ - select: set newSelection to false when user select an item
+
+
+## v0.2.32:
+
+#### Bug fixes:
+ - dialog: watch dialog height at init
+
+
+## v0.2.31:
+
+#### Breaking changes:
+ - Toolbar label font style is not set anymore. User needs to specify
+ - typographic style (eg. fs-title).
+
+
+## v0.2.30:
+
+#### Bug fixes:
+ - select: model-to-selection/selection-to-model
+
+
+## v0.2.29:
+
+#### New features:
+ - dialog: add scrollable behavior
+
+#### Breaking changes:
+ - dialog__title class is removed in favor of dialog__header.
+ - dialog__header should prepend dialog instead of being inside
+ - dialog__content.
+
+
+## v0.2.28:
+
+#### Bug fixes:
+ - select: use only $modelView from ng-model
+ - dropdown: remove scope.$destroy
+ - tooltip: remove scope.$destroy
+
+
 ## v0.2.27:
 
 #### Bug fixes:
