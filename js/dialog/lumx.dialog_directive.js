@@ -43,7 +43,6 @@ angular.module('lumx.dialog', [])
 
             dialogInterval = $interval(function()
             {
-                console.log('interval');
                 if (scopeMap[dialogId].element.outerHeight() !== scopeMap[dialogId].outerHeight)
                 {
                     checkDialogHeight(dialogId);
