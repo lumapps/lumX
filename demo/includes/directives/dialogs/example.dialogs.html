@@ -1,17 +1,11 @@
 <button class="btn btn--m btn--black btn--flat" ng-click="opendDialog('test')" lx-ripple>Open dialog</button>
 
-<div class="dialog dialog--l" id="test" lx-dialog>
-    <div class="dialog__header bgc-light-blue-500">
-        <div class="toolbar">
-            <div class="toolbar__left mr-">
-                <button class="btn btn--l btn--white btn--icon" lx-ripple>
-                    <i class="mdi mdi--menu"></i>
-                </button>
-            </div>
-
-            <strong class="toolbar__label tc-white">
+<lx-dialog id="test">
+    <lx-dialog-header>
+        <div class="toolbar bgc-light-blue-500">
+            <span class="toolbar__label tc-white fs-title">
                 Lorem Ipsum
-            </strong>
+            </span>
 
             <div class="toolbar__right">
                 <button class="btn btn--l btn--white btn--icon" lx-ripple ng-click="addPerson()">
@@ -19,16 +13,30 @@
                 </button>
             </div>
         </div>
-    </div>
+    </lx-dialog-header>
 
-    <div class="dialog__content p">
-        <div ng-repeat="person in people">
-            {{ person.name }} - {{ person.email }} - {{ person.age }}
-        </div>
-    </div>
+    <lx-dialog-content>
+        <lx-tabs links-tc="light" links-bgc="light-blue-500" indicator="yellow-500" no-divider="true" layout="inline">
+            <lx-tab heading="Lorem Ipsum 1">
+                <div class="p">
+                    <div ng-repeat="person in people">
+                        {{ person.name }} - {{ person.email }} - {{ person.age }}
+                    </div>
+                </div>
+            </lx-tab>
 
-    <div class="dialog__actions">
+            <lx-tab heading="Lorem Ipsum 2">
+                <p class="p">Lorem Ipsum Content 2</p>
+            </lx-tab>
+
+            <lx-tab heading="Lorem Ipsum 3">
+                <p class="p">Lorem Ipsum Content 3</p>
+            </lx-tab>
+        </lx-tabs>
+    </lx-dialog-content>
+
+    <lx-dialog-actions>
         <button class="btn btn--m btn--black btn--flat" lx-ripple lx-dialog-close>Cancel</button>
         <button class="btn btn--m btn--black btn--flat" lx-ripple>Lorem Ipsum</button>
-    </div>
-</div>
+    </lx-dialog-actions>
+</lx-dialog>

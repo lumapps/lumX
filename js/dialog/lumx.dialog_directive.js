@@ -8,6 +8,7 @@ angular.module('lumx.dialog', [])
         var self = this,
             dialogInterval,
             dialogFilter,
+            dialogHeight,
             activeDialogId,
             scopeMap = {};
 
@@ -37,15 +38,18 @@ angular.module('lumx.dialog', [])
 
             $timeout(function()
             {
+                scopeMap[dialogId].isOpened = true;
+
                 dialogFilter.addClass('dialog-filter--is-shown');
                 scopeMap[dialogId].element.addClass('dialog--is-shown');
             }, 100);
 
             dialogInterval = $interval(function()
             {
-                if (scopeMap[dialogId].element.outerHeight() !== scopeMap[dialogId].outerHeight)
+                if (scopeMap[dialogId].element.outerHeight() !== dialogHeight)
                 {
                     checkDialogHeight(dialogId);
+                    dialogHeight = scopeMap[dialogId].element.outerHeight();
                 }
             }, 500);
         };
@@ -67,6 +71,9 @@ angular.module('lumx.dialog', [])
                     .hide()
                     .removeClass('dialog--is-fixed')
                     .appendTo(scopeMap[dialogId].parent);
+
+                scopeMap[dialogId].isOpened = false;
+                dialogHeight = undefined;
             }, 600);
         };
 
@@ -111,23 +118,24 @@ angular.module('lumx.dialog', [])
     }])
     .controller('LxDialogController', ['$scope', 'LxDialogService', function($scope, LxDialogService)
     {
-        var dialogScope = $scope.$new();
-
         this.init = function(element, id)
         {
-            dialogScope.element = element;
-            dialogScope.parent = element.parent();
-            dialogScope.outerHeight = element.outerHeight();
+            $scope.isOpened = false;
+            $scope.element = element;
+            $scope.parent = element.parent();
 
-            LxDialogService.registerScope(id, dialogScope);
+            LxDialogService.registerScope(id, $scope);
         };
     }])
     .directive('lxDialog', function()
     {
         return {
-            restrict: 'A',
+            restrict: 'E',
             controller: 'LxDialogController',
             scope: {},
+            template: '<div class="dialog dialog--l"><div ng-if="isOpened" ng-transclude></div></div>',
+            replace: true,
+            transclude: true,
             link: function(scope, element, attrs, ctrl)
             {
                 attrs.$observe('id', function(newId)
@@ -138,6 +146,36 @@ angular.module('lumx.dialog', [])
                     }
                 });
             }
+        };
+    })
+    .directive('lxDialogHeader', function()
+    {
+        return {
+            restrict: 'E',
+            require: '^lxDropdown',
+            template: '<div class="dialog__header" ng-transclude></div>',
+            replace: true,
+            transclude: true
+        };
+    })
+    .directive('lxDialogContent', function()
+    {
+        return {
+            restrict: 'E',
+            require: '^lxDropdown',
+            template: '<div class="dialog__content" ng-transclude></div>',
+            replace: true,
+            transclude: true
+        };
+    })
+    .directive('lxDialogActions', function()
+    {
+        return {
+            restrict: 'E',
+            require: '^lxDropdown',
+            template: '<div class="dialog__actions" ng-transclude></div>',
+            replace: true,
+            transclude: true
         };
     })
     .directive('lxDialogClose', ['LxDialogService', function(LxDialogService)
