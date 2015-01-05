@@ -46,6 +46,15 @@
 	left: $md-spacing-unit * 4.5;
 }
 
+.list-row--is-clickable {
+    cursor: pointer;
+}
+
+.list-row--is-clickable:hover,
+.list-row--is-active {
+    background-color: $grey-100;
+}
+
 
 
 
@@ -111,7 +120,7 @@
 // List secondary tile
 .list-secondary-tile {
 	@include position(absolute, 50% $md-spacing-unit null null);
-	margin-top: -(halve($size-xs));
+	@include transform(translateY(-50%));
 }
 
 
