@@ -1,5 +1,45 @@
 # Changelog
 
+## v0.2.47:
+
+#### New features:
+ - dialog: add onclose method
+
+
+## v0.2.46:
+
+#### New features:
+ - list: add clickable row
+
+
+## v0.2.45:
+
+#### Bug fixes:
+ - dialog: transcluded content share parent scope
+
+#### Breaking changes:
+ - Root element need classes (dialog dialog—l).
+ - Remove sub-directives and come back to classic div.
+
+
+## v0.2.44:
+
+#### Bug fixes:
+ - toolbar: add margin left to toolbar label
+ - tabs: remove useless indicator checking
+
+#### Breaking changes:
+ - Use lx-dialog directive as an element.
+ - Use lx-dialog-header, lx-dialog-content, lx-dialog-actions directives
+ - as elements.
+
+
+## v0.2.43:
+
+#### Bug fixes:
+ - dialog: remove stopPropagation
+
+
 ## v0.2.42:
 
 #### Bug fixes:
