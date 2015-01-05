@@ -16,7 +16,7 @@ lumX's documentation, included in this repo in the demo directory, is built with
 
 ### Running documentation locally
 
-1. If necessary, install the [Python SDK of Google App Engine][gae-python].
+1. If necessary, install the [Python SDK of Google App Engine][gaepython].
 2. In your environment, declare the variable `APPENGINE` with the path to your Google App Engine binaries.
 For example, using bash in a Unix system with the default path will need to edit the `.bashrc` in your home to add:
     ```bash
@@ -29,7 +29,7 @@ For example, using bash in a Unix system with the default path will need to edit
 
 ## How to get help, contribute, or provide feedback
 
-Please refer to our [contributing guidelines](CONTRIBUTING.md).
+Please refer to our [contributing guidelines](CONTRIBUTING.md). The roadmap is available in [this repo](ROADMAP.md).
 
 ## Copyright and license
 
@@ -38,6 +38,7 @@ Code and documentation copyright 2014 LumApps. Code released under the [MIT lice
 
 [angular]: https://angularjs.org/
 [gae]: https://cloud.google.com/appengine/
+[gaepython]: https://cloud.google.com/appengine/downloads
 [gulp]: http://gulpjs.com/
 [material]: http://www.google.com/design/spec/material-design/introduction.html
 [release]: https://github.com/lumapps/lumX/tags
