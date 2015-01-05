@@ -1,5 +1,17 @@
 # Changelog
 
+## v0.2.42:
+
+#### Bug fixes:
+ - icons: better sizes for icon buttons
+
+
+## v0.2.41:
+
+#### Bug fixes:
+ - dialog: remove useless log
+
+
 ## v0.2.40:
  - fix css: bourbon path is updated according to v4
 
