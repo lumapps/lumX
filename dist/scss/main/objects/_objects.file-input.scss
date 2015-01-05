@@ -16,28 +16,28 @@
     &:before {
         @include position(absolute, null 0 (halve($md-spacing-unit) - 1) 0);
         height: 1px;
-        border-bottom: 1px solid #ddd;
+        border-bottom: 1px solid $black-4;
     }
 
     &:after {
         @include position(absolute, null 0 (halve($md-spacing-unit) - 2) 0);
         height: 2px;
-        background-color: $blue;
+        background-color: $blue-500;
         @include transform(scale(0));
         @include transition-property(transform);
         @include transition-duration(0.6s);
         @include transition-timing-function($ease-out-quint);
     }
+
+    label {
+        display: block;
+        position: relative;
+        height: double($md-spacing-unit);
+        cursor: pointer;
+    }
 }
 
 // Input file base styles
-label {
-  display: block;
-  position: relative;
-  height: 32px;
-  cursor: pointer;
-}
-
 .input-file--is-active {
     .input-file__label {
         @include font-size(12px);
@@ -56,27 +56,15 @@ label {
     }
 
     .input-file__label {
-        color: $blue;
-    }
-}
-
-.input-file--has-error {
-    &:after {
-        background-color: $red;
-        @include transform(scale(1));
-    }
-
-    .input-file__label {
-        @include font-size(12px);
-        @include transform(translateY($md-spacing-unit));
-        color: $red;
+        color: $blue-500;
     }
 }
     
     // Input group label
     .input-file__label {
-        @include position(absolute, -32px null null 0);
-        color: #aaa;
+        display: block;
+        @include position(absolute, -(double($md-spacing-unit)) null null 0);
+        color: $black-3;
         line-height: $md-spacing-unit;
         pointer-events: none;
         @include transform(translateY($md-spacing-unit * 2.5));
@@ -86,13 +74,16 @@ label {
     }
 
     .input-file__filename {
-        @include position(relative, 4px null null null);
+        display: block;
+        overflow: hidden;
         opacity: 0;
+        line-height: double($md-spacing-unit);
+        text-overflow: ellipsis;
+        white-space: nowrap;
         @include transform(translateX(double($base-spacing-unit)));
         @include transition-property(transform, opacity);
         @include transition-duration(0.6s);
         @include transition-timing-function($ease-out-quint);
-        font-weight: 400;
     }
 
     // Input group input
