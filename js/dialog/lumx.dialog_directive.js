@@ -133,7 +133,7 @@ angular.module('lumx.dialog', [])
             restrict: 'E',
             controller: 'LxDialogController',
             scope: {},
-            template: '<div class="dialog dialog--l"><div ng-if="isOpened" ng-transclude></div></div>',
+            template: '<div><div ng-if="isOpened" ng-transclude="2"></div></div>',
             replace: true,
             transclude: true,
             link: function(scope, element, attrs, ctrl)
@@ -146,36 +146,6 @@ angular.module('lumx.dialog', [])
                     }
                 });
             }
-        };
-    })
-    .directive('lxDialogHeader', function()
-    {
-        return {
-            restrict: 'E',
-            require: '^lxDropdown',
-            template: '<div class="dialog__header" ng-transclude></div>',
-            replace: true,
-            transclude: true
-        };
-    })
-    .directive('lxDialogContent', function()
-    {
-        return {
-            restrict: 'E',
-            require: '^lxDropdown',
-            template: '<div class="dialog__content" ng-transclude></div>',
-            replace: true,
-            transclude: true
-        };
-    })
-    .directive('lxDialogActions', function()
-    {
-        return {
-            restrict: 'E',
-            require: '^lxDropdown',
-            template: '<div class="dialog__actions" ng-transclude></div>',
-            replace: true,
-            transclude: true
         };
     })
     .directive('lxDialogClose', ['LxDialogService', function(LxDialogService)

@@ -1,7 +1,7 @@
 <button class="btn btn--m btn--black btn--flat" ng-click="opendDialog('test')" lx-ripple>Open dialog</button>
 
-<lx-dialog id="test">
-    <lx-dialog-header>
+<lx-dialog class="dialog dialog--l" id="test">
+    <div class="dialog__header">
         <div class="toolbar bgc-light-blue-500">
             <span class="toolbar__label tc-white fs-title">
                 Lorem Ipsum
@@ -13,9 +13,9 @@
                 </button>
             </div>
         </div>
-    </lx-dialog-header>
+    </div>
 
-    <lx-dialog-content>
+    <div class="dialog__content">
         <lx-tabs links-tc="light" links-bgc="light-blue-500" indicator="yellow-500" no-divider="true" layout="inline">
             <lx-tab heading="Lorem Ipsum 1">
                 <div class="p">
@@ -33,10 +33,10 @@
                 <p class="p">Lorem Ipsum Content 3</p>
             </lx-tab>
         </lx-tabs>
-    </lx-dialog-content>
+    </div>
 
-    <lx-dialog-actions>
+    <div class="dialog__actions">
         <button class="btn btn--m btn--black btn--flat" lx-ripple lx-dialog-close>Cancel</button>
         <button class="btn btn--m btn--black btn--flat" lx-ripple>Lorem Ipsum</button>
-    </lx-dialog-actions>
+    </div>
 </lx-dialog>
