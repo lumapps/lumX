@@ -62,6 +62,7 @@ angular.module('lumx.dialog', [])
 
             dialogFilter.removeClass('dialog-filter--is-shown');
             scopeMap[dialogId].element.removeClass('dialog--is-shown');
+            scopeMap[dialogId].onclose();
 
             $timeout(function()
             {
@@ -132,7 +133,9 @@ angular.module('lumx.dialog', [])
         return {
             restrict: 'E',
             controller: 'LxDialogController',
-            scope: {},
+            scope: {
+                onclose: '&'
+            },
             template: '<div><div ng-if="isOpened" ng-transclude="2"></div></div>',
             replace: true,
             transclude: true,

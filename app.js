@@ -276,6 +276,11 @@ app.controller('AppController',
         LxDialogService.open(dialogId);
     };
 
+    $scope.closingDialog = function()
+    {
+        LxNotificationService.info('Dialog closed!');
+    };
+
     $scope.showCircularProgress = function()
     {
         LxProgressService.circular.show('#5fa2db', '#progress');
