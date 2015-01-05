@@ -15,11 +15,6 @@ angular.module('lumx.tabs', [])
         {
             links = element.find('.tabs__links');
             indicator = element.find('.tabs__indicator');
-
-            $timeout(function()
-            {
-                setIndicatorPosition();
-            });
         };
 
         this.getScope = function()
