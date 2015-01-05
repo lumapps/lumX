@@ -130,11 +130,6 @@ angular.module('lumx.dialog', [])
             scope: {},
             link: function(scope, element, attrs, ctrl)
             {
-                element.on('click', function(event)
-                {
-                    event.stopPropagation();
-                });
-
                 attrs.$observe('id', function(newId)
                 {
                     if (newId)
