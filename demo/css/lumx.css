@@ -8143,6 +8143,7 @@ html {
 
 .toolbar__label {
   float: left;
+  margin-left: 8px;
   line-height: 40px; }
 
 .tooltip {
