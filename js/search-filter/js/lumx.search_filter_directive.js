@@ -49,6 +49,12 @@ angular.module('lumx.search-filter', [])
                     $searchFilter.addClass('search-filter--dark-theme');
                 }
 
+                // Placeholder
+                attrs.$observe('placeholder', function(newValue)
+                {
+                    scope.placeholder = newValue;
+                });
+
                 // Events
                 $input
                     .on('blur', function()
