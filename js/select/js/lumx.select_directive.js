@@ -289,7 +289,7 @@ angular.module('lumx.select', [])
 
                 if ($scope.change)
                 {
-                    $scope.change({ newValue: angular.copy(newConvertedValue), oldValue: angular.copy($scope.model) });
+                    $scope.change({ newValue: angular.copy(newConvertedValue), oldValue: angular.copy($scope.ngModel.$modelValue) });
                 }
                 $scope.ngModel.$setViewValue(angular.copy(newConvertedValue));
             });
