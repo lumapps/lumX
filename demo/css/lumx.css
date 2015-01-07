@@ -7521,6 +7521,8 @@ html {
   -ms-transform: translateX(0);
   -o-transform: translateX(0);
   transform: translateX(0); }
+.search-filter--is-focused .search-filter__placeholder {
+  display: none; }
 
 .search-filter--light-theme .search-filter__label {
   color: #FFFFFF; }
@@ -7592,6 +7594,17 @@ html {
   transition-timing-function: cubic-bezier(0.23, 1, 0.32, 1); }
   .search-filter__cancel .mdi {
     line-height: 40px; }
+
+.search-filter__placeholder {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 56px;
+  color: rgba(0, 0, 0, 0.26);
+  line-height: 40px;
+  pointer-events: none; }
+  .search-filter--light-theme .search-filter__placeholder {
+    color: rgba(255, 255, 255, 0.7); }
 
 @media screen and (max-width: 1023px) {
   .scrollbar-container {
