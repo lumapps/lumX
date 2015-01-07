@@ -20,6 +20,28 @@
     }
 }
 
+    // Select wraper
+    .lx-select__wrapper {
+        position: relative;
+    }
+
+    // Select floating label
+    .lx-select__floating-label {
+        display: none;
+
+        .lx-select__wrapper--floating-label & {
+            display: block;
+            color: $black-3;
+            @include position(absolute, -20px null null 0);
+            @include transform(scale(0.75));
+            @include transform-origin(bottom left);
+        }
+
+        .lx-select__wrapper--multiple & {
+            display: none;
+        }
+    }
+
     // Select selected
     .lx-select__selected {
         position: relative;
@@ -92,6 +114,30 @@
             margin-right: 0;
         }
     }
+
+    .lx-select__tag--label {
+        display: none;
+
+        &.lx-select__tag--floating-label {
+            display: block;
+            background-color: $grey-300;
+        }
+
+        .lx-select__choices & {
+            display: none;
+        }
+
+        &.lx-select__tag--multiple {
+            .lx-select__choices & {
+                display: block;
+                margin-top: halve($md-spacing-unit);
+                margin-left: $md-spacing-unit;
+            }
+        }
+
+    }
+
+
 
     // Select choices
     .lx-select__choices {
