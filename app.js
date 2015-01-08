@@ -315,7 +315,14 @@ app.controller('AppController',
         firstEmail: 'bad-email',
         secondEmail: 'hello@lumapps.com',
         thirdEmail: 'hello@lumapps.com',
-        description: ''
+        description: '',
+        disabledDark: 'LumApps',
+        firstNameDark: 'Leeloo',
+        lastNameDark: '',
+        firstEmailDark: 'bad-email',
+        secondEmailDark: 'hello@lumapps.com',
+        thirdEmailDark: 'hello@lumapps.com',
+        descriptionDark: ''
     };
 
     $scope.emailValidation = function(email)

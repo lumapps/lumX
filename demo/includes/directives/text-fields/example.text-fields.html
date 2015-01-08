@@ -49,17 +49,40 @@
 <div class="grid mt">
     <div class="grid__col4">
         <form>
-            <lx-text-field label="First name" fixed-label="true">
+            <lx-text-field label="First and last name" fixed-label="true" icon="person">
                 <input type="text" ng-model="textFields.fixedFirstName">
             </lx-text-field>
-            <lx-text-field label="Last name" fixed-label="true">
+
+            <lx-text-field label="Phone number" fixed-label="true" icon="phone">
                 <input type="text" ng-model="textFields.fixedLastName">
             </lx-text-field>
-            <lx-text-field label="Email" fixed-label="true">
+
+            <lx-text-field label="Email address" fixed-label="true" icon="email">
                 <input type="email" ng-model="textFields.fixedEmail">
             </lx-text-field>
-            <lx-text-field label="Address" fixed-label="true">
+
+            <lx-text-field label="Location" fixed-label="true" icon="location-city">
                 <input type="text" ng-model="textFields.fixedAdress">
+            </lx-text-field>
+        </form>
+    </div>
+
+    <div class="grid__col4">
+        <form>
+            <lx-text-field label="First name" fixed-label="true">
+                <input type="text" ng-model="textFields.fixedFirstName2">
+            </lx-text-field>
+
+            <lx-text-field label="Last name" fixed-label="true">
+                <input type="text" ng-model="textFields.fixedLastName2">
+            </lx-text-field>
+
+            <lx-text-field label="Email" fixed-label="true">
+                <input type="email" ng-model="textFields.fixedEmail2">
+            </lx-text-field>
+
+            <lx-text-field label="Address" fixed-label="true">
+                <input type="text" ng-model="textFields.fixedAdress2">
             </lx-text-field>
         </form>
     </div>
@@ -70,5 +93,106 @@
         <lx-text-field label="Description" type="area" model="textFields.description">
             <textarea ng-model="textFields.description"></textarea>
         </lx-text-field>
+    </div>
+</div>
+
+<div class="bgc-grey-800 mt">
+    <div class="grid pl pr">
+        <div class="grid__col4">
+            <lx-text-field label="Company" disabled="true" dark-theme="true">
+                <input type="text" ng-model="textFields.disabledDark" ng-disabled="true">
+            </lx-text-field>
+        </div>
+    </div>
+
+    <div class="grid pl pr">
+        <div class="grid__col4">
+            <lx-text-field label="Last name" dark-theme="true">
+                <input type="text" ng-model="textFields.lastNameDark">
+            </lx-text-field>
+        </div>
+
+        <div class="grid__col4">
+            <lx-text-field label="First name" dark-theme="true">
+                <input type="text" ng-model="textFields.firstNameDark">
+            </lx-text-field>
+        </div>
+    </div>
+
+    <div class="grid pl pr">
+        <div class="grid__col4">
+            <lx-text-field label="Email" error="!emailValidation(textFields.firstEmail)" dark-theme="true">
+                <input type="email" ng-model="textFields.firstEmailDark">
+            </lx-text-field>
+
+            <ul class="form-error" ng-if="!emailValidation(textFields.firstEmail)">
+                <li>Lorem ipsum dolor sit amet.</li>
+            </ul>
+        </div>
+
+        <div class="grid__col4">
+            <lx-text-field label="Email" error="!emailValidation(textFields.secondEmail)" dark-theme="true">
+                <input type="email" ng-model="textFields.secondEmailDark">
+            </lx-text-field>
+        </div>
+
+        <div class="grid__col4">
+            <lx-text-field label="Repeat previous email"
+                           valid="emailValidation(textFields.secondEmail) && textFields.secondEmail === textFields.thirdEmail"
+                           error="!emailValidation(textFields.secondEmail) || textFields.secondEmail !== textFields.thirdEmail"
+                           dark-theme="true">
+                <input type="email" ng-model="textFields.thirdEmailDark">
+            </lx-text-field>
+        </div>
+    </div>
+
+    <div class="grid mt pl pr">
+        <div class="grid__col4">
+            <form>
+                <lx-text-field label="First and last name" fixed-label="true" icon="person" dark-theme="true">
+                    <input type="text" ng-model="textFields.fixedFirstNameDark">
+                </lx-text-field>
+
+                <lx-text-field label="Phone number" fixed-label="true" icon="phone" dark-theme="true">
+                    <input type="text" ng-model="textFields.fixedLastNameDark">
+                </lx-text-field>
+
+                <lx-text-field label="Email address" fixed-label="true" icon="email" dark-theme="true">
+                    <input type="email" ng-model="textFields.fixedEmailDark">
+                </lx-text-field>
+
+                <lx-text-field label="Location" fixed-label="true" icon="location-city" dark-theme="true">
+                    <input type="text" ng-model="textFields.fixedAdressDark">
+                </lx-text-field>
+            </form>
+        </div>
+
+        <div class="grid__col4">
+            <form>
+                <lx-text-field label="First name" fixed-label="true" dark-theme="true">
+                    <input type="text" ng-model="textFields.fixedFirstName2Dark">
+                </lx-text-field>
+
+                <lx-text-field label="Last name" fixed-label="true" dark-theme="true">
+                    <input type="text" ng-model="textFields.fixedLastName2Dark">
+                </lx-text-field>
+
+                <lx-text-field label="Email" fixed-label="true" dark-theme="true">
+                    <input type="email" ng-model="textFields.fixedEmail2Dark">
+                </lx-text-field>
+
+                <lx-text-field label="Address" fixed-label="true" dark-theme="true">
+                    <input type="text" ng-model="textFields.fixedAdress2Dark">
+                </lx-text-field>
+            </form>
+        </div>
+    </div>
+
+    <div class="grid mt pl pr pb">
+        <div class="grid__col4">
+            <lx-text-field label="Description" type="area" model="textFields.description" dark-theme="true">
+                <textarea ng-model="textFields.descriptionDark"></textarea>
+            </lx-text-field>
+        </div>
     </div>
 </div>
