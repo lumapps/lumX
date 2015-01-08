@@ -5,10 +5,16 @@
                  'text-field--fixed-label': fixedLabel(),
                  'text-field--is-active': data.model || data.focused,
                  'text-field--is-focused': data.focused,
-                 'text-field--label-hidden': fixedLabel() && data.model }">
+                 'text-field--label-hidden': fixedLabel() && data.model,
+                 'text-field--with-icon': icon && fixedLabel(),
+                 'text-field--is-dark' : darkTheme() }">
     <label class="text-field__label">
         {{ label }}
     </label>
+
+    <div class="text-field__icon" ng-if="icon && fixedLabel() ">
+        <i class="mdi mdi--{{ icon }}"></i>
+    </div>
 
     <div ng-transclude="1"></div>
 </div>

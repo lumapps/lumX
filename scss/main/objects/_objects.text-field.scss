@@ -44,6 +44,12 @@
     .text-field__label {
         color: $blue-500;
     }
+
+    &.text-field--is-dark {
+        .text-field__label {
+            color: $blue-500;
+        }
+    }
 }
 
 .text-field--is-disabled {
@@ -55,6 +61,12 @@
         color: $black-3;
         cursor: not-allowed;
     }
+
+    &.text-field--is-dark {
+        .text-field__input {
+            color: $white-3;
+        }
+    }
 }
 
 .text-field--has-error {
@@ -65,6 +77,12 @@
 
     .text-field__label {
         color: $red-500;
+    }
+
+    &.text-field--is-dark {
+        .text-field__label {
+            color: $red-500;
+        }
     }
 }
 
@@ -91,6 +109,22 @@
         background-color: $green-500;
         @include transform(scale(1));
     }
+
+    &.text-field--is-dark {
+        .text-field__label {
+            color: $green-500;
+        }
+    }
+}
+
+.text-field--is-dark {
+    &:before {
+        border-color: $white-3;
+    }
+}
+
+.text-field--with-icon {
+    margin-left: quadruple($md-spacing-unit);
 }
     
     // Text field label
@@ -105,6 +139,10 @@
         @include transition-property(transform, color);
         @include transition-duration(0.4s);
         @include transition-timing-function($ease-out-quint);
+
+        .text-field--is-dark & {
+            color: $white-3;
+        }
     }
 
     // Text field input
@@ -119,9 +157,39 @@
         font-weight: 400;
         line-height: 24px;
         cursor: text;
+        background-color: transparent;
         @include appearance(none);
 
         &:focus {
             outline: none;
+        }
+
+        .text-field--is-dark & {
+            color: $white;
+        }
+    }
+
+    // Text field icon
+    .text-field__icon {
+        @include position(absolute, 2px null null -68px);
+        @include size($base-spacing-unit * 2 $base-spacing-unit * 2);
+        line-height: $base-spacing-unit * 2;
+        @include font-size(24px);
+        color: $black-2;
+        text-align: center;
+        @include transition-property(color);
+        @include transition-duration(0.4s);
+        @include transition-timing-function($ease-out-quint);
+
+        .text-field--is-dark & {
+            color: $white;
+        }
+
+        .text-field--is-focused & {
+            color: $blue-500;
+        }
+
+        .text-field--has-error & {
+            color: $red-500;
         }
     }

@@ -12,7 +12,9 @@ angular.module('lumx.text-field', [])
                 disabled: '&',
                 error: '&',
                 valid: '&',
-                fixedLabel: '&'
+                fixedLabel: '&',
+                icon: '@',
+                darkTheme: '&'
             },
             templateUrl: 'lumx.text_field.html',
             replace: true,
