@@ -8067,7 +8067,7 @@ html {
   transform: scale(1); }
 .text-field--is-focused .text-field__label {
   color: #2196F3; }
-.text-field--is-focused.text-field--is-dark .text-field__label {
+.text-field--is-focused.text-field--dark-theme .text-field__label {
   color: #2196F3; }
 
 .text-field--is-disabled:before {
@@ -8075,7 +8075,7 @@ html {
 .text-field--is-disabled .text-field__input {
   color: rgba(0, 0, 0, 0.26);
   cursor: not-allowed; }
-.text-field--is-disabled.text-field--is-dark .text-field__input {
+.text-field--is-disabled.text-field--dark-theme .text-field__input {
   color: rgba(255, 255, 255, 0.3); }
 
 .text-field--has-error:after {
@@ -8087,7 +8087,7 @@ html {
   transform: scale(1); }
 .text-field--has-error .text-field__label {
   color: #F44336; }
-.text-field--has-error.text-field--is-dark .text-field__label {
+.text-field--has-error.text-field--dark-theme .text-field__label {
   color: #F44336; }
 
 .text-field--fixed-label {
@@ -8098,6 +8098,10 @@ html {
     -ms-transform: none;
     -o-transform: none;
     transform: none; }
+  .text-field--fixed-label.text-field--is-focused .text-field__label {
+    color: rgba(0, 0, 0, 0.26); }
+  .text-field--fixed-label.text-field--dark-theme.text-field--is-focused .text-field__label {
+    color: rgba(255, 255, 255, 0.3); }
 
 .text-field--label-hidden .text-field__label {
   display: none; }
@@ -8111,10 +8115,10 @@ html {
   -ms-transform: scale(1);
   -o-transform: scale(1);
   transform: scale(1); }
-.text-field--is-valid.text-field--is-dark .text-field__label {
+.text-field--is-valid.text-field--dark-theme .text-field__label {
   color: #4CAF50; }
 
-.text-field--is-dark:before {
+.text-field--dark-theme:before {
   border-color: rgba(255, 255, 255, 0.3); }
 
 .text-field--with-icon {
@@ -8147,7 +8151,7 @@ html {
   -webkit-transition-timing-function: cubic-bezier(0.23, 1, 0.32, 1);
   -moz-transition-timing-function: cubic-bezier(0.23, 1, 0.32, 1);
   transition-timing-function: cubic-bezier(0.23, 1, 0.32, 1); }
-  .text-field--is-dark .text-field__label {
+  .text-field--dark-theme .text-field__label {
     color: rgba(255, 255, 255, 0.3); }
 
 .text-field__input {
@@ -8170,7 +8174,7 @@ html {
   appearance: none; }
   .text-field__input:focus {
     outline: none; }
-  .text-field--is-dark .text-field__input {
+  .text-field--dark-theme .text-field__input {
     color: #FFFFFF; }
 
 .text-field__icon {
@@ -8193,7 +8197,7 @@ html {
   -webkit-transition-timing-function: cubic-bezier(0.23, 1, 0.32, 1);
   -moz-transition-timing-function: cubic-bezier(0.23, 1, 0.32, 1);
   transition-timing-function: cubic-bezier(0.23, 1, 0.32, 1); }
-  .text-field--is-dark .text-field__icon {
+  .text-field--dark-theme .text-field__icon {
     color: #FFFFFF; }
   .text-field--is-focused .text-field__icon {
     color: #2196F3; }
