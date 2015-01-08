@@ -14,13 +14,18 @@ angular.module('lumx.text-field', [])
                 valid: '&',
                 fixedLabel: '&',
                 icon: '@',
-                darkTheme: '&'
+                theme: '@'
             },
             templateUrl: 'lumx.text_field.html',
             replace: true,
             transclude: true,
             link: function(scope, element, attrs, ctrl, transclude)
             {
+                if (angular.isUndefined(scope.theme))
+                {
+                    scope.theme = 'light';
+                }
+
                 var modelController,
                     $field;
 

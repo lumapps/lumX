@@ -45,7 +45,7 @@
         color: $blue-500;
     }
 
-    &.text-field--is-dark {
+    &.text-field--dark-theme {
         .text-field__label {
             color: $blue-500;
         }
@@ -62,7 +62,7 @@
         cursor: not-allowed;
     }
 
-    &.text-field--is-dark {
+    &.text-field--dark-theme {
         .text-field__input {
             color: $white-3;
         }
@@ -79,7 +79,7 @@
         color: $red-500;
     }
 
-    &.text-field--is-dark {
+    &.text-field--dark-theme {
         .text-field__label {
             color: $red-500;
         }
@@ -91,6 +91,18 @@
 
     .text-field__label {
         @include transform(none);
+    }
+
+    &.text-field--is-focused {
+        .text-field__label {
+            color: $black-3;
+        }
+    }
+
+    &.text-field--dark-theme.text-field--is-focused {
+        .text-field__label {
+            color: $white-3;
+        }
     }
 }
 
@@ -110,14 +122,14 @@
         @include transform(scale(1));
     }
 
-    &.text-field--is-dark {
+    &.text-field--dark-theme {
         .text-field__label {
             color: $green-500;
         }
     }
 }
 
-.text-field--is-dark {
+.text-field--dark-theme {
     &:before {
         border-color: $white-3;
     }
@@ -140,7 +152,7 @@
         @include transition-duration(0.4s);
         @include transition-timing-function($ease-out-quint);
 
-        .text-field--is-dark & {
+        .text-field--dark-theme & {
             color: $white-3;
         }
     }
@@ -164,7 +176,7 @@
             outline: none;
         }
 
-        .text-field--is-dark & {
+        .text-field--dark-theme & {
             color: $white;
         }
     }
@@ -181,7 +193,7 @@
         @include transition-duration(0.4s);
         @include transition-timing-function($ease-out-quint);
 
-        .text-field--is-dark & {
+        .text-field--dark-theme & {
             color: $white;
         }
 
