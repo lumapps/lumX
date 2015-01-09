@@ -106,7 +106,7 @@ angular.module('lumx.select', [])
 
         function filterNeeded()
         {
-            return angular.isDefined($scope.minLength) && $scope.data.filter.length < $scope.minLength;
+            return angular.isDefined($scope.minLength) && angular.isDefined($scope.data.filter) && $scope.data.filter.length < $scope.minLength;
         }
 
         function isHelperVisible()
@@ -331,6 +331,7 @@ angular.module('lumx.select', [])
             link: function(scope, element, attrs, ngModel)
             {
                 scope.multiple = angular.isDefined(attrs.multiple);
+                scope.floatingLabel = angular.isDefined(attrs.floatingLabel);
                 scope.tree = angular.isDefined(attrs.tree);
                 scope.ngModel = ngModel;
 

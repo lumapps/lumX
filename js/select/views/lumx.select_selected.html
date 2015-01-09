@@ -1,4 +1,6 @@
 <div lx-dropdown-toggle>
+    <span class="lx-select__floating-label" ng-if="getSelectedElements().length !== 0 && floatingLabel">{{ placeholder }}</span>
+
     <div class="lx-select__selected"
          ng-class="{ 'lx-select__selected--is-unique': !multiple,
                      'lx-select__selected--is-multiple': multiple && getSelectedElements().length > 0,
