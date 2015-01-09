@@ -1,11 +1,6 @@
 <lx-dropdown-menu class="lx-select__choices">
     <ul ng-if="!tree">
         <li ng-if="getSelectedElements().length > 0">
-            <span class="lx-select__tag lx-select__tag--label" ng-if="getSelectedElements().length !== 0"
-                  ng-class="{ 'lx-select__tag--floating-label': floatingLabel,
-                              'lx-select__tag--multiple': multiple && getSelectedElements().length > 0 }">
-                {{ placeholder }} 
-            </span>
             <div class="lx-select__chosen"
                  ng-class="{ 'lx-select__chosen--is-multiple': multiple }"
                  ng-bind-html="getSelectedTemplate()"></div>

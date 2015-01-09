@@ -20,26 +20,12 @@
     }
 }
 
-    // Select wraper
-    .lx-select__wrapper {
-        position: relative;
-    }
-
     // Select floating label
     .lx-select__floating-label {
-        display: none;
-
-        .lx-select__wrapper--floating-label & {
-            display: block;
-            color: $black-3;
-            @include position(absolute, -20px null null 0);
-            @include transform(scale(0.75));
-            @include transform-origin(bottom left);
-        }
-
-        .lx-select__wrapper--multiple & {
-            display: none;
-        }
+        color: $black-3;
+        @include position(absolute, -20px null null 0);
+        @include transform(scale(0.75));
+        @include transform-origin(bottom left);
     }
 
     // Select selected
@@ -74,7 +60,8 @@
     }
 
     .lx-select__selected--is-multiple {
-        padding-bottom: quarter($md-spacing-unit);
+        padding-top: quarter($base-spacing-unit);
+        padding-bottom: 2px;
     }
 
     .lx-select__selected--placeholder {
@@ -106,8 +93,8 @@
         padding: 0 quarter($md-spacing-unit);
         border-radius: $md-base-round;
         background-color: $grey-100;
-        @include font-size(14px);
-        line-height: 24px;
+        @include font-size(13px);
+        line-height: 20px;
         @include user-select(none);
 
         &:last-child {
@@ -115,34 +102,10 @@
         }
     }
 
-    .lx-select__tag--label {
-        display: none;
-
-        &.lx-select__tag--floating-label {
-            display: block;
-            background-color: $grey-300;
-        }
-
-        .lx-select__choices & {
-            display: none;
-        }
-
-        &.lx-select__tag--multiple {
-            .lx-select__choices & {
-                display: block;
-                margin-top: halve($md-spacing-unit);
-                margin-left: $md-spacing-unit;
-            }
-        }
-
-    }
-
-
-
     // Select choices
     .lx-select__choices {
         margin-left: -16px;
-        margin-top: -(halve($md-spacing-unit));
+        margin-top: -(halve($base-spacing-unit));
 
         .dropdown-menu__content {
             padding-top: 0;
@@ -210,21 +173,21 @@
     // Select chosen
     .lx-select__chosen {
         display: block;
-        min-height: $md-spacing-unit * 2.5;
+        min-height: $size-xl;
         padding: 0 40px 0 $md-spacing-unit;
         border-bottom: 1px solid $black-4;
-        line-height: $md-spacing-unit * 2.5;
+        line-height: $size-xl;
     }
 
     .lx-select__chosen--is-multiple {
-        padding-top: halve($md-spacing-unit);
-        padding-bottom: 4px;
+        padding-top: 18px;
+        padding-bottom: 14px;
         @include clearfix;
     }
 
     // Select filter
     .lx-select__filter {
-        padding: 0 halve($md-spacing-unit);
+        padding: halve($md-spacing-unit);
         margin-bottom: halve($md-spacing-unit);
         border-bottom: 1px solid $black-4;
     }

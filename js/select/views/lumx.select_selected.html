@@ -1,31 +1,22 @@
 <div lx-dropdown-toggle>
-    <div class="lx-select__wrapper"
-         ng-class="{ 'lx-select__wrapper--floating-label': floatingLabel,
-                     'lx-select__wrapper--multiple': multiple && getSelectedElements().length > 0 }">
+    <span class="lx-select__floating-label" ng-if="getSelectedElements().length !== 0 && floatingLabel">{{ placeholder }}</span>
 
-        <span ng-if="getSelectedElements().length !== 0" class="lx-select__floating-label">{{ placeholder }}</span>
+    <div class="lx-select__selected"
+         ng-class="{ 'lx-select__selected--is-unique': !multiple,
+                     'lx-select__selected--is-multiple': multiple && getSelectedElements().length > 0,
+                     'lx-select__selected--placeholder': getSelectedElements().length === 0 }"
+         lx-ripple>
+        <span ng-if="getSelectedElements().length === 0">{{ placeholder }}</span>
 
-        <div class="lx-select__selected"
-             ng-class="{ 'lx-select__selected--is-unique': !multiple,
-                         'lx-select__selected--is-multiple': multiple && getSelectedElements().length > 0,
-                         'lx-select__selected--placeholder': getSelectedElements().length === 0 }"
-             lx-ripple>
-            <span ng-if="getSelectedElements().length === 0">{{ placeholder }}</span>
+        <!-- ng-repeat is used to manage the initialization of the $select even for non-multiple selects -->
+        <div ng-repeat="$selected in getSelectedElements()" ng-if="!multiple">
+            <i class="lx-select__close mdi mdi--cancel" ng-click="unselect($selected, $event)" ng-if="allowClear"></i>
+            <span ng-transclude="child"></span>
+        </div>
 
-            <!-- ng-repeat is used to manage the initialization of the $select even for non-multiple selects -->
-            <div ng-repeat="$selected in getSelectedElements()" ng-if="!multiple">
-                <i class="lx-select__close mdi mdi--cancel" ng-click="unselect($selected, $event)" ng-if="allowClear"></i>
+        <div ng-if="multiple">
+            <div class="lx-select__tag" ng-repeat="$selected in getSelectedElements()">
                 <span ng-transclude="child"></span>
-            </div>
-
-            <div ng-if="multiple">
-                <div class="lx-select__tag lx-select__tag--label" ng-if="getSelectedElements().length !== 0"
-                     ng-class="{ 'lx-select__tag--floating-label': floatingLabel }">
-                    {{ placeholder }} 
-                </div>
-                <div class="lx-select__tag" ng-repeat="$selected in getSelectedElements()">
-                    <span ng-transclude="child"></span>
-                </div>
             </div>
         </div>
     </div>
