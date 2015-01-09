@@ -7521,21 +7521,19 @@ html {
   -ms-transform: translateX(0);
   -o-transform: translateX(0);
   transform: translateX(0); }
-.search-filter--is-focused .search-filter__placeholder {
-  display: none; }
-
-.search-filter--light-theme .search-filter__label {
-  color: #FFFFFF; }
-.search-filter--light-theme .search-filter__input {
-  color: #FFFFFF; }
-.search-filter--light-theme .search-filter__cancel {
-  color: #FFFFFF; }
 
 .search-filter--dark-theme .search-filter__label {
-  color: rgba(0, 0, 0, 0.87); }
+  color: #FFFFFF; }
 .search-filter--dark-theme .search-filter__input {
-  color: rgba(0, 0, 0, 0.87); }
+  color: #FFFFFF; }
 .search-filter--dark-theme .search-filter__cancel {
+  color: #FFFFFF; }
+
+.search-filter--light-theme .search-filter__label {
+  color: rgba(0, 0, 0, 0.87); }
+.search-filter--light-theme .search-filter__input {
+  color: rgba(0, 0, 0, 0.87); }
+.search-filter--light-theme .search-filter__cancel {
   color: rgba(0, 0, 0, 0.87); }
 
 .search-filter__container {
@@ -7567,6 +7565,22 @@ html {
   border: none;
   outline: none;
   background: none; }
+  .search-filter__input::-webkit-input-placeholder {
+    color: rgba(0, 0, 0, 0.26); }
+    .search-filter--dark-theme .search-filter__input::-webkit-input-placeholder {
+      color: rgba(255, 255, 255, 0.7); }
+  .search-filter__input::-moz-placeholder {
+    color: rgba(0, 0, 0, 0.26); }
+    .search-filter--dark-theme .search-filter__input::-moz-placeholder {
+      color: rgba(255, 255, 255, 0.7); }
+  .search-filter__input:-moz-placeholder {
+    color: rgba(0, 0, 0, 0.26); }
+    .search-filter--dark-theme .search-filter__input:-moz-placeholder {
+      color: rgba(255, 255, 255, 0.7); }
+  .search-filter__input:-ms-input-placeholder {
+    color: rgba(0, 0, 0, 0.26); }
+    .search-filter--dark-theme .search-filter__input:-ms-input-placeholder {
+      color: rgba(255, 255, 255, 0.7); }
 
 .search-filter__cancel {
   position: absolute;
@@ -7594,17 +7608,6 @@ html {
   transition-timing-function: cubic-bezier(0.23, 1, 0.32, 1); }
   .search-filter__cancel .mdi {
     line-height: 40px; }
-
-.search-filter__placeholder {
-  display: block;
-  position: absolute;
-  top: 0;
-  left: 56px;
-  color: rgba(0, 0, 0, 0.26);
-  line-height: 40px;
-  pointer-events: none; }
-  .search-filter--light-theme .search-filter__placeholder {
-    color: rgba(255, 255, 255, 0.7); }
 
 @media screen and (max-width: 1023px) {
   .scrollbar-container {
@@ -9376,4 +9379,3 @@ body {
 
 .hljs-chunk {
   color: #aaa; }
-

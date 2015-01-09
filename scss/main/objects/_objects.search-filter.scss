@@ -16,13 +16,9 @@
     .search-filter__cancel {
         @include transform(translateX(0));
     }
-
-    .search-filter__placeholder {
-        display: none;
-    }
 }
 
-.search-filter--light-theme {
+.search-filter--dark-theme {
     .search-filter__label {
         color: $white-1;
     }
@@ -36,7 +32,7 @@
     }
 }
 
-.search-filter--dark-theme {
+.search-filter--light-theme {
     .search-filter__label {
         color: $black-1;
     }
@@ -78,6 +74,14 @@
         border: none;
         outline: none;
         background: none;
+
+        @include placeholder {
+            color: $black-3;
+
+            .search-filter--dark-theme & {
+                color: $white-2;
+            }
+        }
     }
 
     // Search filter cancel
@@ -95,17 +99,4 @@
         .mdi {
             line-height: $size-l;
         } 
-    }
-
-    // Search filter placeholder
-    .search-filter__placeholder {
-        display: block;
-        @include position(absolute, 0 null null 56px);
-        color: $black-3;
-        line-height: $size-l;
-        pointer-events: none;
-
-        .search-filter--light-theme & {
-            color: $white-2;
-        }
     }
