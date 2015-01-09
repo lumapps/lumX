@@ -5,8 +5,8 @@
 // Text field base styles
 .text-field {
     position: relative;
-    padding-top: $base-spacing-unit * 1.5;
-    padding-bottom: halve($base-spacing-unit);
+    padding-top: double($md-spacing-unit);
+    padding-bottom: halve($md-spacing-unit);
 
     &:before,
     &:after {
@@ -87,7 +87,7 @@
 }
 
 .text-field--fixed-label {
-    padding-top: halve($base-spacing-unit);
+    padding-top: halve($md-spacing-unit);
 
     .text-field__label {
         @include transform(none);
@@ -142,9 +142,9 @@
     // Text field label
     .text-field__label {
         display: block;
-        @include position(absolute, halve($base-spacing-unit) null null 0);
+        @include position(absolute, halve($md-spacing-unit) null null 0);
         color: $black-3;
-        line-height: 24px;
+        line-height: double($md-spacing-unit);
         pointer-events: none;
         @include transform(translateY($base-spacing-unit));
         @include transform-origin(bottom left);
@@ -160,14 +160,14 @@
     // Text field input
     .text-field__input {
         display: block;
-        @include size(100% 24px);
+        @include size(100% double($md-spacing-unit));
         margin: 0;
         padding: 0;
         border: none;
         overflow: hidden;
         resize: none;
         font-weight: 400;
-        line-height: 24px;
+        line-height: double($md-spacing-unit);
         cursor: text;
         background-color: transparent;
         @include appearance(none);
@@ -184,8 +184,8 @@
     // Text field icon
     .text-field__icon {
         @include position(absolute, 2px null null -68px);
-        @include size($base-spacing-unit * 2 $base-spacing-unit * 2);
-        line-height: $base-spacing-unit * 2;
+        @include size(48px 44px);
+        line-height: 44px;
         @include font-size(24px);
         color: $black-2;
         text-align: center;

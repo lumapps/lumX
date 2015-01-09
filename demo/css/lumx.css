@@ -8019,8 +8019,8 @@ html {
 
 .text-field {
   position: relative;
-  padding-top: 36px;
-  padding-bottom: 12px; }
+  padding-top: 32px;
+  padding-bottom: 8px; }
   .text-field:before, .text-field:after {
     content: ''; }
   .text-field:before {
@@ -8091,7 +8091,7 @@ html {
   color: #F44336; }
 
 .text-field--fixed-label {
-  padding-top: 12px; }
+  padding-top: 8px; }
   .text-field--fixed-label .text-field__label {
     -webkit-transform: none;
     -moz-transform: none;
@@ -8127,10 +8127,10 @@ html {
 .text-field__label {
   display: block;
   position: absolute;
-  top: 12px;
+  top: 8px;
   left: 0;
   color: rgba(0, 0, 0, 0.26);
-  line-height: 24px;
+  line-height: 32px;
   pointer-events: none;
   -webkit-transform: translateY(24px);
   -moz-transform: translateY(24px);
@@ -8156,7 +8156,7 @@ html {
 
 .text-field__input {
   display: block;
-  height: 24px;
+  height: 32px;
   width: 100%;
   margin: 0;
   padding: 0;
@@ -8164,7 +8164,7 @@ html {
   overflow: hidden;
   resize: none;
   font-weight: 400;
-  line-height: 24px;
+  line-height: 32px;
   cursor: text;
   background-color: transparent;
   -webkit-appearance: none;
@@ -8181,9 +8181,9 @@ html {
   position: absolute;
   top: 2px;
   left: -68px;
-  height: 48px;
+  height: 44px;
   width: 48px;
-  line-height: 48px;
+  line-height: 44px;
   font-size: 24px;
   font-size: 1.5rem;
   color: rgba(0, 0, 0, 0.54);
