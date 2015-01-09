@@ -18,7 +18,7 @@
     }
 }
 
-.search-filter--light-theme {
+.search-filter--dark-theme {
     .search-filter__label {
         color: $white-1;
     }
@@ -32,7 +32,7 @@
     }
 }
 
-.search-filter--dark-theme {
+.search-filter--light-theme {
     .search-filter__label {
         color: $black-1;
     }
@@ -74,6 +74,14 @@
         border: none;
         outline: none;
         background: none;
+
+        @include placeholder {
+            color: $black-3;
+
+            .search-filter--dark-theme & {
+                color: $white-2;
+            }
+        }
     }
 
     // Search filter cancel

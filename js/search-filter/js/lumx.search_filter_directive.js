@@ -9,7 +9,9 @@ angular.module('lumx.search-filter', [])
             restrict: 'E',
             templateUrl: 'lumx.search_filter.html',
             scope: {
-                model: '=?'
+                model: '=?',
+                theme: '@',
+                placeholder: '@'
             },
             link: function(scope, element, attrs)
             {
@@ -18,36 +20,17 @@ angular.module('lumx.search-filter', [])
                     $searchFilter = element.find('.search-filter'),
                     $searchFilterContainer = element.find('.search-filter__container');
 
-                if (angular.isDefined(attrs.closed))
+                scope.closed = angular.isDefined(attrs.closed);
+
+                if (angular.isUndefined(scope.theme))
                 {
-                    $searchFilter.addClass('search-filter--is-closed');
+                    scope.theme = 'light';
                 }
 
-                // Width
                 attrs.$observe('filterWidth', function(filterWidth)
                 {
                     $searchFilterContainer.css({ width: filterWidth });
                 });
-
-                // Theme
-                attrs.$observe('theme', function(theme)
-                {
-                    $searchFilter.removeClass('search-filter--light-theme search-filter--dark-theme');
-
-                    if (theme === 'light')
-                    {
-                        $searchFilter.addClass('search-filter--light-theme');
-                    }
-                    else
-                    {
-                        $searchFilter.addClass('search-filter--dark-theme');
-                    }
-                });
-
-                if (angular.isUndefined(attrs.theme))
-                {
-                    $searchFilter.addClass('search-filter--dark-theme');
-                }
 
                 // Events
                 $input
