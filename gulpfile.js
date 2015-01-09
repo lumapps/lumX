@@ -1,4 +1,5 @@
 var gulp = require('gulp'),
+    minimist = require('minimist'),
     spawn = require('child_process').spawn,
     merge = require('merge-stream'),
     summary = require('jshint-summary'),
@@ -39,6 +40,13 @@ function watcherWithCache(name, src, tasks)
     });
 }
 
+var knownOptions =
+{
+    string: 'version',
+    default: { version: '' }
+};
+
+var options = minimist(process.argv.slice(2), knownOptions);
 
 // Clean
 gulp.task('clean:build', function()
@@ -108,6 +116,7 @@ gulp.task('dist:css', ['scss:paths'], function()
         .pipe(plugins.rename('lumx.scss'))
         .pipe(plugins.rubySass())
         .pipe(plugins.minifyCss({ keepSpecialComments: 0 }))
+        .pipe(plugins.insert.prepend('/*\n LumX ' + options.version + '\n (c) 2014-' + new Date().getFullYear() + ' LumApps http://ui.lumapps.com\n License: MIT\n*/\n'))
         .pipe(gulp.dest('dist/css'));
 });
 
@@ -200,8 +209,10 @@ gulp.task('dist:scripts', ['tpl:dropdown', 'tpl:file-input', 'tpl:text-field', '
     return gulp.src(paths.js)
         .pipe(plugins.plumber())
         .pipe(plugins.concat('lumx.js'))
+        .pipe(plugins.insert.prepend('/*\n LumX ' + options.version + '\n (c) 2014-' + new Date().getFullYear() + ' LumApps http://ui.lumapps.com\n License: MIT\n*/\n'))
         .pipe(gulp.dest('dist/js'))
         .pipe(plugins.uglify())
+        .pipe(plugins.insert.prepend('/*\n LumX ' + options.version + '\n (c) 2014-' + new Date().getFullYear() + ' LumApps http://ui.lumapps.com\n License: MIT\n*/\n'))
         .pipe(plugins.rename('lumx.min.js'))
         .pipe(gulp.dest('dist/js'));
 });
