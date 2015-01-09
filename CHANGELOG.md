@@ -1,5 +1,16 @@
 # Changelog
 
+## v0.2.48:
+
+#### Bug fixes:
+ - search-filter: theme and placeholder
+ - selects: floating label style
+ - select: missing model to ngModel rename
+
+#### Breaking changes:
+ - User must switch light and dark theme.
+
+
 ## v0.2.47:
 
 #### New features:
