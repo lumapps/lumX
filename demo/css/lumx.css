@@ -7170,17 +7170,14 @@ html {
 .notification--white .notification__icon {
   color: #FFFFFF; }
 
-.paragraph {
-  font-size: 14px;
-  font-size: 0.875rem; }
-  .paragraph p:last-child,
-  .paragraph ul:last-child {
-    margin-bottom: 0; }
-  .paragraph a {
-    color: #2196F3;
-    text-decoration: none; }
-    .paragraph a:hover {
-      text-decoration: underline; }
+.paragraph p:last-child,
+.paragraph ul:last-child {
+  margin-bottom: 0; }
+.paragraph a {
+  color: #3F51B5;
+  text-decoration: none; }
+  .paragraph a:hover {
+    text-decoration: underline; }
 
 .progress-circular {
   position: absolute;
@@ -8237,6 +8234,7 @@ html {
 
 .toolbar__label {
   float: left;
+  margin: 0;
   margin-left: 8px;
   line-height: 40px; }
 
@@ -9429,3 +9427,4 @@ body {
 
 .hljs-chunk {
   color: #aaa; }
+
