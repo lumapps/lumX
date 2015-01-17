@@ -4,15 +4,13 @@
 
 // Paragraph base styles
 .paragraph {
-    @include font-size(14px);
-
     p:last-child,
     ul:last-child {
         margin-bottom: 0;
     }
 
     a {
-        color: $blue;
+        color: $primary-color-1;
         text-decoration: none;
 
         &:hover {
