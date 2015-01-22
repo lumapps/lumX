@@ -7,7 +7,7 @@
 	position: relative;
 
 	@include media-query(desk) {
-		@include outer-container;
+		@include outer-container(100%);
 	}
 }
 	

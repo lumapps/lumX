@@ -5,7 +5,7 @@
 // Card base styles
 .card {
     border-radius: $md-base-round;
-    background-color: #fff;
+    background-color: $white;
     overflow: hidden;
     @include z-depth(1);
 }
@@ -47,7 +47,7 @@
 
         .card-title {
             @include position(absolute, null $md-spacing-unit $md-spacing-unit $md-spacing-unit);
-            color: #fff;
+            color: $white-1;
         }
     }
 
@@ -88,5 +88,5 @@
 
 .card-subtitle {
     @include font-size(14px);
-    color: #999;
+    color: $black-2;
 }
