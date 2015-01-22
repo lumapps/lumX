@@ -1,8 +1,13 @@
 @charset "UTF-8";
-* {
+html {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box; }
+
+*, *:before, *:after {
+  -webkit-box-sizing: inherit;
+  -moz-box-sizing: inherit;
+  box-sizing: inherit; }
 
 /*! normalize.css v3.0.2 | MIT License | git.io/normalize */
 /**
@@ -6611,7 +6616,7 @@ html {
   position: relative; }
   @media screen and (min-width: 1024px) {
     .grid {
-      max-width: 68em;
+      max-width: 100%;
       margin-left: auto;
       margin-right: auto; }
       .grid::after {
