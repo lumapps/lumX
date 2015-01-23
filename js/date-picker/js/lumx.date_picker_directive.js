@@ -59,7 +59,7 @@ angular.module('lumx.date-picker', [])
                 formatted: moment(day).locale(locale).format('LL')
             };
 
-            $scope.model = day;
+            $scope.model = day.toDate();
 
             generateCalendar();
         };
