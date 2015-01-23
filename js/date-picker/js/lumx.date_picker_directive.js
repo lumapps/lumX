@@ -21,6 +21,7 @@ angular.module('lumx.date-picker', [])
             $element = element;
             $datePicker = element.find('.lx-date-picker');
 
+            $scope.currentDate = moment(new Date());
             $scope.localeData = moment().locale(locale).localeData();
             $scope.now = moment().locale(locale);
             $scope.month = $scope.month || moment().locale(locale).startOf('day');
@@ -36,6 +37,13 @@ angular.module('lumx.date-picker', [])
                 $scope.selectedDate = {
                     date: moment(val).locale(locale),
                     formatted: moment(val).locale(locale).format('LL')
+                };
+            }
+            else
+            {
+                $scope.selectedDate = {
+                    date: undefined,
+                    formatted: undefined
                 };
             }
         };
@@ -59,7 +67,7 @@ angular.module('lumx.date-picker', [])
                 formatted: moment(day).locale(locale).format('LL')
             };
 
-            $scope.model = day;
+            $scope.model = day.toDate();
 
             generateCalendar();
         };

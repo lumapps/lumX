@@ -5,13 +5,13 @@
 
     <div class="lx-date-picker">
         <div class="lx-date-picker__current-day-of-week">
-            <span ng-if="selectedDate.date">{{ localeData.weekdays(selectedDate.date) }}</span>
+            <span ng-if="selectedDate.date">{{ localeData.weekdays(selectedDate.date || currentDate) }}</span>
             <span ng-if="!selectedDate.date">{{ localeData.weekdays(now) }}</span>
         </div>
 
         <div class="lx-date-picker__current-date">
             <div ng-if="selectedDate.date">
-                <span>{{ localeData.monthsShort(selectedDate.date) }}</span>
+                <span>{{ localeData.monthsShort(selectedDate.date || currentDate) }}</span>
                 <strong>{{ selectedDate.date.format('DD') }}</strong>
                 <em>{{ selectedDate.date.format('YYYY') }}</em>
             </div>
