@@ -198,6 +198,8 @@ angular.module('lumx.dropdown', [])
                     dropdownMenu.find('.dropdown-menu__content').removeAttr('style');
                 }
             });
+
+            dropdown.addClass('dropdown--is-active');
         }
 
         function closeDropdownMenu()
@@ -213,6 +215,8 @@ angular.module('lumx.dropdown', [])
                     dropdownMenu
                         .appendTo(dropdown)
                         .removeAttr('style');
+
+                    dropdown.removeClass('dropdown--is-active');
                 }
             });
         }
