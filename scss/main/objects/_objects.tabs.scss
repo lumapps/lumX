@@ -102,7 +102,7 @@
     height: $base-spacing-unit * 6;
     cursor: pointer;
     font-weight: 600;
-    line-height: $base-spacing-unit * 6;
+    line-height: 48px;
     text-align: center;
     text-transform: uppercase;
     @include transition-property(color);

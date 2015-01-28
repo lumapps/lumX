@@ -7,7 +7,7 @@
     margin-bottom: $base-spacing-unit * 3;
     @extend %bare-list;
 
-    li {
+    & > div {
         height: $base-spacing-unit * 6;
         padding: 0 $base-spacing-unit * 2;
         line-height: $base-spacing-unit * 6;
