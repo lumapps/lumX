@@ -152,7 +152,7 @@ angular.module('lumx.notification', [])
         {
             // DOM elements
             var dialogHeader = angular.element('<div/>', {
-                class: 'dialog__header p fs-title',
+                class: 'dialog__header p++ fs-title',
                 text: title
             });
 
@@ -164,7 +164,7 @@ angular.module('lumx.notification', [])
         {
             // DOM elements
             var dialogContent = angular.element('<div/>', {
-                class: 'dialog__content p pt0 tc-black-2',
+                class: 'dialog__content p++ pt0 tc-black-2',
                 text: text
             });
 
