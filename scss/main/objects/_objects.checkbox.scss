@@ -48,7 +48,7 @@
     // Checkbox label
     .checkbox__label {
         position: relative;
-        padding-left: 30px;
+        padding-left: $base-spacing-unit * 4;
         font-weight: 400;
         line-height: $size-xs;
         cursor: pointer;
@@ -77,9 +77,8 @@
     // Checkbox help
     .checkbox__help {
         display: block;
-        padding-left: 30px;
-        @include font-size(12px);
-        font-weight: 300;
+        padding-left: $base-spacing-unit * 4;
+        @extend %fs-caption;
         color: $black-2;
         text-align: left;
     }

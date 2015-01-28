@@ -4,7 +4,7 @@
 
 // Card base styles
 .card {
-    border-radius: $md-base-round;
+    border-radius: $base-round;
     background-color: $white;
     overflow: hidden;
     @include z-depth(1);
@@ -13,7 +13,7 @@
     // Card left
     .card__left {
         float: left;
-        margin-right: $md-spacing-unit;
+        margin-right: $base-spacing-unit * 2;
 
         img {
             display: block;
@@ -32,7 +32,7 @@
 
     // Card top
     .card__top {
-        padding: $md-spacing-unit;
+        padding: $base-spacing-unit * 2;
         padding-bottom: 0;
     }
 
@@ -46,14 +46,14 @@
         }
 
         .card-title {
-            @include position(absolute, null $md-spacing-unit $md-spacing-unit $md-spacing-unit);
+            @include position(absolute, null $base-spacing-unit * 2 $base-spacing-unit * 2 $base-spacing-unit * 2);
             color: $white-1;
         }
     }
 
     // Card content
     .card__content {
-        padding: $md-spacing-unit;
+        padding: $base-spacing-unit * 2;
     }
 
     .card__content--small {
@@ -62,11 +62,11 @@
 
     // Card actions
     .card__actions {
-        padding: halve($md-spacing-unit);
+        padding: $base-spacing-unit;
 
         .btn {
-            padding-left: halve($md-spacing-unit);
-            padding-right: halve($md-spacing-unit);
+            padding-left: $base-spacing-unit;
+            padding-right: $base-spacing-unit;
         }
     }
 

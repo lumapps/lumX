@@ -5,7 +5,7 @@
 // Radio group
 .radio-group {
     .radio-button {
-        margin-bottom: halve($base-spacing-unit);
+        margin-bottom: $base-spacing-unit;
     }
 }
 
@@ -59,7 +59,7 @@
     // Radio button label
     .radio-button__label {
         position: relative;
-        padding-left: 30px;
+        padding-left: $base-spacing-unit * 4;
         font-weight: 400;
         line-height: $size-xs;
         cursor: pointer;
@@ -87,7 +87,7 @@
     // Radio button help
     .radio-button__help {
         display: block;
-        padding-left: 30px;
+        padding-left: $base-spacing-unit * 4;
         @include font-size(12px);
         font-weight: 300;
         color: $black-2;

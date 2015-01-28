@@ -19,6 +19,6 @@ body {
 	}
 
 	@include media-query(portable) {
-		margin: 0 $base-spacing-unit;
+		margin: 0 $base-spacing-unit * 3;
 	}
 }

@@ -5,8 +5,8 @@
 // Input file base styles
 .input-file {
     position: relative;
-    padding-top: double($md-spacing-unit);
-    padding-bottom: halve($md-spacing-unit);
+    padding-top: $base-spacing-unit * 4;
+    padding-bottom: $base-spacing-unit;
 
     &:before,
     &:after {
@@ -14,13 +14,13 @@
     }
 
     &:before {
-        @include position(absolute, null 0 (halve($md-spacing-unit) - 1) 0);
+        @include position(absolute, null 0 ($base-spacing-unit - 1) 0);
         height: 1px;
         border-bottom: 1px solid $black-4;
     }
 
     &:after {
-        @include position(absolute, null 0 (halve($md-spacing-unit) - 2) 0);
+        @include position(absolute, null 0 ($base-spacing-unit - 2) 0);
         height: 2px;
         background-color: $blue-500;
         @include transform(scale(0));
@@ -32,7 +32,7 @@
     label {
         display: block;
         position: relative;
-        height: double($md-spacing-unit);
+        height: $base-spacing-unit * 4;
         cursor: pointer;
     }
 }
@@ -41,7 +41,7 @@
 .input-file--is-active {
     .input-file__label {
         @include font-size(12px);
-        @include transform(translateY($md-spacing-unit));
+        @include transform(translateY($base-spacing-unit * 2));
     }
 
     .input-file__filename {
@@ -63,11 +63,11 @@
     // Input group label
     .input-file__label {
         display: block;
-        @include position(absolute, -(double($md-spacing-unit)) null null 0);
+        @include position(absolute, -($base-spacing-unit * 4) null null 0);
         color: $black-3;
-        line-height: $md-spacing-unit;
+        line-height: $base-spacing-unit * 2;
         pointer-events: none;
-        @include transform(translateY($md-spacing-unit * 2.5));
+        @include transform(translateY($base-spacing-unit * 5));
         @include transition-property(transform, font-size, color);
         @include transition-duration(0.6s);
         @include transition-timing-function($ease-out-quint);
@@ -77,10 +77,10 @@
         display: block;
         overflow: hidden;
         opacity: 0;
-        line-height: double($md-spacing-unit);
+        line-height: $base-spacing-unit * 4;
         text-overflow: ellipsis;
         white-space: nowrap;
-        @include transform(translateX(double($base-spacing-unit)));
+        @include transform(translateX($base-spacing-unit * 6));
         @include transition-property(transform, opacity);
         @include transition-duration(0.6s);
         @include transition-timing-function($ease-out-quint);

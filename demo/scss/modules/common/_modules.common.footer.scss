@@ -4,7 +4,7 @@
 
 // Header base styles
 .footer {
-	padding-bottom: $base-spacing-unit;
+	padding-bottom: $base-spacing-unit * 3;
 	@include font-size(14px);
 	line-height: 32px;
 	text-align: center;
@@ -15,5 +15,5 @@
 		display: inline-block;
 		vertical-align: top;
 		height: 32px;
-		margin-left: quarter($base-spacing-unit);
+		margin-left: $base-spacing-unit;
 	}

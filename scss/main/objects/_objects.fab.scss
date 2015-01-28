@@ -91,7 +91,7 @@
         @include position(absolute, null null $size-xl 7px);
 
         .btn {
-            margin-bottom: quarter($base-spacing-unit);
+            margin-bottom: $base-spacing-unit;
         }
     }
 
@@ -99,7 +99,7 @@
         @include position(absolute, $size-xl null null 7px);
 
         .btn {
-            margin-top: quarter($base-spacing-unit);
+            margin-top: $base-spacing-unit;
         }
     }
 
@@ -107,7 +107,7 @@
         @include position(absolute, null $size-xl 7px null);
 
         .btn {
-            margin-right: quarter($base-spacing-unit);
+            margin-right: $base-spacing-unit;
         }
     } 
 
@@ -115,6 +115,6 @@
         @include position(absolute, null null 7px $size-xl); 
 
         .btn {
-            margin-left: quarter($base-spacing-unit);
+            margin-left: $base-spacing-unit;
         }
     }

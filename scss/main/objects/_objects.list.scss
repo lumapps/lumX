@@ -14,18 +14,18 @@
 // List row
 .list-row {
 	position: relative;
-	padding: 0 $md-spacing-unit;
+	padding: 0 $base-spacing-unit * 2;
 }
 
 .list-row--has-primary {
 	& > .list-content-tile {
-		margin-left: $size-l + $md-spacing-unit;
+		margin-left: $size-l + ($base-spacing-unit * 2);
 	}
 }
 
 .list-row--has-secondary {
 	& > .list-content-tile {
-		margin-right: double($md-spacing-unit);
+		margin-right: $base-spacing-unit * 4;
 	}
 }
 
@@ -43,7 +43,7 @@
 }
 
 .list-row--has-primary.list-row--has-separator:after {
-	left: $md-spacing-unit * 4.5;
+	left: $base-spacing-unit * 9;
 }
 
 .list-row--is-clickable {
@@ -61,8 +61,8 @@
 
 // List primary tile
 .list-primary-tile {
-	@include position(absolute, 50% null null $md-spacing-unit);
-	margin-top: -(halve($size-l));
+	@include position(absolute, 50% null null $base-spacing-unit * 2);
+	margin-top: -($size-l / 2);
 }
 	
 	// List primary tile image
@@ -77,7 +77,7 @@
 
 // List content tile
 .list-content-tile {
-	padding: $md-spacing-unit 0;
+	padding: $base-spacing-unit * 2 0;
 
 	strong,
 	span {
@@ -119,7 +119,7 @@
 
 // List secondary tile
 .list-secondary-tile {
-	@include position(absolute, 50% $md-spacing-unit null null);
+	@include position(absolute, 50% $base-spacing-unit * 2 null null);
 	@include transform(translateY(-50%));
 }
 
@@ -130,13 +130,13 @@
 // List divider
 .list-divider {
 	height: 1px;
-    margin-top: halve($md-spacing-unit);
-    margin-bottom: halve($md-spacing-unit);
+    margin-top: $base-spacing-unit;
+    margin-bottom: $base-spacing-unit;
     background-color: $black-4;
 }
 
 .list-divider--is-pushed {
-	margin-left: $md-spacing-unit * 4.5;
+	margin-left: $base-spacing-unit * 9;
 }
 
 
@@ -145,13 +145,13 @@
 
 // List subheader
 .list-subheader {
-	padding: $md-spacing-unit;
+	padding: $base-spacing-unit * 2;
 	@include font-size(14px);
 	font-weight: 600;
 	color: $black-2;
-	line-height: $md-spacing-unit;
+	line-height: 16px;
 }
 
 .list-subheader--is-pushed {
-	margin-left: $size-l + $md-spacing-unit;
+	margin-left: $size-l + ($base-spacing-unit * 2);
 }

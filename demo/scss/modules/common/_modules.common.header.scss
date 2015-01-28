@@ -7,7 +7,7 @@
 	@include position(fixed, 0 0 null 0);
 	z-index: 999;
     height: 60px;
-    padding: halve($base-spacing-unit);
+    padding: $base-spacing-unit * 1.5;
     background-color: #4fc1e9;
     @include z-depth(1);
     @include clearfix;
@@ -45,7 +45,7 @@
 	.main-logo__link {
 		display: block;
 		padding: 4px 6px;
-		border-radius: $md-base-round;
+		border-radius: $base-round;
 		@include font-size(24px);
 
 		img {
@@ -86,8 +86,8 @@
 	// Main Nav Link
 	.main-nav__link {
 		display: block;
-		padding: 0 halve($base-spacing-unit);
-		border-radius: $md-base-round;
+		padding: 0 $base-spacing-unit * 1.5;
+		border-radius: $base-round;
 		@include font-size(18px);
 		font-weight: 600;
 		color: white;

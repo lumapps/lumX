@@ -7,14 +7,7 @@ $base-font-size:        16px            !default;
 $base-line-height:      24px            !default;
 $base-text-color:       $black-1        !default;
 $base-background-color: $grey-200       !default;
-
-
-
-
-
-// Material Design settings.
-$md-spacing-unit:       16px !default;
-$md-base-round:         2px  !default;
+$base-round:            2px             !default;
 
 
 
@@ -65,6 +58,6 @@ $size-xl:               56px !default;
 // These variables are framework variables, sourced from variables defined
 // above. Feel free to use these variables throughout your project, but do not
 // modify or reassign them.
-$base-spacing-unit:     $base-line-height;
+$base-spacing-unit:     8px;
 $colors:                ('red': $red, 'pink': $pink, 'purple': $purple, 'deep-purple': $deep-purple, 'indigo': $indigo, 'blue': $blue, 'light-blue': $light-blue, 'teal': $teal, 'green': $green, 'light-green': $light-green, 'lime': $lime, 'yellow': $yellow, 'amber': $amber, 'orange': $orange, 'deep-orange': $deep-orange, 'brown': $brown, 'grey': $grey, 'blue-grey': $blue-grey, 'black': $black, 'white': $white);
 $sizes:                 ('xs': $size-xs, 's': $size-s, 'm': $size-m, 'l': $size-l, 'xl': $size-xl);

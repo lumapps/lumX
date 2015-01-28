@@ -58,7 +58,7 @@
 
 // Sidebar menu
 .sidebar-menu {
-    padding: halve($md-spacing-unit) 0;
+    padding: $base-spacing-unit 0;
 
     ul {
         @extend %bare-list;
@@ -68,12 +68,12 @@
     // Sidebar menu link
     .sidebar-menu__link {
         display: block;
-        padding: 0 $md-spacing-unit;
+        padding: 0 $base-spacing-unit * 2;
         cursor: pointer;
         @include font-size(14px);
         font-weight: 700;
         color: #333;
-        line-height: $md-spacing-unit * 3;
+        line-height: $base-spacing-unit * 6;
         text-decoration: none;
 
         &:hover {

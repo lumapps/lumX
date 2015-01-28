@@ -21,8 +21,8 @@
 
     & > thead > tr > th,
     & > tbody > tr > td {
-        height: quadruple($md-spacing-unit);
-        padding: halve($base-spacing-unit) $md-spacing-unit;
+        height: $base-spacing-unit * 8;
+        padding: $base-spacing-unit $base-spacing-unit * 2;
     }
 
     & > thead > tr > th {
@@ -35,9 +35,9 @@
 .data-table--has-primary {
     & > thead > tr > th:first-child,
     & > tbody > tr > td:first-child {
-        width: quadruple($md-spacing-unit) + $size-l;
-        padding-left: double($md-spacing-unit);
-        padding-right: double($md-spacing-unit);
+        width: ($base-spacing-unit * 8) + $size-l;
+        padding-left: $base-spacing-unit * 4;
+        padding-right: $base-spacing-unit * 4;
     }
 
     & > thead > tr > th:first-child {
@@ -61,8 +61,8 @@
 .data-table--has-secondary {
     & > thead > tr > th:last-child,
     & > tbody > tr > td:last-child {
-        padding: 0 halve($md-spacing-unit);
-        width: $md-spacing-unit + $size-l;
+        padding: 0 $base-spacing-unit;
+        width: ($base-spacing-unit * 2) + $size-l;
     }
 }
 

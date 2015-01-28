@@ -3,7 +3,7 @@
 //\*------------------------------------*/
 
 // Dialog vars
-$dialog-margin: 30px;
+$dialog-margin: $base-spacing-unit * 4;
 
 
 
@@ -85,6 +85,6 @@ $dialog-margin: 30px;
 
     // Dialog actions
     .dialog__actions {
-        padding: halve($md-spacing-unit) $md-spacing-unit;
+        padding: $base-spacing-unit $base-spacing-unit * 2;
         text-align: right;
     }

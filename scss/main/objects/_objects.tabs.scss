@@ -8,7 +8,7 @@
 
     &:after {
         content: '';
-        @include position(absolute, (($md-spacing-unit * 3) - 1) 0 null 0);
+        @include position(absolute, (($base-spacing-unit * 6) - 1) 0 null 0);
         height: 1px;
     }
 }
@@ -63,13 +63,13 @@
 
     .tabs-link {
         @include media-query(palm) {
-            padding-left: halve($base-spacing-unit);
-            padding-right: halve($base-spacing-unit);
+            padding-left: $base-spacing-unit * 1.5;
+            padding-right: $base-spacing-unit * 1.5;
         }
 
         @include media-query(lap-and-up) {
-            padding-left: $base-spacing-unit;
-            padding-right: $base-spacing-unit;
+            padding-left: $base-spacing-unit * 3;
+            padding-right: $base-spacing-unit * 3;
         }
     }
 }
@@ -87,7 +87,7 @@
 
     // Tabs indicator
     .tabs__indicator {
-        @include position(absolute, (($md-spacing-unit * 3) - 2) 0 null 0);
+        @include position(absolute, (($base-spacing-unit * 6) - 2) 0 null 0);
         z-index: 1;
         height: 2px;
     }
@@ -99,10 +99,10 @@
 // Tabs link
 .tabs-link {
     display: block;
-    height: $md-spacing-unit * 3;
+    height: $base-spacing-unit * 6;
     cursor: pointer;
     font-weight: 600;
-    line-height: $md-spacing-unit * 3;
+    line-height: $base-spacing-unit * 6;
     text-align: center;
     text-transform: uppercase;
     @include transition-property(color);
@@ -118,6 +118,6 @@
 
     .mdi {
         @include font-size(24px);
-        line-height: $md-spacing-unit * 3;
+        line-height: $base-spacing-unit * 6;
     }
 }

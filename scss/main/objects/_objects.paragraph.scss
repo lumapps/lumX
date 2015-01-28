@@ -4,6 +4,19 @@
 
 // Paragraph base styles
 .paragraph {
+    h1, h2, h3, h4, h5, h6,
+    ul, ol, dl,
+    blockquote, p, address,
+    table,
+    fieldset, figure,
+    pre {
+        margin-bottom: $base-spacing-unit * 3;
+    }
+
+    ul, ol, dd {
+        margin-left: $base-spacing-unit * 6;
+    }
+
     p:last-child,
     ul:last-child {
         margin-bottom: 0;

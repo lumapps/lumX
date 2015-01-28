@@ -4,19 +4,19 @@
 
 // Toolbar base styles
 .toolbar {
-    padding: 0 $md-spacing-unit;
+    padding: 0 $base-spacing-unit * 2;
     @include clearfix;
 
     @include media-query(portable) {
-        height: $md-spacing-unit * 3.5;
-        padding-top: halve($md-spacing-unit);
-        padding-bottom: halve($md-spacing-unit);
+        height: $base-spacing-unit * 7;
+        padding-top: $base-spacing-unit;
+        padding-bottom: $base-spacing-unit;
     }
 
     @include media-query(desk) {
-        height: quadruple($md-spacing-unit);
-        padding-top: halve($base-spacing-unit);
-        padding-bottom: halve($base-spacing-unit);
+        height: $base-spacing-unit * 8;
+        padding-top: $base-spacing-unit * 1.5;
+        padding-bottom: $base-spacing-unit * 1.5;
     }
 }
     
@@ -45,7 +45,6 @@
     // Toolbar label
     .toolbar__label {
         float: left;
-        margin: 0;
-        margin-left: halve($md-spacing-unit);
+        margin-left: $base-spacing-unit;
         line-height: $size-l;
     }

@@ -4,11 +4,11 @@
 
 // Notification base styles
 .notification {
-    @include position(fixed, null $base-spacing-unit $base-spacing-unit null);
+    @include position(fixed, null $base-spacing-unit * 3 $base-spacing-unit * 3 null);
     z-index: 1001;
     max-width: 300px;
-    padding: $md-spacing-unit $base-spacing-unit;
-    border-radius: $md-base-round;
+    padding: $base-spacing-unit * 2 $base-spacing-unit * 3;
+    border-radius: $base-round;
     background-color: #323232;
     cursor: pointer;
     @include animation(jelly 1000ms linear both);
@@ -24,12 +24,12 @@
     }
 
     .notification--has-icon .notification__content {
-        padding-left: double($md-spacing-unit);
+        padding-left: $base-spacing-unit * 4;
     }
 
     // Notification icon
     .notification__icon {
-        @include position(absolute, $md-spacing-unit null null $base-spacing-unit null);
+        @include position(absolute, $base-spacing-unit * 2 null null $base-spacing-unit * 3);
         @include font-size(14px);
         color: $white-1;
         line-height: 20px;

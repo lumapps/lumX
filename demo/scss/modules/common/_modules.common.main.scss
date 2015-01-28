@@ -21,19 +21,19 @@
 	// Main section title
 	.main-section__title {
 		display: block;
-		height: quadruple($md-spacing-unit);
+		height: $base-spacing-unit * 8;
 		margin: 0;
-	    padding: 0 $base-spacing-unit;
+	    padding: 0 $base-spacing-unit * 3;
 	    border-bottom: 1px solid #ddd;
 	    @include font-size(22px);
 	    font-weight: 600;
-        line-height: quadruple($md-spacing-unit);
+        line-height: $base-spacing-unit * 8;
 	}
 
 	// Main section intro
 	.main-section__intro {
 		margin: 0;
-		padding: $base-spacing-unit;
+		padding: $base-spacing-unit * 3;
 		@include font-size(22px);
 		font-weight: 300;
 
@@ -45,7 +45,7 @@
 
 	// Main section content
 	.main-section__content {
-		padding: $base-spacing-unit;
+		padding: $base-spacing-unit * 3;
 
 		p > code {
 			padding: 2px 4px;

@@ -4,8 +4,8 @@
 
 // Example base styles
 .example {
-	margin-bottom: $base-spacing-unit;
-	border-radius: $md-base-round;
+	margin-bottom: $base-spacing-unit * 3;
+	border-radius: $base-round;
     background-color: #fff;
     @include z-depth(1);
 
@@ -17,13 +17,13 @@
 	// Example content
 	.example__content {
         position: relative;
-		padding: $base-spacing-unit;
+		padding: $base-spacing-unit * 3;
 		border-bottom: 1px solid #ddd;
 	}
 
 	// Example code
 	.example__code {
-		padding: halve($base-spacing-unit);
+		padding: $base-spacing-unit * 1.5;
 		background-color: #f8f8f8;
 		
 		pre {

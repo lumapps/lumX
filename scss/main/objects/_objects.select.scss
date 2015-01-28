@@ -5,12 +5,12 @@
 // Select base styles
 .lx-select {
     position: relative;
-    margin-top: double($md-spacing-unit);
-    padding-bottom: halve($md-spacing-unit);
+    margin-top: $base-spacing-unit * 4;
+    padding-bottom: $base-spacing-unit;
 
     &:before {
         content: '';
-        @include position(absolute, null 0 (halve($md-spacing-unit) - 1) 0);
+        @include position(absolute, null 0 $base-spacing-unit - 1 0);
         height: 1px;
         border-bottom: 1px solid $black-4;
     }
@@ -31,14 +31,14 @@
     // Select selected
     .lx-select__selected {
         position: relative;
-        padding-right: $base-spacing-unit;
+        padding-right: $base-spacing-unit * 3;
         cursor: pointer;
         white-space: nowrap;
 
         &:after {
             @include mdi;
             content: $mdi-var-arrow-drop-down;
-            @include position(absolute, null halve($md-spacing-unit) halve($md-spacing-unit) null);
+            @include position(absolute, null $base-spacing-unit $base-spacing-unit null);
             @include font-size(14px);
             color: $black-3;
             line-height: 16px;
@@ -56,26 +56,26 @@
     }
 
     .lx-select__selected--is-unique {
-        line-height: double($md-spacing-unit);
+        line-height: $base-spacing-unit * 4;
     }
 
     .lx-select__selected--is-multiple {
-        padding-top: quarter($base-spacing-unit);
+        padding-top: 6px;
         padding-bottom: 2px;
     }
 
     .lx-select__selected--placeholder {
         padding-top: 0 !important;
         color: $black-3;
-        line-height: double($md-spacing-unit) !important;
+        line-height: $base-spacing-unit * 4 !important;
     }
 
     // Select close
     .lx-select__close {
         display: block;
-        @include position(absolute, null $base-spacing-unit null null);
+        @include position(absolute, null $base-spacing-unit * 3 null null);
         opacity: 0;
-        line-height: double($md-spacing-unit);
+        line-height: $base-spacing-unit * 4;
         @include transition-property(opacity, color);
         @include transition-duration(0.2s);
 
@@ -88,10 +88,10 @@
     .lx-select__tag {
         position: relative;
         float: left;
-        margin-right: quarter($md-spacing-unit);
-        margin-bottom: quarter($md-spacing-unit);
-        padding: 0 quarter($md-spacing-unit);
-        border-radius: $md-base-round;
+        margin-right: $base-spacing-unit / 2;
+        margin-bottom: $base-spacing-unit / 2;
+        padding: 0 $base-spacing-unit / 2;
+        border-radius: $base-round;
         background-color: $grey-100;
         @include font-size(13px);
         line-height: 20px;
@@ -104,8 +104,8 @@
 
     // Select choices
     .lx-select__choices {
-        margin-left: -16px;
-        margin-top: -(halve($base-spacing-unit));
+        margin-left: -($base-spacing-unit * 2);
+        margin-top: -($base-spacing-unit * 1.5);
 
         .dropdown-menu__content {
             padding-top: 0;
@@ -120,9 +120,9 @@
         &:before,
         &:after {
             @include mdi;
-            @include position(absolute, 0 null null 16px);
+            @include position(absolute, 0 null null $base-spacing-unit * 2);
             @include font-size(18px);
-            line-height: double($md-spacing-unit);
+            line-height: 32px;
             @include transition-property(transform);
             @include transition-duration(0.2s);
         }
@@ -151,18 +151,18 @@
 
     // Select help
     .lx-select__help {
-        height: double($md-spacing-unit);
-        padding: 0 $md-spacing-unit;
+        height: $base-spacing-unit * 4;
+        padding: 0 $base-spacing-unit * 2;
         @include font-size(14px);
         color: $black-3;
-        line-height: double($md-spacing-unit);
+        line-height: $base-spacing-unit * 4;
         white-space: nowrap;
     }
 
     // Select loader
     .lx-select__loader {
-        height: double($md-spacing-unit);
-        line-height: double($md-spacing-unit);
+        height: $base-spacing-unit * 4;
+        line-height: $base-spacing-unit * 4;
         text-align: center;
 
         .mdi {
@@ -174,7 +174,7 @@
     .lx-select__chosen {
         display: block;
         min-height: $size-xl;
-        padding: 0 40px 0 $md-spacing-unit;
+        padding: 0 $base-spacing-unit * 5 0 $base-spacing-unit * 2;
         border-bottom: 1px solid $black-4;
         line-height: $size-xl;
     }
@@ -187,7 +187,7 @@
 
     // Select filter
     .lx-select__filter {
-        padding: halve($md-spacing-unit);
-        margin-bottom: halve($md-spacing-unit);
+        padding: $base-spacing-unit;
+        margin-bottom: $base-spacing-unit;
         border-bottom: 1px solid $black-4;
     }
