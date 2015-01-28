@@ -369,4 +369,15 @@ app.controller('AppController',
     {
         $scope.people.push({ name: 'Lorem', email: 'lorem@email.com', age: 99 })
     };
+
+    $scope.thumbnail = '/demo/images/demo/1-horizontal.jpg';
+    $scope.thumbnailWidth = 60;
+    $scope.thumbnailHeight = 60;
+
+    $scope.updateThumbnail = function()
+    {
+        $scope.thumbnail = '/demo/images/demo/2-vertical.jpg';
+        $scope.thumbnailWidth = 150;
+        $scope.thumbnailHeight = 80;
+    };
 });

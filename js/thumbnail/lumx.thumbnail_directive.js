@@ -4,85 +4,82 @@
 
 
 angular.module('lumx.thumbnail', [])
-    .controller('LxThumbnailController', ['$rootScope', '$scope', function($rootScope, $scope)
+    .controller('LxThumbnailController', ['$scope', function($scope)
         {
-            var scope = $scope.$new();
+            var self = this;
 
-            this.init = function(element, attrs)
+            this.init = function(element)
             {
-                scope.element = element;
-
-                scope.thumbnailSrc = attrs.thumbnailSrc;
-                scope.thumbnailWidth = attrs.thumbnailWidth;
-                scope.thumbnailHeight = attrs.thumbnailHeight;
-
-                this.prepareImage();
+                $scope.element = element;
             };
 
             this.prepareImage = function()
             {
-                var self = this,
-                    img = new Image();
+                $scope.isLoading = true;
 
-                img.src = scope.thumbnailSrc;
+                var img = new Image();
 
-                scope.element.css({
-                    'width': scope.thumbnailWidth,
-                    'height': scope.thumbnailHeight
+                img.src = $scope.thumbnailSrc;
+
+                $scope.element.css({
+                    width: $scope.thumbnailWidth + 'px',
+                    height: $scope.thumbnailHeight + 'px'
                 });
-
-                scope.element.addClass('thumbnail--is-loading');
 
                 img.onload = function()
                 {
-                    scope.originalWidth = img.width;
-                    scope.originalHeight = img.height;
+                    $scope.originalWidth = img.width;
+                    $scope.originalHeight = img.height;
 
-                    self.addImage();
+                    addImage();
                 };
             };
 
-            this.addImage = function()
+            function addImage()
             {
-                var imageSizeWidthRatio = scope.thumbnailWidth / scope.originalWidth,
-                    imageSizeWidth = scope.thumbnailWidth,
-                    imageSizeHeight = scope.originalHeight * imageSizeWidthRatio;
+                var imageSizeWidthRatio = $scope.thumbnailWidth / $scope.originalWidth,
+                    imageSizeWidth = $scope.thumbnailWidth,
+                    imageSizeHeight = $scope.originalHeight * imageSizeWidthRatio;
 
-                if (imageSizeHeight < scope.thumbnailHeight)
+                if (imageSizeHeight < $scope.thumbnailHeight)
                 {
-                    var resizeFactor = scope.thumbnailHeight / imageSizeHeight;
+                    var resizeFactor = $scope.thumbnailHeight / imageSizeHeight;
 
-                    imageSizeHeight = scope.thumbnailHeight;
+                    imageSizeHeight = $scope.thumbnailHeight;
                     imageSizeWidth = resizeFactor * imageSizeWidth;
                 }
 
-                scope.element.removeClass('thumbnail--is-loading');
-
-                scope.element.css({
-                    'background': 'url(' + scope.thumbnailSrc + ') no-repeat',
+                $scope.element.css({
+                    'background': 'url(' + $scope.thumbnailSrc + ') no-repeat',
                     'background-position': 'center',
                     'background-size': imageSizeWidth + 'px ' + imageSizeHeight + 'px',
                     'overflow': 'hidden'
                 });
 
-                $rootScope.$broadcast('THUMBNAIL_LOADED', scope.thumbnailSrc);
-            };
+                $scope.isLoading = false;
+            }
         }])
     .directive('lxThumbnail', function()
     {
         return {
-            restrict: 'A',
+            restrict: 'E',
+            template: '<div ng-class="{ \'thumbnail--is-loading\': isLoading }"></div>',
+            replace: true,
             controller: 'LxThumbnailController',
-            scope: {},
+            scope: {
+                thumbnailSrc: '@',
+                thumbnailWidth: '@',
+                thumbnailHeight: '@'
+            },
             link: function(scope, element, attrs, ctrl)
             {
-                scope.init = 0;
+                ctrl.init(element);
 
                 attrs.$observe('thumbnailSrc', function()
                 {
                     if (attrs.thumbnailSrc)
                     {
-                        scope.init = scope.init + 1;
+                        ctrl.prepareImage();
                     }
                 });
 
@@ -90,7 +87,7 @@ angular.module('lumx.thumbnail', [])
                 {
                     if (attrs.thumbnailWidth)
                     {
-                        scope.init = scope.init + 1;
+                        ctrl.prepareImage();
                     }
                 });
 
@@ -98,52 +95,7 @@ angular.module('lumx.thumbnail', [])
                 {
                     if (attrs.thumbnailHeight)
                     {
-                        scope.init = scope.init + 1;
-                    }
-                });
-
-                scope.$watch('init', function(newValue)
-                {
-                    if (newValue === 3)
-                    {
-                        ctrl.init(element, attrs);
-                        element.addClass('thumbnail');
-                    }
-                });
-
-                scope.$watch(function()
-                {
-                    return attrs.thumbnailSrc;
-                },
-                function(newValue, oldValue)
-                {
-                    if (newValue !== oldValue)
-                    {
-                        ctrl.init(element, attrs);
-                    }
-                });
-
-                scope.$watch(function()
-                {
-                    return attrs.thumbnailWidth;
-                },
-                function(newValue, oldValue)
-                {
-                    if (newValue !== oldValue)
-                    {
-                        ctrl.init(element, attrs);
-                    }
-                });
-
-                scope.$watch(function()
-                {
-                    return attrs.thumbnailHeight;
-                },
-                function(newValue, oldValue)
-                {
-                    if (newValue !== oldValue)
-                    {
-                        ctrl.init(element, attrs);
+                        ctrl.prepareImage();
                     }
                 });
             }
