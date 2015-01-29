@@ -4,60 +4,49 @@
 
 // Progress circular base styles
 .progress-circular {
-    position: relative;
-    @include size(60px);
-    padding: 5px;
-    border-radius: 50%;
-    overflow: hidden;
-    @include animation(spin 2s linear infinite);
+    @include position(absolute, 50% null null 50%);
+    z-index: 999;
+    @include size(100px);
+    margin-top: -50px;
+    margin-left: -50px;
 }
 
 .progress-circular--is-shown {
-    .progress-circular__center {
-        @include transform(none);
+    .progress-circular__path {
+        stroke-width: 6;
     }
 }
 
-    // Progress circular background
-    .progress-circular__background {
-        @include size(50px);
-        border-radius: 50%;
+    .progress-circular__svg {
+        position: relative;
+        @include size(100px);
+        @include animation(spin 2s linear infinite);
     }
 
-    // Progress circular first mask
-    .progress-circular__mask1 {
-        @include position(absolute, 0 null null 0);
-        @include size(30px);
-        @include transform-origin(bottom right);
+    .progress-circular__path {
+        stroke-width: 0;
+        stroke-dasharray: 1,200;
+        stroke-dashoffset: 0;
+        stroke-linecap: round;
+        @include animation(circular 1.5s ease-in-out infinite);
+        @include transition-property(stroke-width);
+        @include transition-duration(0.4s);
     }
 
-    // Progress circular second mask
-    .progress-circular__mask2 {
-        @include position(absolute, 0 0 null null);
-        @include size(30px);
-        @include transform-origin(bottom left);
+@include keyframes(circular) {
+    0%{
+        stroke-dasharray: 1,200;
+        stroke-dashoffset: 0;
     }
-
-    // Progress circular third mask
-    .progress-circular__mask3 {
-        @include position(absolute, 30px 5px null 5px);
-        height: 25px;
-        @include transform-origin(top center);
+    50%{
+        stroke-dasharray: 89,200;
+        stroke-dashoffset: -35;
     }
-
-    .progress-circular__mask3-translate {
-        @include size(50px 25px);
+    100%{
+        stroke-dasharray: 89,200;
+        stroke-dashoffset: -124;
     }
-
-    // Progress circular center
-    .progress-circular__center {
-        @include position(absolute, 10px null null 10px);
-        @include size(40px);
-        border-radius: 50%;
-        @include transform(scale(2));
-        @include transition-property(transform);
-        @include transition-duration(0.6s);
-    }
+}
 
 
 
@@ -65,12 +54,14 @@
 
 // Progress linear base styles
 .progress-linear {
-    position: relative;
-    height: quarter($md-spacing-unit);
+    @include position(absolute, null 0 0 0);
+    z-index: 999;
+    height: 4px;
     overflow: hidden;
     @include transform(scale(1, 0));
     @include transition-property(transform);
     @include transition-duration(0.4s);
+    @include transform-origin(bottom center);
 }
 
 .progress-linear--is-shown {
@@ -89,14 +80,14 @@
     }
 
     .progress-linear__bar--first {
-        @include position(absolute, -$base-spacing-unit/2 null null null);
-        @include size(100% $base-spacing-unit);
+        @include position(absolute, -($base-spacing-unit * 1.5) null null null);
+        @include size(100% 24px);
         @include animation(bar1 2s linear infinite);
     }
 
     .progress-linear__bar--second {
-        @include position(absolute, double(-$base-spacing-unit) null null null);
-        @include size(100% quadruple($base-spacing-unit));
+        @include position(absolute, -($base-spacing-unit * 6) null null null);
+        @include size(100% 96px);
         @include animation(bar2 2s linear infinite); 
     }
 
