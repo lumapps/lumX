@@ -1,5 +1,52 @@
 # Changelog
 
+## v0.2.53:
+
+#### Bug fixes:
+ - file input: fix metrics
+ - dialog: fix spaces
+
+#### Breaking changes:
+ - $md-spacing unit var is deprecated.
+ - $md-base-round is replaced by $base-round.
+ - $base-spacing-unit is smaller so spacing helpers are smaller.
+ - card markup has changed to be more flexible. Checkout demo.
+
+
+## v0.2.52:
+
+#### New features:
+ - dropdown: add active class on dropdown trigger
+
+#### Breaking changes:
+ - User must now use lx-thumbnail as an element, no more as an attribute.
+
+
+## v0.2.51:
+
+#### Bug fixes:
+ - date-picker: handle undefined date
+ - date-picker: ngModel always have a Date Object instead of Moment object
+
+
+## v0.2.50:
+
+#### New features:
+ - dropdown: add a direction option allowing dropup menus
+
+#### Bug fixes:
+ - grid: set outer container width to 100%
+
+
+## v0.2.49:
+
+#### New features:
+ - project: add version number in dist files
+
+#### Bug fixes:
+ - toolbar: remove margin on label
+
+
 ## v0.2.48:
 
 #### Bug fixes:
