@@ -13,9 +13,10 @@
 @import "generic/generic.normalize";
 @import "generic/generic.box-sizing";
 @import "generic/generic.reset";
-@import "generic/generic.shared";
 
 @import "base/base.page";
+@import "base/base.typography";
+@import "base/base.images";
 
 @import "trumps/trumps.widths";
 @import "trumps/trumps.spacing";

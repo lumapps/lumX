@@ -7,7 +7,7 @@
 	position: relative;
 
 	@include media-query(desk) {
-		@include outer-container;
+		@include outer-container(100%);
 	}
 }
 	
@@ -17,7 +17,7 @@
 			position: relative;
 			
 			@include media-query(portable) {
-				margin-bottom: $base-spacing-unit;
+				margin-bottom: $base-spacing-unit * 3;
 
 				&:last-child {
 					margin-bottom: 0;

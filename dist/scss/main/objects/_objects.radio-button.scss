@@ -5,7 +5,7 @@
 // Radio group
 .radio-group {
     .radio-button {
-        margin-bottom: halve($base-spacing-unit);
+        margin-bottom: $base-spacing-unit;
     }
 }
 
@@ -50,7 +50,7 @@
                 
                 &:before,
                 &:after {
-                    color: #b0b0b0;
+                    color: $black-3;
                 }
             }
         }
@@ -59,17 +59,17 @@
     // Radio button label
     .radio-button__label {
         position: relative;
-        padding-left: 30px;
+        padding-left: $base-spacing-unit * 4;
         font-weight: 400;
-        line-height: 24px;
+        line-height: $size-xs;
         cursor: pointer;
 
         &:before,
         &:after {
             @include mdi;
             @include position(absolute, 0 null null 0);
-            @include font-size(24px);
-            line-height: 24px;
+            @include font-size($size-xs);
+            line-height: $size-xs;
             @include transition-property(transform);
             @include transition-duration(0.2s);
         }
@@ -80,16 +80,15 @@
 
         &:after {
             content: $mdi-var-radio-button-on;
-            color: $green;
+            color: $teal-500;
         }
     }
 
     // Radio button help
     .radio-button__help {
         display: block;
-        padding-left: 30px;
-        @include font-size(12px);
-        font-weight: 300;
-        color: #999;
+        padding-left: $base-spacing-unit * 4;
+        @extend %fs-caption;
+        color: $black-2;
         text-align: left;
     }
