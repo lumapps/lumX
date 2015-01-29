@@ -14,13 +14,13 @@
     }
 
     &:before {
-        @include position(absolute, null 0 ($base-spacing-unit - 1) 0);
+        @include position(absolute, null 0 $base-spacing-unit - 1 0);
         height: 1px;
         border-bottom: 1px solid $black-4;
     }
 
     &:after {
-        @include position(absolute, null 0 ($base-spacing-unit - 2) 0);
+        @include position(absolute, null 0 $base-spacing-unit - 2 0);
         height: 2px;
         background-color: $blue-500;
         @include transform(scale(0));
@@ -28,25 +28,15 @@
         @include transition-duration(0.6s);
         @include transition-timing-function($ease-out-quint);
     }
-
-    label {
-        display: block;
-        position: relative;
-        height: $base-spacing-unit * 4;
-        cursor: pointer;
-    }
 }
 
-// Input file base styles
 .input-file--is-active {
     .input-file__label {
-        @include font-size(12px);
-        @include transform(translateY($base-spacing-unit * 2));
+        @include transform(scale(0.75) translateY(0));
     }
 
     .input-file__filename {
         opacity: 1;
-        @include transform(translateX(0));
     }
 }
 
@@ -60,33 +50,35 @@
     }
 }
     
-    // Input group label
+    // Input file label
     .input-file__label {
         display: block;
-        @include position(absolute, -($base-spacing-unit * 4) null null 0);
+        @include position(absolute, $base-spacing-unit null null 0);
         color: $black-3;
-        line-height: $base-spacing-unit * 2;
+        line-height: 32px;
         pointer-events: none;
-        @include transform(translateY($base-spacing-unit * 5));
-        @include transition-property(transform, font-size, color);
-        @include transition-duration(0.6s);
+        @include transform(translateY($base-spacing-unit * 3));
+        @include transform-origin(bottom left);
+        @include transition-property(transform, color);
+        @include transition-duration(0.4s);
         @include transition-timing-function($ease-out-quint);
     }
 
+    // Input file filename
     .input-file__filename {
         display: block;
+        @include size(100% $base-spacing-unit * 4);
         overflow: hidden;
         opacity: 0;
-        line-height: $base-spacing-unit * 4;
+        line-height: 32px;
         text-overflow: ellipsis;
         white-space: nowrap;
-        @include transform(translateX($base-spacing-unit * 6));
-        @include transition-property(transform, opacity);
-        @include transition-duration(0.6s);
-        @include transition-timing-function($ease-out-quint);
     }
 
-    // Input group input
+    // Input file input
     .input-file__input {
-        @extend %visuallyhidden;
+        @include position(absolute, $base-spacing-unit * 4 null null 0);
+        @include size(100% 32px);
+        opacity: 0;
+        cursor: pointer;
     }
