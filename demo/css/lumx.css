@@ -487,6 +487,26 @@ html {
   line-height: 128px;
   letter-spacing: -5px; }
 
+/**
+ * 1. Fluid images for responsive purposes.
+ * 2. Offset `alt` text from surrounding copy.
+ */
+img {
+  display: block;
+  max-width: 100%;
+  font-style: italic; }
+
+/**
+ * 1. Google Maps breaks if `max-width: 100%` acts upon it; use their selector
+ *    to remove the effects.
+ * 2. If a `width` and/or `height` attribute have been explicitly defined, let’s
+ *    not make the image fluid.
+ */
+.gm-style img,
+img[width],
+img[height] {
+  max-width: none; }
+
 .zero-whole {
   width: 0 !important; }
 
@@ -899,6 +919,9 @@ html {
 
 .text-right {
   text-align: right  !important; }
+
+.display-block {
+  display: block; }
 
 .visuallyhidden,
 .checkbox__input,
@@ -4182,66 +4205,21 @@ html {
   overflow: hidden;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3); }
 
-.card__left {
-  float: left;
-  margin-right: 16px; }
-  .card__left img {
-    display: block;
-    max-height: 100%; }
-
-.card__side {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0; }
-  .card__side .card__actions {
-    position: absolute;
-    bottom: 0; }
-
-.card__top {
-  padding: 16px;
-  padding-bottom: 0; }
-
-.card__top--img {
-  padding: 0;
+.card__img--top {
   position: relative; }
-  .card__top--img img {
-    display: block;
-    max-width: 100%; }
-  .card__top--img .card-title {
+  .card__img--top span, .card__img--top strong,
+  .card__img--top h1, .card__img--top h2, .card__img--top h3, .card__img--top h4, .card__img--top h5, .card__img--top h6 {
     position: absolute;
     right: 16px;
     bottom: 16px;
-    left: 16px;
-    color: #FFFFFF; }
+    left: 16px; }
 
-.card__content {
-  padding: 16px; }
-
-.card__content--small {
-  font-size: 14px;
-  font-size: 0.875rem; }
+.card__img--left img {
+  max-height: 100%; }
 
 .card__actions {
-  padding: 8px; }
-  .card__actions .btn {
-    padding-left: 8px;
-    padding-right: 8px; }
-
-.card-title,
-.card-subtitle {
-  display: block; }
-
-.card-title {
-  font-size: 24px;
-  font-size: 1.5rem;
-  font-weight: normal;
-  line-height: 1; }
-
-.card-subtitle {
-  font-size: 14px;
-  font-size: 0.875rem;
-  color: rgba(0, 0, 0, 0.54); }
+  padding: 8px;
+  border-top: 1px solid rgba(0, 0, 0, 0.12); }
 
 .checkbox__input:not(:checked) + .checkbox__label:before {
   -webkit-transform: scale(1);
@@ -7063,6 +7041,20 @@ html {
 .list-subheader--is-pushed {
   margin-left: 56px; }
 
+.media {
+  display: block; }
+  .media::after {
+    clear: both;
+    content: "";
+    display: table; }
+
+.media__img {
+  float: left; }
+
+.media__body {
+  display: block;
+  overflow: hidden; }
+
 .notification {
   position: fixed;
   right: 24px;
@@ -9418,3 +9410,4 @@ body {
 
 .hljs-chunk {
   color: #aaa; }
+
