@@ -88,8 +88,7 @@
     .radio-button__help {
         display: block;
         padding-left: $base-spacing-unit * 4;
-        @include font-size(12px);
-        font-weight: 300;
+        @extend %fs-caption;
         color: $black-2;
         text-align: left;
     }

@@ -411,7 +411,9 @@ html {
   -webkit-font-smoothing: antialiased; }
 
 .fs-caption,
-.checkbox__help {
+.checkbox__help,
+.radio-button__help,
+.switch__help {
   font-size: 12px;
   font-size: 0.75rem;
   font-weight: 400;
@@ -7461,9 +7463,6 @@ img[height] {
 .radio-button__help {
   display: block;
   padding-left: 32px;
-  font-size: 12px;
-  font-size: 0.75rem;
-  font-weight: 300;
   color: rgba(0, 0, 0, 0.54);
   text-align: left; }
 
@@ -7903,9 +7902,6 @@ img[height] {
 .switch__help {
   display: block;
   padding-left: 45px;
-  font-size: 12px;
-  font-size: 0.75rem;
-  font-weight: 300;
   color: rgba(0, 0, 0, 0.54);
   text-align: left; }
 

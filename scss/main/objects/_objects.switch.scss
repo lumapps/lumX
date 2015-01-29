@@ -85,8 +85,7 @@
     .switch__help {
         display: block;
         padding-left: 45px;
-        @include font-size(12px);
-        font-weight: 300;
+        @extend %fs-caption;
         color: $black-2;
         text-align: left;
     }
