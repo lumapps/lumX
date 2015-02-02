@@ -34,7 +34,10 @@
 
 
 // Feature
-.feature {}
+.feature {
+	padding: $base-spacing-unit * 2;
+	@include z-depth(1);
+}
 
 	// Feature picture Box
 	.feature__picture-box {

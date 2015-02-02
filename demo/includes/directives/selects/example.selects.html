@@ -1,5 +1,5 @@
-<div class="grid">
-    <div class="grid__col4">
+<div flex-container="row" flex-gutter="24">
+    <div flex-item>
         <lx-select ng-model="selects.selectedPerson" placeholder="Lorem Ipsum" choices="people" floating-label>
             <lx-select-selected>
                 {{ $selected.name }} - {{ $selected.age }}
@@ -11,7 +11,7 @@
         </lx-select>
     </div>
 
-    <div class="grid__col4">
+    <div flex-item>
         <lx-select ng-model="ajax.selected" change="cbSelect.exec(newValue, oldValue)" placeholder="Lorem Ipsum"
                    choices="ajax.list"  filter="ajax.update(newValue, oldValue)" loading="{{ ajax.loading }}"
                    min-length="2" allow-clear="true" selection-to-model="ajax.toModel(data, callback)"
@@ -27,7 +27,7 @@
         <button class="btn btn--m btn--blue btn--raised" ng-click="ajax.selected = 'Inception'" lx-ripple>Set to 'Inception'</button>
     </div>
 
-    <div class="grid__col4">
+    <div flex-item>
         <lx-select ng-model="selects.selectedPersons" placeholder="Lorem Ipsum" choices="people" multiple floating-label>
             <lx-select-selected>
                 {{ $selected.name }} - {{ $selected.age }}

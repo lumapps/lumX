@@ -116,12 +116,16 @@
 
 
 // Flex item
-@for $i from 0 through 12 {
+[flex-item] {
+	@include flex(1);
+}
+
+@for $i from 1 through 12 {
 	[flex-item="#{$i}"] {
 		@include flex($i);
 	}
 
-	[flex-item-order="#{$i}"] {
+	[flex-order="#{$i}"] {
 		@include order($i);
 	}
 }
