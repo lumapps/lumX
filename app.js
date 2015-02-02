@@ -27,6 +27,9 @@ app.config(function($locationProvider, $routeProvider)
         when('/css/mixins', {
             templateUrl: '/demo/includes/css/mixins.html'
         }).
+        when('/css/flexbox', {
+            templateUrl: '/demo/includes/css/flexbox.html'
+        }).
         when('/css/typography', {
             templateUrl: '/demo/includes/css/typography.html'
         }).
