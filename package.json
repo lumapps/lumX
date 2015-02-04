@@ -5,8 +5,9 @@
   "main": "gulpfile.js",
   "dependencies": {},
   "devDependencies": {
+    "del": "^1.1.1",
     "event-stream": "^3.1.7",
-    "gulp": "^3.8.7",
+    "gulp": "^3.8.10",
     "gulp-cached": "^1.0.1",
     "gulp-concat": "^2.3.4",
     "gulp-insert": "^0.4.0",
@@ -18,7 +19,6 @@
     "gulp-remove-lines": "~0.1.0",
     "gulp-rename": "^1.2.0",
     "gulp-replace": "^0.4.0",
-    "gulp-rimraf": "^0.1.0",
     "gulp-ruby-sass": "^0.7.1",
     "gulp-templatecache": "0.0.3",
     "gulp-uglify": "^1.0.0",

@@ -30,14 +30,14 @@
     .colors__title {
         @include position(absolute, $base-spacing-unit * 2 null null $base-spacing-unit * 2);
         @include font-size(18px);
-        font-weight: 600;
+        font-weight: 500;
         color: $white;
     }
 
     // Colors variable
     .colors__variable {
         @include font-size(14px);
-        font-weight: 600;
+        font-weight: 500;
         color: $white;
     }
 
