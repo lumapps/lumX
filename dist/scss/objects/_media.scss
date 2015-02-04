@@ -1,0 +1,23 @@
+///*------------------------------------*\
+//    #OBJECTS-MEDIA
+//\*------------------------------------*/
+
+// Media base styles
+.media,
+%media {
+    display: block;
+    @include clearfix;
+}
+    
+    // Media image
+    .media__img,
+    %media__img {
+        float: left;
+    }
+
+    // Media body
+    .media__body,
+    %media__body {
+        display: block;
+        overflow: hidden;
+    }
