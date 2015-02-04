@@ -256,7 +256,7 @@ gulp.task('dist:scripts', ['tpl:dropdown', 'tpl:file-input', 'tpl:text-field', '
 
 gulp.task('watch', ['build'], function()
 {
-    watcherWithCache('lint', paths.scripts, ['lint']);
+    watcherWithCache('lint', paths.js, ['lint']);
     watcherWithCache('scss', [paths.scss, 'demo/scss/**/*.scss'], ['scss']);
     watcherWithCache('demo', paths.demo, ['demo']);
     watcherWithCache('examples', paths.examples, ['examples']);
