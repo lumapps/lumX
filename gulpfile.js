@@ -254,7 +254,7 @@ gulp.task('dist:scripts', ['tpl:dropdown', 'tpl:file-input', 'tpl:text-field', '
         .pipe(gulp.dest('dist'));
 });
 
-gulp.task('watch', ['lint', 'scss', 'demo', 'examples', 'libs', 'tpl:dropdown', 'tpl:file-input', 'tpl:text-field', 'tpl:search-filter', 'tpl:select', 'tpl:tabs', 'tpl:date-picker'], function()
+gulp.task('watch', ['build'], function()
 {
     watcherWithCache('lint', paths.scripts, ['lint']);
     watcherWithCache('scss', [paths.scss, 'demo/scss/**/*.scss'], ['scss']);
@@ -272,6 +272,7 @@ gulp.task('watch', ['lint', 'scss', 'demo', 'examples', 'libs', 'tpl:dropdown', 
 
 gulp.task('clean', ['clean:build', 'clean:dist']);
 
+gulp.task('build', ['lint', 'scss', 'demo', 'examples', 'libs', 'tpl:dropdown', 'tpl:file-input', 'tpl:text-field', 'tpl:search-filter', 'tpl:select', 'tpl:tabs', 'tpl:date-picker']);
 gulp.task('dist', ['clean:dist'], function()
 {
    gulp.start('dist:css');
