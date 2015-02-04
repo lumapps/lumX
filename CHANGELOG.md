@@ -1,5 +1,23 @@
 # Changelog
 
+## v0.3.0:
+
+#### New features:
+ - flexbox: replace grid system by flexbox
+
+#### Breaking changes:
+ - Form error has been deleted
+ - Icons have changed. Please checkout documentation
+ - New paths in the dist folder: dist/lumx.css, dist/lumx.js, dist/lumx.min.js, dist/scss/_lumx.scss
+ - grid system is removed in favor of flexbox
+
+
+## v0.2.54:
+
+#### Bug fixes:
+ - thumbnail: add thumbnail class
+
+
 ## v0.2.53:
 
 #### Bug fixes:
