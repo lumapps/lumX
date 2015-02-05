@@ -1,0 +1,131 @@
+///*------------------------------------*\
+//    #OBJECTS-FLEXBOX
+//\*------------------------------------*/
+
+// Flex container
+[flex-container] {
+	@include display(flex);
+}
+
+[flex-container=row] {
+	@include flex-direction(row);
+}
+
+[flex-container=column] {
+	@include flex-direction(column);
+}
+
+
+
+
+
+// Alignment
+// Main Axis
+// center, start, end, space-between, space-around
+
+// Main Axis Center
+[flex-align="center"], //stretch
+[flex-align="center center"],
+[flex-align="center start"],
+[flex-align="center end"] {
+	@include justify-content(center);
+}
+
+// Main Axis End
+[flex-align="end"], //stretch
+[flex-align="end center"],
+[flex-align="end start"],
+[flex-align="end end"] {
+	@include justify-content(flex-end);
+}
+
+// Main Axis Space Around
+[flex-align="space-around"], //stretch
+[flex-align="space-around center"],
+[flex-align="space-around start"],
+[flex-align="space-around end"] {
+	@include justify-content(space-around);
+}
+
+// Main Axis Space Between
+[flex-align="space-between"], //stretch
+[flex-align="space-between center"],
+[flex-align="space-between start"],
+[flex-align="space-between end"] {
+	@include justify-content(space-between);
+}
+
+
+// Cross Axis
+// center, start, end
+
+// Cross Axis Center
+[flex-align="center center"],
+[flex-align="start center"],
+[flex-align="end center"],
+[flex-align="space-between center"],
+[flex-align="space-around center"] {
+	@include align-items(center);
+}
+
+// Cross Axis Start
+[flex-align="center start"],
+[flex-align="start start"],
+[flex-align="end start"],
+[flex-align="space-between start"],
+[flex-align="space-around start"] {
+	@include align-items(flex-start);
+}
+
+// Cross Axis End
+[flex-align="center end"],
+[flex-align="start end"],
+[flex-align="end end"],
+[flex-align="space-between end"],
+[flex-align="space-around end"] {
+	@include align-items(flex-end);
+}
+
+
+
+
+
+// Grid system
+[flex-gutter] > [flex-item]:last-child {
+	margin-right: 0 !important;
+}
+
+[flex-gutter="8"] > [flex-item] {
+	margin-right: $base-spacing-unit;
+}
+
+[flex-gutter="16"] > [flex-item] {
+	margin-right: $base-spacing-unit * 2;
+}
+
+[flex-gutter="24"] > [flex-item] {
+	margin-right: $base-spacing-unit * 3;
+}
+
+[flex-gutter="32"] > [flex-item] {
+	margin-right: $base-spacing-unit * 4;
+}
+
+
+
+
+
+// Flex item
+[flex-item] {
+	@include flex(1);
+}
+
+@for $i from 1 through 12 {
+	[flex-item="#{$i}"] {
+		@include flex($i);
+	}
+
+	[flex-order="#{$i}"] {
+		@include order($i);
+	}
+}
