@@ -191,24 +191,30 @@
     }
 
     .lx-date-picker__year {
-        a {
+        display: block;
+        cursor: pointer;
+
+        span {
             display: block;
             @include size(65px);
             margin: 0 auto;
             border-radius: 50%;
-            cursor: pointer;
-            @include font-size(20px);
-            color: $teal-700;
+            @include font-size(16px);
             line-height: 65px;
             text-align: center;
         }
     }
 
-    .lx-date-picker__year--is-active,
     .lx-date-picker__year:hover {
-        a {
+        span {
+            color: $teal-700;
+        }
+    }
+
+    .lx-date-picker__year--is-active {
+        span {
             background-color: $teal-500;
-            color: $white-1;
+            color: $white-1 !important;
         }
     }
 

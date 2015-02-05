@@ -54,13 +54,13 @@
 
         <!-- Year selection -->
         <div class="lx-date-picker__year-selector" ng-show="yearSelection">
-            <div class="lx-date-picker__year"
+            <a class="lx-date-picker__year"
                  ng-class="{ 'lx-date-picker__year--is-active': year == activeDate.format('YYYY') }"
                  ng-repeat="year in years"
                  ng-click="selectYear(year)"
                  ng-if="yearSelection">
-                <a>{{ year }}</a>
-            </div>
+                <span>{{ year }}</span>
+            </a>
         </div>
 
         <!-- Actions -->
