@@ -6,65 +6,68 @@
 angular.module('lumx.date-picker', [])
     .controller('lxDatePickerController', ['$scope', '$timeout', '$window', function($scope, $timeout, $window)
     {
-        var locale = $window.navigator.language !== null ? $window.navigator.language : $window.navigator.browserLanguage,
-            $element,
-            $dateFilter,
-            $datePicker;
+        moment.locale($scope.locale);
+
+        var $datePicker,
+            $datePickerFilter,
+            $datePickerContainer;
 
         this.init = function(element)
         {
-            $scope.selectedDate = {
-                date: undefined,
-                formatted: undefined
-            };
-
-            $element = element;
             $datePicker = element.find('.lx-date-picker');
+            $datePickerContainer = element;
 
-            $scope.currentDate = moment(new Date());
-            $scope.localeData = moment().locale(locale).localeData();
-            $scope.now = moment().locale(locale);
-            $scope.month = $scope.month || moment().locale(locale).startOf('day');
+            if (angular.isDefined($scope.model))
+            {
+                $scope.selected = {
+                    model: moment($scope.model).format('LL'),
+                    date: $scope.model
+                };
+
+                $scope.activeDate = moment($scope.model);
+            }
+            else
+            {
+                $scope.selected = {
+                    model: undefined,
+                    date: new Date()
+                };
+
+                $scope.activeDate = moment();
+            }
+
+            $scope.moment = moment;
+
             $scope.days = [];
-            $scope.daysOfWeek = [$scope.localeData._weekdaysMin[1], $scope.localeData._weekdaysMin[2], $scope.localeData._weekdaysMin[3], $scope.localeData._weekdaysMin[4], $scope.localeData._weekdaysMin[5], $scope.localeData._weekdaysMin[6], $scope.localeData._weekdaysMin[0]];
+            $scope.daysOfWeek = [moment.weekdaysMin(1), moment.weekdaysMin(2), moment.weekdaysMin(3), moment.weekdaysMin(4), moment.weekdaysMin(5), moment.weekdaysMin(6), moment.weekdaysMin(0)];
+                
+            $scope.years = [];
+
+            for (var y = moment().year() - 100; y <= moment().year() + 100; y++)
+            {
+                $scope.years.push(y);
+            }
 
             generateCalendar();
         };
 
-        this.updateModel = function(val)
-        {
-            if (angular.isDefined(val)) {
-                $scope.selectedDate = {
-                    date: moment(val).locale(locale),
-                    formatted: moment(val).locale(locale).format('LL')
-                };
-            }
-            else
-            {
-                $scope.selectedDate = {
-                    date: undefined,
-                    formatted: undefined
-                };
-            }
-        };
-
         $scope.previousMonth = function()
         {
-            $scope.month = $scope.month.subtract(1, 'month');
+            $scope.activeDate = $scope.activeDate.subtract(1, 'month');
             generateCalendar();
         };
 
         $scope.nextMonth = function()
         {
-            $scope.month = $scope.month.add(1, 'month');
+            $scope.activeDate = $scope.activeDate.add(1, 'month');
             generateCalendar();
         };
 
         $scope.select = function(day)
         {
-            $scope.selectedDate = {
-                date: moment(day).locale(locale),
-                formatted: moment(day).locale(locale).format('LL')
+            $scope.selected = {
+                model: day.format('LL'),
+                date: day.toDate()
             };
 
             $scope.model = day.toDate();
@@ -72,13 +75,27 @@ angular.module('lumx.date-picker', [])
             generateCalendar();
         };
 
+        $scope.selectYear = function(year)
+        {
+            $scope.yearSelection = false;
+
+            $scope.selected.model = moment($scope.selected.date).year(year).format('LL');
+            $scope.selected.date = moment($scope.selected.date).year(year).toDate();
+            $scope.model = moment($scope.selected.date).toDate();
+            $scope.activeDate = $scope.activeDate.add(year - $scope.activeDate.year(), 'year');
+
+            generateCalendar();
+        };
+
         $scope.openPicker = function()
         {
-            $dateFilter = angular.element('<div/>', {
+            $scope.yearSelection = false;
+
+            $datePickerFilter = angular.element('<div/>', {
                 class: 'lx-date-filter'
             });
 
-            $dateFilter
+            $datePickerFilter
                 .appendTo('body')
                 .bind('click', function()
                 {
@@ -91,33 +108,50 @@ angular.module('lumx.date-picker', [])
 
             $timeout(function()
             {
-                $dateFilter.addClass('lx-date-filter--is-shown');
+                $datePickerFilter.addClass('lx-date-filter--is-shown');
                 $datePicker.addClass('lx-date-picker--is-shown');
             }, 100);
         };
 
         $scope.closePicker = function()
         {
-            $dateFilter.removeClass('lx-date-filter--is-shown');
+            $datePickerFilter.removeClass('lx-date-filter--is-shown');
             $datePicker.removeClass('lx-date-picker--is-shown');
 
             $timeout(function()
             {
-                $dateFilter.remove();
+                $datePickerFilter.remove();
 
                 $datePicker
                     .hide()
-                    .appendTo($element);
+                    .appendTo($datePickerContainer);
             }, 600);
+        };
+
+        $scope.displayYearSelection = function()
+        {
+            var calendarHeight = angular.element('.lx-date-picker__calendar').outerHeight(),
+                $yearSelector = angular.element('.lx-date-picker__year-selector');
+
+            $yearSelector.css({ height: calendarHeight });
+
+            $scope.yearSelection = true;
+            
+            $timeout(function()
+            {
+                var $activeYear = angular.element('.lx-date-picker__year--is-active');
+
+                $yearSelector.scrollTop($yearSelector.scrollTop() + $activeYear.position().top - $yearSelector.height()/2 + $activeYear.height()/2);
+            });
         };
 
         function generateCalendar()
         {
-            var previousDay = moment($scope.month).locale(locale).date(0),
-                firstDayOfMonth = moment($scope.month).locale(locale).date(1),
-                days = [],
-                lastDayOfMonth = moment(firstDayOfMonth).locale(locale).endOf('month'),
-                maxDays = lastDayOfMonth.date();
+            var days = [],
+                previousDay = angular.copy($scope.activeDate).date(0),
+                firstDayOfMonth = angular.copy($scope.activeDate).date(1),
+                lastDayOfMonth = angular.copy(firstDayOfMonth).endOf('month'),
+                maxDays = angular.copy(lastDayOfMonth).date();
 
             $scope.emptyFirstDays = [];
 
@@ -128,9 +162,11 @@ angular.module('lumx.date-picker', [])
 
             for (var j = 0; j < maxDays; j++)
             {
-                var date = moment(previousDay.add(1, 'days')).locale(locale);
-                date.selected = date.isSame($scope.selectedDate.date, 'day') && angular.isDefined($scope.selectedDate.date);
-                date.today = date.isSame($scope.now, 'day');
+                var date = angular.copy(previousDay.add(1, 'days'));
+
+                date.selected = angular.isDefined($scope.selected.model) && date.isSame($scope.selected.date, 'day');
+                date.today = date.isSame(moment(), 'day');
+
                 days.push(date);
             }
 
@@ -151,16 +187,13 @@ angular.module('lumx.date-picker', [])
             controller: 'lxDatePickerController',
             scope: {
                 model: '=',
-                label: '@'
+                label: '@',
+                locale: '@'
             },
             templateUrl: 'date-picker.html',
             link: function(scope, element, attrs, ctrl)
             {
                 ctrl.init(element);
-                scope.$watch('model', function (newVal)
-                {
-                    ctrl.updateModel(newVal);
-                });
             }
         };
     });
