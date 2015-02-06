@@ -1,21 +1,36 @@
 /* global angular */
 /* global moment */
+/* global navigator */
 'use strict'; // jshint ignore:line
 
 
 angular.module('lumx.date-picker', [])
     .controller('lxDatePickerController', ['$scope', '$timeout', '$window', function($scope, $timeout, $window)
     {
-        moment.locale($scope.locale);
-
-        var $datePicker,
+        var self = this,
+            activeLocale,
+            $datePicker,
             $datePickerFilter,
             $datePickerContainer;
 
-        this.init = function(element)
+        this.init = function(element, locale)
         {
             $datePicker = element.find('.lx-date-picker');
             $datePickerContainer = element;
+
+            self.build(locale);
+        };
+
+        this.build = function(locale)
+        {
+            if (locale === activeLocale)
+            {
+                return;
+            }
+
+            activeLocale = locale;
+
+            moment.locale(activeLocale);
 
             if (angular.isDefined($scope.model))
             {
@@ -187,13 +202,27 @@ angular.module('lumx.date-picker', [])
             controller: 'lxDatePickerController',
             scope: {
                 model: '=',
-                label: '@',
-                locale: '@'
+                label: '@'
             },
             templateUrl: 'date-picker.html',
             link: function(scope, element, attrs, ctrl)
             {
-                ctrl.init(element);
+                ctrl.init(element, checkLocale(attrs.locale));
+
+                attrs.$observe('locale', function()
+                {
+                    ctrl.build(checkLocale(attrs.locale));
+                });
+
+                function checkLocale(locale)
+                {
+                    if (!locale)
+                    {
+                        return (navigator.language !== null ? navigator.language : navigator.browserLanguage).split("_")[0].split("-")[0] || 'en';
+                    }
+
+                    return locale;
+                }
             }
         };
     });
