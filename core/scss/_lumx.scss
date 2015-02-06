@@ -17,8 +17,10 @@
 @import "generic/reset";
 
 @import "base/page";
-@import "base/typography";
 @import "base/images";
+@import "base/paragraph";
+@import "base/typography";
+@import "base/colors";
 
 @import "trumps/widths";
 @import "trumps/spacing";
@@ -29,9 +31,6 @@
 @import "animations/spin";
 
 @import "objects/bare-list";
-@import "objects/colors";
-@import "objects/media";
-@import "objects/paragraph";
 @import "objects/z-depth";
 
 @import "../../modules/button/scss/button";
