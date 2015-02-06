@@ -1,16 +1,16 @@
-<div class="sidebar-filter" ng-class="{ 'sidebar-filter--is-shown': SidebarService.isSidebarShown() }" ng-click="SidebarService.toggleSidebar()"></div>
+<div class="sidebar-filter" ng-class="{ 'sidebar-filter--is-shown': Sidebar.isSidebarShown() }" ng-click="Sidebar.toggleSidebar()"></div>
 
-<div class="sidebar" ng-class="{ 'sidebar--is-shown': SidebarService.isSidebarShown() }">
+<div class="sidebar" ng-class="{ 'sidebar--is-shown': Sidebar.isSidebarShown() }">
     <div class="sidebar-menu">
         <ul>
             <li>
-                <a href="/getting-started/installation" class="sidebar-menu__link" ng-click="SidebarService.toggleSidebar()">Installation</a>
+                <a href="/getting-started/installation" class="sidebar-menu__link" ng-click="Sidebar.toggleSidebar()">Installation</a>
             </li>
             <li>
-                <a href="/getting-started/customization" class="sidebar-menu__link" ng-click="SidebarService.toggleSidebar()">Customization</a>
+                <a href="/getting-started/customization" class="sidebar-menu__link" ng-click="Sidebar.toggleSidebar()">Customization</a>
             </li>
             <li>
-                <a href="/getting-started/contribute" class="sidebar-menu__link" ng-click="SidebarService.toggleSidebar()">Contribute</a>
+                <a href="/getting-started/contribute" class="sidebar-menu__link" ng-click="Sidebar.toggleSidebar()">Contribute</a>
             </li>
         </ul>
     </div>
