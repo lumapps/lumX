@@ -32,14 +32,14 @@ angular
             when('/css/mixins', {
                 templateUrl: '/includes/css/mixins.html'
             }).
-            when('/css/flexbox', {
-                templateUrl: '/includes/css/flexbox.html'
-            }).
             when('/css/typography', {
                 templateUrl: '/includes/css/typography.html'
             }).
             when('/css/colors', {
                 templateUrl: '/includes/css/colors.html'
+            }).
+            when('/css/flexbox', {
+                templateUrl: '/includes/modules/flexbox/flexbox.html'
             }).
             when('/css/buttons', {
                 templateUrl: '/includes/modules/button/button.html'
