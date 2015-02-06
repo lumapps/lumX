@@ -4,21 +4,21 @@
 
 // Flex container
 [flex-container] {
-	@include media-query(desk) {
-		@include display(flex);
-	}
+    @include media-query(desk) {
+        @include display(flex);
+    }
 }
 
-[flex-container=row] {
-	@include media-query(desk) {
-		@include flex-direction(row);
-	}
+[flex-container="row"] {
+    @include media-query(desk) {
+        @include flex-direction(row);
+    }
 }
 
-[flex-container=column] {
-	@include media-query(desk) {
-		@include flex-direction(column);
-	}
+[flex-container="column"] {
+    @include media-query(desk) {
+        @include flex-direction(column);
+    }
 }
 
 
@@ -34,9 +34,9 @@
 [flex-align="center center"],
 [flex-align="center start"],
 [flex-align="center end"] {
-	@include media-query(desk) {
-		@include justify-content(center);
-	}
+    @include media-query(desk) {
+        @include justify-content(center);
+    }
 }
 
 // Main Axis End
@@ -44,9 +44,9 @@
 [flex-align="end center"],
 [flex-align="end start"],
 [flex-align="end end"] {
-	@include media-query(desk) {
-		@include justify-content(flex-end);
-	}
+    @include media-query(desk) {
+        @include justify-content(flex-end);
+    }
 }
 
 // Main Axis Space Around
@@ -54,9 +54,9 @@
 [flex-align="space-around center"],
 [flex-align="space-around start"],
 [flex-align="space-around end"] {
-	@include media-query(desk) {
-		@include justify-content(space-around);
-	}
+    @include media-query(desk) {
+        @include justify-content(space-around);
+    }
 }
 
 // Main Axis Space Between
@@ -64,9 +64,9 @@
 [flex-align="space-between center"],
 [flex-align="space-between start"],
 [flex-align="space-between end"] {
-	@include media-query(desk) {
-		@include justify-content(space-between);
-	}
+    @include media-query(desk) {
+        @include justify-content(space-between);
+    }
 }
 
 
@@ -79,9 +79,9 @@
 [flex-align="end center"],
 [flex-align="space-between center"],
 [flex-align="space-around center"] {
-	@include media-query(desk) {
-		@include align-items(center);
-	}
+    @include media-query(desk) {
+        @include align-items(center);
+    }
 }
 
 // Cross Axis Start
@@ -90,9 +90,9 @@
 [flex-align="end start"],
 [flex-align="space-between start"],
 [flex-align="space-around start"] {
-	@include media-query(desk) {
-		@include align-items(flex-start);
-	}
+    @include media-query(desk) {
+        @include align-items(flex-start);
+    }
 }
 
 // Cross Axis End
@@ -101,9 +101,9 @@
 [flex-align="end end"],
 [flex-align="space-between end"],
 [flex-align="space-around end"] {
-	@include media-query(desk) {
-		@include align-items(flex-end);
-	}
+    @include media-query(desk) {
+        @include align-items(flex-end);
+    }
 }
 
 
@@ -111,54 +111,68 @@
 
 
 // Grid system
-[flex-gutter] > [flex-item]:last-child {
-	@include media-query(portable) {
-		margin-bottom: 0 !important;
-	}
+[flex-gutter="8"] {
+    @include media-query(desk) {
+        margin: 0 ($base-spacing-unit / 2) * -1;
+    }
 
-	@include media-query(desk) {
-		margin-right: 0 !important;
-	}
+    & > [flex-item] {
+        @include media-query(portable) {
+            margin-bottom: $base-spacing-unit;
+        }
+
+        @include media-query(desk) {
+            padding: 0 $base-spacing-unit / 2;
+        }
+    }
 }
 
-[flex-gutter="8"] > [flex-item] {
-	@include media-query(portable) {
-		margin-bottom: $base-spacing-unit;
-	}
+[flex-gutter="16"] {
+    @include media-query(desk) {
+        margin: 0 $base-spacing-unit * -1;
+    }
 
-	@include media-query(desk) {
-		margin-right: $base-spacing-unit;
-	}
+    & > [flex-item] {
+        @include media-query(portable) {
+            margin-bottom: $base-spacing-unit * 2;
+        }
+
+        @include media-query(desk) {
+            padding: 0 $base-spacing-unit;
+        }
+    }
 }
 
-[flex-gutter="16"] > [flex-item] {
-	@include media-query(portable) {
-		margin-bottom: $base-spacing-unit * 2;
-	}
+[flex-gutter="24"] {
+    @include media-query(desk) {
+        margin: 0 ($base-spacing-unit * 1.5) * -1;
+    }
 
-	@include media-query(desk) {
-		margin-right: $base-spacing-unit * 2;
-	}
+    & > [flex-item] {
+        @include media-query(portable) {
+            margin-bottom: $base-spacing-unit * 3;
+        }
+
+        @include media-query(desk) {
+            padding: 0 $base-spacing-unit * 1.5;
+        }
+    }
 }
 
-[flex-gutter="24"] > [flex-item] {
-	@include media-query(portable) {
-		margin-bottom: $base-spacing-unit * 3;
-	}
+[flex-gutter="32"] {
+    @include media-query(desk) {
+        margin: 0 ($base-spacing-unit * 2) * -1;
+    }
 
-	@include media-query(desk) {
-		margin-right: $base-spacing-unit * 3;
-	}
-}
+    & > [flex-item] {
+        @include media-query(portable) {
+            margin-bottom: $base-spacing-unit * 4;
+        }
 
-[flex-gutter="32"] > [flex-item] {
-	@include media-query(portable) {
-		margin-bottom: $base-spacing-unit * 4;
-	}
-
-	@include media-query(desk) {
-		margin-right: $base-spacing-unit * 4;
-	}
+        @include media-query(desk) {
+            padding: 0 $base-spacing-unit * 2;
+        }
+    }
 }
 
 
@@ -167,21 +181,30 @@
 
 // Flex item
 [flex-item] {
-	@include media-query(desk) {
-		@include flex(1);
-	}
+    @include media-query(desk) {
+        position: relative;
+        @include flex(1);
+    }
 }
 
 @for $i from 1 through 12 {
-	[flex-item="#{$i}"] {
-		@include media-query(desk) {
-			@include flex($i);
-		}
-	}
+    [flex-container="row"] > [flex-item="#{$i}"] {
+        @include media-query(desk) {
+            flex: 0 0 #{(100 / 12) * $i + '%'};
+            max-width: #{(100 / 12) * $i + '%'};
+        }
+    }
 
-	[flex-order="#{$i}"] {
-		@include media-query(desk) {
-			@include order($i);
-		}
-	}
+    [flex-container="column"] > [flex-item="#{$i}"] {
+        @include media-query(desk) {
+            flex: 0 0 #{(100 / 12) * $i + '%'};
+            max-height: #{(100 / 12) * $i + '%'};
+        }
+    }
+
+    [flex-order="#{$i}"] {
+        @include media-query(desk) {
+            @include order($i);
+        }
+    }
 }
