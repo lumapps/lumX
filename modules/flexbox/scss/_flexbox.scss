@@ -201,8 +201,38 @@
             max-height: #{(100 / 12) * $i + '%'};
         }
     }
+}
 
-    [flex-order="#{$i}"] {
+
+
+
+
+// Flex item align
+[flex-item-align="center"] {
+    @include media-query(desk) {
+        @include align-self(center);
+    }
+}
+
+[flex-item-align="start"] {
+    @include media-query(desk) {
+        @include align-self(flex-start);
+    }
+}
+
+[flex-item-align="end"] {
+    @include media-query(desk) {
+        @include align-self(flex-end);
+    }
+}
+
+
+
+
+
+// Flex item order
+@for $i from 1 through 12 {
+    [flex-item-order="#{$i}"] {
         @include media-query(desk) {
             @include order($i);
         }
