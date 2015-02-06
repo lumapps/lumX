@@ -4,8 +4,9 @@
 
 // Toolbar base styles
 .toolbar {
+    @include display(flex);
+    @include flex-direction(row);
     padding: 0 $base-spacing-unit * 2;
-    @include clearfix;
 
     @include media-query(portable) {
         height: $base-spacing-unit * 7;
@@ -22,28 +23,19 @@
     
     // Toolbar left area
     .toolbar__left {
-        float: left;
-
-        .btn,
-        .dropdown,
-        .search-filter {
-            float: left;
-        }
+        @include display(flex);
+        @include flex-direction(row);
     }
 
     // Toolbar right area
     .toolbar__right {
-        float: right;
-
-        .btn,
-        .dropdown,
-        .search-filter {
-            float: right;
-        }
+        @include display(flex);
+        @include flex-direction(row);
+        @include justify-content(flex-end);
     }
 
     // Toolbar label
     .toolbar__label {
-        float: left;
+        @include flex(1);
         line-height: $size-l;
     }
