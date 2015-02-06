@@ -13,8 +13,8 @@
   ],
   "license": "MIT",
   "main": [
-    "dist/css/lumx.css",
-    "dist/js/lumx.js"
+    "dist/lumx.css",
+    "dist/lumx.js"
   ],
   "repository": {
     "type": "git",
