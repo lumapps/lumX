@@ -10,7 +10,7 @@
 
         <!-- ng-repeat is used to manage the initialization of the $select even for non-multiple selects -->
         <div ng-repeat="$selected in getSelectedElements()" ng-if="!multiple">
-            <i class="lx-select__close mdi mdi--cancel" ng-click="unselect($selected, $event)" ng-if="allowClear"></i>
+            <i class="lx-select__close mdi mdi-close-circle" ng-click="unselect($selected, $event)" ng-if="allowClear"></i>
             <span ng-transclude="child"></span>
         </div>
 

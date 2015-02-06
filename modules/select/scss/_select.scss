@@ -73,7 +73,7 @@
     // Select close
     .lx-select__close {
         display: block;
-        @include position(absolute, null $base-spacing-unit * 3 null null);
+        @include position(absolute, $base-spacing-unit $base-spacing-unit * 3 null null);
         opacity: 0;
         line-height: $base-spacing-unit * 4;
         @include transition-property(opacity, color);
