@@ -1,5 +1,28 @@
 # Changelog
 
+## v0.3.3:
+
+#### Bug fixes:
+ - bower: new main files in the json
+
+
+## v0.3.2:
+
+#### New features:
+ - date picker: year selector and locale attr
+
+#### Bug fixes:
+ - date picker: enhance year selector style
+ - data table: smooth scroll on mobile
+ - gulp file: watch right js path
+
+
+## v0.3.1:
+
+#### Bug fixes:
+ - icons: fix icons code after icons lib update
+
+
 ## v0.3.0:
 
 #### New features:
