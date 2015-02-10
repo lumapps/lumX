@@ -27,7 +27,6 @@
     }
 
     & > thead > tr > th {
-        border-bottom: 1px solid $black-4;
         font-weight: 400;
         text-align: left;
     }
@@ -39,10 +38,6 @@
         width: ($base-spacing-unit * 8) + $size-l;
         padding-left: $base-spacing-unit * 4;
         padding-right: $base-spacing-unit * 4;
-    }
-
-    & > thead > tr > th:first-child {
-        border-bottom: none;
     }
 
     & > tbody > tr > td:first-child {
