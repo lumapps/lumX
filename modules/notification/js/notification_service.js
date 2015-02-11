@@ -26,26 +26,20 @@ angular.module('lumx.notification', [])
         // private
         function moveNotificationUp()
         {
-            for (var idx in notificationList)
+            var newNotifIndex = notificationList.length - 1;
+            notificationList[newNotifIndex].height = getElementHeight(notificationList[newNotifIndex].elem[0]);
+            
+            var upOffset = 0;
+            
+            for (var idx = newNotifIndex; idx >= 0; idx--)
             {
-                var intIdx = parseInt(idx);
-
-                if (angular.isUndefined(notificationList[idx].height))
+                if (notificationList.length > 1 && idx !== newNotifIndex)
                 {
-                    notificationList[idx].height = getElementHeight(notificationList[idx].elem[0]);
+                    upOffset = 24 + notificationList[newNotifIndex].height;
+                    
+                    notificationList[idx].margin += upOffset;
+                    notificationList[idx].elem.css('marginBottom', notificationList[idx].margin + 'px');
                 }
-
-                if (angular.isDefined(notificationList[intIdx + 1]))
-                {
-                    if (angular.isUndefined(notificationList[intIdx + 1].height))
-                    {
-                        notificationList[intIdx + 1].height = getElementHeight(notificationList[intIdx + 1].elem[0]);
-                    }
-
-                    notificationList[idx].margin += 24 + notificationList[intIdx + 1].height;
-                }
-
-                notificationList[idx].elem.css('marginBottom', notificationList[idx].margin + 'px');
             }
         }
 
@@ -53,12 +47,14 @@ angular.module('lumx.notification', [])
         function deleteNotification(notification)
         {
             var notifIndex = notificationList.indexOf(notification);
+            
+            var dnOffset = 24 + notificationList[notifIndex].height;
 
-            for (var idx = 0; idx < notificationList.length && idx < notifIndex; idx++)
+            for (var idx = 0; idx < notifIndex; idx++)
             {
-                if (angular.isDefined(notificationList[idx + 1]))
+                if (notificationList.length > 1)
                 {
-                    notificationList[idx].margin -= 24 + notificationList[idx + 1].height;
+                    notificationList[idx].margin -= dnOffset;
                     notificationList[idx].elem.css('marginBottom', notificationList[idx].margin + 'px');
                 }
             }
