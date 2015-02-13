@@ -160,14 +160,13 @@
     // Text field input
     .text-field__input {
         display: block;
-        @include size(100% $base-spacing-unit * 4);
+        width: 100%;
         margin: 0;
         padding: 0;
         border: none;
         overflow: hidden;
         resize: none;
         font-weight: 400;
-        line-height: 32px;
         cursor: text;
         background-color: transparent;
         @include appearance(none);
@@ -179,6 +178,16 @@
         .text-field--dark-theme & {
             color: $white;
         }
+    }
+
+    input.text-field__input {
+        height: 32px;
+        line-height: 32px;
+    }
+
+    textarea.text-field__input {
+        height: 24px;
+        margin: 4px 0;
     }
 
     // Text field icon

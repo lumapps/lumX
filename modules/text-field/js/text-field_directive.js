@@ -57,20 +57,27 @@ angular.module('lumx.text-field', [])
                     scope.$apply();
                 }
 
+                function updateTextareaHeight()
+                {
+                    $timeout(function()
+                    {
+                        $field
+                            .removeAttr('style')
+                            .css({ height: $field[0].scrollHeight + 'px' });
+                    });
+                }
+
                 transclude(function()
                 {
                     $field = element.find('textarea');
 
                     if ($field[0])
                     {
+                        updateTextareaHeight();
+
                         $field.on('cut paste drop keydown', function()
                         {
-                            $timeout(function()
-                            {
-                                $field
-                                    .removeAttr('style')
-                                    .css({ height: $field[0].scrollHeight + 'px' });
-                            });
+                            updateTextareaHeight();
                         });
                     }
                     else

@@ -45,7 +45,9 @@
 
 <div flex-container="row">
     <div flex-item>
-        <lx-text-field label="Description" type="area" model="textFields.description">
+        <span class="display-block">{{ textFields.description }}</span>
+
+        <lx-text-field label="Description">
             <textarea ng-model="textFields.description"></textarea>
         </lx-text-field>
     </div>
@@ -142,7 +144,7 @@
 
     <div flex-container="row">
         <div flex-item>
-            <lx-text-field label="Description" type="area" model="textFields.description" theme="dark">
+            <lx-text-field label="Description" theme="dark">
                 <textarea ng-model="textFields.descriptionDark"></textarea>
             </lx-text-field>
         </div>
