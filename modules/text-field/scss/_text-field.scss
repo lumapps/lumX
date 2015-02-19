@@ -213,4 +213,8 @@
         .text-field--has-error & {
             color: $red-500;
         }
+
+        .text-field--is-valid & {
+            color: $green-500;
+        }
     }
