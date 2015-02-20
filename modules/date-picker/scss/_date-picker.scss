@@ -2,6 +2,38 @@
 //    #OBJECTS-DATE-PICKER
 //\*------------------------------------*/
 
+// Lx date base styles
+.lx-date {
+    position: relative;
+}
+
+.lx-date--fixed-label {
+
+    // Text field
+    .text-field {
+        padding-top: $base-spacing-unit;
+    }
+
+    .text-field--is-active {
+        .text-field__label {
+            display: none;
+        }
+    }
+
+        // Text field label
+        .text-field__label {
+            @include transform(none);
+        }
+}
+
+.lx-date--with-icon {
+    margin-left: $base-spacing-unit * 8;
+}
+
+
+
+
+
 // Date filter
 .lx-date-filter {
     @include position(fixed, 0 0 0 0);
