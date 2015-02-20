@@ -1,4 +1,10 @@
-<div class="lx-date">
+<div class="lx-date" ng-class="{ 'lx-date--fixed-label': fixedLabel(),
+                                 'lx-date--with-icon': icon && fixedLabel() }">
+
+    <div class="text-field__icon" ng-if="icon && fixedLabel() ">
+        <i class="mdi mdi-{{ icon }}"></i>
+    </div>
+
     <!-- Date picker input -->
     <lx-text-field class="lx-date-input" label="{{ label }}" ng-click="openPicker()">
         <input type="text" ng-model="selected.model" ng-disabled="true">

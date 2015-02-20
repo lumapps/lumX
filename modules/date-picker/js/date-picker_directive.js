@@ -202,7 +202,9 @@ angular.module('lumx.date-picker', [])
             controller: 'lxDatePickerController',
             scope: {
                 model: '=',
-                label: '@'
+                label: '@',
+                fixedLabel: '&',
+                icon: '@'
             },
             templateUrl: 'date-picker.html',
             link: function(scope, element, attrs, ctrl)
