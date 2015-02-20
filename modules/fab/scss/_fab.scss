@@ -10,7 +10,7 @@
 
     &:hover {
         .fab__primary .mdi {
-            &:first-child {
+            &:nth-of-type(1) {
                 @include transform(scale(0));
             }
 
@@ -80,11 +80,9 @@
 
     .fab__actions--left,
     .fab__actions--right {
-        white-space: nowrap;
-
-        .btn {
-            display: inline-block;
-        }
+        @include display(flex);
+        @include flex-direction(row);
+        @include flex-wrap(nowrap);
     }
 
     .fab__actions--up {
