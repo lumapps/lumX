@@ -160,4 +160,15 @@ angular.module('lumx.progress', [])
                 hide: hideLinear
             }
         };
-    }]);
+    }])
+    .directive('lxProgress', function()
+    {
+        return {
+            restrict: 'E',
+            scope: {
+                type: '@',
+                color: '@'
+            },
+            templateUrl: 'progress.html'
+        };
+    });

@@ -2,6 +2,12 @@
 //    #OBJECTS-PROGRESS
 //\*------------------------------------*/
 
+// Progress circular container
+.progress-circular-container {
+    position: relative;
+    height: 50px;
+}
+
 // Progress circular base styles
 .progress-circular {
     @include position(absolute, 50% null null 50%);
@@ -9,6 +15,10 @@
     @include size(100px);
     margin-top: -50px;
     margin-left: -50px;
+}
+
+.progress-circular--is-small {
+    @include transform(scale(0.5));
 }
 
 .progress-circular--is-shown {

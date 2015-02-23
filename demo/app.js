@@ -295,6 +295,13 @@ angular
             LxProgressService.circular.show('#5fa2db', '#progress');
         };
 
+        $scope.showSmallCircularProgress = false;
+
+        $scope.toggleSmallCircularProgress = function()
+        {
+            $scope.showSmallCircularProgress = !$scope.showSmallCircularProgress;
+        };
+
         $scope.hideCircularProgress = function()
         {
             LxProgressService.circular.hide();
