@@ -25,6 +25,15 @@
 
 
 
+// Flex wrap
+[flex-wrap] {
+    @include flex-wrap(wrap);
+}
+
+
+
+
+
 // Alignment
 // Main Axis
 // center, start, end, space-between, space-around
