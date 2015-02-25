@@ -1,5 +1,104 @@
 # Changelog
 
+## v0.3.15:
+
+#### Bug fixes:
+ - select: update icons unicode
+
+
+## v0.3.14:
+
+#### New features:
+ - flexbox: add flex-wrap attribute
+ - icons: add more size variants
+ - css core: add image rounded helper
+
+#### Bug fixes:
+ - radio: update unicode after in lib update
+ - checkbox: update unicode after in lib update
+
+#### Breaking changes:
+ - User should use typographic helpers to style content in content tile
+ - User should now use s flat icons in primary tile
+ - User should now use xs flat icons in secondary tile
+ - User must now use ‘img-round’ helper to apply circled effect on images
+ - in primary tile
+ - S size icons are now a little bit bigger in flat mode
+
+
+## v0.3.13:
+
+#### New features:
+ - progress: add circular progress directive
+
+
+## v0.3.12:
+
+#### New features:
+ - fab: click on fav and display flex
+ - date-picker: fixed label and icon features
+
+
+## v0.3.11:
+*No major changes.*
+
+
+## v0.3.10:
+
+#### Bug fixes:
+ - data table: add nowrap attribute to header
+
+
+## v0.3.9:
+
+#### Bug fixes:
+ - textarea: line height and height at init
+ - notification: applied correct position offset calculations on adding/removing notifications
+
+
+## v0.3.8:
+
+#### Bug fixes:
+ - data table: add divider instead of border
+
+
+## v0.3.7:
+
+#### New features:
+ - divider: add divider object
+
+#### Bug fixes:
+ - toolbar: align flex items in right area
+
+
+## v0.3.6:
+
+#### New features:
+ - date picker: observe locale attribute
+
+
+## v0.3.5:
+
+#### New features:
+ - flexbox: add flex align option
+
+#### Bug fixes:
+ - select: fix icons
+ - flexbox: use percents instead of integer flex
+
+#### Breaking changes:
+ - flex-order attribute is replaced by flex-item-order
+ - Buttons, dropdowns, etc were floated right into th right area. Now,
+ - with flexbox, user must invert order of elements in the DOM to be
+ - consistant.
+
+
+## v0.3.4:
+
+#### Bug fixes:
+ - flexbox: deal with responsive
+
+
 ## v0.3.3:
 
 #### Bug fixes:
