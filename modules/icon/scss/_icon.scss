@@ -2,6 +2,13 @@
 //    #OBJECTS-ICON
 //\*------------------------------------*/
 
+// Button vars
+$icon-font-size:   ('xs': 10px, 's': 12px, 'm': 14px, 'l': 18px, 'xl': 26px);
+
+
+
+
+
 // Icon base styles
 .icon {
     vertical-align: top;
@@ -13,29 +20,18 @@
 
 
 // Icon sizes
-.icon--s {
-    @include size($size-xs);
-    line-height: $size-xs !important;
+@each $key, $size in $sizes {
+    .icon--#{$key} {
+        @include size($size);
+        line-height: $size !important;
 
-    &.icon--circled {
-        @include font-size(10px);
-    }
+        &.icon--circled {
+            @include font-size(map-get($icon-font-size, $key));
+        }
 
-    &.icon--flat {
-        @include font-size(18px);
-    }
-}
-
-.icon--l {
-    @include size($size-l);
-    line-height: $size-l !important;
-
-    &.icon--circled {
-        @include font-size(18px);
-    }
-
-    &.icon--flat {
-        @include font-size(22px);
+        &.icon--flat {
+            @include font-size($size - 6);
+        }
     }
 }
 
