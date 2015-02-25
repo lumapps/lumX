@@ -40,18 +40,15 @@
     "release.py"
   ],
   "dependencies": {
-    "angular": "~1.3.11",
-    "jquery": "~2.1.3",
-    "velocity": "~1.2.1",
-    "moment": "~2.9.0",
-    "bourbon": "~4.1.1",
-    "mdi": "~0.8.9-alpha"
+    "angular": "latest",
+    "jquery": "latest",
+    "velocity": "latest",
+    "moment": "latest",
+    "bourbon": "latest",
+    "mdi": "latest"
   },
   "devDependencies": {
-    "angular-route": "~1.3.11",
-    "highlightjs": "~8.4.0"
-  },
-  "resolutions": {
-    "angular": "1.3.12"
+    "angular-route": "latest",
+    "highlightjs": "latest"
   }
 }
