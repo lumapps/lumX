@@ -37,7 +37,7 @@
 
         &:after {
             @include mdi;
-            content: '\f30b';
+            content: '\f325';
             @include position(absolute, null $base-spacing-unit $base-spacing-unit null);
             @include font-size(14px);
             color: $black-3;
@@ -128,12 +128,12 @@
         }
 
         &:before {
-            content: '\f1c5';
+            content: '\f1c8';
             @include transform(scale(1));
         }
 
         &:after {
-            content: '\f1ca';
+            content: '\f1c9';
             @include transform(scale(0));
             color: $teal-500;
         }
