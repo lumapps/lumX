@@ -187,7 +187,7 @@
 
     // Select filter
     .lx-select__filter {
-        padding: $base-spacing-unit;
+        padding: $base-spacing-unit / 4 $base-spacing-unit;
         margin-bottom: $base-spacing-unit;
         border-bottom: 1px solid $black-4;
     }
