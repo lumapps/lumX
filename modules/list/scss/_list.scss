@@ -47,12 +47,15 @@
 }
 
 .list-row--has-separator {
-    .list-row__content {
-        border-bottom: 1px solid $black-4;
+    .list-row__content:after {
+        content: '';
+        @include position(absolute, null 0 0 0);
+        height: 1px;
+        background-color: $black-4;
     }
 
-    &:last-child .list-row__content {
-        border-bottom: none;
+    &:last-child .list-row__content:after {
+        display: none;
     }
 }
 
