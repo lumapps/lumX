@@ -27,7 +27,9 @@
 
         <button class="btn btn--m btn--blue btn--raised mt" ng-click="ajax.selected = 'Inception'" lx-ripple>Set to 'Inception'</button>
     </div>
+</div>
 
+<div flex-container="row" flex-gutter="24">
     <div flex-item>
         <lx-select ng-model="selects.selectedPersons" placeholder="Lorem Ipsum" choices="people" multiple floating-label>
             <lx-select-selected>
@@ -36,6 +38,18 @@
 
             <lx-select-choices>
                 {{ $choice.email }}
+            </lx-select-choices>
+        </lx-select>
+    </div>
+
+    <div flex-item>
+        <lx-select ng-model="selects.selectedPersons2" placeholder="Lorem Ipsum" choices="selectSections" multiple floating-label>
+            <lx-select-selected>
+                {{ $selected.uid }} - {{ $selected.name }}
+            </lx-select-selected>
+
+            <lx-select-choices>
+                {{ $choice.name }}
             </lx-select-choices>
         </lx-select>
     </div>

@@ -161,6 +161,20 @@ angular
             { name: 'Adrian',    email: 'adrian@email.com',    age: 21 }
         ];
 
+        $scope.selectSections = {
+            'Sub header 1': [
+                { uid: '1', name: 'Adam' },
+                { uid: '2', name: 'Amalie' },
+                { uid: '3', name: 'Wladimir' },
+                { uid: '4', name: 'Samantha' }
+            ],
+            '<i class="mdi mdi-android"></i> Sub header 2': [
+                { uid: '5', name: 'Estefanía' },
+                { uid: '6', name: 'Natasha' },
+                { uid: '7', name: 'Nicole' }
+            ]
+        };
+
         $scope.ajax = {
             selected: 'Inception',
             list: [],
@@ -229,7 +243,8 @@ angular
 
         $scope.selects = {
             selectedPerson: undefined,
-            selectedPersons: [$scope.people[2], $scope.people[4]]
+            selectedPersons: [$scope.people[2], $scope.people[4]],
+            selectedPersons2: []
         };
 
         $scope.tree = [

@@ -17,7 +17,19 @@
             <span ng-if="hasNoResults() && !filterNeeded()">No results!</span>
         </li>
 
-        <li ng-repeat="$choice in choices() | filter:data.filter" ng-if="isChoicesVisible()">
+        <li ng-repeat="$choice in choices() | filter:data.filter" ng-if="isChoicesVisible() && isChoicesArray()">
+            <a class="lx-select__choice dropdown-link"
+               ng-class="{ 'lx-select__choice--is-multiple': multiple,
+                           'lx-select__choice--is-selected': isSelected($choice) }"
+               ng-click="toggle($choice, $event)"
+               ng-transclude="child"></a>
+        </li>
+
+        <li ng-repeat-start="($subheader, children) in choices()" ng-if="isChoicesVisible() && !isChoicesArray()">
+            <span class="dropdown-link dropdown-link--is-header" ng-bind-html="trust($subheader)"></span>
+        </li>
+
+        <li ng-repeat-end ng-repeat="$choice in children | filter:data.filter" ng-if="isChoicesVisible() && !isChoicesArray()">
             <a class="lx-select__choice dropdown-link"
                ng-class="{ 'lx-select__choice--is-multiple': multiple,
                            'lx-select__choice--is-selected': isSelected($choice) }"

@@ -1,39 +1,3 @@
-// Single select with ajax and change handler
-$scope.ajax = {
-    list: [],
-    update: function(newFilter, oldFilter)
-    {
-        if (newFilter)
-        {
-            $scope.ajax.loading = true;
-            $http.get('http://www.omdbapi.com/?s=' + escape(newFilter)).
-            success(function(data)
-            {
-                $scope.ajax.list = data.Search;
-                $scope.ajax.loading = false;
-            }).
-            error(function()
-            {
-                $scope.ajax.loading = false;
-            });
-        }
-        else
-        {
-            $scope.ajax.list = false;
-        }
-    },
-    loading: false
-};
-
-$scope.cbSelect = {
-    exec: function(){
-        LxNotificationService.notify('Change detected!');
-    }
-};
-
-$scope.selectedMovie = [];
-
-// Multiple select with local data
 $scope.people = [
     { name: 'Adam',      email: 'adam@email.com',      age: 10 },
     { name: 'Amalie',    email: 'amalie@email.com',    age: 12 },
@@ -45,4 +9,88 @@ $scope.people = [
     { name: 'Adrian',    email: 'adrian@email.com',    age: 21 }
 ];
 
-$scope.selectedPersons = [$scope.people[2], $scope.people[4]];
+$scope.selectSections = {
+    'Sub header 1': [
+        { uid: '1', name: 'Adam' },
+        { uid: '2', name: 'Amalie' },
+        { uid: '3', name: 'Wladimir' },
+        { uid: '4', name: 'Samantha' }
+    ],
+    '<i class="mdi mdi-android"></i> Sub header 2': [
+        { uid: '5', name: 'Estefanía' },
+        { uid: '6', name: 'Natasha' },
+        { uid: '7', name: 'Nicole' }
+    ]
+};
+
+$scope.ajax = {
+    selected: 'Inception',
+    list: [],
+    update: function(newFilter)
+    {
+        if (newFilter)
+        {
+            $scope.ajax.loading = true;
+            $http.get('http://www.omdbapi.com/?s=' + escape(newFilter)).
+                success(function(data)
+                {
+                    $scope.ajax.list = data.Search;
+                    $scope.ajax.loading = false;
+                }).
+                error(function()
+                {
+                    $scope.ajax.loading = false;
+                });
+        }
+        else
+        {
+            $scope.ajax.list = false;
+        }
+    },
+    toModel: function(data, callback)
+    {
+        if (data)
+        {
+            callback(data.Title);
+        }
+        else
+        {
+            callback();
+        }
+    },
+    toSelection: function(data, callback)
+    {
+        if (data)
+        {
+            $http.get('http://www.omdbapi.com/?s=' + escape(data)).
+                success(function(response)
+                {
+                    callback(response.Search[0]);
+                }).
+                error(function()
+                {
+                    callback();
+                });
+        }
+        else
+        {
+            callback();
+        }
+    },
+    loading: false
+};
+
+$scope.cbSelect = {
+    exec: function(newVal, oldVal)
+    {
+        LxNotificationService.notify('Change detected!');
+        console.log('oldVal: ', oldVal);
+        console.log('newVal: ', newVal);
+    }
+};
+
+$scope.selects = {
+    selectedPerson: undefined,
+    selectedPersons: [$scope.people[2], $scope.people[4]],
+    selectedPersons2: []
+};

@@ -119,6 +119,16 @@ angular.module('lumx.select', [])
             return $scope.loading !== 'true' && !hasNoResults() && !filterNeeded();
         }
 
+        function isChoicesArray()
+        {
+            return angular.isArray($scope.choices());
+        }
+
+        function trust(data)
+        {
+            return $sce.trustAsHtml(data);
+        }
+
         /**
          * Return the array of selected elements. Always return an array (ie. returns an empty array in case
          * selected list is undefined in the scope).
@@ -317,6 +327,8 @@ angular.module('lumx.select', [])
         $scope.getSelectedElements = getSelectedElements;
         $scope.getSelectedTemplate = getSelectedTemplate;
         $scope.hasNoResults = hasNoResults;
+        $scope.isChoicesArray = isChoicesArray;
+        $scope.trust = trust;
     }])
     .directive('lxSelect', function()
     {
@@ -417,7 +429,7 @@ angular.module('lumx.select', [])
                 {
                     modelToSelection(attrs.modelToSelection);
                 }
-                
+
                 attrs.$observe('modelToSelection', modelToSelection);
             }
         };
