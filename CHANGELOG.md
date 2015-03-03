@@ -1,5 +1,30 @@
 # Changelog
 
+## v0.3.19:
+
+#### New features:
+ - dropdown: direction automatic
+
+
+## v0.3.18:
+
+#### New features:
+ - select: manage subheader
+
+
+## v0.3.17:
+
+#### New features:
+ - divider: add has divider class
+
+#### Bug fixes:
+ - list: put separator as pseudo element
+
+
+## v0.3.16:
+*No major changes.*
+
+
 ## v0.3.15:
 
 #### Bug fixes:
