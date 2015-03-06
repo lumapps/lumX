@@ -1,12 +1,12 @@
 <div lx-dropdown-toggle>
-    <span class="lx-select__floating-label" ng-if="getSelectedElements().length !== 0 && floatingLabel">{{ placeholder }}</span>
+    <span class="lx-select__floating-label" ng-if="getSelectedElements().length !== 0 && floatingLabel" ng-bind-html="placeholder"></span>
 
     <div class="lx-select__selected"
          ng-class="{ 'lx-select__selected--is-unique': !multiple,
                      'lx-select__selected--is-multiple': multiple && getSelectedElements().length > 0,
                      'lx-select__selected--placeholder': getSelectedElements().length === 0 }"
          lx-ripple>
-        <span ng-if="getSelectedElements().length === 0">{{ placeholder }}</span>
+        <span ng-if="getSelectedElements().length === 0" ng-bind-html="placeholder"></span>
 
         <!-- ng-repeat is used to manage the initialization of the $select even for non-multiple selects -->
         <div ng-repeat="$selected in getSelectedElements()" ng-if="!multiple">
