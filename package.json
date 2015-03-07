@@ -10,6 +10,7 @@
     "gulp": "^3.8.10",
     "gulp-cached": "^1.0.1",
     "gulp-concat": "^2.3.4",
+    "gulp-connect": "^2.2.0",
     "gulp-insert": "^0.4.0",
     "gulp-jshint": "^1.8.4",
     "gulp-load-plugins": "^0.7.0",
