@@ -77,10 +77,10 @@ angular.module('lumx.tabs', [])
                         setIndicatorPosition();
                     });
                 }
-            }            
+            }
         };
 
-        function isPaginationActive() 
+        function isPaginationActive()
         {
             var tabsWidth = links.outerWidth();
             var tabsVisibleWidth = linksContainer.outerWidth();
@@ -94,11 +94,11 @@ angular.module('lumx.tabs', [])
 
             var firstTabHidden;
 
-            for (var i = 0; i < tabTags.length; i++) 
+            for (var i = 0; i < tabTags.length; i++)
             {
                 var leftBorderTab = angular.element(tabTags[i]).offset().left;
 
-                if (!firstTabHidden && leftBorderTab > (leftBorderContainer - linksContainer.outerWidth()) && leftBorderTab < leftBorderContainer) 
+                if (!firstTabHidden && leftBorderTab > (leftBorderContainer - linksContainer.outerWidth()) && leftBorderTab < leftBorderContainer)
                 {
                     firstTabHidden = angular.element(tabTags[i]);
                     break;
@@ -114,12 +114,12 @@ angular.module('lumx.tabs', [])
 
             var firstTabHidden;
 
-            for (var i = 0; i < tabTags.length; i++) 
+            for (var i = 0; i < tabTags.length; i++)
             {
                 var tabElement = angular.element(tabTags[i]);
                 var rightBorderTab = tabElement.offset().left + tabElement.outerWidth();
 
-                if (!firstTabHidden && rightBorderTab > rightBorderContainer) 
+                if (!firstTabHidden && rightBorderTab > rightBorderContainer)
                 {
                     firstTabHidden = angular.element(tabTags[i]);
                     break;
@@ -148,12 +148,12 @@ angular.module('lumx.tabs', [])
             return angular.element(firstTabVisible);
         }
 
-        function isPaginationLeftDisabled () 
+        function isPaginationLeftDisabled ()
         {
             return getFirstHiddenLeftTab() === undefined;
         }
 
-        function isPaginationRightDisabled () 
+        function isPaginationRightDisabled ()
         {
             return getFirstHiddenRightTab() === undefined;
         }
@@ -326,7 +326,7 @@ angular.module('lumx.tabs', [])
         });
 
         // Watch tabs and go to previous page if there is no more tabs currently displayed
-        $scope.$watchCollection(function() { return tabs; }, function () 
+        $scope.$watchCollection(function() { return tabs; }, function ()
         {
 
             $timeout(function ()
@@ -334,7 +334,7 @@ angular.module('lumx.tabs', [])
                 tabTags = links.find('.tabs-link');
             });
 
-            if (isPaginationActive()) 
+            if (isPaginationActive())
             {
                 var firstTabVisible = getFirstVisibleTab();
 
@@ -348,8 +348,8 @@ angular.module('lumx.tabs', [])
         angular.element($window).bind('resize', function()
         {
             setIndicatorPosition();
-            
-            if (isPaginationActive()) 
+
+            if (isPaginationActive())
             {
                 repositionPage();
             }
@@ -380,7 +380,8 @@ angular.module('lumx.tabs', [])
                 noDivider: '@',
                 zDepth: '@',
                 layout: '@',
-                showIconAndHeading: '@'
+                showIconAndHeading: '@',
+                iconPrefix: '@'
             },
             link: function(scope, element, attrs, ctrl)
             {
@@ -409,6 +410,11 @@ angular.module('lumx.tabs', [])
                 if (angular.isUndefined(scope.layout))
                 {
                     scope.layout = 'full';
+                }
+
+                if (angular.isUndefined(scope.iconPrefix))
+                {
+                    scope.iconPrefix = 'mdi mdi-';
                 }
             }
         };
