@@ -17,7 +17,7 @@
                ng-click="setActiveTab($index)"
                lx-ripple="{{ indicator }}">
                <span ng-if="tab.icon !== undefined"><i class="mdi mdi-{{ tab.icon }}"></i></span>
-               <span ng-if="tab.icon === undefined">{{ tab.heading }}</i></span>
+               <span ng-if="tab.icon === undefined || showIconAndHeading">{{ tab.heading }}</i></span>
             </a>
         </li>
     </ul>
