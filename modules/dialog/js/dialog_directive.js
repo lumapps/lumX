@@ -75,6 +75,7 @@ angular.module('lumx.dialog', [])
 
                 scopeMap[dialogId].isOpened = false;
                 dialogHeight = undefined;
+                scopeMap[dialogId].$destroy();
             }, 600);
         };
 
