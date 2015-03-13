@@ -3,6 +3,10 @@
 
 
 angular.module('lumx.text-field', [])
+    .filter('unsafe', ['$sce', function($sce)
+    {
+        return $sce.trustAsHtml;
+    }])
     .directive('lxTextField', ['$timeout', function($timeout)
     {
         return {
