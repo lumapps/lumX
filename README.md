@@ -1,6 +1,6 @@
 # lumX
 
-The first responsive front-end framework based on [AngularJS][angular] & [Google Material Design specifications][material]. lumX will help you to design your applications faster and easier. We followed Google Material Design recommendations to bring the best experience to your users.
+The first responsive front-end framework based on [AngularJS][angular] & [Google Material Design specifications][material]. *lumX* will help you to design your applications faster and easier. We followed Google Material Design recommendations to bring the best experience to your users.
 
 ## Quick start
 
@@ -23,8 +23,8 @@ For example, using bash in a Unix system with the default path will need to edit
     export APPENGINE=/home/USER/google-cloud-sdk/bin/
     ```
 3. Run `npm install & bower install`.
-4. Run ``./launch.sh`.
-5. Visit http://localhost:8888 in your browser, and voilà.
+4. Run `./launch.sh`.
+5. Visit [http://localhost:8888][local] in your browser, and voilà.
 
 
 ## How to get help, contribute, or provide feedback
@@ -40,5 +40,6 @@ Code and documentation copyright 2014 LumApps. Code released under the [MIT lice
 [gae]: https://cloud.google.com/appengine/
 [gaepython]: https://cloud.google.com/appengine/downloads
 [gulp]: http://gulpjs.com/
+[local]: http://localhost:8888
 [material]: http://www.google.com/design/spec/material-design/introduction.html
 [release]: https://github.com/lumapps/lumX/tags
