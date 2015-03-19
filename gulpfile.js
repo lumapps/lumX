@@ -2,8 +2,7 @@ var gulp = require('gulp'),
     minimist = require('minimist'),
     summary = require('jshint-summary'),
     del = require('del'),
-    plugins = require('gulp-load-plugins')(),
-    connect = require('gulp-connect');
+    plugins = require('gulp-load-plugins')();
 
 var paths = {
     js: [
@@ -49,22 +48,6 @@ function watcherWithCache(name, src, tasks)
             plugins.remember.forget(name, event.path);
         }
     });
-}
-
-function registerWatchers() {
-    watcherWithCache('lint', paths.js, ['lint']);
-    watcherWithCache('scss', [paths.scss, 'demo/scss/**/*.scss'], ['scss']);
-    watcherWithCache('demo', paths.demo, ['demo']);
-    watcherWithCache('examples', paths.examples, ['examples']);
-    watcherWithCache('libs', paths.libs, ['libs']);
-    watcherWithCache('tpl:dropdown', 'modules/dropdown/views/*.html', ['tpl:dropdown']);
-    watcherWithCache('tpl:file-input', 'modules/file-input/views/*.html', ['tpl:file-input']);
-    watcherWithCache('tpl:text-field', 'modules/text-field/views/*.html', ['tpl:text-field']);
-    watcherWithCache('tpl:search-filter', 'modules/search-filter/views/*.html', ['tpl:search-filter']);
-    watcherWithCache('tpl:select', 'modules/select/views/*.html', ['tpl:select']);
-    watcherWithCache('tpl:tabs', 'modules/tabs/views/*.html', ['tpl:tabs']);
-    watcherWithCache('tpl:date-picker', 'modules/date-picker/views/*.html', ['tpl:date-picker']);
-    watcherWithCache('tpl:progress', 'modules/progress/views/*.html', ['tpl:progress']);
 }
 
 var knownOptions =
@@ -284,18 +267,27 @@ gulp.task('dist:scripts', ['tpl:dropdown', 'tpl:file-input', 'tpl:text-field', '
         .pipe(gulp.dest('dist'));
 });
 
-gulp.task('connect', function() {
-    connect.server({
+gulp.task('serve', ['watch'], function() {
+    return plugins.connect.server({
         root: 'build'
     });
 });
 
-gulp.task('serve', ['build', 'connect'], function () {
-    registerWatchers();
-});
-
-gulp.task('watch', ['build'], function() {
-    registerWatchers();
+gulp.task('watch', ['build'], function()
+{
+    watcherWithCache('lint', paths.js, ['lint']);
+    watcherWithCache('scss', [paths.scss, 'demo/scss/**/*.scss'], ['scss']);
+    watcherWithCache('demo', paths.demo, ['demo']);
+    watcherWithCache('examples', paths.examples, ['examples']);
+    watcherWithCache('libs', paths.libs, ['libs']);
+    watcherWithCache('tpl:dropdown', 'modules/dropdown/views/*.html', ['tpl:dropdown']);
+    watcherWithCache('tpl:file-input', 'modules/file-input/views/*.html', ['tpl:file-input']);
+    watcherWithCache('tpl:text-field', 'modules/text-field/views/*.html', ['tpl:text-field']);
+    watcherWithCache('tpl:search-filter', 'modules/search-filter/views/*.html', ['tpl:search-filter']);
+    watcherWithCache('tpl:select', 'modules/select/views/*.html', ['tpl:select']);
+    watcherWithCache('tpl:tabs', 'modules/tabs/views/*.html', ['tpl:tabs']);
+    watcherWithCache('tpl:date-picker', 'modules/date-picker/views/*.html', ['tpl:date-picker']);
+    watcherWithCache('tpl:progress', 'modules/progress/views/*.html', ['tpl:progress']);
 });
 
 gulp.task('clean', ['clean:build', 'clean:dist']);
