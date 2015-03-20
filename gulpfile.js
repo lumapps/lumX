@@ -267,6 +267,12 @@ gulp.task('dist:scripts', ['tpl:dropdown', 'tpl:file-input', 'tpl:text-field', '
         .pipe(gulp.dest('dist'));
 });
 
+gulp.task('serve', ['watch'], function() {
+    return plugins.connect.server({
+        root: 'build'
+    });
+});
+
 gulp.task('watch', ['build'], function()
 {
     watcherWithCache('lint', paths.js, ['lint']);
