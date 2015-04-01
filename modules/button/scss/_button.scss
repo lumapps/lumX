@@ -12,7 +12,8 @@ $btn-icon-size: ('xs': 13px, 's': 15px, 'm': 20px, 'l': 24px, 'xl': 28px);
 
 
 // Button base styles
-.btn {
+.btn,
+%btn {
     z-index: 2;
     display: inline-block;
     vertical-align: top;
