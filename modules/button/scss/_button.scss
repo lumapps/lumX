@@ -47,7 +47,8 @@ $btn-icon-size: ('xs': 13px, 's': 15px, 'm': 20px, 'l': 24px, 'xl': 28px);
 
 // Sizes
 @each $key, $size in $sizes {
-    .btn--#{$key} {
+    .btn--#{$key},
+    %btn--#{$key} {
         padding-left: map-get($btn-padding, $key);
         padding-right: map-get($btn-padding, $key);
         @include font-size(map-get($btn-font-size, $key));
@@ -57,13 +58,16 @@ $btn-icon-size: ('xs': 13px, 's': 15px, 'm': 20px, 'l': 24px, 'xl': 28px);
 
 // Disabled states
 .btn[disabled],
-.btn--is-disabled {
+.btn--is-disabled,
+%btn--is-disabled {
     box-shadow: none !important;
     cursor: not-allowed;
     color: $black-3 !important;
 
     &.btn--raised,
-    &.btn--fab {
+    &.btn--fab,
+    &%btn--raised,
+    &%btn--fab {
         background-color: $grey-300 !important;
     }
 }
@@ -75,7 +79,9 @@ $btn-icon-size: ('xs': 13px, 's': 15px, 'm': 20px, 'l': 24px, 'xl': 28px);
 // Flat / Icon button
 @each $key, $color in $colors {
     .btn--flat.btn--#{$key},
-    .btn--icon.btn--#{$key} {
+    .btn--icon.btn--#{$key},
+    %btn--flat%btn--#{$key},
+    %btn--icon%btn--#{$key} {
         color: $color;
 
         .ripple {
@@ -90,7 +96,9 @@ $btn-icon-size: ('xs': 13px, 's': 15px, 'm': 20px, 'l': 24px, 'xl': 28px);
 
 // Raised / FAB buttons
 .btn--raised,
-.btn--fab {
+.btn--fab,
+%btn--raised,
+%btn--fab {
     @include z-depth(1);
     @include transition-property(box-shadow);
     @include transition-duration(0.2s);
@@ -102,7 +110,9 @@ $btn-icon-size: ('xs': 13px, 's': 15px, 'm': 20px, 'l': 24px, 'xl': 28px);
 
 @each $key, $color in $colors {
     .btn--raised.btn--#{$key},
-    .btn--fab.btn--#{$key} {
+    .btn--fab.btn--#{$key},
+    %btn--raised%btn--#{$key},
+    %btn--fab%btn--#{$key} {
         @if $key == 'white' {
             color: $black-1;
         } @else {
@@ -123,13 +133,17 @@ $btn-icon-size: ('xs': 13px, 's': 15px, 'm': 20px, 'l': 24px, 'xl': 28px);
 
 // Icon / FAB buttons
 .btn--icon,
-.btn--fab {
+.btn--fab,
+%btn--icon,
+%btn--fab {
     border-radius: 50%;
 }
 
 @each $key, $size in $sizes {
     .btn--icon.btn--#{$key},
-    .btn--fab.btn--#{$key} {
+    .btn--fab.btn--#{$key},
+    %btn--icon%btn--#{$key},
+    %btn--fab%btn--#{$key} {
         @include size($size);
         padding: 0;
 
@@ -139,11 +153,13 @@ $btn-icon-size: ('xs': 13px, 's': 15px, 'm': 20px, 'l': 24px, 'xl': 28px);
         }
     }
 
-    .btn--icon.btn--#{$key} {
+    .btn--icon.btn--#{$key},
+    %btn--icon%btn--#{$key} {
         @include font-size((map-get($btn-icon-size, $key)));
     }
 
-    .btn--fab.btn--#{$key} {
+    .btn--fab.btn--#{$key},
+    %btn--fab%btn--#{$key} {
         @include font-size((map-get($btn-font-size, $key)) + 4);
     }
 }
