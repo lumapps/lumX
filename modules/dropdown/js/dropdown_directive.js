@@ -332,7 +332,7 @@ angular.module('lumx.dropdown', [])
     .directive('lxDropdownToggle', function()
     {
         return {
-            restrict: 'A',
+            restrict: 'AE',
             require: '^lxDropdown',
             templateUrl: 'dropdown-toggle.html',
             replace: true,
