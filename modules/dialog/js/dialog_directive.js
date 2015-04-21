@@ -25,12 +25,15 @@ angular.module('lumx.dialog', [])
                 class: 'dialog-filter'
             });
 
-            dialogFilter
-                .appendTo('body')
-                .bind('click', function()
+            dialogFilter.appendTo('body');
+
+            if (angular.isUndefined(scopeMap[dialogId].autoClose) || scopeMap[dialogId].autoClose === 'true')
+            {
+                dialogFilter.bind('click', function()
                 {
                     self.close(dialogId);
                 });
+            }
 
             scopeMap[dialogId].element
                 .appendTo('body')
@@ -95,7 +98,18 @@ angular.module('lumx.dialog', [])
 
                 if (dialog.find('.dialog__scrollable').length === 0)
                 {
-                    dialogScrollable.css({ top: dialogHeader.outerHeight(), bottom: dialogActions.outerHeight() });
+                    dialogScrollable
+                        .css({ top: dialogHeader.outerHeight(), bottom: dialogActions.outerHeight() })
+                        .bind('mousewheel', function(e)
+                        {
+                            var event = e.originalEvent,
+                                d = event.wheelDelta || -event.detail;
+
+                            this.scrollTop += ( d < 0 ? 1 : -1 ) * 30;
+                            e.preventDefault();
+                        })
+                        .bind('scroll', checkScrollEnd);
+
                     dialogContent.wrap(dialogScrollable);
                 }
             }
@@ -106,6 +120,26 @@ angular.module('lumx.dialog', [])
                 if (dialog.find('.dialog__scrollable').length > 0)
                 {
                     dialogContent.unwrap();
+                }
+            }
+        }
+
+        function checkScrollEnd()
+        {
+            var dialogScrollable = angular.element('.dialog__scrollable');
+
+            if (angular.isDefined(scopeMap[activeDialogId].onscrollend))
+            {
+                if (dialogScrollable.scrollTop() + dialogScrollable.innerHeight() >= dialogScrollable[0].scrollHeight)
+                {
+                    scopeMap[activeDialogId].onscrollend();
+
+                    dialogScrollable.unbind('scroll', checkScrollEnd);
+
+                    $timeout(function()
+                    {
+                        dialogScrollable.bind('scroll', checkScrollEnd);
+                    }, 500);
                 }
             }
         }
@@ -135,7 +169,9 @@ angular.module('lumx.dialog', [])
             restrict: 'E',
             controller: 'LxDialogController',
             scope: {
-                onclose: '&'
+                onclose: '&',
+                onscrollend: '&',
+                autoClose: '@'
             },
             template: '<div><div ng-if="isOpened" ng-transclude="2"></div></div>',
             replace: true,

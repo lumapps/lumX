@@ -1,6 +1,6 @@
 <button class="btn btn--m btn--black btn--flat" ng-click="opendDialog('test')" lx-ripple>Open dialog</button>
 
-<lx-dialog class="dialog dialog--l" id="test" onclose="closingDialog()">
+<lx-dialog class="dialog dialog--l" id="test" auto-close="true" onclose="closingDialog()" onscrollend="scrollEndDialog()">
     <div class="dialog__header">
         <div class="toolbar bgc-light-blue-500 pl++">
             <span class="toolbar__label tc-white fs-title">
