@@ -111,11 +111,12 @@ angular.module('lumx.dropdown', [])
 
         function setDropdownMenuCss()
         {
+            var windowScrollTop = angular.element($window).scrollTop();
             var dropdownMenuWidth = dropdownMenu.outerWidth();
             dropdownMenuHeight = dropdownMenu.outerHeight();
             var origin = {
                 x: dropdown.offset().left,
-                y: dropdown.offset().top + dropdown.outerHeight()
+                y: (dropdown.offset().top - windowScrollTop) + dropdown.outerHeight() // dropdown is the button at the moment
             };
             var width = dropdownMenuWidth;
             var height, bottomOffset, topOffset;
@@ -154,7 +155,7 @@ angular.module('lumx.dropdown', [])
                 {
                     left: $scope.position !== 'right' ? origin.x : undefined,
                     right: $scope.position === 'right' ? origin.x : undefined,
-                    bottom: $window.innerHeight - origin.y + bottomOffset,
+                    bottom: $window.innerHeight - origin.y + bottomOffset - windowScrollTop,
                     width: width,
                     height: height
                 });
@@ -167,7 +168,7 @@ angular.module('lumx.dropdown', [])
                 {
                     left: $scope.position !== 'right' ? origin.x : undefined,
                     right: $scope.position === 'right' ? origin.x : undefined,
-                    top: origin.y + topOffset,
+                    top: origin.y + topOffset + windowScrollTop,
                     width: width
                 });
             }
@@ -182,7 +183,7 @@ angular.module('lumx.dropdown', [])
                     {
                         left: $scope.position !== 'right' ? origin.x : undefined,
                         right: $scope.position === 'right' ? origin.x : undefined,
-                        bottom: $window.innerHeight - origin.y + bottomOffset,
+                        bottom: $window.innerHeight - origin.y + bottomOffset - windowScrollTop,
                         width: width,
                         height: height - bottomOffset
                     });
@@ -196,7 +197,7 @@ angular.module('lumx.dropdown', [])
                     {
                         left: $scope.position !== 'right' ? origin.x : undefined,
                         right: $scope.position === 'right' ? origin.x : undefined,
-                        top: origin.y + topOffset,
+                        top: origin.y + topOffset + windowScrollTop,
                         width: width,
                         height: height - topOffset
                     });
