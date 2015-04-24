@@ -43,6 +43,7 @@ angular.module('lumx.file-input', [])
 
                 function setFileName(val)
                 {
+                    $input.val('');
                     if (val)
                     {
                         $fileName.text(val.replace(/C:\\fakepath\\/i, ''));
@@ -52,11 +53,13 @@ angular.module('lumx.file-input', [])
                     else
                     {
                         $fileName.text('');
-                        if(element.hasClass('input-file--is-active'))
+                        if (element.hasClass('input-file--is-active'))
                         {
                             element.removeClass('input-file--is-active');
                         }
                     }
+
+                    scope.value = $fileName.text();
                 }
 
                 scope.$watch('value', function(value)
