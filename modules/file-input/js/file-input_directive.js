@@ -49,6 +49,14 @@ angular.module('lumx.file-input', [])
 
                         element.addClass('input-file--is-active');
                     }
+                    else
+                    {
+                        $fileName.text('');
+                        if(element.hasClass('input-file--is-active'))
+                        {
+                            element.removeClass('input-file--is-active');
+                        }
+                    }
                 }
 
                 scope.$watch('value', function(value)
