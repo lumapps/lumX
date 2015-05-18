@@ -5,11 +5,30 @@
 // Tabs base styles
 .tabs {
     position: relative;
+    overflow: hidden;
 
     &:after {
         content: '';
         @include position(absolute, (($base-spacing-unit * 6) - 1) 0 null 0);
         height: 1px;
+    }
+
+    .tabs__pagination-left, .tabs__pagination-right {
+        position: absolute;
+        top: 0;
+        height: 47px;
+    }
+
+    .tabs__pagination-left {
+        left: 0;
+    }
+
+    .tabs__pagination-right {
+        right: 0;
+    }
+
+    .tabs__pagination-padding {
+        padding: 0px 41px;
     }
 }
 
@@ -17,6 +36,10 @@
 .tabs--theme-light {
     &:after {
         background-color: $white-2;
+    }
+
+    .tabs__pagination-left, .tabs__pagination-right {
+        color: $white-1;
     }
 
     .tabs-link {
@@ -34,6 +57,10 @@
         background-color: $black-4;
     }
 
+    .tabs__pagination-left, .tabs__pagination-right {
+        color: $black-1;
+    }
+
     .tabs-link {
         color: $black-2;
     }
@@ -49,6 +76,7 @@
 
         li {
             display: table-cell;
+            width: 100px;
         }
     }
 }

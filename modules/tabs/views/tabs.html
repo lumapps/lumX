@@ -1,6 +1,15 @@
 <div class="tabs tabs--theme-{{ linksTc }} tabs--layout-{{ layout }}"
      ng-class="{ 'tabs--no-divider': noDivider }">
-    <ul class="tabs__links bgc-{{ linksBgc }} z-depth{{ zDepth }}">
+
+    <button class="tabs__pagination-left btn btn--m bgc-{{ linksBgc }}" 
+            ng-click="showPrevPage()" 
+            ng-if="isPaginationActive()" 
+            ng-disabled="isPaginationLeftDisabled()">
+      <i class="mdi mdi-chevron-left"></i>
+    </button>
+
+    <ul class="tabs__links bgc-{{ linksBgc }} z-depth{{ zDepth }}"
+        ng-class="{'tabs__pagination-padding': isPaginationActive()}">
         <li ng-repeat="tab in getTabs()">
             <a lx-tab-link
                class="tabs-link"
@@ -12,6 +21,13 @@
             </a>
         </li>
     </ul>
+
+    <button class="tabs__pagination-right btn btn--m bgc-{{ linksBgc }}" 
+            ng-click="showNextPage()" 
+            ng-if="isPaginationActive()" 
+            ng-disabled="isPaginationRightDisabled()">
+      <i class="mdi mdi-chevron-right"></i>
+    </button>
 
     <div class="tabs__panes" ng-transclude="1"></div>
 
