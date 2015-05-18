@@ -91,7 +91,8 @@ gulp.task('scss', function()
 {
     return gulp.src('demo/scss/lumx.scss')
         .pipe(plugins.plumber())
-        .pipe(plugins.rubySass())
+        .pipe(plugins.sass({
+        }))
         .pipe(gulp.dest('build'));
 });
 
@@ -152,7 +153,8 @@ gulp.task('dist:css', ['scss:paths'], function()
     return gulp.src(['core/scss/_lumx.scss'])
         .pipe(plugins.plumber())
         .pipe(plugins.rename('lumx.scss'))
-        .pipe(plugins.rubySass())
+        .pipe(plugins.sass({
+        }))
         .pipe(plugins.minifyCss({ keepSpecialComments: 0 }))
         .pipe(plugins.insert.prepend('/*\n LumX ' + options.version + '\n (c) 2014-' + new Date().getFullYear() + ' LumApps http://ui.lumapps.com\n License: MIT\n*/\n'))
         .pipe(gulp.dest('dist'));

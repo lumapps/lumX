@@ -20,7 +20,7 @@
     "gulp-remove-lines": "~0.1.0",
     "gulp-rename": "^1.2.0",
     "gulp-replace": "^0.4.0",
-    "gulp-ruby-sass": "^0.7.1",
+    "gulp-sass": "^2.0.1",
     "gulp-templatecache": "0.0.3",
     "gulp-uglify": "^1.0.0",
     "gulp-watch": "^0.7.0",
