@@ -182,6 +182,26 @@
     .colors__A700   { background-color: $light-blue-A700;  }
 }
 
+
+// Colors cyan
+.colors--cyan {
+  .colors__main   { background-color: $cyan-500;   }
+  .colors__50     { background-color: $cyan-50;    }
+  .colors__100    { background-color: $cyan-100;   }
+  .colors__200    { background-color: $cyan-200;   }
+  .colors__300    { background-color: $cyan-300;   }
+  .colors__400    { background-color: $cyan-400;   }
+  .colors__500    { background-color: $cyan-500;   }
+  .colors__600    { background-color: $cyan-600;   }
+  .colors__700    { background-color: $cyan-700;   }
+  .colors__800    { background-color: $cyan-800;   }
+  .colors__900    { background-color: $cyan-900;   }
+  .colors__A100   { background-color: $cyan-A100;  }
+  .colors__A200   { background-color: $cyan-A200;  }
+  .colors__A400   { background-color: $cyan-A400;  }
+  .colors__A700   { background-color: $cyan-A700;  }
+}
+
 // Colors teal
 .colors--teal {
     .colors__main   { background-color: $teal-500;   }
