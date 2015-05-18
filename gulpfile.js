@@ -92,6 +92,7 @@ gulp.task('scss', function()
     return gulp.src('demo/scss/lumx.scss')
         .pipe(plugins.plumber())
         .pipe(plugins.sass({
+            includePaths: 'libs/bourbon/app/assets/stylesheets/'
         }))
         .pipe(gulp.dest('build'));
 });
@@ -143,7 +144,6 @@ gulp.task('scss:paths', ['scss:move-core', 'scss:move-modules'], function()
 {
     return gulp.src(['dist/scss/_lumx.scss'])
         .pipe(plugins.plumber())
-        .pipe(plugins.replace(/..\/..\/libs/g, '../../..'))
         .pipe(plugins.replace(/..\/..\/modules\/[^\/]*\/scss/g, 'modules'))
         .pipe(gulp.dest('dist/scss'));
 });
@@ -154,6 +154,7 @@ gulp.task('dist:css', ['scss:paths'], function()
         .pipe(plugins.plumber())
         .pipe(plugins.rename('lumx.scss'))
         .pipe(plugins.sass({
+            includePaths: 'libs/bourbon/app/assets/stylesheets/'
         }))
         .pipe(plugins.minifyCss({ keepSpecialComments: 0 }))
         .pipe(plugins.insert.prepend('/*\n LumX ' + options.version + '\n (c) 2014-' + new Date().getFullYear() + ' LumApps http://ui.lumapps.com\n License: MIT\n*/\n'))
