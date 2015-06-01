@@ -59,7 +59,7 @@ git checkout -b my-fix-branch master
 * Build your changes locally.
 
 ```shell
-bower dist
+gulp dist
 ```
 
 * Push your branch to GitHub:
