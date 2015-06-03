@@ -73,6 +73,7 @@ $dialog-margin: $base-spacing-unit * 4;
 
     .dialog__scrollable {
         @include position(absolute, null 0 null 0);
+        z-index: 1;
         overflow-x: hidden;
         overflow-y: auto;
     }
