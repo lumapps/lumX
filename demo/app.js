@@ -305,6 +305,11 @@ angular
             LxNotificationService.info('Dialog closed!');
         };
 
+        $scope.scrollEndDialog = function()
+        {
+            LxNotificationService.info('Dialog scroll end!');
+        };
+
         $scope.showCircularProgress = function()
         {
             LxProgressService.circular.show('#5fa2db', '#progress');

@@ -21,6 +21,10 @@ angular.module('lumx.dialog', [])
         {
             activeDialogId = dialogId;
 
+            angular.element('body').css({
+                overflow: 'hidden'
+            });
+
             dialogFilter = angular.element('<div/>', {
                 class: 'dialog-filter'
             });
@@ -69,6 +73,10 @@ angular.module('lumx.dialog', [])
 
             $timeout(function()
             {
+                angular.element('body').css({
+                    overflow: 'visible'
+                });
+
                 dialogFilter.remove();
 
                 scopeMap[dialogId].element
@@ -100,14 +108,6 @@ angular.module('lumx.dialog', [])
                 {
                     dialogScrollable
                         .css({ top: dialogHeader.outerHeight(), bottom: dialogActions.outerHeight() })
-                        .bind('mousewheel', function(e)
-                        {
-                            var event = e.originalEvent,
-                                d = event.wheelDelta || -event.detail;
-
-                            this.scrollTop += ( d < 0 ? 1 : -1 ) * 30;
-                            e.preventDefault();
-                        })
                         .bind('scroll', checkScrollEnd);
 
                     dialogContent.wrap(dialogScrollable);
