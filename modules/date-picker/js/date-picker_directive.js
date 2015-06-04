@@ -160,6 +160,11 @@ angular.module('lumx.date-picker', [])
             });
         };
 
+        $scope.clearDate = function()
+        {
+            $scope.selected = undefined;
+        };
+
         function generateCalendar()
         {
             var days = [],
@@ -204,6 +209,7 @@ angular.module('lumx.date-picker', [])
                 model: '=',
                 label: '@',
                 fixedLabel: '&',
+                allowClear: '@',
                 icon: '@'
             },
             templateUrl: 'date-picker.html',
@@ -219,6 +225,11 @@ angular.module('lumx.date-picker', [])
                 scope.$watch('model', function()
                 {
                     ctrl.build(checkLocale(attrs.locale), true);
+                });
+
+                attrs.$observe('allowClear', function(newValue)
+                {
+                    scope.allowClear = !!(angular.isDefined(newValue) && newValue === 'true');
                 });
 
                 function checkLocale(locale)

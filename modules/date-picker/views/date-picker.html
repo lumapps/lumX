@@ -6,9 +6,15 @@
     </div>
 
     <!-- Date picker input -->
-    <lx-text-field class="lx-date-input" label="{{ label }}" ng-click="openPicker()">
-        <input type="text" ng-model="selected.model" ng-disabled="true">
-    </lx-text-field>
+    <div class="lx-date__input-wrapper">
+        <lx-text-field class="lx-date-input" label="{{ label }}" ng-click="openPicker()">
+            <input type="text" ng-model="selected.model" ng-disabled="true">
+        </lx-text-field>
+
+        <a class="lx-date__clear" ng-click="clearDate()" ng-if="allowClear">
+            <i class="mdi mdi-close-circle" ng-click="unselect($selected, $event)" ng-if="allowClear"></i>
+        </a>
+    </div>
 
     <!-- Date picker -->
     <div class="lx-date-picker">
