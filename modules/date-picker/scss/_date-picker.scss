@@ -54,10 +54,34 @@
 
 
 // Date input
+.lx-date__input-wrapper{
+    position: relative;
+
+    &:hover {
+        .lx-date__clear {
+            opacity: 1;
+        }
+    }
+}
+
 .lx-date-input {
     &,
     input {
         cursor: pointer !important;
+    }
+}
+
+.lx-date__clear {
+    display: block;
+    @include position(absolute, null 0 $base-spacing-unit null);
+    opacity: 0;
+    cursor: pointer;
+    line-height: $base-spacing-unit * 4;
+    @include transition-property(opacity, color);
+    @include transition-duration(0.2s);
+
+    &:hover {
+      color: $red-500;
     }
 }
 
