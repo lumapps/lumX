@@ -58,6 +58,7 @@ $btn-icon-size: ('xs': 13px, 's': 15px, 'm': 20px, 'l': 24px, 'xl': 28px);
 
 // Disabled states
 .btn[disabled],
+%btn[disabled],
 .btn--is-disabled,
 %btn--is-disabled {
     box-shadow: none !important;
