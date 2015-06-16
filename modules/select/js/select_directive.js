@@ -350,7 +350,7 @@ angular.module('lumx.select', [])
                 // Default values
                 scope.placeholder = '';
                 scope.loading = '';
-                scope.minLength = 0;
+                scope.minLength = undefined;
                 scope.allowClear = '';
                 scope.choices = function() { return []; };
                 scope.change = undefined;
