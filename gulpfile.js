@@ -92,9 +92,15 @@ gulp.task('scss', function()
     return gulp.src('demo/scss/lumx.scss')
         .pipe(plugins.plumber())
         .pipe(plugins.sass({
-            includePaths: 'libs/bourbon/app/assets/stylesheets/'
+            includePaths: ['libs/bourbon/app/assets/stylesheets/', 'libs/mdi/scss/']
         }))
         .pipe(gulp.dest('build'));
+});
+
+gulp.task('fonts', function()
+{
+    return gulp.src('libs/mdi/fonts/**')
+        .pipe(gulp.dest('build/fonts'));
 });
 
 gulp.task('demo', function()
@@ -154,11 +160,17 @@ gulp.task('dist:css', ['scss:paths'], function()
         .pipe(plugins.plumber())
         .pipe(plugins.rename('lumx.scss'))
         .pipe(plugins.sass({
-            includePaths: 'libs/bourbon/app/assets/stylesheets/'
+            includePaths: ['libs/bourbon/app/assets/stylesheets/', 'libs/mdi/scss/']
         }))
         .pipe(plugins.minifyCss({ keepSpecialComments: 0 }))
         .pipe(plugins.insert.prepend('/*\n LumX ' + options.version + '\n (c) 2014-' + new Date().getFullYear() + ' LumApps http://ui.lumapps.com\n License: MIT\n*/\n'))
         .pipe(gulp.dest('dist'));
+});
+
+gulp.task('dist:fonts', function()
+{
+    return gulp.src('libs/mdi/fonts/**')
+        .pipe(gulp.dest('dist/fonts'));
 });
 
 gulp.task('tpl:dropdown', function()
@@ -295,11 +307,12 @@ gulp.task('watch', ['build'], function()
 
 gulp.task('clean', ['clean:build', 'clean:dist']);
 
-gulp.task('build', ['lint', 'scss', 'demo', 'examples', 'libs', 'tpl:dropdown', 'tpl:file-input', 'tpl:text-field', 'tpl:search-filter', 'tpl:select', 'tpl:tabs', 'tpl:date-picker', 'tpl:progress']);
+gulp.task('build', ['lint', 'scss', 'fonts', 'demo', 'examples', 'libs', 'tpl:dropdown', 'tpl:file-input', 'tpl:text-field', 'tpl:search-filter', 'tpl:select', 'tpl:tabs', 'tpl:date-picker', 'tpl:progress']);
 gulp.task('dist', ['clean:dist'], function()
 {
-   gulp.start('dist:css');
-   gulp.start('dist:scripts');
+    gulp.start('dist:css');
+    gulp.start('dist:scripts');
+    gulp.start('dist:fonts');
 });
 
 gulp.task('default', ['watch']);

@@ -37,7 +37,7 @@
 
         &:after {
             @include mdi;
-            content: '\f35e';
+            @include mdi-icon('menu-down');
             @include position(absolute, null $base-spacing-unit $base-spacing-unit null);
             @include font-size(14px);
             color: $black-3;
@@ -128,12 +128,12 @@
         }
 
         &:before {
-            content: '\f1d6';
+            @include mdi-icon('checkbox-blank-outline');
             @include transform(scale(1));
         }
 
         &:after {
-            content: '\f1d7';
+            @include mdi-icon('checkbox-marked');
             @include transform(scale(0));
             color: $teal-500;
         }

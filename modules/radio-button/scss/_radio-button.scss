@@ -47,7 +47,7 @@
         &[disabled] {
             & + .radio-button__label {
                 cursor: not-allowed;
-                
+
                 &:before,
                 &:after {
                     color: $black-3;
@@ -76,11 +76,11 @@
         }
 
         &:before {
-            content: '\f3fb';
+            @include mdi-icon('radiobox-blank');
         }
 
         &:after {
-            content: '\f3fc';
+            @include mdi-icon('radiobox-marked');
             color: $teal-500;
         }
     }

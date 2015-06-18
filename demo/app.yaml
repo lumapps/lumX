@@ -5,6 +5,9 @@ api_version: 1
 threadsafe: true
 
 handlers:
+- url: /fonts
+  static_dir: fonts
+
 - url: /images
   static_dir: images
 

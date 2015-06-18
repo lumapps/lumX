@@ -66,11 +66,11 @@
         }
 
         &:before {
-            content: '\f1d6';
+            @include mdi-icon('checkbox-blank-outline');
         }
 
         &:after {
-            content: '\f1d7';
+            @include mdi-icon('checkbox-marked');
             color: $teal-500;
         }
     }
