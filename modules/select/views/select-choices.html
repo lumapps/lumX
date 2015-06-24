@@ -17,7 +17,7 @@
             <span ng-if="hasNoResults() && !filterNeeded()">No results!</span>
         </li>
 
-        <li ng-repeat="$choice in choices() | filter:data.filter" ng-if="!filter && isChoicesVisible() && isChoicesArray()">
+        <li ng-repeat="$choice in choices() | filter:data.filter | limitTo:100 track by $index" ng-if="!filter && isChoicesVisible() && isChoicesArray()">
             <a class="lx-select__choice dropdown-link"
                ng-class="{ 'lx-select__choice--is-multiple': multiple,
                            'lx-select__choice--is-selected': isSelected($choice) }"
@@ -25,7 +25,7 @@
                ng-transclude="child"></a>
         </li>
 
-        <li ng-repeat="$choice in choices()" ng-if="filter && isChoicesVisible() && isChoicesArray()">
+        <li ng-repeat="$choice in choices() | limitTo:100 track by $index" ng-if="filter && isChoicesVisible() && isChoicesArray()">
             <a class="lx-select__choice dropdown-link"
                ng-class="{ 'lx-select__choice--is-multiple': multiple,
                            'lx-select__choice--is-selected': isSelected($choice) }"
@@ -37,7 +37,7 @@
             <span class="dropdown-link dropdown-link--is-header" ng-bind-html="trust($subheader)"></span>
         </li>
 
-        <li ng-repeat-end ng-repeat="$choice in children | filter:data.filter" ng-if="!filter && isChoicesVisible() && !isChoicesArray()">
+        <li ng-repeat-end ng-repeat="$choice in children | filter:data.filter | limitTo:100 track by $index" ng-if="!filter && isChoicesVisible() && !isChoicesArray()">
             <a class="lx-select__choice dropdown-link"
                ng-class="{ 'lx-select__choice--is-multiple': multiple,
                            'lx-select__choice--is-selected': isSelected($choice) }"
@@ -49,7 +49,7 @@
             <span class="dropdown-link dropdown-link--is-header" ng-bind-html="trust($subheader)"></span>
         </li>
 
-        <li ng-repeat-end ng-repeat="$choice in children" ng-if="filter && isChoicesVisible() && !isChoicesArray()">
+        <li ng-repeat-end ng-repeat="$choice in children | limitTo:100 track by $index" ng-if="filter && isChoicesVisible() && !isChoicesArray()">
             <a class="lx-select__choice dropdown-link"
                ng-class="{ 'lx-select__choice--is-multiple': multiple,
                            'lx-select__choice--is-selected': isSelected($choice) }"
