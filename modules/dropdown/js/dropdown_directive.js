@@ -318,15 +318,30 @@ angular.module('lumx.dropdown', [])
             templateUrl: 'dropdown.html',
             transclude: true,
             replace: true,
-            scope: {
-                position: '@',
-                width: '@',
-                fromTop: '@',
-                overToggle: '@'
-            },
+            scope: true,
             link: function(scope, element, attrs, ctrl)
             {
                 ctrl.registerDropdown(element);
+
+                attrs.$observe('position', function(newValue)
+                {
+                    scope.position = newValue;
+                });
+
+                attrs.$observe('width', function(newValue)
+                {
+                    scope.width = newValue;
+                });
+
+                attrs.$observe('fromTop', function(newValue)
+                {
+                    scope.fromTop = newValue;
+                });
+
+                attrs.$observe('overToggle', function(newValue)
+                {
+                    scope.overToggle = newValue;
+                });
             }
         };
     })

@@ -1,5 +1,6 @@
 /* global angular */
 /* global escape */
+/* global console */
 'use strict'; // jshint ignore:line
 
 angular
@@ -403,7 +404,7 @@ angular
 
         $scope.addPerson = function()
         {
-            $scope.people.push({ name: 'Lorem', email: 'lorem@email.com', age: 99 })
+            $scope.people.push({ name: 'Lorem', email: 'lorem@email.com', age: 99 });
         };
 
         $scope.thumbnail = '/images/placeholder/1-horizontal.jpg';
