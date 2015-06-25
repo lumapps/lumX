@@ -1,5 +1,26 @@
 # Changelog
 
+## v0.3.44:
+
+#### New features:
+ - dialog: add open/close broadcast event
+
+
+## v0.3.43:
+
+#### Bug fixes:
+ - date-picker: ng-if for less watchers
+
+
+## v0.3.42:
+
+#### Bug fixes:
+ - dialog : use child scope
+ - select: new DOM filter manage filter in params
+ - tabs: default value management for attrs
+ - tabs: use child scope
+
+
 ## v0.3.41:
 
 #### Bug fixes:
