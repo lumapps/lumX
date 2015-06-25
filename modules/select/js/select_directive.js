@@ -7,7 +7,8 @@ angular.module('lumx.select', [])
                                        function($scope, $compile, $filter, $interpolate, $sce, $timeout)
     {
         var newModel = false,
-            newSelection = true;
+            newSelection = true,
+            newScope;
 
         $scope.data = {
             filter: '',
@@ -246,7 +247,12 @@ angular.module('lumx.select', [])
         {
             if (angular.isDefined(newValue) && angular.isDefined($scope.data.selectedTransclude))
             {
-                var newScope = $scope.$new();
+                if (newScope)
+                {
+                    newScope.$destroy();
+                }
+                
+                newScope = $scope.$new();
                 $scope.data.selectedTemplate = '';
 
                 angular.forEach(newValue, function(selectedElement)
