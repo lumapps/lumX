@@ -18,7 +18,7 @@
         </li>
 
         <div ng-if="isChoicesVisible() && isChoicesArray()">
-            <li ng-repeat="$choice in choices() | filter:(filter ? '' : data.filter) | limitTo:100 track by $index">
+            <li ng-repeat="$choice in choices() | filterChoices:filter:data.filter | limitTo:100 track by $index">
                 <a class="lx-select__choice dropdown-link"
                    ng-class="{ 'lx-select__choice--is-multiple': multiple,
                                'lx-select__choice--is-selected': isSelected($choice) }"
@@ -32,7 +32,7 @@
                 <span class="dropdown-link dropdown-link--is-header" ng-bind-html="trust($subheader)"></span>
             </li>
 
-            <li ng-repeat-end ng-repeat="$choice in children | filter:(filter ? '' : data.filter) | limitTo:100 track by $index">
+            <li ng-repeat-end ng-repeat="$choice in children | filterChoices:filter:data.filter | limitTo:100 track by $index">
                 <a class="lx-select__choice dropdown-link"
                    ng-class="{ 'lx-select__choice--is-multiple': multiple,
                                'lx-select__choice--is-selected': isSelected($choice) }"

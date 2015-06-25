@@ -1,12 +1,16 @@
 /* global angular */
 'use strict'; // jshint ignore:line
 
-
 angular.module('lumx.select', [])
     .filter('filterChoices', ['$filter', function($filter)
     {
-        return function(choices, expression, comparator)
+        return function(choices, externalFilter, textFilter)
         {
+            if (externalFilter)
+            {
+                return choices;
+            }
+
             var toFilter = [];
 
             if (!angular.isArray(choices))
@@ -27,7 +31,7 @@ angular.module('lumx.select', [])
                 toFilter = choices;
             }
 
-            return $filter('filter')(toFilter, expression, comparator);
+            return $filter('filter')(toFilter, textFilter);
         };
     }])
     .controller('LxSelectController', ['$scope', '$compile', '$filter', '$interpolate', '$sce', '$timeout',
@@ -129,7 +133,7 @@ angular.module('lumx.select', [])
 
         function hasNoResults()
         {
-            return angular.isUndefined($scope.choices()) || $filter('filterChoices')($scope.choices(), $scope.data.filter).length === 0;
+            return angular.isUndefined($scope.choices()) || $filter('filterChoices')($scope.choices(), $scope.filter, $scope.data.filter).length === 0;
         }
 
         function filterNeeded()
