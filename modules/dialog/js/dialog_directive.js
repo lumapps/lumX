@@ -3,7 +3,7 @@
 
 
 angular.module('lumx.dialog', [])
-    .service('LxDialogService', ['$timeout', '$interval', '$window', function($timeout, $interval, $window)
+    .service('LxDialogService', ['$rootScope', '$timeout', '$interval', '$window', function($rootScope, $timeout, $interval, $window)
     {
         var self = this,
             dialogInterval,
@@ -20,6 +20,7 @@ angular.module('lumx.dialog', [])
         this.open = function(dialogId)
         {
             activeDialogId = dialogId;
+            $rootScope.$broadcast('lx-dialog__open--start', dialogId);
 
             angular.element('body').css({
                 overflow: 'hidden'
@@ -49,6 +50,7 @@ angular.module('lumx.dialog', [])
 
                 dialogFilter.addClass('dialog-filter--is-shown');
                 scopeMap[dialogId].element.addClass('dialog--is-shown');
+                $rootScope.$broadcast('lx-dialog__open--end', dialogId);
             }, 100);
 
             dialogInterval = $interval(function()
@@ -64,6 +66,7 @@ angular.module('lumx.dialog', [])
         this.close = function(dialogId)
         {
             activeDialogId = undefined;
+            $rootScope.$broadcast('lx-dialog__close--start', dialogId);
 
             $interval.cancel(dialogInterval);
 
@@ -86,6 +89,7 @@ angular.module('lumx.dialog', [])
 
                 scopeMap[dialogId].isOpened = false;
                 dialogHeight = undefined;
+                $rootScope.$broadcast('lx-dialog__close--end', dialogId);
             }, 600);
         };
 
