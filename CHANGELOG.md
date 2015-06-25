@@ -328,7 +328,7 @@
 #### Breaking changes:
  - Form error has been deleted
  - Icons have changed. Please checkout documentation
- - New paths in the dist folder: dist/lumx.css, dist/lumx.js, dist/lumx.min.js, dist/scss/_lumx.scss
+ - New paths in the dist folder: dist/lumx.css, dist/lumx.js, dist/lumx.min.js, dist/scss/\_lumx.scss
  - grid system is removed in favor of flexbox
 
 
