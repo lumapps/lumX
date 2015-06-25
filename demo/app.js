@@ -301,22 +301,22 @@ angular
             LxDialogService.open(dialogId);
         };
 
-        $scope.$on('lx-dialog__open--start', function(event, data)
+        $scope.$on('lx-dialog__open-start', function(event, data)
         {
             console.log('open start', data);
         });
 
-        $scope.$on('lx-dialog__open--end', function(event, data)
+        $scope.$on('lx-dialog__open-end', function(event, data)
         {
             console.log('open end', data);
         });
 
-        $scope.$on('lx-dialog__close--start', function(event, data)
+        $scope.$on('lx-dialog__close-start', function(event, data)
         {
             console.log('close start', data);
         });
 
-        $scope.$on('lx-dialog__close--end', function(event, data)
+        $scope.$on('lx-dialog__close-end', function(event, data)
         {
             console.log('close end', data);
         });
