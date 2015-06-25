@@ -86,7 +86,6 @@ angular.module('lumx.dialog', [])
 
                 scopeMap[dialogId].isOpened = false;
                 dialogHeight = undefined;
-                scopeMap[dialogId].$destroy();
             }, 600);
         };
 
@@ -168,12 +167,8 @@ angular.module('lumx.dialog', [])
         return {
             restrict: 'E',
             controller: 'LxDialogController',
-            scope: {
-                onclose: '&',
-                onscrollend: '&',
-                autoClose: '@'
-            },
-            template: '<div><div ng-if="isOpened" ng-transclude="2"></div></div>',
+            scope: true,
+            template: '<div><div ng-if="isOpened" ng-transclude="child"></div></div>',
             replace: true,
             transclude: true,
             link: function(scope, element, attrs, ctrl)
@@ -184,6 +179,27 @@ angular.module('lumx.dialog', [])
                     {
                         ctrl.init(element, newId);
                     }
+                });
+
+                attrs.$observe('autoClose', function(newValue)
+                {
+                    scope.autoClose = newValue;
+                });
+
+                attrs.$observe('onclose', function(newValue)
+                {
+                    scope.onclose = function()
+                    {
+                        return scope.$eval(newValue);
+                    };
+                });
+
+                attrs.$observe('onscrollend', function(newValue)
+                {
+                    scope.onscrollend = function()
+                    {
+                        return scope.$eval(newValue);
+                    };
                 });
             }
         };
