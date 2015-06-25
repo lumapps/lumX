@@ -238,6 +238,7 @@ angular.module('lumx.select', [])
                 }
 
                 $scope.data.selected = value;
+                $scope.$selected = !$scope.multiple && $scope.getSelectedElements().length === 1 ? $scope.getSelectedElements()[0] : undefined;
             });
         });
 
@@ -302,6 +303,7 @@ angular.module('lumx.select', [])
                     $scope.change({ newValue: angular.copy(newConvertedValue), oldValue: angular.copy($scope.ngModel.$modelValue) });
                 }
                 $scope.ngModel.$setViewValue(angular.copy(newConvertedValue));
+                $scope.$selected = !$scope.multiple && $scope.getSelectedElements().length === 1 ? $scope.getSelectedElements()[0] : undefined;
             });
         }, true);
 

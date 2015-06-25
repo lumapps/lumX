@@ -8,7 +8,7 @@
          lx-ripple>
         <span ng-if="getSelectedElements().length === 0" ng-bind-html="trust(placeholder)"></span>
 
-        <div ng-if="!multiple && getSelectedElements().length === 1" ng-init="$selected = getSelectedElements()[0];">
+        <div ng-if="!multiple && getSelectedElements().length === 1">
             <i class="lx-select__close mdi mdi-close-circle" ng-click="unselect($selected, $event)" ng-if="allowClear"></i>
             <span ng-transclude="child"></span>
         </div>
