@@ -1,5 +1,157 @@
 # Changelog
 
+## v0.3.41:
+
+#### Bug fixes:
+ - select: filter on object after angular 1.4
+ - select: remove memory leak of child scope
+ - select: use child scope
+ - dropdown: use child scope for directive
+ - dropdown: Use ng-show instead of ng-if
+
+
+## v0.3.40:
+*No major changes.*
+
+
+## v0.3.39:
+
+#### Bug fixes:
+ - select: Default the minLength to undefined instead of 0
+
+
+## v0.3.38:
+
+#### Bug fixes:
+ - select: Duplicate ng-repeat-start instead of ng-repeat-end
+
+
+## v0.3.37:
+
+#### Bug fixes:
+ - select: Filter using the default filter only if no custom filter
+
+
+## v0.3.36:
+
+#### New features:
+ - buttons: add disabled state in placeholder
+ - date picker: add allow clear option
+
+
+## v0.3.35:
+
+#### Bug fixes:
+ - dialog: fix dialog scrollable scrollbar position
+
+
+## v0.3.34:
+
+#### Bug fixes:
+ - dialog: prevent body scroll via css
+
+
+## v0.3.33:
+
+#### New features:
+ - css: add margin to elements in paragraph
+ - tabs: custom tab icons
+ - tabs: show icons and headers
+ - tabs : correct classes for mdi use on pagination
+ - tabs : pagination
+
+#### Bug fixes:
+ - palette: added defaults
+ - palette: add missing cyan color
+
+#### Breaking changes:
+ - Your sass compiler must have an include path for your Bourbon location.
+
+
+## v0.3.32:
+*No major changes.*
+
+
+## v0.3.31:
+
+#### Bug fixes:
+ - file input: handle input file refresh
+
+
+## v0.3.30:
+
+#### Bug fixes:
+ - file input: handle undefined value
+
+
+## v0.3.29:
+
+#### Bug fixes:
+ - dropdown: dropdown position in fixed div
+
+
+## v0.3.28:
+
+#### New features:
+ - dialog: add auto-close & onscrollend attributes
+
+
+## v0.3.27:
+
+#### New features:
+ - button: add button variants placeholder
+
+
+## v0.3.26:
+
+#### New features:
+ - dropdown: dropdown toggle as an element
+
+
+## v0.3.25:
+
+#### New features:
+ - button: add button placeholder
+
+#### Bug fixes:
+ - file input: trust html for label
+ - sidebar-services: remove target="\_self"
+
+
+## v0.3.24:
+
+#### Bug fixes:
+ - icons: change html code in sass files
+
+
+## v0.3.23:
+
+#### Bug fixes:
+ - select: placeholder as unsafe html
+
+
+## v0.3.22:
+
+#### Bug fixes:
+ - text-field: label as unsafe html
+
+
+## v0.3.21:
+
+#### Bug fixes:
+ - dialog: destroy the dialog scope when the modal is closed
+ - date-picker: watch changes on model
+ - text-field: remove border on firefox in invalid text fields
+ - select: allow field labels to contain sanitized html
+ - text-field, file-input: allow field labels to contain sanitized html
+
+
+## v0.3.20:
+
+#### Bug fixes:
+ - select: use new "over-toggle" from dropdown
+
+
 ## v0.3.19:
 
 #### New features:
