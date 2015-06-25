@@ -372,50 +372,52 @@ angular.module('lumx.tabs', [])
             templateUrl: 'tabs.html',
             transclude: true,
             replace: true,
-            scope: {
-                activeTab: '=?',
-                linksTc: '@',
-                linksBgc: '@',
-                indicator: '@',
-                noDivider: '@',
-                zDepth: '@',
-                layout: '@',
-                showIconAndHeading: '@',
-                iconPrefix: '@'
-            },
+            scope: true,
             link: function(scope, element, attrs, ctrl)
             {
                 ctrl.init(element);
 
-                if (angular.isUndefined(scope.linksTc))
-                {
-                    scope.linksTc = 'dark';
-                }
+                scope.activeTab = 'activeTab' in attrs ? scope.$parent.$eval(attrs.activeTab) : 0;
 
-                if (angular.isUndefined(scope.linksBgc))
+                attrs.$observe('linksTc', function(newValue)
                 {
-                    scope.linksBgc = 'white';
-                }
+                    scope.linksTc = newValue || 'dark';
+                });
 
-                if (angular.isUndefined(scope.indicator))
+                attrs.$observe('linksBgc', function(newValue)
                 {
-                    scope.indicator = 'blue-500';
-                }
+                    scope.linksBgc = newValue || 'white';
+                });
 
-                if (angular.isUndefined(scope.zDepth))
+                attrs.$observe('indicator', function(newValue)
                 {
-                    scope.zDepth = '0';
-                }
+                    scope.indicator = newValue || 'blue-500';
+                });
 
-                if (angular.isUndefined(scope.layout))
+                attrs.$observe('noDivider', function(newValue)
                 {
-                    scope.layout = 'full';
-                }
+                    scope.noDivider = newValue;
+                });
 
-                if (angular.isUndefined(scope.iconPrefix))
+                attrs.$observe('zDepth', function(newValue)
                 {
-                    scope.iconPrefix = 'mdi mdi-';
-                }
+                    scope.zDepth = newValue || '0';
+                });
+
+                attrs.$observe('layout', function(newValue)
+                {
+                    scope.layout = newValue || 'full';
+                });
+
+                attrs.$observe('showIconAndHeading', function(newValue)
+                {
+                    scope.showIconAndHeading = newValue;
+                });
+
+                attrs.$observe('iconPrefix', function(newValue)
+                {
+                    scope.iconPrefix = newValue || 'mdi mdi-';
+                });
             }
         };
     })
@@ -424,10 +426,7 @@ angular.module('lumx.tabs', [])
         return {
             require: '^lxTabs',
             restrict: 'E',
-            scope: {
-                heading: '@',
-                icon: '@'
-            },
+            scope: true,
             templateUrl: 'tab.html',
             transclude: true,
             replace: true,
@@ -435,6 +434,16 @@ angular.module('lumx.tabs', [])
             {
                 scope.data = ctrl.getScope();
                 scope.index = ctrl.addTab(scope);
+
+                attrs.$observe('heading', function(newValue)
+                {
+                    scope.heading = newValue;
+                });
+
+                attrs.$observe('icon', function(newValue)
+                {
+                    scope.icon = newValue;
+                });
 
                 scope.$on('$destroy', function(scope)
                 {
