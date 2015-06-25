@@ -76,7 +76,11 @@ angular.module('lumx.dialog', [])
 
             dialogFilter.removeClass('dialog-filter--is-shown');
             scopeMap[dialogId].element.removeClass('dialog--is-shown');
-            scopeMap[dialogId].onclose();
+
+            if (scopeMap[dialogId].onclose)
+            {
+                scopeMap[dialogId].onclose();
+            }
 
             $timeout(function()
             {
