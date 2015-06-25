@@ -3,6 +3,33 @@
 
 
 angular.module('lumx.select', [])
+    .filter('filterChoices', ['$filter', function($filter)
+    {
+        return function(choices, expression, comparator)
+        {
+            var toFilter = [];
+
+            if (!angular.isArray(choices))
+            {
+                if (angular.isObject(choices))
+                {
+                    for (var idx in choices)
+                    {
+                        if (angular.isArray(choices[idx]))
+                        {
+                            toFilter = toFilter.concat(choices[idx]);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                toFilter = choices;
+            }
+
+            return $filter('filter')(toFilter, expression, comparator);
+        };
+    }])
     .controller('LxSelectController', ['$scope', '$compile', '$filter', '$interpolate', '$sce', '$timeout',
                                        function($scope, $compile, $filter, $interpolate, $sce, $timeout)
     {
@@ -102,7 +129,7 @@ angular.module('lumx.select', [])
 
         function hasNoResults()
         {
-            return angular.isUndefined($scope.choices()) || $filter('filter')($scope.choices(), $scope.data.filter).length === 0;
+            return angular.isUndefined($scope.choices()) || $filter('filterChoices')($scope.choices(), $scope.data.filter).length === 0;
         }
 
         function filterNeeded()
@@ -251,7 +278,7 @@ angular.module('lumx.select', [])
                 {
                     newScope.$destroy();
                 }
-                
+
                 newScope = $scope.$new();
                 $scope.data.selectedTemplate = '';
 
