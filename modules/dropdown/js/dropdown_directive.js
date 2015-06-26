@@ -111,6 +111,12 @@ angular.module('lumx.dropdown', [])
 
         function setDropdownMenuCss()
         {
+            dropdownMenu.removeAttr('style');
+            dropdownMenu.css({
+                opacity: 1,
+                overflow: 'auto'
+            });
+
             var windowScrollTop = angular.element($window).scrollTop();
             var dropdownMenuWidth = dropdownMenu.outerWidth();
             dropdownMenuHeight = dropdownMenu.outerHeight();
@@ -151,8 +157,7 @@ angular.module('lumx.dropdown', [])
                     height = origin.y - bottomOffset - 8;
                 }
 
-                dropdownMenu.css(
-                {
+                dropdownMenu.css({
                     left: $scope.position !== 'right' ? origin.x : undefined,
                     right: $scope.position === 'right' ? origin.x : undefined,
                     bottom: $window.innerHeight - origin.y + bottomOffset - windowScrollTop,
@@ -160,12 +165,11 @@ angular.module('lumx.dropdown', [])
                     height: height
                 });
             }
-            else if (origin.y + dropdownMenuHeight < $window.innerHeight)
+            else if (origin.y + (fromTop(false) ? -dropdown.outerHeight() : 0) + dropdownMenuHeight < $window.innerHeight)
             { // To bottom
                 topOffset = fromTop(false) ? -dropdown.outerHeight() : 0;
 
-                dropdownMenu.css(
-                {
+                dropdownMenu.css({
                     left: $scope.position !== 'right' ? origin.x : undefined,
                     right: $scope.position === 'right' ? origin.x : undefined,
                     top: origin.y + topOffset + windowScrollTop,
@@ -177,10 +181,9 @@ angular.module('lumx.dropdown', [])
                 if (origin.y > $window.innerHeight / 2) // Middle of the screen
                 { // To top
                     bottomOffset = fromTop(true) ? dropdown.outerHeight() : 0;
-                    height = origin.y - 8;
+                    height = origin.y - (fromTop(true) ? dropdown.outerHeight() : 0) - 8;
 
-                    dropdownMenu.css(
-                    {
+                    dropdownMenu.css({
                         left: $scope.position !== 'right' ? origin.x : undefined,
                         right: $scope.position === 'right' ? origin.x : undefined,
                         bottom: $window.innerHeight - origin.y + bottomOffset - windowScrollTop,
@@ -191,15 +194,14 @@ angular.module('lumx.dropdown', [])
                 else
                 { // To bottom
                     topOffset = fromTop(false) ?  -dropdown.outerHeight() : 0;
-                    height = $window.innerHeight - origin.y - 8;
+                    height = $window.innerHeight - (fromTop(false) ? dropdown.outerHeight() : 0) - origin.y - 8;
 
-                    dropdownMenu.css(
-                    {
+                    dropdownMenu.css({
                         left: $scope.position !== 'right' ? origin.x : undefined,
                         right: $scope.position === 'right' ? origin.x : undefined,
                         top: origin.y + topOffset + windowScrollTop,
                         width: width,
-                        height: height - topOffset
+                        height: height - 2*topOffset
                     });
                 }
             }
@@ -291,7 +293,7 @@ angular.module('lumx.dropdown', [])
             }
         });
 
-        angular.element($window).bind('resize, scroll', function()
+        angular.element($window).on('resize scroll', function()
         {
             if ($scope.isDropped)
             {
