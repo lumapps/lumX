@@ -183,7 +183,7 @@ angular.module('lumx.date-picker', [])
 
         $scope.clearDate = function()
         {
-            $scope.selected = undefined;
+            $scope.model = undefined;
         };
 
         function generateCalendar()
