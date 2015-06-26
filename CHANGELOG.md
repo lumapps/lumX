@@ -1,5 +1,34 @@
 # Changelog
 
+## v0.3.48:
+
+#### Bug fixes:
+ - dialog: resize event from true size
+ - select: add missing semicolon
+ - dropdown: default dropdown link icon size
+
+
+## v0.3.47:
+
+#### New features:
+ - select: unselect item from the selected list
+ - progress: add linear progress as directive
+ - dropdown: add dropdown link icon
+ - icon: add placeholders
+
+
+## v0.3.46:
+
+#### Bug fixes:
+ - dialog: avoid pointer exception for onclose
+
+
+## v0.3.45:
+
+#### Bug fixes:
+ - dialog: new events name
+
+
 ## v0.3.44:
 
 #### New features:
