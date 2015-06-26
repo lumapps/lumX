@@ -185,6 +185,31 @@
         @include clearfix;
     }
 
+    .lx-select__chosen--is-deletable {
+        .lx-select__tag:hover {
+            color: $black-4;
+
+            .lx-select__delete-button {
+                display: block;
+            }
+        }
+    }
+
+    .lx-select__delete-button {
+        @include position(absolute, 0 0 0 0);
+        @include mdi;
+        @include font-size(18px);
+        display: none;
+        cursor: pointer;
+        text-align: center;
+        line-height: 20px;
+        color: $black-2;
+
+        &:after {
+            @include mdi-icon('close');
+        }
+    }
+
     // Select filter
     .lx-select__filter {
         padding: $base-spacing-unit / 4 $base-spacing-unit;

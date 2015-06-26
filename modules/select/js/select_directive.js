@@ -34,8 +34,8 @@ angular.module('lumx.select', [])
             return $filter('filter')(toFilter, textFilter);
         };
     }])
-    .controller('LxSelectController', ['$scope', '$compile', '$filter', '$interpolate', '$sce', '$timeout',
-                                       function($scope, $compile, $filter, $interpolate, $sce, $timeout)
+    .controller('LxSelectController', ['$scope', '$filter', '$interpolate', '$sce', '$timeout',
+                                       function($scope, $filter, $interpolate, $sce, $timeout)
     {
         var newModel = false,
             newSelection = true,
@@ -88,7 +88,7 @@ angular.module('lumx.select', [])
             }
         }
 
-        function unselect(element, event)
+        function unselect(element, event, stopEvent)
         {
             newSelection = false;
             if (!$scope.allowClear && !$scope.multiple)
@@ -96,7 +96,7 @@ angular.module('lumx.select', [])
                 return;
             }
 
-            if (angular.isDefined(event) && !$scope.multiple)
+            if (angular.isDefined(event) && (!$scope.multiple || stopEvent))
             {
                 event.stopPropagation();
             }
@@ -168,11 +168,6 @@ angular.module('lumx.select', [])
         function getSelectedElements()
         {
             return angular.isDefined($scope.data.selected) ? $scope.data.selected : [];
-        }
-
-        function getSelectedTemplate()
-        {
-            return $sce.trustAsHtml($scope.data.selectedTemplate);
         }
 
         function convertValue(newValue, conversion, callback)
@@ -284,28 +279,36 @@ angular.module('lumx.select', [])
                 }
 
                 newScope = $scope.$new();
-                $scope.data.selectedTemplate = '';
+                $scope.data.selectedTemplate = { html: '', selected: {} };
 
-                angular.forEach(newValue, function(selectedElement)
+                angular.forEach(newValue, function(selectedElement, key)
                 {
                     newScope.$selected = selectedElement;
+                    $scope.data.selectedTemplate.selected[key] = selectedElement;
 
                     $scope.data.selectedTransclude(newScope, function(clone)
                     {
-                        var div = angular.element('<div/>'),
-                        element = $compile(clone)(newScope),
-                        content = $interpolate(clone.html())(newScope);
+                        var div = angular.element('<div/>');
+                        var content = $interpolate(clone.html())(newScope);
+                        clone.html(content);
 
-                        element.html(content);
+                        if ($scope.multiple)
+                        {
+                            if ($scope.allowClear || newValue.length > 1)
+                            {
+                                var deleteButton = angular.element('<i class="lx-select__delete-button" ng-click="unselect(transcludeSelected[' + key + '], $event, true)"></i>');
+                                clone.append(deleteButton);
+                            }
+                        }
 
-                        div.append(element);
+                        div.append(clone);
 
                         if ($scope.multiple)
                         {
                             div.find('span').addClass('lx-select__tag');
                         }
 
-                        $scope.data.selectedTemplate += div.html();
+                        $scope.data.selectedTemplate.html += div.html();
                     });
                 });
             }
@@ -364,7 +367,6 @@ angular.module('lumx.select', [])
         $scope.isSelected = isSelected;
         $scope.filterNeeded = filterNeeded;
         $scope.getSelectedElements = getSelectedElements;
-        $scope.getSelectedTemplate = getSelectedTemplate;
         $scope.hasNoResults = hasNoResults;
         $scope.isChoicesArray = isChoicesArray;
         $scope.trust = trust;
@@ -494,4 +496,22 @@ angular.module('lumx.select', [])
             templateUrl: 'select-choices.html',
             transclude: true
         };
+    })
+    .directive('lxSelectChoicesSelected', function($compile, $parse)
+    {
+        return {
+            restrict: 'E',
+            link: function(scope, element, attrs)
+            {
+                scope.$watch(attrs.content, function()
+                {
+                    var data = scope.$eval(attrs.content);
+
+                    scope.transcludeSelected = data.selected;
+
+                    element.html(data.html);
+                    $compile(element.contents())(scope);
+                }, true);
+            }
+        }
     });

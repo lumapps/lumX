@@ -1,9 +1,10 @@
 <lx-dropdown-menu class="lx-select__choices">
     <ul ng-if="!tree">
         <li ng-if="getSelectedElements().length > 0">
-            <div class="lx-select__chosen"
-                 ng-class="{ 'lx-select__chosen--is-multiple': multiple }"
-                 ng-bind-html="getSelectedTemplate()"></div>
+            <lx-select-choices-selected class="lx-select__chosen"
+                                        ng-class="{ 'lx-select__chosen--is-multiple': multiple,
+                                                    'lx-select__chosen--is-deletable': multiple && (getSelectedElements().length > 1 || allowClear), }"
+                                        content="data.selectedTemplate"></lx-select-choices-selected>
         </li>
 
         <li>
