@@ -10,7 +10,8 @@ $icon-font-size:   ('xs': 10px, 's': 12px, 'm': 14px, 'l': 18px, 'xl': 26px);
 
 
 // Icon base styles
-.icon {
+.icon,
+%icon {
     vertical-align: top;
     text-align: center;
 }
@@ -21,15 +22,18 @@ $icon-font-size:   ('xs': 10px, 's': 12px, 'm': 14px, 'l': 18px, 'xl': 26px);
 
 // Icon sizes
 @each $key, $size in $sizes {
-    .icon--#{$key} {
+    .icon--#{$key},
+    %icon--#{$key} {
         @include size($size);
         line-height: $size !important;
 
-        &.icon--circled {
+        &.icon--circled,
+        &%icon--circled {
             @include font-size(map-get($icon-font-size, $key));
         }
 
-        &.icon--flat {
+        &.icon--flat,
+        &%icon--flat {
             @include font-size($size - 6);
         }
     }
@@ -41,12 +45,14 @@ $icon-font-size:   ('xs': 10px, 's': 12px, 'm': 14px, 'l': 18px, 'xl': 26px);
 
 // Icon colors
 @each $key, $color in $colors {
-    .icon--circled.icon--#{$key} {
+    .icon--circled.icon--#{$key},
+    %icon--circled%icon--#{$key} {
         color: $white-1;
         background-color: $color;
     }
 
-    .icon--flat.icon--#{$key} {
+    .icon--flat.icon--#{$key},
+    %icon--flat%icon--#{$key} {
         color: $color;
     }
 }
@@ -56,6 +62,7 @@ $icon-font-size:   ('xs': 10px, 's': 12px, 'm': 14px, 'l': 18px, 'xl': 26px);
 
 
 // Icon types
-.icon--circled {
+.icon--circled,
+%icon--circled {
     border-radius: 50%;
 }
