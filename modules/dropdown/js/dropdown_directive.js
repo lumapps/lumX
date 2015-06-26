@@ -282,6 +282,14 @@ angular.module('lumx.dropdown', [])
             });
         }
 
+        function updatePositionAndSize()
+        {
+            if ($scope.isDropped)
+            {
+                setDropdownMenuCss();
+            }
+        }
+
         $scope.$watch('isOpened', function(isOpened)
         {
             if (isOpened)
@@ -296,13 +304,7 @@ angular.module('lumx.dropdown', [])
             }
         });
 
-        angular.element($window).on('resize scroll', function()
-        {
-            if ($scope.isDropped)
-            {
-                setDropdownMenuCss();
-            }
-        });
+        angular.element($window).on('resize scroll', updatePositionAndSize);
 
         $scope.$on('$locationChangeSuccess', function()
         {
@@ -314,6 +316,8 @@ angular.module('lumx.dropdown', [])
             dropdownMenu.remove();
             LxDropdownService.close($scope);
         });
+
+        this.updatePositionAndSize = updatePositionAndSize;
     }])
     .directive('lxDropdown', function()
     {
@@ -372,7 +376,7 @@ angular.module('lumx.dropdown', [])
             }
         };
     })
-    .directive('lxDropdownMenu', function()
+    .directive('lxDropdownMenu', ['$timeout', function($timeout)
     {
         return {
             restrict: 'E',
@@ -380,8 +384,10 @@ angular.module('lumx.dropdown', [])
             templateUrl: 'dropdown-menu.html',
             transclude: true,
             replace: true,
-            link: function(scope, element, attrs, ctrl)
+            link: function(scope, element, attrs, ctrl, transclude)
             {
+                var timer;
+
                 ctrl.registerDropdownMenu(element);
                 element.on('click', function(event)
                 {
@@ -392,9 +398,22 @@ angular.module('lumx.dropdown', [])
                         ctrl.toggle();
                     });
                 });
+
+                scope.$watch(function()
+                {
+                    return element.html();
+                }, function(newValue)
+                {
+                    if (timer)
+                    {
+                        $timeout.cancel(timer);
+                    }
+
+                    timer = $timeout(ctrl.updatePositionAndSize, 150); // debounce
+                });
             }
         };
-    })
+    }])
     .directive('lxDropdownFilter', ['$timeout', function($timeout)
     {
         return {
