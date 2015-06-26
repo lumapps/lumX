@@ -513,5 +513,5 @@ angular.module('lumx.select', [])
                     $compile(element.contents())(scope);
                 }, true);
             }
-        }
+        };
     });
