@@ -2,6 +2,7 @@
 <button class="btn btn--m btn--black btn--flat" ng-click="hideCircularProgress()" lx-ripple>Hide circular progress</button>
 
 <button class="btn btn--m btn--black btn--flat" ng-click="toggleSmallCircularProgress()" lx-ripple>Toggle small circular progress</button>
+<button class="btn btn--m btn--black btn--flat" ng-click="toggleSmallLinearProgress()" lx-ripple>Toggle small linear progress</button>
 
 <button class="btn btn--m btn--black btn--flat" ng-click="showLinearProgress()" lx-ripple>Show linear progress</button>
 <button class="btn btn--m btn--black btn--flat" ng-click="hideLinearProgress()" lx-ripple>Hide linear progress</button>
@@ -9,3 +10,4 @@
 <div id="progress"></div>
 
 <lx-progress type="circular" color="#5fa2db" ng-if="showSmallCircularProgress"></lx-progress>
+<lx-progress type="linear" color="#5fa2db" ng-if="showSmallLinearProgress"></lx-progress>

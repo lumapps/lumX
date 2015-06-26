@@ -343,6 +343,13 @@ angular
             $scope.showSmallCircularProgress = !$scope.showSmallCircularProgress;
         };
 
+        $scope.showSmallLinearProgress = false;
+
+        $scope.toggleSmallLinearProgress = function()
+        {
+            $scope.showSmallLinearProgress = !$scope.showSmallLinearProgress;
+        };
+
         $scope.hideCircularProgress = function()
         {
             LxProgressService.circular.hide();
