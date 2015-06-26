@@ -83,7 +83,7 @@
 
     i {
         @extend %icon;
-        @extend %icon--s;
+        @extend %icon--xs;
         @extend %icon--flat;
         margin-right: $base-spacing-unit * 2;
         color: $black-2;
@@ -92,6 +92,12 @@
 
 .dropdown-link--is-large {
     height: 48px;
+
+    i {
+        @extend %icon;
+        @extend %icon--s;
+        @extend %icon--flat;
+    }
 }
 
 .dropdown-link--is-header {
