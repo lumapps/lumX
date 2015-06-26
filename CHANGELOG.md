@@ -1,5 +1,18 @@
 # Changelog
 
+## v0.3.50:
+
+#### Bug fixes:
+ - dropdown: manage resize when content changes
+ - dropdown: keep scroll position after resize
+
+
+## v0.3.49:
+
+#### Bug fixes:
+ - date-picker: clear set date to undefined
+
+
 ## v0.3.48:
 
 #### Bug fixes:
