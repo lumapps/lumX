@@ -111,6 +111,7 @@ angular.module('lumx.dropdown', [])
 
         function setDropdownMenuCss()
         {
+            var scrollTop = dropdownMenu.scrollTop();
             dropdownMenu.removeAttr('style');
             dropdownMenu.css({
                 opacity: 1,
@@ -204,6 +205,8 @@ angular.module('lumx.dropdown', [])
                         height: height - 2*topOffset
                     });
                 }
+
+                dropdownMenu.scrollTop(scrollTop);
             }
         }
 
