@@ -497,7 +497,7 @@ angular.module('lumx.select', [])
             transclude: true
         };
     })
-    .directive('lxSelectChoicesSelected', function($compile, $parse)
+    .directive('lxSelectChoicesSelected', ['$compile', '$parse', function($compile, $parse)
     {
         return {
             restrict: 'E',
@@ -514,4 +514,4 @@ angular.module('lumx.select', [])
                 }, true);
             }
         };
-    });
+    }]);
