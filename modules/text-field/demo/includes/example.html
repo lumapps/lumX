@@ -26,6 +26,8 @@
         <lx-text-field label="Email" error="!emailValidation(textFields.firstEmail)">
             <input type="email" ng-model="textFields.firstEmail">
         </lx-text-field>
+
+        <span class="text-field-error" ng-if="!emailValidation(textFields.firstEmail)">Email invalid</span>
     </div>
 
     <div flex-item>
@@ -45,8 +47,6 @@
 
 <div flex-container="row">
     <div flex-item>
-        <span class="display-block">{{ textFields.description }}</span>
-
         <lx-text-field label="Description">
             <textarea ng-model="textFields.description"></textarea>
         </lx-text-field>

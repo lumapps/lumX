@@ -33,6 +33,7 @@
 .text-field--is-active {
     .text-field__label {
         @include transform(scale(0.75) translateY(0));
+        color: $black-2;
     }
 }
 
@@ -57,6 +58,10 @@
         border-bottom-style: dashed;
     }
 
+    .text-field__label {
+        color: $black-3;
+    }
+
     .text-field__input {
         color: $black-3;
         cursor: not-allowed;
@@ -75,7 +80,7 @@
         @include transform(scale(1));
     }
 
-    .text-field__label {
+    &.text-field--is-active .text-field__label {
         color: $red-500;
     }
 
@@ -138,7 +143,7 @@
 .text-field--with-icon {
     margin-left: $base-spacing-unit * 8;
 }
-    
+
     // Text field label
     .text-field__label {
         display: block;
@@ -219,3 +224,14 @@
             color: $green-500;
         }
     }
+
+
+
+
+
+// Text field error
+.text-field-error {
+    display: block;
+    @include font-size(12px);
+    color: $red;
+}
