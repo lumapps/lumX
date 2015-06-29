@@ -71,6 +71,13 @@ $btn-icon-size: ('xs': 13px, 's': 15px, 'm': 20px, 'l': 24px, 'xl': 28px);
     &%btn--fab {
         background-color: $grey-300 !important;
     }
+
+    &.btn--flat,
+    &.btn--icon,
+    &%btn--flat,
+    &%btn--icon {
+        background-color: transparent !important;
+    }
 }
 
 
@@ -78,6 +85,14 @@ $btn-icon-size: ('xs': 13px, 's': 15px, 'm': 20px, 'l': 24px, 'xl': 28px);
 
 
 // Flat / Icon button
+.btn--flat,
+.btn--icon,
+%btn--flat,
+%btn--icon {
+    @include transition-property(background-color);
+    @include transition-duration(0.2s);
+}
+
 @each $key, $color in $colors {
     .btn--flat.btn--#{$key},
     .btn--icon.btn--#{$key},
@@ -87,6 +102,10 @@ $btn-icon-size: ('xs': 13px, 's': 15px, 'm': 20px, 'l': 24px, 'xl': 28px);
 
         .ripple {
             background-color: $color;
+        }
+
+        &:hover {
+            background-color: rgba($color, 0.15);
         }
     }
 }
