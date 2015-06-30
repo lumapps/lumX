@@ -2,8 +2,55 @@
 //    #OBJECTS-ICON
 //\*------------------------------------*/
 
-// Button vars
+// Icon vars
 $icon-font-size:   ('xs': 10px, 's': 12px, 'm': 14px, 'l': 18px, 'xl': 26px);
+
+
+
+
+
+// Icon mixins
+@mixin btn($size, $color, $type) {
+    @include icon-reset;
+    @include btn-size($size, $type);
+    @include btn-color($color, $type);
+    @include btn-type($type);
+}
+
+@mixin icon-reset() {
+    vertical-align: top;
+    text-align: center;
+}
+
+@mixin icon-size($size, $type) {
+    @include size(map-get($sizes, $size));
+    line-height: map-get($sizes, $size) !important;
+
+    @if $type == 'circled' {
+        @include font-size(map-get($icon-font-size, $size));
+    }
+
+    @if $type == 'flat' {
+        @include font-size(map-get($sizes, $size) - 6);
+    }
+}
+
+@mixin icon-color($color, $type) {
+    @if $type == 'circled' {
+        color: $white-1;
+        background-color: map-get($colors, $color);
+    }
+
+    @if $type == 'flat' {
+        color: map-get($colors, $color);
+    }
+}
+
+@mixin icon-type($type) {
+    @if $type == 'circled' {
+        border-radius: 50%;
+    }
+}
 
 
 
@@ -12,8 +59,7 @@ $icon-font-size:   ('xs': 10px, 's': 12px, 'm': 14px, 'l': 18px, 'xl': 26px);
 // Icon base styles
 .icon,
 %icon {
-    vertical-align: top;
-    text-align: center;
+    @include icon-reset;
 }
 
 
@@ -24,17 +70,14 @@ $icon-font-size:   ('xs': 10px, 's': 12px, 'm': 14px, 'l': 18px, 'xl': 26px);
 @each $key, $size in $sizes {
     .icon--#{$key},
     %icon--#{$key} {
-        @include size($size);
-        line-height: $size !important;
-
         &.icon--circled,
         &%icon--circled {
-            @include font-size(map-get($icon-font-size, $key));
+            @include icon-size($key, 'circled');
         }
 
         &.icon--flat,
         &%icon--flat {
-            @include font-size($size - 6);
+            @include icon-size($key, 'flat');
         }
     }
 }
@@ -47,13 +90,12 @@ $icon-font-size:   ('xs': 10px, 's': 12px, 'm': 14px, 'l': 18px, 'xl': 26px);
 @each $key, $color in $colors {
     .icon--circled.icon--#{$key},
     %icon--circled%icon--#{$key} {
-        color: $white-1;
-        background-color: $color;
+        @include icon-color($key, 'circled');
     }
 
     .icon--flat.icon--#{$key},
     %icon--flat%icon--#{$key} {
-        color: $color;
+        @include icon-color($key, 'flat');
     }
 }
 
@@ -64,5 +106,5 @@ $icon-font-size:   ('xs': 10px, 's': 12px, 'm': 14px, 'l': 18px, 'xl': 26px);
 // Icon types
 .icon--circled,
 %icon--circled {
-    border-radius: 50%;
+    @include icon-type('circled');
 }
