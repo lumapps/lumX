@@ -10,11 +10,11 @@ $icon-font-size:   ('xs': 10px, 's': 12px, 'm': 14px, 'l': 18px, 'xl': 26px);
 
 
 // Icon mixins
-@mixin btn($size, $color, $type) {
+@mixin icon($size, $color, $type) {
     @include icon-reset;
-    @include btn-size($size, $type);
-    @include btn-color($color, $type);
-    @include btn-type($type);
+    @include icon-size($size, $type);
+    @include icon-color($color, $type);
+    @include icon-type($type);
 }
 
 @mixin icon-reset() {
