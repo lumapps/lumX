@@ -3,7 +3,10 @@
 //\*------------------------------------*/
 
 // Checkbox base styles
-.checkbox {}
+.checkbox {
+    min-width: $size-xs;
+    min-height: $size-xs;
+}
 
     // Checkbox input
     .checkbox__input {
@@ -49,8 +52,6 @@
     .checkbox__label {
         display: block;
         position: relative;
-        min-width: $size-xs;
-        min-height: $size-xs;
         padding-left: $base-spacing-unit * 4;
         font-weight: 400;
         line-height: $size-xs;

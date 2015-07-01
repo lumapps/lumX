@@ -38,6 +38,7 @@
 .data-table {
     width: 100%;
     margin: 0;
+    table-layout: fixed;
 
     th, td {
         padding-right: 56px;
@@ -82,7 +83,7 @@
     .data-table__selectable-row {
         th, td {
             &:first-child {
-                width: $size-xs;
+                width: $size-xs + $base-spacing-unit * 6;
             }
 
             &:nth-child(2) {
