@@ -80,9 +80,7 @@
 
     // Data table selectable row
     .data-table__selectable-row {
-        td {
-            cursor: pointer;
-
+        th, td {
             &:first-child {
                 width: $size-xs;
             }
@@ -92,40 +90,18 @@
             }
         }
 
+        td {
+            cursor: pointer;
+        }
+
         &:not(.data-table__selectable-row--is-selected):hover {
             td {
                 background-color: $grey-200;
             }
         }
-
-        /* th, td {
-            &:first-child {
-                position: relative;
-                padding-left: 72px;
-
-                &:before {
-                    @include mdi;
-                    @include mdi-icon('checkbox-blank-outline');
-                    display: block;
-                    @include position(absolute, 50% null null $base-spacing-unit * 3);
-                    margin-top: -($size-xs / 2);
-                    cursor: pointer;
-                    @include font-size($size-xs);
-                }
-            }
-        } */
     }
 
     .data-table__selectable-row--is-selected {
-        /* th, td {
-            &:first-child {
-                &:before {
-                    @include mdi-icon('checkbox-marked');
-                    color: $blue;
-                }
-            }
-        } */
-
         td {
             background-color: $grey-100;
         }
