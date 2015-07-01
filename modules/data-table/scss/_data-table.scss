@@ -82,15 +82,23 @@
     .data-table__selectable-row {
         td {
             cursor: pointer;
-        }
 
-        &:hover {
-            td {
-                background-color: $grey-100;
+            &:first-child {
+                width: $size-xs;
+            }
+
+            &:nth-child(2) {
+                padding-right: $base-spacing-unit * 3;
             }
         }
 
-        th, td {
+        &:not(.data-table__selectable-row--is-selected):hover {
+            td {
+                background-color: $grey-200;
+            }
+        }
+
+        /* th, td {
             &:first-child {
                 position: relative;
                 padding-left: 72px;
@@ -105,17 +113,21 @@
                     @include font-size($size-xs);
                 }
             }
-        }
+        } */
     }
 
     .data-table__selectable-row--is-selected {
-        th, td {
+        /* th, td {
             &:first-child {
                 &:before {
                     @include mdi-icon('checkbox-marked');
                     color: $blue;
                 }
             }
+        } */
+
+        td {
+            background-color: $grey-100;
         }
     }
 
