@@ -49,11 +49,17 @@
     .checkbox__label {
         display: block;
         position: relative;
+        min-width: $size-xs;
+        min-height: $size-xs;
         padding-left: $base-spacing-unit * 4;
         font-weight: 400;
         line-height: $size-xs;
         cursor: pointer;
         @include user-select(none);
+
+        .checkbox--standalone & {
+            padding-left: 0;
+        }
 
         &:before,
         &:after {
