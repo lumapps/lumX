@@ -84,6 +84,15 @@
         th, td {
             &:first-child {
                 width: $size-xs + $base-spacing-unit * 6;
+
+                &:before {
+                    @include mdi;
+                    @include mdi-icon('checkbox-blank-outline');
+                    @include font-size($size-xs);
+                    line-height: $size-xs;
+                    @include transition-property(transform);
+                    @include transition-duration(0.2s);
+                }
             }
 
             &:nth-child(2) {
@@ -103,6 +112,15 @@
     }
 
     .data-table__selectable-row--is-selected {
+        th, td {
+            &:first-child {
+                &:before {
+                    @include mdi-icon('checkbox-marked');
+                    color: $blue;
+                }
+            }
+        }
+
         td {
             background-color: $grey-100;
         }
