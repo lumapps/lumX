@@ -104,7 +104,7 @@
             cursor: pointer;
         }
 
-        &:not(.data-table__selectable-row--is-selected):hover {
+        &:not(.data-table__selectable-row--is-selected):not(.data-table__selectable-row--is-disabled):hover {
             td {
                 background-color: $grey-200;
             }
@@ -123,6 +123,20 @@
 
         td {
             background-color: $grey-100;
+        }
+    }
+
+    .data-table__selectable-row--is-disabled {
+        th, td {
+            &:first-child {
+                &:before {
+                    color: $black-3;
+                }
+            }
+        }
+
+        td {
+            cursor: not-allowed;
         }
     }
 
