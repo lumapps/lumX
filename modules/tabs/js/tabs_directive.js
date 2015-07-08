@@ -12,8 +12,6 @@ angular.module('lumx.tabs', [])
             indicator,
             paginationTranslation = 0;
 
-        $scope.activeTab = angular.isUndefined($scope.activeTab) ? 0 : $scope.activeTab;
-
         this.init = function(element)
         {
             links = element.find('.tabs__links');
@@ -364,7 +362,7 @@ angular.module('lumx.tabs', [])
         $scope.showNextPage = showNextPage;
         $scope.showPrevPage = showPrevPage;
     }])
-    .directive('lxTabs', function()
+    .directive('lxTabs', ['$parse', function($parse)
     {
         return {
             restrict: 'E',
@@ -383,6 +381,19 @@ angular.module('lumx.tabs', [])
                 scope.zDepth = '0';
                 scope.layout = 'full';
                 scope.iconPrefix = 'mdi mdi-';
+
+                if ('activeTab' in attrs)
+                {
+                    var activeTabModel = $parse(attrs.activeTab);
+
+                    scope.$watch('activeTab', function(newActiveTab)
+                    {
+                        if (activeTabModel.assign)
+                        {
+                            activeTabModel.assign(scope, newActiveTab);
+                        }
+                    });
+                }
 
                 attrs.$observe('linksTc', function(newValue)
                 {
@@ -425,7 +436,7 @@ angular.module('lumx.tabs', [])
                 });
             }
         };
-    })
+    }])
     .directive('lxTab', function()
     {
         return {
