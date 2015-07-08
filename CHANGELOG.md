@@ -1,5 +1,83 @@
 # Changelog
 
+## v0.3.62:
+
+#### Bug fixes:
+ - tabs: two way data binding with $parse
+
+
+## v0.3.61:
+
+#### New features:
+ - data table: add disabled row
+
+
+## v0.3.60:
+*No major changes.*
+
+
+## v0.3.59:
+
+#### Bug fixes:
+ - data table: finally don't use real checkbox
+
+
+## v0.3.58:
+
+#### Bug fixes:
+ - data table: fixed layout
+
+
+## v0.3.57:
+
+#### Bug fixes:
+ - data table: thead checkbox style
+
+
+## v0.3.56:
+
+#### New features:
+ - checkbox: add standalone checkbox
+
+#### Bug fixes:
+ - data table: use real checkbox
+
+
+## v0.3.55:
+
+#### Bug fixes:
+ - data table: Google guidelines style
+
+#### Breaking changes:
+ - Data table markup have been completely reworked
+
+
+## v0.3.54:
+
+#### Bug fixes:
+ - icon: bad mixin label
+
+
+## v0.3.53:
+
+#### Bug fixes:
+ - button: fix css comment
+
+
+## v0.3.52:
+
+#### Bug fixes:
+ - button: fix button style
+ - text-fields: fix text-fields style
+ - dropdown: overflow only if scrollbar needed
+
+
+## v0.3.51:
+
+#### Bug fixes:
+ - select: missing annotations for minification
+
+
 ## v0.3.50:
 
 #### Bug fixes:
