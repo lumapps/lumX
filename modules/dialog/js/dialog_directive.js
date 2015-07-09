@@ -9,8 +9,15 @@ angular.module('lumx.dialog', [])
             dialogInterval,
             dialogFilter,
             dialogHeight,
+            windowHeight,
             activeDialogId,
-            scopeMap = {};
+            scopeMap = {},
+            dialog,
+            dialogHeader,
+            dialogContent,
+            dialogActions,
+            dialogScrollable,
+            resizeDebounce;
 
         this.registerScope = function(dialogId, dialogScope)
         {
@@ -59,11 +66,7 @@ angular.module('lumx.dialog', [])
 
             dialogInterval = $interval(function()
             {
-                if (scopeMap[dialogId].element.outerHeight() !== dialogHeight)
-                {
-                    checkDialogHeight(dialogId);
-                    dialogHeight = scopeMap[dialogId].element.outerHeight();
-                }
+                checkDialogHeight(dialogId);
             }, 500);
         };
 
@@ -71,6 +74,10 @@ angular.module('lumx.dialog', [])
         {
             activeDialogId = undefined;
             $rootScope.$broadcast('lx-dialog__close-start', dialogId);
+            if (resizeDebounce)
+            {
+                $timeout.cancel(resizeDebounce);
+            }
 
             $interval.cancel(dialogInterval);
 
@@ -90,6 +97,12 @@ angular.module('lumx.dialog', [])
 
                 dialogFilter.remove();
 
+                dialog = undefined;
+                dialogHeader = undefined;
+                dialogContent = undefined;
+                dialogActions = undefined;
+                dialogScrollable = undefined;
+                
                 scopeMap[dialogId].element
                     .hide()
                     .removeClass('dialog--is-fixed')
@@ -103,20 +116,37 @@ angular.module('lumx.dialog', [])
 
         function checkDialogHeight(dialogId)
         {
-            var dialogMargin = 60,
-                dialog = scopeMap[dialogId].element,
-                dialogHeader = dialog.find('.dialog__header'),
-                dialogContent = dialog.find('.dialog__content'),
-                dialogActions = dialog.find('.dialog__actions'),
-                dialogScrollable = angular.element('<div/>', { class: 'dialog__scrollable' }),
-                HeightToCheck = dialogMargin + dialogHeader.outerHeight() + dialogContent.outerHeight() + dialogActions.outerHeight();
+            if (angular.isUndefined(dialogHeader))
+            {
+                dialog = scopeMap[dialogId].element;
+                dialogHeader = dialog.find('.dialog__header');
+                dialogContent = dialog.find('.dialog__content');
+                dialogActions = dialog.find('.dialog__actions');
 
-            if (HeightToCheck >= $window.innerHeight)
+                if (angular.isUndefined(dialogHeader))
+                {
+                    return;
+                }
+            }
+
+            var dialogMargin = 60;
+            var heightToCheck = dialogMargin + dialogHeader.outerHeight() + dialogContent.outerHeight() + dialogActions.outerHeight();
+
+            if (dialogHeight === heightToCheck && windowHeight === $window.innerHeight)
+            {
+                return;
+            }
+
+            dialogHeight = heightToCheck;
+            windowHeight = $window.innerHeight;
+
+            if (heightToCheck >= $window.innerHeight)
             {
                 dialog.addClass('dialog--is-fixed');
 
                 if (dialog.find('.dialog__scrollable').length === 0)
                 {
+                    var dialogScrollable = angular.element('<div/>', { class: 'dialog__scrollable' });
                     dialogScrollable
                         .css({ top: dialogHeader.outerHeight(), bottom: dialogActions.outerHeight() })
                         .bind('scroll', checkScrollEnd);
@@ -137,7 +167,15 @@ angular.module('lumx.dialog', [])
 
         function checkScrollEnd()
         {
-            var dialogScrollable = angular.element('.dialog__scrollable');
+            if (angular.isUndefined(dialogScrollable))
+            {
+                dialogScrollable = angular.element('.dialog__scrollable');
+
+                if (angular.isUndefined(dialogScrollable))
+                {
+                    return;
+                }
+            }
 
             if (angular.isDefined(scopeMap[activeDialogId].onscrollend))
             {
@@ -159,7 +197,15 @@ angular.module('lumx.dialog', [])
         {
             if (angular.isDefined(activeDialogId))
             {
-                checkDialogHeight(activeDialogId);
+                if (resizeDebounce)
+                {
+                    $timeout.cancel(resizeDebounce);
+                }
+
+                resizeDebounce = $timeout(function()
+                {
+                    checkDialogHeight(activeDialogId);
+                }, 200);
             }
         });
     }])
