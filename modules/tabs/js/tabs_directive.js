@@ -374,13 +374,21 @@ angular.module('lumx.tabs', [])
             link: function(scope, element, attrs, ctrl)
             {
                 ctrl.init(element);
-                scope.activeTab = 'activeTab' in attrs ? scope.$parent.$eval(attrs.activeTab) : 0;
+                scope.activeTab = 0;
                 scope.linksTc = 'dark';
                 scope.linksBgc = 'white';
                 scope.indicator = 'blue-500';
                 scope.zDepth = '0';
                 scope.layout = 'full';
                 scope.iconPrefix = 'mdi mdi-';
+
+                scope.$watch(function()
+                {
+                    return 'activeTab' in attrs ? scope.$parent.$eval(attrs.activeTab) : 0;
+                }, function(newValue)
+                {
+                    scope.activeTab = angular.isDefined(newValue) ? newValue : 0;
+                });
 
                 if ('activeTab' in attrs)
                 {
