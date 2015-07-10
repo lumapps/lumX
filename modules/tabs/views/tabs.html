@@ -10,7 +10,7 @@
 
     <ul class="tabs__links bgc-{{ linksBgc }} z-depth{{ zDepth }}"
         ng-class="{'tabs__pagination-padding': isPaginationActive()}">
-        <li ng-repeat="tab in getTabs()">
+        <li ng-repeat="tab in getTabs() track by $index">
             <a lx-tab-link
                class="tabs-link"
                ng-class="{ 'tabs-link--is-active': $index === activeTab }"
