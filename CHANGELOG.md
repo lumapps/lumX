@@ -1,5 +1,24 @@
 # Changelog
 
+## v0.3.65:
+
+#### Bug fixes:
+ - tabs: remove default color for first tab
+
+
+## v0.3.64:
+
+#### Bug fixes:
+ - tabs: add track by for tab list
+
+
+## v0.3.63:
+
+#### Bug fixes:
+ - tabs: watch activeTab attribute
+ - dialog: better scrollbar management
+
+
 ## v0.3.62:
 
 #### Bug fixes:
