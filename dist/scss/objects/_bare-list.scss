@@ -1,0 +1,15 @@
+///*------------------------------------*\
+//    #OBJECTS-BARE-LIST
+//\*------------------------------------*/
+
+// The bare-list object simply removes any indents and bullet points from lists
+@mixin bare-list() {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.bare-list,
+%bare-list {
+    @include bare-list;
+}
