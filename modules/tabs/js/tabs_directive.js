@@ -476,7 +476,7 @@ angular.module('lumx.tabs', [])
             }
         };
     })
-    .directive('lxTabLink', function()
+    .directive('lxTabLink', ['$timeout', function($timeout)
     {
         return {
             require: '^lxTabs',
@@ -485,7 +485,10 @@ angular.module('lumx.tabs', [])
             {
                 if (scope.activeTab === element.parent().index())
                 {
-                    element.addClass('tc-' + scope.indicator);
+                    $timeout(function()
+                    {
+                        element.addClass('tc-' + scope.indicator);
+                    });
                 }
 
                 element
@@ -505,4 +508,4 @@ angular.module('lumx.tabs', [])
                     });
             }
         };
-    });
+    }]);
