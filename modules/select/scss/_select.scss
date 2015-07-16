@@ -8,11 +8,24 @@
     margin-top: $base-spacing-unit * 4;
     padding-bottom: $base-spacing-unit;
 
-    &:before {
+    &:before,
+    &:after {
         content: '';
+    }
+
+    &:before {
         @include position(absolute, null 0 $base-spacing-unit - 1 0);
         height: 1px;
         border-bottom: 1px solid $black-4;
+    }
+
+    &:after {
+        @include position(absolute, null 0 $base-spacing-unit - 2 0);
+        height: 2px;
+        @include transform(scale(0));
+        @include transition-property(transform);
+        @include transition-duration(0.6s);
+        @include transition-timing-function($ease-out-quint);
     }
 
     .dropdown {
@@ -37,8 +50,9 @@
 }
 
 .lx-select--has-error {
-    &:before {
-        border-bottom-color: $red-500;
+    &:after {
+        background-color: $red-500;
+        @include transform(scale(1));
     }
 
     .lx-select__floating-label {
@@ -47,8 +61,9 @@
 }
 
 .lx-select--is-valid {
-    &:before {
-        border-bottom-color: $green-500;
+    &:after {
+        background-color: $green-500;
+        @include transform(scale(1));
     }
 
     .lx-select__floating-label {
