@@ -387,9 +387,6 @@ angular.module('lumx.select', [])
                 scope.floatingLabel = angular.isDefined(attrs.floatingLabel);
                 scope.tree = angular.isDefined(attrs.tree);
                 scope.ngModel = ngModel;
-                scope.disabled = scope.$eval(attrs.disabled);
-                scope.error = scope.$eval(attrs.error);
-                scope.valid = scope.$eval(attrs.valid);
 
                 // Default values
                 scope.placeholder = '';
@@ -424,17 +421,26 @@ angular.module('lumx.select', [])
 
                 attrs.$observe('disabled', function(newValue)
                 {
-                    scope.disabled = newValue;
+                    scope.disabled = function()
+                    {
+                        return scope.$eval(newValue);
+                    };
                 });
 
                 attrs.$observe('error', function(newValue)
                 {
-                    scope.error = newValue;
+                    scope.error = function()
+                    {
+                        return scope.$eval(newValue);
+                    };
                 });
 
                 attrs.$observe('valid', function(newValue)
                 {
-                    scope.valid = newValue;
+                    scope.valid = function()
+                    {
+                        return scope.$eval(newValue);
+                    };
                 });
 
                 attrs.$observe('choices', function(newValue)
