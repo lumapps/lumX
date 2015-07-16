@@ -20,6 +20,42 @@
     }
 }
 
+.lx-select--is-disabled {
+    pointer-events: none;
+
+    &:before {
+        border-bottom-style: dashed;
+    }
+
+    .lx-select__floating-label {
+        color: $black-3;
+    }
+
+    .lx-select__selected {
+        color: $black-3;
+    }
+}
+
+.lx-select--has-error {
+    &:before {
+        border-bottom-color: $red-500;
+    }
+
+    .lx-select__floating-label {
+        color: $red-500;
+    }
+}
+
+.lx-select--is-valid {
+    &:before {
+        border-bottom-color: $green-500;
+    }
+
+    .lx-select__floating-label {
+        color: $green-500;
+    }
+}
+
     // Select floating label
     .lx-select__floating-label {
         color: $black-3;

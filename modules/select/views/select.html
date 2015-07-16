@@ -1,6 +1,9 @@
 <div class="lx-select"
      ng-class="{ 'lx-select--is-unique': !multiple,
-                 'lx-select--is-multiple': multiple }">
+                 'lx-select--is-multiple': multiple,
+                 'lx-select--is-valid': valid,
+                 'lx-select--has-error': error,
+                 'lx-select--is-disabled': disabled, }">
     <lx-dropdown width="32" over-toggle="true">
         <div ng-transclude="child"></div>
     </lx-dropdown>
