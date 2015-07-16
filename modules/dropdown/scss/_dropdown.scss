@@ -77,16 +77,18 @@
     text-decoration: none;
     white-space: nowrap;
 
-    &:not(.dropdown-link--is-header):hover {
-        background-color: $grey-200;
-    }
+    &:not(.dropdown-link--is-header) {
+        &:hover {
+            background-color: $grey-200;
+        }
 
-    i {
-        @extend %icon;
-        @extend %icon--xs;
-        @extend %icon--flat;
-        margin-right: $base-spacing-unit * 2;
-        color: $black-2;
+        i {
+            @extend %icon;
+            @extend %icon--xs;
+            @extend %icon--flat;
+            margin-right: $base-spacing-unit * 2;
+            color: $black-2;
+        }
     }
 }
 
@@ -103,4 +105,11 @@
 .dropdown-link--is-header {
     color: $black-3;
     cursor: default;
+
+    i {
+        width: 18px;
+        margin-right: 6px;
+        color: $black-3;
+        text-align: center;
+    }
 }
