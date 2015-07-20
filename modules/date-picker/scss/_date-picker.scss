@@ -37,11 +37,11 @@
 // Date filter
 .lx-date-filter {
     @include position(fixed, 0 0 0 0);
-    z-index: 999;
-    background-color: rgba(0,0,0,0.6);
     opacity: 0;
+    z-index: 999;
+    background-color: rgba(0, 0, 0, .6);
     @include transition-property(opacity);
-    @include transition-duration(0.6s);
+    @include transition-duration(.6s);
     @include transition-timing-function($ease-out-quint);
 }
 
@@ -54,7 +54,7 @@
 
 
 // Date input
-.lx-date__input-wrapper{
+.lx-date__input-wrapper {
     position: relative;
 
     &:hover {
@@ -78,10 +78,10 @@
     cursor: pointer;
     line-height: $base-spacing-unit * 4;
     @include transition-property(opacity, color);
-    @include transition-duration(0.2s);
+    @include transition-duration(.2s);
 
     &:hover {
-      color: $red-500;
+        color: $red-500;
     }
 }
 
@@ -93,15 +93,16 @@
 .lx-date-picker {
     display: none;
     @include position(fixed, $base-spacing-unit * 4 null null 50%);
+    opacity: 0;
     z-index: 1000;
-    width: 280px;
     margin-left: -140px;
     background-color: $white;
-    opacity: 0;
+    padding-top: 172px;
+    width: 280px;
     @include z-depth(3);
     @include transform(translateY(-50px));
     @include transition-property(opacity, transform);
-    @include transition-duration(0.6s);
+    @include transition-duration(.6s);
     @include transition-timing-function($ease-out-quint);
 }
 
@@ -109,7 +110,11 @@
     opacity: 1;
     @include transform(translateY(0));
 }
-    
+
+.lx-date-picker__header {
+    @include position(absolute, 0 0 null 0);
+}
+
     // Date picker current day of week
     .lx-date-picker__current-day-of-week {
         background-color: $teal-700;
@@ -117,24 +122,24 @@
         span {
             display: block;
             @include font-size(14px);
-            color: $white-1;
-            line-height: 32px;
             text-align: center;
             text-transform: capitalize;
+            line-height: 32px;
+            color: $white-1;
         }
     }
 
     // Date picker current date
     .lx-date-picker__current-date {
-        padding: $base-spacing-unit 0;
         background-color: $teal-500;
+        padding: $base-spacing-unit 0;
 
         span,
         strong,
         a {
             display: block;
-            font-weight: 400;
             text-align: center;
+            font-weight: 400;
         }
 
         span,
@@ -165,10 +170,10 @@
         span {
             display: block;
             @include font-size(14px);
-            font-weight: 500;
-            line-height: 40px;
             text-align: center;
             text-transform: capitalize;
+            line-height: 40px;
+            font-weight: 500;
         }
 
         button {
@@ -191,14 +196,14 @@
 
         span {
             display: inline-block;
-            vertical-align: top;
             width: percentage(1/7);
+            vertical-align: top;
             @include font-size(12px);
-            font-weight: 400;
-            color: $black-2;
-            line-height: 24px;
             text-align: center;
             text-transform: uppercase;
+            line-height: 24px;
+            color: $black-2;
+            font-weight: 400;
         }
     }
 
@@ -210,9 +215,9 @@
     // Date picker day
     .lx-date-picker__day {
         display: inline-block;
-        vertical-align: top;
-        width: percentage(1/7);
         padding: $base-spacing-unit / 2 0;
+        width: percentage(1/7);
+        vertical-align: top;
 
         a {
             display: block;
@@ -220,29 +225,29 @@
             margin: 0 auto;
             border-radius: 50%;
             @include font-size(12px);
-            font-weight: 400;
-            line-height: 32px;
             text-align: center;
+            line-height: 32px;
+            font-weight: 400;
         }
     }
 
     .lx-date-picker__day--is-today a {
-        font-weight: 500;
         color: $teal-700;
+        font-weight: 500;
     }
 
     .lx-date-picker__day a:hover,
     .lx-date-picker__day--is-selected a {
-        cursor: pointer;
         background-color: $teal-500;
+        cursor: pointer;
         color: $white-1;
     }
 
     // Year selector
     .lx-date-picker__year-selector {
         position: relative;
-        overflow-x: hidden;
-        overflow-y: auto;
+        height: 5 * 65px;
+        overflow: auto;
         -webkit-overflow-scrolling: touch;
     }
 
@@ -256,8 +261,8 @@
             margin: 0 auto;
             border-radius: 50%;
             @include font-size(16px);
-            line-height: 65px;
             text-align: center;
+            line-height: 65px;
         }
     }
 
@@ -276,7 +281,7 @@
 
     // Date picker actions
     .lx-date-picker__actions {
-        padding: $base-spacing-unit;
         border-top: 1px solid $black-4;
+        padding: $base-spacing-unit;
         text-align: center;
     }
