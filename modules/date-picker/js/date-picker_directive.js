@@ -176,7 +176,6 @@ angular.module('lumx.date-picker', [])
             {
                 var $yearSelector = $datePicker.find('.lx-date-picker__year-selector');
                 var $activeYear = $yearSelector.find('.lx-date-picker__year--is-active');
-                console.log($activeYear, $yearSelector.scrollTop(), $activeYear.position().top, $yearSelector.height(), $activeYear.height());
                 $yearSelector.scrollTop($yearSelector.scrollTop() + $activeYear.position().top - $yearSelector.height()/2 + $activeYear.height()/2);
             });
         };
