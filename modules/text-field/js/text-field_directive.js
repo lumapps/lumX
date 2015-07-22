@@ -65,7 +65,7 @@ angular.module('lumx.text-field', [])
                 {
                     $timeout(function()
                     {
-                        var tmpTextArea = angular.element('<textarea class="text-field__input">' + $field.val() + '</textarea>');
+                        var tmpTextArea = angular.element('<textarea class="text-field__input" style="width: ' + $field.width() + 'px;">' + $field.val() + '</textarea>');
                         tmpTextArea.appendTo('body');
 
                         $field.css({ height: tmpTextArea[0].scrollHeight + 'px' });
