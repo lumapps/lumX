@@ -26,7 +26,13 @@
             </lx-tab>
 
             <lx-tab heading="Lorem Ipsum 2">
-                <p class="p++">Lorem Ipsum Content 2</p>
+                <div class="p+">
+                    <p>Lorem Ipsum Content 2</p>
+
+                    <lx-text-field label="Description">
+                        <textarea ng-model="textFields.description"></textarea>
+                    </lx-text-field>
+                </div>
             </lx-tab>
 
             <lx-tab heading="Lorem Ipsum 3">

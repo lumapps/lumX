@@ -65,9 +65,12 @@ angular.module('lumx.text-field', [])
                 {
                     $timeout(function()
                     {
-                        $field
-                            .removeAttr('style')
-                            .css({ height: $field[0].scrollHeight + 'px' });
+                        var tmpTextArea = angular.element('<textarea class="text-field__input">' + $field.val() + '</textarea>');
+                        tmpTextArea.appendTo('body');
+
+                        $field.css({ height: tmpTextArea[0].scrollHeight + 'px' });
+
+                        tmpTextArea.remove();
                     });
                 }
 

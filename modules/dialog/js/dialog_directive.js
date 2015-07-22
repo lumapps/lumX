@@ -102,7 +102,7 @@ angular.module('lumx.dialog', [])
                 dialogContent = undefined;
                 dialogActions = undefined;
                 dialogScrollable = undefined;
-                
+
                 scopeMap[dialogId].element
                     .hide()
                     .removeClass('dialog--is-fixed')
@@ -268,7 +268,7 @@ angular.module('lumx.dialog', [])
             restrict: 'A',
             link: function(scope, element)
             {
-                element.bind('click', function()
+                element.on('click', function()
                 {
                     LxDialogService.close(element.parents('.dialog').attr('id'));
                 });
