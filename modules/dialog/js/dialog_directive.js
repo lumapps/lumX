@@ -39,24 +39,24 @@ angular.module('lumx.dialog', [])
 
             dialogFilter.appendTo('body');
 
-            if (angular.isUndefined(scopeMap[dialogId].autoClose) || scopeMap[dialogId].autoClose === 'true')
+            if (angular.isUndefined(scopeMap[dialogId].lxDialogAutoClose) || scopeMap[dialogId].lxDialogAutoClose === 'true')
             {
-                dialogFilter.bind('click', function()
+                dialogFilter.on('click', function()
                 {
                     self.close(dialogId);
                 });
             }
 
-            scopeMap[dialogId].element
+            scopeMap[dialogId].lxDialogElement
                 .appendTo('body')
                 .show();
 
             $timeout(function()
             {
-                scopeMap[dialogId].isOpened = true;
+                scopeMap[dialogId].lxDialogIsOpened = true;
 
                 dialogFilter.addClass('dialog-filter--is-shown');
-                scopeMap[dialogId].element.addClass('dialog--is-shown');
+                scopeMap[dialogId].lxDialogElement.addClass('dialog--is-shown');
 
                 $timeout(function()
                 {
@@ -82,11 +82,11 @@ angular.module('lumx.dialog', [])
             $interval.cancel(dialogInterval);
 
             dialogFilter.removeClass('dialog-filter--is-shown');
-            scopeMap[dialogId].element.removeClass('dialog--is-shown');
+            scopeMap[dialogId].lxDialogElement.removeClass('dialog--is-shown');
 
-            if (scopeMap[dialogId].onclose)
+            if (scopeMap[dialogId].lxDialogOnclose)
             {
-                scopeMap[dialogId].onclose();
+                scopeMap[dialogId].lxDialogOnclose();
             }
 
             $timeout(function()
@@ -103,12 +103,12 @@ angular.module('lumx.dialog', [])
                 dialogActions = undefined;
                 dialogScrollable = undefined;
 
-                scopeMap[dialogId].element
+                scopeMap[dialogId].lxDialogElement
                     .hide()
                     .removeClass('dialog--is-fixed')
-                    .appendTo(scopeMap[dialogId].parent);
+                    .appendTo(scopeMap[dialogId].lxDialogParent);
 
-                scopeMap[dialogId].isOpened = false;
+                scopeMap[dialogId].lxDialogIsOpened = false;
                 dialogHeight = undefined;
                 $rootScope.$broadcast('lx-dialog__close-end', dialogId);
             }, 600);
@@ -118,7 +118,7 @@ angular.module('lumx.dialog', [])
         {
             if (angular.isUndefined(dialogHeader))
             {
-                dialog = scopeMap[dialogId].element;
+                dialog = scopeMap[dialogId].lxDialogElement;
                 dialogHeader = dialog.find('.dialog__header');
                 dialogContent = dialog.find('.dialog__content');
                 dialogActions = dialog.find('.dialog__actions');
@@ -149,7 +149,7 @@ angular.module('lumx.dialog', [])
                     var dialogScrollable = angular.element('<div/>', { class: 'dialog__scrollable' });
                     dialogScrollable
                         .css({ top: dialogHeader.outerHeight(), bottom: dialogActions.outerHeight() })
-                        .bind('scroll', checkScrollEnd);
+                        .on('scroll', checkScrollEnd);
 
                     dialogContent.wrap(dialogScrollable);
                 }
@@ -177,23 +177,23 @@ angular.module('lumx.dialog', [])
                 }
             }
 
-            if (angular.isDefined(scopeMap[activeDialogId].onscrollend))
+            if (angular.isDefined(scopeMap[activeDialogId].lxDialogOnscrollend))
             {
                 if (dialogScrollable.scrollTop() + dialogScrollable.innerHeight() >= dialogScrollable[0].scrollHeight)
                 {
-                    scopeMap[activeDialogId].onscrollend();
+                    scopeMap[activeDialogId].lxDialogOnscrollend();
 
-                    dialogScrollable.unbind('scroll', checkScrollEnd);
+                    dialogScrollable.off('scroll', checkScrollEnd);
 
                     $timeout(function()
                     {
-                        dialogScrollable.bind('scroll', checkScrollEnd);
+                        dialogScrollable.on('scroll', checkScrollEnd);
                     }, 500);
                 }
             }
         }
 
-        angular.element($window).bind('resize', function()
+        angular.element($window).on('resize', function()
         {
             if (angular.isDefined(activeDialogId))
             {
@@ -213,9 +213,9 @@ angular.module('lumx.dialog', [])
     {
         this.init = function(element, id)
         {
-            $scope.isOpened = false;
-            $scope.element = element;
-            $scope.parent = element.parent();
+            $scope.lxDialogIsOpened = false;
+            $scope.lxDialogElement = element;
+            $scope.lxDialogParent = element.parent();
 
             LxDialogService.registerScope(id, $scope);
         };
@@ -226,7 +226,7 @@ angular.module('lumx.dialog', [])
             restrict: 'E',
             controller: 'LxDialogController',
             scope: true,
-            template: '<div><div ng-if="isOpened" ng-transclude="child"></div></div>',
+            template: '<div><div ng-if="lxDialogIsOpened" ng-transclude="child"></div></div>',
             replace: true,
             transclude: true,
             link: function(scope, element, attrs, ctrl)
@@ -241,12 +241,12 @@ angular.module('lumx.dialog', [])
 
                 attrs.$observe('autoClose', function(newValue)
                 {
-                    scope.autoClose = newValue;
+                    scope.lxDialogAutoClose = newValue;
                 });
 
                 attrs.$observe('onclose', function(newValue)
                 {
-                    scope.onclose = function()
+                    scope.lxDialogOnclose = function()
                     {
                         return scope.$eval(newValue);
                     };
@@ -254,7 +254,7 @@ angular.module('lumx.dialog', [])
 
                 attrs.$observe('onscrollend', function(newValue)
                 {
-                    scope.onscrollend = function()
+                    scope.lxDialogOnscrollend = function()
                     {
                         return scope.$eval(newValue);
                     };
