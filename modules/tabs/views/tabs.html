@@ -1,35 +1,35 @@
-<div class="tabs tabs--theme-{{ linksTc }} tabs--layout-{{ layout }}"
-     ng-class="{ 'tabs--no-divider': noDivider }">
+<div class="tabs tabs--theme-{{ lxTabsLinksTc }} tabs--layout-{{ lxTabsLayout }}"
+     ng-class="{ 'tabs--no-divider': lsTabsNoDivider }">
 
-    <button class="tabs__pagination-left btn btn--m bgc-{{ linksBgc }}"
-            ng-click="showPrevPage()"
-            ng-if="isPaginationActive()"
-            ng-disabled="isPaginationLeftDisabled()">
+    <button class="tabs__pagination-left btn btn--m bgc-{{ lxTabsLinksBgc }}"
+            ng-click="lxTabsShowPrevPage()"
+            ng-if="lxTabsIsPaginationActive()"
+            ng-disabled="lxTabsIsPaginationLeftDisabled()">
       <i class="mdi mdi-chevron-left"></i>
     </button>
 
-    <ul class="tabs__links bgc-{{ linksBgc }} z-depth{{ zDepth }}"
-        ng-class="{'tabs__pagination-padding': isPaginationActive()}">
-        <li ng-repeat="tab in getTabs() track by $index">
+    <ul class="tabs__links bgc-{{ lxTabsLinksBgc }} z-depth{{ lxTabsZDepth }}"
+        ng-class="{'tabs__pagination-padding': lxTabsIsPaginationActive()}">
+        <li ng-repeat="tab in lxTabsGetTabs() track by $index">
             <a lx-tab-link
                class="tabs-link"
-               ng-class="{ 'tabs-link--is-active': $index === activeTab }"
-               ng-click="setActiveTab($index)"
-               lx-ripple="{{ indicator }}">
-               <span ng-if="tab.icon !== undefined"><i class="{{iconPrefix}}{{ tab.icon }}"></i></span>
-               <span ng-if="tab.icon === undefined || showIconAndHeading">{{ tab.heading }}</i></span>
+               ng-class="{ 'tabs-link--is-active': $index === lxTabsActiveTab }"
+               ng-click="lxTabsSetActiveTab($index)"
+               lx-ripple="{{ lxTabsIndicator }}">
+               <span ng-if="tab.lxTabIcon !== undefined"><i class="{{ lxTabsIconPrefix }}{{ tab.lxTabIcon }}"></i></span>
+               <span ng-if="tab.lxTabIcon === undefined || lxTabsShowIconAndHeading">{{ tab.lxTabHeading }}</i></span>
             </a>
         </li>
     </ul>
 
-    <button class="tabs__pagination-right btn btn--m bgc-{{ linksBgc }}"
-            ng-click="showNextPage()"
-            ng-if="isPaginationActive()"
-            ng-disabled="isPaginationRightDisabled()">
+    <button class="tabs__pagination-right btn btn--m bgc-{{ lxTabsLinksBgc }}"
+            ng-click="lxTabsShowNextPage()"
+            ng-if="lxTabsIsPaginationActive()"
+            ng-disabled="lxTabsIsPaginationRightDisabled()">
       <i class="mdi mdi-chevron-right"></i>
     </button>
 
     <div class="tabs__panes" ng-transclude="child"></div>
 
-    <div class="tabs__indicator bgc-{{ indicator }}"></div>
+    <div class="tabs__indicator bgc-{{ lxTabsIndicator }}"></div>
 </div>

@@ -1,48 +1,48 @@
 <lx-dropdown-menu class="lx-select__choices">
-    <ul ng-if="!tree">
-        <li ng-if="getSelectedElements().length > 0">
+    <ul ng-if="!lxSelectTree">
+        <li ng-if="lxSelectGetSelectedElements().length > 0">
             <lx-select-choices-selected class="lx-select__chosen"
-                                        ng-class="{ 'lx-select__chosen--is-multiple': multiple,
-                                                    'lx-select__chosen--is-deletable': multiple && (getSelectedElements().length > 1 || allowClear), }"
-                                        content="data.selectedTemplate"></lx-select-choices-selected>
+                                        ng-class="{ 'lx-select__chosen--is-multiple': lxSelectMultiple,
+                                                    'lx-select__chosen--is-deletable': lxSelectMultiple && (lxSelectGetSelectedElements().length > 1 || lxSelectAllowClear), }"
+                                        content="lxSelectData.selectedTemplate"></lx-select-choices-selected>
         </li>
 
         <li>
             <div class="lx-select__filter dropdown-filter">
-                <lx-search-filter model="data.filter" filter-width="100%" lx-dropdown-filter></lx-search-filter>
+                <lx-search-filter model="lxSelectData.filter" filter-width="100%" lx-dropdown-filter></lx-search-filter>
             </div>
         </li>
 
-        <li class="lx-select__help" ng-if="isHelperVisible()">
-            <span ng-if="filterNeeded()">Type minimum {{ minLength }} to search</span>
-            <span ng-if="hasNoResults() && !filterNeeded()">No results!</span>
+        <li class="lx-select__help" ng-if="lxSelectIsHelperVisible()">
+            <span ng-if="lxSelectFilterNeeded()">Type minimum {{ lxSelectMinLength }} to search</span>
+            <span ng-if="lxSelectHasNoResults() && !lxSelectFilterNeeded()">No results!</span>
         </li>
 
-        <div ng-if="isChoicesVisible() && isChoicesArray()">
-            <li ng-repeat="$choice in choices() | filterChoices:filter:data.filter | limitTo:100 track by $index">
+        <div ng-if="lxSelectIsChoicesVisible() && lxSelectIsChoicesArray()">
+            <li ng-repeat="$choice in lxSelectChoices() | filterChoices:filter:lxSelectData.filter | limitTo:100 track by $index">
                 <a class="lx-select__choice dropdown-link"
-                   ng-class="{ 'lx-select__choice--is-multiple': multiple,
-                               'lx-select__choice--is-selected': isSelected($choice) }"
-                   ng-click="toggle($choice, $event)"
+                   ng-class="{ 'lx-select__choice--is-multiple': lxSelectMultiple,
+                               'lx-select__choice--is-selected': lxSelectIsSelected($choice) }"
+                   ng-click="lxSelectToggle($choice, $event)"
                    ng-transclude="child"></a>
             </li>
         </div>
 
-        <div ng-if="isChoicesVisible() && !isChoicesArray()">
-            <li ng-repeat-start="($subheader, children) in choices()">
-                <span class="dropdown-link dropdown-link--is-header" ng-bind-html="trust($subheader)"></span>
+        <div ng-if="lxSelectIsChoicesVisible() && !lxSelectIsChoicesArray()">
+            <li ng-repeat-start="($subheader, children) in lxSelectChoices()">
+                <span class="dropdown-link dropdown-link--is-header" ng-bind-html="lxSelectTrust($subheader)"></span>
             </li>
 
-            <li ng-repeat-end ng-repeat="$choice in children | filterChoices:filter:data.filter | limitTo:100 track by $index">
+            <li ng-repeat-end ng-repeat="$choice in children | filterChoices:filter:lxSelectData.filter | limitTo:100 track by $index">
                 <a class="lx-select__choice dropdown-link"
-                   ng-class="{ 'lx-select__choice--is-multiple': multiple,
-                               'lx-select__choice--is-selected': isSelected($choice) }"
-                   ng-click="toggle($choice, $event)"
+                   ng-class="{ 'lx-select__choice--is-multiple': lxSelectMultiple,
+                               'lx-select__choice--is-selected': lxSelectIsSelected($choice) }"
+                   ng-click="lxSelectToggle($choice, $event)"
                    ng-transclude="child"></a>
             </li>
         </div>
 
-        <li class="lx-select__loader" ng-if="loading === 'true'">
+        <li class="lx-select__loader" ng-if="lxSelectLoading === 'true'">
             <i class="mdi mdi-reload"></i>
         </li>
     </ul>

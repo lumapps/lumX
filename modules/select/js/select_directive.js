@@ -41,7 +41,7 @@ angular.module('lumx.select', [])
             newSelection = true,
             newScope;
 
-        $scope.data = {
+        $scope.lxSelectData = {
             filter: '',
             selected: [],
             loading: false
@@ -63,7 +63,7 @@ angular.module('lumx.select', [])
         // Link methods
         this.registerTransclude = function(transclude)
         {
-            $scope.data.selectedTransclude = transclude;
+            $scope.lxSelectData.selectedTransclude = transclude;
         };
 
         this.getScope = function()
@@ -75,47 +75,47 @@ angular.module('lumx.select', [])
         function select(choice)
         {
             newSelection = false;
-            if ($scope.multiple)
+            if ($scope.lxSelectMultiple)
             {
-                if (arrayObjectIndexOf($scope.data.selected, choice) === -1)
+                if (arrayObjectIndexOf($scope.lxSelectData.selected, choice) === -1)
                 {
-                    $scope.data.selected.push(choice);
+                    $scope.lxSelectData.selected.push(choice);
                 }
             }
             else
             {
-                $scope.data.selected = [choice];
+                $scope.lxSelectData.selected = [choice];
             }
         }
 
         function unselect(element, event, stopEvent)
         {
             newSelection = false;
-            if (!$scope.allowClear && !$scope.multiple)
+            if (!$scope.lxSelectAllowClear && !$scope.lxSelectMultiple)
             {
                 return;
             }
 
-            if (angular.isDefined(event) && (!$scope.multiple || stopEvent))
+            if (angular.isDefined(event) && (!$scope.lxSelectMultiple || stopEvent))
             {
                 event.stopPropagation();
             }
 
-            var index = arrayObjectIndexOf($scope.data.selected, element);
+            var index = arrayObjectIndexOf($scope.lxSelectData.selected, element);
             if (index !== -1)
             {
-                $scope.data.selected.splice(index, 1);
+                $scope.lxSelectData.selected.splice(index, 1);
             }
         }
 
         function toggle(choice, event)
         {
-            if (angular.isDefined(event) && $scope.multiple)
+            if (angular.isDefined(event) && $scope.lxSelectMultiple)
             {
                 event.stopPropagation();
             }
 
-            if ($scope.multiple && isSelected(choice))
+            if ($scope.lxSelectMultiple && isSelected(choice))
             {
                 unselect(choice);
             }
@@ -128,32 +128,32 @@ angular.module('lumx.select', [])
         // Getters
         function isSelected(choice)
         {
-            return angular.isDefined($scope.data.selected) && arrayObjectIndexOf($scope.data.selected, choice) !== -1;
+            return angular.isDefined($scope.lxSelectData.selected) && arrayObjectIndexOf($scope.lxSelectData.selected, choice) !== -1;
         }
 
         function hasNoResults()
         {
-            return angular.isUndefined($scope.choices()) || $filter('filterChoices')($scope.choices(), $scope.filter, $scope.data.filter).length === 0;
+            return angular.isUndefined($scope.lxSelectChoices()) || $filter('filterChoices')($scope.lxSelectChoices(), $scope.lxSelectFilter, $scope.lxSelectData.filter).length === 0;
         }
 
         function filterNeeded()
         {
-            return angular.isDefined($scope.minLength) && angular.isDefined($scope.data.filter) && $scope.data.filter.length < $scope.minLength;
+            return angular.isDefined($scope.lxSelectMinLength) && angular.isDefined($scope.lxSelectData.filter) && $scope.lxSelectData.filter.length < $scope.lxSelectMinLength;
         }
 
         function isHelperVisible()
         {
-            return $scope.loading !== 'true' && (filterNeeded() || (hasNoResults() && !filterNeeded()));
+            return $scope.lxSelectLoading !== 'true' && (filterNeeded() || (hasNoResults() && !filterNeeded()));
         }
 
         function isChoicesVisible()
         {
-            return $scope.loading !== 'true' && !hasNoResults() && !filterNeeded();
+            return $scope.lxSelectLoading !== 'true' && !hasNoResults() && !filterNeeded();
         }
 
         function isChoicesArray()
         {
-            return angular.isArray($scope.choices());
+            return angular.isArray($scope.lxSelectChoices());
         }
 
         function trust(data)
@@ -167,22 +167,22 @@ angular.module('lumx.select', [])
          */
         function getSelectedElements()
         {
-            return angular.isDefined($scope.data.selected) ? $scope.data.selected : [];
+            return angular.isDefined($scope.lxSelectData.selected) ? $scope.lxSelectData.selected : [];
         }
 
         function convertValue(newValue, conversion, callback)
         {
-            var convertedData = $scope.multiple ? [] : undefined;
+            var convertedData = $scope.lxSelectMultiple ? [] : undefined;
             var loading = [];
 
-            if (!newValue || ($scope.multiple && newValue.length === 0))
+            if (!newValue || ($scope.lxSelectMultiple && newValue.length === 0))
             {
                 callback(convertedData);
                 return;
             }
 
-            $scope.data.loading = true;
-            if ($scope.multiple)
+            $scope.lxSelectData.loading = true;
+            if ($scope.lxSelectMultiple)
             {
                 if (angular.isDefined(conversion))
                 {
@@ -205,7 +205,7 @@ angular.module('lumx.select', [])
                                 if (loading.length === 0 && !callbackCalled)
                                 {
                                     callbackCalled = true;
-                                    $scope.data.loading = false;
+                                    $scope.lxSelectData.loading = false;
                                     callback(convertedData);
                                 }
                             });
@@ -229,10 +229,10 @@ angular.module('lumx.select', [])
             {
                 if (angular.isDefined(conversion))
                 {
-                    $scope.data.loading = true;
+                    $scope.lxSelectData.loading = true;
                     conversion(newValue, function(data)
                     {
-                        $scope.data.loading = false;
+                        $scope.lxSelectData.loading = false;
                         callback(data);
                     });
                 }
@@ -244,7 +244,7 @@ angular.module('lumx.select', [])
         }
 
         // Watchers
-        $scope.$watch('ngModel.$modelValue', function(newValue)
+        $scope.$watch('lxSelectNgModel.$modelValue', function(newValue)
         {
             if (newModel)
             {
@@ -253,25 +253,25 @@ angular.module('lumx.select', [])
             }
 
             convertValue(newValue,
-                         $scope.modelToSelection,
+                         $scope.lxSelectModelToSelection,
                          function(newConvertedValue)
             {
                 newSelection = true;
 
                 var value = newConvertedValue !== undefined ? angular.copy(newConvertedValue) : [];
-                if (!$scope.multiple)
+                if (!$scope.lxSelectMultiple)
                 {
                     value = newConvertedValue !== undefined ? [angular.copy(newConvertedValue)] : [];
                 }
 
-                $scope.data.selected = value;
-                $scope.$selected = !$scope.multiple && $scope.getSelectedElements().length === 1 ? $scope.getSelectedElements()[0] : undefined;
+                $scope.lxSelectData.selected = value;
+                $scope.$selected = !$scope.lxSelectMultiple && $scope.lxSelectGetSelectedElements().length === 1 ? $scope.lxSelectGetSelectedElements()[0] : undefined;
             });
         });
 
-        $scope.$watch('data.selected', function(newValue)
+        $scope.$watch('lxSelectData.selected', function(newValue)
         {
-            if (angular.isDefined(newValue) && angular.isDefined($scope.data.selectedTransclude))
+            if (angular.isDefined(newValue) && angular.isDefined($scope.lxSelectData.selectedTransclude))
             {
                 if (newScope)
                 {
@@ -279,36 +279,36 @@ angular.module('lumx.select', [])
                 }
 
                 newScope = $scope.$new();
-                $scope.data.selectedTemplate = { html: '', selected: {} };
+                $scope.lxSelectData.selectedTemplate = { html: '', selected: {} };
 
                 angular.forEach(newValue, function(selectedElement, key)
                 {
                     newScope.$selected = selectedElement;
-                    $scope.data.selectedTemplate.selected[key] = selectedElement;
+                    $scope.lxSelectData.selectedTemplate.selected[key] = selectedElement;
 
-                    $scope.data.selectedTransclude(newScope, function(clone)
+                    $scope.lxSelectData.selectedTransclude(newScope, function(clone)
                     {
                         var div = angular.element('<div/>');
                         var content = $interpolate(clone.html())(newScope);
                         clone.html(content);
 
-                        if ($scope.multiple)
+                        if ($scope.lxSelectMultiple)
                         {
-                            if ($scope.allowClear || newValue.length > 1)
+                            if ($scope.lxSelectAllowClear || newValue.length > 1)
                             {
-                                var deleteButton = angular.element('<i class="lx-select__delete-button" ng-click="unselect(transcludeSelected[' + key + '], $event, true)"></i>');
+                                var deleteButton = angular.element('<i class="lx-select__delete-button" ng-click="lxSelectUnselect(lxSelectTranscludeSelected[' + key + '], $event, true)"></i>');
                                 clone.append(deleteButton);
                             }
                         }
 
                         div.append(clone);
 
-                        if ($scope.multiple)
+                        if ($scope.lxSelectMultiple)
                         {
                             div.find('span').addClass('lx-select__tag');
                         }
 
-                        $scope.data.selectedTemplate.html += div.html();
+                        $scope.lxSelectData.selectedTemplate.html += div.html();
                     });
                 });
             }
@@ -320,7 +320,7 @@ angular.module('lumx.select', [])
             }
 
             var data = newValue;
-            if(!$scope.multiple)
+            if(!$scope.lxSelectMultiple)
             {
                 if (newValue)
                 {
@@ -333,43 +333,43 @@ angular.module('lumx.select', [])
             }
 
             convertValue(data,
-                         $scope.selectionToModel,
+                         $scope.lxSelectSelectionToModel,
                          function(newConvertedValue)
             {
                 newModel = true;
 
-                if ($scope.change)
+                if ($scope.lxSelectChange)
                 {
-                    $scope.change({ newValue: angular.copy(newConvertedValue), oldValue: angular.copy($scope.ngModel.$modelValue) });
+                    $scope.lxSelectChange({ newValue: angular.copy(newConvertedValue), oldValue: angular.copy($scope.lxSelectNgModel.$modelValue) });
                 }
-                $scope.ngModel.$setViewValue(angular.copy(newConvertedValue));
-                $scope.$selected = !$scope.multiple && $scope.getSelectedElements().length === 1 ? $scope.getSelectedElements()[0] : undefined;
+                $scope.lxSelectNgModel.$setViewValue(angular.copy(newConvertedValue));
+                $scope.$selected = !$scope.lxSelectMultiple && $scope.lxSelectGetSelectedElements().length === 1 ? $scope.lxSelectGetSelectedElements()[0] : undefined;
             });
         }, true);
 
-        $scope.$watch('data.filter', function(newValue, oldValue)
+        $scope.$watch('lxSelectData.filter', function(newValue, oldValue)
         {
-            if(angular.isUndefined($scope.minLength) || (newValue && $scope.minLength <= newValue.length))
+            if(angular.isUndefined($scope.lxSelectMinLength) || (newValue && $scope.lxSelectMinLength <= newValue.length))
             {
-                if ($scope.filter)
+                if ($scope.lxSelectFilter)
                 {
-                    $scope.filter(newValue, oldValue);
+                    $scope.lxSelectFilter(newValue, oldValue);
                 }
             }
         });
 
         // Public API
-        $scope.select = select;
-        $scope.unselect = unselect;
-        $scope.toggle = toggle;
-        $scope.isChoicesVisible = isChoicesVisible;
-        $scope.isHelperVisible = isHelperVisible;
-        $scope.isSelected = isSelected;
-        $scope.filterNeeded = filterNeeded;
-        $scope.getSelectedElements = getSelectedElements;
-        $scope.hasNoResults = hasNoResults;
-        $scope.isChoicesArray = isChoicesArray;
-        $scope.trust = trust;
+        $scope.lxSelectSelect = select;
+        $scope.lxSelectUnselect = unselect;
+        $scope.lxSelectToggle = toggle;
+        $scope.lxSelectIsChoicesVisible = isChoicesVisible;
+        $scope.lxSelectIsHelperVisible = isHelperVisible;
+        $scope.lxSelectIsSelected = isSelected;
+        $scope.lxSelectFilterNeeded = filterNeeded;
+        $scope.lxSelectGetSelectedElements = getSelectedElements;
+        $scope.lxSelectHasNoResults = hasNoResults;
+        $scope.lxSelectIsChoicesArray = isChoicesArray;
+        $scope.lxSelectTrust = trust;
     }])
     .directive('lxSelect', function()
     {
@@ -383,45 +383,48 @@ angular.module('lumx.select', [])
             replace: true,
             link: function(scope, element, attrs, ngModel)
             {
-                scope.multiple = angular.isDefined(attrs.multiple);
-                scope.floatingLabel = angular.isDefined(attrs.floatingLabel);
-                scope.tree = angular.isDefined(attrs.tree);
-                scope.ngModel = ngModel;
+                scope.lxSelectMultiple = angular.isDefined(attrs.multiple);
+                scope.lxSelectFloatingLabel = angular.isDefined(attrs.floatingLabel);
+                scope.lxSelectTree = angular.isDefined(attrs.tree);
+                scope.lxSelectNgModel = ngModel;
 
                 // Default values
-                scope.placeholder = '';
-                scope.loading = '';
-                scope.minLength = undefined;
-                scope.allowClear = '';
-                scope.choices = function() { return []; };
-                scope.change = undefined;
-                scope.filter = undefined;
-                scope.selectionToModel = undefined;
-                scope.modelToSelection = undefined;
+                scope.lxSelectPlaceholder = '';
+                scope.lxSelectLoading = '';
+                scope.lxSelectMinLength = undefined;
+                scope.lxSelectAllowClear = '';
+                scope.lxSelectChoices = function() { return []; };
+                scope.lxSelectDisabled = undefined;
+                scope.lxSelectError = undefined;
+                scope.lxSelectValid = undefined;
+                scope.lxSelectChange = undefined;
+                scope.lxSelectFilter = undefined;
+                scope.lxSelectSelectionToModel = undefined;
+                scope.lxSelectModelToSelection = undefined;
 
                 attrs.$observe('placeholder', function(newValue)
                 {
-                    scope.placeholder = newValue;
+                    scope.lxSelectPlaceholder = newValue;
                 });
 
                 attrs.$observe('loading', function(newValue)
                 {
-                    scope.loading = newValue;
+                    scope.lxSelectLoading = newValue;
                 });
 
                 attrs.$observe('minLength', function(newValue)
                 {
-                    scope.minLength = newValue;
+                    scope.lxSelectMinLength = newValue;
                 });
 
                 attrs.$observe('allowClear', function(newValue)
                 {
-                    scope.allowClear = newValue;
+                    scope.lxSelectAllowClear = newValue;
                 });
 
                 attrs.$observe('disabled', function(newValue)
                 {
-                    scope.disabled = function()
+                    scope.lxSelectDisabled = function()
                     {
                         return scope.$eval(newValue);
                     };
@@ -429,7 +432,7 @@ angular.module('lumx.select', [])
 
                 attrs.$observe('error', function(newValue)
                 {
-                    scope.error = function()
+                    scope.lxSelectError = function()
                     {
                         return scope.$eval(newValue);
                     };
@@ -437,7 +440,7 @@ angular.module('lumx.select', [])
 
                 attrs.$observe('valid', function(newValue)
                 {
-                    scope.valid = function()
+                    scope.lxSelectValid = function()
                     {
                         return scope.$eval(newValue);
                     };
@@ -445,7 +448,7 @@ angular.module('lumx.select', [])
 
                 attrs.$observe('choices', function(newValue)
                 {
-                    scope.choices = function()
+                    scope.lxSelectChoices = function()
                     {
                         return scope.$eval(newValue);
                     };
@@ -453,7 +456,7 @@ angular.module('lumx.select', [])
 
                 attrs.$observe('change', function(newValue)
                 {
-                    scope.change = function(newData, oldData)
+                    scope.lxSelectChange = function(newData, oldData)
                     {
                         return scope.$eval(newValue, { newValue: newData, oldValue: oldData });
                     };
@@ -461,7 +464,7 @@ angular.module('lumx.select', [])
 
                 attrs.$observe('filter', function(newValue)
                 {
-                    scope.filter = function(newFilter, oldFilter)
+                    scope.lxSelectFilter = function(newFilter, oldFilter)
                     {
                         return scope.$eval(newValue, { newValue: newFilter, oldValue: oldFilter });
                     };
@@ -469,7 +472,7 @@ angular.module('lumx.select', [])
 
                 var selectionToModel = function(newValue)
                 {
-                    scope.selectionToModel = function(selection, callback)
+                    scope.lxSelectSelectionToModel = function(selection, callback)
                     {
                         return scope.$eval(newValue, { data: selection, callback: callback });
                     };
@@ -484,7 +487,7 @@ angular.module('lumx.select', [])
 
                 var modelToSelection = function(newValue)
                 {
-                    scope.modelToSelection = function(model, callback)
+                    scope.lxSelectModelToSelection = function(model, callback)
                     {
                         return scope.$eval(newValue, { data: model, callback: callback });
                     };
@@ -531,7 +534,7 @@ angular.module('lumx.select', [])
                 {
                     var data = scope.$eval(attrs.content);
 
-                    scope.transcludeSelected = data.selected;
+                    scope.lxSelectTranscludeSelected = data.selected;
 
                     element.html(data.html);
                     $compile(element.contents())(scope);
