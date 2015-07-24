@@ -1,5 +1,61 @@
 # Changelog
 
+## v0.3.73:
+
+#### Bug fixes:
+ - tabs: prefix scope variable & function
+ - dropdown: prefix scope variable & function
+ - dialog: prefix scope variable & function
+ - select: prefix scope variable & function
+
+
+## v0.3.72:
+
+#### Bug fixes:
+ - tooltip: increase z-index
+
+
+## v0.3.71:
+
+#### Bug fixes:
+ - text field: better height for textarea
+
+
+## v0.3.70:
+
+#### Bug fixes:
+ - date picker: remove console log
+
+
+## v0.3.69:
+
+#### Bug fixes:
+ - dropdown: keep the direction once open
+ - date picker: year overflowing
+
+
+## v0.3.68:
+
+#### Bug fixes:
+ - select: fix error and valid style
+
+
+## v0.3.67:
+
+#### Bug fixes:
+ - select: get error, valid and disabled states as function
+
+
+## v0.3.66:
+
+#### New features:
+ - select: add disabled, error and valid states
+
+#### Bug fixes:
+ - select: fix clear button position
+ - dropdown: fix header icon style
+
+
 ## v0.3.65:
 
 #### Bug fixes:
