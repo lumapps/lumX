@@ -235,3 +235,14 @@
     @include font-size(12px);
     color: $red;
 }
+
+
+
+
+
+// Text field help
+.text-field-help {
+    display: block;
+    @include font-size(12px);
+    color: $black-2;
+}
