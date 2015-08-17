@@ -2,8 +2,8 @@
 'use strict'; // jshint ignore:line
 
 
-angular.module('lumx.dialog', [])
-    .service('LxDialogService', ['$rootScope', '$timeout', '$interval', '$window', function($rootScope, $timeout, $interval, $window)
+angular.module('lumx.dialog', ['lumx.utils.event-scheduler'])
+    .service('LxDialogService', ['$rootScope', '$timeout', '$interval', '$window', 'LxEventSchedulerService', function($rootScope, $timeout, $interval, $window, LxEventSchedulerService)
     {
         var self = this,
             dialogInterval,
@@ -17,7 +17,8 @@ angular.module('lumx.dialog', [])
             dialogContent,
             dialogActions,
             dialogScrollable,
-            resizeDebounce;
+            resizeDebounce,
+            idEventScheduler;
 
         this.registerScope = function(dialogId, dialogScope)
         {
@@ -47,6 +48,11 @@ angular.module('lumx.dialog', [])
                 });
             }
 
+            if (angular.isUndefined(scopeMap[dialogId].lxDialogEscapeClose) || scopeMap[dialogId].lxDialogEscapeClose === 'true')
+            {
+                idEventScheduler = LxEventSchedulerService.register('keyup', onKeyUp);
+            }
+
             scopeMap[dialogId].lxDialogElement
                 .appendTo('body')
                 .show();
@@ -72,6 +78,15 @@ angular.module('lumx.dialog', [])
 
         this.close = function(dialogId)
         {
+            if (angular.isDefined(idEventScheduler))
+            {
+                $timeout(function()
+                {
+                    LxEventSchedulerService.unregister(idEventScheduler);
+                    idEventScheduler = undefined;
+                }, 1);
+            }
+
             angular.element('.dialog__scrollable').off('scroll', checkScrollEnd);
 
             activeDialogId = undefined;
@@ -115,6 +130,16 @@ angular.module('lumx.dialog', [])
                 $rootScope.$broadcast('lx-dialog__close-end', dialogId);
             }, 600);
         };
+
+        function onKeyUp(event)
+        {
+            if (event.keyCode == 27 && angular.isDefined(activeDialogId))
+            {
+                self.close(activeDialogId);
+            }
+
+            event.stopPropagation();
+        }
 
         function checkDialogHeight(dialogId)
         {
