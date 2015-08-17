@@ -177,7 +177,7 @@ angular.module('lumx.dialog', [])
                 }
             }
 
-            if (angular.isDefined(scopeMap[activeDialogId].lxDialogOnscrollend))
+            if (angular.isDefined(scopeMap[activeDialogId]) && angular.isDefined(scopeMap[activeDialogId].lxDialogOnscrollend))
             {
                 if (dialogScrollable.scrollTop() + dialogScrollable.innerHeight() >= dialogScrollable[0].scrollHeight)
                 {
