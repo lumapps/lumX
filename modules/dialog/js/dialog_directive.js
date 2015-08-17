@@ -72,6 +72,8 @@ angular.module('lumx.dialog', [])
 
         this.close = function(dialogId)
         {
+            angular.element('.dialog__scrollable').off('scroll', checkScrollEnd);
+
             activeDialogId = undefined;
             $rootScope.$broadcast('lx-dialog__close-start', dialogId);
             if (resizeDebounce)
