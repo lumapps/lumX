@@ -271,6 +271,11 @@ angular.module('lumx.dialog', ['lumx.utils.event-scheduler'])
                     scope.lxDialogAutoClose = newValue;
                 });
 
+                attrs.$observe('escapeClose', function(newValue)
+                {
+                    scope.lxDialogEscapeClose = newValue;
+                });
+
                 attrs.$observe('onclose', function(newValue)
                 {
                     scope.lxDialogOnclose = function()
