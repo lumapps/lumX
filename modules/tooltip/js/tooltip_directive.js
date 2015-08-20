@@ -99,14 +99,28 @@ angular.module('lumx.tooltip', [])
             tooltip.addClass('tooltip--is-active');
         };
 
+        this.update = function(content)
+        {
+            tooltipContent = content;
+            tooltipLabel.text(tooltipContent);
+        };
+
         this.hideTooltip = function()
         {
-            tooltip.removeClass('tooltip--is-active');
-
-            $timeout(function()
+            if (angular.isDefined(tooltip))
             {
-                tooltip.remove();
-            }, 200);
+                tooltip.removeClass('tooltip--is-active');
+
+                $timeout(function()
+                {
+                    tooltip.remove();
+                }, 200);
+            }
+        };
+
+        this.isDisplayed = function()
+        {
+            return angular.isDefined(tooltip) && tooltip.hasClass('tooltip--is-active');
         };
 
         $scope.$on('$destroy', function(scope)
@@ -125,7 +139,18 @@ angular.module('lumx.tooltip', [])
                 {
                     if (attrs.lxTooltip)
                     {
-                        ctrl.init(element, attrs);
+                        if (ctrl.isDisplayed())
+                        {
+                            ctrl.update(attrs.lxTooltip);
+                        }
+                        else
+                        {
+                            ctrl.init(element, attrs);
+                        }
+                    }
+                    else
+                    {
+                        ctrl.hideTooltip();
                     }
                 });
             }
