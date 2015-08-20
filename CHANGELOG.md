@@ -1,5 +1,27 @@
 # Changelog
 
+## v0.3.75:
+
+#### New features:
+ - notification: add the ability to close with escape/return key
+ - dropdown: add the ability to close dropdown with escape key
+ - dialog: add the ability to close dropdown with escape key
+ - eventScheduler: add an event scheduler
+ - select: add custom parameter to customize select dropdown
+
+#### Bug fixes:
+ - notification: always send true when discarding alert
+ - notification: blur the active element on displaying alert/confirm
+ - notification: pass the unbind argument for event scheduling
+ - dropdown: fix scroll to top on scroll end
+ - dialog: unbind scroll event on close
+ - dialog: check if dialog exists before checking scroll end
+
+
+## v0.3.74:
+*No major changes.*
+
+
 ## v0.3.73:
 
 #### Bug fixes:
