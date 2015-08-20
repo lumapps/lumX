@@ -338,7 +338,7 @@ angular.module('lumx.dropdown', [])
             }
         });
 
-        angular.element($window).on('resize scroll', updatePositionAndSize);
+        angular.element($window).on('resize', updatePositionAndSize);
 
         $scope.$on('$locationChangeSuccess', function()
         {
