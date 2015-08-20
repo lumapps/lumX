@@ -349,7 +349,7 @@ angular.module('lumx.select', [])
 
         $scope.$watch('lxSelectData.filter', function(newValue, oldValue)
         {
-            if(angular.isUndefined($scope.lxSelectMinLength) || (newValue && $scope.lxSelectMinLength <= newValue.length))
+            if (newValue !== oldValue && (angular.isUndefined($scope.lxSelectMinLength) || (newValue && $scope.lxSelectMinLength <= newValue.length)))
             {
                 if ($scope.lxSelectFilter)
                 {
