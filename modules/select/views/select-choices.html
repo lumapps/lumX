@@ -21,12 +21,12 @@
 
         <div ng-if="lxSelectIsChoicesVisible() && lxSelectIsChoicesArray()">
             <li ng-repeat="$choice in lxSelectChoices() | filterChoices:filter:lxSelectData.filter | limitTo:100 track by $index">
-                <a class="lx-select__choice"
+                <div class="lx-select__choice"
                    ng-class="{ 'lx-select__choice--is-multiple': lxSelectMultiple,
                                'lx-select__choice--is-selected': lxSelectIsSelected($choice),
                                'dropdown-link': !lxSelectCustom }"
                    ng-click="lxSelectToggle($choice, $event)"
-                   ng-transclude="child"></a>
+                   ng-transclude="child"></div>
             </li>
         </div>
 
@@ -37,12 +37,12 @@
             </li>
 
             <li ng-repeat-end ng-repeat="$choice in children | filterChoices:filter:lxSelectData.filter | limitTo:100 track by $index">
-                <a class="lx-select__choice"
+                <div class="lx-select__choice"
                    ng-class="{ 'lx-select__choice--is-multiple': lxSelectMultiple,
                                'lx-select__choice--is-selected': lxSelectIsSelected($choice),
                                'dropdown-link': !lxSelectCustom }"
                    ng-click="lxSelectToggle($choice, $event)"
-                   ng-transclude="child"></a>
+                   ng-transclude="child"></div>
             </li>
         </div>
 
