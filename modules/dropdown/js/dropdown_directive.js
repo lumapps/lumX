@@ -2,8 +2,8 @@
 'use strict'; // jshint ignore:line
 
 
-angular.module('lumx.dropdown', [])
-    .service('LxDropdownService', ['$document', function($document)
+angular.module('lumx.dropdown', ['lumx.utils.event-scheduler'])
+    .service('LxDropdownService', ['$timeout', '$document', 'LxEventSchedulerService', function($timeout, $document, LxEventSchedulerService)
     {
         var openScope = null;
 
@@ -12,6 +12,11 @@ angular.module('lumx.dropdown', [])
             if (!openScope)
             {
                 $document.on('click', closeDropdown);
+            }
+
+            if (angular.isUndefined(dropdownScope.lxDropdownEscapeClose) || dropdownScope.lxDropdownEscapeClose === 'true')
+            {
+                dropdownScope.idEventScheduler = LxEventSchedulerService.register('keyup', onKeyUp);
             }
 
             if (openScope && openScope !== dropdownScope)
@@ -26,7 +31,17 @@ angular.module('lumx.dropdown', [])
         {
             if (openScope === dropdownScope)
             {
-                openScope = null;
+                if (angular.isDefined(openScope.idEventScheduler))
+                {
+                    $timeout(function()
+                    {
+                        LxEventSchedulerService.unregister(openScope.idEventScheduler);
+                        delete openScope.idEventScheduler;
+
+                        openScope = null;
+                    }, 1);
+                }
+
                 $document.off('click', closeDropdown);
             }
         }
@@ -39,6 +54,16 @@ angular.module('lumx.dropdown', [])
             {
                 openScope.lxDropdownIsOpened = false;
             });
+        }
+
+        function onKeyUp(event)
+        {
+            if (event.keyCode == 27)
+            {
+                closeDropdown();
+            }
+
+            event.stopPropagation();
         }
 
         return {
@@ -384,6 +409,11 @@ angular.module('lumx.dropdown', [])
                 attrs.$observe('overToggle', function(newValue)
                 {
                     scope.lxDropdownOverToggle = newValue;
+                });
+
+                attrs.$observe('escapeClose', function(newValue)
+                {
+                    scope.lxDropdownEscapeClose = newValue;
                 });
             }
         };
