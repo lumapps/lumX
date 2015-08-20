@@ -233,7 +233,7 @@ angular.module('lumx.notification', ['lumx.utils.event-scheduler'])
                     }
                     else if (event.keyCode == 27)
                     {
-                        callback(false);
+                        callback(angular.isUndefined(buttons.cancel));
                         closeDialog();
                     }
 
