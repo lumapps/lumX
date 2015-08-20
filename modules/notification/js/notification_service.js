@@ -256,7 +256,7 @@ angular.module('lumx.notification', ['lumx.utils.event-scheduler'])
 
             var dialogHeader = buildDialogHeader(title);
             var dialogContent = buildDialogContent(text);
-            var dialogActions = buildDialogActions(buttons, callback);
+            var dialogActions = buildDialogActions(buttons, callback, unbind);
 
             // DOM link
             dialogFilter.appendTo('body');
@@ -290,7 +290,7 @@ angular.module('lumx.notification', ['lumx.utils.event-scheduler'])
 
             var dialogHeader = buildDialogHeader(title);
             var dialogContent = buildDialogContent(text);
-            var dialogActions = buildDialogActions({ ok: button }, callback);
+            var dialogActions = buildDialogActions({ ok: button }, callback, unbind);
 
             // DOM link
             dialogFilter.appendTo('body');
