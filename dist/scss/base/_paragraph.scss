@@ -1,0 +1,43 @@
+///*------------------------------------*\
+//    #BASE-PARAGRAPH
+//\*------------------------------------*/
+
+// Paragraph mixin
+@mixin paragraph() {
+    h1, h2, h3, h4, h5, h6,
+    ul, ol, dl,
+    blockquote, p, address,
+    table,
+    fieldset, figure,
+    pre,
+    hr,
+    iframe {
+        margin-bottom: $base-spacing-unit * 3;
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+
+    ul, ol, dd {
+        margin-left: $base-spacing-unit * 6;
+    }
+
+    a {
+        text-decoration: none;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+}
+
+
+
+
+
+// Paragraph base styles
+.paragraph,
+%paragraph {
+    @include paragraph;
+}
