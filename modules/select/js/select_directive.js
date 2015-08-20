@@ -389,6 +389,7 @@ angular.module('lumx.select', [])
                 scope.lxSelectNgModel = ngModel;
 
                 // Default values
+                scope.lxSelectCustom = undefined;
                 scope.lxSelectPlaceholder = '';
                 scope.lxSelectLoading = '';
                 scope.lxSelectMinLength = undefined;
@@ -401,6 +402,11 @@ angular.module('lumx.select', [])
                 scope.lxSelectFilter = undefined;
                 scope.lxSelectSelectionToModel = undefined;
                 scope.lxSelectModelToSelection = undefined;
+
+                attrs.$observe('custom', function(newValue)
+                {
+                    scope.lxSelectCustom = newValue;
+                });
 
                 attrs.$observe('placeholder', function(newValue)
                 {

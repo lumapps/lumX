@@ -1,6 +1,6 @@
-<div flex-container="row" flex-gutter="24" ng-init="fezge = false">
+<div flex-container="row" flex-gutter="24">
     <div flex-item>
-        <lx-select ng-model="selects.selectedPerson" placeholder="Lorem Ipsum" choices="people" error="fezge" floating-label>
+        <lx-select ng-model="selects.selectedPerson" placeholder="Lorem Ipsum" choices="people" floating-label>
             <lx-select-selected>
                 {{ $selected.name + ' ' + $selected.age }}
             </lx-select-selected>
@@ -27,8 +27,6 @@
 
         <button class="btn btn--m btn--blue btn--raised mt" ng-click="ajax.selected = 'Inception'" lx-ripple>Set to 'Inception'</button>
     </div>
-
-    <button ng-click="fezge = true"></button>
 </div>
 
 <div flex-container="row" flex-gutter="24">

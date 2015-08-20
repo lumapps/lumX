@@ -1,4 +1,4 @@
-<lx-dropdown-menu class="lx-select__choices">
+<lx-dropdown-menu class="lx-select__choices {{ lxSelectCustom }}">
     <ul ng-if="!lxSelectTree">
         <li ng-if="lxSelectGetSelectedElements().length > 0">
             <lx-select-choices-selected class="lx-select__chosen"
@@ -8,7 +8,8 @@
         </li>
 
         <li>
-            <div class="lx-select__filter dropdown-filter">
+            <div class="lx-select__filter dropdown-filter"
+                 ng-class="{ 'dropdown-filter': !lxSelectCustom }">
                 <lx-search-filter model="lxSelectData.filter" filter-width="100%" lx-dropdown-filter></lx-search-filter>
             </div>
         </li>
@@ -20,9 +21,10 @@
 
         <div ng-if="lxSelectIsChoicesVisible() && lxSelectIsChoicesArray()">
             <li ng-repeat="$choice in lxSelectChoices() | filterChoices:filter:lxSelectData.filter | limitTo:100 track by $index">
-                <a class="lx-select__choice dropdown-link"
+                <a class="lx-select__choice"
                    ng-class="{ 'lx-select__choice--is-multiple': lxSelectMultiple,
-                               'lx-select__choice--is-selected': lxSelectIsSelected($choice) }"
+                               'lx-select__choice--is-selected': lxSelectIsSelected($choice),
+                               'dropdown-link': !lxSelectCustom }"
                    ng-click="lxSelectToggle($choice, $event)"
                    ng-transclude="child"></a>
             </li>
@@ -30,13 +32,15 @@
 
         <div ng-if="lxSelectIsChoicesVisible() && !lxSelectIsChoicesArray()">
             <li ng-repeat-start="($subheader, children) in lxSelectChoices()">
-                <span class="dropdown-link dropdown-link--is-header" ng-bind-html="lxSelectTrust($subheader)"></span>
+                <span ng-class="{ 'dropdown-link dropdown-link--is-header': !lxSelectCustom }"
+                      ng-bind-html="lxSelectTrust($subheader)"></span>
             </li>
 
             <li ng-repeat-end ng-repeat="$choice in children | filterChoices:filter:lxSelectData.filter | limitTo:100 track by $index">
-                <a class="lx-select__choice dropdown-link"
+                <a class="lx-select__choice"
                    ng-class="{ 'lx-select__choice--is-multiple': lxSelectMultiple,
-                               'lx-select__choice--is-selected': lxSelectIsSelected($choice) }"
+                               'lx-select__choice--is-selected': lxSelectIsSelected($choice),
+                               'dropdown-link': !lxSelectCustom }"
                    ng-click="lxSelectToggle($choice, $event)"
                    ng-transclude="child"></a>
             </li>
