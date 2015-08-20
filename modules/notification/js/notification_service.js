@@ -1,10 +1,11 @@
 /* global angular */
 /* global window */
+/* global document */
 'use strict'; // jshint ignore:line
 
 
 angular.module('lumx.notification', ['lumx.utils.event-scheduler'])
-    .service('LxNotificationService', ['$injector', '$rootScope', '$timeout', '$document', 'LxEventSchedulerService', function($injector, $rootScope, $timeout, $document, LxEventSchedulerService)
+    .service('LxNotificationService', ['$injector', '$rootScope', '$timeout', 'LxEventSchedulerService', function($injector, $rootScope, $timeout, LxEventSchedulerService)
     {
         //
         // PRIVATE MEMBERS
@@ -272,6 +273,8 @@ angular.module('lumx.notification', ['lumx.utils.event-scheduler'])
             // Starting animaton
             $timeout(function()
             {
+                angular.element(document.activeElement).blur();
+
                 dialogFilter.addClass('dialog-filter--is-shown');
                 dialog.addClass('dialog--is-shown');
             }, 100);
@@ -306,6 +309,8 @@ angular.module('lumx.notification', ['lumx.utils.event-scheduler'])
             // Starting animaton
             $timeout(function()
             {
+                angular.element(document.activeElement).blur();
+
                 dialogFilter.addClass('dialog-filter--is-shown');
                 dialog.addClass('dialog--is-shown');
             }, 100);
