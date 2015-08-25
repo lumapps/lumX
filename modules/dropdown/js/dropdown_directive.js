@@ -31,12 +31,12 @@ angular.module('lumx.dropdown', ['lumx.utils.event-scheduler'])
         {
             if (openScope === dropdownScope)
             {
-                if (angular.isDefined(openScope.idEventScheduler))
+                if (angular.isDefined(dropdownScope.idEventScheduler))
                 {
                     $timeout(function()
                     {
-                        LxEventSchedulerService.unregister(openScope.idEventScheduler);
-                        delete openScope.idEventScheduler;
+                        LxEventSchedulerService.unregister(dropdownScope.idEventScheduler);
+                        delete dropdownScope.idEventScheduler;
 
                         openScope = null;
                     }, 1);
