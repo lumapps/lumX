@@ -20,7 +20,7 @@
         </li>
 
         <div ng-if="lxSelectIsChoicesVisible() && lxSelectIsChoicesArray()">
-            <li ng-repeat="$choice in lxSelectChoices() | filterChoices:filter:lxSelectData.filter | limitTo:100 track by $index">
+            <li ng-repeat="$choice in lxSelectChoices() | filterChoices:lxSelectFilter:lxSelectData.filter | limitTo:100 track by $index">
                 <div class="lx-select__choice"
                    ng-class="{ 'lx-select__choice--is-multiple': lxSelectMultiple,
                                'lx-select__choice--is-selected': lxSelectIsSelected($choice),
@@ -36,7 +36,7 @@
                       ng-bind-html="lxSelectTrust($subheader)"></span>
             </li>
 
-            <li ng-repeat-end ng-repeat="$choice in children | filterChoices:filter:lxSelectData.filter | limitTo:100 track by $index">
+            <li ng-repeat-end ng-repeat="$choice in children | filterChoices:lxSelectFilter:lxSelectData.filter | limitTo:100 track by $index">
                 <div class="lx-select__choice"
                    ng-class="{ 'lx-select__choice--is-multiple': lxSelectMultiple,
                                'lx-select__choice--is-selected': lxSelectIsSelected($choice),
