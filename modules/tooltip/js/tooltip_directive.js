@@ -125,7 +125,10 @@ angular.module('lumx.tooltip', [])
 
         $scope.$on('$destroy', function(scope)
         {
-            tooltip.remove();
+            if (angular.isDefined(tooltip))
+            {
+                tooltip.remove();
+            }
         });
     }])
     .directive('lxTooltip', function()
