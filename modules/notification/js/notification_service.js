@@ -74,7 +74,7 @@ angular.module('lumx.notification', ['lumx.utils.event-scheduler'])
 
             var notificationText = angular.element('<span/>', {
                 class: 'notification__content',
-                text: text
+                html: text
             });
 
             if (angular.isDefined(icon))
