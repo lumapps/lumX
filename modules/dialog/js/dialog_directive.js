@@ -76,7 +76,7 @@ angular.module('lumx.dialog', ['lumx.utils.event-scheduler'])
             }, 500);
         };
 
-        this.close = function(dialogId)
+        this.close = function(dialogId, skipBeforeClose)
         {
             var carryOnClose = function()
             {
@@ -133,7 +133,12 @@ angular.module('lumx.dialog', ['lumx.utils.event-scheduler'])
                 }, 600);
             };
 
-            if (scopeMap[dialogId].lxDialogBeforeClose)
+            if (skipBeforeClose || angular.isUndefined(scopeMap[dialogId].lxDialogBeforeClose)
+                || !angular.isFunction(scopeMap[dialogId].lxDialogBeforeClose))
+            {
+                carryOnClose();
+            }
+            else
             {
                 carryOn = scopeMap[dialogId].lxDialogBeforeClose();
                 if (angular.isObject(carryOn) && angular.isDefined(carryOn.then))
@@ -147,10 +152,6 @@ angular.module('lumx.dialog', ['lumx.utils.event-scheduler'])
                         carryOnClose();
                     }
                 }
-            }
-            else
-            {
-                carryOnClose();
             }
         };
 
@@ -329,11 +330,17 @@ angular.module('lumx.dialog', ['lumx.utils.event-scheduler'])
     {
         return {
             restrict: 'A',
-            link: function(scope, element)
+            scope: true,
+            link: function(scope, element, attrs)
             {
+                attrs.$observe('lxDialogClose', function(newValue)
+                {
+                    scope.lxDialogCloseSkipBefore = newValue;
+                });
+                
                 element.on('click', function()
                 {
-                    LxDialogService.close(element.parents('.dialog').attr('id'));
+                    LxDialogService.close(element.parents('.dialog').attr('id'), scope.lxDialogCloseSkipBefore);
                 });
             }
         };
