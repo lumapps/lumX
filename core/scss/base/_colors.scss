@@ -4,26 +4,6 @@
 
 // Text color
 
-// 500
-.tc-red-500                 {   color: $red-500 !important;                      }
-.tc-pink-500                {   color: $pink-500 !important;                     }
-.tc-purple-500              {   color: $purple-500 !important;                   }
-.tc-deep-purple-500         {   color: $deep-purple-500 !important;              }
-.tc-indigo-500              {   color: $indigo-500 !important;                   }
-.tc-blue-500                {   color: $blue-500 !important;                     }
-.tc-light-blue-500          {   color: $light-blue-500 !important;               }
-.tc-teal-500                {   color: $teal-500 !important;                     }
-.tc-green-500               {   color: $green-500 !important;                    }
-.tc-light-green-500         {   color: $light-green-500 !important;              }
-.tc-lime-500                {   color: $lime-500 !important;                     }
-.tc-yellow-500              {   color: $yellow-500 !important;                   }
-.tc-amber-500               {   color: $amber-500 !important;                    }
-.tc-orange-500              {   color: $orange-500 !important;                   }
-.tc-deep-orange-500         {   color: $deep-orange-500 !important;              }
-.tc-brown-500               {   color: $brown-500 !important;                    }
-.tc-grey-500                {   color: $grey-500 !important;                     }
-.tc-blue-grey-500           {   color: $blue-grey-500 !important;                }
-
 // 50
 .tc-red-50                  {   color: $red-50 !important;                       }
 .tc-pink-50                 {   color: $pink-50 !important;                      }
@@ -32,6 +12,7 @@
 .tc-indigo-50               {   color: $indigo-50 !important;                    }
 .tc-blue-50                 {   color: $blue-50 !important;                      }
 .tc-light-blue-50           {   color: $light-blue-50 !important;                }
+.tc-cyan-50                 {   color: $cyan-50 !important;                      }
 .tc-teal-50                 {   color: $teal-50 !important;                      }
 .tc-green-50                {   color: $green-50 !important;                     }
 .tc-light-green-50          {   color: $light-green-50 !important;               }
@@ -52,6 +33,7 @@
 .tc-indigo-100              {   color: $indigo-100 !important;                   }
 .tc-blue-100                {   color: $blue-100 !important;                     }
 .tc-light-blue-100          {   color: $light-blue-100 !important;               }
+.tc-cyan-100                {   color: $cyan-100 !important;                     }
 .tc-teal-100                {   color: $teal-100 !important;                     }
 .tc-green-100               {   color: $green-100 !important;                    }
 .tc-light-green-100         {   color: $light-green-100 !important;              }
@@ -72,6 +54,7 @@
 .tc-indigo-200              {   color: $indigo-200 !important;                   }
 .tc-blue-200                {   color: $blue-200 !important;                     }
 .tc-light-blue-200          {   color: $light-blue-200 !important;               }
+.tc-cyan-200                {   color: $cyan-200 !important;                     }
 .tc-teal-200                {   color: $teal-200 !important;                     }
 .tc-green-200               {   color: $green-200 !important;                    }
 .tc-light-green-200         {   color: $light-green-200 !important;              }
@@ -92,6 +75,7 @@
 .tc-indigo-300              {   color: $indigo-300 !important;                   }
 .tc-blue-300                {   color: $blue-300 !important;                     }
 .tc-light-blue-300          {   color: $light-blue-300 !important;               }
+.tc-cyan-300                {   color: $cyan-300 !important;                     }
 .tc-teal-300                {   color: $teal-300 !important;                     }
 .tc-green-300               {   color: $green-300 !important;                    }
 .tc-light-green-300         {   color: $light-green-300 !important;              }
@@ -112,6 +96,7 @@
 .tc-indigo-400              {   color: $indigo-400 !important;                   }
 .tc-blue-400                {   color: $blue-400 !important;                     }
 .tc-light-blue-400          {   color: $light-blue-400 !important;               }
+.tc-cyan-400                {   color: $cyan-400 !important;                     }
 .tc-teal-400                {   color: $teal-400 !important;                     }
 .tc-green-400               {   color: $green-400 !important;                    }
 .tc-light-green-400         {   color: $light-green-400 !important;              }
@@ -132,6 +117,7 @@
 .tc-indigo-500              {   color: $indigo-500 !important;                   }
 .tc-blue-500                {   color: $blue-500 !important;                     }
 .tc-light-blue-500          {   color: $light-blue-500 !important;               }
+.tc-cyan-500                {   color: $cyan-500 !important;                     }
 .tc-teal-500                {   color: $teal-500 !important;                     }
 .tc-green-500               {   color: $green-500 !important;                    }
 .tc-light-green-500         {   color: $light-green-500 !important;              }
@@ -152,6 +138,7 @@
 .tc-indigo-600              {   color: $indigo-600 !important;                   }
 .tc-blue-600                {   color: $blue-600 !important;                     }
 .tc-light-blue-600          {   color: $light-blue-600 !important;               }
+.tc-cyan-600                {   color: $cyan-600 !important;                     }
 .tc-teal-600                {   color: $teal-600 !important;                     }
 .tc-green-600               {   color: $green-600 !important;                    }
 .tc-light-green-600         {   color: $light-green-600 !important;              }
@@ -172,6 +159,7 @@
 .tc-indigo-700              {   color: $indigo-700 !important;                   }
 .tc-blue-700                {   color: $blue-700 !important;                     }
 .tc-light-blue-700          {   color: $light-blue-700 !important;               }
+.tc-cyan-700                {   color: $cyan-700 !important;                     }
 .tc-teal-700                {   color: $teal-700 !important;                     }
 .tc-green-700               {   color: $green-700 !important;                    }
 .tc-light-green-700         {   color: $light-green-700 !important;              }
@@ -192,6 +180,7 @@
 .tc-indigo-800              {   color: $indigo-800 !important;                   }
 .tc-blue-800                {   color: $blue-800 !important;                     }
 .tc-light-blue-800          {   color: $light-blue-800 !important;               }
+.tc-cyan-800                {   color: $cyan-800 !important;                     }
 .tc-teal-800                {   color: $teal-800 !important;                     }
 .tc-green-800               {   color: $green-800 !important;                    }
 .tc-light-green-800         {   color: $light-green-800 !important;              }
@@ -212,6 +201,7 @@
 .tc-indigo-900              {   color: $indigo-900 !important;                   }
 .tc-blue-900                {   color: $blue-900 !important;                     }
 .tc-light-blue-900          {   color: $light-blue-900 !important;               }
+.tc-cyan-900                {   color: $cyan-900 !important;                     }
 .tc-teal-900                {   color: $teal-900 !important;                     }
 .tc-green-900               {   color: $green-900 !important;                    }
 .tc-light-green-900         {   color: $light-green-900 !important;              }
@@ -232,6 +222,7 @@
 .tc-indigo-A100             {   color: $indigo-A100 !important;                  }
 .tc-blue-A100               {   color: $blue-A100 !important;                    }
 .tc-light-blue-A100         {   color: $light-blue-A100 !important;              }
+.tc-cyan-A100               {   color: $cyan-A100 !important;                    }
 .tc-teal-A100               {   color: $teal-A100 !important;                    }
 .tc-green-A100              {   color: $green-A100 !important;                   }
 .tc-light-green-A100        {   color: $light-green-A100 !important;             }
@@ -249,6 +240,7 @@
 .tc-indigo-A200             {   color: $indigo-A200 !important;                  }
 .tc-blue-A200               {   color: $blue-A200 !important;                    }
 .tc-light-blue-A200         {   color: $light-blue-A200 !important;              }
+.tc-cyan-A200               {   color: $cyan-A200 !important;                    }
 .tc-teal-A200               {   color: $teal-A200 !important;                    }
 .tc-green-A200              {   color: $green-A200 !important;                   }
 .tc-light-green-A200        {   color: $light-green-A200 !important;             }
@@ -266,6 +258,7 @@
 .tc-indigo-A400             {   color: $indigo-A400 !important;                  }
 .tc-blue-A400               {   color: $blue-A400 !important;                    }
 .tc-light-blue-A400         {   color: $light-blue-A400 !important;              }
+.tc-cyan-A400               {   color: $cyan-A400 !important;                    }
 .tc-teal-A400               {   color: $teal-A400 !important;                    }
 .tc-green-A400              {   color: $green-A400 !important;                   }
 .tc-light-green-A400        {   color: $light-green-A400 !important;             }
@@ -283,6 +276,7 @@
 .tc-indigo-A700             {   color: $indigo-A700 !important;                  }
 .tc-blue-A700               {   color: $blue-A700 !important;                    }
 .tc-light-blue-A700         {   color: $light-blue-A700 !important;              }
+.tc-cyan-A700               {   color: $cyan-A700 !important;                    }
 .tc-teal-A700               {   color: $teal-A700 !important;                    }
 .tc-green-A700              {   color: $green-A700 !important;                   }
 .tc-light-green-A700        {   color: $light-green-A700 !important;             }
@@ -312,26 +306,6 @@
 
 // Background color
 
-// 500
-.bgc-red-500                 {   background-color: $red-500 !important;           }
-.bgc-pink-500                {   background-color: $pink-500 !important;          }
-.bgc-purple-500              {   background-color: $purple-500 !important;        }
-.bgc-deep-purple-500         {   background-color: $deep-purple-500 !important;   }
-.bgc-indigo-500              {   background-color: $indigo-500 !important;        }
-.bgc-blue-500                {   background-color: $blue-500 !important;          }
-.bgc-light-blue-500          {   background-color: $light-blue-500 !important;    }
-.bgc-teal-500                {   background-color: $teal-500 !important;          }
-.bgc-green-500               {   background-color: $green-500 !important;         }
-.bgc-light-green-500         {   background-color: $light-green-500 !important;   }
-.bgc-lime-500                {   background-color: $lime-500 !important;          }
-.bgc-yellow-500              {   background-color: $yellow-500 !important;        }
-.bgc-amber-500               {   background-color: $amber-500 !important;         }
-.bgc-orange-500              {   background-color: $orange-500 !important;        }
-.bgc-deep-orange-500         {   background-color: $deep-orange-500 !important;   }
-.bgc-brown-500               {   background-color: $brown-500 !important;         }
-.bgc-grey-500                {   background-color: $grey-500 !important;          }
-.bgc-blue-grey-500           {   background-color: $blue-grey-500 !important;     }
-
 // 50
 .bgc-red-50                  {   background-color: $red-50 !important;            }
 .bgc-pink-50                 {   background-color: $pink-50 !important;           }
@@ -340,7 +314,8 @@
 .bgc-indigo-50               {   background-color: $indigo-50 !important;         }
 .bgc-blue-50                 {   background-color: $blue-50 !important;           }
 .bgc-light-blue-50           {   background-color: $light-blue-50 !important;     }
-.bgc-teal-50                 {   background-color: $teal-50 !important;           } 
+.bgc-cyan-50                 {   background-color: $cyan-50 !important;           }
+.bgc-teal-50                 {   background-color: $teal-50 !important;           }
 .bgc-green-50                {   background-color: $green-50 !important;          }
 .bgc-light-green-50          {   background-color: $light-green-50 !important;    }
 .bgc-lime-50                 {   background-color: $lime-50 !important;           }
@@ -360,6 +335,7 @@
 .bgc-indigo-100              {   background-color: $indigo-100 !important;        }
 .bgc-blue-100                {   background-color: $blue-100 !important;          }
 .bgc-light-blue-100          {   background-color: $light-blue-100 !important;    }
+.bgc-cyan-100                {   background-color: $cyan-100 !important;          }
 .bgc-teal-100                {   background-color: $teal-100 !important;          }
 .bgc-green-100               {   background-color: $green-100 !important;         }
 .bgc-light-green-100         {   background-color: $light-green-100 !important;   }
@@ -380,6 +356,7 @@
 .bgc-indigo-200              {   background-color: $indigo-200 !important;        }
 .bgc-blue-200                {   background-color: $blue-200 !important;          }
 .bgc-light-blue-200          {   background-color: $light-blue-200 !important;    }
+.bgc-cyan-200                {   background-color: $cyan-200 !important;          }
 .bgc-teal-200                {   background-color: $teal-200 !important;          }
 .bgc-green-200               {   background-color: $green-200 !important;         }
 .bgc-light-green-200         {   background-color: $light-green-200 !important;   }
@@ -400,6 +377,7 @@
 .bgc-indigo-300              {   background-color: $indigo-300 !important;        }
 .bgc-blue-300                {   background-color: $blue-300 !important;          }
 .bgc-light-blue-300          {   background-color: $light-blue-300 !important;    }
+.bgc-cyan-300                {   background-color: $cyan-300 !important;          }
 .bgc-teal-300                {   background-color: $teal-300 !important;          }
 .bgc-green-300               {   background-color: $green-300 !important;         }
 .bgc-light-green-300         {   background-color: $light-green-300 !important;   }
@@ -420,6 +398,7 @@
 .bgc-indigo-400              {   background-color: $indigo-400 !important;        }
 .bgc-blue-400                {   background-color: $blue-400 !important;          }
 .bgc-light-blue-400          {   background-color: $light-blue-400 !important;    }
+.bgc-cyan-400                {   background-color: $cyan-400 !important;          }
 .bgc-teal-400                {   background-color: $teal-400 !important;          }
 .bgc-green-400               {   background-color: $green-400 !important;         }
 .bgc-light-green-400         {   background-color: $light-green-400 !important;   }
@@ -440,6 +419,7 @@
 .bgc-indigo-500              {   background-color: $indigo-500 !important;        }
 .bgc-blue-500                {   background-color: $blue-500 !important;          }
 .bgc-light-blue-500          {   background-color: $light-blue-500 !important;    }
+.bgc-cyan-500                {   background-color: $cyan-500 !important;          }
 .bgc-teal-500                {   background-color: $teal-500 !important;          }
 .bgc-green-500               {   background-color: $green-500 !important;         }
 .bgc-light-green-500         {   background-color: $light-green-500 !important;   }
@@ -460,6 +440,7 @@
 .bgc-indigo-600              {   background-color: $indigo-600 !important;        }
 .bgc-blue-600                {   background-color: $blue-600 !important;          }
 .bgc-light-blue-600          {   background-color: $light-blue-600 !important;    }
+.bgc-cyan-600                {   background-color: $cyan-600 !important;          }
 .bgc-teal-600                {   background-color: $teal-600 !important;          }
 .bgc-green-600               {   background-color: $green-600 !important;         }
 .bgc-light-green-600         {   background-color: $light-green-600 !important;   }
@@ -480,6 +461,7 @@
 .bgc-indigo-700              {   background-color: $indigo-700 !important;        }
 .bgc-blue-700                {   background-color: $blue-700 !important;          }
 .bgc-light-blue-700          {   background-color: $light-blue-700 !important;    }
+.bgc-cyan-700                {   background-color: $cyan-700 !important;          }
 .bgc-teal-700                {   background-color: $teal-700 !important;          }
 .bgc-green-700               {   background-color: $green-700 !important;         }
 .bgc-light-green-700         {   background-color: $light-green-700 !important;   }
@@ -500,6 +482,7 @@
 .bgc-indigo-800              {   background-color: $indigo-800 !important;        }
 .bgc-blue-800                {   background-color: $blue-800 !important;          }
 .bgc-light-blue-800          {   background-color: $light-blue-800 !important;    }
+.bgc-cyan-800                {   background-color: $cyan-800 !important;          }
 .bgc-teal-800                {   background-color: $teal-800 !important;          }
 .bgc-green-800               {   background-color: $green-800 !important;         }
 .bgc-light-green-800         {   background-color: $light-green-800 !important;   }
@@ -520,6 +503,7 @@
 .bgc-indigo-900              {   background-color: $indigo-900 !important;        }
 .bgc-blue-900                {   background-color: $blue-900 !important;          }
 .bgc-light-blue-900          {   background-color: $light-blue-900 !important;    }
+.bgc-cyan-900                {   background-color: $cyan-900 !important;          }
 .bgc-teal-900                {   background-color: $teal-900 !important;          }
 .bgc-green-900               {   background-color: $green-900 !important;         }
 .bgc-light-green-900         {   background-color: $light-green-900 !important;   }
@@ -540,6 +524,7 @@
 .bgc-indigo-A100             {   background-color: $indigo-A100 !important;       }
 .bgc-blue-A100               {   background-color: $blue-A100 !important;         }
 .bgc-light-blue-A100         {   background-color: $light-blue-A100 !important;   }
+.bgc-cyan-A100               {   background-color: $cyan-A100 !important;         }
 .bgc-teal-A100               {   background-color: $teal-A100 !important;         }
 .bgc-green-A100              {   background-color: $green-A100 !important;        }
 .bgc-light-green-A100        {   background-color: $light-green-A100 !important;  }
@@ -557,6 +542,7 @@
 .bgc-indigo-A200             {   background-color: $indigo-A200 !important;       }
 .bgc-blue-A200               {   background-color: $blue-A200 !important;         }
 .bgc-light-blue-A200         {   background-color: $light-blue-A200 !important;   }
+.bgc-cyan-A200               {   background-color: $cyan-A200 !important;         }
 .bgc-teal-A200               {   background-color: $teal-A200 !important;         }
 .bgc-green-A200              {   background-color: $green-A200 !important;        }
 .bgc-light-green-A200        {   background-color: $light-green-A200 !important;  }
@@ -574,6 +560,7 @@
 .bgc-indigo-A400             {   background-color: $indigo-A400 !important;       }
 .bgc-blue-A400               {   background-color: $blue-A400 !important;         }
 .bgc-light-blue-A400         {   background-color: $light-blue-A400 !important;   }
+.bgc-cyan-A400               {   background-color: $cyan-A400 !important;         }
 .bgc-teal-A400               {   background-color: $teal-A400 !important;         }
 .bgc-green-A400              {   background-color: $green-A400 !important;        }
 .bgc-light-green-A400        {   background-color: $light-green-A400 !important;  }
@@ -591,6 +578,7 @@
 .bgc-indigo-A700             {   background-color: $indigo-A700 !important;       }
 .bgc-blue-A700               {   background-color: $blue-A700 !important;         }
 .bgc-light-blue-A700         {   background-color: $light-blue-A700 !important;   }
+.bgc-cyan-A700               {   background-color: $cyan-A700 !important;         }
 .bgc-teal-A700               {   background-color: $teal-A700 !important;         }
 .bgc-green-A700              {   background-color: $green-A700 !important;        }
 .bgc-light-green-A700        {   background-color: $light-green-A700 !important;  }
