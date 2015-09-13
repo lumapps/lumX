@@ -11,6 +11,7 @@
 
 @import "tools/mixins";
 @import "tools/responsive";
+@import "tools/widths";
 
 @import "generic/normalize";
 @import "generic/box-sizing";
@@ -23,6 +24,7 @@
 @import "base/colors";
 
 @import "trumps/widths";
+@import "trumps/widths-responsive";
 @import "trumps/spacing";
 @import "trumps/helpers";
 
