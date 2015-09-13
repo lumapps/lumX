@@ -4,16 +4,34 @@
 
 // Notification base styles
 .notification {
-    @include position(fixed, null $base-spacing-unit * 3 $base-spacing-unit * 3 null);
+    @include position(fixed, null $base-spacing-unit * 3 0 null);
     z-index: 1001;
     max-width: 300px;
     padding: $base-spacing-unit * 2 $base-spacing-unit * 3;
     border-radius: $base-round;
     background-color: #323232;
     cursor: pointer;
-    @include animation(jelly 1000ms linear both);
-    @include transition(margin-bottom .2s ease-in-out);
+    @include transform(translateY(100%));
+    @include transition-property(margin-bottom transform);
+    @include transition-duration(0.4s);
+    @include transition-timing-function($ease-out-quint);
 }
+
+.notification--is-shown {
+    @include transform(translateY(-24px));
+}
+
+    // Notification content / icon
+    .notification__content,
+    .notification__icon {
+        opacity: 0;
+        @include transition-property(opacity);
+        @include transition-duration(0.4s);
+
+        .notification--is-shown & {
+            opacity: 1;
+        }
+    }
 
     // Notification content
     .notification__content {

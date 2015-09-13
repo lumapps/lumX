@@ -61,8 +61,13 @@ angular.module('lumx.notification', ['lumx.utils.event-scheduler'])
                 }
             }
 
-            notification.elem.remove();
-            notificationList.splice(notifIndex, 1);
+            notification.elem.removeClass('notification--is-shown');
+
+            $timeout(function()
+            {
+                notification.elem.remove();
+                notificationList.splice(notifIndex, 1);
+            }, 400);
         }
 
         function notify(text, icon, sticky, color)
@@ -96,6 +101,11 @@ angular.module('lumx.notification', ['lumx.utils.event-scheduler'])
             notification
                 .append(notificationText)
                 .appendTo('body');
+
+            $timeout(function()
+            {
+                notification.addClass('notification--is-shown');
+            }, 100);
 
             var data = { elem: notification, margin: 0 };
             notificationList.push(data);
