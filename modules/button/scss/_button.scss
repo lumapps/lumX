@@ -67,6 +67,10 @@ $btn-icon-size: ('xs': 13px, 's': 15px, 'm': 20px, 'l': 24px, 'xl': 28px);
     @if $type == 'flat' or $type == 'icon' {
         background-color: transparent !important;
     }
+
+    .ripple {
+        display: none;
+    }
 }
 
 @mixin btn-size($size, $type: null) {

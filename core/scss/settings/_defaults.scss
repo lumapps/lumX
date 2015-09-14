@@ -38,12 +38,12 @@ $grey:                  $grey-500           !default;
 $blue-grey:             $blue-grey-500      !default;
 
 // Primary palette colors and accent colors
-$primary-color-1:       $indigo-500 !default;
-$primary-color-2:       $indigo-100 !default;
-$primary-color-3:       $indigo-700 !default;
-$accent-color-1:        $pink-A200  !default;
-$accent-color-2:        $pink-A100  !default;
-$accent-color-3:        $pink-A400  !default;
+$primary:               $indigo-500 !default;
+$primary-hue-1:         $indigo-100 !default;
+$primary-hue-2:         $indigo-700 !default;
+$accent:                $pink-A200  !default;
+$accent-hue-1:          $pink-A100  !default;
+$accent-hue-2:          $pink-A400  !default;
 
 // Sizes
 $size-xs:               24px !default;
@@ -60,5 +60,5 @@ $size-xl:               56px !default;
 // above. Feel free to use these variables throughout your project, but do not
 // modify or reassign them.
 $base-spacing-unit:     8px;
-$colors:                ('red': $red, 'pink': $pink, 'purple': $purple, 'deep-purple': $deep-purple, 'indigo': $indigo, 'blue': $blue, 'light-blue': $light-blue, 'cyan' : $cyan ,'teal': $teal, 'green': $green, 'light-green': $light-green, 'lime': $lime, 'yellow': $yellow, 'amber': $amber, 'orange': $orange, 'deep-orange': $deep-orange, 'brown': $brown, 'grey': $grey, 'blue-grey': $blue-grey, 'black': $black, 'white': $white);
+$colors:                ('red': $red, 'pink': $pink, 'purple': $purple, 'deep-purple': $deep-purple, 'indigo': $indigo, 'blue': $blue, 'light-blue': $light-blue, 'cyan' : $cyan ,'teal': $teal, 'green': $green, 'light-green': $light-green, 'lime': $lime, 'yellow': $yellow, 'amber': $amber, 'orange': $orange, 'deep-orange': $deep-orange, 'brown': $brown, 'grey': $grey, 'blue-grey': $blue-grey, 'black': $black, 'white': $white, 'primary': $primary, 'primary-hue-1': $primary-hue-1, 'primary-hue-2': $primary-hue-2, 'accent': $accent, 'accent-hue-1': $accent-hue-1, 'accent-hue-2': $accent-hue-2);
 $sizes:                 ('xs': $size-xs, 's': $size-s, 'm': $size-m, 'l': $size-l, 'xl': $size-xl);

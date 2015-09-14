@@ -7,19 +7,20 @@ angular.module('lumx.utils', [
 ]);
 
 angular.module('lumx', [
-    'lumx.utils',
-    'lumx.ripple',
-    'lumx.notification',
-    'lumx.dropdown',
-    'lumx.text-field',
+    'lumx.button',
+    'lumx.date-picker',
     'lumx.dialog',
-    'lumx.select',
-    'lumx.scrollbar',
-    'lumx.thumbnail',
-    'lumx.tabs',
-    'lumx.tooltip',
+    'lumx.dropdown',
     'lumx.file-input',
+    'lumx.notification',
     'lumx.progress',
+    'lumx.ripple',
+    'lumx.scrollbar',
     'lumx.search-filter',
-    'lumx.date-picker'
+    'lumx.select',
+    'lumx.tabs',
+    'lumx.text-field',
+    'lumx.thumbnail',
+    'lumx.tooltip',
+    'lumx.utils'
 ]);
