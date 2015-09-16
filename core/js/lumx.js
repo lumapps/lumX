@@ -1,13 +1,15 @@
 /* global angular */
 
 angular.module('lumx.utils', [
+    'lumx.utils.event-scheduler',
     'lumx.utils.transclude',
     'lumx.utils.transclude-replace',
-    'lumx.utils.event-scheduler'
+    'lumx.utils.utils'
 ]);
 
 angular.module('lumx', [
     'lumx.button',
+    'lumx.checkbox',
     'lumx.date-picker',
     'lumx.dialog',
     'lumx.dropdown',

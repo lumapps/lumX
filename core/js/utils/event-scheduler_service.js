@@ -4,25 +4,10 @@
 
 
 angular.module('lumx.utils.event-scheduler', [])
-    .service('LxEventSchedulerService', ['$document', function($document)
+    .service('LxEventSchedulerService', ['$document', 'LxUtils', function($document, LxUtils)
     {
         var handlers = {},
             schedule = {};
-
-        function generateUUID()
-        {
-            var d = new Date().getTime();
-
-            var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c)
-            {
-                var r = (d + Math.random() * 16) % 16 | 0;
-                d = Math.floor(d / 16);
-                return (c == 'x' ? r : (r & 0x3 | 0x8))
-                    .toString(16);
-            });
-
-            return uuid.toUpperCase();
-        }
 
         function handle(event)
         {
@@ -54,7 +39,7 @@ angular.module('lumx.utils.event-scheduler', [])
                 callback: callback
             };
 
-            var id = generateUUID();
+            var id = LxUtils.generateUUID();
             handlers[id] = handler;
 
             if (angular.isUndefined(schedule[eventName]))

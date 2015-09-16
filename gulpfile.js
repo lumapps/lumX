@@ -22,7 +22,8 @@ var paths = {
         'build/js/templates/tabs_template.js',
         'build/js/templates/date-picker_template.js',
         'build/js/templates/progress_template.js',
-        'build/js/templates/button_template.js'
+        'build/js/templates/button_template.js',
+        'build/js/templates/checkbox_template.js'
     ],
     demo: [
         'demo/**/*',
@@ -283,7 +284,19 @@ gulp.task('tpl:button', function()
         .pipe(gulp.dest('build/js/templates'));
 });
 
-gulp.task('dist:scripts', ['tpl:dropdown', 'tpl:file-input', 'tpl:text-field', 'tpl:search-filter', 'tpl:select', 'tpl:tabs', 'tpl:date-picker', 'tpl:progress', 'tpl:button'], function()
+gulp.task('tpl:checkbox', function()
+{
+    return gulp.src('modules/checkbox/views/*.html')
+        .pipe(plugins.plumber())
+        .pipe(plugins.templatecache({
+            output: 'checkbox_template.js',
+            moduleName: 'lumx.checkbox',
+            strip: 'views/'
+        }))
+        .pipe(gulp.dest('build/js/templates'));
+});
+
+gulp.task('dist:scripts', ['tpl:dropdown', 'tpl:file-input', 'tpl:text-field', 'tpl:search-filter', 'tpl:select', 'tpl:tabs', 'tpl:date-picker', 'tpl:progress', 'tpl:button', 'tpl:checkbox'], function()
 {
     return gulp.src(paths.js.concat(paths.templates))
         .pipe(plugins.plumber())
@@ -318,11 +331,12 @@ gulp.task('watch', ['build'], function()
     watcherWithCache('tpl:date-picker', 'modules/date-picker/views/*.html', ['tpl:date-picker']);
     watcherWithCache('tpl:progress', 'modules/progress/views/*.html', ['tpl:progress']);
     watcherWithCache('tpl:button', 'modules/button/views/*.html', ['tpl:button']);
+    watcherWithCache('tpl:checkbox', 'modules/checkbox/views/*.html', ['tpl:checkbox']);
 });
 
 gulp.task('clean', ['clean:build', 'clean:dist']);
 
-gulp.task('build', ['lint', 'scss', 'fonts', 'demo', 'examples', 'libs', 'tpl:dropdown', 'tpl:file-input', 'tpl:text-field', 'tpl:search-filter', 'tpl:select', 'tpl:tabs', 'tpl:date-picker', 'tpl:progress', 'tpl:button']);
+gulp.task('build', ['lint', 'scss', 'fonts', 'demo', 'examples', 'libs', 'tpl:dropdown', 'tpl:file-input', 'tpl:text-field', 'tpl:search-filter', 'tpl:select', 'tpl:tabs', 'tpl:date-picker', 'tpl:progress', 'tpl:button', 'tpl:checkbox']);
 gulp.task('dist', ['clean:dist'], function()
 {
     gulp.start('dist:css');

@@ -8,6 +8,12 @@
     min-height: $size-xs;
 }
 
+@each $key, $color in $colors {
+    .checkbox--#{$key} .checkbox__label:after {
+        color: $color;
+    }
+}
+
     // Checkbox input
     .checkbox__input {
         @extend %visuallyhidden;
@@ -15,11 +21,11 @@
         &:not(:checked) {
             & + .checkbox__label {
                 &:before {
-                    @include transform(scale(1));
+                    opacity: 1;
                 }
 
                 &:after {
-                    @include transform(scale(0));
+                    opacity: 0;
                 }
             }
         }
@@ -27,11 +33,11 @@
         &:checked {
             & + .checkbox__label {
                 &:before {
-                    @include transform(scale(0));
+                    opacity: 0;
                 }
 
                 &:after {
-                    @include transform(scale(1));
+                    opacity: 1;
                 }
             }
         }
@@ -40,10 +46,15 @@
             & + .checkbox__label {
                 cursor: not-allowed;
 
+                &,
                 &:before,
                 &:after {
                     color: $black-3;
                 }
+            }
+
+            & ~ .checkbox__help {
+                color: $black-3;
             }
         }
     }
@@ -68,7 +79,7 @@
             @include position(absolute, 0 null null 0);
             @include font-size($size-xs);
             line-height: $size-xs;
-            @include transition-property(transform);
+            @include transition-property(opacity);
             @include transition-duration(0.2s);
         }
 
@@ -78,7 +89,7 @@
 
         &:after {
             @include mdi-icon('checkbox-marked');
-            color: $teal-500;
+            color: $accent;
         }
     }
 
@@ -86,7 +97,7 @@
     .checkbox__help {
         display: block;
         padding-left: $base-spacing-unit * 4;
-        @extend %fs-caption;
+        @include typography('body-1');
         color: $black-2;
         text-align: left;
     }
