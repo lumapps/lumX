@@ -63,7 +63,7 @@
          */
         function _init()
         {
-            setCheckboxId();
+            setCheckboxId(LxUtils.generateUUID());
             setCheckboxHasChildren(false);
 
             vm.ngTrueValue = angular.isUndefined(vm.ngTrueValue) ? true : vm.ngTrueValue;
@@ -87,7 +87,7 @@
 
         function setCheckboxId(checkboxId)
         {
-            _checkboxId = LxUtils.generateUUID();
+            _checkboxId = checkboxId;
         }
 
         function setCheckboxHasChildren(checkboxHasChildren)
