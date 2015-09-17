@@ -85,6 +85,7 @@
 
         &:before {
             @include mdi-icon('checkbox-blank-outline');
+            color: $black-2;
         }
 
         &:after {
