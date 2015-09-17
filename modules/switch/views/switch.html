@@ -1,0 +1,14 @@
+<div class="switch switch--{{ vm.lxColor }}">
+    <input id="{{ vm.getSwitchId() }}"
+           type="checkbox"
+           class="switch__input"
+           name="{{ vm.name }}"
+           ng-model="vm.ngModel"
+           ng-true-value="{{ vm.ngTrueValue }}"
+           ng-false-value="{{ vm.ngFalseValue }}"
+           ng-change="vm.ngChange()"
+           ng-disabled="vm.ngDisabled">
+
+    <label for="{{ vm.getSwitchId() }}" class="switch__label" ng-transclude ng-if="!vm.getSwitchHasChildren()"></label>
+    <ng-transclude-replace ng-if="vm.getSwitchHasChildren()"></ng-transclude-replace>
+</div>

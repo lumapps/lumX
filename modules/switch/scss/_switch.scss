@@ -3,7 +3,22 @@
 \*------------------------------------*/
 
 // Switch base styles
-.switch {}
+.switch {
+    min-width: 35px;
+    min-height: $size-xs;
+}
+
+@each $key, $color in $colors {
+    .switch--#{$key} .switch__input:checked + .switch__label {
+        &:before {
+            background-color: rgba($color, 0.5);
+        }
+
+        &:after {
+            background-color: $color;
+        }
+    }
+}
 
     // Checkbox input
     .switch__input {
@@ -24,11 +39,11 @@
         &:checked {
             & + .switch__label {
                 &:before {
-                    background-color: rgba($teal-500, 0.5);
+                    background-color: rgba($accent, 0.5);
                 }
 
                 &:after {
-                    background-color: $teal-500;
+                    background-color: $accent;
                     @include transform(translateX(15px));
                 }
             }
@@ -37,6 +52,7 @@
         &[disabled] {
             & + .switch__label {
                 cursor: not-allowed;
+                color: $black-3;
 
                 &:before {
                     background-color: $black-4;
@@ -45,6 +61,10 @@
                 &:after {
                     background-color: $grey-400;
                 }
+            }
+
+            & ~ .switch__help {
+                color: $black-3;
             }
         }
     }
@@ -58,6 +78,10 @@
         line-height: 24px;
         cursor: pointer;
         @include user-select(none);
+
+        .switch--standalone & {
+            padding-left: 0;
+        }
 
         &:before {
             content: '';
@@ -86,7 +110,7 @@
     .switch__help {
         display: block;
         padding-left: 45px;
-        @extend %fs-caption;
+        @include typography('body-1');
         color: $black-2;
         text-align: left;
     }

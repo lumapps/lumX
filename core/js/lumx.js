@@ -21,6 +21,7 @@ angular.module('lumx', [
     'lumx.scrollbar',
     'lumx.search-filter',
     'lumx.select',
+    'lumx.switch',
     'lumx.tabs',
     'lumx.text-field',
     'lumx.thumbnail',
