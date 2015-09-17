@@ -14,7 +14,16 @@
 
 
 // Radio button base styles
-.radio-button {}
+.radio-button {
+    min-width: $size-xs;
+    min-height: $size-xs;
+}
+
+@each $key, $color in $colors {
+    .radio-button--#{$key} .radio-button__label:after {
+        color: $color;
+    }
+}
 
     // Radio button input
     .radio-button__input {
@@ -23,11 +32,11 @@
         &:not(:checked) {
             & + .radio-button__label {
                 &:before {
-                    @include transform(scale(1));
+                    opacity: 1;
                 }
 
                 &:after {
-                    @include transform(scale(0));
+                    opacity: 0;
                 }
             }
         }
@@ -35,11 +44,11 @@
         &:checked {
             & + .radio-button__label {
                 &:before {
-                    @include transform(scale(0));
+                    opacity: 0;
                 }
 
                 &:after {
-                    @include transform(scale(1));
+                    opacity: 1;
                 }
             }
         }
@@ -48,10 +57,15 @@
             & + .radio-button__label {
                 cursor: not-allowed;
 
+                &,
                 &:before,
                 &:after {
                     color: $black-3;
                 }
+            }
+
+            & ~ .radio-button__help {
+                color: $black-3;
             }
         }
     }
@@ -64,6 +78,11 @@
         font-weight: 400;
         line-height: $size-xs;
         cursor: pointer;
+        @include user-select(none);
+
+        .radio-button--standalone & {
+            padding-left: 0;
+        }
 
         &:before,
         &:after {
@@ -71,17 +90,18 @@
             @include position(absolute, 0 null null 0);
             @include font-size($size-xs);
             line-height: $size-xs;
-            @include transition-property(transform);
+            @include transition-property(opacity);
             @include transition-duration(0.2s);
         }
 
         &:before {
             @include mdi-icon('radiobox-blank');
+            color: $black-2;
         }
 
         &:after {
             @include mdi-icon('radiobox-marked');
-            color: $teal-500;
+            color: $accent;
         }
     }
 
@@ -89,7 +109,7 @@
     .radio-button__help {
         display: block;
         padding-left: $base-spacing-unit * 4;
-        @extend %fs-caption;
+        @include typography('body-1');
         color: $black-2;
         text-align: left;
     }

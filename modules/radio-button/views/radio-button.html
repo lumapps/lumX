@@ -1,0 +1,13 @@
+<div class="radio-button radio-button--{{ vm.lxColor }}">
+    <input id="{{ vm.getRadioButtonId() }}"
+           type="radio"
+           class="radio-button__input"
+           name="{{ vm.name }}"
+           ng-model="vm.ngModel"
+           ng-value="vm.ngValue"
+           ng-change="vm.ngChange()"
+           ng-disabled="vm.ngDisabled">
+
+    <label for="{{ vm.getRadioButtonId() }}" class="radio-button__label" ng-transclude ng-if="!vm.getRadioButtonHasChildren()"></label>
+    <ng-transclude-replace ng-if="vm.getRadioButtonHasChildren()"></ng-transclude-replace>
+</div>

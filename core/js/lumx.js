@@ -16,6 +16,7 @@ angular.module('lumx', [
     'lumx.file-input',
     'lumx.notification',
     'lumx.progress',
+    'lumx.radio-button',
     'lumx.ripple',
     'lumx.scrollbar',
     'lumx.search-filter',
