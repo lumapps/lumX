@@ -300,6 +300,14 @@
 .tc-white-3                 {   color: $white-3 !important;                      }
 .tc-white-4                 {   color: $white-4 !important;                      }
 
+// Primary & accent
+.tc-primary                 {   color: $primary !important;                      }
+.tc-primary-hue-1           {   color: $primary-hue-1  !important;               }
+.tc-primary-hue-2           {   color: $primary-hue-2 !important;                }
+.tc-accent                  {   color: $accent !important;                       }
+.tc-accent-hue-1            {   color: $accent-hue-1 !important;                 }
+.tc-accent-hue-2            {   color: $accent-hue-2 !important;                 }
+
 
 
 
@@ -601,3 +609,11 @@
 .bgc-white-2                 {   background-color: $white-2 !important;           }
 .bgc-white-3                 {   background-color: $white-3 !important;           }
 .bgc-white-4                 {   background-color: $white-4 !important;           }
+
+// Primary & accent
+.bgc-primary                 {   background-color: $primary !important;           }
+.bgc-primary-hue-1           {   background-color: $primary-hue-1  !important;    }
+.bgc-primary-hue-2           {   background-color: $primary-hue-2 !important;     }
+.bgc-accent                  {   background-color: $accent !important;            }
+.bgc-accent-hue-1            {   background-color: $accent-hue-1 !important;      }
+.bgc-accent-hue-2            {   background-color: $accent-hue-2 !important;      }
