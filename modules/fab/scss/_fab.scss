@@ -11,11 +11,13 @@
     &:hover {
         .fab__primary .mdi {
             &:nth-of-type(1) {
-                @include transform(scale(0));
+                opacity: 0;
+                @include transform(rotate(45deg));
             }
 
             &:last-child {
-                @include transform(scale(1));
+                opacity: 1;
+                @include transform(rotate(0));
             }
         }
 
@@ -23,7 +25,23 @@
             pointer-events: auto;
 
             .btn {
-                @include transform(scale(1));
+                opacity: 1;
+            }
+
+            &.fab__actions--up .btn {
+                @include transform(scale(1) translateY(-($base-spacing-unit * 1.5)));
+            }
+
+            &.fab__actions--right .btn {
+                @include transform(scale(1) translateX($base-spacing-unit * 1.5));
+            }
+
+            &.fab__actions--down .btn {
+                @include transform(scale(1) translateY($base-spacing-unit * 1.5));
+            }
+
+            &.fab__actions--left .btn {
+                @include transform(scale(1) translateX(-($base-spacing-unit * 1.5)));
             }
         }
     }
@@ -33,11 +51,18 @@
     .fab__primary {
         .mdi {
             @include position(absolute, 0 0 0 0);
-            @include transition-property(transform);
-            @include transition-duration(0.2s);
+            @include transition-property(opacity, transform);
+            @include transition-duration(0.4s);
+            @include transition-timing-function($ease-out-quint);
+
+            &:nth-of-type(1) {
+                opacity: 1;
+                @include transform(rotate(0));
+            }
 
             &:last-child {
-                @include transform(scale(0));
+                opacity: 0;
+                @include transform(rotate(-45deg));
             }
         }
     }
@@ -49,9 +74,11 @@
 
         .btn {
             display: block;
-            @include transform(scale(0));
-            @include transition-property(transform);
-            @include transition-duration(0.2s);
+            opacity: 0;
+            @include transform(scale(0.6));
+            @include transition-property(opacity, transform);
+            @include transition-duration(0.4s);
+            @include transition-timing-function($ease-out-quint);
         }
     }
 
@@ -107,10 +134,10 @@
         .btn {
             margin-right: $base-spacing-unit;
         }
-    } 
+    }
 
     .fab__actions--right {
-        @include position(absolute, null null 7px $size-xl); 
+        @include position(absolute, null null 7px $size-xl);
 
         .btn {
             margin-left: $base-spacing-unit;

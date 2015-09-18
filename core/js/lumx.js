@@ -13,6 +13,7 @@ angular.module('lumx', [
     'lumx.date-picker',
     'lumx.dialog',
     'lumx.dropdown',
+    'lumx.fab',
     'lumx.file-input',
     'lumx.notification',
     'lumx.progress',
