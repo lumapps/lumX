@@ -1,17 +1,24 @@
-<div class="progress-container">
-    <div class="progress-circular-container" ng-if="type === 'circular'">
-        <div class="progress-circular progress-circular--is-small progress-circular--is-shown">
-            <svg class="progress-circular__svg">
-                <circle class="progress-circular__path" cx="50" cy="50" r="20" fill="none" stroke-miterlimit="10" stroke="{{ color }}"></circle>
-            </svg>
+<div class="progress-container progress-container--{{ vm.lxType }} progress-container--{{ vm.lxColor }}"
+     ng-style="vm.getProgressDiameter()">
+    <div class="progress-circular-wrapper" ng-if="vm.lxType === 'circular'">
+        <div class="progress-circular">
+            <div class="progress-circular__gap"></div>
+
+            <div class="progress-circular__left">
+                <div class="progress-circular__half-circle"></div>
+            </div>
+
+            <div class="progress-circular__right">
+                <div class="progress-circular__half-circle"></div>
+            </div>
         </div>
     </div>
 
-    <div class="progress-linear-container" ng-if="type === 'linear'">
+    <div class="progress-linear-wrapper" ng-if="vm.lxType === 'linear'">
         <div class="progress-linear progress-linear--is-shown">
-            <div class="progress-linear__background" style="background-color: {{ color }}"></div>
-            <div class="progress-linear__bar progress-linear__bar--first" style="background-color: {{ color }}"></div>
-            <div class="progress-linear__bar progress-linear__bar--second" style="background-color: {{ color }}"></div>
+            <div class="progress-linear__background"></div>
+            <div class="progress-linear__bar progress-linear__bar--first"></div>
+            <div class="progress-linear__bar progress-linear__bar--second"></div>
         </div>
     </div>
 </div>
