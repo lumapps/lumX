@@ -289,6 +289,7 @@ angular.module('lumx.select', [])
                     $scope.lxSelectData.selectedTransclude(newScope, function(clone)
                     {
                         var div = angular.element('<div/>');
+                        var wrapper = angular.element('<div/>').append(clone);
                         var content = $compile(wrapper.html())(newScope);
                         clone.html(content);
 
