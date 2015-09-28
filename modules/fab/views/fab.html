@@ -1,1 +1,7 @@
-<div class="fab" ng-transclude></div>
+<div class="fab">
+    <ng-transclude-replace></ng-transclude-replace>
+
+    <lx-progress class="fab__progress"
+                 lx-type="circular" lx-color="{{ vm.lxFabProgressColor }}" lx-diameter="64"
+                 ng-if="vm.lxFabProgress"></lx-progress>
+</div>
