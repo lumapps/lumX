@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('lumx.progress', [])
+        .module('lumx.progress')
         .service('LxProgressService', LxProgressService);
 
     LxProgressService.$inject = ['$compile', '$rootScope', '$timeout'];
