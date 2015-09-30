@@ -34,8 +34,8 @@ angular.module('lumx.select', [])
             return $filter('filter')(toFilter, textFilter);
         };
     }])
-    .controller('LxSelectController', ['$scope', '$filter', '$compile', '$sce', '$timeout',
-                                       function($scope, $filter, $compile, $sce, $timeout)
+    .controller('LxSelectController', ['$scope', '$filter', '$compile', '$sce', '$timeout', '$interpolate',
+                                       function($scope, $filter, $compile, $sce, $timeout, $interpolate)
     {
         var newModel = false,
             newSelection = true,
@@ -291,7 +291,7 @@ angular.module('lumx.select', [])
                         var div = angular.element('<div/>');
                         var wrapper = angular.element('<div/>').append(clone);
                         var content = $compile(wrapper.html())(newScope);
-                        clone.html(content);
+                        clone.html($interpolate(content.html())(newScope));
 
                         if ($scope.lxSelectMultiple)
                         {
