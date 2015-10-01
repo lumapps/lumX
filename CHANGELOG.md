@@ -1,5 +1,100 @@
 # Changelog
 
+## v0.3.91:
+
+#### Bug fixes:
+ - progress: declare module in directive
+
+
+## v0.3.90:
+
+#### New features:
+ - fab: add progress attribute
+ - select: allow to have complex selected template
+ - fab: add fab directive
+ - switch: add switch directive
+ - radio button: add radio button directive
+ - checkbox: add checkbox directive
+ - button: add button directive
+
+#### Bug fixes:
+ - select: fix bad interpolate on selected elements
+ - select: add the missing wrapper
+ - progress: refactor progress service / directive
+ - checkbox: fix unchecked checkbox color
+ - checkbox: init checkbox id in init function
+ - card: fix sass comments
+ - button: fix sass comment
+ - button: set border-radius on btn-type mixin
+ - notification: fix in/out animation
+
+#### Breaking changes:
+ - When calling progress service / directive, color parameter must be a
+ - material design color 500 identifier (red, pink, etc.)
+ - Directive attributes must now be prefixed: type -> lx-type, color ->
+ - lx-color
+ - Theming color sass variables have change:
+ - $primary-color-1 -> $primary
+ - $primary-color-2 -> $primary-hue-1
+ - $primary-color-3 -> $primary-hue-2
+ - $accent-color-1 -> $accent
+ - $accent-color-2 -> $accent-hue-2
+ - $accent-color-3 -> $accent-hue-3
+ - Quarter, halve, double and quadruple functions are no more available.
+
+
+## v0.3.83:
+
+#### New features:
+ - text field: add text field reset mixin
+ - dialog: add a parameter to skip before close
+ - dialog: allow to cancel a dialog closing
+ - notification: allow to display HTML
+
+#### Bug fixes:
+ - dialog: fix jshint errors
+ - tooltip: don't destroy tooltip if undefined
+
+
+## v0.3.82:
+
+#### Bug fixes:
+ - lxDropdown: fix click event on mobile device
+
+
+## v0.3.81:
+
+#### Bug fixes:
+ - select: missing filter renaming in choices
+
+
+## v0.3.80:
+
+#### Bug fixes:
+ - dropdown: fix event scheduler on close
+ - select: prevent filter execution at init
+
+
+## v0.3.79:
+
+#### New features:
+ - tooltip: allow to update the tooltip content
+
+
+## v0.3.78:
+*No major changes.*
+
+
+## v0.3.77:
+
+#### Bug fixes:
+ - select: set select choice as a div instead of a link
+
+
+## v0.3.76:
+*No major changes.*
+
+
 ## v0.3.75:
 
 #### New features:
