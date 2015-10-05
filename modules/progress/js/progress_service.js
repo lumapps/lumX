@@ -36,8 +36,11 @@
          */
         function hideProgressCircular()
         {
-            _progressCircularIsShown = false;
-            _progressCircular.remove();
+            if (_progressCircularIsShown)
+            {
+                _progressCircularIsShown = false;
+                _progressCircular.remove();
+            }
         }
 
         /**
@@ -45,8 +48,11 @@
          */
         function hideProgressLinear()
         {
-            _progressLinearIsShown = false;
-            _progressLinear.remove();
+            if (_progressLinearIsShown)
+            {
+                _progressLinearIsShown = false;
+                _progressLinear.remove();
+            }
         }
 
         /**
@@ -56,8 +62,6 @@
         {
             if (!_progressCircularIsShown)
             {
-                _progressCircularIsShown = true;
-
                 var progressCircularColor = angular.isDefined(color) ? color : 'primary';
                 var progressCircularContainer = angular.isDefined(container) ? container : 'body';
 
@@ -66,6 +70,8 @@
                 $timeout(function()
                 {
                     angular.element(progressCircularContainer).append(_progressCircular[0]);
+
+                    _progressCircularIsShown = true;
                 });
             }
         }
@@ -77,8 +83,6 @@
         {
             if (!_progressLinearIsShown)
             {
-                _progressLinearIsShown = true;
-
                 var progressLinearColor = angular.isDefined(color) ? color : 'primary';
                 var progressLinearContainer = angular.isDefined(container) ? container : 'body';
 
@@ -87,6 +91,8 @@
                 $timeout(function()
                 {
                     angular.element(progressLinearContainer).append(_progressLinear[0]);
+
+                    _progressLinearIsShown = true;
                 });
             }
         }
