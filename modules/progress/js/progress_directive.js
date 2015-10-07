@@ -17,7 +17,7 @@
                 lxColor: '@?',
             },
             controller: LxProgressController,
-            controllerAs: 'vm',
+            controllerAs: 'lxProgress',
             bindToController: true
         };
 
@@ -26,14 +26,14 @@
 
     function LxProgressController()
     {
-        var vm = this;
+        var lxProgress = this;
 
         //
         // PUBLIC ATTRIBUTES
         //
 
         // Public members
-        vm.getProgressDiameter = getProgressDiameter;
+        lxProgress.getProgressDiameter = getProgressDiameter;
 
         //
         // PRIVATE METHODS
@@ -44,8 +44,8 @@
          */
         function _init()
         {
-            vm.lxDiameter =  angular.isDefined(vm.lxDiameter) ? vm.lxDiameter : 50;
-            vm.lxColor =  angular.isDefined(vm.lxColor) ? vm.lxColor : 'primary';
+            lxProgress.lxDiameter =  angular.isDefined(lxProgress.lxDiameter) ? lxProgress.lxDiameter : 50;
+            lxProgress.lxColor =  angular.isDefined(lxProgress.lxColor) ? lxProgress.lxColor : 'primary';
         }
 
         //
@@ -57,9 +57,9 @@
          */
         function getProgressDiameter()
         {
-            if (vm.lxType === 'circular')
+            if (lxProgress.lxType === 'circular')
             {
-                return { 'transform': 'scale(' + parseInt(vm.lxDiameter) / 100 + ')' };
+                return { 'transform': 'scale(' + parseInt(lxProgress.lxDiameter) / 100 + ')' };
             }
 
             return;

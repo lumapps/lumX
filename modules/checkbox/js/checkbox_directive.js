@@ -23,7 +23,7 @@
                 lxColor: '@?'
             },
             controller: LxCheckboxController,
-            controllerAs: 'vm',
+            controllerAs: 'lxCheckbox',
             bindToController: true,
             transclude: true
         };
@@ -35,7 +35,7 @@
 
     function LxCheckboxController(LxUtils)
     {
-        var vm = this;
+        var lxCheckbox = this;
 
         //
         // PRIVATE ATTRIBUTES
@@ -49,10 +49,10 @@
         //
 
         // Public methods
-        vm.getCheckboxId = getCheckboxId;
-        vm.getCheckboxHasChildren = getCheckboxHasChildren;
-        vm.setCheckboxId = setCheckboxId;
-        vm.setCheckboxHasChildren = setCheckboxHasChildren;
+        lxCheckbox.getCheckboxId = getCheckboxId;
+        lxCheckbox.getCheckboxHasChildren = getCheckboxHasChildren;
+        lxCheckbox.setCheckboxId = setCheckboxId;
+        lxCheckbox.setCheckboxHasChildren = setCheckboxHasChildren;
 
         //
         // PRIVATE METHODS
@@ -66,9 +66,9 @@
             setCheckboxId(LxUtils.generateUUID());
             setCheckboxHasChildren(false);
 
-            vm.ngTrueValue = angular.isUndefined(vm.ngTrueValue) ? true : vm.ngTrueValue;
-            vm.ngFalseValue = angular.isUndefined(vm.ngFalseValue) ? false : vm.ngFalseValue;
-            vm.lxColor =  angular.isUndefined(vm.lxColor) ? 'accent' : vm.lxColor;
+            lxCheckbox.ngTrueValue = angular.isUndefined(lxCheckbox.ngTrueValue) ? true : lxCheckbox.ngTrueValue;
+            lxCheckbox.ngFalseValue = angular.isUndefined(lxCheckbox.ngFalseValue) ? false : lxCheckbox.ngFalseValue;
+            lxCheckbox.lxColor =  angular.isUndefined(lxCheckbox.lxColor) ? 'accent' : lxCheckbox.lxColor;
         }
 
         //
@@ -111,7 +111,7 @@
             templateUrl: 'checkbox-label.html',
             link: link,
             controller: LxCheckboxLabelController,
-            controllerAs: 'vm',
+            controllerAs: 'lxCheckboxLabel',
             bindToController: true,
             transclude: true,
             replace: true
@@ -128,7 +128,7 @@
 
     function LxCheckboxLabelController()
     {
-        var vm = this;
+        var lxCheckboxLabel = this;
 
         //
         // PRIVATE ATTRIBUTES
@@ -141,8 +141,8 @@
         //
 
         // Public methods
-        vm.getCheckboxId = getCheckboxId;
-        vm.setCheckboxId = setCheckboxId;
+        lxCheckboxLabel.getCheckboxId = getCheckboxId;
+        lxCheckboxLabel.setCheckboxId = setCheckboxId;
 
         //
         // PUBLIC METHODS

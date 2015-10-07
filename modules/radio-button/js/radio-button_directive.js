@@ -36,7 +36,7 @@
                 lxColor: '@?'
             },
             controller: LxRadioButtonController,
-            controllerAs: 'vm',
+            controllerAs: 'lxRadioButton',
             bindToController: true,
             transclude: true
         };
@@ -48,7 +48,7 @@
 
     function LxRadioButtonController(LxUtils)
     {
-        var vm = this;
+        var lxRadioButton = this;
 
         //
         // PRIVATE ATTRIBUTES
@@ -62,10 +62,10 @@
         //
 
         // Public methods
-        vm.getRadioButtonId = getRadioButtonId;
-        vm.getRadioButtonHasChildren = getRadioButtonHasChildren;
-        vm.setRadioButtonId = setRadioButtonId;
-        vm.setRadioButtonHasChildren = setRadioButtonHasChildren;
+        lxRadioButton.getRadioButtonId = getRadioButtonId;
+        lxRadioButton.getRadioButtonHasChildren = getRadioButtonHasChildren;
+        lxRadioButton.setRadioButtonId = setRadioButtonId;
+        lxRadioButton.setRadioButtonHasChildren = setRadioButtonHasChildren;
 
         //
         // PRIVATE METHODS
@@ -79,12 +79,12 @@
             setRadioButtonId(LxUtils.generateUUID());
             setRadioButtonHasChildren(false);
 
-            if (angular.isDefined(vm.value) && angular.isUndefined(vm.ngValue))
+            if (angular.isDefined(lxRadioButton.value) && angular.isUndefined(lxRadioButton.ngValue))
             {
-                vm.ngValue = vm.value;
+                lxRadioButton.ngValue = lxRadioButton.value;
             }
 
-            vm.lxColor =  angular.isUndefined(vm.lxColor) ? 'accent' : vm.lxColor;
+            lxRadioButton.lxColor =  angular.isUndefined(lxRadioButton.lxColor) ? 'accent' : lxRadioButton.lxColor;
         }
 
         //
@@ -127,7 +127,7 @@
             templateUrl: 'radio-button-label.html',
             link: link,
             controller: LxRadioButtonLabelController,
-            controllerAs: 'vm',
+            controllerAs: 'lxRadioButtonLabel',
             bindToController: true,
             transclude: true,
             replace: true
@@ -144,7 +144,7 @@
 
     function LxRadioButtonLabelController()
     {
-        var vm = this;
+        var lxRadioButtonLabel = this;
 
         //
         // PRIVATE ATTRIBUTES
@@ -157,8 +157,8 @@
         //
 
         // Public methods
-        vm.getRadioButtonId = getRadioButtonId;
-        vm.setRadioButtonId = setRadioButtonId;
+        lxRadioButtonLabel.getRadioButtonId = getRadioButtonId;
+        lxRadioButtonLabel.setRadioButtonId = setRadioButtonId;
 
         //
         // PUBLIC METHODS

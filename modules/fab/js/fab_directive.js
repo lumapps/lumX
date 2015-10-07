@@ -16,7 +16,7 @@
             scope: true,
             link: link,
             controller: LxFabController,
-            controllerAs: 'vm',
+            controllerAs: 'lxFab',
             bindToController: true,
             transclude: true
         };
@@ -49,16 +49,16 @@
 
     function LxFabController()
     {
-        var vm = this;
+        var lxFab = this;
 
         //
         // PUBLIC ATTRIBUTES
         //
 
         // Public methods
-        vm.setFabDirection = setFabDirection;
-        vm.setFabProgress = setFabProgress;
-        vm.setFabProgressColor = setFabProgressColor;
+        lxFab.setFabDirection = setFabDirection;
+        lxFab.setFabProgress = setFabProgress;
+        lxFab.setFabProgressColor = setFabProgressColor;
 
         //
         // PUBLIC METHODS
@@ -66,17 +66,17 @@
 
         function setFabDirection(direction)
         {
-            vm.lxDirection = direction;
+            lxFab.lxDirection = direction;
         }
 
         function setFabProgress(isLoading)
         {
-            vm.lxFabProgress = isLoading;
+            lxFab.lxFabProgress = isLoading;
         }
 
         function setFabProgressColor(color)
         {
-            vm.lxFabProgressColor = color;
+            lxFab.lxFabProgressColor = color;
         }
     }
 

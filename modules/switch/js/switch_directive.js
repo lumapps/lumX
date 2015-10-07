@@ -23,7 +23,7 @@
                 lxColor: '@?'
             },
             controller: LxSwitchController,
-            controllerAs: 'vm',
+            controllerAs: 'lxSwitch',
             bindToController: true,
             transclude: true
         };
@@ -35,7 +35,7 @@
 
     function LxSwitchController(LxUtils)
     {
-        var vm = this;
+        var lxSwitch = this;
 
         //
         // PRIVATE ATTRIBUTES
@@ -49,10 +49,10 @@
         //
 
         // Public methods
-        vm.getSwitchId = getSwitchId;
-        vm.getSwitchHasChildren = getSwitchHasChildren;
-        vm.setSwitchId = setSwitchId;
-        vm.setSwitchHasChildren = setSwitchHasChildren;
+        lxSwitch.getSwitchId = getSwitchId;
+        lxSwitch.getSwitchHasChildren = getSwitchHasChildren;
+        lxSwitch.setSwitchId = setSwitchId;
+        lxSwitch.setSwitchHasChildren = setSwitchHasChildren;
 
         //
         // PRIVATE METHODS
@@ -66,9 +66,9 @@
             setSwitchId(LxUtils.generateUUID());
             setSwitchHasChildren(false);
 
-            vm.ngTrueValue = angular.isUndefined(vm.ngTrueValue) ? true : vm.ngTrueValue;
-            vm.ngFalseValue = angular.isUndefined(vm.ngFalseValue) ? false : vm.ngFalseValue;
-            vm.lxColor =  angular.isUndefined(vm.lxColor) ? 'accent' : vm.lxColor;
+            lxSwitch.ngTrueValue = angular.isUndefined(lxSwitch.ngTrueValue) ? true : lxSwitch.ngTrueValue;
+            lxSwitch.ngFalseValue = angular.isUndefined(lxSwitch.ngFalseValue) ? false : lxSwitch.ngFalseValue;
+            lxSwitch.lxColor =  angular.isUndefined(lxSwitch.lxColor) ? 'accent' : lxSwitch.lxColor;
         }
 
         //
@@ -111,7 +111,7 @@
             templateUrl: 'switch-label.html',
             link: link,
             controller: LxSwitchLabelController,
-            controllerAs: 'vm',
+            controllerAs: 'lxSwitchLabel',
             bindToController: true,
             transclude: true,
             replace: true
@@ -128,7 +128,7 @@
 
     function LxSwitchLabelController()
     {
-        var vm = this;
+        var lxSwitchLabel = this;
 
         //
         // PRIVATE ATTRIBUTES
@@ -141,8 +141,8 @@
         //
 
         // Public methods
-        vm.getSwitchId = getSwitchId;
-        vm.setSwitchId = setSwitchId;
+        lxSwitchLabel.getSwitchId = getSwitchId;
+        lxSwitchLabel.setSwitchId = setSwitchId;
 
         //
         // PUBLIC METHODS
