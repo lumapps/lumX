@@ -1,0 +1,210 @@
+///*------------------------------------*\
+//    #OBJECTS-PROGRESS
+//\*------------------------------------*/
+
+// Progress vars
+// Circular
+$progress-circular-ease-in-out : cubic-bezier(0.35, 0, 0.25, 1) !default;
+$progress-circular-duration : 5.25s !default;
+$progress-circular-circle-duration : $progress-circular-duration * 0.25 !default;
+$progress-circular-outer-duration : $progress-circular-duration * (5 / 9) !default;
+$progress-circular-sporadic-duration : $progress-circular-duration !default;
+$progress-circular-border-width : 10px;
+$progress-circular-size : 10 * $progress-circular-border-width !default;
+
+
+
+
+
+// Progress keyframes
+// Circular
+@include keyframes(outer-rotate) {
+    0%       { @include transform(rotate(  0deg)); }
+    100%     { @include transform(rotate(360deg)); }
+}
+
+@include keyframes(left-wobble) {
+    0%, 100% { @include transform(rotate(130deg)); }
+    50%      { @include transform(rotate( -5deg)); }
+}
+
+@include keyframes(right-wobble) {
+    0%, 100% { @include transform(rotate(-130deg)); }
+    50%      { @include transform(rotate(   5deg)); }
+}
+
+@include keyframes(sporadic-rotate) {
+    0%       { @include transform(rotate(   0deg)); }
+    12.5%    { @include transform(rotate( 135deg)); }
+    25%      { @include transform(rotate( 270deg)); }
+    37.5%    { @include transform(rotate( 405deg)); }
+    50%      { @include transform(rotate( 540deg)); }
+    62.5%    { @include transform(rotate( 675deg)); }
+    75%      { @include transform(rotate( 810deg)); }
+    87.5%    { @include transform(rotate( 945deg)); }
+    100%     { @include transform(rotate(1080deg)); }
+}
+
+// Linear
+@include keyframes(bar1) {
+    0%       { @include transform(scale( 0.5) translateX(-150%)); }
+    37.5%    { @include transform(scale(0.75) translateX(   0%)); }
+    75%      { @include transform(scale( 0.5) translateX( 150%)); }
+    100%     { @include transform(scale( 0.5) translateX( 150%)); }
+}
+
+@include keyframes(bar2) {
+    0%       { @include transform(scale( 0.5) translateX(-250%)); }
+    40%      { @include transform(scale( 0.5) translateX(-250%)); }
+    55%      { @include transform(scale( 0.5) translateX(-150%)); }
+    70%      { @include transform(scale( 0.5) translateX( -50%)); }
+    85%      { @include transform(scale(0.25) translateX( 150%)); }
+    100%     { @include transform(scale(0.25) translateX( 250%)); }
+}
+
+
+
+
+
+// Progress container
+.progress-container {}
+
+.progress-container--circular {
+    position: relative;
+    @include size($progress-circular-size);
+    transform: scale(0.5);
+}
+
+@each $key, $color in $colors {
+    .progress-container--circular.progress-container--#{$key} {
+        .progress-circular__left .progress-circular__half-circle {
+            border-top-color: $color;
+            border-left-color: $color;
+        }
+
+        .progress-circular__right .progress-circular__half-circle {
+            border-top-color: $color;
+            border-right-color: $color;
+        }
+    }
+
+    .progress-container--linear.progress-container--#{$key} {
+        .progress-linear__background,
+        .progress-linear__bar {
+            background-color: $color;
+        }
+    }
+}
+
+
+
+
+
+// Progress circular wrapper
+.progress-circular-wrapper {
+    position: relative;
+    overflow: hidden;
+    @include animation(outer-rotate $progress-circular-outer-duration linear infinite);
+}
+
+// Progress circular
+.progress-circular {
+    position: relative;
+    @include size($progress-circular-size);
+    @include animation(sporadic-rotate $progress-circular-sporadic-duration $progress-circular-ease-in-out infinite);
+}
+
+    // Progress circular: gap
+    .progress-circular__gap {
+        position: absolute;
+        top: 0;
+        right: $progress-circular-size * 0.5 - 1;
+        bottom: 0;
+        left: $progress-circular-size * 0.5 - 1;
+        border-top-width: $progress-circular-border-width;
+        border-top-style: solid;
+    }
+
+    // Progress circular: left / right
+    .progress-circular__left,
+    .progress-circular__right {
+        position: absolute;
+        top: 0;
+        @include size($progress-circular-size * 0.50 $progress-circular-size);
+        overflow: hidden;
+    }
+
+    // Progress circular: left
+    .progress-circular__left {
+        left: 0;
+    }
+
+    // Progress circular: right
+    .progress-circular__right {
+        right: 0;
+    }
+
+    // Progress circular: half circle
+    .progress-circular__half-circle {
+        position: absolute;
+        top: 0;
+        @include size($progress-circular-size);
+        border-width: $progress-circular-border-width;
+        border-style: solid;
+        border-bottom-color: transparent;
+        border-radius: 50%;
+        @include animation-iteration-count(infinite);
+        @include animation-duration($progress-circular-duration * 0.25);
+        @include animation-timing-function($progress-circular-ease-in-out);
+
+        .progress-circular__left & {
+            left: 0;
+            border-top-color: $primary;
+            border-right-color: transparent;
+            border-left-color: $primary;
+            @include animation-name(left-wobble);
+        }
+
+        .progress-circular__right & {
+            right: 0;
+            border-top-color: $primary;
+            border-right-color: $primary;
+            border-left-color: transparent;
+            @include animation-name(right-wobble);
+        }
+    }
+
+
+
+
+
+// Progress linear
+.progress-linear {
+    @include position(absolute, null 0 0 0);
+    z-index: 999;
+    height: 4px;
+    overflow: hidden;
+}
+
+    // Progress linear: background
+    .progress-linear__background {
+        @include position(absolute, 0 0 0 0);
+        opacity: 0.4;
+    }
+
+    // Progress linear: bar
+    .progress-linear__bar {
+        @include transform(scale(1) translateX(50%));
+    }
+
+    .progress-linear__bar--first {
+        @include position(absolute, -($base-spacing-unit * 1.5) null null null);
+        @include size(100% 24px);
+        @include animation(bar1 2s linear infinite);
+    }
+
+    .progress-linear__bar--second {
+        @include position(absolute, -($base-spacing-unit * 6) null null null);
+        @include size(100% 96px);
+        @include animation(bar2 2s linear infinite);
+    }
