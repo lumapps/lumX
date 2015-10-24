@@ -1,282 +1,125 @@
-/* global angular */
-'use strict'; // jshint ignore:line
+(function()
+{
+    'use strict';
 
+    angular
+        .module('lumx.tabs', [])
+        .directive('lxTabs', lxTabs)
+        .directive('lxTab', lxTab);
 
-angular.module('lumx.tabs', [])
-    .controller('LxTabsController', ['$scope', '$sce', '$timeout', '$window', function($scope, $sce, $timeout, $window)
+    lxTabs.$inject = ['$parse'];
+
+    function lxTabs($parse)
     {
-        var tabs = [],
-            links,
-            linksContainer,
-            tabTags,
-            indicator,
-            paginationTranslation = 0;
-
-        this.init = function(element)
-        {
-            links = element.find('.tabs__links');
-            linksContainer = links.parent('.tabs');
-            tabTags = links.find('.tabs-link');
-            indicator = element.find('.tabs__indicator');
+        return {
+            restrict: 'E',
+            templateUrl: 'tabs.html',
+            link: link,
+            controller: LxTabsController,
+            controllerAs: 'lxTabs',
+            bindToController: true,
+            replace: true,
+            transclude: true
         };
 
-        this.getScope = function()
+        function link(scope, element, attrs, ctrl)
         {
-            return $scope;
-        };
-
-        this.addTab = function(tabScope)
-        {
-            tabs.push(tabScope);
-
-            $timeout(function()
+            if (angular.isDefined(attrs.lxActiveTab))
             {
-                setIndicatorPosition();
+                var activeTabModel = $parse(attrs.lxActiveTab);
+
+                scope.$watch(attrs.lxActiveTab, function(_newActiveTab)
+                {
+                    ctrl.setActiveTab(_newActiveTab);
+                });
+
+                scope.$watch(function()
+                {
+                    return scope.lxTabs.activeTab;
+                }, function(_newActiveTab)
+                {
+                    activeTabModel.assign(scope, _newActiveTab);
+                });
+            }
+
+            attrs.$observe('lxLayout', function(_newLayout)
+            {
+                ctrl.setLayout(_newLayout);
             });
 
-            return (tabs.length - 1);
-        };
-
-        this.removeTab = function(tabScope)
-        {
-            var idx = tabs.indexOf(tabScope);
-
-            if (idx !== -1)
+            attrs.$observe('lxTheme', function(_newTheme)
             {
-                for (var tabIdx = idx + 1; tabIdx < tabs.length; ++tabIdx)
-                {
-                    --tabs[tabIdx].lxTabIndex;
-                }
+                ctrl.setTheme(_newTheme);
+            });
 
-                tabs.splice(idx, 1);
-
-                if (idx === $scope.lxTabsActiveTab)
-                {
-                    $scope.lxTabsActiveTab = 0;
-                    $timeout(function()
-                    {
-                        setIndicatorPosition(idx);
-                    });
-                }
-                else if(idx < $scope.lxTabsActiveTab)
-                {
-                    var old = $scope.lxTabsActiveTab;
-                    $scope.lxTabsActiveTab = old - 1;
-
-                    $timeout(function()
-                    {
-                        setIndicatorPosition(old);
-                    });
-                }
-                else
-                {
-                    $timeout(function()
-                    {
-                        setIndicatorPosition();
-                    });
-                }
-            }
-        };
-
-        function isPaginationActive()
-        {
-            var tabsWidth = links.outerWidth();
-            var tabsVisibleWidth = linksContainer.outerWidth();
-
-            return tabsWidth > tabsVisibleWidth;
-        }
-
-        function getFirstHiddenLeftTab()
-        {
-            var leftBorderContainer = linksContainer.offset().left;
-
-            var firstTabHidden;
-
-            for (var i = 0; i < tabTags.length; i++)
+            attrs.$observe('lxColor', function(_newColor)
             {
-                var leftBorderTab = angular.element(tabTags[i]).offset().left;
+                ctrl.setColor(_newColor);
+            });
 
-                if (!firstTabHidden && leftBorderTab > (leftBorderContainer - linksContainer.outerWidth()) && leftBorderTab < leftBorderContainer)
-                {
-                    firstTabHidden = angular.element(tabTags[i]);
-                    break;
-                }
-            }
-
-            return firstTabHidden;
-        }
-
-        function getFirstHiddenRightTab()
-        {
-            var rightBorderContainer = linksContainer.offset().left + linksContainer.outerWidth();
-
-            var firstTabHidden;
-
-            for (var i = 0; i < tabTags.length; i++)
+            attrs.$observe('lxIndicator', function(_newIndicator)
             {
-                var tabElement = angular.element(tabTags[i]);
-                var rightBorderTab = tabElement.offset().left + tabElement.outerWidth();
-
-                if (!firstTabHidden && rightBorderTab > rightBorderContainer)
-                {
-                    firstTabHidden = angular.element(tabTags[i]);
-                    break;
-                }
-            }
-
-            return firstTabHidden;
-        }
-
-        function getFirstVisibleTab()
-        {
-            var leftBorderContainer = linksContainer.offset().left;
-
-            var firstTabVisible;
-
-            for (var i = 0; i < tabTags.length; i++)
-            {
-                var leftBorderTab = angular.element(tabTags[i]).offset().left;
-                if (!firstTabVisible && leftBorderTab > leftBorderContainer)
-                {
-                    firstTabVisible = tabTags[i];
-                    break;
-                }
-            }
-
-            return angular.element(firstTabVisible);
-        }
-
-        function isPaginationLeftDisabled ()
-        {
-            return getFirstHiddenLeftTab() === undefined;
-        }
-
-        function isPaginationRightDisabled ()
-        {
-            return getFirstHiddenRightTab() === undefined;
-        }
-
-        function showNextPage()
-        {
-            var firstTabHidden = getFirstHiddenRightTab();
-
-            var deltaX = linksContainer.offset().left - firstTabHidden.offset().left;
-
-            // Take in account the width of pagination button
-            deltaX += 41;
-
-            paginationTranslation += deltaX;
-
-            var transformProperties = {
-                translateX: paginationTranslation + 'px'
-            };
-
-            var animationProperties = {
-                duration: 200
-            };
-
-            links.velocity(transformProperties, animationProperties);
-
-            indicator.velocity(transformProperties, animationProperties);
-
-            $timeout(function () {
-                $scope.$apply();
-            }, 201);
-        }
-
-        function showPrevPage()
-        {
-            var firstTabHidden = getFirstHiddenLeftTab();
-
-            var deltaX = linksContainer.offset().left - firstTabHidden.offset().left;
-
-            // Take in account width of pagination button
-            deltaX += 41;
-
-            paginationTranslation += deltaX;
-
-            var transformProperties = {
-                translateX: paginationTranslation + 'px'
-            };
-
-            var animationProperties = {
-                duration: 200
-            };
-
-            links.velocity(transformProperties, animationProperties);
-
-            indicator.velocity(transformProperties, animationProperties);
-
-            $timeout(function () {
-                $scope.$apply();
-            }, 201);
-        }
-
-        function repositionPage()
-        {
-            var leftContainer = linksContainer.offset().left;
-
-            var firstTabVisible = getFirstVisibleTab();
-
-            var deltaX = leftContainer - firstTabVisible.offset().left + 41;
-
-            paginationTranslation += deltaX;
-
-            var transformProperties = {
-                translateX: paginationTranslation + 'px'
-            };
-
-            var animationProperties = {
-                duration: 10
-            };
-
-            links.velocity(transformProperties, animationProperties);
-
-            indicator.velocity(transformProperties, animationProperties);
-
-        }
-
-        function getTabs()
-        {
-            return tabs;
-        }
-
-        function setActiveTab(index)
-        {
-            $timeout(function()
-            {
-                $scope.lxTabsActiveTab = index;
+                ctrl.setIndicator(_newIndicator);
             });
         }
+    }
 
-        function setLinksColor(newTab)
+    LxTabsController.$inject = ['$element', '$timeout'];
+
+    function LxTabsController($element, $timeout)
+    {
+        var lxTabs = this;
+        var indicator = $element.find('.tabs__indicator');
+        var links = $element.find('.tabs__links');
+
+        lxTabs.setActiveTab = setActiveTab;
+        lxTabs.setColor = setColor;
+        lxTabs.setIndicator = setIndicator;
+        lxTabs.setLayout = setLayout;
+        lxTabs.setTheme = setTheme;
+        lxTabs.tabIsActive = tabIsActive;
+        lxTabs.updateTabs = updateTabs;
+
+        lxTabs.activeTab = 0;
+        lxTabs.color = 'primary';
+        lxTabs.indicator = 'accent';
+        lxTabs.layout = 'full';
+        lxTabs.tabs = [];
+        lxTabs.theme = 'light';
+
+        ////////////
+
+        function setActiveTab(_index)
         {
-            tabTags.removeClass('tc-' + $scope.lxTabsIndicator);
-            tabTags.eq(newTab).addClass('tc-' + $scope.lxTabsIndicator);
+            var previousActiveTab = lxTabs.activeTab;
+
+            lxTabs.activeTab = _index;
+
+            setIndicatorPosition(previousActiveTab);
         }
 
-        function setIndicatorPosition(oldTab)
+        function setColor(_color)
         {
-            var direction;
+            lxTabs.color = _color;
+        }
 
-            if ($scope.lxTabsActiveTab > oldTab)
-            {
-                direction = 'right';
-            }
-            else
-            {
-                direction = 'left';
-            }
+        function setIndicator(_indicator)
+        {
+            lxTabs.indicator = _indicator;
+        }
 
-            var tabsVisibleWidth = links.parent('.tabs').outerWidth(),
-                activeTab = links.find('.tabs-link').eq($scope.lxTabsActiveTab),
-                activeTabWidth = activeTab.outerWidth(),
-                indicatorLeft = activeTab.position().left,
-                indicatorRight = tabsVisibleWidth - (indicatorLeft + activeTabWidth);
+        function setIndicatorPosition(_previousActiveTab)
+        {
+            var direction = lxTabs.activeTab > _previousActiveTab ? 'right' : 'left';
+            var activeTab = links.find('.tabs__link').eq(lxTabs.activeTab);
+            var activeTabWidth = activeTab.outerWidth();
+            var indicatorLeft = activeTab.position().left;
+            var indicatorRight = $element.outerWidth() - (indicatorLeft + activeTabWidth);
 
-            if (angular.isUndefined(oldTab))
+            if (angular.isUndefined(_previousActiveTab))
             {
-                indicator.css({
+                indicator.css(
+                {
                     left: indicatorLeft,
                     right: indicatorRight
                 });
@@ -290,221 +133,150 @@ angular.module('lumx.tabs', [])
 
                 if (direction === 'left')
                 {
-                    indicator.velocity({
+                    indicator.velocity(
+                    {
                         left: indicatorLeft
                     }, animationProperties);
 
-                    indicator.velocity({
+                    indicator.velocity(
+                    {
                         right: indicatorRight
                     }, animationProperties);
                 }
                 else
                 {
-                    indicator.velocity({
+                    indicator.velocity(
+                    {
                         right: indicatorRight
                     }, animationProperties);
 
-                    indicator.velocity({
+                    indicator.velocity(
+                    {
                         left: indicatorLeft
                     }, animationProperties);
                 }
             }
         }
 
-        $scope.$watch('lxTabsActiveTab', function(newIndex, oldIndex)
+        function setLayout(_layout)
         {
-            if (newIndex !== oldIndex)
-            {
-                $timeout(function()
-                {
-                    setLinksColor(newIndex);
-                    setIndicatorPosition(oldIndex);
-                });
-            }
-        });
+            lxTabs.layout = _layout;
+        }
 
-        // Watch tabs and go to previous page if there is no more tabs currently displayed
-        $scope.$watchCollection(function() { return tabs; }, function ()
+        function setTheme(_theme)
         {
-            $timeout(function ()
+            lxTabs.theme = _theme;
+        }
+
+        function tabIsActive(_index)
+        {
+            return lxTabs.activeTab === _index;
+        }
+
+        function updateTabs(_tab)
+        {
+            var newTab = true;
+
+            angular.forEach(lxTabs.tabs, function(tab)
             {
-                tabTags = links.find('.tabs-link');
+                if (tab.uuid === _tab.uuid)
+                {
+                    newTab = false;
+
+                    tab.index = _tab.index;
+                    tab.icon = _tab.icon;
+                    tab.label = _tab.label;
+                }
             });
 
-            if (isPaginationActive())
+            if (newTab)
             {
-                var firstTabVisible = getFirstVisibleTab();
-
-                if (angular.equals(firstTabVisible[0], tabTags[tabTags.length - 1]))
-                {
-                    showPrevPage();
-                }
+                lxTabs.tabs.push(_tab);
             }
-        });
 
-        angular.element($window).on('resize', function()
-        {
-            setIndicatorPosition();
-
-            if (isPaginationActive())
+            $timeout(function()
             {
-                repositionPage();
-            }
-        });
+                setIndicatorPosition();
+            });
+        }
+    }
 
-        // Public API
-        $scope.lxTabsGetTabs = getTabs;
-        $scope.lxTabsSetActiveTab = setActiveTab;
-        $scope.lxTabsIsPaginationActive = isPaginationActive;
-        $scope.lxTabsIsPaginationLeftDisabled = isPaginationLeftDisabled;
-        $scope.lxTabsIsPaginationRightDisabled = isPaginationRightDisabled;
-        $scope.lxTabsShowNextPage = showNextPage;
-        $scope.lxTabsShowPrevPage = showPrevPage;
-    }])
-    .directive('lxTabs', ['$parse', function($parse)
+    function lxTab()
     {
         return {
             restrict: 'E',
-            controller: 'LxTabsController',
-            templateUrl: 'tabs.html',
-            transclude: true,
-            replace: true,
-            scope: true,
-            link: function(scope, element, attrs, ctrl)
-            {
-                ctrl.init(element);
-                scope.lxTabsActiveTab = 0;
-                scope.lxTabsLinksTc = 'dark';
-                scope.lxTabsLinksBgc = 'white';
-                scope.lxTabsIndicator = 'blue-500';
-                scope.lxTabsZDepth = '0';
-                scope.lxTabsLayout = 'full';
-                scope.lxTabsIconPrefix = 'mdi mdi-';
-
-                scope.$watch(function()
-                {
-                    return 'activeTab' in attrs ? scope.$parent.$eval(attrs.activeTab) : 0;
-                }, function(newValue)
-                {
-                    scope.lxTabsActiveTab = angular.isDefined(newValue) ? newValue : 0;
-                });
-
-                if ('activeTab' in attrs)
-                {
-                    var activeTabModel = $parse(attrs.activeTab);
-
-                    scope.$watch('lxTabsActiveTab', function(newActiveTab)
-                    {
-                        if (activeTabModel.assign)
-                        {
-                            activeTabModel.assign(scope, newActiveTab);
-                        }
-                    });
-                }
-
-                attrs.$observe('linksTc', function(newValue)
-                {
-                    scope.lxTabsLinksTc = newValue || 'dark';
-                });
-
-                attrs.$observe('linksBgc', function(newValue)
-                {
-                    scope.lxTabsLinksBgc = newValue || 'white';
-                });
-
-                attrs.$observe('indicator', function(newValue)
-                {
-                    scope.lxTabsIndicator = newValue || 'blue-500';
-                });
-
-                attrs.$observe('noDivider', function(newValue)
-                {
-                    scope.lxTabsNoDivider = newValue;
-                });
-
-                attrs.$observe('zDepth', function(newValue)
-                {
-                    scope.lxTabsZDepth = newValue || '0';
-                });
-
-                attrs.$observe('layout', function(newValue)
-                {
-                    scope.lxTabsLayout = newValue || 'full';
-                });
-
-                attrs.$observe('showIconAndHeading', function(newValue)
-                {
-                    scope.lxTabsShowIconAndHeading = newValue;
-                });
-
-                attrs.$observe('iconPrefix', function(newValue)
-                {
-                    scope.lxTabsIconPrefix = newValue || 'mdi mdi-';
-                });
-            }
-        };
-    }])
-    .directive('lxTab', function()
-    {
-        return {
-            require: '^lxTabs',
-            restrict: 'E',
-            scope: true,
+            require: ['lxTab', '^lxTabs'],
             templateUrl: 'tab.html',
-            transclude: true,
+            scope: true,
+            link: link,
+            controller: LxTabController,
+            controllerAs: 'lxTab',
+            bindToController: true,
             replace: true,
-            link: function(scope, element, attrs, ctrl)
-            {
-                scope.lxTabData = ctrl.getScope();
-                scope.lxTabIndex = ctrl.addTab(scope);
-
-                attrs.$observe('heading', function(newValue)
-                {
-                    scope.lxTabHeading = newValue;
-                });
-
-                attrs.$observe('icon', function(newValue)
-                {
-                    scope.lxTabIcon = newValue;
-                });
-
-                scope.$on('$destroy', function(scope)
-                {
-                    ctrl.removeTab(scope.currentScope);
-                });
-            }
+            transclude: true
         };
-    })
-    .directive('lxTabLink', ['$timeout', function($timeout)
+
+        function link(scope, element, attrs, ctrls)
+        {
+            ctrls[0].init(ctrls[1], element.index());
+
+            attrs.$observe('lxIcon', function(_newIcon)
+            {
+                ctrls[0].setIcon(_newIcon);
+            });
+
+            attrs.$observe('lxLabel', function(_newLabel)
+            {
+                ctrls[0].setLabel(_newLabel);
+            });
+        }
+    }
+
+    LxTabController.$inject = ['LxUtils'];
+
+    function LxTabController(LxUtils)
     {
-        return {
-            require: '^lxTabs',
-            restrict: 'A',
-            link: function(scope, element)
-            {
-                if (scope.lxTabsActiveTab === element.parent().index())
-                {
-                    $timeout(function()
-                    {
-                        element.addClass('tc-' + scope.lxTabsIndicator);
-                    });
-                }
-
-                element
-                    .on('mouseenter', function()
-                    {
-                        if (scope.lxTabsActiveTab !== element.parent().index())
-                        {
-                            element.addClass('tc-' + scope.lxTabsIndicator);
-                        }
-                    })
-                    .on('mouseleave', function()
-                    {
-                        if (scope.lxTabsActiveTab !== element.parent().index())
-                        {
-                            element.removeClass('tc-' + scope.lxTabsIndicator);
-                        }
-                    });
-            }
+        var lxTab = this;
+        var parentCtrl;
+        var tab = {
+            uuid: LxUtils.generateUUID(),
+            index: undefined,
+            label: undefined,
+            icon: undefined
         };
-    }]);
+
+        lxTab.init = init;
+        lxTab.setIcon = setIcon;
+        lxTab.setLabel = setLabel;
+        lxTab.tabIsActive = tabIsActive;
+
+        ////////////
+
+        function init(_parentCtrl, _index)
+        {
+            parentCtrl = _parentCtrl;
+            tab.index = _index;
+
+            parentCtrl.updateTabs(tab);
+        }
+
+        function setIcon(_icon)
+        {
+            tab.icon = _icon;
+
+            parentCtrl.updateTabs(tab);
+        }
+
+        function setLabel(_label)
+        {
+            tab.label = _label;
+
+            parentCtrl.updateTabs(tab);
+        }
+
+        function tabIsActive()
+        {
+            return parentCtrl.tabIsActive(tab.index);
+        }
+    }
+})();

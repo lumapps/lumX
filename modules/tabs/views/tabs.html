@@ -1,35 +1,15 @@
-<div class="tabs tabs--theme-{{ lxTabsLinksTc }} tabs--layout-{{ lxTabsLayout }}"
-     ng-class="{ 'tabs--no-divider': lsTabsNoDivider }">
+<div class="tabs tabs--layout-{{ lxTabs.layout }} tabs--theme-{{ lxTabs.theme }} tabs--color-{{ lxTabs.color }} tabs--indicator-{{ lxTabs.indicator }}">
+    <div class="tabs__links">
+        <a class="tabs__link"
+           ng-class="{ 'tabs__link--is-active': lxTabs.tabIsActive(tab.index) }"
+           ng-repeat="tab in lxTabs.tabs"
+           ng-click="lxTabs.setActiveTab(tab.index)"
+           lx-ripple>
+           <i class="mdi mdi-{{ tab.icon }}" ng-if="tab.icon"></i>
+           <span ng-if="tab.label">{{ tab.label }}</span>
+        </a>
+    </div>
 
-    <button class="tabs__pagination-left btn btn--m bgc-{{ lxTabsLinksBgc }}"
-            ng-click="lxTabsShowPrevPage()"
-            ng-if="lxTabsIsPaginationActive()"
-            ng-disabled="lxTabsIsPaginationLeftDisabled()">
-      <i class="mdi mdi-chevron-left"></i>
-    </button>
-
-    <ul class="tabs__links bgc-{{ lxTabsLinksBgc }} z-depth{{ lxTabsZDepth }}"
-        ng-class="{'tabs__pagination-padding': lxTabsIsPaginationActive()}">
-        <li ng-repeat="tab in lxTabsGetTabs() track by $index">
-            <a lx-tab-link
-               class="tabs-link"
-               ng-class="{ 'tabs-link--is-active': $index === lxTabsActiveTab }"
-               ng-click="lxTabsSetActiveTab($index)"
-               lx-ripple="{{ lxTabsIndicator }}">
-               <span ng-if="tab.lxTabIcon !== undefined"><i class="{{ lxTabsIconPrefix }}{{ tab.lxTabIcon }}"></i></span>
-               <span ng-if="tab.lxTabIcon === undefined || lxTabsShowIconAndHeading">{{ tab.lxTabHeading }}</i></span>
-            </a>
-        </li>
-    </ul>
-
-    <button class="tabs__pagination-right btn btn--m bgc-{{ lxTabsLinksBgc }}"
-            ng-click="lxTabsShowNextPage()"
-            ng-if="lxTabsIsPaginationActive()"
-            ng-disabled="lxTabsIsPaginationRightDisabled()">
-      <i class="mdi mdi-chevron-right"></i>
-    </button>
-
-    <div class="tabs__panes" ng-transclude="child"></div>
-
-    <div class="tabs__indicator bgc-{{ lxTabsIndicator }}"></div>
+    <div class="tabs__panes" ng-transclude></div>
+    <div class="tabs__indicator"></div>
 </div>
