@@ -1,4 +1,5 @@
-(function() {
+(function()
+{
     'use strict';
 
     angular
@@ -9,11 +10,11 @@
 
     function lxCheckbox()
     {
-        var directive =
-        {
+        return {
             restrict: 'E',
             templateUrl: 'checkbox.html',
-            scope: {
+            scope:
+            {
                 ngModel: '=',
                 name: '@?',
                 ngTrueValue: '@?',
@@ -25,10 +26,9 @@
             controller: LxCheckboxController,
             controllerAs: 'lxCheckbox',
             bindToController: true,
-            transclude: true
+            transclude: true,
+            replace: true
         };
-
-        return directive;
     }
 
     LxCheckboxController.$inject = ['LxUtils'];
@@ -36,76 +36,52 @@
     function LxCheckboxController(LxUtils)
     {
         var lxCheckbox = this;
+        var checkboxId;
+        var checkboxHasChildren;
 
-        //
-        // PRIVATE ATTRIBUTES
-        //
-
-        var _checkboxId;
-        var _checkboxHasChildren;
-
-        //
-        // PUBLIC ATTRIBUTES
-        //
-
-        // Public methods
         lxCheckbox.getCheckboxId = getCheckboxId;
         lxCheckbox.getCheckboxHasChildren = getCheckboxHasChildren;
         lxCheckbox.setCheckboxId = setCheckboxId;
         lxCheckbox.setCheckboxHasChildren = setCheckboxHasChildren;
 
-        //
-        // PRIVATE METHODS
-        //
+        init();
 
-        /**
-         * Initialize the controller
-         */
-        function _init()
+        ////////////
+
+        function getCheckboxId()
+        {
+            return checkboxId;
+        }
+
+        function getCheckboxHasChildren()
+        {
+            return checkboxHasChildren;
+        }
+
+        function init()
         {
             setCheckboxId(LxUtils.generateUUID());
             setCheckboxHasChildren(false);
 
             lxCheckbox.ngTrueValue = angular.isUndefined(lxCheckbox.ngTrueValue) ? true : lxCheckbox.ngTrueValue;
             lxCheckbox.ngFalseValue = angular.isUndefined(lxCheckbox.ngFalseValue) ? false : lxCheckbox.ngFalseValue;
-            lxCheckbox.lxColor =  angular.isUndefined(lxCheckbox.lxColor) ? 'accent' : lxCheckbox.lxColor;
+            lxCheckbox.lxColor = angular.isUndefined(lxCheckbox.lxColor) ? 'accent' : lxCheckbox.lxColor;
         }
 
-        //
-        // PUBLIC METHODS
-        //
-
-        function getCheckboxId()
+        function setCheckboxId(_checkboxId)
         {
-            return _checkboxId;
+            checkboxId = _checkboxId;
         }
 
-        function getCheckboxHasChildren()
+        function setCheckboxHasChildren(_checkboxHasChildren)
         {
-            return _checkboxHasChildren;
+            checkboxHasChildren = _checkboxHasChildren;
         }
-
-        function setCheckboxId(checkboxId)
-        {
-            _checkboxId = checkboxId;
-        }
-
-        function setCheckboxHasChildren(checkboxHasChildren)
-        {
-            _checkboxHasChildren = checkboxHasChildren;
-        }
-
-        //
-        // INITIALIZATION
-        //
-
-        _init();
     }
 
     function lxCheckboxLabel()
     {
-        var directive =
-        {
+        return {
             restrict: 'AE',
             require: ['^lxCheckbox', '^lxCheckboxLabel'],
             templateUrl: 'checkbox-label.html',
@@ -117,8 +93,6 @@
             replace: true
         };
 
-        return directive;
-
         function link(scope, element, attrs, ctrls)
         {
             ctrls[0].setCheckboxHasChildren(true);
@@ -129,47 +103,32 @@
     function LxCheckboxLabelController()
     {
         var lxCheckboxLabel = this;
+        var checkboxId;
 
-        //
-        // PRIVATE ATTRIBUTES
-        //
-
-        var _checkboxId;
-
-        //
-        // PUBLIC ATTRIBUTES
-        //
-
-        // Public methods
         lxCheckboxLabel.getCheckboxId = getCheckboxId;
         lxCheckboxLabel.setCheckboxId = setCheckboxId;
 
-        //
-        // PUBLIC METHODS
-        //
+        ////////////
 
         function getCheckboxId()
         {
-            return _checkboxId;
+            return checkboxId;
         }
 
-        function setCheckboxId(checkboxId)
+        function setCheckboxId(_checkboxId)
         {
-            _checkboxId = checkboxId;
+            checkboxId = _checkboxId;
         }
     }
 
     function lxCheckboxHelp()
     {
-        var directive =
-        {
+        return {
             restrict: 'AE',
             require: '^lxCheckbox',
             templateUrl: 'checkbox-help.html',
             transclude: true,
             replace: true
         };
-
-        return directive;
     }
 })();

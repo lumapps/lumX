@@ -1,4 +1,5 @@
-(function() {
+(function()
+{
     'use strict';
 
     angular
@@ -9,90 +10,74 @@
 
     function LxProgressService($compile, $rootScope, $timeout)
     {
-        var service = {
-            circular: {
-                show: showProgressCircular,
-                hide: hideProgressCircular
-            },
-            linear: {
-                show: showProgressLinear,
-                hide: hideProgressLinear
-            }
+        var service = this;
+        var progressCircular;
+        var progressCircularIsShown = false;
+        var progressLinear;
+        var progressLinearIsShown = false;
+
+        service.circular = {
+            show: showProgressCircular,
+            hide: hideProgressCircular
         };
 
-        var _progressCircular;
-        var _progressCircularIsShown = false;
-        var _progressLinear;
-        var _progressLinearIsShown = false;
+        service.linear = {
+            show: showProgressLinear,
+            hide: hideProgressLinear
+        };
 
-        return service;
+        ////////////
 
-        //
-        // PUBLIC METHODS
-        //
-
-        /**
-         * Hide circular progress
-         */
         function hideProgressCircular()
         {
-            if (_progressCircularIsShown)
+            if (progressCircularIsShown)
             {
-                _progressCircularIsShown = false;
-                _progressCircular.remove();
+                progressCircularIsShown = false;
+                progressCircular.remove();
             }
         }
 
-        /**
-         * Hide linear progress
-         */
         function hideProgressLinear()
         {
-            if (_progressLinearIsShown)
+            if (progressLinearIsShown)
             {
-                _progressLinearIsShown = false;
-                _progressLinear.remove();
+                progressLinearIsShown = false;
+                progressLinear.remove();
             }
         }
 
-        /**
-         * Show circular progress
-         */
-        function showProgressCircular(color, container)
+        function showProgressCircular(_color, _container)
         {
-            if (!_progressCircularIsShown)
+            if (!progressCircularIsShown)
             {
-                var progressCircularColor = angular.isDefined(color) ? color : 'primary';
-                var progressCircularContainer = angular.isDefined(container) ? container : 'body';
+                var progressCircularColor = angular.isDefined(_color) ? _color : 'primary';
+                var progressCircularContainer = angular.isDefined(_container) ? _container : 'body';
 
-                _progressCircular = $compile('<lx-progress lx-type="circular" lx-color="' + progressCircularColor + '"></lx-progress>')($rootScope);
+                progressCircular = $compile('<lx-progress lx-type="circular" lx-color="' + progressCircularColor + '"></lx-progress>')($rootScope);
 
                 $timeout(function()
                 {
-                    angular.element(progressCircularContainer).append(_progressCircular[0]);
+                    angular.element(progressCircularContainer).append(progressCircular[0]);
 
-                    _progressCircularIsShown = true;
+                    progressCircularIsShown = true;
                 });
             }
         }
 
-        /**
-         * Show linear progress
-         */
-        function showProgressLinear(color, container)
+        function showProgressLinear(_color, _container)
         {
-            if (!_progressLinearIsShown)
+            if (!progressLinearIsShown)
             {
-                var progressLinearColor = angular.isDefined(color) ? color : 'primary';
-                var progressLinearContainer = angular.isDefined(container) ? container : 'body';
+                var progressLinearColor = angular.isDefined(_color) ? _color : 'primary';
+                var progressLinearContainer = angular.isDefined(_container) ? _container : 'body';
 
-                _progressLinear = $compile('<lx-progress lx-type="linear" lx-color="' + progressLinearColor + '"></lx-progress>')($rootScope);
+                progressLinear = $compile('<lx-progress lx-type="linear" lx-color="' + progressLinearColor + '"></lx-progress>')($rootScope);
 
                 $timeout(function()
                 {
-                    angular.element(progressLinearContainer).append(_progressLinear[0]);
+                    angular.element(progressLinearContainer).append(progressLinear[0]);
 
-                    _progressLinearIsShown = true;
+                    progressLinearIsShown = true;
                 });
             }
         }

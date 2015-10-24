@@ -1,4 +1,5 @@
-(function() {
+(function()
+{
     'use strict';
 
     angular
@@ -9,8 +10,7 @@
 
     function lxFab()
     {
-        var directive =
-        {
+        return {
             restrict: 'E',
             templateUrl: 'fab.html',
             scope: true,
@@ -18,10 +18,9 @@
             controller: LxFabController,
             controllerAs: 'lxFab',
             bindToController: true,
-            transclude: true
+            transclude: true,
+            replace: true
         };
-
-        return directive;
 
         function link(scope, element, attrs, ctrl)
         {
@@ -51,53 +50,42 @@
     {
         var lxFab = this;
 
-        //
-        // PUBLIC ATTRIBUTES
-        //
-
-        // Public methods
         lxFab.setFabDirection = setFabDirection;
         lxFab.setFabProgress = setFabProgress;
         lxFab.setFabProgressColor = setFabProgressColor;
 
-        //
-        // PUBLIC METHODS
-        //
+        ////////////
 
-        function setFabDirection(direction)
+        function setFabDirection(_direction)
         {
-            lxFab.lxDirection = direction;
+            lxFab.lxDirection = _direction;
         }
 
-        function setFabProgress(isLoading)
+        function setFabProgress(_isLoading)
         {
-            lxFab.lxFabProgress = isLoading;
+            lxFab.lxFabProgress = _isLoading;
         }
 
-        function setFabProgressColor(color)
+        function setFabProgressColor(_color)
         {
-            lxFab.lxFabProgressColor = color;
+            lxFab.lxFabProgressColor = _color;
         }
     }
 
     function lxFabTrigger()
     {
-        var directive =
-        {
+        return {
             restrict: 'E',
             require: '^lxFab',
             templateUrl: 'fab-trigger.html',
             transclude: true,
             replace: true
         };
-
-        return directive;
     }
 
     function lxFabActions()
     {
-        var directive =
-        {
+        return {
             restrict: 'E',
             require: '^lxFab',
             templateUrl: 'fab-actions.html',
@@ -105,8 +93,6 @@
             transclude: true,
             replace: true
         };
-
-        return directive;
 
         function link(scope, element, attrs, ctrl)
         {
