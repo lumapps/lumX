@@ -1,4 +1,7 @@
 {
   "laxbreak": true,
-  "devel" : true
+  "devel" : true,
+  "globals": {
+    "angular": false
+  }
 }
