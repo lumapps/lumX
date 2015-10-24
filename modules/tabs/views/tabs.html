@@ -9,7 +9,7 @@
            <span ng-if="tab.label">{{ tab.label }}</span>
         </a>
     </div>
-
-    <div class="tabs__panes" ng-transclude></div>
+    
+    <div class="tabs__panes" ng-if="lxTabs.viewMode === 'gather'" ng-transclude></div>
     <div class="tabs__indicator"></div>
 </div>

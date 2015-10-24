@@ -5,15 +5,26 @@
     angular
         .module('lumx.tabs', [])
         .directive('lxTabs', lxTabs)
-        .directive('lxTab', lxTab);
+        .directive('lxTab', lxTab)
+        .directive('lxTabsPanes', lxTabsPanes)
+        .directive('lxTabPane', lxTabPane);
 
-    lxTabs.$inject = ['$parse'];
+    lxTabs.$inject = ['$parse', 'LxUtils'];
 
-    function lxTabs($parse)
+    function lxTabs($parse, LxUtils)
     {
         return {
             restrict: 'E',
             templateUrl: 'tabs.html',
+            scope:
+            {
+                layout: '@?lxLayout',
+                theme: '@?lxTheme',
+                color: '@?lxColor',
+                indicator: '@?lxIndicator',
+                activeTab: '=?lxActiveTab',
+                panes: '@?lxPanes'
+            },
             link: link,
             controller: LxTabsController,
             controllerAs: 'lxTabs',
@@ -24,68 +35,72 @@
 
         function link(scope, element, attrs, ctrl)
         {
-            if (angular.isDefined(attrs.lxActiveTab))
+            if (angular.isDefined(attrs.lxLabels) || angular.isDefined(attrs.lxIcons))
             {
-                var activeTabModel = $parse(attrs.lxActiveTab);
-
-                scope.$watch(attrs.lxActiveTab, function(_newActiveTab)
-                {
-                    ctrl.setActiveTab(_newActiveTab);
-                });
-
-                scope.$watch(function()
-                {
-                    return scope.lxTabs.activeTab;
-                }, function(_newActiveTab)
-                {
-                    activeTabModel.assign(scope, _newActiveTab);
-                });
+                ctrl.setViewMode('separate');
             }
 
-            attrs.$observe('lxLayout', function(_newLayout)
+            scope.$watch(attrs.lxLabels, function(_newLabels)
             {
-                ctrl.setLayout(_newLayout);
+                angular.forEach(_newLabels, function(label, index)
+                {
+                    var tab = {
+                        uuid: LxUtils.generateUUID(),
+                        index: index,
+                        label: label,
+                        icon: undefined
+                    };
+
+                    ctrl.updateTabs(tab);
+                });
             });
 
-            attrs.$observe('lxTheme', function(_newTheme)
+            scope.$watch(attrs.lxIcons, function(_newIcons)
             {
-                ctrl.setTheme(_newTheme);
-            });
+                angular.forEach(_newIcons, function(icon, index)
+                {
+                    var tab = {
+                        uuid: LxUtils.generateUUID(),
+                        index: index,
+                        label: undefined,
+                        icon: icon
+                    };
 
-            attrs.$observe('lxColor', function(_newColor)
-            {
-                ctrl.setColor(_newColor);
-            });
-
-            attrs.$observe('lxIndicator', function(_newIndicator)
-            {
-                ctrl.setIndicator(_newIndicator);
+                    ctrl.updateTabs(tab);
+                });
             });
         }
     }
 
-    LxTabsController.$inject = ['$element', '$timeout'];
+    LxTabsController.$inject = ['$element', '$scope', '$timeout'];
 
-    function LxTabsController($element, $timeout)
+    function LxTabsController($element, $scope, $timeout)
     {
         var lxTabs = this;
-        var indicator = $element.find('.tabs__indicator');
-        var links = $element.find('.tabs__links');
 
         lxTabs.setActiveTab = setActiveTab;
-        lxTabs.setColor = setColor;
-        lxTabs.setIndicator = setIndicator;
-        lxTabs.setLayout = setLayout;
-        lxTabs.setTheme = setTheme;
+        lxTabs.setViewMode = setViewMode;
         lxTabs.tabIsActive = tabIsActive;
         lxTabs.updateTabs = updateTabs;
 
-        lxTabs.activeTab = 0;
-        lxTabs.color = 'primary';
-        lxTabs.indicator = 'accent';
-        lxTabs.layout = 'full';
+        lxTabs.activeTab = angular.isDefined(lxTabs.activeTab) ? lxTabs.activeTab : 0;
+        lxTabs.color = angular.isDefined(lxTabs.color) ? lxTabs.color : 'primary';
+        lxTabs.indicator = angular.isDefined(lxTabs.indicator) ? lxTabs.indicator : 'accent';
+        lxTabs.layout = angular.isDefined(lxTabs.layout) ? lxTabs.layout : 'full';
         lxTabs.tabs = [];
-        lxTabs.theme = 'light';
+        lxTabs.theme = angular.isDefined(lxTabs.theme) ? lxTabs.theme : 'light';
+        lxTabs.viewMode = 'gather';
+
+        $scope.$watch(function()
+        {
+            return lxTabs.activeTab;
+        }, function(_newActiveTab)
+        {
+            $timeout(function()
+            {
+                setActiveTab(_newActiveTab);
+            });
+        });
 
         ////////////
 
@@ -96,20 +111,18 @@
             lxTabs.activeTab = _index;
 
             setIndicatorPosition(previousActiveTab);
-        }
 
-        function setColor(_color)
-        {
-            lxTabs.color = _color;
-        }
-
-        function setIndicator(_indicator)
-        {
-            lxTabs.indicator = _indicator;
+            if (lxTabs.viewMode === 'separate')
+            {
+                angular.element('#' + lxTabs.panes).find('.tabs__pane').hide();
+                angular.element('#' + lxTabs.panes).find('.tabs__pane').eq(lxTabs.activeTab).show();
+            }
         }
 
         function setIndicatorPosition(_previousActiveTab)
         {
+            var links = $element.find('.tabs__links');
+            var indicator = $element.find('.tabs__indicator');
             var direction = lxTabs.activeTab > _previousActiveTab ? 'right' : 'left';
             var activeTab = links.find('.tabs__link').eq(lxTabs.activeTab);
             var activeTabWidth = activeTab.outerWidth();
@@ -158,14 +171,9 @@
             }
         }
 
-        function setLayout(_layout)
+        function setViewMode(_viewMode)
         {
-            lxTabs.layout = _layout;
-        }
-
-        function setTheme(_theme)
-        {
-            lxTabs.theme = _theme;
+            lxTabs.viewMode = _viewMode;
         }
 
         function tabIsActive(_index)
@@ -193,11 +201,6 @@
             {
                 lxTabs.tabs.push(_tab);
             }
-
-            $timeout(function()
-            {
-                setIndicatorPosition();
-            });
         }
     }
 
@@ -278,5 +281,27 @@
         {
             return parentCtrl.tabIsActive(tab.index);
         }
+    }
+
+    function lxTabsPanes()
+    {
+        return {
+            restrict: 'E',
+            templateUrl: 'tabs-panes.html',
+            scope: true,
+            replace: true,
+            transclude: true
+        };
+    }
+
+    function lxTabPane()
+    {
+        return {
+            restrict: 'E',
+            templateUrl: 'tab-pane.html',
+            scope: true,
+            replace: true,
+            transclude: true
+        };
     }
 })();
