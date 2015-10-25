@@ -12,103 +12,135 @@ angular
     ])
     .config(function($locationProvider, $routeProvider)
     {
-        $locationProvider.html5Mode({
+        $locationProvider.html5Mode(
+        {
             enabled: true,
             requireBase: false
         });
 
         $routeProvider.
-            when('/', {
-                templateUrl: '/includes/homepage/homepage.html'
-            }).
-            when('/getting-started/installation', {
-                templateUrl: '/includes/start/installation.html'
-            }).
-            when('/getting-started/customization', {
-                templateUrl: '/includes/start/customization.html'
-            }).
-            when('/getting-started/contribute', {
-                templateUrl: '/includes/start/contribute.html'
-            }).
-            when('/css/mixins', {
-                templateUrl: '/includes/css/mixins.html'
-            }).
-            when('/css/typography', {
-                templateUrl: '/includes/css/typography.html'
-            }).
-            when('/css/colors', {
-                templateUrl: '/includes/css/colors.html'
-            }).
-            when('/css/flexbox', {
-                templateUrl: '/includes/modules/flexbox/flexbox.html'
-            }).
-            when('/css/buttons', {
-                templateUrl: '/includes/modules/button/button.html'
-            }).
-            when('/css/fab', {
-                templateUrl: '/includes/modules/fab/fab.html'
-            }).
-            when('/css/icons', {
-                templateUrl: '/includes/modules/icon/icon.html'
-            }).
-            when('/css/lists', {
-                templateUrl: '/includes/modules/list/list.html'
-            }).
-            when('/css/data-table', {
-                templateUrl: '/includes/modules/data-table/data-table.html'
-            }).
-            when('/css/cards', {
-                templateUrl: '/includes/modules/card/card.html'
-            }).
-            when('/css/checkboxes', {
-                templateUrl: '/includes/modules/checkbox/checkbox.html'
-            }).
-            when('/css/radio-buttons', {
-                templateUrl: '/includes/modules/radio-button/radio-button.html'
-            }).
-            when('/css/switches', {
-                templateUrl: '/includes/modules/switch/switch.html'
-            }).
-            when('/css/toolbars', {
-                templateUrl: '/includes/modules/toolbar/toolbar.html'
-            }).
-            when('/directives/dropdowns', {
-                templateUrl: '/includes/modules/dropdown/dropdown.html'
-            }).
-            when('/directives/tabs', {
-                templateUrl: '/includes/modules/tabs/tabs.html'
-            }).
-            when('/directives/text-fields', {
-                templateUrl: '/includes/modules/text-field/text-field.html'
-            }).
-            when('/directives/search-filter', {
-                templateUrl: '/includes/modules/search-filter/search-filter.html'
-            }).
-            when('/directives/selects', {
-                templateUrl: '/includes/modules/select/select.html'
-            }).
-            when('/directives/file-inputs', {
-                templateUrl: '/includes/modules/file-input/file-input.html'
-            }).
-            when('/directives/tooltips', {
-                templateUrl: '/includes/modules/tooltip/tooltip.html'
-            }).
-            when('/directives/dialogs', {
-                templateUrl: '/includes/modules/dialog/dialog.html'
-            }).
-            when('/directives/date-picker', {
-                templateUrl: '/includes/modules/date-picker/date-picker.html'
-            }).
-            when('/directives/thumbnails', {
-                templateUrl: '/includes/modules/thumbnail/thumbnail.html'
-            }).
-            when('/directives/scrollbar', {
+        when('/',
+        {
+            templateUrl: '/includes/homepage/homepage.html'
+        }).
+        when('/getting-started/installation',
+        {
+            templateUrl: '/includes/start/installation.html'
+        }).
+        when('/getting-started/customization',
+        {
+            templateUrl: '/includes/start/customization.html'
+        }).
+        when('/getting-started/contribute',
+        {
+            templateUrl: '/includes/start/contribute.html'
+        }).
+        when('/css/mixins',
+        {
+            templateUrl: '/includes/css/mixins.html'
+        }).
+        when('/css/typography',
+        {
+            templateUrl: '/includes/css/typography.html'
+        }).
+        when('/css/colors',
+        {
+            templateUrl: '/includes/css/colors.html'
+        }).
+        when('/css/flexbox',
+        {
+            templateUrl: '/includes/modules/flexbox/flexbox.html'
+        }).
+        when('/css/buttons',
+        {
+            templateUrl: '/includes/modules/button/button.html'
+        }).
+        when('/css/fab',
+        {
+            templateUrl: '/includes/modules/fab/fab.html'
+        }).
+        when('/css/icons',
+        {
+            templateUrl: '/includes/modules/icon/icon.html'
+        }).
+        when('/css/lists',
+        {
+            templateUrl: '/includes/modules/list/list.html'
+        }).
+        when('/css/data-table',
+        {
+            templateUrl: '/includes/modules/data-table/data-table.html'
+        }).
+        when('/css/cards',
+        {
+            templateUrl: '/includes/modules/card/card.html'
+        }).
+        when('/css/checkboxes',
+        {
+            templateUrl: '/includes/modules/checkbox/checkbox.html'
+        }).
+        when('/css/radio-buttons',
+        {
+            templateUrl: '/includes/modules/radio-button/radio-button.html'
+        }).
+        when('/css/switches',
+        {
+            templateUrl: '/includes/modules/switch/switch.html'
+        }).
+        when('/css/toolbars',
+        {
+            templateUrl: '/includes/modules/toolbar/toolbar.html'
+        }).
+        when('/directives/dropdowns',
+        {
+            templateUrl: '/includes/modules/dropdown/dropdown.html'
+        }).
+        when('/directives/tabs',
+        {
+            templateUrl: '/includes/modules/tabs/tabs.html'
+        }).
+        when('/directives/text-fields',
+        {
+            templateUrl: '/includes/modules/text-field/text-field.html'
+        }).
+        when('/directives/search-filter',
+        {
+            templateUrl: '/includes/modules/search-filter/search-filter.html'
+        }).
+        when('/directives/selects',
+        {
+            templateUrl: '/includes/modules/select/select.html'
+        }).
+        when('/directives/file-inputs',
+        {
+            templateUrl: '/includes/modules/file-input/file-input.html'
+        }).
+        when('/directives/tooltips',
+        {
+            templateUrl: '/includes/modules/tooltip/tooltip.html'
+        }).
+        when('/directives/dialogs',
+        {
+            templateUrl: '/includes/modules/dialog/dialog.html'
+        }).
+        when('/directives/date-picker',
+        {
+            templateUrl: '/includes/modules/date-picker/date-picker.html'
+        }).
+        when('/directives/thumbnails',
+        {
+            templateUrl: '/includes/modules/thumbnail/thumbnail.html'
+        }).
+        when('/directives/scrollbar',
+            {
                 templateUrl: '/includes/modules/scrollbar/scrollbar.html'
             })
-            .when('/services/notifications', {
+            .when('/services/notifications',
+            {
                 templateUrl: '/includes/modules/notification/notification.html'
             })
-            .when('/services/progress', {
+            .when('/services/progress',
+            {
                 templateUrl: '/includes/modules/progress/progress.html'
             });
     })
@@ -122,12 +154,14 @@ angular
         };
 
         $scope.repo = {
-            lastCommit: {
+            lastCommit:
+            {
                 date: undefined,
                 sha: undefined,
                 url: undefined
             },
-            lastRelease: {
+            lastRelease:
+            {
                 name: undefined,
                 tag: undefined
             }
@@ -152,28 +186,78 @@ angular
         });
 
         $scope.people = [
-            { name: 'Adam',      email: 'adam@email.com',      age: 10 },
-            { name: 'Amalie',    email: 'amalie@email.com',    age: 12 },
-            { name: 'Wladimir',  email: 'wladimir@email.com',  age: 30 },
-            { name: 'Samantha',  email: 'samantha@email.com',  age: 31 },
-            { name: 'Estefanía', email: 'estefanía@email.com', age: 16 },
-            { name: 'Natasha',   email: 'natasha@email.com',   age: 54 },
-            { name: 'Nicole',    email: 'nicole@email.com',    age: 43 },
-            { name: 'Adrian',    email: 'adrian@email.com',    age: 21 }
-        ];
+        {
+            name: 'Adam',
+            email: 'adam@email.com',
+            age: 10
+        },
+        {
+            name: 'Amalie',
+            email: 'amalie@email.com',
+            age: 12
+        },
+        {
+            name: 'Wladimir',
+            email: 'wladimir@email.com',
+            age: 30
+        },
+        {
+            name: 'Samantha',
+            email: 'samantha@email.com',
+            age: 31
+        },
+        {
+            name: 'Estefanía',
+            email: 'estefanía@email.com',
+            age: 16
+        },
+        {
+            name: 'Natasha',
+            email: 'natasha@email.com',
+            age: 54
+        },
+        {
+            name: 'Nicole',
+            email: 'nicole@email.com',
+            age: 43
+        },
+        {
+            name: 'Adrian',
+            email: 'adrian@email.com',
+            age: 21
+        }];
 
         $scope.selectSections = {
             'Sub header 1': [
-                { uid: '1', name: 'Adam' },
-                { uid: '2', name: 'Amalie' },
-                { uid: '3', name: 'Wladimir' },
-                { uid: '4', name: 'Samantha' }
-            ],
+            {
+                uid: '1',
+                name: 'Adam'
+            },
+            {
+                uid: '2',
+                name: 'Amalie'
+            },
+            {
+                uid: '3',
+                name: 'Wladimir'
+            },
+            {
+                uid: '4',
+                name: 'Samantha'
+            }],
             '<i class="mdi mdi-android"></i> Sub header 2': [
-                { uid: '5', name: 'Estefanía' },
-                { uid: '6', name: 'Natasha' },
-                { uid: '7', name: 'Nicole' }
-            ]
+            {
+                uid: '5',
+                name: 'Estefanía'
+            },
+            {
+                uid: '6',
+                name: 'Natasha'
+            },
+            {
+                uid: '7',
+                name: 'Nicole'
+            }]
         };
 
         $scope.ajax = {
@@ -185,15 +269,15 @@ angular
                 {
                     $scope.ajax.loading = true;
                     $http.get('http://www.omdbapi.com/?s=' + escape(newFilter)).
-                        success(function(data)
-                        {
-                            $scope.ajax.list = data.Search;
-                            $scope.ajax.loading = false;
-                        }).
-                        error(function()
-                        {
-                            $scope.ajax.loading = false;
-                        });
+                    success(function(data)
+                    {
+                        $scope.ajax.list = data.Search;
+                        $scope.ajax.loading = false;
+                    }).
+                    error(function()
+                    {
+                        $scope.ajax.loading = false;
+                    });
                 }
                 else
                 {
@@ -216,14 +300,14 @@ angular
                 if (data)
                 {
                     $http.get('http://www.omdbapi.com/?s=' + escape(data)).
-                        success(function(response)
-                        {
-                            callback(response.Search[0]);
-                        }).
-                        error(function()
-                        {
-                            callback();
-                        });
+                    success(function(response)
+                    {
+                        callback(response.Search[0]);
+                    }).
+                    error(function()
+                    {
+                        callback();
+                    });
                 }
                 else
                 {
@@ -254,11 +338,20 @@ angular
             children: [
             {
                 id: 11,
-                children: [{id: 111}]
+                children: [
+                {
+                    id: 111
+                }]
             },
             {
                 id: 12,
-                children: [{id: 121}, {id: 122}]
+                children: [
+                {
+                    id: 121
+                },
+                {
+                    id: 122
+                }]
             },
             {
                 id: 13
@@ -272,7 +365,16 @@ angular
             children: [
             {
                 id: 32,
-                children: [{id: 321}, {id: 322}, {id: 323}]
+                children: [
+                {
+                    id: 321
+                },
+                {
+                    id: 322
+                },
+                {
+                    id: 323
+                }]
             }]
         }];
 
@@ -409,14 +511,26 @@ angular
 
         var tabIndex = 4;
         $scope.tabs = [
-            { heading: 'Tab 1', content: 'Tab 1 content' },
-            { heading: 'Tab 2', content: 'Tab 2 content' },
-            { heading: 'Tab 3', content: 'Tab 3 content' }
-        ];
+        {
+            heading: 'Tab 1',
+            content: 'Tab 1 content'
+        },
+        {
+            heading: 'Tab 2',
+            content: 'Tab 2 content'
+        },
+        {
+            heading: 'Tab 3',
+            content: 'Tab 3 content'
+        }];
 
         $scope.addTab = function()
         {
-            $scope.tabs.push({ heading: 'Tab ' + tabIndex, content: 'Tab ' + tabIndex + ' content' });
+            $scope.tabs.push(
+            {
+                heading: 'Tab ' + tabIndex,
+                content: 'Tab ' + tabIndex + ' content'
+            });
             ++tabIndex;
         };
 
@@ -435,7 +549,12 @@ angular
 
         $scope.addPerson = function()
         {
-            $scope.people.push({ name: 'Lorem', email: 'lorem@email.com', age: 99 });
+            $scope.people.push(
+            {
+                name: 'Lorem',
+                email: 'lorem@email.com',
+                age: 99
+            });
         };
 
         $scope.thumbnail = '/images/placeholder/1-horizontal.jpg';
@@ -495,10 +614,21 @@ angular
 
         $scope.confirm = function()
         {
-            LxNotificationService.confirm('Lorem Ipsum', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent sit amet urna quis nisi sodales semper pharetra eu augue.', { cancel:'Disagree', ok:'Agree' }, function(answer)
+            LxNotificationService.confirm('Lorem Ipsum', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent sit amet urna quis nisi sodales semper pharetra eu augue.',
+            {
+                cancel: 'Disagree',
+                ok: 'Agree'
+            }, function(answer)
             {
                 console.log(answer);
             });
+        };
+
+        $scope.tabIsDisabled = true;
+
+        $scope.setTabIsDisabled = function()
+        {
+            $scope.tabIsDisabled = !$scope.tabIsDisabled;
         };
     });
 

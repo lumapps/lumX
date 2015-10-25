@@ -10,8 +10,8 @@
 
 @each $key, $color in $colors {
     .tabs--theme-light.tabs--color-#{$key} {
-        .tabs__link:hover,
-        .tabs__link--is-active {
+        .tabs__link:not(.tabs__link--is-disabled):hover,
+        .tabs__link:not(.tabs__link--is-disabled).tabs__link--is-active {
             color: $color;
         }
 
@@ -100,11 +100,16 @@
         .tabs--theme-dark & {
             color: $white-2;
 
-            &:hover,
-            &.tabs__link--is-active {
+            &:not(.tabs__link--is-disabled):hover,
+            &:not(.tabs__link--is-disabled).tabs__link--is-active {
                 color: $white-1;
             }
         }
+    }
+
+    .tabs__link--is-disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
     }
 
     // Tabs: indicator

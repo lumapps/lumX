@@ -21,9 +21,8 @@
                 color: '@?lxColor',
                 indicator: '@?lxIndicator',
                 activeTab: '=?lxActiveTab',
-                labels: '=?lxLabels',
-                icons: '=?lxIcons',
-                panes: '@?lxPanes'
+                panesId: '@?lxPanesId',
+                links: '=?lxLinks'
             },
             controller: LxTabsController,
             controllerAs: 'lxTabs',
@@ -52,7 +51,7 @@
         lxTabs.layout = angular.isDefined(lxTabs.layout) ? lxTabs.layout : 'full';
         lxTabs.tabs = [];
         lxTabs.theme = angular.isDefined(lxTabs.theme) ? lxTabs.theme : 'light';
-        lxTabs.viewMode = angular.isDefined(lxTabs.labels) || angular.isDefined(lxTabs.icons) ? 'separate' : 'gather';
+        lxTabs.viewMode = angular.isDefined(lxTabs.links) ? 'separate' : 'gather';
 
         $scope.$watch(function()
         {
@@ -65,42 +64,25 @@
 
                 if (lxTabs.viewMode === 'separate')
                 {
-                    angular.element('#' + lxTabs.panes).find('.tabs__pane').hide();
-                    angular.element('#' + lxTabs.panes).find('.tabs__pane').eq(lxTabs.activeTab).show();
+                    angular.element('#' + lxTabs.panesId).find('.tabs__pane').hide();
+                    angular.element('#' + lxTabs.panesId).find('.tabs__pane').eq(lxTabs.activeTab).show();
                 }
             });
         });
 
         $scope.$watch(function()
         {
-            return lxTabs.labels;
-        }, function(_newLabels)
+            return lxTabs.links;
+        }, function(_newLinks)
         {
-            angular.forEach(_newLabels, function(label, index)
+            angular.forEach(_newLinks, function(link, index)
             {
                 var tab = {
                     uuid: LxUtils.generateUUID(),
                     index: index,
-                    label: label,
-                    icon: undefined
-                };
-
-                updateTabs(tab);
-            });
-        });
-
-        $scope.$watch(function()
-        {
-            return lxTabs.icons;
-        }, function(_newIcons)
-        {
-            angular.forEach(_newIcons, function(icon, index)
-            {
-                var tab = {
-                    uuid: LxUtils.generateUUID(),
-                    index: index,
-                    label: undefined,
-                    icon: icon
+                    label: link.label,
+                    icon: link.icon,
+                    disabled: link.disabled
                 };
 
                 updateTabs(tab);
@@ -132,13 +114,16 @@
             }
             else
             {
-                setActiveTab(0);
+                setActiveTab(lxTabs.tabs[0]);
             }
         }
 
-        function setActiveTab(_index)
+        function setActiveTab(_tab)
         {
-            lxTabs.activeTab = _index;
+            if (!_tab.disabled)
+            {
+                lxTabs.activeTab = _tab.index;
+            }
         }
 
         function setIndicatorPosition(_previousActiveTab)
@@ -238,7 +223,10 @@
             restrict: 'E',
             require: ['lxTab', '^lxTabs'],
             templateUrl: 'tab.html',
-            scope: true,
+            scope:
+            {
+                ngDisabled: '=?'
+            },
             link: link,
             controller: LxTabController,
             controllerAs: 'lxTab',
@@ -251,14 +239,14 @@
         {
             ctrls[0].init(ctrls[1], element.index());
 
-            attrs.$observe('lxIcon', function(_newIcon)
-            {
-                ctrls[0].setIcon(_newIcon);
-            });
-
             attrs.$observe('lxLabel', function(_newLabel)
             {
                 ctrls[0].setLabel(_newLabel);
+            });
+
+            attrs.$observe('lxIcon', function(_newIcon)
+            {
+                ctrls[0].setIcon(_newIcon);
             });
         }
     }
@@ -273,13 +261,31 @@
             uuid: LxUtils.generateUUID(),
             index: undefined,
             label: undefined,
-            icon: undefined
+            icon: undefined,
+            disabled: false
         };
 
         lxTab.init = init;
         lxTab.setIcon = setIcon;
         lxTab.setLabel = setLabel;
         lxTab.tabIsActive = tabIsActive;
+
+        $scope.$watch(function()
+        {
+            return lxTab.ngDisabled;
+        }, function(_isDisabled)
+        {
+            if (_isDisabled)
+            {
+                tab.disabled = true;
+            }
+            else
+            {
+                tab.disabled = false;
+            }
+
+            parentCtrl.updateTabs(tab);
+        });
 
         $scope.$on('$destroy', function()
         {
