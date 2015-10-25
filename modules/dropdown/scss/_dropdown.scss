@@ -1,8 +1,8 @@
 ///*------------------------------------*\
-//    #OBJECTS-DROPDOWN
+//    #DROPDOWN
 //\*------------------------------------*/
 
-// Dropdown base styles
+// Dropdown
 .dropdown {
     position: relative;
     display: inline-block;
@@ -39,7 +39,7 @@
     }
 }
 
-    // Dropdown menu content
+    // Dropdown menu: content
     .dropdown-menu__content {
         padding: $base-spacing-unit 0;
         opacity: 0;
@@ -82,7 +82,7 @@
             background-color: $grey-200;
         }
 
-        i {
+        #{$base-icon-prefix} {
             @extend %icon;
             @extend %icon--xs;
             @extend %icon--flat;
@@ -95,7 +95,7 @@
 .dropdown-link--is-large {
     height: 48px;
 
-    i {
+    #{$base-icon-prefix} {
         @extend %icon;
         @extend %icon--s;
         @extend %icon--flat;
@@ -106,7 +106,7 @@
     color: $black-3;
     cursor: default;
 
-    i {
+    #{$base-icon-prefix} {
         width: 18px;
         margin-right: 6px;
         color: $black-3;

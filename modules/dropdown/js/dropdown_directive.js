@@ -6,7 +6,8 @@
         .module('lumx.dropdown', ['lumx.utils.event-scheduler'])
         .directive('lxDropdown', lxDropdown)
         .directive('lxDropdownToggle', lxDropdownToggle)
-        .directive('lxDropdownMenu', lxDropdownMenu);
+        .directive('lxDropdownMenu', lxDropdownMenu)
+        .directive('lxDropdownFilter', lxDropdownFilter);
 
     lxDropdown.$inject = ['$document'];
 
@@ -323,6 +324,29 @@
         function setParentController(_parentCtrl)
         {
             lxDropdownMenu.parentCtrl = _parentCtrl;
+        }
+    }
+
+    lxDropdownFilter.$inject = ['$timeout'];
+
+    function lxDropdownFilter($timeout)
+    {
+        return {
+            restrict: 'A',
+            link: link
+        };
+
+        function link(scope, element)
+        {
+            element.bind('click', function(_event)
+            {
+                _event.stopPropagation();
+            });
+
+            $timeout(function()
+            {
+                element.find('input').focus();
+            }, 200);
         }
     }
 })();
