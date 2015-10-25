@@ -21,7 +21,7 @@
     background-color: $white;
     text-align: left;
     opacity: 0;
-    overflow: hidden;
+    overflow: auto;
     @include z-depth(1);
 
     ul {
@@ -33,7 +33,7 @@
     }
 }
 
-.dropdown__menu--is-dropped {
+.dropdown__menu--is-open {
     .dropdown-menu__content {
         opacity: 1;
     }
