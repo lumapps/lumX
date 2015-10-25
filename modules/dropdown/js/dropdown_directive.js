@@ -98,6 +98,7 @@
                         if (lxDropdown.escapeClose)
                         {
                             LxEventSchedulerService.unregister(idEventScheduler);
+                            idEventScheduler = undefined;
                         }
                     });
                 }
