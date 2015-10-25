@@ -1,5 +1,5 @@
 ///*------------------------------------*\
-//    #OBJECTS-DIALOG
+//    #DIALOG
 //\*------------------------------------*/
 
 // Dialog vars
@@ -28,7 +28,7 @@ $dialog-margin: $base-spacing-unit * 4;
 
 
 
-// Dialog base styles
+// Dialog
 .dialog {
     display: none;
     @include position(fixed, $dialog-margin null null 50%);
@@ -77,14 +77,16 @@ $dialog-margin: $base-spacing-unit * 4;
         overflow-x: hidden;
         overflow-y: auto;
     }
-
+    
+    .dialog__footer,
     .dialog__actions {
         @include position(absolute, null 0 0 0);
         border-top: 1px solid $black-4;
     }
 }
 
-    // Dialog actions
+    // Dialog: footer
+    .dialog__footer,
     .dialog__actions {
         padding: $base-spacing-unit $base-spacing-unit * 2;
         text-align: right;

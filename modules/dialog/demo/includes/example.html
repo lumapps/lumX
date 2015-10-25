@@ -1,7 +1,7 @@
 <button class="btn btn--m btn--black btn--flat" ng-click="opendDialog('test')" lx-ripple>Open dialog</button>
 
-<lx-dialog class="dialog dialog--l" id="test" auto-close="true" onclose="closingDialog()" onscrollend="scrollEndDialog()">
-    <div class="dialog__header">
+<lx-dialog id="test" lx-onscrollend="scrollEndDialog()">
+    <lx-dialog-header>
         <div class="toolbar bgc-light-blue-500 pl++">
             <span class="toolbar__label tc-white fs-title">
                 Lorem Ipsum
@@ -13,36 +13,43 @@
                 </button>
             </div>
         </div>
-    </div>
 
-    <div class="dialog__content">
-        <lx-tabs links-tc="light" links-bgc="light-blue-500" indicator="yellow-500" no-divider="true" layout="inline">
-            <lx-tab heading="Lorem Ipsum 1">
+        <lx-tabs lx-panes-id="lorem-ipsum"
+                 lx-links="[{label: 'Lorem Ipsum 1'}, {label: 'Lorem Ipsum 2'}, {label: 'Lorem Ipsum 3'}]"
+                 lx-layout="inline"
+                 lx-theme="dark"
+                 lx-color="light-blue"
+                 lx-indicator="yellow"></lx-tabs>
+    </lx-dialog-header>
+
+    <lx-dialog-content>
+        <lx-tabs-panes id="lorem-ipsum">
+            <lx-tab-pane>
                 <div class="p++">
                     <div ng-repeat="person in people">
                         {{ person.name }} - {{ person.email }} - {{ person.age }}
                     </div>
                 </div>
-            </lx-tab>
+            </lx-tab-pane>
 
-            <lx-tab heading="Lorem Ipsum 2">
-                <div class="p+">
+            <lx-tab-pane>
+                <div class="p++">
                     <p>Lorem Ipsum Content 2</p>
 
                     <lx-text-field label="Description">
                         <textarea ng-model="textFields.description"></textarea>
                     </lx-text-field>
                 </div>
-            </lx-tab>
+            </lx-tab-pane>
 
-            <lx-tab heading="Lorem Ipsum 3">
+            <lx-tab-pane>
                 <p class="p++">Lorem Ipsum Content 3</p>
-            </lx-tab>
-        </lx-tabs>
-    </div>
+            </lx-tab-pane>
+        </lx-panes>
+    </lx-dialog-content>
 
-    <div class="dialog__actions">
-        <button class="btn btn--m btn--black btn--flat" lx-ripple lx-dialog-close>Cancel</button>
-        <button class="btn btn--m btn--black btn--flat" lx-ripple>Lorem Ipsum</button>
-    </div>
+    <lx-dialog-footer>
+        <lx-button lx-color="black" lx-type="flat" lx-dialog-close>Cancel</lx-button>
+        <lx-button lx-type="flat" lx-dialog-close>Ok</lx-button>
+    </lx-dialog-footer>
 </lx-dialog>
