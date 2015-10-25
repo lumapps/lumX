@@ -12,7 +12,75 @@
             <p class="p+">Lorem Ipsum Content 3</p>
         </lx-tab>
     </lx-tabs>
+</div>
 
+<div class="card mt++">
+    Tab active : {{ ctrlData.activeTab }}
+    <lx-tabs lx-active-tab="ctrlData.activeTab">
+        <lx-tab lx-icon="car">
+            <p class="p+">Lorem Ipsum Content 1</p>
+        </lx-tab>
+
+        <lx-tab lx-icon="bus">
+            <p class="p+">Lorem Ipsum Content 2</p>
+        </lx-tab>
+
+        <lx-tab lx-icon="train">
+            <p class="p+">Lorem Ipsum Content 3</p>
+        </lx-tab>
+    </lx-tabs>
+
+    <button class="btn btn--m btn--blue btn--raised m+" ng-click="ctrlData.activeTab = 0" lx-ripple>Set active tab = 0</button>
+</div>
+
+<div class="card mt++">
+    <lx-tabs lx-color="green" lx-active-tab="1" lx-layout="inline">
+        <lx-tab lx-label="Lorem">
+            <p class="p+">Lorem Ipsum Content 1</p>
+        </lx-tab>
+
+        <lx-tab lx-label="Lorem Ipsum">
+            <p class="p+">Lorem Ipsum Content 2</p>
+        </lx-tab>
+
+        <lx-tab lx-label="Dolor">
+            <p class="p+">Lorem Ipsum Content 3</p>
+        </lx-tab>
+    </lx-tabs>
+</div>
+
+<div class="card mt++">
+    <lx-tabs lx-theme="dark" lx-color="light-blue" lx-indicator="yellow">
+        <lx-tab lx-label="Lorem Ipsum 1">
+            <p class="p+">Lorem Ipsum Content 1</p>
+        </lx-tab>
+
+        <lx-tab lx-label="Lorem Ipsum 2">
+            <p class="p+">Lorem Ipsum Content 2</p>
+        </lx-tab>
+
+        <lx-tab lx-label="Lorem Ipsum 3">
+            <p class="p+">Lorem Ipsum Content 3</p>
+        </lx-tab>
+    </lx-tabs>
+</div>
+
+<lx-tabs class="card mt++">
+    <lx-tab lx-label="{{ tab.heading }}" ng-repeat="tab in tabs">
+        <p class="p+">
+            {{ tab.content }}
+        </p>
+
+        <button class="btn btn--m btn--white btn--raised m+ mt0" ng-click="removeTab(tabs.indexOf(tab))" lx-ripple>Remove current tab</button>
+    </lx-tab>
+</lx-tabs>
+
+<div class="mt++">
+    <button class="btn btn--m btn--blue btn--raised" ng-click="addTab()" lx-ripple>Add a tab</button>
+    <button class="btn btn--m btn--white btn--raised" ng-click="removeFirstTab()" lx-ripple>Remove first tab</button>
+</div>
+
+<div class="card mt++">
     <lx-tabs lx-panes="lorem" lx-labels="['Lorem Ipsum 1', 'Lorem Ipsum 2', 'Lorem Ipsum 3']"></lx-tabs>
 
     <lx-tabs-panes id="lorem">
