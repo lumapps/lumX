@@ -73,7 +73,6 @@
     z-index: 1000;
     width: 330px;
     margin-left: -165px;
-    background-color: $white;
     opacity: 0;
     @include z-depth(3);
     @include transform(translateY(-50px));
@@ -110,6 +109,7 @@
 }
 
 .lx-date-picker__header {
+    border-radius: $base-round $base-round 0 0;
     padding: $base-spacing-unit * 2 $base-spacing-unit * 3;
 }
     
@@ -148,6 +148,7 @@
     // Date picker: calendar
     .lx-date-picker__calendar {
         height: 350px;
+        background-color: $white;
     }
 
     // Date picker: navigation
@@ -235,6 +236,7 @@
     .lx-date-picker__year-selector {
         position: relative;
         height: 350px;
+        background-color: $white;
         overflow: auto;
         -webkit-overflow-scrolling: touch;
     }
@@ -257,7 +259,9 @@
 
     // Date picker: actions
     .lx-date-picker__actions {
-        border-top: 1px solid $black-4;
         padding: $base-spacing-unit;
+        border-top: 1px solid $black-4;
+        border-radius: 0 0 $base-round $base-round;
+        background-color: $white;
         text-align: center;
     }
