@@ -2,6 +2,7 @@
   "laxbreak": true,
   "devel" : true,
   "globals": {
-    "angular": false
+    "angular": false,
+    "moment": false
   }
 }
