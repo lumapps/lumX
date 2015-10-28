@@ -123,7 +123,7 @@
             {
                 var date = angular.copy(previousDay.add(1, 'days'));
 
-                date.selected = date.isSame(lxDatePicker.ngModel, 'day');
+                date.selected = angular.isDefined(lxDatePicker.ngModel) && date.isSame(lxDatePicker.ngModel, 'day');
                 date.today = date.isSame(moment(), 'day');
 
                 lxDatePicker.days.push(date);
@@ -147,7 +147,7 @@
         {
             moment.locale(lxDatePicker.locale);
 
-            lxDatePicker.ngModelMomentFormatted = moment(lxDatePicker.ngModel).format('LL');
+            lxDatePicker.ngModelMomentFormatted = angular.isDefined(lxDatePicker.ngModel) ? moment(lxDatePicker.ngModel).format('LL') : undefined;
             lxDatePicker.days = [];
             lxDatePicker.daysOfWeek = [moment.weekdaysMin(1), moment.weekdaysMin(2), moment.weekdaysMin(3), moment.weekdaysMin(4), moment.weekdaysMin(5), moment.weekdaysMin(6), moment.weekdaysMin(0)];
             lxDatePicker.years = [];

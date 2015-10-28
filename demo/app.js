@@ -506,7 +506,8 @@ angular
         });
 
         $scope.datepicker = {
-            date: new Date()
+            date: new Date(),
+            emptyDate: undefined
         };
 
         var tabIndex = 4;

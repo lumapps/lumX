@@ -1,7 +1,11 @@
 <div class="lx-date">
     <!-- Date picker input -->
     <div class="lx-date__input-wrapper">
-        <lx-text-field class="lx-date-input" label="{{ lxDatePicker.inputLabel }}" ng-click="lxDatePicker.openPicker()">
+        <lx-text-field class="lx-date-input"
+                       label="{{ lxDatePicker.inputLabel }}"
+                       fixed-label="lxDatePicker.inputFixedLabel"
+                       icon="{{ lxDatePicker.inputIcon }}"
+                       ng-click="lxDatePicker.openPicker()">
             <input type="text" ng-model="lxDatePicker.ngModelMomentFormatted" ng-disabled="true">
         </lx-text-field>
 
