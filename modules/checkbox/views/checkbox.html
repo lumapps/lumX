@@ -6,7 +6,7 @@
            ng-model="lxCheckbox.ngModel"
            ng-true-value="{{ lxCheckbox.ngTrueValue }}"
            ng-false-value="{{ lxCheckbox.ngFalseValue }}"
-           ng-change="lxCheckbox.ngChange()"
+           ng-change="lxCheckbox.triggerNgChange()"
            ng-disabled="lxCheckbox.ngDisabled">
 
     <label for="{{ lxCheckbox.getCheckboxId() }}" class="checkbox__label" ng-transclude ng-if="!lxCheckbox.getCheckboxHasChildren()"></label>

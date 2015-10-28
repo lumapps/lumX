@@ -6,7 +6,7 @@
            ng-model="lxSwitch.ngModel"
            ng-true-value="{{ lxSwitch.ngTrueValue }}"
            ng-false-value="{{ lxSwitch.ngFalseValue }}"
-           ng-change="lxSwitch.ngChange()"
+           ng-change="lxSwitch.triggerNgChange()"
            ng-disabled="lxSwitch.ngDisabled">
 
     <label for="{{ lxSwitch.getSwitchId() }}" class="switch__label" ng-transclude ng-if="!lxSwitch.getSwitchHasChildren()"></label>

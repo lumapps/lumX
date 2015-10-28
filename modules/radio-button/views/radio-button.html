@@ -5,7 +5,7 @@
            name="{{ lxRadioButton.name }}"
            ng-model="lxRadioButton.ngModel"
            ng-value="lxRadioButton.ngValue"
-           ng-change="lxRadioButton.ngChange()"
+           ng-change="lxRadioButton.triggerNgChange()"
            ng-disabled="lxRadioButton.ngDisabled">
 
     <label for="{{ lxRadioButton.getRadioButtonId() }}" class="radio-button__label" ng-transclude ng-if="!lxRadioButton.getRadioButtonHasChildren()"></label>

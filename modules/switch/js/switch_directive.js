@@ -30,9 +30,9 @@
         };
     }
 
-    LxSwitchController.$inject = ['LxUtils'];
+    LxSwitchController.$inject = ['$timeout', 'LxUtils'];
 
-    function LxSwitchController(LxUtils)
+    function LxSwitchController($timeout, LxUtils)
     {
         var lxSwitch = this;
         var switchId;
@@ -42,6 +42,7 @@
         lxSwitch.getSwitchHasChildren = getSwitchHasChildren;
         lxSwitch.setSwitchId = setSwitchId;
         lxSwitch.setSwitchHasChildren = setSwitchHasChildren;
+        lxSwitch.triggerNgChange = triggerNgChange;
 
         init();
 
@@ -75,6 +76,11 @@
         function setSwitchHasChildren(_switchHasChildren)
         {
             switchHasChildren = _switchHasChildren;
+        }
+
+        function triggerNgChange()
+        {
+            $timeout(lxSwitch.ngChange);
         }
     }
 
