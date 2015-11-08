@@ -20,6 +20,8 @@
                 inputFixedLabel: '=?lxInputFixedLabel',
                 inputIcon: '@?lxInputIcon',
                 inputLabel: '@?lxInputLabel',
+                maxDate: '=?lxMaxDate',
+                minDate: '=?lxMinDate',
                 locale: '@lxLocale'
             },
             controller: LxDatePickerController,
@@ -58,8 +60,9 @@
 
         function clearDate()
         {
-            lxDatePicker.ngModelMomentFormatted = undefined;
             lxDatePicker.ngModel = undefined;
+            lxDatePicker.ngModelMoment = undefined;
+            lxDatePicker.ngModelMomentFormatted = undefined;
         }
 
         function closePicker()
@@ -106,8 +109,8 @@
         {
             lxDatePicker.days = [];
 
-            var previousDay = moment(lxDatePicker.ngModel).date(0);
-            var firstDayOfMonth = moment(lxDatePicker.ngModel).date(1);
+            var previousDay = angular.copy(lxDatePicker.ngModelMoment).date(0);
+            var firstDayOfMonth = angular.copy(lxDatePicker.ngModelMoment).date(1);
             var lastDayOfMonth = firstDayOfMonth.endOf('month');
             var maxDays = lastDayOfMonth.date();
 
@@ -125,6 +128,16 @@
 
                 date.selected = angular.isDefined(lxDatePicker.ngModel) && date.isSame(lxDatePicker.ngModel, 'day');
                 date.today = date.isSame(moment(), 'day');
+
+                if (angular.isDefined(lxDatePicker.minDate) && date.toDate() < lxDatePicker.minDate)
+                {
+                    date.disabled = true;
+                }
+
+                if (angular.isDefined(lxDatePicker.maxDate) && date.toDate() > lxDatePicker.maxDate)
+                {
+                    date.disabled = true;
+                }
 
                 lxDatePicker.days.push(date);
             }
@@ -147,6 +160,7 @@
         {
             moment.locale(lxDatePicker.locale);
 
+            lxDatePicker.ngModelMoment = angular.isDefined(lxDatePicker.ngModel) ? moment(angular.copy(lxDatePicker.ngModel)) : moment();
             lxDatePicker.ngModelMomentFormatted = angular.isDefined(lxDatePicker.ngModel) ? moment(lxDatePicker.ngModel).format('LL') : undefined;
             lxDatePicker.days = [];
             lxDatePicker.daysOfWeek = [moment.weekdaysMin(1), moment.weekdaysMin(2), moment.weekdaysMin(3), moment.weekdaysMin(4), moment.weekdaysMin(5), moment.weekdaysMin(6), moment.weekdaysMin(0)];
@@ -162,8 +176,7 @@
 
         function nextMonth()
         {
-            lxDatePicker.ngModelMomentFormatted = moment(lxDatePicker.ngModel).add(1, 'month').format('LL');
-            lxDatePicker.ngModel = moment(lxDatePicker.ngModel).add(1, 'month').toDate();
+            lxDatePicker.ngModelMoment = lxDatePicker.ngModelMoment.add(1, 'month');
 
             generateCalendar();
         }
@@ -210,26 +223,28 @@
 
         function previousMonth()
         {
-            lxDatePicker.ngModelMomentFormatted = moment(lxDatePicker.ngModel).subtract(1, 'month').format('LL');
-            lxDatePicker.ngModel = moment(lxDatePicker.ngModel).subtract(1, 'month').toDate();
+            lxDatePicker.ngModelMoment = lxDatePicker.ngModelMoment.subtract(1, 'month');
 
             generateCalendar();
         }
 
         function select(_day)
         {
-            lxDatePicker.ngModelMomentFormatted = _day.format('LL');
-            lxDatePicker.ngModel = _day.toDate();
+            if (!_day.disabled)
+            {
+                lxDatePicker.ngModel = _day.toDate();
+                lxDatePicker.ngModelMoment = angular.copy(_day);
+                lxDatePicker.ngModelMomentFormatted = _day.format('LL');
 
-            generateCalendar();
+                generateCalendar();
+            }
         }
 
         function selectYear(_year)
         {
             lxDatePicker.yearSelection = false;
 
-            lxDatePicker.ngModelMomentFormatted = moment(lxDatePicker.ngModel).year(_year).format('LL');
-            lxDatePicker.ngModel = moment(lxDatePicker.ngModel).year(_year).toDate();
+            lxDatePicker.ngModelMoment = lxDatePicker.ngModelMoment.year(_year);
 
             generateCalendar();
         }

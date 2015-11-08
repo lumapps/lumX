@@ -507,7 +507,9 @@ angular
 
         $scope.datepicker = {
             date: new Date(),
-            emptyDate: undefined
+            emptyDate: undefined,
+            minDate: new Date(new Date().getFullYear(), new Date().getMonth() - 2, new Date().getDate()),
+            maxDate: new Date(new Date().getFullYear(), new Date().getMonth() + 2, new Date().getDate())
         };
 
         var tabIndex = 4;

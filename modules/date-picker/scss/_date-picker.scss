@@ -229,7 +229,16 @@
     .lx-date-picker__day a:hover,
     .lx-date-picker__day--is-selected a {
         cursor: pointer;
-        color: $white-1 !important;
+        color: $white-1;
+    }
+
+    .lx-date-picker__day--is-disabled a {
+        color: $black-3 !important;
+        cursor: not-allowed !important;
+
+        &:hover {
+            background-color: transparent !important;
+        }
     }
 
     // Date picker: year selector
