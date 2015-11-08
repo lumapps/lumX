@@ -46,6 +46,10 @@
     input {
         cursor: pointer !important;
     }
+
+    input {
+        pointer-events: none;
+    }
 }
 
 .lx-date__clear {
