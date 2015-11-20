@@ -453,7 +453,7 @@ angular.module('lumx.dropdown', ['lumx.utils.event-scheduler'])
                 var timer;
 
                 ctrl.registerDropdownMenu(element);
-                element.on('click touchend', function(event)
+                element.on('click', function(event)
                 {
                     event.stopPropagation();
 
