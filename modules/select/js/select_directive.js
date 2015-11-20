@@ -384,7 +384,7 @@ angular.module('lumx.select', [])
             replace: true,
             link: function(scope, element, attrs, ngModel)
             {
-                scope.lxSelectMultiple = angular.isDefined(attrs.multiple);
+                scope.lxSelectMultiple = angular.isDefined(attrs.multiple) && scope.$eval(attrs.multiple) !== false;
                 scope.lxSelectFloatingLabel = angular.isDefined(attrs.floatingLabel);
                 scope.lxSelectTree = angular.isDefined(attrs.tree);
                 scope.lxSelectNgModel = ngModel;
