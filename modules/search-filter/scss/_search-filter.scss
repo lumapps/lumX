@@ -1,91 +1,62 @@
 ///*------------------------------------*\
-//    #OBJECTS-SEARCH-FILTER
+//    #SEARCH-FILTER
 //\*------------------------------------*/
 
-// Search filter base styles
+// Search filter
 .search-filter {
     position: relative;
     overflow: hidden;
+    height: $size-l;
 }
 
-.search-filter--is-closed {
+.search-filter--opened-mode {
+    width: 100%;
+}
+
+.search-filter--closed-mode {
     width: $size-l;
 }
 
-.search-filter--is-focused {
-    .search-filter__cancel {
-        @include transform(translateX(0));
-    }
-}
-
-.search-filter--dark-theme {
-    .search-filter__label {
-        color: $white-1;
-    }
-
-    .search-filter__input {
-        color: $white-1;
-    }
-
-    .search-filter__cancel {
-        color: $white-1;
-    }
-}
-
-.search-filter--light-theme {
-    .search-filter__label {
-        color: $black-1;
-    }
-
-    .search-filter__input {
-        color: $black-1;
-    }
-
-    .search-filter__cancel {
-        color: $black-1;
-    }
-}
-
-    // Search filter container
-    .search-filter__container {
-        position: relative;
-        @include size(240px $size-l);
-        padding: 0 $size-l 0 $size-xl;
-    }
-
-    // Search filter label
-    .search-filter__label {
-        @include position(absolute, 0 null null 0);
-        @include size($size-l);
-        @include font-size(24px);
-        cursor: pointer;
-        
-        .mdi {
-            @include position(absolute, 9px null null 8px);
+@each $key, $color in $colors {
+    .search-filter--#{$key} {
+        .search-filter__input input,
+        .search-filter__clear {
+            color: $color;
         }
-    }
 
-    // Search filter input
-    .search-filter__input {
-        display: block;
-        @include size(100% $size-l);
-        margin: 0;
-        padding: 0;
-        border: none;
-        outline: none;
-        background: none;
-
-        @include placeholder {
-            color: $black-3;
-
-            .search-filter--dark-theme & {
-                color: $white-2;
+        .search-filter__input input {
+            @include placeholder {
+                color: rgba($color, 0.5);
             }
         }
     }
+}
 
-    // Search filter cancel
-    .search-filter__cancel {
+    // Search filter: container
+    .search-filter__container {
+        position: relative;
+        height: $size-l;
+        padding: 0 $size-l 0 $size-xl;
+
+        .search-filter--closed-mode & {
+            width: 240px;
+        }
+    }
+
+    // Search filter: button
+    .search-filter__button {
+        @include position(absolute, 0 null null 0);
+        @include size($size-l);
+    }
+
+    // Search filter: input
+    .search-filter__input input {
+        @include text-field-reset();
+        @include size(100% $size-l);
+    }
+
+    // Search filter: clear
+    .search-filter__clear {
         @include position(absolute, 0 0 null null);
         @include size($size-l);
         @include font-size(24px);
@@ -96,7 +67,11 @@
         @include transition-duration(0.4s);
         @include transition-timing-function($ease-out-quint);
 
-        .mdi {
+        #{$base-icon-prefix} {
             line-height: $size-l;
-        } 
+        }
+    }
+
+    .search-filter__clear--is-shown {
+        @include transform(translateX(0));
     }

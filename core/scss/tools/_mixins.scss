@@ -51,3 +51,24 @@
     $icon-index: index($names, $icon);
     content: char(nth($hexes, $icon-index));
 }
+
+
+
+
+
+// Text field reset
+@mixin text-field-reset() {
+    display: block;
+    margin: 0;
+    padding: 0;
+    border: none;
+    background-color: transparent;
+    box-shadow: none;
+    overflow: hidden;
+    cursor: text;
+    @include appearance(none);
+
+    &:focus {
+        outline: none;
+    }
+}

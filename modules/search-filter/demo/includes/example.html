@@ -2,7 +2,9 @@
     <div flex-item>
         <div class="card">
             <div class="toolbar">
-                <lx-search-filter model="searchFilter.first" filter-width="100%"></lx-search-filter>
+                <lx-search-filter>
+                    <input type="text" ng-model="searchFilter.first">
+                </lx-search-filter>
             </div>
         </div>
     </div>
@@ -17,7 +19,9 @@
                         <i class="mdi mdi-apps"></i>
                     </button>
 
-                    <lx-search-filter model="searchFilter.second" position="right" closed></lx-search-filter>
+                    <lx-search-filter lx-closed="true">
+                        <input type="text" ng-model="searchFilter.second">
+                    </lx-search-filter>
                 </div>
             </div>
         </div>
@@ -31,7 +35,9 @@
                 <span class="toolbar__label fs-title tc-white-1 ml">Lorem Ipsum</span>
 
                 <div class="toolbar__right">
-                    <lx-search-filter model="searchFilter.third" position="right" filter-width="400px" theme="dark" closed></lx-search-filter>
+                    <lx-search-filter lx-width="400" lx-color="white" lx-closed="true">
+                        <input type="text" ng-model="searchFilter.third">
+                    </lx-search-filter>
 
                     <button class="btn btn--l btn--white btn--icon" lx-ripple>
                         <i class="mdi mdi-apps"></i>
@@ -44,7 +50,9 @@
     <div flex-item>
         <div class="card bgc-indigo-500">
             <div class="toolbar">
-                <lx-search-filter model="searchFilter.fourth" position="left" theme="dark" closed></lx-search-filter>
+                <lx-search-filter lx-color="white" lx-closed="true">
+                    <input type="text" ng-model="searchFilter.fourth">
+                </lx-search-filter>
 
                 <button class="btn btn--l btn--white btn--icon" lx-ripple>
                     <i class="mdi mdi-apps"></i>
@@ -58,7 +66,9 @@
     <div flex-item>
         <div class="card">
             <div class="toolbar">
-                <lx-search-filter model="searchFilter.fifth" filter-width="100%" placeholder="Search"></lx-search-filter>
+                <lx-search-filter>
+                    <input type="text" ng-model="searchFilter.fifth" placeholder="Search">
+                </lx-search-filter>
             </div>
         </div>
     </div>
@@ -69,7 +79,9 @@
                 <span class="toolbar__label fs-title tc-white-1 ml">Lorem Ipsum</span>
 
                 <div class="toolbar__right">
-                    <lx-search-filter model="searchFilter.sixth" position="right" theme="dark" closed placeholder="Search"></lx-search-filter>
+                    <lx-search-filter lx-color="white" lx-closed="true">
+                        <input type="text" ng-model="searchFilter.sixth" placeholder="Search">
+                    </lx-search-filter>
 
                     <button class="btn btn--l btn--white btn--icon" lx-ripple>
                         <i class="mdi mdi-apps"></i>

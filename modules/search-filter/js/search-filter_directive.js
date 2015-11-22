@@ -1,82 +1,139 @@
-/* global angular */
-'use strict'; // jshint ignore:line
+(function()
+{
+    'use strict';
 
+    angular
+        .module('lumx.search-filter', [])
+        .directive('lxSearchFilter', lxSearchFilter);
 
-angular.module('lumx.search-filter', [])
-    .directive('lxSearchFilter', ['$timeout', function($timeout)
+    /* @ngInject */
+    function lxSearchFilter()
     {
         return {
             restrict: 'E',
             templateUrl: 'search-filter.html',
-            scope: {
-                model: '=?',
-                theme: '@',
-                placeholder: '@'
-            },
-            link: function(scope, element, attrs)
+            scope:
             {
-                var $input = element.find('.search-filter__input'),
-                    $label = element.find('.search-filter__label'),
-                    $searchFilter = element.find('.search-filter'),
-                    $searchFilterContainer = element.find('.search-filter__container');
+                closed: '=?lxClosed',
+                color: '@?lxColor',
+                width: '@?lxWidth'
+            },
+            link: link,
+            controller: LxSearchFilterController,
+            controllerAs: 'lxSearchFilter',
+            bindToController: true,
+            replace: true,
+            transclude: true
+        };
 
-                scope.closed = angular.isDefined(attrs.closed);
+        function link(scope, element, attrs, ctrl, transclude)
+        {
+            transclude(function()
+            {
+                var input = element.find('input');
 
-                if (angular.isUndefined(scope.theme))
+                ctrl.setInput(input);
+                ctrl.setModel(input.data('$ngModelController'));
+
+                input.bind('blur', ctrl.blurInput);
+            });
+        }
+    }
+
+    /* @ngInject */
+    function LxSearchFilterController($element, $scope)
+    {
+        var lxSearchFilter = this;
+        var input;
+        var modelController;
+
+        lxSearchFilter.blurInput = blurInput;
+        lxSearchFilter.clearInput = clearInput;
+        lxSearchFilter.getWidth = getWidth;
+        lxSearchFilter.openInput = openInput;
+        lxSearchFilter.setInput = setInput;
+        lxSearchFilter.setModel = setModel;
+
+        lxSearchFilter.color = angular.isDefined(lxSearchFilter.color) ? lxSearchFilter.color : 'black';
+
+        ////////////
+
+        function blurInput()
+        {
+            if (angular.isDefined(lxSearchFilter.closed) && lxSearchFilter.closed && !modelController.$modelValue)
+            {
+                $element.velocity(
                 {
-                    scope.theme = 'light';
-                }
-
-                attrs.$observe('filterWidth', function(filterWidth)
+                    width: 40
+                },
                 {
-                    $searchFilterContainer.css({ width: filterWidth });
+                    duration: 400,
+                    easing: 'easeOutQuint',
+                    queue: false
                 });
+            }
+        }
 
-                // Events
-                $input
-                    .on('blur', function()
-                    {
-                        if (angular.isDefined(attrs.closed) && !$input.val())
-                        {
-                            $searchFilter.velocity({ 
-                                width: 40
-                            }, {
-                                duration: 400,
-                                easing: 'easeOutQuint',
-                                queue: false
-                            });
-                        }
-                    });
+        function clearInput()
+        {
+            modelController.$setViewValue(undefined);
+            modelController.$render();
 
-                $label.on('click', function()
-                {
-                    if (angular.isDefined(attrs.closed))
-                    {
-                        $searchFilter.velocity({ 
-                            width: attrs.filterWidth ? attrs.filterWidth: 240
-                        }, {
-                            duration: 400,
-                            easing: 'easeOutQuint',
-                            queue: false
-                        });
+            input.focus();
+        }
 
-                        $timeout(function()
-                        {
-                            $input.focus();
-                        }, 401);
-                    }
-                    else
-                    {
-                        $input.focus();
-                    }
-                });
-
-                scope.clear = function()
-                {
-                    scope.model = undefined;
-
-                    $input.focus();
+        function getWidth()
+        {
+            if (angular.isDefined(lxSearchFilter.width) && angular.isDefined(lxSearchFilter.closed) && lxSearchFilter.closed)
+            {
+                return {
+                    'width': lxSearchFilter.width + 'px'
                 };
             }
-        };
-    }]);
+        }
+
+        function hasClearButton(_newModel)
+        {
+            lxSearchFilter.showClearButton = angular.isDefined(_newModel) && _newModel;
+        }
+
+        function openInput()
+        {
+            if (angular.isDefined(lxSearchFilter.closed) && lxSearchFilter.closed)
+            {
+                $element.velocity(
+                {
+                    width: angular.isDefined(lxSearchFilter.width) ? lxSearchFilter.width : 240
+                },
+                {
+                    duration: 400,
+                    easing: 'easeOutQuint',
+                    queue: false,
+                    complete: function()
+                    {
+                        input.focus();
+                    }
+                });
+            }
+            else
+            {
+                input.focus();
+            }
+        }
+
+        function setInput(_input)
+        {
+            input = _input;
+        }
+
+        function setModel(_modelControler)
+        {
+            modelController = _modelControler;
+
+            $scope.$watch(function()
+            {
+                return modelController.$modelValue;
+            }, hasClearButton);
+        }
+    }
+})();

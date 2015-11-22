@@ -2,27 +2,6 @@
 //    #OBJECTS-TEXT-FIELD
 //\*------------------------------------*/
 
-// Text field mixins
-@mixin text-field-reset() {
-    display: block;
-    margin: 0;
-    padding: 0;
-    border: none;
-    background-color: transparent;
-    box-shadow: none;
-    overflow: hidden;
-    cursor: text;
-    @include appearance(none);
-
-    &:focus {
-        outline: none;
-    }
-}
-
-
-
-
-
 // Text field base styles
 .text-field {
     position: relative;
