@@ -1,22 +1,19 @@
 <div lx-dropdown-toggle>
-    <span class="lx-select__floating-label" ng-if="lxSelectGetSelectedElements().length !== 0 && lxSelectFloatingLabel" ng-bind-html="lxSelectTrust(lxSelectPlaceholder)"></span>
+    <span class="lx-select-label"
+          ng-class="{ 'lx-select-label--floating': lxSelectSelected.parentCtrl.floatingLabel }">
+        {{ lxSelectSelected.parentCtrl.placeholder }}
+    </span>
 
-    <div class="lx-select__selected"
-         ng-class="{ 'lx-select__selected--is-unique': !lxSelectMultiple,
-                     'lx-select__selected--is-multiple': lxSelectMultiple && lxSelectGetSelectedElements().length > 0,
-                     'lx-select__selected--placeholder': lxSelectGetSelectedElements().length === 0 }"
-         lx-ripple>
-        <span ng-if="lxSelectGetSelectedElements().length === 0" ng-bind-html="lxSelectTrust(lxSelectPlaceholder)"></span>
+    <div class="lx-select-selected" ng-if="!lxSelectSelected.parentCtrl.multiple && lxSelectSelected.parentCtrl.getSelectedModel()">
+        <span ng-bind-html="lxSelectSelected.parentCtrl.displaySelected()"></span>
 
-        <div ng-if="!lxSelectMultiple && lxSelectGetSelectedElements().length === 1">
-            <i class="lx-select__close mdi mdi-close-circle" ng-click="lxSelectUnselect($selected, $event)" ng-if="lxSelectAllowClear"></i>
-            <span ng-transclude="child"></span>
-        </div>
+        <a ng-click="lxSelectSelected.clearModel()" ng-if="lxSelectSelected.parentCtrl.allowClear">
+            <i class="mdi mdi-close-circle"></i>
+        </a>
+    </div>
 
-        <div ng-if="lxSelectMultiple">
-            <div class="lx-select__tag" ng-repeat="$selected in lxSelectGetSelectedElements()">
-                <span ng-transclude="child"></span>
-            </div>
-        </div>
+    <div class="lx-select-selected" ng-if="lxSelectSelected.parentCtrl.multiple && lxSelectSelected.parentCtrl.getSelectedModel().length">
+        <span ng-repeat="selected in lxSelectSelected.parentCtrl.getSelectedModel()"
+              ng-bind-html="lxSelectSelected.parentCtrl.displaySelected(selected)"></span>
     </div>
 </div>

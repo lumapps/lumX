@@ -1,10 +1,12 @@
 <div class="lx-select"
-     ng-class="{ 'lx-select--is-unique': !lxSelectMultiple,
-                 'lx-select--is-multiple': lxSelectMultiple,
-                 'lx-select--is-valid': lxSelectValid(),
-                 'lx-select--has-error': lxSelectError(),
-                 'lx-select--is-disabled': lxSelectDisabled() }">
-    <lx-dropdown lx-width="100%" lx-over-toggle="true" lx-embed="true">
-        <div ng-transclude="child"></div>
+     ng-class="{ 'lx-select--is-unique': !lxSelect.multiple,
+                 'lx-select--is-multiple': lxSelect.multiple,
+                 'lx-select--is-disabled': lxSelect.ngDisabled,
+                 'lx-select--valid': lxSelect.valid,
+                 'lx-select--error': lxSelect.error,
+                 'lx-select--default-style': !lxSelect.customStyle,
+                 'lx-select--custom-style': lxSelect.customStyle }">
+    <lx-dropdown lx-over-toggle="true">
+        <ng-transclude></ng-transclude>
     </lx-dropdown>
 </div>
