@@ -1,13 +1,13 @@
 <div lx-dropdown-toggle>
     <span class="lx-select-label"
-          ng-class="{ 'lx-select-label--floating': lxSelectSelected.parentCtrl.floatingLabel }">
-        {{ lxSelectSelected.parentCtrl.placeholder }}
+          ng-class="::{ 'lx-select-label--floating': lxSelectSelected.parentCtrl.floatingLabel }">
+        {{ ::lxSelectSelected.parentCtrl.placeholder }}
     </span>
 
     <div class="lx-select-selected" ng-if="!lxSelectSelected.parentCtrl.multiple && lxSelectSelected.parentCtrl.getSelectedModel()">
         <span ng-bind-html="lxSelectSelected.parentCtrl.displaySelected()"></span>
 
-        <a ng-click="lxSelectSelected.clearModel()" ng-if="lxSelectSelected.parentCtrl.allowClear">
+        <a ng-click="lxSelectSelected.clearModel()" ng-if="::lxSelectSelected.parentCtrl.allowClear">
             <i class="mdi mdi-close-circle"></i>
         </a>
     </div>
