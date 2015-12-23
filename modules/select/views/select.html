@@ -6,7 +6,13 @@
                  'lx-select--error': lxSelect.error,
                  'lx-select--default-style': !lxSelect.customStyle,
                  'lx-select--custom-style': lxSelect.customStyle }">
-    <lx-dropdown lx-over-toggle="true">
+    <span class="lx-select-label"
+          ng-class="{ 'lx-select-label--fixed': lxSelect.fixedLabel,
+                      'lx-select-label--is-active': (!lxSelect.multiple && lxSelect.getSelectedModel()) || (lxSelect.multiple && lxSelect.getSelectedModel().length) }">
+        {{ ::lxSelect.placeholder }}
+    </span>
+
+    <lx-dropdown lx-width="100%">
         <ng-transclude></ng-transclude>
     </lx-dropdown>
 </div>

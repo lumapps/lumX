@@ -1,16 +1,5 @@
 <lx-dropdown-menu class="lx-select-choices">
     <ul>
-        <li class="lx-select-choices__selected"
-            ng-if="!lxSelectChoices.parentCtrl.multiple && lxSelectChoices.parentCtrl.getSelectedModel()">
-            <span ng-bind-html="::lxSelectChoices.parentCtrl.displaySelected()"></span>
-        </li>
-
-        <li class="lx-select-choices__selected"
-            ng-if="lxSelectChoices.parentCtrl.multiple && lxSelectChoices.parentCtrl.getSelectedModel().length">
-            <span ng-repeat="selected in lxSelectChoices.parentCtrl.getSelectedModel()"
-                  ng-bind-html="::lxSelectChoices.parentCtrl.displaySelected(selected)"></span>
-        </li>
-
         <li class="lx-select-choices__filter" ng-if="::lxSelectChoices.parentCtrl.displayFilter">
             <lx-search-filter lx-dropdown-filter>
                 <input type="text" ng-model="lxSelectChoices.filterModel" ng-change="lxSelectChoices.updateFilter()">
@@ -19,7 +8,7 @@
         
         <div ng-if="::lxSelectChoices.isArray()">
             <li class="lx-select-choices__choice"
-                ng-class="::{ 'lx-select-choices__choice--is-selected': lxSelectChoices.isSelected(choice) }"
+                ng-class="{ 'lx-select-choices__choice--is-selected': lxSelectChoices.isSelected(choice) }"
                 ng-repeat="choice in lxSelectChoices.parentCtrl.choices | filterChoices:lxSelectChoices.parentCtrl.filter:lxSelectChoices.filterModel"
                 ng-bind-html="::lxSelectChoices.parentCtrl.displayChoice(choice)"
                 ng-click="lxSelectChoices.toggleChoice(choice, $event)"></li>
@@ -31,7 +20,7 @@
                 ng-bind-html="::lxSelectChoices.parentCtrl.displaySubheader(subheader)"></li>
 
             <li class="lx-select-choices__choice"
-                ng-class="::{ 'lx-select-choices__choice--is-selected': lxSelectChoices.isSelected(choice) }"
+                ng-class="{ 'lx-select-choices__choice--is-selected': lxSelectChoices.isSelected(choice) }"
                 ng-repeat-end
                 ng-repeat="choice in children | filterChoices:lxSelectChoices.parentCtrl.filter:lxSelectChoices.filterModel"
                 ng-bind-html="::lxSelectChoices.parentCtrl.displayChoice(choice)"

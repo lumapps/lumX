@@ -225,7 +225,7 @@
             {
                 right: lxDropdown.position === 'right' ? 0 : 'auto',
                 left: lxDropdown.position === 'right' ? 'auto' : 0,
-                width: angular.isDefined(lxDropdown.width) ? parseInt(lxDropdown.width) : 'auto'
+                width: angular.isDefined(lxDropdown.width) ? lxDropdown.width : 'auto'
             });
 
             if (dropdownMenuTopAvailable > dropdownMenuBottomAvailable)

@@ -1,10 +1,16 @@
 <div flex-container="row" flex-gutter="24">
     <div flex-item>
+        <lx-text-field label="Last name">
+            <input type="text" ng-model="textFields.lastName">
+        </lx-text-field>
+    </div>
+
+    <div flex-item>
         <lx-select ng-change="cbSelect.exec"
                    ng-model="selects.selectedPerson"
+                   lx-allow-clear="true"
                    lx-choices="people"
                    lx-display-filter="true"
-                   lx-floating-label="true"
                    lx-placeholder="Lorem Ipsum">
             <lx-select-selected>
                 {{ $selected.name + ' ' + $selected.age }}
@@ -44,7 +50,6 @@
     <div flex-item>
         <lx-select ng-model="selects.selectedPersons"
                    lx-choices="people"
-                   lx-floating-label="true"
                    lx-multiple="true"
                    lx-placeholder="Lorem Ipsum">
             <lx-select-selected>
@@ -60,7 +65,6 @@
     <div flex-item>
         <lx-select ng-model="selects.selectedPersons2"
                    lx-choices="selectSections"
-                   lx-floating-label="true"
                    lx-multiple="true"
                    lx-placeholder="Lorem Ipsum">
             <lx-select-selected>
