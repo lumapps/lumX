@@ -1,17 +1,18 @@
-<div class="text-field text-field--{{ theme }}-theme"
-     ng-class="{ 'text-field--is-valid': valid(),
-                 'text-field--has-error': error(),
-                 'text-field--is-disabled': disabled(),
-                 'text-field--fixed-label': fixedLabel(),
-                 'text-field--is-active': data.model || data.focused,
-                 'text-field--is-focused': data.focused,
-                 'text-field--label-hidden': fixedLabel() && data.model,
-                 'text-field--with-icon': icon && fixedLabel() }">
-    <label class="text-field__label" ng-bind-html="label | unsafe"></label>
-
-    <div class="text-field__icon" ng-if="icon && fixedLabel() ">
-        <i class="mdi mdi-{{ icon }}"></i>
+<div class="text-field"
+     ng-class="{ 'text-field--is-active': lxTextField.isActive,
+                 'text-field--is-focus': lxTextField.isFocus,
+                 'text-field--is-disabled': lxTextField.ngDisabled,
+                 'text-field--fixed-label': lxTextField.fixedLabel,
+                 'text-field--valid': lxTextField.valid,
+                 'text-field--error': lxTextField.error,
+                 'text-field--with-icon': lxTextField.icon && lxTextField.fixedLabel }">
+    <div class="text-field__icon" ng-if="lxTextField.icon && lxTextField.fixedLabel">
+        <i class="mdi mdi-{{ lxTextField.icon }}"></i>
     </div>
 
-    <div ng-transclude="1"></div>
+    <label class="text-field__label" ng-if="!lxTextField.fixedLabel || (lxTextField.fixedLabel && !lxTextField.hasModel())">
+        {{ lxTextField.label }}
+    </label>
+
+    <div ng-transclude></div>
 </div>
