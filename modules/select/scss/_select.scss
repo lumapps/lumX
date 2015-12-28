@@ -33,6 +33,14 @@
     }
 }
 
+.lx-select--is-disabled {
+    pointer-events: none;
+
+    &:before {
+        border-bottom-style: dashed;
+    }
+}
+
 
 
 
@@ -41,7 +49,7 @@
 .lx-select-label {
     display: block;
     @include position(absolute, $base-spacing-unit null null 0);
-    color: $black-3;
+    color: $black-2;
     line-height: 32px;
     pointer-events: none;
     @include transform(translateY($base-spacing-unit * 3));
@@ -52,7 +60,10 @@
 
     &.lx-select-label--is-active {
         @include transform(scale(0.75) translateY(0));
-        color: $black-2
+    }
+
+    .lx-select--is-disabled & {
+        color: $black-3;
     }
 }
 
@@ -104,6 +115,10 @@
     .lx-select-selected__value {
         display: block;
         line-height: 32px;
+
+        .lx-select--is-disabled & {
+            color: $black-3;
+        }
     }
     
     // Select selected: clear
@@ -156,6 +171,14 @@
 
             &:after {
                 color: $white-1;
+            }
+        }
+
+        .lx-select--is-disabled & {
+            color: $black-3;
+
+            &:after {
+                display: none;
             }
         }
     }
