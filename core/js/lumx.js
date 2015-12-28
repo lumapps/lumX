@@ -2,7 +2,6 @@
 
 angular.module('lumx.utils', [
     'lumx.utils.event-scheduler',
-    'lumx.utils.transclude',
     'lumx.utils.transclude-replace',
     'lumx.utils.utils'
 ]);
