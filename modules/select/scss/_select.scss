@@ -41,6 +41,20 @@
     }
 }
 
+.lx-select--valid {
+    &:after {
+        background-color: $green;
+        @include transform(scale(1));
+    }
+}
+
+.lx-select--error {
+    &:after {
+        background-color: $red;
+        @include transform(scale(1));
+    }
+}
+
 
 
 
@@ -64,6 +78,14 @@
 
     .lx-select--is-disabled & {
         color: $black-3;
+    }
+
+    .lx-select--valid & {
+        color: $green;
+    }
+
+    .lx-select--error & {
+        color: $red;
     }
 }
 
