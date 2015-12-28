@@ -18,7 +18,6 @@ angular.module('lumx', [
     'lumx.progress',
     'lumx.radio-button',
     'lumx.ripple',
-    'lumx.scrollbar',
     'lumx.search-filter',
     'lumx.select',
     'lumx.switch',

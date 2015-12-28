@@ -131,18 +131,14 @@ angular
         {
             templateUrl: '/includes/modules/thumbnail/thumbnail.html'
         }).
-        when('/directives/scrollbar',
-            {
-                templateUrl: '/includes/modules/scrollbar/scrollbar.html'
-            })
-            .when('/services/notifications',
-            {
-                templateUrl: '/includes/modules/notification/notification.html'
-            })
-            .when('/services/progress',
-            {
-                templateUrl: '/includes/modules/progress/progress.html'
-            });
+        when('/services/notifications',
+        {
+            templateUrl: '/includes/modules/notification/notification.html'
+        }).
+        when('/services/progress',
+        {
+            templateUrl: '/includes/modules/progress/progress.html'
+        });
     })
     .controller('AppController', function($http, $scope, $location, LxNotificationService, LxDialogService, LxProgressService, Sidebar)
     {
@@ -380,22 +376,9 @@ angular
 
         $scope.selectedTags = [$scope.people[1], $scope.people[2]];
 
-        $scope.scrollbarHeight = 150;
-        $scope.scrollbarContent = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi commodo varius nisl, quis tempor nunc scelerisque eget. Nam ultricies nulla et felis sollicitudin, eget facilisis neque fringilla. Aliquam malesuada, massa sit amet vehicula ultrices, erat tortor pretium enim, at mattis enim tellus eget felis. Duis euismod mollis ligula nec commodo. Aenean laoreet molestie ex id porta. Etiam vitae libero ac augue pellentesque tempor at id felis. Donec finibus purus non tortor sollicitudin consequat. Curabitur sit amet tincidunt odio. Pellentesque in accumsan nibh. Nulla quis rutrum lectus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi commodo varius nisl, quis tempor nunc scelerisque eget. Nam ultricies nulla et felis sollicitudin, eget facilisis neque fringilla. Aliquam malesuada, massa sit amet vehicula ultrices, erat tortor pretium enim, at mattis enim tellus eget felis. Duis euismod mollis ligula nec commodo. Aenean laoreet molestie ex id porta. Etiam vitae libero ac augue pellentesque tempor at id felis. Donec finibus purus non tortor sollicitudin consequat. Curabitur sit amet tincidunt odio. Pellentesque in accumsan nibh. Nulla quis rutrum lectus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi commodo varius nisl, quis tempor nunc scelerisque eget. Nam ultricies nulla et felis sollicitudin, eget facilisis neque fringilla. Aliquam malesuada, massa sit amet vehicula ultrices, erat tortor pretium enim, at mattis enim tellus eget felis. Duis euismod mollis ligula nec commodo. Aenean laoreet molestie ex id porta. Etiam vitae libero ac augue pellentesque tempor at id felis. Donec finibus purus non tortor sollicitudin consequat. Curabitur sit amet tincidunt odio. Pellentesque in accumsan nibh. Nulla quis rutrum lectus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi commodo varius nisl, quis tempor nunc scelerisque eget. Nam ultricies nulla et felis sollicitudin, eget facilisis neque fringilla. Aliquam malesuada, massa sit amet vehicula ultrices, erat tortor pretium enim, at mattis enim tellus eget felis. Duis euismod mollis ligula nec commodo. Aenean laoreet molestie ex id porta. Etiam vitae libero ac augue pellentesque tempor at id felis. Donec finibus purus non tortor sollicitudin consequat. Curabitur sit amet tincidunt odio. Pellentesque in accumsan nibh. Nulla quis rutrum lectus.';
-
         $scope.dropdownAlert = function()
         {
             LxNotificationService.info('Clicked!');
-        };
-
-        $scope.changeScrollbarHeight = function(height)
-        {
-            $scope.scrollbarHeight = height;
-        };
-
-        $scope.changeScrollbarContent = function(content)
-        {
-            $scope.scrollbarContent = content;
         };
 
         $scope.opendDialog = function(dialogId)
