@@ -58,6 +58,8 @@
                 error: '=?lxError',
                 filter: '&?lxFilter',
                 fixedLabel: '=?lxFixedLabel',
+                helper: '=?lxHelper',
+                helperMessage: '@?lxHelperMessage',
                 loading: '=?lxLoading',
                 modelToSelection: '&?lxModelToSelection',
                 multiple: '=?lxMultiple',

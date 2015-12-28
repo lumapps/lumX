@@ -27,6 +27,10 @@
                 ng-click="lxSelectChoices.toggleChoice(choice, $event)"></li>
         </div>
 
+        <li class="lx-select-choices__subheader" ng-if="lxSelectChoices.parentCtrl.helper">
+            {{ lxSelectChoices.parentCtrl.helperMessage }}
+        </li>
+
         <li ng-if="lxSelectChoices.parentCtrl.loading">
             <lx-progress lx-type="circular" lx-color="primary" lx-diameter="20"></lx-progress>
         </li>
