@@ -1,11 +1,11 @@
 ///*------------------------------------*\
-//    #OBJECTS-TOOLTIP
+//    #TOOLTIP
 //\*------------------------------------*/
 
-// Tooltip base styles
+// Tooltip
 .tooltip {
 	position: absolute;
-	z-index: 9999;
+    z-index: 9999;
 	border-radius: $base-round;
 	opacity: 0;
 	overflow: hidden;
@@ -19,19 +19,43 @@
 	opacity: 1;
 
 	&.tooltip--top {
-		@include transform(translateY(-($base-spacing-unit)));
+        @include media-query(portable) {
+            @include transform(translateY(-24px));
+        }
+
+        @include media-query(desk) {
+            @include transform(translateY(-14px));
+        }
 	}
 
 	&.tooltip--bottom {
-		@include transform(translateY($base-spacing-unit));
+        @include media-query(portable) {
+            @include transform(translateY(24px));
+        }
+
+        @include media-query(desk) {
+            @include transform(translateY(14px));
+        }
 	}
 
 	&.tooltip--left {
-		@include transform(translateX(-($base-spacing-unit)));
+        @include media-query(portable) {
+            @include transform(translateX(-24px));
+        }
+
+        @include media-query(desk) {
+            @include transform(translateX(-14px));
+        }
 	}
 
 	&.tooltip--right {
-		@include transform(translateX($base-spacing-unit));
+        @include media-query(portable) {
+            @include transform(translateX(24px));
+        }
+
+        @include media-query(desk) {
+            @include transform(translateX(14px));
+        }
 	}
 }
 
@@ -40,6 +64,7 @@
 		@include position(absolute, 0 0 0 0);
 		z-index: -1;
 		border-radius: 50%;
+        background-color: $grey-700;
 		@include transform(scale(0) translateY(50%));
 		@include transition-property(transform);
    		@include transition-duration(0.6s);
@@ -49,36 +74,21 @@
 	// Tooltip label
 	.tooltip__label {
 		display: block;
-		padding: 0 $base-spacing-unit;
-		@include font-size(11px);
-		line-height: 22px;
+        color: $white-1;
 		white-space: nowrap;
+
+        @include media-query(portable) {
+            padding: 0 $base-spacing-unit * 2;
+            @include font-size(14px);
+            line-height: 32px;
+        }
+
+        @include media-query(desk) {
+            padding: 0 $base-spacing-unit;
+            @include font-size(10px);
+            line-height: 22px;
+        }
 	}
-
-
-
-
-
-// Tooltip skin modifiers
-.tooltip--black {
-	.tooltip__background {
-		background-color: $grey-600;
-	}
-
-	.tooltip__label {
-		color: $white-1;
-	}
-}
-
-.tooltip--white {
-	.tooltip__background {
-		background-color: $grey-200;
-	}
-
-	.tooltip__label {
-		color: $black-1;
-	}
-}
 
 
 
