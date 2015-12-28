@@ -1,6 +1,6 @@
 <div flex-container="row" flex-gutter="24">
     <div flex-item>
-        <lx-text-field label="Last name">
+        <lx-text-field lx-label="Last name">
             <input type="text" ng-model="textFields.lastName">
         </lx-text-field>
     </div>
@@ -12,7 +12,7 @@
                    lx-choices="people"
                    lx-display-filter="true"
                    lx-fixed-label="true"
-                   lx-placeholder="Lorem Ipsum">
+                   lx-label="Lorem Ipsum">
             <lx-select-selected>
                 {{ $selected.name + ' ' + $selected.age }}
             </lx-select-selected>
@@ -32,9 +32,9 @@
                    lx-filter="ajax.update"
                    lx-helper="!ajax.list.length"
                    lx-helper-message="Type minimum 2 to search"
+                   lx-label="Lorem Ipsum"
                    lx-loading="ajax.loading"
                    lx-model-to-selection="ajax.toSelection"
-                   lx-placeholder="Lorem Ipsum"
                    lx-selection-to-model="ajax.toModel">
             <lx-select-selected>
                 {{ $selected.Title }} ({{ $selected.Year }})
@@ -53,8 +53,8 @@
     <div flex-item>
         <lx-select ng-model="selects.selectedPersons"
                    lx-choices="people"
-                   lx-multiple="true"
-                   lx-placeholder="Lorem Ipsum">
+                   lx-label="Lorem Ipsum"
+                   lx-multiple="true">
             <lx-select-selected>
                 {{ $selected.name }} - {{ $selected.age }}
             </lx-select-selected>
@@ -68,8 +68,8 @@
     <div flex-item>
         <lx-select ng-model="selects.selectedPersons2"
                    lx-choices="selectSections"
-                   lx-multiple="true"
-                   lx-placeholder="Lorem Ipsum">
+                   lx-label="Lorem Ipsum"
+                   lx-multiple="true">
             <lx-select-selected>
                 {{ $selected.uid }} - {{ $selected.name }}
             </lx-select-selected>
