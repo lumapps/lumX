@@ -31,7 +31,7 @@
             {{ lxSelectChoices.parentCtrl.helperMessage }}
         </li>
 
-        <li ng-if="lxSelectChoices.parentCtrl.loading">
+        <li class="lx-select-choices__loader" ng-if="lxSelectChoices.parentCtrl.loading">
             <lx-progress lx-type="circular" lx-color="primary" lx-diameter="20"></lx-progress>
         </li>
     </ul>

@@ -309,3 +309,10 @@
             color: $black-3;
         }
     }
+    
+    // Select choices: loader
+    .lx-select--default-style .lx-select-choices__loader {
+        @include display(flex);
+        @include flex-direction(row);
+        @include justify-content(center);
+    }
