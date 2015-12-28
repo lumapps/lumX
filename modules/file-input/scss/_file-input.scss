@@ -22,7 +22,7 @@
     &:after {
         @include position(absolute, null 0 $base-spacing-unit - 2 0);
         height: 2px;
-        background-color: $blue-500;
+        background-color: $blue;
         @include transform(scale(0));
         @include transition-property(transform);
         @include transition-duration(0.6s);
@@ -30,23 +30,9 @@
     }
 }
 
-.input-file--is-active {
-    .input-file__label {
-        @include transform(scale(0.75) translateY(0));
-    }
-
-    .input-file__filename {
-        opacity: 1;
-    }
-}
-
-.input-file--is-focused {
+.input-file--is-focus {
     &:after {
         @include transform(scale(1));
-    }
-
-    .input-file__label {
-        color: $blue-500;
     }
 }
     
@@ -54,7 +40,7 @@
     .input-file__label {
         display: block;
         @include position(absolute, $base-spacing-unit null null 0);
-        color: $black-3;
+        color: $black-2;
         line-height: 32px;
         pointer-events: none;
         @include transform(translateY($base-spacing-unit * 3));
@@ -62,6 +48,14 @@
         @include transition-property(transform, color);
         @include transition-duration(0.4s);
         @include transition-timing-function($ease-out-quint);
+
+        .input-file--is-active & {
+            @include transform(scale(0.75) translateY(0));
+        }
+
+        .input-file--is-focus & {
+            color: $blue;
+        }
     }
 
     // Input file filename
@@ -69,7 +63,6 @@
         display: block;
         @include size(100% $base-spacing-unit * 4);
         overflow: hidden;
-        opacity: 0;
         line-height: 32px;
         text-overflow: ellipsis;
         white-space: nowrap;

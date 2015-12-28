@@ -1,71 +1,77 @@
-/* global angular */
-'use strict'; // jshint ignore:line
+(function()
+{
+    'use strict';
 
+    angular
+        .module('lumx.file-input', [])
+        .directive('lxFileInput', lxFileInput);
 
-angular.module('lumx.file-input', [])
-    .directive('lxFileInput', ['$timeout', function($timeout)
+    function lxFileInput()
     {
         return {
             restrict: 'E',
-            scope: {
-                label: '@',
-                value: '=',
-                change: '&'
-            },
             templateUrl: 'file-input.html',
-            replace: true,
-            link: function(scope, element)
+            scope:
             {
-                var $input = element.find('input'),
-                    $fileName = element.find('.input-file__filename');
-
-                $input
-                    .addClass('input-file__input')
-                    .on('change', function()
-                    {
-                        $timeout(function()
-                        {
-                            setFileName($input.val());
-                            element.addClass('input-file--is-focused');
-                        });
-
-                        // handle change function
-                        if (angular.isDefined(scope.change))
-                        {
-                            // return the file element, the new value and the old value to the callback
-                            scope.change({e: $input[0].files[0], newValue: $input.val(), oldValue: $fileName.text()});
-                        }
-                    })
-                    .on('blur', function()
-                    {
-                        element.removeClass('input-file--is-focused');
-                    });
-
-                function setFileName(val)
-                {
-                    $input.val('');
-                    if (val)
-                    {
-                        $fileName.text(val.replace(/C:\\fakepath\\/i, ''));
-
-                        element.addClass('input-file--is-active');
-                    }
-                    else
-                    {
-                        $fileName.text('');
-                        if (element.hasClass('input-file--is-active'))
-                        {
-                            element.removeClass('input-file--is-active');
-                        }
-                    }
-
-                    scope.value = $fileName.text();
-                }
-
-                scope.$watch('value', function(value)
-                {
-                    setFileName(value);
-                });
-            }
+                label: '@lxLabel',
+                change: '&?lxChange'
+            },
+            link: link,
+            controller: LxFileInputController,
+            controllerAs: 'lxFileInput',
+            bindToController: true,
+            replace: true
         };
-    }]);
+
+        function link(scope, element, attrs, ctrl)
+        {
+            element.find('input')
+                .bind('change', ctrl.updateModel)
+                .on('blur', function()
+                {
+                    element.removeClass('input-file--is-focus');
+                });
+        }
+    }
+
+    LxFileInputController.$inject = ['$element', '$timeout'];
+
+    function LxFileInputController($element, $timeout)
+    {
+        var lxFileInput = this;
+        var input = $element.find('input');
+
+        lxFileInput.updateModel = updateModel;
+
+        ////////////
+
+        function setFileName()
+        {
+            if (input.val())
+            {
+                lxFileInput.fileName = input.val().replace(/C:\\fakepath\\/i, '');
+
+                $element.addClass('input-file--is-focus');
+                $element.addClass('input-file--is-active');
+            }
+            else
+            {
+                lxFileInput.fileName = undefined;
+
+                $element.removeClass('input-file--is-active');
+            }
+
+            input.val(undefined);
+        }
+
+        function updateModel()
+        {
+            if (angular.isDefined(lxFileInput.change))
+            {
+                lxFileInput.change()(input[0].files[0]);
+            }
+
+            $timeout(setFileName);
+        }
+    }
+})();
