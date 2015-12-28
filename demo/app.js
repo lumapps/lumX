@@ -127,10 +127,6 @@ angular
         {
             templateUrl: '/includes/modules/date-picker/date-picker.html'
         }).
-        when('/directives/thumbnails',
-        {
-            templateUrl: '/includes/modules/thumbnail/thumbnail.html'
-        }).
         when('/services/notifications',
         {
             templateUrl: '/includes/modules/notification/notification.html'
@@ -541,17 +537,6 @@ angular
                 email: 'lorem@email.com',
                 age: 99
             });
-        };
-
-        $scope.thumbnail = '/images/placeholder/1-horizontal.jpg';
-        $scope.thumbnailWidth = 60;
-        $scope.thumbnailHeight = 60;
-
-        $scope.updateThumbnail = function()
-        {
-            $scope.thumbnail = '/images/placeholder/2-vertical.jpg';
-            $scope.thumbnailWidth = 150;
-            $scope.thumbnailHeight = 80;
         };
 
         $scope.notify = function(type)

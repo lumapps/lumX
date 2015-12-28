@@ -23,7 +23,6 @@ angular.module('lumx', [
     'lumx.switch',
     'lumx.tabs',
     'lumx.text-field',
-    'lumx.thumbnail',
     'lumx.tooltip',
     'lumx.utils'
 ]);
