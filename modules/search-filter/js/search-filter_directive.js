@@ -6,7 +6,6 @@
         .module('lumx.search-filter', [])
         .directive('lxSearchFilter', lxSearchFilter);
 
-    /* @ngInject */
     function lxSearchFilter()
     {
         return {
@@ -40,7 +39,8 @@
         }
     }
 
-    /* @ngInject */
+    LxSearchFilterController.$inject = ['$element', '$scope'];
+
     function LxSearchFilterController($element, $scope)
     {
         var lxSearchFilter = this;
