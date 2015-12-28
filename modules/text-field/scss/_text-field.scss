@@ -79,6 +79,10 @@
         @include transition-duration(0.4s);
         @include transition-timing-function($ease-out-quint);
 
+        .text-field--fixed-label & {
+            @include transform(none);
+        }
+
         .text-field--is-active:not(.text-field--fixed-label) & {
             @include transform(scale(0.75) translateY(0));
         }
@@ -88,19 +92,15 @@
         }
 
         .text-field--is-disabled & {
-            color: $black-3;
-        }
-
-        .text-field--fixed-label & {
-            @include transform(none);
+            color: $black-3 !important;
         }
 
         .text-field--valid & {
-            color: $green;
+            color: $green !important;
         }
 
         .text-field--error & {
-            color: $red;
+            color: $red !important;
         }
     }
 
