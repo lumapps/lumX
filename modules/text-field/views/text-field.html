@@ -1,18 +1,19 @@
 <div class="text-field"
-     ng-class="{ 'text-field--is-active': lxTextField.isActive,
-                 'text-field--is-focus': lxTextField.isFocus,
-                 'text-field--is-disabled': lxTextField.ngDisabled,
+     ng-class="{ 'text-field--error': lxTextField.error,
                  'text-field--fixed-label': lxTextField.fixedLabel,
-                 'text-field--valid': lxTextField.valid,
-                 'text-field--error': lxTextField.error,
-                 'text-field--with-icon': lxTextField.icon && lxTextField.fixedLabel,
+                 'text-field--has-icon': lxTextField.icon,
+                 'text-field--has-value': lxTextField.hasValue(),
+                 'text-field--is-active': lxTextField.isActive,
+                 'text-field--is-disabled': lxTextField.ngDisabled,
+                 'text-field--is-focus': lxTextField.isFocus,
                  'text-field--theme-light': !lxTextField.theme || lxTextField.theme === 'light',
-                 'text-field--theme-dark': lxTextField.theme === 'dark' }">
-    <div class="text-field__icon" ng-if="lxTextField.icon && lxTextField.fixedLabel">
+                 'text-field--theme-dark': lxTextField.theme === 'dark',
+                 'text-field--valid': lxTextField.valid }">
+    <div class="text-field__icon" ng-if="lxTextField.icon">
         <i class="mdi mdi-{{ lxTextField.icon }}"></i>
     </div>
 
-    <label class="text-field__label" ng-if="!lxTextField.fixedLabel || (lxTextField.fixedLabel && !lxTextField.hasModel())">
+    <label class="text-field__label">
         {{ lxTextField.label }}
     </label>
 

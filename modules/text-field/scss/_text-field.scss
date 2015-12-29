@@ -71,7 +71,7 @@
     }
 }
 
-.text-field--with-icon {
+.text-field--has-icon {
     margin-left: $base-spacing-unit * 8;
 }
 
@@ -86,6 +86,10 @@
         @include transition-property(transform, color);
         @include transition-duration(0.4s);
         @include transition-timing-function($ease-out-quint);
+
+        .text-field--fixed-label.text-field--has-value & {
+            display: none;
+        }
 
         .text-field--theme-light & {
             color: $black-2;

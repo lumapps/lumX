@@ -52,7 +52,6 @@
                 input.addClass('text-field__input');
 
                 ctrl.setInput(input);
-                ctrl.setModel(input.data('$ngModelController'));
 
                 input.bind('focus', ctrl.focusInput);
                 input.bind('blur', ctrl.blurInput);
@@ -66,20 +65,18 @@
     {
         var lxTextField = this;
         var input;
-        var modelController;
 
         lxTextField.blurInput = blurInput;
         lxTextField.focusInput = focusInput;
-        lxTextField.hasModel = hasModel;
+        lxTextField.hasValue = hasValue;
         lxTextField.setInput = setInput;
-        lxTextField.setModel = setModel;
         lxTextField.updateTextareaHeight = updateTextareaHeight;
 
         ////////////
 
         function blurInput()
         {
-            if (!modelController.$modelValue && !input.val())
+            if (!hasValue())
             {
                 $scope.$apply(function()
                 {
@@ -102,14 +99,14 @@
             });
         }
 
-        function hasModel()
+        function hasValue()
         {
-            return modelController.$modelValue;
+            return input.val();
         }
 
         function init()
         {
-            lxTextField.isActive = angular.isDefined(modelController) && modelController.$modelValue ? true : false;
+            lxTextField.isActive = hasValue();
             lxTextField.isFocus = false;
         }
 
@@ -117,17 +114,12 @@
         {
             input = _input;
 
+            $timeout(init);
+
             if (input.selector === 'textarea')
             {
                 $timeout(updateTextareaHeight);
             }
-        }
-
-        function setModel(_modelControler)
-        {
-            modelController = _modelControler;
-
-            $timeout(init);
         }
 
         function updateTextareaHeight()
