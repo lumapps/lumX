@@ -33,42 +33,6 @@
 
         function link(scope, element, attrs, ctrl, transclude)
         {
-            // Backward compatibility
-            if (angular.isUndefined(scope.lxTextField.error) && angular.isDefined(attrs.error))
-            {
-                scope.lxTextField.error = scope.$parent.$eval(attrs.error);
-            }
-
-            if (angular.isUndefined(scope.lxTextField.fixedLabel) && angular.isDefined(attrs.fixedLabel))
-            {
-                scope.lxTextField.fixedLabel = scope.$parent.$eval(attrs.fixedLabel);
-            }
-
-            if (angular.isUndefined(scope.lxTextField.icon) && angular.isDefined(attrs.icon))
-            {
-                scope.lxTextField.icon = attrs.icon;
-            }
-
-            if (angular.isUndefined(scope.lxTextField.label) && angular.isDefined(attrs.label))
-            {
-                scope.lxTextField.label = attrs.label;
-            }
-
-            if (angular.isUndefined(scope.lxTextField.ngDisabled) && angular.isDefined(attrs.disabled))
-            {
-                scope.lxTextField.ngDisabled = scope.$parent.$eval(attrs.disabled);
-            }
-
-            if (angular.isUndefined(scope.lxTextField.theme) && angular.isDefined(attrs.theme))
-            {
-                scope.lxTextField.theme = attrs.theme;
-            }
-
-            if (angular.isUndefined(scope.lxTextField.valid) && angular.isDefined(attrs.valid))
-            {
-                scope.lxTextField.valid = scope.$parent.$eval(attrs.valid);
-            }
-
             transclude(function()
             {
                 var input = element.find('textarea');
