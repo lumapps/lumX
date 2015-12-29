@@ -115,7 +115,7 @@
 
         function blurInput()
         {
-            if (!modelController.$modelValue)
+            if (!modelController.$modelValue && !input.val())
             {
                 $scope.$apply(function()
                 {
