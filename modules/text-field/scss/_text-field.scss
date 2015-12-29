@@ -109,6 +109,10 @@
         @include text-field-reset();
         width: 100%;
         font-weight: 400;
+
+        .text-field--is-disabled & {
+            color: $black-3 !important;
+        }
     }
 
     input.text-field__input {
