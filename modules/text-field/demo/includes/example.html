@@ -99,7 +99,7 @@
 <div class="bgc-grey-800 mt++ p++ pt0">
     <div flex-container="row">
         <div flex-item>
-            <lx-text-field lx-label="Company" ng-disabled="true" theme="dark">
+            <lx-text-field lx-label="Company" ng-disabled="true" lx-theme="dark">
                 <input type="text" ng-model="textFields.disabledDark" ng-disabled="true">
             </lx-text-field>
         </div>
@@ -107,13 +107,13 @@
 
     <div flex-container="row" flex-gutter="24">
         <div flex-item>
-            <lx-text-field lx-label="Last name" theme="dark">
+            <lx-text-field lx-label="Last name" lx-theme="dark">
                 <input type="text" ng-model="textFields.lastNameDark">
             </lx-text-field>
         </div>
 
         <div flex-item>
-            <lx-text-field lx-label="First name" theme="dark">
+            <lx-text-field lx-label="First name" lx-theme="dark">
                 <input type="text" ng-model="textFields.firstNameDark">
             </lx-text-field>
         </div>
@@ -121,13 +121,13 @@
 
     <div flex-container="row" flex-gutter="24">
         <div flex-item>
-            <lx-text-field lx-label="Email" lx-error="!emailValidation(textFields.firstEmail)" theme="dark">
+            <lx-text-field lx-label="Email" lx-error="!emailValidation(textFields.firstEmail)" lx-theme="dark">
                 <input type="email" ng-model="textFields.firstEmailDark">
             </lx-text-field>
         </div>
 
         <div flex-item>
-            <lx-text-field lx-label="Email" lx-error="!emailValidation(textFields.secondEmail)" theme="dark">
+            <lx-text-field lx-label="Email" lx-error="!emailValidation(textFields.secondEmail)" lx-theme="dark">
                 <input type="email" ng-model="textFields.secondEmailDark">
             </lx-text-field>
         </div>
@@ -136,7 +136,7 @@
             <lx-text-field lx-label="Repeat previous email"
                            lx-valid="emailValidation(textFields.secondEmail) && textFields.secondEmail === textFields.thirdEmail"
                            lx-error="!emailValidation(textFields.secondEmail) || textFields.secondEmail !== textFields.thirdEmail"
-                           theme="dark">
+                           lx-theme="dark">
                 <input type="email" ng-model="textFields.thirdEmailDark">
             </lx-text-field>
         </div>
@@ -144,7 +144,7 @@
 
     <div flex-container="row">
         <div flex-item>
-            <lx-text-field lx-label="Description" theme="dark">
+            <lx-text-field lx-label="Description" lx-theme="dark">
                 <textarea ng-model="textFields.descriptionDark"></textarea>
             </lx-text-field>
         </div>
@@ -153,19 +153,19 @@
     <div class="mt++" flex-container="row" flex-gutter="24">
         <div flex-item>
             <form>
-                <lx-text-field lx-label="First and last name" lx-fixed-label="true" lx-icon="account" theme="dark">
+                <lx-text-field lx-label="First and last name" lx-fixed-label="true" lx-icon="account" lx-theme="dark">
                     <input type="text" ng-model="textFields.fixedFirstNameDark">
                 </lx-text-field>
 
-                <lx-text-field lx-label="Phone number" lx-fixed-label="true" lx-icon="phone" theme="dark">
+                <lx-text-field lx-label="Phone number" lx-fixed-label="true" lx-icon="phone" lx-theme="dark">
                     <input type="text" ng-model="textFields.fixedLastNameDark">
                 </lx-text-field>
 
-                <lx-text-field lx-label="Email address" lx-fixed-label="true" lx-icon="email" theme="dark">
+                <lx-text-field lx-label="Email address" lx-fixed-label="true" lx-icon="email" lx-theme="dark">
                     <input type="email" ng-model="textFields.fixedEmailDark">
                 </lx-text-field>
 
-                <lx-text-field lx-label="Location" lx-fixed-label="true" lx-icon="city" theme="dark">
+                <lx-text-field lx-label="Location" lx-fixed-label="true" lx-icon="city" lx-theme="dark">
                     <input type="text" ng-model="textFields.fixedAdressDark">
                 </lx-text-field>
             </form>
@@ -173,19 +173,19 @@
 
         <div flex-item>
             <form>
-                <lx-text-field lx-label="First name" lx-fixed-label="true" theme="dark">
+                <lx-text-field lx-label="First name" lx-fixed-label="true" lx-theme="dark">
                     <input type="text" ng-model="textFields.fixedFirstName2Dark">
                 </lx-text-field>
 
-                <lx-text-field lx-label="Last name" lx-fixed-label="true" theme="dark">
+                <lx-text-field lx-label="Last name" lx-fixed-label="true" lx-theme="dark">
                     <input type="text" ng-model="textFields.fixedLastName2Dark">
                 </lx-text-field>
 
-                <lx-text-field lx-label="Email" lx-fixed-label="true" theme="dark">
+                <lx-text-field lx-label="Email" lx-fixed-label="true" lx-theme="dark">
                     <input type="email" ng-model="textFields.fixedEmail2Dark">
                 </lx-text-field>
 
-                <lx-text-field lx-label="Address" lx-fixed-label="true" theme="dark">
+                <lx-text-field lx-label="Address" lx-fixed-label="true" lx-theme="dark">
                     <input type="text" ng-model="textFields.fixedAdress2Dark">
                 </lx-text-field>
             </form>

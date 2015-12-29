@@ -5,7 +5,9 @@
                  'text-field--fixed-label': lxTextField.fixedLabel,
                  'text-field--valid': lxTextField.valid,
                  'text-field--error': lxTextField.error,
-                 'text-field--with-icon': lxTextField.icon && lxTextField.fixedLabel }">
+                 'text-field--with-icon': lxTextField.icon && lxTextField.fixedLabel,
+                 'text-field--theme-light': !lxTextField.theme || lxTextField.theme === 'light',
+                 'text-field--theme-dark': lxTextField.theme === 'dark' }">
     <div class="text-field__icon" ng-if="lxTextField.icon && lxTextField.fixedLabel">
         <i class="mdi mdi-{{ lxTextField.icon }}"></i>
     </div>

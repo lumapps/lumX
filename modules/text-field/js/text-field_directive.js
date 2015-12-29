@@ -20,6 +20,7 @@
                 icon: '@?lxIcon',
                 label: '@lxLabel',
                 ngDisabled: '=?',
+                theme: '@?lxTheme',
                 valid: '=?lxValid'
             },
             link: link,
@@ -56,6 +57,11 @@
             if (angular.isUndefined(scope.lxTextField.ngDisabled) && angular.isDefined(attrs.disabled))
             {
                 scope.lxTextField.ngDisabled = scope.$parent.$eval(attrs.disabled);
+            }
+
+            if (angular.isUndefined(scope.lxTextField.theme) && angular.isDefined(attrs.theme))
+            {
+                scope.lxTextField.theme = attrs.theme;
             }
 
             if (angular.isUndefined(scope.lxTextField.valid) && angular.isDefined(attrs.valid))
