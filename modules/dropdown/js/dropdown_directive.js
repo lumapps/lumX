@@ -27,7 +27,6 @@
             controller: LxDropdownController,
             controllerAs: 'lxDropdown',
             bindToController: true,
-            replace: true,
             transclude: true
         };
 
@@ -280,6 +279,14 @@
             element.bind('click', function(_event)
             {
                 _event.stopPropagation();
+
+                angular.element('.dropdown').each(function(index, dropdownElem)
+                {
+                    if (angular.isDefined(angular.element(dropdownElem).scope().lxDropdown) && angular.element(dropdownElem).scope().lxDropdown.isOpen)
+                    {
+                        angular.element(dropdownElem).scope().lxDropdown.closeDropdownMenu();
+                    }
+                });
 
                 scope.$apply(function()
                 {
