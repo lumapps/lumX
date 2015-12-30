@@ -72,7 +72,11 @@
     @include transition-duration(0.4s);
     @include transition-timing-function($ease-out-quint);
 
-    &.lx-select-label--is-active {
+    .lx-select--is-active.lx-select--fixed-label & {
+        display: none;
+    }
+
+    .lx-select--is-active & {
         @include transform(scale(0.75) translateY(0));
     }
 

@@ -1,14 +1,14 @@
 <div class="lx-select"
-     ng-class="{ 'lx-select--is-unique': !lxSelect.multiple,
-                 'lx-select--is-multiple': lxSelect.multiple,
-                 'lx-select--is-disabled': lxSelect.ngDisabled,
-                 'lx-select--valid': lxSelect.valid,
-                 'lx-select--error': lxSelect.error,
+     ng-class="{ 'lx-select--custom-style': lxSelect.customStyle,
                  'lx-select--default-style': !lxSelect.customStyle,
-                 'lx-select--custom-style': lxSelect.customStyle }">
-    <span class="lx-select-label"
-          ng-class="{ 'lx-select-label--is-active': (!lxSelect.multiple && lxSelect.getSelectedModel()) || (lxSelect.multiple && lxSelect.getSelectedModel().length) }"
-          ng-if="!lxSelect.fixedLabel || lxSelect.fixedLabel && ((!lxSelect.multiple && !lxSelect.getSelectedModel()) || (lxSelect.multiple && !lxSelect.getSelectedModel().length))">
+                 'lx-select--error': lxSelect.error,
+                 'lx-select--fixed-label': lxSelect.fixedLabel,
+                 'lx-select--is-active': (!lxSelect.multiple && lxSelect.getSelectedModel()) || (lxSelect.multiple && lxSelect.getSelectedModel().length),
+                 'lx-select--is-disabled': lxSelect.ngDisabled,
+                 'lx-select--is-multiple': lxSelect.multiple,
+                 'lx-select--is-unique': !lxSelect.multiple,
+                 'lx-select--valid': lxSelect.valid }">
+    <span class="lx-select-label">
         {{ ::lxSelect.label }}
     </span>
 
