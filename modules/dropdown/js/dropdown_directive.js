@@ -41,11 +41,6 @@
                 $document.unbind('click', closeDropdownMenu);
             });
 
-            scope.$on('$locationChangeSuccess', function()
-            {
-                ctrl.closeDropdownMenu();
-            });
-
             function closeDropdownMenu()
             {
                 scope.$apply(function()
@@ -56,9 +51,9 @@
         }
     }
 
-    LxDropdownController.$inject = ['$scope', '$timeout', '$window', 'LxEventSchedulerService'];
+    LxDropdownController.$inject = ['$element', '$scope', '$timeout', '$window', 'LxEventSchedulerService'];
 
-    function LxDropdownController($scope, $timeout, $window, LxEventSchedulerService)
+    function LxDropdownController($element, $scope, $timeout, $window, LxEventSchedulerService)
     {
         var lxDropdown = this;
         var dropdownMenu;
@@ -94,6 +89,7 @@
                     $scope.$apply(function()
                     {
                         lxDropdown.isOpen = false;
+                        $element.removeClass('dropdown--is-open');
 
                         if (lxDropdown.escapeClose)
                         {
@@ -108,6 +104,7 @@
         function openDropdownMenu()
         {
             lxDropdown.isOpen = true;
+            $element.addClass('dropdown--is-open');
 
             if (lxDropdown.escapeClose)
             {

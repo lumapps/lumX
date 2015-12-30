@@ -33,18 +33,16 @@
     }
 }
 
-.dropdown__menu--is-open {
-    .dropdown-menu__content {
-        opacity: 1;
-    }
-}
-
     // Dropdown menu: content
     .dropdown-menu__content {
         padding: $base-spacing-unit 0;
         opacity: 0;
         @include transition-property(opacity);
         @include transition-duration(0.2s);
+
+        .dropdown--is-open & {
+            opacity: 1;
+        }
     }
 
 
