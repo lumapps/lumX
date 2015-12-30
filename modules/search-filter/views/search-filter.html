@@ -1,8 +1,5 @@
-<div class="search-filter search-filter--{{ lxSearchFilter.color }}"
-     ng-class="{ 'search-filter--opened-mode': !lxSearchFilter.closed,
-                 'search-filter--closed-mode': lxSearchFilter.closed }">
-    <div class="search-filter__container"
-         ng-style="lxSearchFilter.getWidth()">
+<div class="search-filter" ng-class="lxSearchFilter.getClass()">
+    <div class="search-filter__container">
         <div class="search-filter__button">
             <lx-button lx-size="l" lx-color="{{ lxSearchFilter.color }}" lx-type="icon" ng-click="lxSearchFilter.openInput()">
                 <i class="mdi mdi-magnify"></i>
@@ -11,9 +8,7 @@
 
         <div class="search-filter__input" ng-transclude></div>
 
-        <span class="search-filter__clear"
-              ng-class="{ 'search-filter__clear--is-shown': lxSearchFilter.showClearButton }"
-              ng-click="lxSearchFilter.clearInput()">
+        <span class="search-filter__clear" ng-click="lxSearchFilter.clearInput()">
             <i class="mdi mdi-close-circle"></i>
         </span>
     </div>

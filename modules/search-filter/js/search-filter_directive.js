@@ -27,6 +27,14 @@
 
         function link(scope, element, attrs, ctrl, transclude)
         {
+            attrs.$observe('lxWidth', function(newWidth)
+            {
+                if (angular.isDefined(scope.lxSearchFilter.closed) && scope.lxSearchFilter.closed)
+                {
+                    element.find('.search-filter__container').css('width', newWidth);
+                }
+            });
+
             transclude(function()
             {
                 var input = element.find('input');
@@ -39,9 +47,9 @@
         }
     }
 
-    LxSearchFilterController.$inject = ['$element', '$scope'];
+    LxSearchFilterController.$inject = ['$element'];
 
-    function LxSearchFilterController($element, $scope)
+    function LxSearchFilterController($element)
     {
         var lxSearchFilter = this;
         var input;
@@ -49,7 +57,7 @@
 
         lxSearchFilter.blurInput = blurInput;
         lxSearchFilter.clearInput = clearInput;
-        lxSearchFilter.getWidth = getWidth;
+        lxSearchFilter.getClass = getClass;
         lxSearchFilter.openInput = openInput;
         lxSearchFilter.setInput = setInput;
         lxSearchFilter.setModel = setModel;
@@ -60,7 +68,7 @@
 
         function blurInput()
         {
-            if (angular.isDefined(lxSearchFilter.closed) && lxSearchFilter.closed && !modelController.$modelValue)
+            if (angular.isDefined(lxSearchFilter.closed) && lxSearchFilter.closed && !input.val())
             {
                 $element.velocity(
                 {
@@ -82,19 +90,31 @@
             input.focus();
         }
 
-        function getWidth()
+        function getClass()
         {
-            if (angular.isDefined(lxSearchFilter.width) && angular.isDefined(lxSearchFilter.closed) && lxSearchFilter.closed)
-            {
-                return {
-                    'width': lxSearchFilter.width + 'px'
-                };
-            }
-        }
+            var searchFilterClass = [];
 
-        function hasClearButton(_newModel)
-        {
-            lxSearchFilter.showClearButton = angular.isDefined(_newModel) && _newModel;
+            if (angular.isUndefined(lxSearchFilter.closed) || !lxSearchFilter.closed)
+            {
+                searchFilterClass.push('search-filter--opened-mode');
+            }
+
+            if (angular.isDefined(lxSearchFilter.closed) && lxSearchFilter.closed)
+            {
+                searchFilterClass.push('search-filter--closed-mode');
+            }
+
+            if (input.val())
+            {
+                searchFilterClass.push('search-filter--has-clear-button');
+            }
+
+            if (angular.isDefined(lxSearchFilter.color))
+            {
+                searchFilterClass.push('search-filter--' + lxSearchFilter.color);
+            }
+
+            return searchFilterClass;
         }
 
         function openInput()
@@ -129,11 +149,6 @@
         function setModel(_modelControler)
         {
             modelController = _modelControler;
-
-            $scope.$watch(function()
-            {
-                return modelController.$modelValue;
-            }, hasClearButton);
         }
     }
 })();

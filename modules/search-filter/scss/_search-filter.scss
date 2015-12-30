@@ -70,8 +70,8 @@
         #{$base-icon-prefix} {
             line-height: $size-l;
         }
-    }
 
-    .search-filter__clear--is-shown {
-        @include transform(translateX(0));
+        .search-filter--has-clear-button & {
+            @include transform(translateX(0));
+        }
     }
