@@ -1,0 +1,20 @@
+///*------------------------------------*\
+//    #MAIN
+//\*------------------------------------*/
+
+// Main section
+.main-section {
+    padding: $base-spacing-unit * 3;
+}
+    
+    // Main section: title
+    .main-section__title {
+        @include font-size(24px);
+        font-weight: 700;
+        color: $primary;
+    }
+    
+    // Main section: intro
+    .main-section__intro {
+        font-weight: 700;
+    }

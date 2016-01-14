@@ -1,0 +1,101 @@
+///*------------------------------------*\
+//    #HEADER
+//\*------------------------------------*/
+
+// Header
+.header {
+    @include media-query(palm) {
+        height: 108px;
+    }
+
+    @include media-query(lap-and-up) {
+        height: 380px;
+    }
+}
+
+
+
+
+
+// Header top
+.header-top {
+    @include position(fixed, 0 0 null 0);
+    z-index: 999;
+    height: 60px;
+    background-color: $white;
+}
+
+    // Header top: wrapper
+    .header-top__wrapper {
+        @include wrapper();
+        @include display(flex);
+    }
+    
+    // Header top: logo
+    .header-top__logo {
+        height: 60px;
+        padding: 12px 0;
+
+        img {
+            max-height: 100%;
+        }
+    }
+
+
+
+
+
+// Header nav
+.header-nav {
+    @include position(fixed, 60px 0 null 0);
+    z-index: 999;
+    background-color: $indigo-700;
+
+    &:after {
+        content: '';
+        @include position(absolute, null 0 0 0);
+        height: 1px;
+        background-color: $white-4;
+    }
+}
+    
+    // Header nav: wrapper
+    .header-nav__wrapper {
+        @include wrapper();
+
+        ul {
+            @include bare-list();
+            @include display(flex);
+        }
+    }
+    
+    // Header nav: link
+    .header-nav__link {
+        display: block;
+        height: 48px;
+        padding: 0 $base-spacing-unit * 2;
+        @include font-size(14px);
+        font-weight: 700;
+        line-height: 48px;
+        color: $white-1;
+        text-decoration: none;
+
+        &:hover,
+        &.header-nav__link--is-active {
+            border-bottom: 4px solid $yellow;
+        }
+    }
+
+
+
+
+
+// Header background
+.header-background {
+    @include media-query(lap-and-up) {
+        @include position(fixed, 108px 0 null 0);
+        z-index: 0;
+        height: 272px;
+        background-color: $indigo-700;
+    }
+}

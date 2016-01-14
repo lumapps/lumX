@@ -1,0 +1,46 @@
+///*------------------------------------*\
+//    #COLORS
+//\*------------------------------------*/
+
+// Colors
+.colors {
+    margin-bottom: $base-spacing-unit * 3;
+    @extend %bare-list;
+
+    & > div {
+        height: $base-spacing-unit * 6;
+        padding: 0 $base-spacing-unit * 2;
+        line-height: $base-spacing-unit * 6;
+    }
+}
+
+    // Colors: main
+    .colors__main {
+        position: relative;
+        height: $base-spacing-unit * 12 !important;
+        margin-bottom: $base-spacing-unit;
+        line-height: 1em !important;
+
+        .colors__variable {
+            @include position(absolute, null null $base-spacing-unit * 2 $base-spacing-unit * 2);
+        }
+    }
+
+    // Colors: title
+    .colors__title {
+        @include position(absolute, $base-spacing-unit * 2 null null $base-spacing-unit * 2);
+        @include font-size(18px);
+        font-weight: 500;
+        color: $white;
+    }
+
+    // Colors: variable
+    .colors__variable {
+        @include font-size(14px);
+        font-weight: 500;
+        color: $white;
+    }
+
+    .colors__variable--black {
+        color: $black !important;
+    }

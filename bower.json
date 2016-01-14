@@ -48,7 +48,7 @@
     "mdi": "1.2.65"
   },
   "devDependencies": {
-    "angular-route": "latest",
-    "highlightjs": "latest"
+    "angular-ui-router": "~0.2.15",
+    "angular-highlightjs": "~0.5.1"
   }
 }

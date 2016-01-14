@@ -1,0 +1,29 @@
+<div class="lx-component">
+    <div class="lx-component__header">
+        <div class="lx-component__header-wrapper">
+            <h2 class="lx-component__title">
+                {{ lxComponent.title }}
+            </h2>
+
+            <div class="lx-component__actions">
+                <lx-button lx-color="grey" lx-type="icon" ng-click="lxComponent.toggle()" ng-if="lxComponent.toolbar">
+                    <i class="mdi mdi-code-tags"></i>
+                </lx-button>
+            </div>
+        </div>
+
+        <div class="lx-component__description" ng-transclude ng-if="lxComponent.hasTranscluded"></div>
+    </div>
+
+    <div class="lx-component__toolbar" ng-if="lxComponent.toolbar && lxComponent.isOpen">
+        <lx-tabs lx-layout="inline">
+            <lx-tab lx-label="HTML">
+                <div hljs include="lxComponent.path" language="html"></div>
+            </lx-tab>
+        </lx-tabs>
+    </div>
+
+    <div class="lx-component__demo">
+        <ng-include src="lxComponent.path"></ng-include>
+    </div>
+</div>

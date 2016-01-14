@@ -1,0 +1,109 @@
+///*------------------------------------*\
+//    #COMPONENT
+//\*------------------------------------*/
+
+// Component
+.lx-component {
+    margin-top: $base-spacing-unit * 3;
+    border: 1px solid $black-4;
+    border-radius: $base-round;
+}
+    
+    // Component: header
+    .lx-component__header {
+        padding: 0 $base-spacing-unit * 2;
+        border-bottom: 1px solid $black-4;
+        background-color: $grey-50;
+    }
+    
+    // Component: header wrapper
+    .lx-component__header-wrapper {
+        height: 48px;
+        @include display(flex);
+        @include align-items(center);
+    }
+
+    // Component: title
+    .lx-component__title {
+        @include flex(1);
+        @include font-size(20px);
+        font-weight: 700;
+    }
+
+    // Component: description
+    .lx-component__description {
+        padding-right: $base-spacing-unit * 4;
+        padding-bottom: $base-spacing-unit * 1.5;
+    }
+    
+    // Component: toolbar
+    .lx-component__toolbar {
+        border-bottom: 1px solid $black-4;
+    }
+    
+    // Component: demo
+    .lx-component__demo {
+        padding: $base-spacing-unit * 2;
+    }
+
+
+
+
+
+// Component attributes
+.lx-component-attributes {
+    margin-top: $base-spacing-unit * 3;
+}
+
+    // Component attributes: header
+    .lx-component-attributes__header {
+        padding: 0 $base-spacing-unit * 2;
+        border: 1px solid $black-4;
+        border-radius: $base-round;
+        border-bottom: none;
+        background-color: $grey-50;
+    }
+
+    // Component attributes: title
+    .lx-component-attributes__title {
+        @include font-size(20px);
+        font-weight: 700;
+        line-height: 48px;
+    }
+
+    // Component attributes: table
+    .lx-component-attributes__table {
+        position: relative;
+        width: 100%;
+        overflow-x: auto;
+        overflow-y: hidden;
+        -webkit-overflow-scrolling: touch;
+    
+        table {
+            width: 100%;
+        }
+
+        th, td {
+            padding: $base-spacing-unit * 2;
+            text-align: left;
+        }
+
+        th {
+            background-color: $primary;
+            @include font-size(14px);
+            font-weight: 700;
+            color: $white-1;
+        }
+
+        td:first-child {
+            font-weight: 700;
+        }
+
+        tr:nth-child(odd) td {
+            background-color: $indigo-50;
+        }
+
+        tr:nth-child(even) td {
+            background-color: $indigo-100;
+        }
+    }

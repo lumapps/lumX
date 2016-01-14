@@ -1,0 +1,44 @@
+///*------------------------------------*\
+//    #APP
+//\*------------------------------------*/
+
+// App
+.app {
+    @include media-query(lap-and-up) {
+        margin-top: -230px;
+    }
+}
+    
+    // App: wrapper
+    .app__wrapper {
+        background-color: $white;
+
+        @include media-query(lap-and-up) {
+            @include wrapper();
+            @include display(flex);
+            border-radius: $base-round;
+            @include z-depth(1);
+            overflow: hidden;
+        }
+    }
+
+    // App: sidebar
+    .app__sidebar {
+        @include media-query(palm) {
+            display: none;
+        }
+
+        @include media-query(lap-and-up) {
+            @include flex(0 0 20%);
+            max-width: 20%;
+            border-right: 1px solid $black-4;
+            background-color: $grey-50;
+        }
+    }
+    
+    // App: main
+    .app__main {
+        @include media-query(lap-and-up) {
+            @include flex(1);
+        }
+    }

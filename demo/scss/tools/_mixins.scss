@@ -1,0 +1,22 @@
+///*------------------------------------*\
+//    #MIXINS
+//\*------------------------------------*/
+
+// Wrapper
+@mixin wrapper() {
+    position: relative;
+
+    @include media-query(portable) {
+        margin: 0 $base-spacing-unit * 3;
+    }
+
+    @include media-query(desk) {
+        margin-left: auto;
+        margin-right: auto;
+        width: 960px;
+    }
+
+    @include media-query(desk-wide) {
+        width: 1136px;
+    }
+}
