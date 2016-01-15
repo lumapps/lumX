@@ -3,7 +3,7 @@
     'use strict';
 
     angular
-        .module('lumx.tooltip', [])
+        .module('lumx.tooltip')
         .directive('lxTooltip', lxTooltip);
 
     function lxTooltip()

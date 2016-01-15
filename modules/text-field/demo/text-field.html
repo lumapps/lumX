@@ -1,18 +1,59 @@
 <!-- Sidebar -->
-<ng-include src="'/includes/sidebar/sidebar-directives.html'"></ng-include>
-
 <div class="main-section">
     <h3 class="main-section__title">Text fields</h3>
 
-    <div class="main-section__content">
-        <div class="example">
-            <div class="example__content pt0">
-                <ng-include src="'/includes/modules/text-field/includes/example.html'"></ng-include>
-            </div>
+    <p class="main-section__intro">
+        <code>lx-text-field</code> is an input directive that will become an <code>input</code> element or a <code>textarea</code> element according to the transcluded element.
+    </p>
 
-            <!-- Example -->
-            <div class="example__code" hljs include="'/includes/modules/text-field/includes/example.html'" language="html"></div>
-            <!-- /Example -->
-        </div>
-    </div>
+    <lx-component lx-title="Floating label" lx-path="/includes/modules/text-field/includes/floating-label.html"></lx-component>
+    <lx-component lx-title="Fixed label" lx-path="/includes/modules/text-field/includes/fixed-label.html"></lx-component>
+    <lx-component lx-title="Textarea" lx-path="/includes/modules/text-field/includes/textarea.html"></lx-component>
+    <lx-component lx-title="States" lx-path="/includes/modules/text-field/includes/states.html"></lx-component>
+    <lx-component lx-title="Theme" lx-path="/includes/modules/text-field/includes/theme.html"></lx-component>
+
+    <lx-component-attributes>
+        <table>
+            <thead>
+                <tr>
+                    <th>Parameter</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td>lx-error</td>
+                    <td><code>boolean</code></td>
+                    <td>When present, set red error style.</td>
+                </tr>
+                <tr>
+                    <td>lx-fixed-label</td>
+                    <td><code>boolean</code></td>
+                    <td>When present, labels will act like classic placeholders.</td>
+                </tr>
+                <tr>
+                    <td>lx-icon</td>
+                    <td><code>string</code></td>
+                    <td>Add an icon next to the text input. Input must have a fixed label in this case.</td>
+                </tr>
+                <tr>
+                    <td>lx-label</td>
+                    <td><code>string</code></td>
+                    <td>The label of the input displayed as a placeholder (required).</td>
+                </tr>
+                <tr>
+                    <td>lx-theme</td>
+                    <td><code>string</code></td>
+                    <td>Set this option to dark if inputs are displayed into a dark box. Options: <code>light</code> (default), <code>dark</code></td>
+                </tr>
+                <tr>
+                    <td>lx-valid</td>
+                    <td><code>boolean</code></td>
+                    <td>When present, set green valid style.</td>
+                </tr>
+            </tbody>
+        </table>
+    </lx-component-attributes>
 </div>

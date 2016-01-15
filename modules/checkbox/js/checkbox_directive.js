@@ -3,7 +3,7 @@
     'use strict';
 
     angular
-        .module('lumx.checkbox', [])
+        .module('lumx.checkbox')
         .directive('lxCheckbox', lxCheckbox)
         .directive('lxCheckboxLabel', lxCheckboxLabel)
         .directive('lxCheckboxHelp', lxCheckboxHelp);

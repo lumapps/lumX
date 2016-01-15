@@ -6,7 +6,7 @@
             </h2>
 
             <div class="lx-component__actions">
-                <lx-button lx-color="grey" lx-type="icon" ng-click="lxComponent.toggle()" ng-if="lxComponent.toolbar">
+                <lx-button lx-color="grey" lx-type="icon" ng-click="lxComponent.toggle()">
                     <i class="mdi mdi-code-tags"></i>
                 </lx-button>
             </div>
@@ -15,7 +15,7 @@
         <div class="lx-component__description" ng-transclude ng-if="lxComponent.hasTranscluded"></div>
     </div>
 
-    <div class="lx-component__toolbar" ng-if="lxComponent.toolbar && lxComponent.isOpen">
+    <div class="lx-component__toolbar" ng-if="lxComponent.isOpen">
         <lx-tabs lx-layout="inline">
             <lx-tab lx-label="HTML">
                 <div hljs include="lxComponent.path" language="html"></div>

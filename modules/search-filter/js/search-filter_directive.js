@@ -3,7 +3,7 @@
     'use strict';
 
     angular
-        .module('lumx.search-filter', [])
+        .module('lumx.search-filter')
         .directive('lxSearchFilter', lxSearchFilter);
 
     function lxSearchFilter()

@@ -3,7 +3,7 @@
     'use strict';
 
     angular
-        .module('lumx.progress', [])
+        .module('lumx.progress')
         .directive('lxProgress', lxProgress);
 
     function lxProgress()

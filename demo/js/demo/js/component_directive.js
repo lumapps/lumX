@@ -3,7 +3,7 @@
     'use strict';
 
     angular
-        .module('Directives', [])
+        .module('Directives')
         .directive('lxComponent', lxComponent)
         .directive('lxComponentAttributes', lxComponentAttributes);
 
@@ -12,17 +12,26 @@
         return {
             restrict: 'E',
             templateUrl: '/js/demo/views/component.html',
-            scope:
-            {
-                title: '@lxTitle',
-                path: '@lxPath',
-                toolbar: '=?lxToolbar'
-            },
+            scope: true,
+            link: link,
             controller: LxComponentController,
             controllerAs: 'lxComponent',
             bindToController: true,
             transclude: true
         };
+
+        function link(scope, element, attrs)
+        {
+            attrs.$observe('lxPath', function(newPath)
+            {
+                scope.lxComponent.path = newPath;
+            });
+
+            attrs.$observe('lxTitle', function(newTitle)
+            {
+                scope.lxComponent.title = newTitle;
+            });
+        }
     }
 
     LxComponentController.$inject = ['$transclude'];

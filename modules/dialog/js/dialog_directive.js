@@ -3,7 +3,7 @@
     'use strict';
 
     angular
-        .module('lumx.dialog', ['lumx.utils.event-scheduler'])
+        .module('lumx.dialog')
         .directive('lxDialog', lxDialog)
         .directive('lxDialogHeader', lxDialogHeader)
         .directive('lxDialogContent', lxDialogContent)

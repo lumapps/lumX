@@ -3,7 +3,7 @@
     'use strict';
 
     angular
-        .module('lumx.radio-button', [])
+        .module('lumx.radio-button')
         .directive('lxRadioGroup', lxRadioGroup)
         .directive('lxRadioButton', lxRadioButton)
         .directive('lxRadioButtonLabel', lxRadioButtonLabel)

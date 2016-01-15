@@ -3,7 +3,7 @@
     'use strict';
 
     angular
-        .module('lumx.date-picker', [])
+        .module('lumx.date-picker')
         .directive('lxDatePicker', lxDatePicker);
 
     /* @ngInject */

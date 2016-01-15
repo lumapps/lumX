@@ -7,6 +7,7 @@
             'lumx',
             'ui.router',
             'hljs',
+            'Controllers',
             'Directives'
         ])
         .config(function($locationProvider, $stateProvider)
@@ -94,6 +95,22 @@
                             templateUrl: '/includes/modules/button/button.html'
                         }
                     }
+                })
+                .state('app.components.text-field',
+                {
+                    url: '/text-field',
+                    views:
+                    {
+                        'main@':
+                        {
+                            templateUrl: '/includes/modules/text-field/text-field.html',
+                            controller: 'DemoTextFieldController',
+                            controllerAs: 'vm'
+                        }
+                    }
                 });
         });
+
+    angular.module('Controllers', []);
+    angular.module('Directives', []);
 })();

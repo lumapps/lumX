@@ -1,10 +1,32 @@
 /* global angular */
 
+angular.module('lumx.utils.event-scheduler', []);
+angular.module('lumx.utils.transclude-replace', []);
+angular.module('lumx.utils.utils', []);
+
 angular.module('lumx.utils', [
     'lumx.utils.event-scheduler',
     'lumx.utils.transclude-replace',
     'lumx.utils.utils'
 ]);
+
+angular.module('lumx.button', []);
+angular.module('lumx.checkbox', []);
+angular.module('lumx.date-picker', []);
+angular.module('lumx.dialog', ['lumx.utils.event-scheduler']);
+angular.module('lumx.dropdown', ['lumx.utils.event-scheduler']);
+angular.module('lumx.fab', []);
+angular.module('lumx.file-input', []);
+angular.module('lumx.notification', ['lumx.utils.event-scheduler']);
+angular.module('lumx.progress', []);
+angular.module('lumx.radio-button', []);
+angular.module('lumx.ripple', []);
+angular.module('lumx.search-filter', []);
+angular.module('lumx.select', []);
+angular.module('lumx.switch', []);
+angular.module('lumx.tabs', []);
+angular.module('lumx.text-field', []);
+angular.module('lumx.tooltip', []);
 
 angular.module('lumx', [
     'lumx.button',

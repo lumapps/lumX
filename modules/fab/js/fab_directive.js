@@ -3,7 +3,7 @@
     'use strict';
 
     angular
-        .module('lumx.fab', [])
+        .module('lumx.fab')
         .directive('lxFab', lxFab)
         .directive('lxFabTrigger', lxFabTrigger)
         .directive('lxFabActions', lxFabActions);

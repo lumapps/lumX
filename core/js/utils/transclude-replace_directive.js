@@ -2,18 +2,19 @@
 'use strict'; // jshint ignore:line
 
 
-angular.module('lumx.utils.transclude-replace', [])
-    .directive('ngTranscludeReplace', ['$log', function ($log) {
+angular.module('lumx.utils.transclude-replace')
+    .directive('ngTranscludeReplace', ['$log', function($log)
+    {
         return {
             terminal: true,
             restrict: 'EA',
-            link: function ($scope, $element, $attr, ctrl, transclude)
+            link: function($scope, $element, $attr, ctrl, transclude)
             {
                 if (!transclude)
                 {
                     $log.error('orphan',
-                         'Illegal use of ngTranscludeReplace directive in the template! ' +
-                         'No parent directive that requires a transclusion found. ');
+                        'Illegal use of ngTranscludeReplace directive in the template! ' +
+                        'No parent directive that requires a transclusion found. ');
                     return;
                 }
 

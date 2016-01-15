@@ -3,7 +3,7 @@
     'use strict';
 
     angular
-        .module('lumx.button', [])
+        .module('lumx.button')
         .directive('lxButton', lxButton);
 
     function lxButton()

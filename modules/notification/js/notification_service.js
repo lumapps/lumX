@@ -3,7 +3,7 @@
     'use strict';
 
     angular
-        .module('lumx.notification', ['lumx.utils.event-scheduler'])
+        .module('lumx.notification')
         .service('LxNotificationService', LxNotificationService);
 
     LxNotificationService.$inject = ['$injector', '$rootScope', '$timeout', 'LxEventSchedulerService'];

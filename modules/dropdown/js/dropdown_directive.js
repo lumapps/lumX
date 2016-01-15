@@ -3,7 +3,7 @@
     'use strict';
 
     angular
-        .module('lumx.dropdown', ['lumx.utils.event-scheduler'])
+        .module('lumx.dropdown')
         .directive('lxDropdown', lxDropdown)
         .directive('lxDropdownToggle', lxDropdownToggle)
         .directive('lxDropdownMenu', lxDropdownMenu)

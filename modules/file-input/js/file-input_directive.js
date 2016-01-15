@@ -3,7 +3,7 @@
     'use strict';
 
     angular
-        .module('lumx.file-input', [])
+        .module('lumx.file-input')
         .directive('lxFileInput', lxFileInput);
 
     function lxFileInput()

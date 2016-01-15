@@ -40,11 +40,6 @@
     .lx-component__toolbar {
         border-bottom: 1px solid $black-4;
     }
-    
-    // Component: demo
-    .lx-component__demo {
-        padding: $base-spacing-unit * 2;
-    }
 
 
 
@@ -97,6 +92,7 @@
 
         td:first-child {
             font-weight: 700;
+            white-space: nowrap;
         }
 
         tr:nth-child(odd) td {

@@ -3,7 +3,7 @@
     'use strict';
 
     angular
-        .module('lumx.tabs', [])
+        .module('lumx.tabs')
         .directive('lxTabs', lxTabs)
         .directive('lxTab', lxTab)
         .directive('lxTabsPanes', lxTabsPanes)

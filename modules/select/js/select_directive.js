@@ -3,7 +3,7 @@
     'use strict';
 
     angular
-        .module('lumx.select', [])
+        .module('lumx.select')
         .filter('filterChoices', filterChoices)
         .directive('lxSelect', lxSelect)
         .directive('lxSelectSelected', lxSelectSelected)

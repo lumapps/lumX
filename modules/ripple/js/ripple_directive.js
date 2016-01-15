@@ -3,7 +3,7 @@
     'use strict';
 
     angular
-        .module('lumx.ripple', [])
+        .module('lumx.ripple')
         .directive('lxRipple', lxRipple);
 
     lxRipple.$inject = ['$timeout'];

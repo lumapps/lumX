@@ -3,7 +3,7 @@
     'use strict';
 
     angular
-        .module('lumx.switch', [])
+        .module('lumx.switch')
         .directive('lxSwitch', lxSwitch)
         .directive('lxSwitchLabel', lxSwitchLabel)
         .directive('lxSwitchHelp', lxSwitchHelp);

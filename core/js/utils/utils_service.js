@@ -2,7 +2,7 @@
 'use strict'; // jshint ignore:line
 
 
-angular.module('lumx.utils.utils', [])
+angular.module('lumx.utils.utils')
     .service('LxUtils', function()
     {
         function generateUUID()

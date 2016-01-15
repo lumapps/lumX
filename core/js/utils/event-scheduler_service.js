@@ -3,7 +3,7 @@
 'use strict'; // jshint ignore:line
 
 
-angular.module('lumx.utils.event-scheduler', [])
+angular.module('lumx.utils.event-scheduler')
     .service('LxEventSchedulerService', ['$document', 'LxUtils', function($document, LxUtils)
     {
         var handlers = {},
