@@ -3,7 +3,7 @@
     'use strict';
 
     angular
-        .module('lumx.text-field', [])
+        .module('lumx.text-field')
         .directive('lxTextField', lxTextField);
 
     LxTextFieldController.$inject = ['$timeout'];
@@ -33,6 +33,34 @@
 
         function link(scope, element, attrs, ctrl, transclude)
         {
+            var backwardOneWay = ['icon', 'label', 'theme'];
+            var backwardTwoWay = ['error', 'fixedLabel', 'valid'];
+
+            angular.forEach(backwardOneWay, function(attribute)
+            {
+                if (angular.isDefined(attrs[attribute]))
+                {
+                    attrs.$observe(attribute, function(newValue)
+                    {
+                        scope.lxTextField[attribute] = newValue;
+                    });
+                }
+            });
+
+            angular.forEach(backwardTwoWay, function(attribute)
+            {
+                if (angular.isDefined(attrs[attribute]))
+                {
+                    scope.$watch(function()
+                    {
+                        return scope.$parent.$eval(attrs[attribute]);
+                    }, function(newValue)
+                    {
+                        scope.lxTextField[attribute] = newValue;
+                    });
+                }
+            });
+
             transclude(function()
             {
                 var input = element.find('textarea');
