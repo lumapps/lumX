@@ -96,6 +96,17 @@
                         }
                     }
                 })
+                .state('app.components.card',
+                {
+                    url: '/card',
+                    views:
+                    {
+                        'main@':
+                        {
+                            templateUrl: '/includes/modules/card/card.html'
+                        }
+                    }
+                })
                 .state('app.components.text-field',
                 {
                     url: '/text-field',
