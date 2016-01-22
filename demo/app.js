@@ -107,6 +107,19 @@
                         }
                     }
                 })
+                .state('app.components.checkbox',
+                {
+                    url: '/checkbox',
+                    views:
+                    {
+                        'main@':
+                        {
+                            templateUrl: '/includes/modules/checkbox/checkbox.html',
+                            controller: 'DemoCheckboxController',
+                            controllerAs: 'vm'
+                        }
+                    }
+                })
                 .state('app.components.text-field',
                 {
                     url: '/text-field',

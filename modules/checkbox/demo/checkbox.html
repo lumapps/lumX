@@ -1,18 +1,42 @@
 <!-- Sidebar -->
-<ng-include src="'/includes/sidebar/sidebar-css.html'"></ng-include>
-
 <div class="main-section">
-    <h3 class="main-section__title">Checkboxes</h3>
+    <h1 class="main-section__title">Checkbox</h1>
 
-    <div class="main-section__content">
-        <div class="example">
-            <div class="example__content">
-                <ng-include src="'/includes/modules/checkbox/includes/example.html'"></ng-include>
-            </div>
+    <p class="main-section__intro">
+        <code>lx-checkbox</code> is a checkbox directive that will become a checkbox input element.
+    </p>
 
-            <!-- Example -->
-            <div class="example__code" hljs include="'/includes/modules/checkbox/includes/example.html'" language="html">
-            <!-- /Example -->
-        </div>
-    </div>
+    <lx-component lx-title="Basic usage" lx-path="/includes/modules/checkbox/includes/basic.html">
+        You can specify the checkbox label as transcluded element.<br />
+        If you want to specify a helper message, you will need to transclude two directives.<br />
+        <code>lx-checkbox-label</code> for the label and <code>lx-checkbox-help</code> for the helper message.
+    </lx-component>
+
+    <lx-component lx-title="Disabled state" lx-path="/includes/modules/checkbox/includes/states.html">
+        Disabled style will automaticly be applied when using <code>ng-disabled</code> or <code>disabled</code> attribute.
+    </lx-component>
+
+    <lx-component lx-title="Main colors" lx-path="/includes/modules/checkbox/includes/colors.html">
+        You can specify checkbox color with main colors defined in <code>dist/scss/core/settings/defaults.scss</code>
+    </lx-component>
+
+    <lx-component-attributes>
+        <table>
+            <thead>
+                <tr>
+                    <th>Parameter</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td>lx-color</td>
+                    <td><code>string</code></td>
+                    <td>Define the button color. Options: colors defined in colors and sizes section in <code>dist/scss/core/settings/defaults.scss</code></td>
+                </tr>
+            </tbody>
+        </table>
+    </lx-component-attributes>
 </div>
