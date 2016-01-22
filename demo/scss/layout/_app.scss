@@ -39,6 +39,7 @@
     // App: main
     .app__main {
         @include media-query(lap-and-up) {
-            @include flex(1);
+            @include flex(0 0 80%);
+            max-width: 80%;
         }
     }

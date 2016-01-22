@@ -3,17 +3,19 @@
         <div class="data-table-header__label">
             <span class="fs-title">Lorem Ipsum</span>
         </div>
-
+ 
         <div class="data-table-header__actions">
-            <button class="btn btn--l btn--black btn--icon" lx-ripple>
+            <lx-button lx-size="l" lx-color="black" lx-type="icon">
                 <i class="mdi mdi-filter-variant"></i>
-            </button>
-
-            <lx-dropdown position="right" over-toggle="true">
-                <button class="btn btn--l btn--black btn--icon" lx-ripple lx-dropdown-toggle>
-                    <i class="mdi mdi-dots-vertical"></i>
-                </button>
-
+            </lx-button>
+ 
+            <lx-dropdown lx-position="right" lx-over-toggle="true">
+                <lx-dropdown-toggle>
+                    <lx-button lx-size="l" lx-color="black" lx-type="icon">
+                        <i class="mdi mdi-dots-vertical"></i>
+                    </lx-button>
+                <lx-dropdown-toggle>
+ 
                 <lx-dropdown-menu>
                     <ul>
                         <li><a class="dropdown-link">Action</a></li>
@@ -27,12 +29,12 @@
             </lx-dropdown>
         </div>
     </header>
-
+ 
     <table class="data-table">
         <thead>
             <tr class="data-table__selectable-row">
                 <th></th>
-                <th>Dessert (100g serving)</th>
+                <th>Dessert</th>
                 <th>Calories</th>
                 <th>Fat (g)</th>
                 <th class="data-table__sortable-cell data-table__sortable-cell--desc">Carbs (g)</th>
@@ -44,7 +46,7 @@
                 </th>
             </tr>
         </thead>
-
+ 
         <tbody>
             <tr class="data-table__selectable-row data-table__selectable-row--is-selected">
                 <td></td>
@@ -56,7 +58,7 @@
                 <td>87</td>
                 <td>Lorem ipsum</td>
             </tr>
-
+ 
             <tr class="data-table__selectable-row">
                 <td></td>
                 <td>Ice cream sandwich</td>

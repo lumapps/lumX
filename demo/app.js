@@ -120,6 +120,17 @@
                         }
                     }
                 })
+                .state('app.components.data-table',
+                {
+                    url: '/data-table',
+                    views:
+                    {
+                        'main@':
+                        {
+                            templateUrl: '/includes/modules/data-table/data-table.html'
+                        }
+                    }
+                })
                 .state('app.components.text-field',
                 {
                     url: '/text-field',
