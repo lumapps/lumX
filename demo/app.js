@@ -131,6 +131,19 @@
                         }
                     }
                 })
+                .state('app.components.date-picker',
+                {
+                    url: '/date-picker',
+                    views:
+                    {
+                        'main@':
+                        {
+                            templateUrl: '/includes/modules/date-picker/date-picker.html',
+                            controller: 'DemoDatePickerController',
+                            controllerAs: 'vm'
+                        }
+                    }
+                })
                 .state('app.components.text-field',
                 {
                     url: '/text-field',

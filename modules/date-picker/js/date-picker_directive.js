@@ -19,7 +19,7 @@
                 color: '@?lxColor',
                 inputFixedLabel: '=?lxInputFixedLabel',
                 inputIcon: '@?lxInputIcon',
-                inputLabel: '@?lxInputLabel',
+                inputLabel: '@lxInputLabel',
                 maxDate: '=?lxMaxDate',
                 minDate: '=?lxMinDate',
                 locale: '@lxLocale'

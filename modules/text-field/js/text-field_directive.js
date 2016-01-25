@@ -80,6 +80,7 @@
                 input.addClass('text-field__input');
 
                 ctrl.setInput(input);
+                ctrl.setModel(input.data('$ngModelController'));
 
                 input.bind('focus', ctrl.focusInput);
                 input.bind('blur', ctrl.blurInput);
@@ -93,12 +94,29 @@
     {
         var lxTextField = this;
         var input;
+        var modelController;
 
         lxTextField.blurInput = blurInput;
         lxTextField.focusInput = focusInput;
         lxTextField.hasValue = hasValue;
         lxTextField.setInput = setInput;
+        lxTextField.setModel = setModel;
         lxTextField.updateTextareaHeight = updateTextareaHeight;
+
+        $scope.$watch(function()
+        {
+            return modelController.$modelValue;
+        }, function(newValue, oldValue)
+        {
+            if (angular.isDefined(newValue) && newValue)
+            {
+                lxTextField.isActive = true;
+            }
+            else
+            {
+                lxTextField.isActive = false;
+            }
+        });
 
         ////////////
 
@@ -148,6 +166,11 @@
             {
                 $timeout(updateTextareaHeight);
             }
+        }
+
+        function setModel(_modelControler)
+        {
+            modelController = _modelControler;
         }
 
         function updateTextareaHeight()

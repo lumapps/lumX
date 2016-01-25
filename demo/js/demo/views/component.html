@@ -20,6 +20,10 @@
             <lx-tab lx-label="HTML">
                 <div hljs include="lxComponent.path" language="html"></div>
             </lx-tab>
+
+            <lx-tab lx-label="JS" ng-if="lxComponent.jsPath">
+                <div hljs include="lxComponent.jsPath" language="javascript"></div>
+            </lx-tab>
         </lx-tabs>
     </div>
 

@@ -22,6 +22,11 @@
 
         function link(scope, element, attrs)
         {
+            attrs.$observe('lxJsPath', function(newJsPath)
+            {
+                scope.lxComponent.jsPath = newJsPath;
+            });
+
             attrs.$observe('lxPath', function(newPath)
             {
                 scope.lxComponent.path = newPath;

@@ -1,18 +1,66 @@
-<!-- Sidebar -->
-<ng-include src="'/includes/sidebar/sidebar-directives.html'"></ng-include>
-
 <div class="main-section">
-    <h3 class="main-section__title">Date picker</h3>
+    <h1 class="main-section__title">Date picker</h1>
 
-    <div class="main-section__content">
-        <div class="example">
-            <div class="example__content">
-                <ng-include src="'/includes/modules/date-picker/includes/example.html'"></ng-include>
-            </div>
+    <p class="main-section__intro">
+        <code>lx-date-picker</code> is a directive that let user choose a date within a picker.
+    </p>
 
-            <!-- Example -->
-            <div class="example__code" hljs include="'/includes/modules/date-picker/includes/example.html'" language="html"></div>
-            <!-- /Example -->
-        </div>
-    </div>
+    <lx-component lx-title="Basic usage" lx-path="/includes/modules/date-picker/includes/basic.html" lx-js-path="/js/date-picker/demo/demo-date-picker_controller.js"></lx-component>
+    <lx-component lx-title="Options" lx-path="/includes/modules/date-picker/includes/options.html" lx-js-path="/js/date-picker/demo/demo-date-picker_controller.js"></lx-component>
+    <lx-component lx-title="Styles" lx-path="/includes/modules/date-picker/includes/styles.html" lx-js-path="/js/date-picker/demo/demo-date-picker_controller.js"></lx-component>
+
+    <lx-component-attributes>
+        <table>
+            <thead>
+                <tr>
+                    <th>Parameter</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td>lx-allow-clear</td>
+                    <td><code>boolean</code></td>
+                    <td>Add a button to clear the input model.</td>
+                </tr>
+                <tr>
+                    <td>lx-color</td>
+                    <td><code>string</code></td>
+                    <td>Define the button color. Options: colors defined in colors and sizes section in <code>dist/scss/core/settings/defaults.scss</code></td>
+                </tr>
+                <tr>
+                    <td>lx-input-fixed-label</td>
+                    <td><code>boolean</code></td>
+                    <td>When present, input label will act like a classic placeholder.</td>
+                </tr>
+                <tr>
+                    <td>lx-input-icon</td>
+                    <td><code>boolean</code></td>
+                    <td>Add an icon next to the input. Input must have a fixed label in this case.</td>
+                </tr>
+                <tr>
+                    <td>lx-input-label</td>
+                    <td><code>boolean</code></td>
+                    <td>The label of the input displayed as a placeholder (required).</td>
+                </tr>
+                <tr>
+                    <td>lx-max-date</td>
+                    <td><code>object</code></td>
+                    <td>Set the max selectable date.</td>
+                </tr>
+                <tr>
+                    <td>lx-min-date</td>
+                    <td><code>object</code></td>
+                    <td>Set the min selectable date.</td>
+                </tr>
+                <tr>
+                    <td>lx-locale</td>
+                    <td><code>string</code></td>
+                    <td>Generate the calendar according to the given locale (required).</td>
+                </tr>
+            </tbody>
+        </table>
+    </lx-component-attributes>
 </div>
