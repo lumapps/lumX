@@ -6,7 +6,6 @@
         .module('Controllers')
         .controller('DemoTextFieldController', DemoTextFieldController);
 
-    /* @ngInject */
     function DemoTextFieldController()
     {
         var vm = this;

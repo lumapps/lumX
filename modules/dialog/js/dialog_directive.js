@@ -20,8 +20,7 @@
             scope:
             {
                 autoClose: '=?lxAutoClose',
-                escapeClose: '=?lxEscapeClose',
-                onscrollend: '&?lxOnscrollend'
+                escapeClose: '=?lxEscapeClose'
             },
             link: link,
             controller: LxDialogController,

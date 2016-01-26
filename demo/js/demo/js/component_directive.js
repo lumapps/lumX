@@ -5,7 +5,9 @@
     angular
         .module('Directives')
         .directive('lxComponent', lxComponent)
-        .directive('lxComponentAttributes', lxComponentAttributes);
+        .directive('lxComponentAttributes', lxComponentAttributes)
+        .directive('lxComponentMethods', lxComponentMethods)
+        .directive('lxComponentMethod', lxComponentMethod);
 
     function lxComponent()
     {
@@ -72,5 +74,64 @@
             templateUrl: '/js/demo/views/component-attributes.html',
             transclude: true
         };
+    }
+
+    function lxComponentMethods()
+    {
+        return {
+            restrict: 'E',
+            templateUrl: '/js/demo/views/component-methods.html',
+            scope: true,
+            link: link,
+            controller: LxComponentMethodsController,
+            controllerAs: 'lxComponentMethods',
+            bindToController: true,
+            transclude: true
+        };
+
+        function link(scope, element, attrs)
+        {
+            attrs.$observe('lxTitle', function(newTitle)
+            {
+                scope.lxComponentMethods.title = newTitle;
+            });
+        }
+    }
+
+    function LxComponentMethodsController()
+    {
+        var lxComponentMethods = this;
+    }
+
+    function lxComponentMethod()
+    {
+        return {
+            restrict: 'E',
+            templateUrl: '/js/demo/views/component-method.html',
+            scope: true,
+            link: link,
+            controller: LxComponentMethodController,
+            controllerAs: 'lxComponentMethod',
+            bindToController: true,
+            transclude: true
+        };
+
+        function link(scope, element, attrs)
+        {
+            attrs.$observe('lxName', function(newName)
+            {
+                scope.lxComponentMethod.name = newName;
+            });
+
+            attrs.$observe('lxDescription', function(newDescription)
+            {
+                scope.lxComponentMethod.description = newDescription;
+            });
+        }
+    }
+
+    function LxComponentMethodController()
+    {
+        var lxComponentMethod = this;
     }
 })();

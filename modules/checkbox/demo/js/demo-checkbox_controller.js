@@ -6,7 +6,6 @@
         .module('Controllers')
         .controller('DemoCheckboxController', DemoCheckboxController);
 
-    /* @ngInject */
     function DemoCheckboxController()
     {
         var vm = this;

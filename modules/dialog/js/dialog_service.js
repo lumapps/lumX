@@ -156,11 +156,11 @@
                 }
             }
 
-            if (angular.isDefined(scopeMap[activeDialogId]) && angular.isDefined(scopeMap[activeDialogId].onscrollend))
+            if (angular.isDefined(scopeMap[activeDialogId]))
             {
                 if (dialogScrollable.scrollTop() + dialogScrollable.innerHeight() >= dialogScrollable[0].scrollHeight)
                 {
-                    scopeMap[activeDialogId].onscrollend();
+                    $rootScope.$broadcast('lx-dialog__scroll-end', activeDialogId);
 
                     dialogScrollable.unbind('scroll', checkScrollEnd);
 

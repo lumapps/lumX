@@ -144,6 +144,19 @@
                         }
                     }
                 })
+                .state('app.components.dialog',
+                {
+                    url: '/dialog',
+                    views:
+                    {
+                        'main@':
+                        {
+                            templateUrl: '/includes/modules/dialog/dialog.html',
+                            controller: 'DemoDialogController',
+                            controllerAs: 'vm'
+                        }
+                    }
+                })
                 .state('app.components.text-field',
                 {
                     url: '/text-field',

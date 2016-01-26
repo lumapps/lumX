@@ -6,7 +6,6 @@
         .module('Controllers')
         .controller('DemoDatePickerController', DemoDatePickerController);
 
-    /* @ngInject */
     function DemoDatePickerController()
     {
         var vm = this;

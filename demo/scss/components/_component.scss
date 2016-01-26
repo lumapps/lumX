@@ -48,15 +48,15 @@
 // Component attributes
 .lx-component-attributes {
     margin-top: $base-spacing-unit * 3;
+    border: 1px solid $black-4;
+    border-radius: $base-round;
+    background-color: $grey-50;
+    overflow: hidden;
 }
 
     // Component attributes: header
     .lx-component-attributes__header {
         padding: 0 $base-spacing-unit * 2;
-        border: 1px solid $black-4;
-        border-radius: $base-round;
-        border-bottom: none;
-        background-color: $grey-50;
     }
 
     // Component attributes: title
@@ -75,7 +75,97 @@
         -webkit-overflow-scrolling: touch;
     
         table {
-            width: 100%;
+            width: 101%;
+        }
+
+        th, td {
+            padding: $base-spacing-unit * 2;
+            text-align: left;
+        }
+
+        th {
+            background-color: $primary;
+            @include font-size(14px);
+            font-weight: 700;
+            color: $white-1;
+        }
+
+        td:first-child {
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        tr:nth-child(odd) td {
+            background-color: $indigo-50;
+        }
+
+        tr:nth-child(even) td {
+            background-color: $indigo-100;
+        }
+    }
+
+
+
+
+
+// Component methods
+.lx-component-methods {
+    margin-top: $base-spacing-unit * 3;
+    border: 1px solid $black-4;
+    border-radius: $base-round;
+    background-color: $grey-50;
+    overflow: hidden;
+}
+
+    // Component methods: header
+    .lx-component-methods__header {
+        padding: 0 $base-spacing-unit * 2;
+        border-bottom: 1px solid $black-4;
+    }
+
+    // Component methods: title
+    .lx-component-methods__title {
+        @include font-size(20px);
+        font-weight: 700;
+        line-height: 48px;
+    }
+
+
+
+
+
+// Component method
+.lx-component-method {
+
+}
+
+    // Component method: header
+    .lx-component-method__header {
+        padding: 0 $base-spacing-unit * 2;
+    }
+    
+    // Component method: name
+    .lx-component-method__name {
+        @include font-size(20px);
+        font-weight: 700;
+        line-height: 48px;
+    }
+    
+    // Component method: description
+    .lx-component-method__description {
+        padding-bottom: $base-spacing-unit * 1.5;
+    }
+
+    // Component method: table
+    .lx-component-method__table {
+        position: relative;
+        width: 100%;
+        overflow-x: auto;
+        overflow-y: hidden;
+        -webkit-overflow-scrolling: touch;
+    
+        table {
+            width: 101%;
         }
 
         th, td {

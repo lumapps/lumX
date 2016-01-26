@@ -1,19 +1,205 @@
-<!-- Sidebar -->
-<ng-include src="'/includes/sidebar/sidebar-directives.html'"></ng-include>
-
 <div class="main-section">
-    <h3 class="main-section__title">Dialogs</h3>
+    <h1 class="main-section__title">Dialog</h1>
 
-    <div class="main-section__content">
-        <div class="example">
-            <div class="example__content">
-                <ng-include src="'/includes/modules/dialog/includes/example.html'"></ng-include>
-            </div>
+    <p class="main-section__intro">
+        <code>lx-dialog</code> is a directive that create a dialog. This dialog is managed by the <code>LxDialogService</code>.
+    </p>
 
-            <!-- Example -->
-            <div class="example__code" hljs include="'/includes/modules/dialog/includes/example.html'" language="html"></div>
-            <div class="example__code" hljs include="'/includes/modules/dialog/includes/js.html'" language="js"></div>
-            <!-- /Example -->
-        </div>
-    </div>
+    <lx-component lx-title="Basic usage" lx-path="/includes/modules/dialog/includes/basic.html" lx-js-path="/js/dialog/demo/demo-dialog_controller.js">
+        You need to transclude three directives : <code>lx-dialog-header</code>, <code>lx-dialog-content</code> and <code>lx-dialog-footer</code>.
+    </lx-component>
+
+    <lx-component-attributes>
+        <table>
+            <thead>
+                <tr>
+                    <th>Parameter</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td>lx-auto-close</td>
+                    <td><code>boolean</code></td>
+                    <td>Specify if the dialog should be closed when clicking outside. Default: <code>true</code></td>
+                </tr>
+                <tr>
+                    <td>lx-escape-close</td>
+                    <td><code>boolean</code></td>
+                    <td>Specify if the dialog should be closed with escape key. Default: <code>true</code></td>
+                </tr>
+            </tbody>
+        </table>
+    </lx-component-attributes>
+
+    <lx-component-methods lx-title="Service api">
+        <lx-component-method lx-name="LxDialogService.open(dialogId)" lx-description="Show a dialog according to its id.">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Parameter</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td>dialogId</td>
+                        <td><code>string</code></td>
+                        <td>The dialog id specified in the directive id attribute (required).</td>
+                    </tr>
+                </tbody>
+            </table>
+        </lx-component-method>
+
+        <lx-component-method lx-name="LxDialogService.close(dialogId)" lx-description="Close a dialog according to its id.">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Parameter</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td>dialogId</td>
+                        <td><code>string</code></td>
+                        <td>The dialog id specified in the directive id attribute (required).</td>
+                    </tr>
+                </tbody>
+            </table>
+        </lx-component-method>
+    </lx-component-methods>
+
+    <lx-component-methods lx-title="Events">
+        <lx-component-method lx-name="lx-dialog__open-start" lx-description="A broadcast is sent when dialog starts to appear.">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Available parameter</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td>event</td>
+                        <td><code>object</code></td>
+                        <td>The broadcast original event.</td>
+                    </tr>
+                    <tr>
+                        <td>dialogId</td>
+                        <td><code>string</code></td>
+                        <td>The dialog id specified in the directive id attribute.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </lx-component-method>
+
+        <lx-component-method lx-name="lx-dialog__open-end" lx-description="A broadcast is sent when dialog is opened.">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Available parameter</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td>event</td>
+                        <td><code>object</code></td>
+                        <td>The broadcast original event.</td>
+                    </tr>
+                    <tr>
+                        <td>dialogId</td>
+                        <td><code>string</code></td>
+                        <td>The dialog id specified in the directive id attribute.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </lx-component-method>
+
+        <lx-component-method lx-name="lx-dialog__close-start" lx-description="A broadcast is sent when dialog starts to disappear.">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Available parameter</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td>event</td>
+                        <td><code>object</code></td>
+                        <td>The broadcast original event.</td>
+                    </tr>
+                    <tr>
+                        <td>dialogId</td>
+                        <td><code>string</code></td>
+                        <td>The dialog id specified in the directive id attribute.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </lx-component-method>
+
+        <lx-component-method lx-name="lx-dialog__close-end" lx-description="A broadcast is sent when dialog is closed.">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Available parameter</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td>event</td>
+                        <td><code>object</code></td>
+                        <td>The broadcast original event.</td>
+                    </tr>
+                    <tr>
+                        <td>dialogId</td>
+                        <td><code>string</code></td>
+                        <td>The dialog id specified in the directive id attribute.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </lx-component-method>
+
+        <lx-component-method lx-name="lx-dialog__scroll-end" lx-description="A broadcast is sent when user scrolls at the end of the dialog content.">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Available parameter</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td>event</td>
+                        <td><code>object</code></td>
+                        <td>The broadcast original event.</td>
+                    </tr>
+                    <tr>
+                        <td>dialogId</td>
+                        <td><code>string</code></td>
+                        <td>The dialog id specified in the directive id attribute.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </lx-component-method>
+    </lx-component-methods>
 </div>
