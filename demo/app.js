@@ -83,7 +83,8 @@
                         {
                             templateUrl: '/includes/layout/sidebar/sidebar-components.html'
                         }
-                    }
+                    },
+                    redirectTo: 'app.components.button'
                 })
                 .state('app.components.button',
                 {
@@ -181,7 +182,18 @@
                         }
                     }
                 });
-        });
+        })
+        .run(['$rootScope', '$state', function($rootScope, $state)
+        {
+            $rootScope.$on('$stateChangeStart', function(event, toState, toParams)
+            {
+                if (toState.redirectTo)
+                {
+                    event.preventDefault();
+                    $state.go(toState.redirectTo, toParams)
+                }
+            });
+        }]);
 
     angular.module('Controllers', []);
     angular.module('Directives', []);
