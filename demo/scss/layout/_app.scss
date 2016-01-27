@@ -18,7 +18,6 @@
             @include display(flex);
             border-radius: $base-round;
             @include z-depth(1);
-            overflow: hidden;
         }
     }
 

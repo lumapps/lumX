@@ -157,6 +157,17 @@
                         }
                     }
                 })
+                .state('app.components.dropdown',
+                {
+                    url: '/dropdown',
+                    views:
+                    {
+                        'main@':
+                        {
+                            templateUrl: '/includes/modules/dropdown/dropdown.html'
+                        }
+                    }
+                })
                 .state('app.components.text-field',
                 {
                     url: '/text-field',
