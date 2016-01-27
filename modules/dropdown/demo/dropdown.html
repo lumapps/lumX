@@ -9,14 +9,13 @@
         You need to transclude two directives : <code>lx-dropdown-toggle</code> that transclude the toggle button and <code>lx-dropdown-menu</code> that transclude the menu content.
     </lx-component>
 
-    <lx-component lx-title="Options" lx-path="/includes/modules/dropdown/includes/option.html"></lx-component>
-
     <lx-component-attributes>
         <table>
             <thead>
                 <tr>
                     <th>Parameter</th>
                     <th>Type</th>
+                    <th>Default</th>
                     <th>Description</th>
                 </tr>
             </thead>
@@ -25,21 +24,25 @@
                 <tr>
                     <td>lx-escape-close</td>
                     <td><code>boolean</code></td>
-                    <td>Specify if the dropdown should be closed with escape key. Default: <code>true</code></td>
+                    <td><code>true</code></td>
+                    <td>Specify if the dropdown should be closed with escape key.</td>
                 </tr>
                 <tr>
                     <td>lx-over-toggle</td>
                     <td><code>boolean</code></td>
+                    <td><code>false</code></td>
                     <td>Specify if the dropdown should be opened over the toggle button.</td>
                 </tr>
                 <tr>
                     <td>lx-position</td>
                     <td><code>string</code></td>
-                    <td>Define the position of the dropdown menu. Options: <code>left</code> (default), <code>right</code></td>
+                    <td><code>left</code></td>
+                    <td>Define the position of the dropdown menu. Options: <code>left</code>, <code>right</code></td>
                 </tr>
                 <tr>
                     <td>lx-width</td>
                     <td><code>string</code></td>
+                    <td></td>
                     <td>Define the dropdown menu width in pixels. If a percent value is defined, the dropdown menu width will be relative to the width of the toggle button.</td>
                 </tr>
             </tbody>

@@ -15,6 +15,7 @@
                 <tr>
                     <th>Parameter</th>
                     <th>Type</th>
+                    <th>Default</th>
                     <th>Description</th>
                 </tr>
             </thead>
@@ -23,42 +24,50 @@
                 <tr>
                     <td>lx-allow-clear</td>
                     <td><code>boolean</code></td>
+                    <td><code>false</code></td>
                     <td>Add a button to clear the input model.</td>
                 </tr>
                 <tr>
                     <td>lx-color</td>
                     <td><code>string</code></td>
+                    <td><code>primary</code></td>
                     <td>Define the button color. Options: colors defined in colors and sizes section in <code>dist/scss/core/settings/defaults.scss</code></td>
                 </tr>
                 <tr>
                     <td>lx-input-fixed-label</td>
                     <td><code>boolean</code></td>
+                    <td><code>false</code></td>
                     <td>When present, input label will act like a classic placeholder.</td>
                 </tr>
                 <tr>
                     <td>lx-input-icon</td>
-                    <td><code>boolean</code></td>
+                    <td><code>string</code></td>
+                    <td></td>
                     <td>Add an icon next to the input. Input must have a fixed label in this case.</td>
                 </tr>
                 <tr>
-                    <td>lx-input-label</td>
-                    <td><code>boolean</code></td>
-                    <td>The label of the input displayed as a placeholder (required).</td>
+                    <td>lx-input-label*</td>
+                    <td><code>string</code></td>
+                    <td></td>
+                    <td>The label of the input displayed as a placeholder.</td>
                 </tr>
                 <tr>
                     <td>lx-max-date</td>
                     <td><code>object</code></td>
+                    <td></td>
                     <td>Set the max selectable date.</td>
                 </tr>
                 <tr>
                     <td>lx-min-date</td>
                     <td><code>object</code></td>
+                    <td></td>
                     <td>Set the min selectable date.</td>
                 </tr>
                 <tr>
-                    <td>lx-locale</td>
+                    <td>lx-locale*</td>
                     <td><code>string</code></td>
-                    <td>Generate the calendar according to the given locale (required).</td>
+                    <td></td>
+                    <td>Generate the calendar according to the given locale.</td>
                 </tr>
             </tbody>
         </table>
