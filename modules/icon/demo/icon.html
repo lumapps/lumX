@@ -1,52 +1,55 @@
-<!-- Sidebar -->
-<ng-include src="'/includes/sidebar/sidebar-css.html'"></ng-include>
-
 <div class="main-section">
-    <h3 class="main-section__title">Icons</h3>
+    <h1 class="main-section__title">Icon</h1>
 
     <p class="main-section__intro">
-        LumX provide Material Design iconic font based on <a href="http://materialdesignicons.com" target="_blank">Austin Andrews work</a>.
+        <code>lx-icon</code> is a directive that will become an icon.<br />
     </p>
 
-    <div class="main-section__content">
-        <div class="paragraph">
-            <h4 class="main-section__subtitle">Simple icons</h4>
+    <lx-component lx-title="Simple icons" lx-path="/includes/modules/icon/includes/simple-icons.html">
+        LumX provide Material Design iconic font based on <a href="http://materialdesignicons.com" target="_blank">Austin Andrews work</a>.
+    </lx-component>
 
-            <p>
-                Simply use <code>mdi</code> class with <code>mdi-{icon}</code> modifier to display icon.<br />
-                <a href="http://materialdesignicons.com" target="_blank">You can get icon labels here.</a>
-            </p>
-        </div>
+    <lx-component lx-title="Styled icons" lx-path="/includes/modules/icon/includes/styled-icons.html">
+        As <code>lx-button</code>, you can specify size, color and type variants.
+    </lx-component>
 
-        <div class="example mt++">
-            <div class="example__content">
-                <ng-include src="'/includes/modules/icon/includes/simple-icons.html'"></ng-include>
-            </div>
+    <lx-component-attributes>
+        <table>
+            <thead>
+                <tr>
+                    <th>Parameter</th>
+                    <th>Type</th>
+                    <th>Default</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
 
-            <!-- Example -->
-            <div class="example__code" hljs include="'/includes/modules/icon/includes/simple-icons.html'" language="html"></div>
-            <!-- /Example -->
-        </div>
-    </div>
-
-    <div class="main-section__content">
-        <div class="paragraph">
-            <h4 class="main-section__subtitle">Styled icons</h4>
-
-            <p>
-                We provide some helpers to help you build styled icons.<br />
-                You can create icon with 2 different sizes, and primary colors defined in settings.
-            </p>
-        </div>
-
-        <div class="example mt++">
-            <div class="example__content">
-                <ng-include src="'/includes/modules/icon/includes/styled-icons.html'"></ng-include>
-            </div>
-
-            <!-- Example -->
-            <div class="example__code" hljs include="'/includes/modules/icon/includes/styled-icons.html'" language="html">
-            <!-- /Example -->
-        </div>
-    </div>
+            <tbody>
+                <tr>
+                    <td>lx-color</td>
+                    <td><code>string</code></td>
+                    <td></td>
+                    <td>Define the button color. Options: colors defined in colors and sizes section in <code>dist/scss/core/settings/defaults.scss</code></td>
+                </tr>
+                <tr>
+                    <td>lx-id*</td>
+                    <td><code>string</code></td>
+                    <td></td>
+                    <td>The icon identifier tha tcan be found in <a href="http://materialdesignicons.com" target="_blank">Material Design Icons website</a>.</td>
+                </tr>
+                <tr>
+                    <td>lx-size</td>
+                    <td><code>string</code></td>
+                    <td></td>
+                    <td>Define the button size. Options: <code>xs</code>, <code>s</code>, <code>m</code>, <code>l</code>, <code>xl</code></td>
+                </tr>
+                <tr>
+                    <td>lx-type</td>
+                    <td><code>string</code></td>
+                    <td></td>
+                    <td>Define the button type. Options: <code>raised</code>, <code>flat</code>, <code>fab</code>, <code>icon</code></td>
+                </tr>
+            </tbody>
+        </table>
+    </lx-component-attributes>
 </div>

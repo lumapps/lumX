@@ -193,6 +193,17 @@
                         }
                     }
                 })
+                .state('app.components.icon',
+                {
+                    url: '/icon',
+                    views:
+                    {
+                        'main@':
+                        {
+                            templateUrl: '/includes/modules/icon/icon.html'
+                        }
+                    }
+                })
                 .state('app.components.text-field',
                 {
                     url: '/text-field',

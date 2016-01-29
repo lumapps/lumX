@@ -26,7 +26,8 @@ var paths = {
         'build/js/templates/checkbox_template.js',
         'build/js/templates/radio-button_template.js',
         'build/js/templates/switch_template.js',
-        'build/js/templates/fab_template.js'
+        'build/js/templates/fab_template.js',
+        'build/js/templates/icon_template.js'
     ],
     demo: [
         'demo/**/*',
@@ -55,10 +56,12 @@ function watcherWithCache(name, src, tasks)
     });
 }
 
-var knownOptions =
-{
+var knownOptions = {
     string: 'version',
-    default: { version: '' }
+    default:
+    {
+        version: ''
+    }
 };
 
 var options = minimist(process.argv.slice(2), knownOptions);
@@ -96,7 +99,8 @@ gulp.task('scss', function()
 {
     return gulp.src('demo/scss/lumx.scss')
         .pipe(plugins.plumber())
-        .pipe(plugins.sass({
+        .pipe(plugins.sass(
+        {
             includePaths: ['libs/bourbon/app/assets/stylesheets/', 'libs/mdi/scss/']
         }))
         .pipe(gulp.dest('build'));
@@ -164,11 +168,15 @@ gulp.task('dist:css', ['scss:paths'], function()
     return gulp.src(['core/scss/_lumx.scss'])
         .pipe(plugins.plumber())
         .pipe(plugins.rename('lumx.scss'))
-        .pipe(plugins.sass({
+        .pipe(plugins.sass(
+        {
             includePaths: ['libs/bourbon/app/assets/stylesheets/', 'libs/mdi/scss/']
         }))
         .pipe(plugins.replace(/\.\.\/fonts/g, './fonts'))
-        .pipe(plugins.minifyCss({ keepSpecialComments: 0 }))
+        .pipe(plugins.minifyCss(
+        {
+            keepSpecialComments: 0
+        }))
         .pipe(plugins.insert.prepend('/*\n LumX ' + options.version + '\n (c) 2014-' + new Date().getFullYear() + ' LumApps http://ui.lumapps.com\n License: MIT\n*/\n'))
         .pipe(gulp.dest('dist'));
 });
@@ -183,7 +191,8 @@ gulp.task('tpl:dropdown', function()
 {
     return gulp.src('modules/dropdown/views/*.html')
         .pipe(plugins.plumber())
-        .pipe(plugins.templatecache({
+        .pipe(plugins.templatecache(
+        {
             output: 'dropdown_template.js',
             moduleName: 'lumx.dropdown',
             strip: 'views/'
@@ -195,7 +204,8 @@ gulp.task('tpl:file-input', function()
 {
     return gulp.src('modules/file-input/views/*.html')
         .pipe(plugins.plumber())
-        .pipe(plugins.templatecache({
+        .pipe(plugins.templatecache(
+        {
             output: 'file-input_template.js',
             moduleName: 'lumx.file-input',
             strip: 'views/'
@@ -207,7 +217,8 @@ gulp.task('tpl:text-field', function()
 {
     return gulp.src('modules/text-field/views/*.html')
         .pipe(plugins.plumber())
-        .pipe(plugins.templatecache({
+        .pipe(plugins.templatecache(
+        {
             output: 'text-field_template.js',
             moduleName: 'lumx.text-field',
             strip: 'views/'
@@ -219,7 +230,8 @@ gulp.task('tpl:search-filter', function()
 {
     return gulp.src('modules/search-filter/views/*.html')
         .pipe(plugins.plumber())
-        .pipe(plugins.templatecache({
+        .pipe(plugins.templatecache(
+        {
             output: 'search-filter_template.js',
             moduleName: 'lumx.search-filter',
             strip: 'views/'
@@ -231,7 +243,8 @@ gulp.task('tpl:select', function()
 {
     return gulp.src('modules/select/views/*.html')
         .pipe(plugins.plumber())
-        .pipe(plugins.templatecache({
+        .pipe(plugins.templatecache(
+        {
             output: 'select_template.js',
             moduleName: 'lumx.select',
             strip: 'views/'
@@ -243,7 +256,8 @@ gulp.task('tpl:tabs', function()
 {
     return gulp.src('modules/tabs/views/*.html')
         .pipe(plugins.plumber())
-        .pipe(plugins.templatecache({
+        .pipe(plugins.templatecache(
+        {
             output: 'tabs_template.js',
             moduleName: 'lumx.tabs',
             strip: 'views/'
@@ -255,7 +269,8 @@ gulp.task('tpl:date-picker', function()
 {
     return gulp.src('modules/date-picker/views/*.html')
         .pipe(plugins.plumber())
-        .pipe(plugins.templatecache({
+        .pipe(plugins.templatecache(
+        {
             output: 'date-picker_template.js',
             moduleName: 'lumx.date-picker',
             strip: 'views/'
@@ -267,7 +282,8 @@ gulp.task('tpl:progress', function()
 {
     return gulp.src('modules/progress/views/*.html')
         .pipe(plugins.plumber())
-        .pipe(plugins.templatecache({
+        .pipe(plugins.templatecache(
+        {
             output: 'progress_template.js',
             moduleName: 'lumx.progress',
             strip: 'views/'
@@ -279,7 +295,8 @@ gulp.task('tpl:button', function()
 {
     return gulp.src('modules/button/views/*.html')
         .pipe(plugins.plumber())
-        .pipe(plugins.templatecache({
+        .pipe(plugins.templatecache(
+        {
             output: 'button_template.js',
             moduleName: 'lumx.button',
             strip: 'views/'
@@ -291,7 +308,8 @@ gulp.task('tpl:checkbox', function()
 {
     return gulp.src('modules/checkbox/views/*.html')
         .pipe(plugins.plumber())
-        .pipe(plugins.templatecache({
+        .pipe(plugins.templatecache(
+        {
             output: 'checkbox_template.js',
             moduleName: 'lumx.checkbox',
             strip: 'views/'
@@ -303,7 +321,8 @@ gulp.task('tpl:radio-button', function()
 {
     return gulp.src('modules/radio-button/views/*.html')
         .pipe(plugins.plumber())
-        .pipe(plugins.templatecache({
+        .pipe(plugins.templatecache(
+        {
             output: 'radio-button_template.js',
             moduleName: 'lumx.radio-button',
             strip: 'views/'
@@ -315,7 +334,8 @@ gulp.task('tpl:switch', function()
 {
     return gulp.src('modules/switch/views/*.html')
         .pipe(plugins.plumber())
-        .pipe(plugins.templatecache({
+        .pipe(plugins.templatecache(
+        {
             output: 'switch_template.js',
             moduleName: 'lumx.switch',
             strip: 'views/'
@@ -327,7 +347,8 @@ gulp.task('tpl:fab', function()
 {
     return gulp.src('modules/fab/views/*.html')
         .pipe(plugins.plumber())
-        .pipe(plugins.templatecache({
+        .pipe(plugins.templatecache(
+        {
             output: 'fab_template.js',
             moduleName: 'lumx.fab',
             strip: 'views/'
@@ -335,7 +356,20 @@ gulp.task('tpl:fab', function()
         .pipe(gulp.dest('build/js/templates'));
 });
 
-gulp.task('dist:scripts', ['tpl:dropdown', 'tpl:file-input', 'tpl:text-field', 'tpl:search-filter', 'tpl:select', 'tpl:tabs', 'tpl:date-picker', 'tpl:progress', 'tpl:button', 'tpl:checkbox', 'tpl:radio-button', 'tpl:switch', 'tpl:fab'], function()
+gulp.task('tpl:icon', function()
+{
+    return gulp.src('modules/icon/views/*.html')
+        .pipe(plugins.plumber())
+        .pipe(plugins.templatecache(
+        {
+            output: 'icon_template.js',
+            moduleName: 'lumx.icon',
+            strip: 'views/'
+        }))
+        .pipe(gulp.dest('build/js/templates'));
+});
+
+gulp.task('dist:scripts', ['tpl:dropdown', 'tpl:file-input', 'tpl:text-field', 'tpl:search-filter', 'tpl:select', 'tpl:tabs', 'tpl:date-picker', 'tpl:progress', 'tpl:button', 'tpl:checkbox', 'tpl:radio-button', 'tpl:switch', 'tpl:fab', 'tpl:icon'], function()
 {
     return gulp.src(paths.js.concat(paths.templates))
         .pipe(plugins.plumber())
@@ -348,8 +382,10 @@ gulp.task('dist:scripts', ['tpl:dropdown', 'tpl:file-input', 'tpl:text-field', '
         .pipe(gulp.dest('dist'));
 });
 
-gulp.task('serve', ['watch'], function() {
-    return plugins.connect.server({
+gulp.task('serve', ['watch'], function()
+{
+    return plugins.connect.server(
+    {
         root: 'build'
     });
 });
@@ -374,11 +410,12 @@ gulp.task('watch', ['build'], function()
     watcherWithCache('tpl:radio-button', 'modules/radio-button/views/*.html', ['tpl:radio-button']);
     watcherWithCache('tpl:switch', 'modules/switch/views/*.html', ['tpl:switch']);
     watcherWithCache('tpl:fab', 'modules/fab/views/*.html', ['tpl:fab']);
+    watcherWithCache('tpl:fab', 'modules/fab/views/*.html', ['tpl:icon']);
 });
 
 gulp.task('clean', ['clean:build', 'clean:dist']);
 
-gulp.task('build', ['lint', 'scss', 'fonts', 'demo', 'examples', 'libs', 'tpl:dropdown', 'tpl:file-input', 'tpl:text-field', 'tpl:search-filter', 'tpl:select', 'tpl:tabs', 'tpl:date-picker', 'tpl:progress', 'tpl:button', 'tpl:checkbox', 'tpl:radio-button', 'tpl:switch', 'tpl:fab']);
+gulp.task('build', ['lint', 'scss', 'fonts', 'demo', 'examples', 'libs', 'tpl:dropdown', 'tpl:file-input', 'tpl:text-field', 'tpl:search-filter', 'tpl:select', 'tpl:tabs', 'tpl:date-picker', 'tpl:progress', 'tpl:button', 'tpl:checkbox', 'tpl:radio-button', 'tpl:switch', 'tpl:fab', 'tpl:icon']);
 gulp.task('dist', ['clean:dist'], function()
 {
     gulp.start('dist:css');

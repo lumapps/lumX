@@ -34,6 +34,10 @@
     .lx-component__description {
         padding-right: $base-spacing-unit * 4;
         padding-bottom: $base-spacing-unit * 1.5;
+
+        a {
+            color: $primary;
+        }
     }
     
     // Component: toolbar
@@ -101,6 +105,10 @@
 
         tr:nth-child(even) td {
             background-color: $indigo-100;
+        }
+
+        a {
+            color: $primary;
         }
     }
 
