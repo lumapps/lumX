@@ -169,6 +169,17 @@
                         }
                     }
                 })
+                .state('app.components.fab',
+                {
+                    url: '/fab',
+                    views:
+                    {
+                        'main@':
+                        {
+                            templateUrl: '/includes/modules/fab/fab.html'
+                        }
+                    }
+                })
                 .state('app.components.text-field',
                 {
                     url: '/text-field',

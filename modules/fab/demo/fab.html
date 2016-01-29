@@ -1,18 +1,33 @@
-<!-- Sidebar -->
-<ng-include src="'/includes/sidebar/sidebar-css.html'"></ng-include>
-
 <div class="main-section">
-    <h3 class="main-section__title">Floating action button</h3>
+    <h1 class="main-section__title">Floating action button</h1>
 
-    <div class="main-section__content">
-        <div class="example">
-            <div class="example__content">
-                <ng-include src="'/includes/modules/fab/includes/example.html'"></ng-include>
-            </div>
+    <p class="main-section__intro">
+        <code>lx-fab</code> is a directive that create a floating action button as described in <a href="https://www.google.com/design/spec/components/buttons-floating-action-button.html" target="_blank">Google guidelines</a>.
+    </p>
 
-            <!-- Example -->
-            <div class="example__code" hljs include="'/includes/modules/fab/includes/example.html'" language="html">
-            <!-- /Example -->
-        </div>
-    </div>
+    <lx-component lx-title="Basic usage" lx-path="/includes/modules/fab/includes/basic.html">
+        You need to transclude two directives : <code>lx-fab-trigger</code> that transclude the trigger button and <code>lx-fab-actions</code> that transclude the hidden buttons.
+    </lx-component>
+
+    <lx-component-attributes>
+        <table>
+            <thead>
+                <tr>
+                    <th>Parameter</th>
+                    <th>Type</th>
+                    <th>Default</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td>lx-direction*</td>
+                    <td><code>string</code></td>
+                    <td></td>
+                    <td>Define the direction of action buttons. Options: <code>up</code>, <code>right</code>, <code>down</code>, <code>left</code></td>
+                </tr>
+            </tbody>
+        </table>
+    </lx-component-attributes>
 </div>

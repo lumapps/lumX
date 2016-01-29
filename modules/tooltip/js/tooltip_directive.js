@@ -13,7 +13,7 @@
             scope:
             {
                 tooltip: '@lxTooltip',
-                position: '@?lxPosition'
+                position: '@?lxTooltipPosition'
             },
             link: link,
             controller: LxTooltipController,

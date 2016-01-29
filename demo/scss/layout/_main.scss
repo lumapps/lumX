@@ -17,4 +17,8 @@
     // Main section: intro
     .main-section__intro {
         font-weight: 700;
+
+        a {
+            color: $primary;
+        }
     }

@@ -28,21 +28,6 @@
             {
                 ctrl.setFabDirection(newDirection);
             });
-
-            scope.$watch(attrs.lxFabProgress, function(isLoading)
-            {
-                ctrl.setFabProgress(isLoading);
-            });
-
-            if (angular.isUndefined(attrs.lxFabProgressColor))
-            {
-                ctrl.setFabProgressColor('primary');
-            }
-
-            attrs.$observe('lxFabProgressColor', function(newColor)
-            {
-                ctrl.setFabProgressColor(newColor);
-            });
         }
     }
 
@@ -51,24 +36,12 @@
         var lxFab = this;
 
         lxFab.setFabDirection = setFabDirection;
-        lxFab.setFabProgress = setFabProgress;
-        lxFab.setFabProgressColor = setFabProgressColor;
 
         ////////////
 
         function setFabDirection(_direction)
         {
             lxFab.lxDirection = _direction;
-        }
-
-        function setFabProgress(_isLoading)
-        {
-            lxFab.lxFabProgress = _isLoading;
-        }
-
-        function setFabProgressColor(_color)
-        {
-            lxFab.lxFabProgressColor = _color;
         }
     }
 

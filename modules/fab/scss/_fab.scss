@@ -143,13 +143,3 @@
             margin-left: $base-spacing-unit;
         }
     }
-
-    // FAB progress
-    .fab__progress {
-        @include position(absolute, -4px null null -4px);
-        @include size(64px);
-
-        .progress-container {
-            @include transform-origin(left top);
-        }
-    }
