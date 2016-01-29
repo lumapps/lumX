@@ -14,7 +14,7 @@
             scope:
             {
                 label: '@lxLabel',
-                change: '&?lxChange'
+                callback: '&?lxCallback'
             },
             link: link,
             controller: LxFileInputController,
@@ -66,9 +66,9 @@
 
         function updateModel()
         {
-            if (angular.isDefined(lxFileInput.change))
+            if (angular.isDefined(lxFileInput.callback))
             {
-                lxFileInput.change()(input[0].files[0]);
+                lxFileInput.callback()(input[0].files[0]);
             }
 
             $timeout(setFileName);

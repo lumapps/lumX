@@ -1,18 +1,37 @@
-<!-- Sidebar -->
-<ng-include src="'/includes/sidebar/sidebar-directives.html'"></ng-include>
-
 <div class="main-section">
-    <h3 class="main-section__title">File inputs</h3>
+    <h1 class="main-section__title">File input</h1>
 
-    <div class="main-section__content">
-        <div class="example">
-            <div class="example__content pt0">
-                <ng-include src="'/includes/modules/file-input/includes/example.html'"></ng-include>
-            </div>
+    <p class="main-section__intro">
+        <code>lx-file-input</code>  is an input directive that will become an <code>input file</code> element.
+    </p>
 
-            <!-- Example -->
-            <div class="example__code" hljs include="'/includes/modules/file-input/includes/example.html'" language="html"></div>
-            <!-- /Example -->
-        </div>
-    </div>
+    <lx-component lx-title="Basic usage" lx-path="/includes/modules/file-input/includes/basic.html" lx-js-path="/js/file-input/demo/demo-file-input_controller.js"></lx-component>
+
+    <lx-component-attributes>
+        <table>
+            <thead>
+                <tr>
+                    <th>Parameter</th>
+                    <th>Type</th>
+                    <th>Default</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td>lx-label*</td>
+                    <td><code>string</code></td>
+                    <td></td>
+                    <td>The label of the input displayed as a placeholder.</td>
+                </tr>
+                <tr>
+                    <td>lx-change</td>
+                    <td><code>function</code></td>
+                    <td></td>
+                    <td>The function called once a file is selected with the file object as parameter.</td>
+                </tr>
+            </tbody>
+        </table>
+    </lx-component-attributes>
 </div>

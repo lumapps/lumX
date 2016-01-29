@@ -180,6 +180,19 @@
                         }
                     }
                 })
+                .state('app.components.file-input',
+                {
+                    url: '/file-input',
+                    views:
+                    {
+                        'main@':
+                        {
+                            templateUrl: '/includes/modules/file-input/file-input.html',
+                            controller: 'DemoFileInputController',
+                            controllerAs: 'vm'
+                        }
+                    }
+                })
                 .state('app.components.text-field',
                 {
                     url: '/text-field',
