@@ -17,6 +17,7 @@ angular.module('lumx.dialog', ['lumx.utils.event-scheduler']);
 angular.module('lumx.dropdown', ['lumx.utils.event-scheduler']);
 angular.module('lumx.fab', []);
 angular.module('lumx.file-input', []);
+angular.module('lumx.icon', []);
 angular.module('lumx.notification', ['lumx.utils.event-scheduler']);
 angular.module('lumx.progress', []);
 angular.module('lumx.radio-button', []);
@@ -36,6 +37,7 @@ angular.module('lumx', [
     'lumx.dropdown',
     'lumx.fab',
     'lumx.file-input',
+    'lumx.icon',
     'lumx.notification',
     'lumx.progress',
     'lumx.radio-button',
