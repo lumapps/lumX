@@ -204,6 +204,17 @@
                         }
                     }
                 })
+                .state('app.components.list',
+                {
+                    url: '/list',
+                    views:
+                    {
+                        'main@':
+                        {
+                            templateUrl: '/includes/modules/list/list.html'
+                        }
+                    }
+                })
                 .state('app.components.text-field',
                 {
                     url: '/text-field',

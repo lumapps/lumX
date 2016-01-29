@@ -1,48 +1,11 @@
-<!-- Sidebar -->
-<ng-include src="'/includes/sidebar/sidebar-css.html'"></ng-include>
-
 <div class="main-section">
-    <h3 class="main-section__title">Lists</h3>
+    <h1 class="main-section__title">List</h1>
 
-    <div class="main-section__content">
-        <h4 class="main-section__subtitle">Single-line list</h4>
+    <p class="main-section__intro">
+        LumX provides a list CSS component with various style helpers.
+    </p>
 
-        <div class="example mt++">
-            <div class="example__content">
-                <ng-include src="'/includes/modules/list/includes/primary.html'"></ng-include>
-            </div>
-
-            <!-- Example -->
-            <div class="example__code" hljs include="'/includes/modules/list/includes/primary.html'" language="html"></div>
-            <!-- /Example -->
-        </div>
-    </div>
-
-    <div class="main-section__content">
-        <h4 class="main-section__subtitle">Two-line list</h4>
-
-        <div class="example mt++">
-            <div class="example__content">
-                <ng-include src="'/includes/modules/list/includes/secondary.html'"></ng-include>
-            </div>
-
-            <!-- Example -->
-            <div class="example__code" hljs include="'/includes/modules/list/includes/secondary.html'" language="html"></div>
-            <!-- /Example -->
-        </div>
-    </div>
-
-    <div class="main-section__content">
-        <h4 class="main-section__subtitle">Three-line list and more</h4>
-
-        <div class="example mt++">
-            <div class="example__content">
-                <ng-include src="'/includes/modules/list/includes/tertiary.html'"></ng-include>
-            </div>
-
-            <!-- Example -->
-            <div class="example__code" hljs include="'/includes/modules/list/includes/tertiary.html'" language="html"></div>
-            <!-- /Example -->
-        </div>
-    </div>
+    <lx-component lx-title="One line" lx-path="/includes/modules/list/includes/one-line.html"></lx-component>
+    <lx-component lx-title="Two lines" lx-path="/includes/modules/list/includes/two-lines.html"></lx-component>
+    <lx-component lx-title="Multi lines" lx-path="/includes/modules/list/includes/multi-lines.html"></lx-component>
 </div>
