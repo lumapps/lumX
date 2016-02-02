@@ -241,6 +241,19 @@
                         }
                     }
                 })
+                .state('app.components.radio-button',
+                {
+                    url: '/radio-button',
+                    views:
+                    {
+                        'main@':
+                        {
+                            templateUrl: '/includes/modules/radio-button/radio-button.html',
+                            controller: 'DemoRadioButtonController',
+                            controllerAs: 'vm'
+                        }
+                    }
+                })
                 .state('app.components.text-field',
                 {
                     url: '/text-field',

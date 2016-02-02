@@ -26,11 +26,6 @@
                 green: true,
                 orange: true,
                 red: true
-            },
-            regular:
-            {
-                basic: true,
-                advanced: false
             }
         };
     }
