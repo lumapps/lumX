@@ -13,9 +13,9 @@
             templateUrl: 'progress.html',
             scope:
             {
-                lxType: '@?',
-                lxDiameter: '@?',
                 lxColor: '@?',
+                lxDiameter: '@?',
+                lxType: '@'
             },
             controller: LxProgressController,
             controllerAs: 'lxProgress',
@@ -48,7 +48,7 @@
 
         function init()
         {
-            lxProgress.lxDiameter = angular.isDefined(lxProgress.lxDiameter) ? lxProgress.lxDiameter : 50;
+            lxProgress.lxDiameter = angular.isDefined(lxProgress.lxDiameter) ? lxProgress.lxDiameter : 100;
             lxProgress.lxColor = angular.isDefined(lxProgress.lxColor) ? lxProgress.lxColor : 'primary';
         }
     }
