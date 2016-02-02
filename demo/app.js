@@ -215,6 +215,19 @@
                         }
                     }
                 })
+                .state('app.components.notification',
+                {
+                    url: '/notification',
+                    views:
+                    {
+                        'main@':
+                        {
+                            templateUrl: '/includes/modules/notification/notification.html',
+                            controller: 'DemoNotificationController',
+                            controllerAs: 'vm'
+                        }
+                    }
+                })
                 .state('app.components.text-field',
                 {
                     url: '/text-field',

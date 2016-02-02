@@ -1,19 +1,237 @@
-<!-- Sidebar -->
-<ng-include src="'/includes/sidebar/sidebar-services.html'"></ng-include>
-
 <div class="main-section">
-    <h3 class="main-section__title">Notifications</h3>
+    <h1 class="main-section__title">Notification</h1>
 
-    <div class="main-section__content">
-        <div class="example">
-            <div class="example__content">
-                <ng-include src="'/includes/modules/notification/includes/example.html'"></ng-include>
-            </div>
+    <p class="main-section__intro">
+        Notification service is a service that displays simple notifications, alert boxes and confirm boxes.
+    </p>
 
-            <!-- Example -->
-            <div class="example__code" hljs include="'/includes/modules/notification/includes/example.html'" language="html"></div>
-            <div class="example__code" hljs include="'/includes/modules/notification/includes/js.html'" language="js"></div>
-            <!-- /Example -->
-        </div>
-    </div>
+    <lx-component lx-title="Basic usage" lx-path="/includes/modules/notification/includes/basic.html" lx-js-path="/js/notification/demo/demo-notification_controller.js">
+        The <code>notify</code> method have four parameters that allow user to prepend a colored icon and to handle sticky notifications.
+    </lx-component>
+
+    <lx-component lx-title="Helpers" lx-path="/includes/modules/notification/includes/helper.html" lx-js-path="/js/notification/demo/demo-notification_controller.js">
+        Helper methods quickly create styled notification according to its state: <code>info</code>, <code>success</code>, <code>warning</code>, <code>error</code>.
+    </lx-component>
+
+    <lx-component lx-title="Alert box" lx-path="/includes/modules/notification/includes/alert.html" lx-js-path="/js/notification/demo/demo-notification_controller.js">
+        The <code>alert</code> method create an alert box with a title, a text and handle user action in a callback.
+    </lx-component>
+
+    <lx-component lx-title="Confirm box" lx-path="/includes/modules/notification/includes/confirm.html" lx-js-path="/js/notification/demo/demo-notification_controller.js">
+        The <code>confirm</code> method create a confirm box with a title, a text and handle user action in a callback.
+    </lx-component>
+
+    <lx-component-methods lx-title="Service api">
+        <lx-component-method lx-name="LxNotificationService.notify(tex, icon, sticky, color)" lx-description="Display a styled notification according to parameters.">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Parameter</th>
+                        <th>Type</th>
+                        <th>Default</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td>text*</td>
+                        <td><code>string</code></td>
+                        <td></td>
+                        <td>The notification text.</td>
+                    </tr>
+                    <tr>
+                        <td>icon</td>
+                        <td><code>string</code></td>
+                        <td></td>
+                        <td>The icon identifier.</td>
+                    </tr>
+                    <tr>
+                        <td>sticky</td>
+                        <td><code>boolean</code></td>
+                        <td>false</td>
+                        <td>Specify if the notification is sticky.</td>
+                    </tr>
+                    <tr>
+                        <td>color</td>
+                        <td><code>string</code></td>
+                        <td>white</td>
+                        <td>Define the icon color. Options: colors defined in colors and sizes section in <code>dist/scss/core/settings/defaults.scss</code></td>
+                    </tr>
+                </tbody>
+            </table>
+        </lx-component-method>
+
+        <lx-component-method lx-name="LxNotificationService.info(text)" lx-description="A helper method that displays a notification with a blue information icon.">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Parameter</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td>text*</td>
+                        <td><code>string</code></td>
+                        <td>The notification text.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </lx-component-method>
+
+        <lx-component-method lx-name="LxNotificationService.success(text)" lx-description="A helper method that displays a notification with a green check icon.">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Parameter</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td>text*</td>
+                        <td><code>string</code></td>
+                        <td>The notification text.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </lx-component-method>
+
+        <lx-component-method lx-name="LxNotificationService.warning(text)" lx-description="A helper method that displays a notification with an orange warning icon.">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Parameter</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td>text*</td>
+                        <td><code>string</code></td>
+                        <td>The notification text.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </lx-component-method>
+
+        <lx-component-method lx-name="LxNotificationService.error(text)" lx-description="A helper method that displays a notification with a red error icon.">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Parameter</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td>text*</td>
+                        <td><code>string</code></td>
+                        <td>The notification text.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </lx-component-method>
+
+        <lx-component-method lx-name="LxNotificationService.alert(title, text, button, callback, unbind)" lx-description="A method that create an alert box.">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Parameter</th>
+                        <th>Type</th>
+                        <th>Default</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td>title*</td>
+                        <td><code>string</code></td>
+                        <td></td>
+                        <td>The alert box title.</td>
+                    </tr>
+                    <tr>
+                        <td>text</td>
+                        <td><code>string</code></td>
+                        <td></td>
+                        <td>The alert box text.</td>
+                    </tr>
+                    <tr>
+                        <td>button</td>
+                        <td><code>string</code></td>
+                        <td></td>
+                        <td>The alert box button label.</td>
+                    </tr>
+                    <tr>
+                        <td>callback</td>
+                        <td><code>function</code></td>
+                        <td></td>
+                        <td>The alert box callback with the answer as available parameter (always true for the alert box).</td>
+                    </tr>
+                    <tr>
+                        <td>unbind</td>
+                        <td><code>boolean</code></td>
+                        <td>false</td>
+                        <td>Unbind the escape key to close the alert box.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </lx-component-method>
+
+        <lx-component-method lx-name="LxNotificationService.confirm(title, text, buttons, callback, unbind)" lx-description="A method that create a confirm box.">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Parameter</th>
+                        <th>Type</th>
+                        <th>Default</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td>title*</td>
+                        <td><code>string</code></td>
+                        <td></td>
+                        <td>The confirm box title.</td>
+                    </tr>
+                    <tr>
+                        <td>text</td>
+                        <td><code>string</code></td>
+                        <td></td>
+                        <td>The confirm box text.</td>
+                    </tr>
+                    <tr>
+                        <td>buttons</td>
+                        <td><code>object</code></td>
+                        <td></td>
+                        <td>The confirm box buttons label. <code>{ cancel: 'Disagree', ok: 'Agree' }</code></td>
+                    </tr>
+                    <tr>
+                        <td>callback</td>
+                        <td><code>function</code></td>
+                        <td></td>
+                        <td>The confirm box callback with the answer as available parameter.</td>
+                    </tr>
+                    <tr>
+                        <td>unbind</td>
+                        <td><code>boolean</code></td>
+                        <td>false</td>
+                        <td>Unbind the escape key to close the confirm box.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </lx-component-method>
+    </lx-component-methods>
 </div>
