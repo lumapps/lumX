@@ -228,6 +228,19 @@
                         }
                     }
                 })
+                .state('app.components.progress',
+                {
+                    url: '/progress',
+                    views:
+                    {
+                        'main@':
+                        {
+                            templateUrl: '/includes/modules/progress/progress.html',
+                            controller: 'DemoProgressController',
+                            controllerAs: 'vm'
+                        }
+                    }
+                })
                 .state('app.components.text-field',
                 {
                     url: '/text-field',
