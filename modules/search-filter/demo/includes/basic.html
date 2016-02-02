@@ -1,44 +1,44 @@
-<div flex-container="row" flex-gutter="24">
+<div class="p+" flex-container="row" flex-gutter="24">
     <div flex-item>
         <div class="card">
             <div class="toolbar">
                 <lx-search-filter>
-                    <input type="text" ng-model="searchFilter.first">
+                    <input type="text" ng-model="vm.searchFilter.first">
                 </lx-search-filter>
             </div>
         </div>
     </div>
-
+ 
     <div flex-item>
         <div class="card">
             <div class="toolbar">
                 <span class="toolbar__label fs-title ml">Lorem Ipsum</span>
-
+ 
                 <div class="toolbar__right">
                     <button class="btn btn--l btn--black btn--icon" lx-ripple>
                         <i class="mdi mdi-apps"></i>
                     </button>
-
+ 
                     <lx-search-filter lx-closed="true">
-                        <input type="text" ng-model="searchFilter.second">
+                        <input type="text" ng-model="vm.searchFilter.second">
                     </lx-search-filter>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
-<div class="mt++" flex-container="row" flex-gutter="24">
+ 
+<div class="p+" flex-container="row" flex-gutter="24">
     <div flex-item>
         <div class="card bgc-indigo-500">
             <div class="toolbar">
                 <span class="toolbar__label fs-title tc-white-1 ml">Lorem Ipsum</span>
-
+ 
                 <div class="toolbar__right">
                     <lx-search-filter lx-width="400" lx-color="white" lx-closed="true">
-                        <input type="text" ng-model="searchFilter.third">
+                        <input type="text" ng-model="vm.searchFilter.third">
                     </lx-search-filter>
-
+ 
                     <button class="btn btn--l btn--white btn--icon" lx-ripple>
                         <i class="mdi mdi-apps"></i>
                     </button>
@@ -46,14 +46,14 @@
             </div>
         </div>
     </div>
-
+ 
     <div flex-item>
         <div class="card bgc-indigo-500">
             <div class="toolbar">
                 <lx-search-filter lx-color="white" lx-closed="true">
-                    <input type="text" ng-model="searchFilter.fourth">
+                    <input type="text" ng-model="vm.searchFilter.fourth">
                 </lx-search-filter>
-
+ 
                 <button class="btn btn--l btn--white btn--icon" lx-ripple>
                     <i class="mdi mdi-apps"></i>
                 </button>
@@ -61,26 +61,26 @@
         </div>
     </div>
 </div>
-
-<div class="mt++" flex-container="row" flex-gutter="24">
+ 
+<div class="p+" flex-container="row" flex-gutter="24">
     <div flex-item>
         <div class="card">
             <div class="toolbar">
                 <lx-search-filter>
-                    <input type="text" ng-model="searchFilter.fifth" placeholder="Search">
+                    <input type="text" ng-model="vm.searchFilter.fifth" placeholder="Search">
                 </lx-search-filter>
             </div>
         </div>
     </div>
-
+ 
     <div flex-item>
         <div class="card bgc-indigo-500">
             <div class="toolbar">
                 <span class="toolbar__label fs-title tc-white-1 ml">Lorem Ipsum</span>
-
+ 
                 <div class="toolbar__right">
                     <lx-search-filter lx-color="white" lx-closed="true">
-                        <input type="text" ng-model="searchFilter.sixth" placeholder="Search">
+                        <input type="text" ng-model="vm.searchFilter.sixth" placeholder="Search">
                     </lx-search-filter>
 
                     <button class="btn btn--l btn--white btn--icon" lx-ripple>

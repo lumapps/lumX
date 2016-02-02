@@ -254,6 +254,19 @@
                         }
                     }
                 })
+                .state('app.components.search-filter',
+                {
+                    url: '/search-filter',
+                    views:
+                    {
+                        'main@':
+                        {
+                            templateUrl: '/includes/modules/search-filter/search-filter.html',
+                            controller: 'DemoSearchFilterController',
+                            controllerAs: 'vm'
+                        }
+                    }
+                })
                 .state('app.components.text-field',
                 {
                     url: '/text-field',
