@@ -202,7 +202,7 @@
         {
             var windowHeight = $window.innerHeight;
             var dropdownToggleHeight = dropdownToggle.outerHeight();
-            var dropdownToggleTop = dropdownToggle.offset().top;
+            var dropdownToggleTop = dropdownToggle.offset().top - angular.element($window).scrollTop();
             var dropdownMenuTopAvailable;
             var dropdownMenuBottomAvailable;
 
