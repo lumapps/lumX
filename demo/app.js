@@ -306,19 +306,6 @@
                         }
                     }
                 })
-                .state('app.components.toolbar',
-                {
-                    url: '/toolbar',
-                    views:
-                    {
-                        'main@':
-                        {
-                            templateUrl: '/includes/modules/toolbar/toolbar.html',
-                            controller: 'DemoTabsController',
-                            controllerAs: 'vm'
-                        }
-                    }
-                })
                 .state('app.components.text-field',
                 {
                     url: '/text-field',
@@ -329,6 +316,28 @@
                             templateUrl: '/includes/modules/text-field/text-field.html',
                             controller: 'DemoTextFieldController',
                             controllerAs: 'vm'
+                        }
+                    }
+                })
+                .state('app.components.toolbar',
+                {
+                    url: '/toolbar',
+                    views:
+                    {
+                        'main@':
+                        {
+                            templateUrl: '/includes/modules/toolbar/toolbar.html'
+                        }
+                    }
+                })
+                .state('app.components.tooltip',
+                {
+                    url: '/tooltip',
+                    views:
+                    {
+                        'main@':
+                        {
+                            templateUrl: '/includes/modules/tooltip/tooltip.html'
                         }
                     }
                 });
