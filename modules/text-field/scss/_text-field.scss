@@ -192,6 +192,25 @@
             color: $red;
         }
     }
+    
+    // Text field: clear
+    .text-field__clear {
+        display: block;
+        @include position(absolute, null 0 $base-spacing-unit null);
+        opacity: 0;
+        cursor: pointer;
+        line-height: 32px;
+        @include transition-property(opacity, color);
+        @include transition-duration(0.2s);
+
+        &:hover {
+            color: $red-500;
+        }
+
+        .text-field:hover & {
+            opacity: 1;
+        }
+    }
 
 
 

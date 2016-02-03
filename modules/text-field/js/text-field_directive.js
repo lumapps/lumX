@@ -15,6 +15,7 @@
             templateUrl: 'text-field.html',
             scope:
             {
+                allowClear: '=?lxAllowClear',
                 error: '=?lxError',
                 fixedLabel: '=?lxFixedLabel',
                 icon: '@?lxIcon',
@@ -97,6 +98,7 @@
         var modelController;
 
         lxTextField.blurInput = blurInput;
+        lxTextField.clearInput = clearInput;
         lxTextField.focusInput = focusInput;
         lxTextField.hasValue = hasValue;
         lxTextField.setInput = setInput;
@@ -105,7 +107,7 @@
 
         $scope.$watch(function()
         {
-            return modelController.$modelValue;
+            return modelController.$viewValue;
         }, function(newValue, oldValue)
         {
             if (angular.isDefined(newValue) && newValue)
@@ -133,6 +135,17 @@
             $scope.$apply(function()
             {
                 lxTextField.isFocus = false;
+            });
+        }
+
+        function clearInput()
+        {
+            modelController.$setViewValue(undefined);
+            modelController.$render();
+
+            $timeout(function()
+            {
+                input.focus();
             });
         }
 
