@@ -293,6 +293,19 @@
                         }
                     }
                 })
+                .state('app.components.tabs',
+                {
+                    url: '/tabs',
+                    views:
+                    {
+                        'main@':
+                        {
+                            templateUrl: '/includes/modules/tabs/tabs.html',
+                            controller: 'DemoTabsController',
+                            controllerAs: 'vm'
+                        }
+                    }
+                })
                 .state('app.components.text-field',
                 {
                     url: '/text-field',

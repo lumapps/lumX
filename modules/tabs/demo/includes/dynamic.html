@@ -1,0 +1,18 @@
+<lx-tabs>
+    <lx-tab lx-label="{{ tab.heading }}" ng-repeat="tab in vm.tabs">
+        <div class="p+">
+            <p>{{ tab.content }}</p>
+
+            <div class="mt+">
+                <lx-button ng-click="vm.removeTab(vm.tabs.indexOf(tab))">Remove current tab</lx-button>
+            </div>
+        </div>
+    </lx-tab>
+</lx-tabs>
+ 
+<div class="divider divider--dark"></div>
+ 
+<div class="p+">
+    <lx-button ng-click="vm.addTab()">Add a tab</lx-button>
+    <lx-button ng-click="vm.removeFirstTab()">Remove first tab</lx-button>
+</div>
