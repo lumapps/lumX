@@ -1,5 +1,16 @@
 <div class="p+ pt0">
-    <lx-date-picker ng-model="vm.datePicker.date1"
-                    lx-input-label="Pick a date"
-                    lx-locale="fr"></lx-date-picker>
+    <lx-text-field lx-label="Pick a date" lx-allow-clear="true">
+        <input type="text" ng-model="vm.datePicker.dateFormatted">
+    </lx-text-field>
+ 
+    <div class="mt">
+        <lx-button ng-click="vm.openDatePicker(vm.datePickerId)">Open date picker</lx-button>
+    </div>
+ 
+    <lx-date-picker id="{{ vm.datePickerId }}"
+                    ng-model="vm.datePicker.date"
+                    lx-callback="vm.datePickerCallback"
+                    lx-locale="{{ vm.locale }}"
+                    lx-max-date="vm.datePicker.maxDate"
+                    lx-min-date="vm.datePicker.minDate"></lx-date-picker>
 </div>

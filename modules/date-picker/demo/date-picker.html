@@ -6,8 +6,6 @@
     </p>
 
     <lx-component lx-title="Basic usage" lx-path="/includes/modules/date-picker/includes/basic.html" lx-js-path="/js/date-picker/demo/demo-date-picker_controller.js"></lx-component>
-    <lx-component lx-title="Options" lx-path="/includes/modules/date-picker/includes/option.html" lx-js-path="/js/date-picker/demo/demo-date-picker_controller.js"></lx-component>
-    <lx-component lx-title="Styles" lx-path="/includes/modules/date-picker/includes/style.html" lx-js-path="/js/date-picker/demo/demo-date-picker_controller.js"></lx-component>
 
     <lx-component-attributes>
         <table>
@@ -22,10 +20,16 @@
 
             <tbody>
                 <tr>
-                    <td>lx-allow-clear</td>
+                    <td>lx-auto-close</td>
                     <td><code>boolean</code></td>
-                    <td><code>false</code></td>
-                    <td>Add a button to clear the input model.</td>
+                    <td><code>true</code></td>
+                    <td>Specify if the date picker should be closed when clicking outside.</td>
+                </tr>
+                <tr>
+                    <td>lx-callback</td>
+                    <td><code>function</code></td>
+                    <td></td>
+                    <td>The function called once a day is selected with the date object as parameter.</td>
                 </tr>
                 <tr>
                     <td>lx-color</td>
@@ -34,22 +38,10 @@
                     <td>Define the button color. Options: colors defined in colors and sizes section in <code>dist/scss/core/settings/defaults.scss</code></td>
                 </tr>
                 <tr>
-                    <td>lx-input-fixed-label</td>
+                    <td>lx-escape-close</td>
                     <td><code>boolean</code></td>
-                    <td><code>false</code></td>
-                    <td>When present, input label will act like a classic placeholder.</td>
-                </tr>
-                <tr>
-                    <td>lx-input-icon</td>
-                    <td><code>string</code></td>
-                    <td></td>
-                    <td>Add an icon next to the input. Input must have a fixed label in this case.</td>
-                </tr>
-                <tr>
-                    <td>lx-input-label*</td>
-                    <td><code>string</code></td>
-                    <td></td>
-                    <td>The label of the input displayed as a placeholder.</td>
+                    <td><code>true</code></td>
+                    <td>Specify if the date picker should be closed with escape key.</td>
                 </tr>
                 <tr>
                     <td>lx-max-date</td>
@@ -72,4 +64,148 @@
             </tbody>
         </table>
     </lx-component-attributes>
+
+    <lx-component-methods lx-title="Service api">
+        <lx-component-method lx-name="LxDatePickerService.open(datePickerId)" lx-description="Show a date picker according to its id.">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Parameter</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td>datePickerId*</td>
+                        <td><code>string</code></td>
+                        <td>The date picker id specified in the directive id attribute.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </lx-component-method>
+
+        <lx-component-method lx-name="LxDatePickerService.close(datePickerId)" lx-description="Close a date picker according to its id.">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Parameter</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td>datePickerId*</td>
+                        <td><code>string</code></td>
+                        <td>The date picker id specified in the directive id attribute.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </lx-component-method>
+    </lx-component-methods>
+
+    <lx-component-methods lx-title="Events">
+        <lx-component-method lx-name="lx-date-picker__open-start" lx-description="A broadcast is sent when date picker starts to appear.">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Available parameter</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td>event</td>
+                        <td><code>object</code></td>
+                        <td>The broadcast original event.</td>
+                    </tr>
+                    <tr>
+                        <td>datePickerId</td>
+                        <td><code>string</code></td>
+                        <td>The date picker id specified in the directive id attribute.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </lx-component-method>
+
+        <lx-component-method lx-name="lx-date-picker__open-end" lx-description="A broadcast is sent when date picker is opened.">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Available parameter</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td>event</td>
+                        <td><code>object</code></td>
+                        <td>The broadcast original event.</td>
+                    </tr>
+                    <tr>
+                        <td>datePickerId</td>
+                        <td><code>string</code></td>
+                        <td>The date picker id specified in the directive id attribute.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </lx-component-method>
+
+        <lx-component-method lx-name="lx-date-picker__close-start" lx-description="A broadcast is sent when date picker starts to disappear.">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Available parameter</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td>event</td>
+                        <td><code>object</code></td>
+                        <td>The broadcast original event.</td>
+                    </tr>
+                    <tr>
+                        <td>datePickerId</td>
+                        <td><code>string</code></td>
+                        <td>The date picker id specified in the directive id attribute.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </lx-component-method>
+
+        <lx-component-method lx-name="lx-date-picker__close-end" lx-description="A broadcast is sent when date picker is closed.">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Available parameter</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td>event</td>
+                        <td><code>object</code></td>
+                        <td>The broadcast original event.</td>
+                    </tr>
+                    <tr>
+                        <td>datePickerId</td>
+                        <td><code>string</code></td>
+                        <td>The date picker id specified in the directive id attribute.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </lx-component-method>
+    </lx-component-methods>
 </div>
