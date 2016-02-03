@@ -2,16 +2,11 @@
     <h1 class="main-section__title">Icon</h1>
 
     <p class="main-section__intro">
-        <code>lx-icon</code> is a directive that will become an icon.<br />
+        <code>lx-icon</code> is a directive that create an icon based on <a href="http://materialdesignicons.com" target="_blank">Material Design Icons</a>.
     </p>
 
-    <lx-component lx-title="Simple icons" lx-path="/includes/modules/icon/includes/simple-icons.html">
-        LumX provide Material Design iconic font based on <a href="http://materialdesignicons.com" target="_blank">Austin Andrews work</a>.
-    </lx-component>
-
-    <lx-component lx-title="Styled icons" lx-path="/includes/modules/icon/includes/styled-icons.html">
-        As <code>lx-button</code>, you can specify size, color and type variants.
-    </lx-component>
+    <lx-component lx-title="Simple icons" lx-path="/includes/modules/icon/includes/simple-icons.html"></lx-component>
+    <lx-component lx-title="Styled icons" lx-path="/includes/modules/icon/includes/styled-icons.html"></lx-component>
 
     <lx-component-attributes>
         <table>
@@ -29,25 +24,25 @@
                     <td>lx-color</td>
                     <td><code>string</code></td>
                     <td></td>
-                    <td>Define the button color. Options: colors defined in colors and sizes section in <code>dist/scss/core/settings/defaults.scss</code></td>
+                    <td>Define the icon color. Options: colors defined in colors and sizes section in <code>dist/scss/core/settings/defaults.scss</code></td>
                 </tr>
                 <tr>
                     <td>lx-id*</td>
                     <td><code>string</code></td>
                     <td></td>
-                    <td>The icon identifier tha tcan be found in <a href="http://materialdesignicons.com" target="_blank">Material Design Icons website</a>.</td>
+                    <td>The icon identifier that can be found in <a href="http://materialdesignicons.com" target="_blank">Material Design Icons website</a>.</td>
                 </tr>
                 <tr>
                     <td>lx-size</td>
                     <td><code>string</code></td>
                     <td></td>
-                    <td>Define the button size. Options: <code>xs</code>, <code>s</code>, <code>m</code>, <code>l</code>, <code>xl</code></td>
+                    <td>Define the icon size. Options: <code>xs</code>, <code>s</code>, <code>m</code>, <code>l</code>, <code>xl</code></td>
                 </tr>
                 <tr>
                     <td>lx-type</td>
                     <td><code>string</code></td>
                     <td></td>
-                    <td>Define the button type. Options: <code>raised</code>, <code>flat</code>, <code>fab</code>, <code>icon</code></td>
+                    <td>Define the icon type. Options: <code>circled</code>, <code>icon</code></td>
                 </tr>
             </tbody>
         </table>

@@ -2,25 +2,24 @@
     <h1 class="main-section__title">Tabs</h1>
 
     <p class="main-section__intro">
-        <code>lx-tabs</code> is a directive that create a full tabs navigation.
+        <code>lx-tabs</code> is a directive that create a navigation system with tabs.
     </p>
 
     <lx-component lx-title="Basic" lx-path="/includes/modules/tabs/includes/basic.html" lx-js-path="/js/tabs/demo/demo-tabs_controller.js">
-        You will need to transclude one <code>lx-tab</code> directive per tab with tab label or icon as parameter and pane content as transcluded elemnt. Moreover, you can define the active tab an disable each tab.
+        One <code>lx-tab</code> directive per tab need to be transcluded.<br /><code>lx-tab</code> directive has a label or an icon as parameter and pane content as transcluded element.
     </lx-component>
 
     <lx-component lx-title="Styles" lx-path="/includes/modules/tabs/includes/style.html" lx-js-path="/js/tabs/demo/demo-tabs_controller.js">
-        You can specify the tabs color with main colors defined in <code>dist/scss/core/settings/defaults.scss</code>.<br />
-        If theme is <code>light</code>, color will be applied to tabs label / icon and indicator. If theme is <code>dark</code>, color will be applied to tabs background and tabs label / icon will be white.<br />
-        Moreover, you can use a label or an icon for each tab.
+        Main colors defined in <code>dist/scss/core/settings/defaults.scss</code> can be used to create colored tabs.<br />
+        If theme is <code>light</code>, color will be applied to tabs label / icon and indicator. If theme is <code>dark</code>, color will be applied to tabs background and tabs label / icon will be white.
     </lx-component>
 
     <lx-component lx-title="Dynamic tabs" lx-path="/includes/modules/tabs/includes/dynamic.html" lx-js-path="/js/tabs/demo/demo-tabs_controller.js">
-        You can use <code>ng-repeat</code> to loop threw an array of tabs. Then, you will be able to manage tabs easily.
+        <code>ng-repeat</code> directive can be used to loop threw an array of tabs.
     </lx-component>
 
     <lx-component lx-title="Separate tabs and panes" lx-path="/includes/modules/tabs/includes/separate.html" lx-js-path="/js/tabs/demo/demo-tabs_controller.js">
-        You can separate tabs and pane with two directives: <code>lx-tabs</code> for tabs and <code>lx-tabs-panes</code> for panes.<br />
+        Tabs and panes can be separated with two directives: <code>lx-tabs</code> for tabs and <code>lx-tabs-panes</code> for panes.<br />
         It's usefull when you need to scroll into panes with fixed tabs.
     </lx-component>
 
@@ -40,19 +39,19 @@
                     <td>lx-layout</td>
                     <td><code>string</code></td>
                     <td><code>full</code></td>
-                    <td>Specify the tabs layout. Options: <code>full</code> (tabs will share the available width), <code>inline</code> (tabs will be aligned to the left)</td>
+                    <td>Define the tabs layout. Options: <code>full</code> (tabs will share the available width), <code>inline</code> (tabs will be aligned to the left)</td>
                 </tr>
                 <tr>
                     <td>lx-theme</td>
                     <td><code>string</code></td>
                     <td><code>light</code></td>
-                    <td>Specify the tabs theme. Options: <code>light</code> (color will be applied to tabs label and indicator), <code>dark</code> (color will be applied to tabs background and tabs label / icon will be white)</td>
+                    <td>Define the tabs theme. Options: <code>light</code> (color will be applied to tabs label and indicator), <code>dark</code> (color will be applied to tabs background and tabs label / icon will be white)</td>
                 </tr>
                 <tr>
                     <td>lx-color</td>
                     <td><code>string</code></td>
                     <td><code>primary</code></td>
-                    <td>Define the tabs color according to the theme. Options: colors defined in colors and sizes section in <code>dist/scss/core/settings/defaults.scss</code></td>
+                    <td>Define the tabs color according to the theme attribute. Options: colors defined in colors and sizes section in <code>dist/scss/core/settings/defaults.scss</code></td>
                 </tr>
                 <tr>
                     <td>lx-indicator</td>
