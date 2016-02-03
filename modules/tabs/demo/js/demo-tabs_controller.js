@@ -42,12 +42,12 @@
             });
 
             ++tabIndex;
-        };
+        }
 
         function removeFirstTab()
         {
             removeTab(0);
-        };
+        }
 
         function removeTab(_idx)
         {
@@ -55,6 +55,6 @@
             {
                 vm.tabs.splice(_idx, 1);
             }
-        };
+        }
     }
 })();

@@ -306,6 +306,19 @@
                         }
                     }
                 })
+                .state('app.components.toolbar',
+                {
+                    url: '/toolbar',
+                    views:
+                    {
+                        'main@':
+                        {
+                            templateUrl: '/includes/modules/toolbar/toolbar.html',
+                            controller: 'DemoTabsController',
+                            controllerAs: 'vm'
+                        }
+                    }
+                })
                 .state('app.components.text-field',
                 {
                     url: '/text-field',
