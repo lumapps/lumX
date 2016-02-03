@@ -2,17 +2,8 @@
 //    #OBJECTS-DATE-PICKER
 //\*------------------------------------*/
 
-// Lx date
-.lx-date {
-    position: relative;
-}
-
-
-
-
-
-// Date filter
-.lx-date-filter {
+// Date picker filter
+.lx-date-picker-filter {
     @include position(fixed, 0 0 0 0);
     opacity: 0;
     z-index: 999;
@@ -22,48 +13,8 @@
     @include transition-timing-function($ease-out-quint);
 }
 
-.lx-date-filter--is-shown {
+.lx-date-picker-filter--is-shown {
     opacity: 1;
-}
-
-
-
-
-
-// Date input
-.lx-date__input-wrapper {
-    position: relative;
-
-    &:hover {
-        .lx-date__clear {
-            opacity: 1;
-        }
-    }
-}
-
-.lx-date-input {
-    &,
-    input {
-        cursor: pointer !important;
-    }
-
-    input {
-        pointer-events: none;
-    }
-}
-
-.lx-date__clear {
-    display: block;
-    @include position(absolute, null 0 $base-spacing-unit null);
-    opacity: 0;
-    cursor: pointer;
-    line-height: 32px;
-    @include transition-property(opacity, color);
-    @include transition-duration(0.2s);
-
-    &:hover {
-        color: $red-500;
-    }
 }
 
 
