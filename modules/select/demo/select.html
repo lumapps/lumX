@@ -1,19 +1,111 @@
-<!-- Sidebar -->
-<ng-include src="'/includes/sidebar/sidebar-directives.html'"></ng-include>
-
 <div class="main-section">
-    <h3 class="main-section__title">Selects</h3>
+    <h1 class="main-section__title">Select</h1>
 
-    <div class="main-section__content">
-        <div class="example">
-            <div class="example__content pt0">
-                <ng-include src="'/includes/modules/select/includes/example.html'"></ng-include>
-            </div>
+    <p class="main-section__intro">
+        <code>lx-select</code> is a directive that create a selector that let user select on or multiple vlaues from various sources.
+    </p>
 
-            <!-- Example -->
-            <div class="example__code" hljs include="'/includes/modules/select/includes/example.html'" language="html"></div>
-            <div class="example__code" hljs include="'/includes/modules/select/includes/js.html'" language="js"></div>
-            <!-- /Example -->
-        </div>
-    </div>
+    <lx-component lx-title="Basic usage" lx-path="/includes/modules/select/includes/basic.html" lx-js-path="/js/select/demo/demo-select_controller.js"></lx-component>
+    <lx-component lx-title="Subheader" lx-path="/includes/modules/select/includes/subheader.html" lx-js-path="/js/select/demo/demo-select_controller.js"></lx-component>
+    <lx-component lx-title="Ajax data" lx-path="/includes/modules/select/includes/ajax.html" lx-js-path="/js/select/demo/demo-select_controller.js"></lx-component>
+
+    <lx-component-attributes>
+        <table>
+            <thead>
+                <tr>
+                    <th>Parameter</th>
+                    <th>Type</th>
+                    <th>Default</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td>lx-allow-clear</td>
+                    <td><code>boolean</code></td>
+                    <td><code>false</code></td>
+                    <td>Allow user to clear the select model.</td>
+                </tr>
+                <tr>
+                    <td>lx-choices</td>
+                    <td><code>array</code></td>
+                    <td></td>
+                    <td>The list of choices available in the dropdown menu.</td>
+                </tr>
+                <tr>
+                    <td>lx-custom-style</td>
+                    <td><code>boolean</code></td>
+                    <td><code>false</code></td>
+                    <td>Remove the LumX default style for select dropdown.</td>
+                </tr>
+                <tr>
+                    <td>lx-display-filter</td>
+                    <td><code>boolean</code></td>
+                    <td><code>false</code></td>
+                    <td>Display the search filter.</td>
+                </tr>
+                <tr>
+                    <td>lx-error</td>
+                    <td><code>boolean</code></td>
+                    <td></td>
+                    <td>Set red error style.</td>
+                </tr>
+                <tr>
+                    <td>lx-fixed-label</td>
+                    <td><code>boolean</code></td>
+                    <td><code>false</code></td>
+                    <td>Input label will act like a classic placeholder.</td>
+                </tr>
+                <tr>
+                    <td>lx-helper</td>
+                    <td><code>boolean</code></td>
+                    <td><code>false</code></td>
+                    <td>Display a helper message in the choice list.</td>
+                </tr>
+                <tr>
+                    <td>lx-helper-message</td>
+                    <td><code>string</code></td>
+                    <td></td>
+                    <td>The helper message displayed when <code>lx-helper</code> is <code>true</code>.</td>
+                </tr>
+                <tr>
+                    <td>lx-label*</td>
+                    <td><code>string</code></td>
+                    <td></td>
+                    <td>The label of the input displayed as a placeholder.</td>
+                </tr>
+                <tr>
+                    <td>lx-loading</td>
+                    <td><code>boolean</code></td>
+                    <td><code>false</code></td>
+                    <td>Display a loader in the choice list.</td>
+                </tr>
+                <tr>
+                    <td>lx-model-to-selection</td>
+                    <td><code>function</code></td>
+                    <td></td>
+                    <td>Convert the value stored in the ng-model into the value displayed in the choice list to match the selection. Two parameters are available: <code>data</code> (the original data) and <code>callback</code> (the function to call with the converted value).</td>
+                </tr>
+                <tr>
+                    <td>lx-multiple</td>
+                    <td><code>boolean</code></td>
+                    <td><code>false</code></td>
+                    <td>Let the user select multiple values in the choice list.</td>
+                </tr>
+                <tr>
+                    <td>lx-selection-to-model</td>
+                    <td><code>function</code></td>
+                    <td></td>
+                    <td>Convert the value selected in the choice list into the value stored in the ng-model. Two parameters are available: <code>data</code> (the original data) and <code>callback</code> (the function to call with the converted value).</td>
+                </tr>
+                <tr>
+                    <td>lx-valid</td>
+                    <td><code>boolean</code></td>
+                    <td></td>
+                    <td>Set green valid style.</td>
+                </tr>
+            </tbody>
+        </table>
+    </lx-component-attributes>
 </div>

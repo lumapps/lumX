@@ -267,6 +267,19 @@
                         }
                     }
                 })
+                .state('app.components.select',
+                {
+                    url: '/select',
+                    views:
+                    {
+                        'main@':
+                        {
+                            templateUrl: '/includes/modules/select/select.html',
+                            controller: 'DemoSelectController',
+                            controllerAs: 'vm'
+                        }
+                    }
+                })
                 .state('app.components.text-field',
                 {
                     url: '/text-field',
