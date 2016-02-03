@@ -280,6 +280,19 @@
                         }
                     }
                 })
+                .state('app.components.switch',
+                {
+                    url: '/switch',
+                    views:
+                    {
+                        'main@':
+                        {
+                            templateUrl: '/includes/modules/switch/switch.html',
+                            controller: 'DemoSwitchController',
+                            controllerAs: 'vm'
+                        }
+                    }
+                })
                 .state('app.components.text-field',
                 {
                     url: '/text-field',

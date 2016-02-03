@@ -26,7 +26,8 @@
             controller: LxSwitchController,
             controllerAs: 'lxSwitch',
             bindToController: true,
-            transclude: true
+            transclude: true,
+            replace: true
         };
     }
 
