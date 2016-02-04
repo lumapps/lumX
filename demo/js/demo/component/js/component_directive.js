@@ -13,7 +13,7 @@
     {
         return {
             restrict: 'E',
-            templateUrl: '/js/demo/views/component.html',
+            templateUrl: '/js/demo/component/views/component.html',
             scope: true,
             link: link,
             controller: LxComponentController,

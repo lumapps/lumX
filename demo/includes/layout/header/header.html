@@ -1,6 +1,12 @@
 <header class="header">
     <div class="header-top">
         <div class="header-top__wrapper">
+            <div class="header-top__palm-nav" ng-click="LayoutService.togglePalmNav()">
+                <lx-button lx-size="l" lx-color="black" lx-type="icon">
+                    <i class="mdi mdi-menu"></i>
+                </lx-button>
+            </div>
+
             <a ui-sref="app.home" class="header-top__logo">
                 <img src="/images/logo/lumx.png">
             </a>
@@ -9,17 +15,7 @@
 
     <div class="header-nav">
         <div class="header-nav__wrapper">
-            <ul>
-                <li>
-                    <a class="header-nav__link" ui-sref="app.getting-started.installation" ui-sref-active="header-nav__link--is-active">Getting started</a>
-                </li>
-                <li>
-                    <a class="header-nav__link" ui-sref="app.css" ui-sref-active="header-nav__link--is-active">CSS</a>
-                </li>
-                <li>
-                    <a class="header-nav__link" ui-sref="app.components" ui-sref-active="header-nav__link--is-active">Components</a>
-                </li>
-            </ul>
+            <lx-main-nav lx-context="header"></lx-main-nav>
         </div>
     </div>
 

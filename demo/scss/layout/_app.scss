@@ -5,7 +5,7 @@
 // App
 .app {
     @include media-query(lap-and-up) {
-        margin-top: -230px;
+        margin-top: -246px;
     }
 }
     
@@ -15,19 +15,22 @@
 
         @include media-query(lap-and-up) {
             @include wrapper();
-            @include display(flex);
             border-radius: $base-round;
             @include z-depth(1);
+        }
+
+        @include media-query(desk) {
+            @include display(flex);
         }
     }
 
     // App: sidebar
     .app__sidebar {
-        @include media-query(palm) {
+        @include media-query(portable) {
             display: none;
         }
 
-        @include media-query(lap-and-up) {
+        @include media-query(desk) {
             @include flex(0 0 20%);
             max-width: 20%;
             border-right: 1px solid $black-4;
@@ -37,7 +40,11 @@
     
     // App: main
     .app__main {
-        @include media-query(lap-and-up) {
+        @include media-query(palm) {
+            background-color: $grey-50;
+        }
+
+        @include media-query(desk) {
             @include flex(0 0 80%);
             max-width: 80%;
         }

@@ -25,6 +25,18 @@
         </div>
     </div>
 
+    <div class="palm-nav-filter" ng-class="{ 'palm-nav-filter--is-open': LayoutService.palmNavIsOpen }" ng-click="LayoutService.togglePalmNav()"></div>
+
+    <div class="palm-nav" ng-class="{ 'palm-nav--is-open': LayoutService.palmNavIsOpen }">
+        <a ui-sref="app.home" class="palm-nav__logo">
+            <img src="/images/logo/lumx.png">
+        </a>
+
+        <div class="palm-nav__main-nav">
+            <lx-main-nav lx-context="palm-nav"></lx-main-nav>
+        </div>
+    </div>
+
     <!-- Libs -->
     <script src="/libs/jquery/dist/jquery.js"></script>
     <script src="/libs/velocity/velocity.js"></script>
@@ -43,7 +55,10 @@
 
     <!-- App -->
     <script src="/app.js"></script>
-    <script src="/js/demo/js/component_directive.js"></script>
+    <script src="/js/demo/layout/js/layout_service.js"></script>
+    <script src="/js/demo/main-nav/js/main-nav_directive.js"></script>
+    <script src="/js/demo/main-nav/js/main-nav-link_directive.js"></script>
+    <script src="/js/demo/component/js/component_directive.js"></script>
 
     <!-- Button -->
     <script src="/js/button/button_directive.js"></script>

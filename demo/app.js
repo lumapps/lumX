@@ -8,7 +8,8 @@
             'ui.router',
             'hljs',
             'Controllers',
-            'Directives'
+            'Directives',
+            'Services'
         ])
         .config(function($locationProvider, $stateProvider)
         {
@@ -48,7 +49,7 @@
                     {
                         'sidebar@':
                         {
-                            templateUrl: '/includes/layout/sidebar/sidebar-getting-started.html'
+                            templateUrl: '/includes/layout/sub-nav/sub-nav-getting-started.html'
                         }
                     }
                 })
@@ -70,7 +71,7 @@
                     {
                         'sidebar@':
                         {
-                            templateUrl: '/includes/layout/sidebar/sidebar-css.html'
+                            templateUrl: '/includes/layout/sub-nav/sub-nav-css.html'
                         }
                     }
                 })
@@ -81,7 +82,7 @@
                     {
                         'sidebar@':
                         {
-                            templateUrl: '/includes/layout/sidebar/sidebar-components.html'
+                            templateUrl: '/includes/layout/sub-nav/sub-nav-components.html'
                         }
                     },
                     redirectTo: 'app.components.button'
@@ -342,8 +343,10 @@
                     }
                 });
         })
-        .run(['$rootScope', '$state', function($rootScope, $state)
+        .run(['$rootScope', '$state', 'LayoutService', function($rootScope, $state, LayoutService)
         {
+            $rootScope.LayoutService = LayoutService;
+
             $rootScope.$on('$stateChangeStart', function(event, toState, toParams)
             {
                 if (toState.redirectTo)
@@ -356,4 +359,5 @@
 
     angular.module('Controllers', []);
     angular.module('Directives', []);
+    angular.module('Services', []);
 })();

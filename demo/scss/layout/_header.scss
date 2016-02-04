@@ -5,11 +5,15 @@
 // Header
 .header {
     @include media-query(palm) {
-        height: 108px;
+        height: 60px;
     }
 
-    @include media-query(lap-and-up) {
-        height: 380px;
+    @include media-query(lap) {
+        height: 330px;
+    }
+
+    @include media-query(desk) {
+        height: 378px;
     }
 }
 
@@ -23,12 +27,26 @@
     z-index: 999;
     height: 60px;
     background-color: $white;
+
+    @include media-query(portable) {
+        @include z-depth(1);
+    }
 }
 
     // Header top: wrapper
     .header-top__wrapper {
         @include wrapper();
         @include display(flex);
+        @include align-items(center);
+    }
+    
+    // Header top: palm nav
+    .header-top__palm-nav {
+        margin-right: $base-spacing-unit * 2;
+        
+        @include media-query(desk) {
+            display: none;
+        }
     }
     
     // Header top: logo
@@ -49,6 +67,7 @@
 .header-nav {
     @include position(fixed, 60px 0 null 0);
     z-index: 999;
+    height: 48px;
     background-color: $indigo-700;
 
     &:after {
@@ -56,6 +75,10 @@
         @include position(absolute, null 0 0 0);
         height: 1px;
         background-color: $white-4;
+    }
+
+    @include media-query(portable) {
+        display: none;
     }
 }
     
@@ -67,24 +90,7 @@
             @include bare-list();
             @include display(flex);
         }
-    }
-    
-    // Header nav: link
-    .header-nav__link {
-        display: block;
-        height: 48px;
-        padding: 0 $base-spacing-unit * 2;
-        @include font-size(14px);
-        font-weight: 700;
-        line-height: 48px;
-        color: $white-1;
-        text-decoration: none;
-
-        &:hover,
-        &.header-nav__link--is-active {
-            border-bottom: 4px solid $yellow;
-        }
-    }
+    } 
 
 
 
@@ -93,9 +99,16 @@
 // Header background
 .header-background {
     @include media-query(lap-and-up) {
-        @include position(fixed, 108px 0 null 0);
         z-index: 0;
-        height: 272px;
+        height: 270px;
         background-color: $indigo-700;
+    }
+
+    @include media-query(lap) {
+        @include position(fixed, 60px 0 null 0);
+    }
+
+    @include media-query(desk) {
+        @include position(fixed, 108px 0 null 0);
     }
 }

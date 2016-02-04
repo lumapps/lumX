@@ -1,0 +1,13 @@
+<div class="main-nav-link">
+    <a class="main-nav-link__state"
+       ng-class="{ 'main-nav-link__state--is-open': lxMainNavLink.displaySubNav }"
+       ng-click="lxMainNavLink.toggleSubNav($event)"
+       ui-sref="{{ lxMainNavLink.state }}"
+       ui-sref-active="main-nav-link__state--is-active">
+        {{ lxMainNavLink.label }}
+    </a>
+
+    <div class="main-nav-link__sub-nav"
+         ng-if="lxMainNavLink.displaySubNav"
+         ng-include="lxMainNavLink.subNav"></div>
+</div>
