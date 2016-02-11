@@ -51,7 +51,8 @@
                         {
                             templateUrl: '/includes/layout/sub-nav/sub-nav-getting-started.html'
                         }
-                    }
+                    },
+                    redirectTo: 'app.getting-started.installation'
                 })
                 .state('app.getting-started.installation',
                 {
@@ -61,6 +62,28 @@
                         'main@':
                         {
                             templateUrl: '/includes/getting-started/installation.html'
+                        }
+                    }
+                })
+                .state('app.getting-started.customization',
+                {
+                    url: '/customization',
+                    views:
+                    {
+                        'main@':
+                        {
+                            templateUrl: '/includes/getting-started/customization.html'
+                        }
+                    }
+                })
+                .state('app.getting-started.contribute',
+                {
+                    url: '/contribute',
+                    views:
+                    {
+                        'main@':
+                        {
+                            templateUrl: '/includes/getting-started/contribute.html'
                         }
                     }
                 })

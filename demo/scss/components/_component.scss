@@ -42,6 +42,18 @@
         a {
             color: $primary;
         }
+
+        p {
+            margin-bottom: $base-spacing-unit * 3;
+
+            &:last-child {
+                margin-bottom: 0;
+            }
+        }
+
+        ul {
+            margin-left: $base-spacing-unit * 4;
+        }
     }
     
     // Component: toolbar

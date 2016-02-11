@@ -19,11 +19,11 @@
     <div class="lx-component__toolbar" ng-if="lxComponent.isOpen">
         <lx-tabs lx-layout="inline">
             <lx-tab lx-label="{{ lxComponent.language.toUpperCase() }}">
-                <div hljs include="lxComponent.path" language="{{ lxComponent.language }}"></div>
+                <div hljs include="lxComponent.path" hljs-language="{{ lxComponent.language }}"></div>
             </lx-tab>
 
             <lx-tab lx-label="JS" ng-if="lxComponent.jsPath">
-                <div hljs include="lxComponent.jsPath" language="javascript"></div>
+                <div hljs include="lxComponent.jsPath" hljs-language="javascript"></div>
             </lx-tab>
         </lx-tabs>
     </div>
