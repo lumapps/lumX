@@ -1,10 +1,19 @@
-/* global angular */
-'use strict'; // jshint ignore:line
+(function()
+{
+    'use strict';
 
+    angular
+        .module('lumx.utils.utils')
+        .service('LxUtils', LxUtils);
 
-angular.module('lumx.utils.utils')
-    .service('LxUtils', function()
+    function LxUtils()
     {
+        var service = this;
+
+        service.generateUUID = generateUUID;
+
+        ////////////
+
         function generateUUID()
         {
             var d = new Date().getTime();
@@ -19,8 +28,5 @@ angular.module('lumx.utils.utils')
 
             return uuid.toUpperCase();
         }
-
-        return {
-            generateUUID: generateUUID
-        };
-    });
+    }
+})();

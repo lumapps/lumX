@@ -1,13 +1,23 @@
-/* global angular */
-/* global window */
-'use strict'; // jshint ignore:line
+(function()
+{
+    'use strict';
 
+    angular
+        .module('lumx.utils.event-scheduler')
+        .service('LxEventSchedulerService', LxEventSchedulerService);
 
-angular.module('lumx.utils.event-scheduler')
-    .service('LxEventSchedulerService', ['$document', 'LxUtils', function($document, LxUtils)
+    LxEventSchedulerService.$inject = ['$document', 'LxUtils'];
+
+    function LxEventSchedulerService($document, LxUtils)
     {
-        var handlers = {},
-            schedule = {};
+        var service = this;
+        var handlers = {};
+        var schedule = {};
+
+        service.register = register;
+        service.unregister = unregister;
+
+        ////////////
 
         function handle(event)
         {
@@ -80,9 +90,5 @@ angular.module('lumx.utils.event-scheduler')
 
             return found;
         }
-
-        return {
-            register: register,
-            unregister: unregister
-        };
-    }]);
+    }
+})();
