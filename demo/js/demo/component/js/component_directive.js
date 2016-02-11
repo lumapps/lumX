@@ -24,9 +24,30 @@
 
         function link(scope, element, attrs)
         {
+            scope.lxComponent.isOpen = false;
+
+            attrs.$observe('lxIsOpen', function(newIsOpen)
+            {
+                scope.lxComponent.isOpen = newIsOpen;
+            });
+
             attrs.$observe('lxJsPath', function(newJsPath)
             {
                 scope.lxComponent.jsPath = newJsPath;
+            });
+
+            scope.lxComponent.language = 'html';
+
+            attrs.$observe('lxLanguage', function(newLanguage)
+            {
+                scope.lxComponent.language = newLanguage;
+            });
+
+            scope.lxComponent.noDemo = false;
+
+            attrs.$observe('lxNoDemo', function(newNoDemo)
+            {
+                scope.lxComponent.noDemo = newNoDemo;
             });
 
             attrs.$observe('lxPath', function(newPath)
@@ -48,8 +69,6 @@
         var lxComponent = this;
 
         lxComponent.toggle = toggle;
-
-        lxComponent.isOpen = false;
 
         $transclude(function(clone)
         {

@@ -73,6 +73,51 @@
                         {
                             templateUrl: '/includes/layout/sub-nav/sub-nav-css.html'
                         }
+                    },
+                    redirectTo: 'app.css.color'
+                })
+                .state('app.css.color',
+                {
+                    url: '/color',
+                    views:
+                    {
+                        'main@':
+                        {
+                            templateUrl: '/includes/css/color.html'
+                        }
+                    }
+                })
+                .state('app.css.flexbox',
+                {
+                    url: '/flexbox',
+                    views:
+                    {
+                        'main@':
+                        {
+                            templateUrl: '/includes/css/flexbox.html'
+                        }
+                    }
+                })
+                .state('app.css.mixin',
+                {
+                    url: '/mixin',
+                    views:
+                    {
+                        'main@':
+                        {
+                            templateUrl: '/includes/css/mixin.html'
+                        }
+                    }
+                })
+                .state('app.css.typography',
+                {
+                    url: '/typography',
+                    views:
+                    {
+                        'main@':
+                        {
+                            templateUrl: '/includes/css/typography.html'
+                        }
                     }
                 })
                 .state('app.components',

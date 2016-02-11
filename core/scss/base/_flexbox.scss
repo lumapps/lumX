@@ -1,5 +1,5 @@
 ///*------------------------------------*\
-//    #OBJECTS-FLEXBOX
+//    #BASE-FLEXBOX
 //\*------------------------------------*/
 
 // Flex container
@@ -199,14 +199,14 @@
 @for $i from 1 through 12 {
     [flex-container="row"] > [flex-item="#{$i}"] {
         @include media-query(desk) {
-            flex: 0 0 #{(100 / 12) * $i + '%'};
+            @include flex(0 0 #{(100 / 12) * $i + '%'});
             max-width: #{(100 / 12) * $i + '%'};
         }
     }
 
     [flex-container="column"] > [flex-item="#{$i}"] {
         @include media-query(desk) {
-            flex: 0 0 #{(100 / 12) * $i + '%'};
+            @include flex(0 0 #{(100 / 12) * $i + '%'});
             max-height: #{(100 / 12) * $i + '%'};
         }
     }

@@ -8,6 +8,10 @@
     border: 1px solid $black-4;
     border-radius: $base-round;
 }
+
+.lx-component--no-demo {
+    border-bottom: none;
+}
     
     // Component: header
     .lx-component__header {

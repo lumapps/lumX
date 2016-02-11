@@ -18,6 +18,7 @@
 @import "generic/reset";
 
 @import "base/page";
+@import "base/flexbox";
 @import "base/images";
 @import "base/paragraph";
 @import "base/typography";
@@ -44,7 +45,6 @@
 @import "../../modules/dropdown/scss/dropdown";
 @import "../../modules/fab/scss/fab";
 @import "../../modules/file-input/scss/file-input";
-@import "../../modules/flexbox/scss/flexbox";
 @import "../../modules/icon/scss/icon";
 @import "../../modules/list/scss/list";
 @import "../../modules/notification/scss/notification";

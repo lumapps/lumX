@@ -7,6 +7,14 @@
     margin: 0;
     padding: $base-spacing-unit * 1.5 0;
     list-style: none;
+
+    .main-nav--palm-nav & {
+        border-bottom: 1px solid $black-4;
+    }
+
+    .main-nav--palm-nav > li:last-child & {
+        border-bottom: none;
+    }
 }
 
     // Sub nav: link

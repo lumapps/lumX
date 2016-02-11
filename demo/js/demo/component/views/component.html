@@ -1,11 +1,12 @@
-<div class="lx-component">
+<div class="lx-component"
+     ng-class="{ 'lx-component--no-demo': lxComponent.noDemo }">
     <div class="lx-component__header">
         <div class="lx-component__header-wrapper">
             <h2 class="lx-component__title">
                 {{ lxComponent.title }}
             </h2>
 
-            <div class="lx-component__actions">
+            <div class="lx-component__actions" ng-if="!lxComponent.noDemo">
                 <lx-button lx-color="grey" lx-type="icon" ng-click="lxComponent.toggle()">
                     <i class="mdi mdi-code-tags"></i>
                 </lx-button>
@@ -17,8 +18,8 @@
 
     <div class="lx-component__toolbar" ng-if="lxComponent.isOpen">
         <lx-tabs lx-layout="inline">
-            <lx-tab lx-label="HTML">
-                <div hljs include="lxComponent.path" language="html"></div>
+            <lx-tab lx-label="{{ lxComponent.language.toUpperCase() }}">
+                <div hljs include="lxComponent.path" language="{{ lxComponent.language }}"></div>
             </lx-tab>
 
             <lx-tab lx-label="JS" ng-if="lxComponent.jsPath">
@@ -27,7 +28,7 @@
         </lx-tabs>
     </div>
 
-    <div class="lx-component__demo">
+    <div class="lx-component__demo" ng-if="!lxComponent.noDemo">
         <ng-include src="lxComponent.path"></ng-include>
     </div>
 </div>
