@@ -6,7 +6,7 @@
         .module('lumx.text-field')
         .directive('lxTextField', lxTextField);
 
-    LxTextFieldController.$inject = ['$timeout'];
+    lxTextField.$inject = ['$timeout'];
 
     function lxTextField($timeout)
     {
