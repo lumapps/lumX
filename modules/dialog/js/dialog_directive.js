@@ -82,7 +82,7 @@
         };
     }
 
-    lxDialog.$inject = ['LxDialogService'];
+    lxDialogClose.$inject = ['LxDialogService'];
 
     function lxDialogClose(LxDialogService)
     {
