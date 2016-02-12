@@ -41,7 +41,7 @@
                 {
                     attrs.$observe(attribute, function(newValue)
                     {
-                        scope.lxTextField[attribute] = newValue;
+                        scope.lxDropdown[attribute] = newValue;
                     });
                 }
             });
@@ -55,7 +55,7 @@
                         return scope.$parent.$eval(attrs[attribute]);
                     }, function(newValue)
                     {
-                        scope.lxTextField[attribute] = newValue;
+                        scope.lxDropdown[attribute] = newValue;
                     });
                 }
             });
