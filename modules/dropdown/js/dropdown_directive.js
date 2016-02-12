@@ -32,6 +32,34 @@
 
         function link(scope, element, attrs, ctrl)
         {
+            var backwardOneWay = ['position', 'width'];
+            var backwardTwoWay = ['escapeClose', 'overToggle'];
+
+            angular.forEach(backwardOneWay, function(attribute)
+            {
+                if (angular.isDefined(attrs[attribute]))
+                {
+                    attrs.$observe(attribute, function(newValue)
+                    {
+                        scope.lxTextField[attribute] = newValue;
+                    });
+                }
+            });
+
+            angular.forEach(backwardTwoWay, function(attribute)
+            {
+                if (angular.isDefined(attrs[attribute]))
+                {
+                    scope.$watch(function()
+                    {
+                        return scope.$parent.$eval(attrs[attribute]);
+                    }, function(newValue)
+                    {
+                        scope.lxTextField[attribute] = newValue;
+                    });
+                }
+            });
+
             $document.bind('click', closeDropdownMenu);
 
             scope.$on('$destroy', function()
