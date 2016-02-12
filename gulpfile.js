@@ -7,7 +7,8 @@ var gulp = require('gulp'),
 var paths = {
     js: [
         'core/js/**/*.js',
-        'modules/**/*.js'
+        'modules/**/*.js',
+        '!modules/**/demo/**/*.js',
     ],
     scss: [
         'core/scss/**/*.scss',
