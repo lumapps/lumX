@@ -6,9 +6,9 @@
         .module('lumx.notification')
         .service('LxNotificationService', LxNotificationService);
 
-    LxNotificationService.$inject = ['$injector', '$rootScope', '$timeout', 'LxEventSchedulerService'];
+    LxNotificationService.$inject = ['$injector', '$rootScope', '$timeout', 'LxDepthService', 'LxEventSchedulerService'];
 
-    function LxNotificationService($injector, $rootScope, $timeout, LxEventSchedulerService)
+    function LxNotificationService($injector, $rootScope, $timeout, LxDepthService, LxEventSchedulerService)
     {
         var service = this;
         var dialogFilter;
@@ -80,6 +80,8 @@
 
         function notify(_text, _icon, _sticky, _color)
         {
+            LxDepthService.register();
+
             var notification = angular.element('<div/>',
             {
                 class: 'notification'
@@ -110,6 +112,7 @@
 
             notification
                 .append(notificationText)
+                .css('z-index', LxDepthService.getDepth())
                 .appendTo('body');
 
             $timeout(function()
@@ -280,6 +283,8 @@
 
         function showAlertDialog(_title, _text, _button, _callback, _unbind)
         {
+            LxDepthService.register();
+
             dialogFilter = angular.element('<div/>',
             {
                 class: 'dialog-filter'
@@ -297,12 +302,15 @@
                 ok: _button
             }, _callback, _unbind);
 
-            dialogFilter.appendTo('body');
+            dialogFilter
+                .css('z-index', LxDepthService.getDepth())
+                .appendTo('body');
 
             dialog
                 .append(dialogHeader)
                 .append(dialogContent)
                 .append(dialogActions)
+                .css('z-index', LxDepthService.getDepth() + 1)
                 .appendTo('body')
                 .show()
                 .focus();
@@ -318,6 +326,8 @@
 
         function showConfirmDialog(_title, _text, _buttons, _callback, _unbind)
         {
+            LxDepthService.register();
+
             dialogFilter = angular.element('<div/>',
             {
                 class: 'dialog-filter'
@@ -332,12 +342,15 @@
             var dialogContent = buildDialogContent(_text);
             var dialogActions = buildDialogActions(_buttons, _callback, _unbind);
 
-            dialogFilter.appendTo('body');
+            dialogFilter
+                .css('z-index', LxDepthService.getDepth())
+                .appendTo('body');
 
             dialog
                 .append(dialogHeader)
                 .append(dialogContent)
                 .append(dialogActions)
+                .css('z-index', LxDepthService.getDepth() + 1)
                 .appendTo('body')
                 .show()
                 .focus();

@@ -5,7 +5,6 @@
 // Notification base styles
 .notification {
     @include position(fixed, null $base-spacing-unit * 3 0 null);
-    z-index: 1001;
     max-width: 300px;
     padding: $base-spacing-unit * 2 $base-spacing-unit * 3;
     border-radius: $base-round;

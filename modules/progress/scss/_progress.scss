@@ -94,8 +94,7 @@
 
 // Progress linear
 .progress-linear {
-    @include position(absolute, null 0 0 0);
-    z-index: 999;
+    position: relative;
     height: 4px;
     overflow: hidden;
 }

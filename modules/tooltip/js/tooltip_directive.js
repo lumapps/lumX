@@ -28,9 +28,9 @@
         }
     }
 
-    LxTooltipController.$inject = ['$element', '$scope', '$timeout'];
+    LxTooltipController.$inject = ['$element', '$scope', '$timeout', 'LxDepthService'];
 
-    function LxTooltipController($element, $scope, $timeout)
+    function LxTooltipController($element, $scope, $timeout, LxDepthService)
     {
         var lxTooltip = this;
         var tooltip;
@@ -113,6 +113,8 @@
 
         function showTooltip()
         {
+            LxDepthService.register();
+
             tooltip = angular.element('<div/>',
             {
                 class: 'tooltip tooltip--' + lxTooltip.position
@@ -134,6 +136,7 @@
             tooltip
                 .append(tooltipBackground)
                 .append(tooltipLabel)
+                .css('z-index', LxDepthService.getDepth())
                 .appendTo('body');
 
             $timeout(function()

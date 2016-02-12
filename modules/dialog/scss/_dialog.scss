@@ -12,7 +12,6 @@ $dialog-margin: $base-spacing-unit * 4;
 // Dialog filter
 .dialog-filter {
     @include position(fixed, 0 0 0 0);
-    z-index: 999;
     background-color: rgba(0,0,0,0.6);
     opacity: 0;
     @include transition-property(opacity);
@@ -32,7 +31,6 @@ $dialog-margin: $base-spacing-unit * 4;
 .dialog {
     display: none;
     @include position(fixed, $dialog-margin null null 50%);
-    z-index: 1000;
     background-color: $white;
     opacity: 0;
     @include z-depth(3);

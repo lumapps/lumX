@@ -6,7 +6,6 @@
 .lx-date-picker-filter {
     @include position(fixed, 0 0 0 0);
     opacity: 0;
-    z-index: 999;
     background-color: rgba(0, 0, 0, 0.6);
     @include transition-property(opacity);
     @include transition-duration(0.6s);
@@ -25,7 +24,6 @@
 .lx-date-picker {
     display: none;
     @include position(fixed, $base-spacing-unit * 4 null null 50%);
-    z-index: 1000;
     width: 330px;
     margin-left: -165px;
     opacity: 0;

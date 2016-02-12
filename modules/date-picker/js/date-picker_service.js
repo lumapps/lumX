@@ -6,9 +6,9 @@
         .module('lumx.date-picker')
         .service('LxDatePickerService', LxDatePickerService);
 
-    LxDatePickerService.$inject = ['$rootScope', '$timeout', 'LxEventSchedulerService'];
+    LxDatePickerService.$inject = ['$rootScope', '$timeout', 'LxDepthService', 'LxEventSchedulerService'];
 
-    function LxDatePickerService($rootScope, $timeout, LxEventSchedulerService)
+    function LxDatePickerService($rootScope, $timeout, LxDepthService, LxEventSchedulerService)
     {
         var service = this;
         var activeDatePickerId;
@@ -67,9 +67,9 @@
 
         function openDatePicker(_datePickerId)
         {
-            activeDatePickerId = _datePickerId;
+            LxDepthService.register();
 
-            $rootScope.$broadcast('lx-date-picker__open-start', activeDatePickerId);
+            activeDatePickerId = _datePickerId;
 
             angular.element('body').css(
             {
@@ -81,7 +81,9 @@
                 class: 'lx-date-picker-filter'
             });
 
-            datePickerFilter.appendTo('body');
+            datePickerFilter
+                .css('z-index', LxDepthService.getDepth())
+                .appendTo('body');
 
             if (scopeMap[activeDatePickerId].autoClose)
             {
@@ -97,21 +99,24 @@
             }
 
             scopeMap[activeDatePickerId].element
+                .css('z-index', LxDepthService.getDepth() + 1)
                 .appendTo('body')
                 .show();
 
             $timeout(function()
             {
+                $rootScope.$broadcast('lx-date-picker__open-start', activeDatePickerId);
+
                 scopeMap[activeDatePickerId].isOpen = true;
 
                 datePickerFilter.addClass('lx-date-picker-filter--is-shown');
                 scopeMap[activeDatePickerId].element.addClass('lx-date-picker--is-shown');
-
-                $timeout(function()
-                {
-                    $rootScope.$broadcast('lx-date-picker__open-end', activeDatePickerId);
-                }, 600);
             }, 100);
+
+            $timeout(function()
+            {
+                $rootScope.$broadcast('lx-date-picker__open-end', activeDatePickerId);
+            }, 700);
         }
 
         function registerScope(_datePickerId, _datePickerScope)

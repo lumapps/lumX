@@ -6,9 +6,9 @@
         .module('lumx.dialog')
         .service('LxDialogService', LxDialogService);
 
-    LxDialogService.$inject = ['$interval', '$rootScope', '$timeout', '$window', 'LxEventSchedulerService'];
+    LxDialogService.$inject = ['$interval', '$rootScope', '$timeout', '$window', 'LxDepthService', 'LxEventSchedulerService'];
 
-    function LxDialogService($interval, $rootScope, $timeout, $window, LxEventSchedulerService)
+    function LxDialogService($interval, $rootScope, $timeout, $window, LxDepthService, LxEventSchedulerService)
     {
         var service = this;
         var activeDialogId;
@@ -184,9 +184,9 @@
 
         function openDialog(_dialogId)
         {
-            activeDialogId = _dialogId;
+            LxDepthService.register();
 
-            $rootScope.$broadcast('lx-dialog__open-start', activeDialogId);
+            activeDialogId = _dialogId;
 
             angular.element('body').css(
             {
@@ -198,7 +198,9 @@
                 class: 'dialog-filter'
             });
 
-            dialogFilter.appendTo('body');
+            dialogFilter
+                .css('z-index', LxDepthService.getDepth())
+                .appendTo('body');
 
             if (scopeMap[activeDialogId].autoClose)
             {
@@ -214,21 +216,24 @@
             }
 
             scopeMap[activeDialogId].element
+                .css('z-index', LxDepthService.getDepth() + 1)
                 .appendTo('body')
                 .show();
 
             $timeout(function()
             {
+                $rootScope.$broadcast('lx-dialog__open-start', activeDialogId);
+
                 scopeMap[activeDialogId].isOpen = true;
 
                 dialogFilter.addClass('dialog-filter--is-shown');
                 scopeMap[activeDialogId].element.addClass('dialog--is-shown');
-
-                $timeout(function()
-                {
-                    $rootScope.$broadcast('lx-dialog__open-end', activeDialogId);
-                }, 600);
             }, 100);
+
+            $timeout(function()
+            {
+                $rootScope.$broadcast('lx-dialog__open-end', activeDialogId);
+            }, 700);
 
             dialogInterval = $interval(function()
             {
