@@ -1,4 +1,8 @@
-<lx-dropdown-menu class="lx-select-choices">
+<lx-dropdown-menu class="lx-select-choices"
+                  ng-class="{ 'lx-select-choices--custom-style': lxSelectChoices.parentCtrl.customStyle,
+                              'lx-select-choices--default-style': !lxSelectChoices.parentCtrl.customStyle,
+                              'lx-select-choices--is-multiple': lxSelectChoices.parentCtrl.multiple,
+                              'lx-select-choices--is-unique': !lxSelectChoices.parentCtrl.multiple, }">
     <ul>
         <li class="lx-select-choices__filter" ng-if="::lxSelectChoices.parentCtrl.displayFilter">
             <lx-search-filter lx-dropdown-filter>

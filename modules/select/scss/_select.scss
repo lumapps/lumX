@@ -215,15 +215,15 @@
 }
     
     // Select choices: filter
-    .lx-select--default-style .lx-select-choices__filter {
+    .lx-select-choices--default-style .lx-select-choices__filter {
         padding: $base-spacing-unit / 4 $base-spacing-unit;
         margin-bottom: $base-spacing-unit;
         border-bottom: 1px solid $black-4;
     }
     
     // Select choices: choice / subheader
-    .lx-select--default-style .lx-select-choices__choice,
-    .lx-select--default-style .lx-select-choices__subheader {
+    .lx-select-choices--default-style .lx-select-choices__choice,
+    .lx-select-choices--default-style .lx-select-choices__subheader {
         @include display(flex);
         @include flex-direction(row);
         @include align-items(center);
@@ -244,7 +244,7 @@
     }
     
     // Select choices: choice / subheader
-    .lx-select--default-style .lx-select-choices__choice {
+    .lx-select-choices--default-style .lx-select-choices__choice {
         cursor: pointer;
         color: $black-1;
 
@@ -257,13 +257,13 @@
         }
     }
 
-    .lx-select--is-unique.lx-select--default-style .lx-select-choices__choice {
+    .lx-select-choices--is-unique.lx-select-choices--default-style .lx-select-choices__choice {
         &.lx-select-choices__choice--is-selected {
             background-color: $grey-200;
         }
     }
 
-    .lx-select--is-multiple.lx-select--default-style .lx-select-choices__choice {
+    .lx-select-choices--is-multiple.lx-select-choices--default-style .lx-select-choices__choice {
         padding-left: 56px;
 
         &:before,
@@ -302,7 +302,7 @@
     }
     
     // Select choices: subheader
-    .lx-select--default-style .lx-select-choices__subheader {
+    .lx-select-choices--default-style .lx-select-choices__subheader {
         color: $black-3;
 
         #{$base-icon-prefix} {
@@ -311,7 +311,7 @@
     }
     
     // Select choices: loader
-    .lx-select--default-style .lx-select-choices__loader {
+    .lx-select-choices--default-style .lx-select-choices__loader {
         @include display(flex);
         @include flex-direction(row);
         @include justify-content(center);
