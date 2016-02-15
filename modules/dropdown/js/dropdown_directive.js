@@ -78,9 +78,9 @@
         }
     }
 
-    LxDropdownController.$inject = ['$element', '$scope', '$timeout', '$window', 'LxEventSchedulerService'];
+    LxDropdownController.$inject = ['$element', '$scope', '$timeout', '$window', 'LxDepthService', 'LxEventSchedulerService'];
 
-    function LxDropdownController($element, $scope, $timeout, $window, LxEventSchedulerService)
+    function LxDropdownController($element, $scope, $timeout, $window, LxDepthService, LxEventSchedulerService)
     {
         var lxDropdown = this;
         var dropdownMenu;
@@ -111,12 +111,16 @@
                 easing: 'easeOutQuint',
                 complete: function()
                 {
-                    dropdownMenu.removeAttr('style');
+                    $element.find('.dropdown').removeClass('dropdown--is-open');
+
+                    dropdownMenu
+                        .removeAttr('style')
+                        .removeClass('dropdown-menu--is-open')
+                        .appendTo($element.find('.dropdown'));
 
                     $scope.$apply(function()
                     {
                         lxDropdown.isOpen = false;
-                        $element.removeClass('dropdown--is-open');
 
                         if (lxDropdown.escapeClose)
                         {
@@ -130,8 +134,16 @@
 
         function openDropdownMenu()
         {
+            LxDepthService.register();
+
             lxDropdown.isOpen = true;
-            $element.addClass('dropdown--is-open');
+
+            $element.find('.dropdown').addClass('dropdown--is-open');
+
+            dropdownMenu
+                .addClass('dropdown-menu--is-open')
+                .css('z-index', LxDepthService.getDepth())
+                .appendTo('body');
 
             if (lxDropdown.escapeClose)
             {
@@ -228,7 +240,9 @@
 
         function setDropdownMenuCss()
         {
+            var windowWidth = $window.innerWidth;
             var windowHeight = $window.innerHeight;
+            var dropdownToggleWidth = dropdownToggle.outerWidth();
             var dropdownToggleHeight = dropdownToggle.outerHeight();
             var dropdownToggleTop = dropdownToggle.offset().top - angular.element($window).scrollTop();
             var dropdownMenuTopAvailable;
@@ -247,8 +261,8 @@
 
             dropdownMenu.css(
             {
-                right: lxDropdown.position === 'right' ? 0 : 'auto',
-                left: lxDropdown.position === 'right' ? 'auto' : 0,
+                right: lxDropdown.position === 'right' ? (windowWidth - dropdownToggle.offset().left - dropdownToggleWidth) : 'auto',
+                left: lxDropdown.position === 'right' ? 'auto' : dropdownToggle.offset().left,
                 width: angular.isDefined(lxDropdown.width) ? lxDropdown.width : 'auto'
             });
 
@@ -256,20 +270,17 @@
             {
                 dropdownMenu.css(
                 {
-                    bottom: lxDropdown.overToggle ? 0 : dropdownToggleHeight
+                    bottom: lxDropdown.overToggle ? (windowHeight - dropdownToggle.offset().top - dropdownToggleHeight) : (windowHeight - dropdownToggle.offset().top)
                 });
 
                 return dropdownMenuTopAvailable;
             }
             else
             {
-                if (lxDropdown.overToggle)
+                dropdownMenu.css(
                 {
-                    dropdownMenu.css(
-                    {
-                        top: 0
-                    });
-                }
+                    top: lxDropdown.overToggle ? dropdownToggle.offset().top : (dropdownToggle.offset().top + dropdownToggleHeight)
+                });
 
                 return dropdownMenuBottomAvailable;
             }
@@ -292,7 +303,7 @@
     {
         return {
             restrict: 'AE',
-            templateUrl: 'dropdown.html',
+            templateUrl: 'dropdown-toggle.html',
             require: '^lxDropdown',
             scope: true,
             link: link,

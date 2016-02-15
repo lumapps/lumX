@@ -16,7 +16,6 @@
 // Dropdown menu
 .dropdown-menu {
     position: absolute;
-    z-index: 10;
     border-radius: $base-round;
     background-color: $white;
     text-align: left;
@@ -40,7 +39,7 @@
         @include transition-property(opacity);
         @include transition-duration(0.2s);
 
-        .dropdown--is-open & {
+        .dropdown-menu--is-open & {
             opacity: 1;
         }
     }
