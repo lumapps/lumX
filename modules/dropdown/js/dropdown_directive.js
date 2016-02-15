@@ -247,6 +247,7 @@
             var dropdownToggleTop = dropdownToggle.offset().top - angular.element($window).scrollTop();
             var dropdownMenuTopAvailable;
             var dropdownMenuBottomAvailable;
+            var dropdownMenuWidth;
 
             if (lxDropdown.overToggle)
             {
@@ -259,11 +260,27 @@
                 dropdownMenuBottomAvailable = windowHeight - (dropdownToggleTop + dropdownToggleHeight);
             }
 
+            if (angular.isDefined(lxDropdown.width))
+            {
+                if (lxDropdown.width.indexOf('%') > -1)
+                {
+                    dropdownMenuWidth = dropdownToggleWidth * (lxDropdown.width.slice(0, -1) / 100);
+                }
+                else
+                {
+                    dropdownMenuWidth = lxDropdown.width;
+                }
+            }
+            else
+            {
+                dropdownMenuWidth = 'auto';
+            }
+
             dropdownMenu.css(
             {
                 right: lxDropdown.position === 'right' ? (windowWidth - dropdownToggle.offset().left - dropdownToggleWidth) : 'auto',
                 left: lxDropdown.position === 'right' ? 'auto' : dropdownToggle.offset().left,
-                width: angular.isDefined(lxDropdown.width) ? lxDropdown.width : 'auto'
+                width: dropdownMenuWidth
             });
 
             if (dropdownMenuTopAvailable > dropdownMenuBottomAvailable)
