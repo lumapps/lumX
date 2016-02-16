@@ -52,15 +52,15 @@
             scope:
             {
                 allowClear: '=?lxAllowClear',
-                choices: '=lxChoices',
+                choices: '=?lxChoices',
                 customStyle: '@?lxCustomStyle',
-                displayFilter: '=lxDisplayFilter',
+                displayFilter: '=?lxDisplayFilter',
                 error: '=?lxError',
                 filter: '&?lxFilter',
                 fixedLabel: '=?lxFixedLabel',
                 helper: '=?lxHelper',
                 helperMessage: '@?lxHelperMessage',
-                label: '@lxLabel',
+                label: '@?lxLabel',
                 loading: '=?lxLoading',
                 modelToSelection: '&?lxModelToSelection',
                 multiple: '=?lxMultiple',
@@ -70,12 +70,89 @@
                 selectionToModel: '&?lxSelectionToModel',
                 valid: '=?lxValid'
             },
+            link: link,
             controller: LxSelectController,
             controllerAs: 'lxSelect',
             bindToController: true,
             replace: true,
             transclude: true
         };
+
+        function link(scope, element, attrs, ctrl)
+        {
+            var backwardOneWay = ['customStyle'];
+            var backwardTwoWay = ['allowClear', 'choices', 'error', 'loading', 'multiple', 'valid'];
+
+            angular.forEach(backwardOneWay, function(attribute)
+            {
+                if (angular.isDefined(attrs[attribute]))
+                {
+                    attrs.$observe(attribute, function(newValue)
+                    {
+                        scope.lxSelect[attribute] = newValue;
+                    });
+                }
+            });
+
+            angular.forEach(backwardTwoWay, function(attribute)
+            {
+                if (angular.isDefined(attrs[attribute]))
+                {
+                    scope.$watch(function()
+                    {
+                        return scope.$parent.$eval(attrs[attribute]);
+                    }, function(newValue)
+                    {
+                        if (attribute === 'multiple' && angular.isUndefined(newValue))
+                        {
+                            scope.lxSelect[attribute] = true;
+                        }
+                        else
+                        {
+                            scope.lxSelect[attribute] = newValue;
+                        }
+                    });
+                }
+            });
+
+            attrs.$observe('placeholder', function(newValue)
+            {
+                scope.lxSelect.label = newValue;
+            });
+
+            attrs.$observe('change', function(newValue)
+            {
+                scope.lxSelect.ngChange = function(data)
+                {
+                    return scope.$parent.$eval(newValue, data);
+                };
+            });
+
+            attrs.$observe('filter', function(newValue)
+            {
+                scope.lxSelect.filter = function(data)
+                {
+                    return scope.$parent.$eval(newValue, data);
+                };
+                scope.lxSelect.displayFilter = true;
+            });
+
+            attrs.$observe('modelToSelection', function(newValue)
+            {
+                scope.lxSelect.modelToSelection = function(data)
+                {
+                    return scope.$parent.$eval(newValue, data);
+                };
+            });
+
+            attrs.$observe('selectionToModel', function(newValue)
+            {
+                scope.lxSelect.selectionToModel = function(data)
+                {
+                    return scope.$parent.$eval(newValue, data);
+                };
+            });
+        }
     }
 
     LxSelectSelectedController.$inject = ['$interpolate', '$sce'];
@@ -156,15 +233,19 @@
         {
             if (angular.isDefined(lxSelect.modelToSelection) || angular.isDefined(lxSelect.selectionToModel))
             {
-                lxSelect.selectionToModel()(_choice, function(resp)
+                lxSelect.selectionToModel(
                 {
-                    if (lxSelect.multiple)
+                    data: _choice,
+                    callback: function(resp)
                     {
-                        lxSelect.ngModel.push(resp);
-                    }
-                    else
-                    {
-                        lxSelect.ngModel = resp;
+                        if (lxSelect.multiple)
+                        {
+                            lxSelect.ngModel.push(resp);
+                        }
+                        else
+                        {
+                            lxSelect.ngModel = resp;
+                        }
                     }
                 });
             }
@@ -185,9 +266,13 @@
         {
             if (angular.isDefined(lxSelect.modelToSelection) || angular.isDefined(lxSelect.selectionToModel))
             {
-                lxSelect.selectionToModel()(_choice, function(resp)
+                lxSelect.selectionToModel(
                 {
-                    lxSelect.ngModel.splice(lxSelect.ngModel.indexOf(resp), 1);
+                    data: _choice,
+                    callback: function(resp)
+                    {
+                        lxSelect.ngModel.splice(lxSelect.ngModel.indexOf(resp), 1);
+                    }
                 });
 
                 lxSelect.unconvertedModel.splice(lxSelect.unconvertedModel.indexOf(_choice), 1);
@@ -349,7 +434,11 @@
             {
                 if (newModel !== oldModel && angular.isDefined(lxSelectChoices.parentCtrl.ngChange))
                 {
-                    lxSelectChoices.parentCtrl.ngChange()(newModel, oldModel);
+                    lxSelectChoices.parentCtrl.ngChange(
+                    {
+                        newValue: newModel,
+                        oldValue: oldModel
+                    });
                 }
 
                 if (angular.isDefined(lxSelectChoices.parentCtrl.modelToSelection) || angular.isDefined(lxSelectChoices.parentCtrl.selectionToModel))
@@ -384,17 +473,25 @@
 
                 angular.forEach(lxSelectChoices.parentCtrl.ngModel, function(item)
                 {
-                    lxSelectChoices.parentCtrl.modelToSelection()(item, function(resp)
+                    lxSelectChoices.parentCtrl.modelToSelection(
                     {
-                        lxSelectChoices.parentCtrl.unconvertedModel.push(resp);
+                        data: item,
+                        callback: function(resp)
+                        {
+                            lxSelectChoices.parentCtrl.unconvertedModel.push(resp);
+                        }
                     });
                 });
             }
             else
             {
-                lxSelectChoices.parentCtrl.modelToSelection()(lxSelectChoices.parentCtrl.ngModel, function(resp)
+                lxSelectChoices.parentCtrl.modelToSelection(
                 {
-                    lxSelectChoices.parentCtrl.unconvertedModel = resp;
+                    data: lxSelectChoices.parentCtrl.ngModel,
+                    callback: function(resp)
+                    {
+                        lxSelectChoices.parentCtrl.unconvertedModel = resp;
+                    }
                 });
             }
         }
@@ -403,7 +500,10 @@
         {
             if (angular.isDefined(lxSelectChoices.parentCtrl.filter))
             {
-                lxSelectChoices.parentCtrl.filter()(lxSelectChoices.filterModel);
+                lxSelectChoices.parentCtrl.filter(
+                {
+                    newValue: lxSelectChoices.filterModel
+                });
             }
         }
     }
