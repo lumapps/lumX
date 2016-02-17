@@ -432,19 +432,22 @@
                 return lxSelectChoices.parentCtrl.ngModel;
             }, function(newModel, oldModel)
             {
-                if (newModel !== oldModel && angular.isDefined(lxSelectChoices.parentCtrl.ngChange))
+                $timeout(function()
                 {
-                    lxSelectChoices.parentCtrl.ngChange(
+                    if (newModel !== oldModel && angular.isDefined(lxSelectChoices.parentCtrl.ngChange))
                     {
-                        newValue: newModel,
-                        oldValue: oldModel
-                    });
-                }
+                        lxSelectChoices.parentCtrl.ngChange(
+                        {
+                            newValue: newModel,
+                            oldValue: oldModel
+                        });
+                    }
 
-                if (angular.isDefined(lxSelectChoices.parentCtrl.modelToSelection) || angular.isDefined(lxSelectChoices.parentCtrl.selectionToModel))
-                {
-                    toSelection();
-                }
+                    if (angular.isDefined(lxSelectChoices.parentCtrl.modelToSelection) || angular.isDefined(lxSelectChoices.parentCtrl.selectionToModel))
+                    {
+                        toSelection();
+                    }
+                });
             }, true);
         }
 
