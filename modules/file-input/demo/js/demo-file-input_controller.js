@@ -14,9 +14,9 @@
 
         ////////////
 
-        function manageFile(_file)
+        function manageFile(_newFile)
         {
-            console.log(_file);
+            console.log(_newFile);
         }
     }
 })();

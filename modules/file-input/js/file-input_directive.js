@@ -68,7 +68,10 @@
         {
             if (angular.isDefined(lxFileInput.callback))
             {
-                lxFileInput.callback()(input[0].files[0]);
+                lxFileInput.callback(
+                {
+                    newFile: input[0].files[0]
+                });
             }
 
             $timeout(setFileName);
