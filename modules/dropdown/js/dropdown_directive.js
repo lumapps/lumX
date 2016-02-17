@@ -78,11 +78,12 @@
         }
     }
 
-    LxDropdownController.$inject = ['$element', '$scope', '$timeout', '$window', 'LxDepthService', 'LxEventSchedulerService'];
+    LxDropdownController.$inject = ['$element', '$interval', '$scope', '$timeout', '$window', 'LxDepthService', 'LxEventSchedulerService'];
 
-    function LxDropdownController($element, $scope, $timeout, $window, LxDepthService, LxEventSchedulerService)
+    function LxDropdownController($element, $interval, $scope, $timeout, $window, LxDepthService, LxEventSchedulerService)
     {
         var lxDropdown = this;
+        var dropdownInterval;
         var dropdownMenu;
         var dropdownToggle;
         var idEventScheduler;
@@ -101,6 +102,8 @@
 
         function closeDropdownMenu()
         {
+            $interval.cancel(dropdownInterval);
+
             dropdownMenu.velocity(
             {
                 width: 0,
@@ -213,6 +216,11 @@
                         }
 
                         dropdownMenu.find('.dropdown-menu__content').removeAttr('style');
+
+                        dropdownInterval = $interval(function()
+                        {
+                            setDropdownMenuCss();
+                        }, 500);
                     }
                 });
             });
