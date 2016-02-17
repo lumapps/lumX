@@ -187,7 +187,10 @@
                 lxDatePicker.ngModel = _day.toDate();
                 lxDatePicker.ngModelMoment = angular.copy(_day);
 
-                lxDatePicker.callback()(lxDatePicker.ngModel);
+                lxDatePicker.callback(
+                {
+                    newDate: lxDatePicker.ngModel
+                });
 
                 generateCalendar();
             }

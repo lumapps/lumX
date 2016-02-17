@@ -9,7 +9,7 @@
  
     <lx-date-picker id="{{ vm.datePickerId }}"
                     ng-model="vm.datePicker.date"
-                    lx-callback="vm.datePickerCallback"
+                    lx-callback="vm.datePickerCallback(newDate)"
                     lx-locale="{{ vm.locale }}"
                     lx-max-date="vm.datePicker.maxDate"
                     lx-min-date="vm.datePicker.minDate"></lx-date-picker>
