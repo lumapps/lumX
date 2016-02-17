@@ -3,14 +3,14 @@
 //\*------------------------------------*/
 
 // App
-.app {
+body:not(.home) .app {
     @include media-query(lap-and-up) {
         margin-top: -246px;
     }
 }
     
     // App: wrapper
-    .app__wrapper {
+    body:not(.home) .app__wrapper {
         background-color: $white;
 
         @include media-query(lap-and-up) {
@@ -25,7 +25,7 @@
     }
 
     // App: sidebar
-    .app__sidebar {
+    body:not(.home) .app__sidebar {
         @include media-query(portable) {
             display: none;
         }
@@ -39,7 +39,7 @@
     }
     
     // App: main
-    .app__main {
+    body:not(.home) .app__main {
         @include media-query(palm) {
             background-color: $grey-50;
         }

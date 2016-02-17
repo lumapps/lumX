@@ -3,7 +3,7 @@
 //\*------------------------------------*/
 
 // Header
-.header {
+body:not(.home) .header {
     @include media-query(palm) {
         height: 60px;
     }
@@ -14,6 +14,16 @@
 
     @include media-query(desk) {
         height: 378px;
+    }
+}
+
+body.home .header {
+    @include media-query(portable) {
+        height: 60px;
+    }
+
+    @include media-query(desk) {
+        height: 108px;
     }
 }
 
@@ -97,7 +107,7 @@
 
 
 // Header background
-.header-background {
+body:not(.home) .header-background {
     @include media-query(lap-and-up) {
         z-index: 0;
         height: 270px;

@@ -413,6 +413,7 @@
         })
         .run(['$rootScope', '$state', 'LayoutService', function($rootScope, $state, LayoutService)
         {
+            $rootScope.$state = $state;
             $rootScope.LayoutService = LayoutService;
 
             $rootScope.$on('$stateChangeStart', function(event, toState, toParams)

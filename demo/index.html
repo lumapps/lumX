@@ -15,7 +15,7 @@
     <link rel="shortcut icon" type="image/png" href="/favicon.png">
 </head>
 
-<body>
+<body ng-class="{ 'home': $state.current.name === 'app.home' }">
     <div class="header" ui-view="header"></div>
 
     <div class="app">
@@ -23,6 +23,14 @@
             <div class="app__sidebar" ui-view="sidebar"></div>
             <div class="app__main" ui-view="main"></div>
         </div>
+    </div>
+
+    <div class="footer">
+        <span>Made by</span>
+
+        <a href="http://www.lumapps.com" class="footer__link">
+            <img src="/images/logo/lumapps.png" alt="LumApps">
+        </a>
     </div>
 
     <div class="palm-nav-filter" ng-class="{ 'palm-nav-filter--is-open': LayoutService.palmNavIsOpen }" ng-click="LayoutService.togglePalmNav()"></div>
