@@ -377,9 +377,9 @@
         }
     }
 
-    LxSelectSelectedController.$inject = ['$scope'];
+    LxSelectSelectedController.$inject = ['$scope', '$timeout'];
 
-    function LxSelectChoicesController($scope)
+    function LxSelectChoicesController($scope, $timeout)
     {
         var lxSelectChoices = this;
 
