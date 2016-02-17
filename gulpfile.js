@@ -7,6 +7,10 @@ var gulp = require('gulp'),
 var paths = {
     js: [
         'core/js/**/*.js',
+        'modules/**/*.js'
+    ],
+    distJs: [
+        'core/js/**/*.js',
         'modules/**/*.js',
         '!modules/**/demo/**/*.js',
     ],
@@ -372,7 +376,7 @@ gulp.task('tpl:icon', function()
 
 gulp.task('dist:scripts', ['tpl:dropdown', 'tpl:file-input', 'tpl:text-field', 'tpl:search-filter', 'tpl:select', 'tpl:tabs', 'tpl:date-picker', 'tpl:progress', 'tpl:button', 'tpl:checkbox', 'tpl:radio-button', 'tpl:switch', 'tpl:fab', 'tpl:icon'], function()
 {
-    return gulp.src(paths.js.concat(paths.templates))
+    return gulp.src(paths.distJs.concat(paths.templates))
         .pipe(plugins.plumber())
         .pipe(plugins.concat('lumx.js'))
         .pipe(plugins.insert.prepend('/*\n LumX ' + options.version + '\n (c) 2014-' + new Date().getFullYear() + ' LumApps http://ui.lumapps.com\n License: MIT\n*/\n'))
