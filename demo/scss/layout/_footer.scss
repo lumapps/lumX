@@ -4,8 +4,7 @@
 
 // Footer
 .footer {
-    margin-top: $base-spacing-unit * 4;
-    padding-bottom: $base-spacing-unit * 3;
+    padding: $base-spacing-unit * 4 0;
     @include font-size(14px);
     line-height: 32px;
     text-align: center;
