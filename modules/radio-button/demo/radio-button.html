@@ -37,6 +37,42 @@
                     <td><code>accent</code></td>
                     <td>Define the radio button color. Options: colors defined in colors and sizes section in <code>dist/scss/core/settings/defaults.scss</code></td>
                 </tr>
+                <tr>
+                    <td>name</td>
+                    <td><code>string</code></td>
+                    <td></td>
+                    <td>Property name of the form under which the control is published.</td>
+                </tr>
+                <tr>
+                    <td>ng-change</td>
+                    <td><code>string</code></td>
+                    <td></td>
+                    <td>Angular expression to be executed when input changes due to user interaction with the input element.</td>
+                </tr>
+                <tr>
+                    <td>ng-disabled</td>
+                    <td><code>expression</code></td>
+                    <td></td>
+                    <td>If the expression is truthy, then the disabled attribute will be set on the element.</td>
+                </tr>
+                <tr>
+                    <td>ng-model*</td>
+                    <td><code>string</code></td>
+                    <td></td>
+                    <td>Assignable angular expression to data-bind to.</td>
+                </tr>
+                <tr>
+                    <td>ng-value</td>
+                    <td><code>string</code></td>
+                    <td></td>
+                    <td>Angular expression to which ngModel will be be set when the radio is selected. Should be used instead of the <code>value</code> attribute if you need a non-string <code>ngModel</code> (<code>boolean</code>, <code>array</code>, ...).</td>
+                </tr>
+                <tr>
+                    <td>value</td>
+                    <td><code>string</code></td>
+                    <td></td>
+                    <td>The value to which the <code>ngModel</code> expression should be set when selected. Note that <code>value</code> only supports <code>string</code> values, i.e. the scope model needs to be a string, too. Use <code>ngValue</code> if you need complex models (number, object, ...).</td>
+                </tr>
             </tbody>
         </table>
     </lx-component-attributes>

@@ -15,13 +15,13 @@
             templateUrl: 'checkbox.html',
             scope:
             {
-                ngModel: '=',
+                lxColor: '@?',
                 name: '@?',
-                ngTrueValue: '@?',
-                ngFalseValue: '@?',
                 ngChange: '&?',
                 ngDisabled: '=?',
-                lxColor: '@?'
+                ngFalseValue: '@?',
+                ngModel: '=',
+                ngTrueValue: '@?'
             },
             controller: LxCheckboxController,
             controllerAs: 'lxCheckbox',

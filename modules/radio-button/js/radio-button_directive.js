@@ -26,13 +26,13 @@
             templateUrl: 'radio-button.html',
             scope:
             {
+                lxColor: '@?',
                 name: '@',
-                value: '@?',
-                ngModel: '=',
-                ngValue: '=?',
                 ngChange: '&?',
                 ngDisabled: '=?',
-                lxColor: '@?'
+                ngModel: '=',
+                ngValue: '=?',
+                value: '@?'
             },
             controller: LxRadioButtonController,
             controllerAs: 'lxRadioButton',
