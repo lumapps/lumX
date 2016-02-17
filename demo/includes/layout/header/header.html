@@ -1,15 +1,21 @@
 <header class="header">
     <div class="header-top">
         <div class="header-top__wrapper">
-            <div class="header-top__palm-nav" ng-click="LayoutService.togglePalmNav()">
-                <lx-button lx-size="l" lx-color="black" lx-type="icon">
-                    <i class="mdi mdi-menu"></i>
-                </lx-button>
-            </div>
+            <div class="header-top__left">
+                <div class="header-top__palm-nav" ng-click="LayoutService.togglePalmNav()">
+                    <lx-button lx-size="l" lx-color="black" lx-type="icon">
+                        <i class="mdi mdi-menu"></i>
+                    </lx-button>
+                </div>
 
-            <a ui-sref="app.home" class="header-top__logo">
-                <img src="/images/logo/lumx.png">
-            </a>
+                <a ui-sref="app.home" class="header-top__logo">
+                    <img src="/images/logo/lumx.png">
+                </a>
+            </div>
+            
+            <div class="header-top__right">
+                <iframe src="https://ghbtns.com/github-btn.html?user=lumapps&repo=lumX&type=star&count=true&size=large" frameborder="0" scrolling="0" width="160px" height="30px"></iframe>
+            </div>
         </div>
     </div>
 

@@ -50,6 +50,19 @@ body.home .header {
         @include align-items(center);
     }
     
+    // Header top: left
+    .header-top__left {
+        @include flex(1);
+        @include display(flex);
+        @include align-items(center);
+    }
+    
+    // Header top: right
+    .header-top__right {
+        @include display(flex);
+        @include align-items(center);
+    }
+    
     // Header top: palm nav
     .header-top__palm-nav {
         margin-right: $base-spacing-unit * 2;
