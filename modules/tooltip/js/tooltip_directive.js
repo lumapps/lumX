@@ -23,6 +23,14 @@
 
         function link(scope, element, attrs, ctrl)
         {
+            if (angular.isDefined(attrs.tooltipPosition))
+            {
+                attrs.$observe('tooltipPosition', function(newValue)
+                {
+                    scope.lxTooltip.position = newValue;
+                });
+            }
+
             element.bind('mouseenter', ctrl.showTooltip);
             element.bind('mouseleave', ctrl.hideTooltip);
         }
