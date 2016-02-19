@@ -5,7 +5,13 @@
         <code>lx-date-picker</code> is a directive that create a date picker. This date picker is managed by the <code>LxDatePickerService</code>.
     </p>
 
-    <lx-component lx-title="Basic usage" lx-path="/includes/modules/date-picker/includes/basic.html" lx-js-path="/js/date-picker/demo/demo-date-picker_controller.js"></lx-component>
+    <lx-component lx-title="Basic usage" lx-path="/includes/modules/date-picker/includes/basic.html" lx-js-path="/js/date-picker/demo/demo-date-picker_controller.js">
+        A callback function can be called with the selected date as parameter.
+    </lx-component>
+
+    <lx-component lx-title="Transcluded text field" lx-path="/includes/modules/date-picker/includes/input.html" lx-js-path="/js/date-picker/demo/demo-date-picker_controller.js">
+        A text field can be transcluded to show the selected date according to the input format attribute.
+    </lx-component>
 
     <lx-component-attributes>
         <table>
@@ -42,6 +48,12 @@
                     <td><code>boolean</code></td>
                     <td><code>true</code></td>
                     <td>Specify if the date picker should be closed with escape key.</td>
+                </tr>
+                <tr>
+                    <td>lx-input-format</td>
+                    <td><code>string</code></td>
+                    <td></td>
+                    <td>Specify the text field date format (moment) when a text field component is transcluded.</td>
                 </tr>
                 <tr>
                     <td>lx-max-date</td>

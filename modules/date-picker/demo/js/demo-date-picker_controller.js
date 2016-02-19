@@ -17,10 +17,18 @@
 
         vm.locale = 'en';
         vm.datePicker = {
-            date: new Date(),
-            dateFormatted: moment().locale(vm.locale).format('LL'),
-            minDate: new Date(new Date().getFullYear(), new Date().getMonth() - 2, new Date().getDate()),
-            maxDate: new Date(new Date().getFullYear(), new Date().getMonth() + 2, new Date().getDate())
+            basic:
+            {
+                date: new Date(),
+                dateFormatted: moment().locale(vm.locale).format('LL'),
+                minDate: new Date(new Date().getFullYear(), new Date().getMonth() - 2, new Date().getDate()),
+                maxDate: new Date(new Date().getFullYear(), new Date().getMonth() + 2, new Date().getDate())
+            },
+            input:
+            {
+                date: new Date(),
+                dateFormatted: moment().locale(vm.locale).format('LL')
+            }
         };
         vm.datePickerId = 'date-picker';
 
@@ -28,8 +36,8 @@
 
         function datePickerCallback(_newdate)
         {
-            vm.datePicker.date = _newdate;
-            vm.datePicker.dateFormatted = moment(_newdate).locale(vm.locale).format('LL');
+            vm.datePicker.basic.date = _newdate;
+            vm.datePicker.basic.dateFormatted = moment(_newdate).locale(vm.locale).format('LL');
         }
 
         function openDatePicker(_pickerId)

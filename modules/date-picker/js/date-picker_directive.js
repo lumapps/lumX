@@ -6,9 +6,9 @@
         .module('lumx.date-picker')
         .directive('lxDatePicker', lxDatePicker);
 
-    lxDatePicker.$inject = ['LxDatePickerService'];
+    lxDatePicker.$inject = ['LxDatePickerService', 'LxUtils'];
 
-    function lxDatePicker(LxDatePickerService)
+    function lxDatePicker(LxDatePickerService, LxUtils)
     {
         return {
             restrict: 'AE',
@@ -19,6 +19,7 @@
                 callback: '&?lxCallback',
                 color: '@?lxColor',
                 escapeClose: '=?lxEscapeClose',
+                inputFormat: '@?lxInputFormat',
                 maxDate: '=?lxMaxDate',
                 ngModel: '=',
                 minDate: '=?lxMinDate',
@@ -29,39 +30,66 @@
             controllerAs: 'lxDatePicker',
             bindToController: true,
             replace: true,
+            transclude: true
         };
 
         function link(scope, element, attrs)
         {
-            attrs.$observe('id', function(_newId)
+            if (angular.isDefined(attrs.id))
             {
-                LxDatePickerService.registerScope(_newId, scope);
-            });
+                attrs.$observe('id', function(_newId)
+                {
+                    scope.lxDatePicker.pickerId = _newId;
+                    LxDatePickerService.registerScope(scope.lxDatePicker.pickerId, scope);
+                });
+            }
+            else
+            {
+                scope.lxDatePicker.pickerId = LxUtils.generateUUID();
+                LxDatePickerService.registerScope(scope.lxDatePicker.pickerId, scope);
+            }
         }
     }
 
-    LxDatePickerController.$inject = ['$element', '$scope', '$timeout', 'LxDatePickerService'];
+    LxDatePickerController.$inject = ['$element', '$scope', '$timeout', '$transclude', 'LxDatePickerService'];
 
-    function LxDatePickerController($element, $scope, $timeout, LxDatePickerService)
+    function LxDatePickerController($element, $scope, $timeout, $transclude, LxDatePickerService)
     {
         var lxDatePicker = this;
+        var input;
+        var modelController;
 
         lxDatePicker.closeDatePicker = closeDatePicker;
         lxDatePicker.displayYearSelection = displayYearSelection;
         lxDatePicker.hideYearSelection = hideYearSelection;
         lxDatePicker.getDateFormatted = getDateFormatted;
         lxDatePicker.nextMonth = nextMonth;
+        lxDatePicker.openDatePicker = openDatePicker;
         lxDatePicker.previousMonth = previousMonth;
         lxDatePicker.select = select;
         lxDatePicker.selectYear = selectYear;
 
         lxDatePicker.autoClose = angular.isDefined(lxDatePicker.autoClose) ? lxDatePicker.autoClose : true;
         lxDatePicker.color = angular.isDefined(lxDatePicker.color) ? lxDatePicker.color : 'primary';
-        lxDatePicker.element = $element;
+        lxDatePicker.element = $element.find('.lx-date-picker');
         lxDatePicker.escapeClose = angular.isDefined(lxDatePicker.escapeClose) ? lxDatePicker.escapeClose : true;
         lxDatePicker.isOpen = false;
         lxDatePicker.moment = moment;
         lxDatePicker.yearSelection = false;
+
+        $transclude(function(clone)
+        {
+            if (clone.length)
+            {
+                lxDatePicker.hasInput = true;
+
+                $timeout(function()
+                {
+                    input = $element.find('.lx-date-input input');
+                    modelController = input.data('$ngModelController');
+                });
+            }
+        });
 
         init();
 
@@ -69,7 +97,7 @@
 
         function closeDatePicker()
         {
-            LxDatePickerService.close($element.attr('id'));
+            LxDatePickerService.close(lxDatePicker.pickerId);
         }
 
         function displayYearSelection()
@@ -173,6 +201,11 @@
             generateCalendar();
         }
 
+        function openDatePicker()
+        {
+            LxDatePickerService.open(lxDatePicker.pickerId);
+        }
+
         function previousMonth()
         {
             lxDatePicker.ngModelMoment = lxDatePicker.ngModelMoment.subtract(1, 'month');
@@ -187,10 +220,19 @@
                 lxDatePicker.ngModel = _day.toDate();
                 lxDatePicker.ngModelMoment = angular.copy(_day);
 
-                lxDatePicker.callback(
+                if (angular.isDefined(lxDatePicker.callback))
                 {
-                    newDate: lxDatePicker.ngModel
-                });
+                    lxDatePicker.callback(
+                    {
+                        newDate: lxDatePicker.ngModel
+                    });
+                }
+
+                if (angular.isDefined(modelController) && lxDatePicker.inputFormat)
+                {
+                    modelController.$setViewValue(angular.copy(_day).format(lxDatePicker.inputFormat));
+                    modelController.$render();
+                }
 
                 generateCalendar();
             }

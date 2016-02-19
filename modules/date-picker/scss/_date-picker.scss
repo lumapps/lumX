@@ -20,6 +20,22 @@
 
 
 
+// Date input
+.lx-date-input {
+    &,
+    input {
+        cursor: pointer !important;
+    }
+
+    input {
+        pointer-events: none;
+    }
+}
+
+
+
+
+
 // Date picker
 .lx-date-picker {
     display: none;
