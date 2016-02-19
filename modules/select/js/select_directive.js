@@ -231,6 +231,11 @@
 
         function select(_choice)
         {
+            if (lxSelect.multiple && angular.isUndefined(lxSelect.ngModel))
+            {
+                lxSelect.ngModel = [];
+            }
+
             if (angular.isDefined(lxSelect.modelToSelection) || angular.isDefined(lxSelect.selectionToModel))
             {
                 lxSelect.selectionToModel(
