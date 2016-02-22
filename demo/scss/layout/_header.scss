@@ -48,6 +48,10 @@ body.home .header {
         @include wrapper();
         @include display(flex);
         @include align-items(center);
+
+        @include media-query(portable) {
+            margin-left: 0;
+        }
     }
     
     // Header top: left
@@ -61,11 +65,17 @@ body.home .header {
     .header-top__right {
         @include display(flex);
         @include align-items(center);
+    
+        a,
+        img {
+            display: block;
+            @include size(30px);
+        }
     }
     
     // Header top: palm nav
     .header-top__palm-nav {
-        margin-right: $base-spacing-unit * 2;
+        margin: 0 $base-spacing-unit;
         
         @include media-query(desk) {
             display: none;
