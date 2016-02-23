@@ -32,7 +32,6 @@ $RECYCLE.BIN/
 /node_modules/*
 /libs
 /build
-/dist
 *.css.map
 
 # Codekit
