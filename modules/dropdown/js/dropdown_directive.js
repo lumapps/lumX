@@ -104,6 +104,11 @@
         {
             $interval.cancel(dropdownInterval);
 
+            dropdownMenu.css(
+            {
+                overflow: 'hidden'
+            });
+
             dropdownMenu.velocity(
             {
                 width: 0,
@@ -170,7 +175,8 @@
                 {
                     width: 0,
                     height: 0,
-                    opacity: 1
+                    opacity: 1,
+                    overflow: 'hidden'
                 });
 
                 dropdownMenu.find('.dropdown-menu__content').css(
@@ -199,6 +205,11 @@
                     queue: false,
                     complete: function()
                     {
+                        dropdownMenu.css(
+                        {
+                            overflow: 'auto'
+                        });
+
                         if (enoughtHeight)
                         {
                             dropdownMenu.css(
