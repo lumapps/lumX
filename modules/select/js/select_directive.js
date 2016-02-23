@@ -236,7 +236,7 @@
                 lxSelect.ngModel = [];
             }
 
-            if (angular.isDefined(lxSelect.modelToSelection) || angular.isDefined(lxSelect.selectionToModel))
+            if (angular.isDefined(lxSelect.selectionToModel))
             {
                 lxSelect.selectionToModel(
                 {
@@ -269,7 +269,7 @@
 
         function unselect(_choice)
         {
-            if (angular.isDefined(lxSelect.modelToSelection) || angular.isDefined(lxSelect.selectionToModel))
+            if (angular.isDefined(lxSelect.selectionToModel))
             {
                 lxSelect.selectionToModel(
                 {
