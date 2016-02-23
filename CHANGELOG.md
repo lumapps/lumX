@@ -1,5 +1,106 @@
 # Changelog
 
+## v1.0.0rc1:
+
+#### New features:
+ - flexbox: set 12 column container as default
+ - date picker: add the possibility to transclude a text field
+ - tooltip: ensure backward compatibility
+ - file input: handle callback with param
+ - date picker: handle callback with param
+ - dropdown: check dropdown position with interval
+ - select: ensure backward compatibility
+ - dropdown: append dropdown menu to body
+ - flexbox: add 16 columns option
+ - dropdown: ensure backward compatibility
+ - date picker: add a service and remove text input from directive
+ - text field: add allow clear attribute
+ - progress: create circular progress with svg
+ - progress: remove useless progress service
+ - icon: add icon directive
+ - text field: add backward compatibility
+ - select: reduce the amount of watchers
+ - search filter: reduce the amount of watchers
+ - dropdown: reduce the amount of watchers
+ - text field: enhance style on mobile device
+ - text field: reduce the amount of watchers
+ - text field: add theme attribute
+ - text field: add backward compatibility
+ - select: add loader style
+ - select: add valid and error styles
+ - select: add disabled style
+ - select: handle with fixed label
+ - select: add helper message
+ - select: use one time binding when possible
+ - date picker: add min date and max date parameters
+ - tabs: handle with disabled state
+ - tabs: handle with tab destroy
+ - tabs: add separate mode
+
+#### Bug fixes:
+ - select: add pointer cursor on selected tags
+ - dropdown: remove scrollbar on dropown menu open
+ - select: ensure model is an array on select for backward compatibility
+ - select: add missing dependency injection
+ - select: add timeout on watcher to ensure backward compatibility
+ - dropdown: fix dropdown menu width
+ - select: fix classes according to fixed dropdown menu
+ - dropdown: fix backward compatibility
+ - text field: fix dependency injection
+ - dialog: fix dependency injection
+ - dropdown: calculate position according to scroll top
+ - scss: fix mdi mixin
+ - dropdown: close other dropdowns on toggle
+ - text field: finally remove backward compatibility
+ - text field: also check input val to disable text field
+ - text field: fix disabled text field style
+ - date picker: fix text field according to new attributes
+ - search filter: remove useless nginject
+ - text field: fix label color
+ - date picker: fix picker open on firefox
+ - date picker: handle with undefined model
+ - date picker: add border radius to picker
+ - switchs: fix ng-change bad trigger
+ - dropdown: fix event scheduler id
+ - dropdown: fix embed dropdown style
+
+#### Breaking changes:
+ - All attributes have changes. Please read the updated documentation.
+
+
+## v0.3.96:
+
+#### New features:
+ - lxSelect: add a "maxResults" attr to the select
+
+#### Bug fixes:
+ - lxSelect: permit to send a boolean for the multiple attr
+
+
+## v0.3.95:
+
+#### Bug fixes:
+ - select: use padding instead of margin
+
+
+## v0.3.94:
+
+#### Bug fixes:
+ - controller as: avoid vm as controller identifier
+
+
+## v0.3.93:
+
+#### Bug fixes:
+ - progress: set animation beginning
+
+
+## v0.3.92:
+
+#### Bug fixes:
+ - progress: check if progress is shown before deleting
+
+
 ## v0.3.91:
 
 #### Bug fixes:

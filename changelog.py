@@ -7,7 +7,7 @@ def getTags():
     Popen('git fetch --tags'.split(), stdout=PIPE).communicate()
     (stdout, _) = Popen('git tag'.split(), stdout=PIPE).communicate()
 
-    return sorted(stdout.split(), key=lambda s: [int(x) for x in s.replace('v', '').split('.')])
+    return sorted(stdout.split(), key=lambda s: [x for x in s.replace('v', '').split('.')])
 
 
 def checkLastChangelogTag():
