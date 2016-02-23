@@ -166,7 +166,7 @@
         padding: 0 $base-spacing-unit / 2;
         border-radius: $base-round;
         background-color: $grey-200;
-        cursor: default;
+        cursor: pointer;
         @include font-size(12px);
         line-height: 20px;
         @include user-select(none);
