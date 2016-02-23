@@ -20,18 +20,18 @@ def checkExistingTag(version):
 
 def updateHomepage(version):
     file_str = None
-    with open('demo/includes/homepage/homepage.html') as f:
+    with open('demo/includes/home/home.html') as f:
         file_str = f.read()
 
-    file_str = re.sub(r'ng-href="[^"]*" class="banner__dl-btn btn btn--xl btn--white btn--raised"',
-                      'ng-href="https://github.com/lumapps/lumX/archive/%s.zip" class="banner__dl-btn btn btn--xl btn--white btn--raised"' % version,
+    file_str = re.sub(r'href="[^"]*"',
+                      'href="https://github.com/lumapps/lumX/archive/%s.zip"' % version,
                       file_str)
 
-    file_str = re.sub(r'<span class="banner__version">[^"]*<\/span>',
-                      '<span class="banner__version">%s</span>' % version,
+    file_str = re.sub(r'<span class="home-banner__version">[^"]*<\/span>',
+                      '<span class="home-banner__version">%s</span>' % version,
                       file_str)
 
-    with open('demo/includes/homepage/homepage.html', "w") as f:
+    with open('demo/includes/home/home.html', "w") as f:
         f.write(file_str)
 
 
