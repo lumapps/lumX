@@ -6,9 +6,9 @@
         .module('lumx.notification')
         .service('LxNotificationService', LxNotificationService);
 
-    LxNotificationService.$inject = ['$injector', '$rootScope', '$timeout', 'LxDepthService', 'LxEventSchedulerService'];
+    LxNotificationService.$inject = ['$injector', '$interval', '$rootScope', '$timeout', 'LxDepthService', 'LxEventSchedulerService'];
 
-    function LxNotificationService($injector, $rootScope, $timeout, LxDepthService, LxEventSchedulerService)
+    function LxNotificationService($injector, $interval, $rootScope, $timeout, LxDepthService, LxEventSchedulerService)
     {
         var service = this;
         var dialogFilter;
@@ -139,10 +139,10 @@
 
             if (angular.isUndefined(_sticky) || !_sticky)
             {
-                notificationTimeout = $timeout(function()
+                notificationTimeout = $interval(function()
                 {
                     deleteNotification(data);
-                }, 6000);
+                }, 6000, 1);
             }
         }
 
