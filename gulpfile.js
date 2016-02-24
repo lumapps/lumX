@@ -1,4 +1,5 @@
 var gulp = require('gulp'),
+    path = require('path'),
     minimist = require('minimist'),
     summary = require('jshint-summary'),
     del = require('del'),
@@ -93,9 +94,9 @@ gulp.task('lint', function()
         .pipe(plugins.jshint.reporter('jshint-summary'))
         .pipe(plugins.jshint.reporter('fail'))
         .pipe(plugins.remember('lint'))
-        .pipe(plugins.rename(function(path)
+        .pipe(plugins.rename(function(p)
         {
-            path.dirname = path.dirname.replace('/js', '');
+            p.dirname = p.dirname.replace(path.normalize('/js'), '');
         }))
         .pipe(gulp.dest('build/js'));
 });
@@ -128,9 +129,9 @@ gulp.task('examples', function()
 {
     return gulp.src(paths.examples)
         .pipe(plugins.plumber())
-        .pipe(plugins.rename(function(path)
+        .pipe(plugins.rename(function(p)
         {
-            path.dirname = path.dirname.replace('/demo', '');
+            p.dirname = p.dirname.replace(path.normalize('/demo'), '');
         }))
         .pipe(gulp.dest('build/includes/modules'));
 });
@@ -200,7 +201,7 @@ gulp.task('tpl:dropdown', function()
         {
             output: 'dropdown_template.js',
             moduleName: 'lumx.dropdown',
-            strip: 'views/'
+            strip: path.normalize('views/')
         }))
         .pipe(gulp.dest('build/js/templates'));
 });
@@ -213,7 +214,7 @@ gulp.task('tpl:file-input', function()
         {
             output: 'file-input_template.js',
             moduleName: 'lumx.file-input',
-            strip: 'views/'
+            strip: path.normalize('views/')
         }))
         .pipe(gulp.dest('build/js/templates'));
 });
@@ -226,7 +227,7 @@ gulp.task('tpl:text-field', function()
         {
             output: 'text-field_template.js',
             moduleName: 'lumx.text-field',
-            strip: 'views/'
+            strip: path.normalize('views/')
         }))
         .pipe(gulp.dest('build/js/templates'));
 });
@@ -239,7 +240,7 @@ gulp.task('tpl:search-filter', function()
         {
             output: 'search-filter_template.js',
             moduleName: 'lumx.search-filter',
-            strip: 'views/'
+            strip: path.normalize('views/')
         }))
         .pipe(gulp.dest('build/js/templates'));
 });
@@ -252,7 +253,7 @@ gulp.task('tpl:select', function()
         {
             output: 'select_template.js',
             moduleName: 'lumx.select',
-            strip: 'views/'
+            strip: path.normalize('views/')
         }))
         .pipe(gulp.dest('build/js/templates'));
 });
@@ -265,7 +266,7 @@ gulp.task('tpl:tabs', function()
         {
             output: 'tabs_template.js',
             moduleName: 'lumx.tabs',
-            strip: 'views/'
+            strip: path.normalize('views/')
         }))
         .pipe(gulp.dest('build/js/templates'));
 });
@@ -278,7 +279,7 @@ gulp.task('tpl:date-picker', function()
         {
             output: 'date-picker_template.js',
             moduleName: 'lumx.date-picker',
-            strip: 'views/'
+            strip: path.normalize('views/')
         }))
         .pipe(gulp.dest('build/js/templates'));
 });
@@ -291,7 +292,7 @@ gulp.task('tpl:progress', function()
         {
             output: 'progress_template.js',
             moduleName: 'lumx.progress',
-            strip: 'views/'
+            strip: path.normalize('views/')
         }))
         .pipe(gulp.dest('build/js/templates'));
 });
