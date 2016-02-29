@@ -90,7 +90,7 @@
     {
         return {
             restrict: 'E',
-            templateUrl: '/js/demo/views/component-attributes.html',
+            templateUrl: '/js/demo/component/views/component-attributes.html',
             transclude: true
         };
     }
@@ -99,7 +99,7 @@
     {
         return {
             restrict: 'E',
-            templateUrl: '/js/demo/views/component-methods.html',
+            templateUrl: '/js/demo/component/views/component-methods.html',
             scope: true,
             link: link,
             controller: LxComponentMethodsController,
@@ -126,7 +126,7 @@
     {
         return {
             restrict: 'E',
-            templateUrl: '/js/demo/views/component-method.html',
+            templateUrl: '/js/demo/component/views/component-method.html',
             scope: true,
             link: link,
             controller: LxComponentMethodController,
