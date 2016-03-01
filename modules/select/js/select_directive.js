@@ -205,7 +205,7 @@
                     {
                         for (var idx = 0, len = lxSelect.choices[header].length; idx < len; idx++)
                         {
-                            if (_selected === lxSelect.choices[header][idx])
+                            if (angular.equals(_selected, lxSelect.choices[header][idx]))
                             {
                                 selectedScope.$selectedSubheader = header;
 
