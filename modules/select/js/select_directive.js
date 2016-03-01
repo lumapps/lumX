@@ -190,6 +190,34 @@
         {
             var selectedScope = {};
 
+            if (!angular.isArray(lxSelect.choices))
+            {
+                var found = false;
+
+                for (var header in lxSelect.choices)
+                {
+                    if (found)
+                    {
+                        break;
+                    }
+
+                    if (lxSelect.choices.hasOwnProperty(header))
+                    {
+                        for (var idx = 0, len = lxSelect.choices[header].length; idx < len; idx++)
+                        {
+                            if (_selected === lxSelect.choices[header][idx])
+                            {
+                                selectedScope.$selectedSubheader = header;
+
+                                found = true;
+
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+
             if (angular.isDefined(_selected))
             {
                 selectedScope.$selected = _selected;

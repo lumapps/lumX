@@ -113,7 +113,7 @@
             age: 21
         }];
         vm.selectSections = {
-            'Sub header 1': [
+            '<i class="mdi mdi-account"></i> <span>Sub header 1</span>': [
             {
                 uid: '1',
                 name: 'Adam'
@@ -130,7 +130,7 @@
                 uid: '4',
                 name: 'Samantha'
             }],
-            '<i class="mdi mdi-android"></i> <span>Sub header 2</span>': [
+            '<i class="mdi mdi-account"></i> <span>Sub header 2</span>': [
             {
                 uid: '5',
                 name: 'Estefanía'
