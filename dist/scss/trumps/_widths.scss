@@ -1,0 +1,19 @@
+///*------------------------------------*\
+//    #TRUMPS-WIDTHS
+//\*------------------------------------*/
+
+// Width classes that you can use to size things like grid systems.
+// Use this in your markup:
+//
+// <div class="w-3/4">
+
+// By default we will create wholes, halves, thirds, quarters, and fifths.
+$widths-columns: (
+    1,
+    2,
+    3,
+    4,
+    5,
+) !default;
+
+@include widths($widths-columns);
