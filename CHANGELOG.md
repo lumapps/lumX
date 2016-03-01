@@ -1,5 +1,15 @@
 # Changelog
 
+## v1.0.0rc2:
+
+#### New features:
+ - select: add $selectedSubheader var
+
+#### Bug fixes:
+ - demo: wrong paths in component directive
+ - gulpfile: use cross-platform manipulations with file paths
+
+
 ## v1.0.0rc1:
 
 #### New features:
