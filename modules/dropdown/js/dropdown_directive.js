@@ -9,9 +9,9 @@
         .directive('lxDropdownMenu', lxDropdownMenu)
         .directive('lxDropdownFilter', lxDropdownFilter);
 
-    lxDropdown.$inject = ['$document'];
+    lxDropdown.$inject = ['$document', '$timeout'];
 
-    function lxDropdown($document)
+    function lxDropdown($document, $timeout)
     {
         return {
             restrict: 'E',
@@ -70,10 +70,16 @@
 
             function closeDropdownMenu()
             {
-                scope.$apply(function()
+                if (scope.lxDropdown.isOpen)
                 {
-                    ctrl.closeDropdownMenu();
-                });
+                    $timeout(function()
+                    {
+                        scope.$apply(function()
+                        {
+                            ctrl.closeDropdownMenu();
+                        });
+                    });
+                }
             }
         }
     }
