@@ -25,23 +25,36 @@
 
         function link(scope, element, attrs, ctrl)
         {
-            element.find('input')
-                .bind('change', ctrl.updateModel)
+            var input = element.find('input');
+
+            input
+                .on('change', ctrl.updateModel)
                 .on('blur', function()
                 {
                     element.removeClass('input-file--is-focus');
                 });
+
+            scope.$on('$destroy', function()
+            {
+                input.off();
+            });
         }
     }
 
-    LxFileInputController.$inject = ['$element', '$timeout'];
+    LxFileInputController.$inject = ['$element', '$scope', '$timeout'];
 
-    function LxFileInputController($element, $timeout)
+    function LxFileInputController($element, $scope, $timeout)
     {
         var lxFileInput = this;
         var input = $element.find('input');
+        var timer;
 
         lxFileInput.updateModel = updateModel;
+
+        $scope.$on('$destroy', function()
+        {
+            $timeout.cancel(timer);
+        });
 
         ////////////
 
@@ -74,7 +87,7 @@
                 });
             }
 
-            $timeout(setFileName);
+            timer = $timeout(setFileName);
         }
     }
 })();

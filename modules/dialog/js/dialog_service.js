@@ -39,7 +39,8 @@
                 idEventScheduler = undefined;
             }
 
-            angular.element('.dialog__scrollable').unbind('scroll', checkScrollEnd);
+            angular.element($window).off('resize', checkDialogHeightOnResize);
+            angular.element('.dialog__scrollable').off('scroll', checkScrollEnd);
 
             activeDialogId = undefined;
 
@@ -128,7 +129,7 @@
                             top: dialogHeader.outerHeight(),
                             bottom: dialogFooter.outerHeight()
                         })
-                        .bind('scroll', checkScrollEnd);
+                        .on('scroll', checkScrollEnd);
 
                     dialogContent.wrap(dialogScrollable);
                 }
@@ -141,6 +142,22 @@
                 {
                     dialogContent.unwrap();
                 }
+            }
+        }
+
+        function checkDialogHeightOnResize()
+        {
+            if (angular.isDefined(activeDialogId))
+            {
+                if (resizeDebounce)
+                {
+                    $timeout.cancel(resizeDebounce);
+                }
+
+                resizeDebounce = $timeout(function()
+                {
+                    checkDialogHeight(activeDialogId);
+                }, 200);
             }
         }
 
@@ -162,11 +179,11 @@
                 {
                     $rootScope.$broadcast('lx-dialog__scroll-end', activeDialogId);
 
-                    dialogScrollable.unbind('scroll', checkScrollEnd);
+                    dialogScrollable.off('scroll', checkScrollEnd);
 
                     $timeout(function()
                     {
-                        dialogScrollable.bind('scroll', checkScrollEnd);
+                        dialogScrollable.on('scroll', checkScrollEnd);
                     }, 500);
                 }
             }
@@ -204,7 +221,7 @@
 
             if (scopeMap[activeDialogId].autoClose)
             {
-                dialogFilter.bind('click', function()
+                dialogFilter.on('click', function()
                 {
                     closeDialog(activeDialogId);
                 });
@@ -239,27 +256,13 @@
             {
                 checkDialogHeight(activeDialogId);
             }, 500);
+
+            angular.element($window).on('resize', checkDialogHeightOnResize);
         }
 
         function registerScope(_dialogId, _dialogScope)
         {
             scopeMap[_dialogId] = _dialogScope.lxDialog;
         }
-
-        angular.element($window).on('resize', function()
-        {
-            if (angular.isDefined(activeDialogId))
-            {
-                if (resizeDebounce)
-                {
-                    $timeout.cancel(resizeDebounce);
-                }
-
-                resizeDebounce = $timeout(function()
-                {
-                    checkDialogHeight(activeDialogId);
-                }, 200);
-            }
-        });
     }
 })();

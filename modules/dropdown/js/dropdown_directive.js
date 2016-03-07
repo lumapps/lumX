@@ -34,6 +34,7 @@
         {
             var backwardOneWay = ['position', 'width'];
             var backwardTwoWay = ['escapeClose', 'overToggle'];
+            var timer;
 
             angular.forEach(backwardOneWay, function(attribute)
             {
@@ -60,19 +61,20 @@
                 }
             });
 
-            $document.bind('click', closeDropdownMenu);
+            $document.on('click', closeDropdownMenu);
 
             scope.$on('$destroy', function()
             {
                 ctrl.closeDropdownMenu();
-                $document.unbind('click', closeDropdownMenu);
+                $document.off('click', closeDropdownMenu);
+                $timeout.cancel(timer);
             });
 
             function closeDropdownMenu()
             {
                 if (scope.lxDropdown.isOpen)
                 {
-                    $timeout(function()
+                    timer = $timeout(function()
                     {
                         scope.$apply(function()
                         {
@@ -93,6 +95,7 @@
         var dropdownMenu;
         var dropdownToggle;
         var idEventScheduler;
+        var timer;
 
         lxDropdown.closeDropdownMenu = closeDropdownMenu;
         lxDropdown.registerDropdownMenu = registerDropdownMenu;
@@ -103,6 +106,11 @@
         lxDropdown.isOpen = false;
         lxDropdown.overToggle = angular.isDefined(lxDropdown.overToggle) ? lxDropdown.overToggle : false;
         lxDropdown.position = angular.isDefined(lxDropdown.position) ? lxDropdown.position : 'left';
+
+        $scope.$on('$destroy', function()
+        {
+            $timeout.cancel(timer);
+        });
 
         ////////////
 
@@ -164,7 +172,7 @@
                 idEventScheduler = LxEventSchedulerService.register('keyup', onKeyUp);
             }
 
-            $timeout(function()
+            timer = $timeout(function()
             {
                 var enoughtHeight = true;
                 var availableHeight = setDropdownMenuCss();
@@ -357,7 +365,7 @@
         {
             ctrl.registerDropdownToggle(element);
 
-            element.bind('click', function(_event)
+            element.on('click', function(_event)
             {
                 _event.stopPropagation();
 
@@ -373,6 +381,11 @@
                 {
                     ctrl.toggle();
                 });
+            });
+
+            scope.$on('$destroy', function()
+            {
+                element.off();
             });
         }
     }
@@ -424,15 +437,23 @@
 
         function link(scope, element)
         {
-            element.bind('click', function(_event)
+            var timer;
+
+            element.on('click', function(_event)
             {
                 _event.stopPropagation();
             });
 
-            $timeout(function()
+            timer = $timeout(function()
             {
                 element.find('input').focus();
             }, 200);
+
+            scope.$on('$destroy', function()
+            {
+                $timeout.cancel(timer);
+                element.off();
+            });
         }
     }
 })();

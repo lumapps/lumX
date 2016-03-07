@@ -42,19 +42,25 @@
         };
     }
 
-    LxRadioButtonController.$inject = ['$timeout', 'LxUtils'];
+    LxRadioButtonController.$inject = ['$scope', '$timeout', 'LxUtils'];
 
-    function LxRadioButtonController($timeout, LxUtils)
+    function LxRadioButtonController($scope, $timeout, LxUtils)
     {
         var lxRadioButton = this;
         var radioButtonId;
         var radioButtonHasChildren;
+        var timer;
 
         lxRadioButton.getRadioButtonId = getRadioButtonId;
         lxRadioButton.getRadioButtonHasChildren = getRadioButtonHasChildren;
         lxRadioButton.setRadioButtonId = setRadioButtonId;
         lxRadioButton.setRadioButtonHasChildren = setRadioButtonHasChildren;
         lxRadioButton.triggerNgChange = triggerNgChange;
+
+        $scope.$on('$destroy', function()
+        {
+            $timeout.cancel(timer);
+        });
 
         init();
 
@@ -95,7 +101,7 @@
 
         function triggerNgChange()
         {
-            $timeout(lxRadioButton.ngChange);
+            timer = $timeout(lxRadioButton.ngChange);
         }
     }
 

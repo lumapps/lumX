@@ -31,19 +31,25 @@
         };
     }
 
-    LxSwitchController.$inject = ['$timeout', 'LxUtils'];
+    LxSwitchController.$inject = ['$scope', '$timeout', 'LxUtils'];
 
-    function LxSwitchController($timeout, LxUtils)
+    function LxSwitchController($scope, $timeout, LxUtils)
     {
         var lxSwitch = this;
         var switchId;
         var switchHasChildren;
+        var timer;
 
         lxSwitch.getSwitchId = getSwitchId;
         lxSwitch.getSwitchHasChildren = getSwitchHasChildren;
         lxSwitch.setSwitchId = setSwitchId;
         lxSwitch.setSwitchHasChildren = setSwitchHasChildren;
         lxSwitch.triggerNgChange = triggerNgChange;
+
+        $scope.$on('$destroy', function()
+        {
+            $timeout.cancel(timer);
+        });
 
         init();
 
@@ -81,7 +87,7 @@
 
         function triggerNgChange()
         {
-            $timeout(lxSwitch.ngChange);
+            timer = $timeout(lxSwitch.ngChange);
         }
     }
 

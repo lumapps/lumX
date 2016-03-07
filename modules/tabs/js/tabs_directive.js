@@ -38,6 +38,10 @@
     {
         var lxTabs = this;
         var tabsLength;
+        var timer1;
+        var timer2;
+        var timer3;
+        var timer4;
 
         lxTabs.removeTab = removeTab;
         lxTabs.setActiveTab = setActiveTab;
@@ -58,7 +62,7 @@
             return lxTabs.activeTab;
         }, function(_newActiveTab, _oldActiveTab)
         {
-            $timeout(function()
+            timer1 = $timeout(function()
             {
                 setIndicatorPosition(_oldActiveTab);
 
@@ -89,9 +93,17 @@
             });
         });
 
-        $timeout(function()
+        timer2 = $timeout(function()
         {
             tabsLength = lxTabs.tabs.length;
+        });
+
+        $scope.$on('$destroy', function()
+        {
+            $timeout.cancel(timer1);
+            $timeout.cancel(timer2);
+            $timeout.cancel(timer3);
+            $timeout.cancel(timer4);
         });
 
         ////////////
@@ -107,7 +119,7 @@
 
             if (lxTabs.activeTab === 0)
             {
-                $timeout(function()
+                timer3 = $timeout(function()
                 {
                     setIndicatorPosition();
                 });
@@ -208,7 +220,7 @@
 
                 if (angular.isDefined(tabsLength))
                 {
-                    $timeout(function()
+                    timer4 = $timeout(function()
                     {
                         setIndicatorPosition();
                     });

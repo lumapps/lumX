@@ -58,6 +58,8 @@
         var lxDatePicker = this;
         var input;
         var modelController;
+        var timer1;
+        var timer2;
 
         lxDatePicker.closeDatePicker = closeDatePicker;
         lxDatePicker.displayYearSelection = displayYearSelection;
@@ -83,12 +85,18 @@
             {
                 lxDatePicker.hasInput = true;
 
-                $timeout(function()
+                timer1 = $timeout(function()
                 {
                     input = $element.find('.lx-date-input input');
                     modelController = input.data('$ngModelController');
                 });
             }
+        });
+
+        $scope.$on('$destroy', function()
+        {
+            $timeout.cancel(timer1);
+            $timeout.cancel(timer2);
         });
 
         init();
@@ -104,7 +112,7 @@
         {
             lxDatePicker.yearSelection = true;
 
-            $timeout(function()
+            timer2 = $timeout(function()
             {
                 var yearSelector = $element.find('.lx-date-picker__year-selector');
                 var activeYear = yearSelector.find('.lx-date-picker__year--is-active');

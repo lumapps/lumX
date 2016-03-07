@@ -36,6 +36,8 @@
         {
             var backwardOneWay = ['icon', 'label', 'theme'];
             var backwardTwoWay = ['error', 'fixedLabel', 'valid'];
+            var input;
+            var timer;
 
             angular.forEach(backwardOneWay, function(attribute)
             {
@@ -64,13 +66,13 @@
 
             transclude(function()
             {
-                var input = element.find('textarea');
+                input = element.find('textarea');
 
                 if (input[0])
                 {
-                    input.bind('cut paste drop keydown', function()
+                    input.on('cut paste drop keydown', function()
                     {
-                        $timeout(ctrl.updateTextareaHeight);
+                        timer = $timeout(ctrl.updateTextareaHeight);
                     });
                 }
                 else
@@ -83,8 +85,14 @@
                 ctrl.setInput(input);
                 ctrl.setModel(input.data('$ngModelController'));
 
-                input.bind('focus', ctrl.focusInput);
-                input.bind('blur', ctrl.blurInput);
+                input.on('focus', ctrl.focusInput);
+                input.on('blur', ctrl.blurInput);
+            });
+
+            scope.$on('$destroy', function()
+            {
+                $timeout.cancel(timer);
+                input.off();
             });
         }
     }
@@ -96,6 +104,9 @@
         var lxTextField = this;
         var input;
         var modelController;
+        var timer1;
+        var timer2;
+        var timer3;
 
         lxTextField.blurInput = blurInput;
         lxTextField.clearInput = clearInput;
@@ -118,6 +129,13 @@
             {
                 lxTextField.isActive = false;
             }
+        });
+
+        $scope.$on('$destroy', function()
+        {
+            $timeout.cancel(timer1);
+            $timeout.cancel(timer2);
+            $timeout.cancel(timer3);
         });
 
         ////////////
@@ -143,7 +161,7 @@
             modelController.$setViewValue(undefined);
             modelController.$render();
 
-            $timeout(function()
+            timer1 = $timeout(function()
             {
                 input.focus();
             });
@@ -173,11 +191,11 @@
         {
             input = _input;
 
-            $timeout(init);
+            timer2 = $timeout(init);
 
             if (input.selector === 'textarea')
             {
-                $timeout(updateTextareaHeight);
+                timer3 = $timeout(updateTextareaHeight);
             }
         }
 

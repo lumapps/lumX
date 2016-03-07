@@ -87,7 +87,7 @@
 
             if (scopeMap[activeDatePickerId].autoClose)
             {
-                datePickerFilter.bind('click', function()
+                datePickerFilter.on('click', function()
                 {
                     closeDatePicker(activeDatePickerId);
                 });

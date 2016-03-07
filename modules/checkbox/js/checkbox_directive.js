@@ -31,19 +31,25 @@
         };
     }
 
-    LxCheckboxController.$inject = ['$timeout', 'LxUtils'];
+    LxCheckboxController.$inject = ['$scope', '$timeout', 'LxUtils'];
 
-    function LxCheckboxController($timeout, LxUtils)
+    function LxCheckboxController($scope, $timeout, LxUtils)
     {
         var lxCheckbox = this;
         var checkboxId;
         var checkboxHasChildren;
+        var timer;
 
         lxCheckbox.getCheckboxId = getCheckboxId;
         lxCheckbox.getCheckboxHasChildren = getCheckboxHasChildren;
         lxCheckbox.setCheckboxId = setCheckboxId;
         lxCheckbox.setCheckboxHasChildren = setCheckboxHasChildren;
         lxCheckbox.triggerNgChange = triggerNgChange;
+
+        $scope.$on('$destroy', function()
+        {
+            $timeout.cancel(timer);
+        });
 
         init();
 
@@ -81,7 +87,7 @@
 
         function triggerNgChange()
         {
-            $timeout(lxCheckbox.ngChange);
+            timer = $timeout(lxCheckbox.ngChange);
         }
     }
 

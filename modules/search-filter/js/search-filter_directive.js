@@ -27,6 +27,8 @@
 
         function link(scope, element, attrs, ctrl, transclude)
         {
+            var input;
+
             attrs.$observe('lxWidth', function(newWidth)
             {
                 if (angular.isDefined(scope.lxSearchFilter.closed) && scope.lxSearchFilter.closed)
@@ -37,12 +39,17 @@
 
             transclude(function()
             {
-                var input = element.find('input');
+                input = element.find('input');
 
                 ctrl.setInput(input);
                 ctrl.setModel(input.data('$ngModelController'));
 
-                input.bind('blur', ctrl.blurInput);
+                input.on('blur', ctrl.blurInput);
+            });
+
+            scope.$on('$destroy', function()
+            {
+                input.off();
             });
         }
     }

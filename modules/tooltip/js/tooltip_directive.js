@@ -31,8 +31,13 @@
                 });
             }
 
-            element.bind('mouseenter', ctrl.showTooltip);
-            element.bind('mouseleave', ctrl.hideTooltip);
+            element.on('mouseenter', ctrl.showTooltip);
+            element.on('mouseleave', ctrl.hideTooltip);
+
+            scope.$on('$destroy', function()
+            {
+                element.off();
+            });
         }
     }
 
@@ -41,6 +46,8 @@
     function LxTooltipController($element, $scope, $timeout, LxDepthService)
     {
         var lxTooltip = this;
+        var timer1;
+        var timer2;
         var tooltip;
         var tooltipBackground;
         var tooltipLabel;
@@ -56,6 +63,9 @@
             {
                 tooltip.remove();
             }
+
+            $timeout.cancel(timer1);
+            $timeout.cancel(timer2);
         });
 
         ////////////
@@ -66,7 +76,7 @@
             {
                 tooltip.removeClass('tooltip--is-active');
 
-                $timeout(function()
+                timer1 = $timeout(function()
                 {
                     tooltip.remove();
                 }, 200);
@@ -147,7 +157,7 @@
                 .css('z-index', LxDepthService.getDepth())
                 .appendTo('body');
 
-            $timeout(function()
+            timer2 = $timeout(function()
             {
                 tooltip.addClass('tooltip--is-active');
             });

@@ -90,9 +90,14 @@
             restrict: 'A',
             link: function(scope, element)
             {
-                element.bind('click', function()
+                element.on('click', function()
                 {
                     LxDialogService.close(element.parents('.dialog').attr('id'));
+                });
+
+                scope.$on('$destroy', function()
+                {
+                    element.off();
                 });
             }
         };

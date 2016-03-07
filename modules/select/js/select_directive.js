@@ -78,7 +78,7 @@
             transclude: true
         };
 
-        function link(scope, element, attrs, ctrl)
+        function link(scope, element, attrs)
         {
             var backwardOneWay = ['customStyle'];
             var backwardTwoWay = ['allowClear', 'choices', 'error', 'loading', 'multiple', 'valid'];
@@ -415,6 +415,7 @@
     function LxSelectChoicesController($scope, $timeout)
     {
         var lxSelectChoices = this;
+        var timer;
 
         lxSelectChoices.isArray = isArray;
         lxSelectChoices.isSelected = isSelected;
@@ -423,6 +424,11 @@
         lxSelectChoices.updateFilter = updateFilter;
 
         lxSelectChoices.filterModel = undefined;
+
+        $scope.$on('$destroy', function()
+        {
+            $timeout.cancel(timer);
+        });
 
         ////////////
 
@@ -465,7 +471,7 @@
                 return lxSelectChoices.parentCtrl.ngModel;
             }, function(newModel, oldModel)
             {
-                $timeout(function()
+                timer = $timeout(function()
                 {
                     if (newModel !== oldModel && angular.isDefined(lxSelectChoices.parentCtrl.ngChange))
                     {

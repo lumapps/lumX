@@ -17,7 +17,7 @@
 
         function link(scope, element, attrs)
         {
-            var timeout;
+            var timer;
 
             element
                 .css(
@@ -25,7 +25,7 @@
                     position: 'relative',
                     overflow: 'hidden'
                 })
-                .bind('mousedown', function(e)
+                .on('mousedown', function(e)
                 {
                     var ripple;
 
@@ -70,7 +70,7 @@
                         left: x + 'px'
                     }).addClass('ripple--is-animated');
 
-                    timeout = $timeout(function()
+                    timer = $timeout(function()
                     {
                         ripple.removeClass('ripple--is-animated');
                     }, 651);
@@ -78,7 +78,8 @@
 
             scope.$on('$destroy', function()
             {
-                $timeout.cancel(timeout);
+                $timeout.cancel(timer);
+                element.off();
             });
         }
     }
