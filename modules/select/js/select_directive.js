@@ -155,7 +155,7 @@
         }
     }
 
-    LxSelectSelectedController.$inject = ['$interpolate', '$sce'];
+    LxSelectController.$inject = ['$interpolate', '$sce'];
 
     function LxSelectController($interpolate, $sce)
     {
