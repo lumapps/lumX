@@ -17,19 +17,19 @@
 
 // Linear
 @include keyframes(lx-progress-linear-bar1) {
-    0%       { @include transform(scale( 0.5) translateX(-150%)); }
-    37.5%    { @include transform(scale(0.75) translateX(   0%)); }
-    75%      { @include transform(scale( 0.5) translateX( 150%)); }
-    100%     { @include transform(scale( 0.5) translateX( 150%)); }
+    0%       { @include transform(scaleX( 0.5) translateX(-150%)); }
+    37.5%    { @include transform(scaleX(0.75) translateX(   0%)); }
+    75%      { @include transform(scaleX( 0.5) translateX( 150%)); }
+    100%     { @include transform(scaleX( 0.5) translateX( 150%)); }
 }
 
 @include keyframes(lx-progress-linear-bar2) {
-    0%       { @include transform(scale( 0.5) translateX(-250%)); }
-    40%      { @include transform(scale( 0.5) translateX(-250%)); }
-    55%      { @include transform(scale( 0.5) translateX(-150%)); }
-    70%      { @include transform(scale( 0.5) translateX( -50%)); }
-    85%      { @include transform(scale(0.25) translateX( 150%)); }
-    100%     { @include transform(scale(0.25) translateX( 250%)); }
+    0%       { @include transform(scaleX( 0.5) translateX(-250%)); }
+    40%      { @include transform(scaleX( 0.5) translateX(-250%)); }
+    55%      { @include transform(scaleX( 0.5) translateX(-150%)); }
+    70%      { @include transform(scaleX( 0.5) translateX( -50%)); }
+    85%      { @include transform(scaleX(0.25) translateX( 150%)); }
+    100%     { @include transform(scaleX(0.25) translateX( 250%)); }
 }
 
 
