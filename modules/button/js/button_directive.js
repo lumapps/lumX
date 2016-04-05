@@ -16,6 +16,8 @@
             transclude: true
         };
 
+        var buttonClass;
+
         function compile(element, attrs)
         {
             setButtonStyle(element, attrs.lxSize, attrs.lxColor, attrs.lxType);
@@ -65,9 +67,11 @@
             var buttonColor = angular.isDefined(color) ? color : 'primary';
             var buttonType = angular.isDefined(type) ? type : 'raised';
 
-            element
-                .removeAttr('class')
-                .addClass(buttonBase + ' btn--' + buttonSize + ' btn--' + buttonColor + ' btn--' + buttonType);
+            element.removeClass(buttonClass);
+
+            buttonClass = buttonBase + ' btn--' + buttonSize + ' btn--' + buttonColor + ' btn--' + buttonType;
+
+            element.addClass(buttonClass);
         }
     }
 })();
