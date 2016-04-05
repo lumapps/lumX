@@ -1,0 +1,31 @@
+<div class="bgc-grey-800 p+ pt0">
+    <lx-select ng-model="vm.selectModel.selectedPerson"
+               lx-allow-clear="true"
+               lx-choices="vm.selectPeople"
+               lx-display-filter="true"
+               lx-fixed-label="true"
+               lx-label="Lorem Ipsum"
+               lx-theme="dark">
+        <lx-select-selected>
+            {{ $selected.name }} - {{ $selected.age }}
+        </lx-select-selected>
+ 
+        <lx-select-choices>
+            {{ $choice.email }}
+        </lx-select-choices>
+    </lx-select>
+ 
+    <lx-select ng-model="vm.selectModel.selectedPeople"
+               lx-choices="vm.selectPeople"
+               lx-label="Lorem Ipsum"
+               lx-multiple="true"
+               lx-theme="dark">
+        <lx-select-selected>
+            {{ $selected.name }} - {{ $selected.age }}
+        </lx-select-selected>
+ 
+        <lx-select-choices>
+            {{ $choice.email }}
+        </lx-select-choices>
+    </lx-select>
+</div>

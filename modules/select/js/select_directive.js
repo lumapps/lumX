@@ -68,6 +68,7 @@
                 ngDisabled: '=?',
                 ngModel: '=',
                 selectionToModel: '&?lxSelectionToModel',
+                theme: '@?lxTheme',
                 valid: '=?lxValid'
             },
             link: link,

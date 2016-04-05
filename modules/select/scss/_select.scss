@@ -16,7 +16,14 @@
     &:before {
         @include position(absolute, null 0 $base-spacing-unit - 1 0);
         height: 1px;
+    }
+
+    &.lx-select--theme-light:before  {
         border-bottom: 1px solid $black-4;
+    }
+
+    &.lx-select--theme-dark:before {
+        border-bottom: 1px solid $white-4;
     }
 
     &:after {
@@ -63,7 +70,6 @@
 .lx-select-label {
     display: block;
     @include position(absolute, $base-spacing-unit null null 0);
-    color: $black-2;
     line-height: 32px;
     pointer-events: none;
     @include transform(translateY($base-spacing-unit * 3));
@@ -80,8 +86,20 @@
         @include transform(scale(0.75) translateY(0));
     }
 
-    .lx-select--is-disabled & {
+    .lx-select--theme-light & {
+        color: $black-2;
+    }
+
+    .lx-select--theme-dark & {
+        color: $white-2;
+    }
+
+    .lx-select--theme-light.lx-select--is-disabled & {
         color: $black-3;
+    }
+
+    .lx-select--theme-dark.lx-select--is-disabled & {
+        color: $white-3;
     }
 
     .lx-select--valid & {
@@ -107,8 +125,15 @@
         @include mdi-icon('menu-down');
         @include position(absolute, null $base-spacing-unit $base-spacing-unit null);
         @include font-size(14px);
-        color: $black-3;
         line-height: 16px;
+
+        .lx-select--theme-light & {
+            color: $black-3;
+        }
+
+        .lx-select--theme-dark & {
+            color: $white-3;
+        }
     }
 
     .dropdown--is-open &:after {
@@ -138,8 +163,20 @@
         display: block;
         line-height: 32px;
 
-        .lx-select--is-disabled & {
+        .lx-select--theme-light & {
+            color: $black-1;
+        }
+
+        .lx-select--theme-dark & {
+            color: $white-1;
+        }
+
+        .lx-select--theme-light.lx-select--is-disabled & {
             color: $black-3;
+        }
+
+        .lx-select--theme-dark.lx-select--is-disabled & {
+            color: $white-3;
         }
     }
     
@@ -151,6 +188,14 @@
         line-height: 32px;
         @include transition-property(opacity, color);
         @include transition-duration(0.2s);
+
+        .lx-select--theme-light & {
+            color: $black-1;
+        }
+
+        .lx-select--theme-dark & {
+            color: $white-1;
+        }
 
         &:hover {
             color: $red-500;
