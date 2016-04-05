@@ -175,7 +175,7 @@
 
     // Date picker: day
     .lx-date-picker__day {
-        @include flex(0 0 #{(100 / 7) + '%'});
+        @include flex(unquote('0 0 #{(100 / 7) + '%'}'));
         max-width: #{(100 / 7) + '%'};
         padding: 1px 0;
 
