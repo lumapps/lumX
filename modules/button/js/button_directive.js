@@ -8,6 +8,8 @@
 
     function lxButton()
     {
+        var buttonClass;
+
         return {
             restrict: 'E',
             templateUrl: getTemplateUrl,
@@ -15,8 +17,6 @@
             replace: true,
             transclude: true
         };
-
-        var buttonClass;
 
         function compile(element, attrs)
         {
