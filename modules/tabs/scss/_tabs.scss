@@ -10,6 +10,10 @@
 
 @each $key, $color in $colors {
     .tabs--theme-light.tabs--color-#{$key} {
+        .tabs__link:not(.tabs__link--is-disabled) .ripple {
+            background-color: $color;
+        }
+
         .tabs__link:not(.tabs__link--is-disabled):hover,
         .tabs__link:not(.tabs__link--is-disabled).tabs__link--is-active {
             color: $color;
@@ -23,6 +27,10 @@
     .tabs--theme-dark.tabs--color-#{$key} {
         .tabs__links {
             background-color: $color;
+        }
+
+        .tabs__link:not(.tabs__link--is-disabled) .ripple {
+            background-color: $white;
         }
     }
 
