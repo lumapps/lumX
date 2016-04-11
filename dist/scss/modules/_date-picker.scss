@@ -1,0 +1,245 @@
+///*------------------------------------*\
+//    #OBJECTS-DATE-PICKER
+//\*------------------------------------*/
+
+// Date picker filter
+.lx-date-picker-filter {
+    @include position(fixed, 0 0 0 0);
+    opacity: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    @include transition-property(opacity);
+    @include transition-duration(0.6s);
+    @include transition-timing-function($ease-out-quint);
+}
+
+.lx-date-picker-filter--is-shown {
+    opacity: 1;
+}
+
+
+
+
+
+// Date input
+.lx-date-input {
+    &,
+    input {
+        cursor: pointer !important;
+    }
+
+    input {
+        pointer-events: none;
+    }
+}
+
+
+
+
+
+// Date picker
+.lx-date-picker {
+    display: none;
+    @include position(fixed, $base-spacing-unit * 4 null null 50%);
+    width: 330px;
+    margin-left: -165px;
+    opacity: 0;
+    @include z-depth(3);
+    @include transform(translateY(-50px));
+    @include transition-property(opacity, transform);
+    @include transition-duration(0.6s);
+    @include transition-timing-function($ease-out-quint);
+}
+
+@each $key, $color in $colors {
+    .lx-date-picker--#{$key} {
+        .lx-date-picker__header {
+            background-color: $color;
+        }
+
+        .lx-date-picker__day--is-today a {
+            color: $color;
+        }
+
+        .lx-date-picker__day a:hover,
+        .lx-date-picker__day--is-selected a {
+            background-color: $color;
+        }
+
+        .lx-date-picker__year:hover,
+        .lx-date-picker__year--is-active {
+            color: $color;
+        }
+    }
+}
+
+.lx-date-picker--is-shown {
+    opacity: 1;
+    @include transform(translateY(0));
+}
+
+.lx-date-picker__header {
+    border-radius: $base-round $base-round 0 0;
+    padding: $base-spacing-unit * 2 $base-spacing-unit * 3;
+}
+    
+    // Date picker: current year / current date
+    .lx-date-picker__current-year,
+    .lx-date-picker__current-date {
+        display: block;
+        cursor: pointer;
+    }
+
+    // Date picker: current year
+    .lx-date-picker__current-year {
+        @include font-size(14px);
+        color: $white-2;
+        line-height: 22px;
+    }
+
+    .lx-date-picker__current-year:hover,
+    .lx-date-picker__current-year--is-active {
+        color: $white-1;
+    }
+
+    // Date picker: current date
+    .lx-date-picker__current-date {
+        @include font-size(38px);
+        font-weight: 500;
+        color: $white-2;
+        line-height: 42px;
+    }
+
+    .lx-date-picker__current-date:hover,
+    .lx-date-picker__current-date--is-active {
+        color: $white-1;
+    }
+
+    // Date picker: calendar
+    .lx-date-picker__calendar {
+        height: 350px;
+        background-color: $white;
+    }
+
+    // Date picker: navigation
+    .lx-date-picker__nav {
+        @include display(flex);
+        @include flex-direction(row);
+        @include align-items(center);
+        height: 52px;
+
+        span {
+            @include flex(1);
+            @include font-size(14px);
+            text-align: center;
+            text-transform: capitalize;
+            font-weight: 500;
+        }
+
+        button {
+            &:first-child {
+                margin-left: $base-spacing-unit;
+            }
+
+            &:last-child {
+                margin-right: $base-spacing-unit;
+            }
+        }
+    }
+
+    // Date picker: days of week
+    .lx-date-picker__days-of-week {
+        @include display(flex);
+        @include flex-direction(row);
+        @include align-items(center);
+        padding: 0 $base-spacing-unit * 2;
+
+        span {
+            @include flex(1);
+            @include font-size(12px);
+            font-weight: 400;
+            color: $black-2;
+            line-height: 32px;
+            text-align: center;
+            text-transform: uppercase;
+        }
+    }
+
+    // Date picker: days
+    .lx-date-picker__days {
+        @include display(flex);
+        @include flex-direction(row);
+        @include flex-wrap(wrap);
+        @include align-items(center);
+        padding: 0 $base-spacing-unit * 2;
+    }
+
+    // Date picker: day
+    .lx-date-picker__day {
+        @include flex(unquote('0 0 #{(100 / 7) + '%'}'));
+        max-width: #{(100 / 7) + '%'};
+        padding: 1px 0;
+
+        a {
+            display: block;
+            @include size(40px);
+            margin: 0 auto;
+            border-radius: 50%;
+            @include font-size(12px);
+            text-align: center;
+            line-height: 40px;
+            font-weight: 400;
+        }
+    }
+
+    .lx-date-picker__day--is-today a {
+        font-weight: 500;
+    }
+
+    .lx-date-picker__day a:hover,
+    .lx-date-picker__day--is-selected a {
+        cursor: pointer;
+        color: $white-1;
+    }
+
+    .lx-date-picker__day--is-disabled a {
+        color: $black-3 !important;
+        cursor: not-allowed !important;
+
+        &:hover {
+            background-color: transparent !important;
+        }
+    }
+
+    // Date picker: year selector
+    .lx-date-picker__year-selector {
+        position: relative;
+        height: 350px;
+        background-color: $white;
+        overflow: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .lx-date-picker__year {
+        display: block;
+        height: 45px;
+        cursor: pointer;
+        @include font-size(16px);
+        line-height: 45px;
+        text-align: center;
+    }
+
+    .lx-date-picker__year--is-active {
+        height: 55px;
+        @include font-size(26px);
+        font-weight: 500;
+        line-height: 55px;
+    }
+
+    // Date picker: actions
+    .lx-date-picker__actions {
+        padding: $base-spacing-unit;
+        border-top: 1px solid $black-4;
+        border-radius: 0 0 $base-round $base-round;
+        background-color: $white;
+        text-align: center;
+    }
