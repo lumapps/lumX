@@ -132,7 +132,7 @@
 
             var previousDay = angular.copy(lxDatePicker.ngModelMoment).date(0);
             var firstDayOfMonth = angular.copy(lxDatePicker.ngModelMoment).date(1);
-            var lastDayOfMonth = firstDayOfMonth.endOf('month');
+            var lastDayOfMonth = firstDayOfMonth.clone().endOf('month');
             var maxDays = lastDayOfMonth.date();
 
             lxDatePicker.emptyFirstDays = [];
