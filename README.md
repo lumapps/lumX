@@ -1,5 +1,7 @@
 # lumX
 
+[![Join the chat at https://gitter.im/lumapps/lumX](https://badges.gitter.im/lumapps/lumX.svg)](https://gitter.im/lumapps/lumX?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 The first responsive front-end framework based on [AngularJS][angular] & [Google Material Design specifications][material]. *lumX* will help you to design your applications faster and easier. We followed Google Material Design recommendations to bring the best experience to your users.
 
 ## Quick start
