@@ -106,7 +106,6 @@
         var modelController;
         var timer1;
         var timer2;
-        var timer3;
 
         lxTextField.blurInput = blurInput;
         lxTextField.clearInput = clearInput;
@@ -135,7 +134,6 @@
         {
             $timeout.cancel(timer1);
             $timeout.cancel(timer2);
-            $timeout.cancel(timer3);
         });
 
         ////////////
@@ -156,15 +154,12 @@
             });
         }
 
-        function clearInput()
+        function clearInput(_event)
         {
+            _event.stopPropagation();
+
             modelController.$setViewValue(undefined);
             modelController.$render();
-
-            timer1 = $timeout(function()
-            {
-                input.focus();
-            });
         }
 
         function focusInput()
@@ -191,11 +186,11 @@
         {
             input = _input;
 
-            timer2 = $timeout(init);
+            timer1 = $timeout(init);
 
             if (input.selector === 'textarea')
             {
-                timer3 = $timeout(updateTextareaHeight);
+                timer2 = $timeout(updateTextareaHeight);
             }
         }
 

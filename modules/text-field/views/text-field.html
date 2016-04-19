@@ -19,7 +19,7 @@
 
     <div ng-transclude></div>
 
-    <span class="text-field__clear" ng-click="lxTextField.clearInput()" ng-if="lxTextField.allowClear">
+    <span class="text-field__clear" ng-click="lxTextField.clearInput($event)" ng-if="lxTextField.allowClear">
         <i class="mdi mdi-close-circle"></i>
     </span>
 </div>
