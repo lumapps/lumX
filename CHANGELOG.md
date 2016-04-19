@@ -1,5 +1,33 @@
 # Changelog
 
+## v1.0.1:
+
+#### New features:
+ - date picker: watch transcluded input clear to clear date picker model
+
+#### Bug fixes:
+ - text field: remove input focus on clear
+ - date picker: fix year selection scroll
+
+
+## v1.0.0rc4:
+
+#### New features:
+ - select: add theme attribute
+
+#### Bug fixes:
+ - button: declare class button before return
+ - tabs: add ripple effect to links
+ - button: let user set a custom class
+
+
+## v1.0.0rc3:
+
+#### Bug fixes:
+ - select: enhance multiple choices style
+ - dropdown: check if dropdown is open before close
+
+
 ## v1.0.0rc2:
 
 #### New features:
