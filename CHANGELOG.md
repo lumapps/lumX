@@ -1,5 +1,17 @@
 # Changelog
 
+## v1.0.3:
+
+#### Bug fixes:
+ - dialog: avoid input blur on dialog resize
+
+
+## v1.0.2:
+
+#### Bug fixes:
+ - radio: fix radio button margin in radio group
+
+
 ## v1.0.1:
 
 #### New features:
