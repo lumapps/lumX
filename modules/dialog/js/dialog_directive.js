@@ -66,7 +66,7 @@
     {
         return {
             restrict: 'E',
-            template: '<div class="dialog__content" ng-transclude></div>',
+            template: '<div class="dialog__scrollable"><div class="dialog__content" ng-transclude></div></div>',
             replace: true,
             transclude: true
         };

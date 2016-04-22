@@ -12,11 +12,7 @@
     {
         var service = this;
         var activeDialogId;
-        var dialog;
-        var dialogContent;
         var dialogFilter;
-        var dialogFooter;
-        var dialogHeader;
         var dialogHeight;
         var dialogInterval;
         var dialogScrollable;
@@ -65,12 +61,6 @@
 
                 dialogFilter.remove();
 
-                dialog = undefined;
-                dialogHeader = undefined;
-                dialogContent = undefined;
-                dialogFooter = undefined;
-                dialogScrollable = undefined;
-
                 scopeMap[_dialogId].element
                     .hide()
                     .removeClass('dialog--is-fixed')
@@ -84,22 +74,19 @@
 
         function checkDialogHeight(_dialogId)
         {
+            var dialog = scopeMap[_dialogId].element;
+            var dialogHeader = dialog.find('.dialog__header');
+            var dialogContent = dialog.find('.dialog__content');
+            var dialogFooter = dialog.find('.dialog__footer');
+
+            if (!dialogFooter.length)
+            {
+                dialogFooter = dialog.find('.dialog__actions');
+            }
+
             if (angular.isUndefined(dialogHeader))
             {
-                dialog = scopeMap[_dialogId].element;
-                dialogHeader = dialog.find('.dialog__header');
-                dialogContent = dialog.find('.dialog__content');
-                dialogFooter = dialog.find('.dialog__footer');
-
-                if (!dialogFooter.length)
-                {
-                    dialogFooter = dialog.find('.dialog__actions');
-                }
-
-                if (angular.isUndefined(dialogHeader))
-                {
-                    return;
-                }
+                return;
             }
 
             var heightToCheck = 60 + dialogHeader.outerHeight() + dialogContent.outerHeight() + dialogFooter.outerHeight();
@@ -116,32 +103,22 @@
             {
                 dialog.addClass('dialog--is-fixed');
 
-                if (dialog.find('.dialog__scrollable').length === 0)
-                {
-                    var dialogScrollable = angular.element('<div/>',
+                dialogScrollable
+                    .css(
                     {
-                        class: 'dialog__scrollable'
-                    });
-
-                    dialogScrollable
-                        .css(
-                        {
-                            top: dialogHeader.outerHeight(),
-                            bottom: dialogFooter.outerHeight()
-                        })
-                        .on('scroll', checkScrollEnd);
-
-                    dialogContent.wrap(dialogScrollable);
-                }
+                        top: dialogHeader.outerHeight(),
+                        bottom: dialogFooter.outerHeight()
+                    })
+                    .off('scroll', checkScrollEnd)
+                    .on('scroll', checkScrollEnd);
             }
             else
             {
                 dialog.removeClass('dialog--is-fixed');
 
-                if (dialog.find('.dialog__scrollable').length > 0)
-                {
-                    dialogContent.unwrap();
-                }
+                dialogScrollable
+                    .removeAttr('style')
+                    .off('scroll', checkScrollEnd);
             }
         }
 
@@ -163,16 +140,6 @@
 
         function checkScrollEnd()
         {
-            if (angular.isUndefined(dialogScrollable))
-            {
-                dialogScrollable = angular.element('.dialog__scrollable');
-
-                if (angular.isUndefined(dialogScrollable))
-                {
-                    return;
-                }
-            }
-
             if (angular.isDefined(scopeMap[activeDialogId]))
             {
                 if (dialogScrollable.scrollTop() + dialogScrollable.innerHeight() >= dialogScrollable[0].scrollHeight)
@@ -246,6 +213,19 @@
                 dialogFilter.addClass('dialog-filter--is-shown');
                 scopeMap[activeDialogId].element.addClass('dialog--is-shown');
             }, 100);
+
+            $timeout(function()
+            {
+                if (scopeMap[activeDialogId].element.find('.dialog__scrollable').length === 0)
+                {
+                    scopeMap[activeDialogId].element.find('.dialog__content').wrap(angular.element('<div/>',
+                    {
+                        class: 'dialog__scrollable'
+                    }));
+                }
+
+                dialogScrollable = scopeMap[activeDialogId].element.find('.dialog__scrollable');
+            }, 200);
 
             $timeout(function()
             {
