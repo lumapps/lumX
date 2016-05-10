@@ -49,8 +49,12 @@
 
             $timeout(function()
             {
-                _notification.elem.remove();
-                notificationList.splice(notifIndex, 1);
+            	_notification.elem.remove();
+
+            	// Find index again because notificationList may have changed
+            	notifIndex = notificationList.indexOf(_notification);
+            	if (notifIndex != -1)
+            		notificationList.splice(notifIndex, 1);
             }, 400);
         }
 
