@@ -34,7 +34,7 @@
         {
             var notifIndex = notificationList.indexOf(_notification);
 
-            var dnOffset = 24 + notificationList[notifIndex].height;
+            var dnOffset = angular.isDefined(notificationList[notifIndex]) ? 24 + notificationList[notifIndex].height : 24;
 
             for (var idx = 0; idx < notifIndex; idx++)
             {
