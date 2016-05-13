@@ -76,16 +76,30 @@
         @include position(absolute, 0 0 0 0);
         @include size(100%);
         margin: auto;
-        @include animation(lx-progress-circular-rotate 2s linear infinite);
-        @include transform-origin(center center);
+
+        .progress-container--determinate & {
+            @include transform(rotate(-90deg));
+        }
+
+        .progress-container--indeterminate & {
+            @include animation(lx-progress-circular-rotate 2s linear infinite);
+            @include transform-origin(center center);
+        }
     }
 
     // Progress circular: path
     .progress-circular__path {
-        stroke-dasharray: 1,200;
         stroke-dashoffset: 0;
-        stroke-linecap: round;
-        @include animation(lx-progress-circular-dash 1.5s ease-in-out infinite);
+
+        .progress-container--determinate & {
+            @include transition-property(stroke-dasharray);
+            @include transition-duration(0.2s);
+        }
+
+        .progress-container--indeterminate & {
+            stroke-dasharray: 1,200;
+            @include animation(lx-progress-circular-dash 1.5s ease-in-out infinite);
+        }
     }
 
 
@@ -107,17 +121,33 @@
 
     // Progress linear: bar
     .progress-linear__bar {
-        @include transform(scale(1) translateX(50%));
+        .progress-container--indeterminate & {
+            @include transform(scale(1) translateX(50%));
+        }
     }
 
     .progress-linear__bar--first {
-        @include position(absolute, -($base-spacing-unit * 1.5) null null null);
-        @include size(100% 24px);
-        @include animation(lx-progress-linear-bar1 2s linear infinite);
+        .progress-container--determinate & {
+            @include size(100% 4px);
+            @include position(absolute, 0 null null 0);
+            @include transition-property(transform);
+            @include transition-duration(0.2s);
+            @include transform-origin(0 center);
+        }
+
+        .progress-container--indeterminate & {
+            @include size(100% 24px);
+            @include position(absolute, -($base-spacing-unit * 1.5) null null null);
+            @include animation(lx-progress-linear-bar1 2s linear infinite);
+        }
     }
 
     .progress-linear__bar--second {
         @include position(absolute, -($base-spacing-unit * 6) null null null);
         @include size(100% 96px);
         @include animation(lx-progress-linear-bar2 2s linear infinite);
+
+        .progress-container--determinate & {
+            display: none;
+        }
     }

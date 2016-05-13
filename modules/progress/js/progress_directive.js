@@ -15,7 +15,8 @@
             {
                 lxColor: '@?',
                 lxDiameter: '@?',
-                lxType: '@'
+                lxType: '@',
+                lxValue: '@'
             },
             controller: LxProgressController,
             controllerAs: 'lxProgress',
@@ -28,11 +29,33 @@
     {
         var lxProgress = this;
 
+        lxProgress.getCircularProgressValue = getCircularProgressValue;
+        lxProgress.getLinearProgressValue = getLinearProgressValue;
         lxProgress.getProgressDiameter = getProgressDiameter;
 
         init();
 
         ////////////
+
+        function getCircularProgressValue()
+        {
+            if (angular.isDefined(lxProgress.lxValue))
+            {
+                return {
+                    'stroke-dasharray': lxProgress.lxValue * 1.26 + ',200'
+                };
+            }
+        }
+
+        function getLinearProgressValue()
+        {
+            if (angular.isDefined(lxProgress.lxValue))
+            {
+                return {
+                    'transform': 'scale(' + lxProgress.lxValue / 100 + ', 1)'
+                };
+            }
+        }
 
         function getProgressDiameter()
         {

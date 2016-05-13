@@ -8,8 +8,9 @@
     <p class="main-section__warning">
         This component has been completly reworked since LumX beta version (v0.3.96).<br />Please refer to the updated documentation.
     </p>
-
-    <lx-component lx-title="Basic usage" lx-path="/includes/modules/progress/includes/basic.html" lx-js-path="/js/progress/demo/demo-progress_controller.js"></lx-component>
+    
+    <lx-component lx-title="Determinate" lx-path="/includes/modules/progress/includes/determinate.html" lx-js-path="/js/progress/demo/demo-progress_controller.js"></lx-component>
+    <lx-component lx-title="Indeterminate" lx-path="/includes/modules/progress/includes/indeterminate.html" lx-js-path="/js/progress/demo/demo-progress_controller.js"></lx-component>
 
     <lx-component-attributes>
         <table>
@@ -40,6 +41,12 @@
                     <td><code>string</code></td>
                     <td></td>
                     <td>Define the progress type. Options: <code>circular</code>, <code>linear</code></td>
+                </tr>
+                <tr>
+                    <td>lx-value</td>
+                    <td><code>number</code></td>
+                    <td></td>
+                    <td>Define the progress value in percentage (0 to 100).</td>
                 </tr>
             </tbody>
         </table>
