@@ -48,8 +48,7 @@
 }
 
 @mixin mdi-icon($icon) {
-    $icon-index: index($names, $icon);
-    content: char(nth($hexes, $icon-index));
+    content: char(map-get($mdi-icons, $icon));
 }
 
 
