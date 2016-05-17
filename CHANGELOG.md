@@ -1,5 +1,21 @@
 # Changelog
 
+## v1.0.5:
+
+#### New features:
+ - progress: add determinate progress
+
+#### Bug fixes:
+ - icon: fix sass mixin according to new mdi version
+
+
+## v1.0.4:
+
+#### Bug fixes:
+ - notification: fix indeterminate notification height
+ - notification: fix syntax
+
+
 ## v1.0.3:
 
 #### Bug fixes:
