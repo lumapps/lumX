@@ -100,8 +100,6 @@
                         if (angular.isUndefined(newValue))
                         {
                             lxDatePicker.ngModel = undefined;
-
-                            init();
                         }
                     });
                 });
@@ -128,8 +126,6 @@
                 watcher2();
             }
         });
-
-        init();
 
         ////////////
 
