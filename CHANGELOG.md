@@ -1,5 +1,27 @@
 # Changelog
 
+## v1.0.8:
+
+#### New features:
+ - dropdown: add hover-delay and offset parameters
+
+
+## v1.0.7:
+
+#### New features:
+ - dropdown: add possibility to toggle dropdown on hover event
+
+#### Bug fixes:
+ - date picker: remove unnecessary init method calls
+ - date picker: watch ng-model change to init the calendar
+
+
+## v1.0.6:
+
+#### New features:
+ - tabs: display tabs pane in ng-if instead of ng-show
+
+
 ## v1.0.5:
 
 #### New features:
