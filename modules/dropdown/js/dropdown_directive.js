@@ -431,7 +431,7 @@
                                 ctrl.closeDropdownMenu();
                             });
                         }
-                    });
+                    }, ctrl.hoverDelay);
                 });
             }
 
@@ -492,7 +492,7 @@
                                 ctrls[1].closeDropdownMenu();
                             });
                         }
-                    });
+                    }, ctrls[1].hoverDelay);
                 });
             }
 
