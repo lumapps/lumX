@@ -20,6 +20,8 @@
             {
                 escapeClose: '=?lxEscapeClose',
                 hover: '=?lxHover',
+                hoverDelay: '=?lxHoverDelay',
+                offset: '@?lxOffset',
                 overToggle: '=?lxOverToggle',
                 position: '@?lxPosition',
                 width: '@?lxWidth'
@@ -323,7 +325,7 @@
             {
                 dropdownMenu.css(
                 {
-                    bottom: lxDropdown.overToggle ? (windowHeight - dropdownToggle.offset().top - dropdownToggleHeight) : (windowHeight - dropdownToggle.offset().top)
+                    bottom: lxDropdown.overToggle ? (windowHeight - dropdownToggle.offset().top - dropdownToggleHeight) : (windowHeight - dropdownToggle.offset().top + ~~lxDropdown.offset)
                 });
 
                 return dropdownMenuTopAvailable;
@@ -332,7 +334,7 @@
             {
                 dropdownMenu.css(
                 {
-                    top: lxDropdown.overToggle ? dropdownToggle.offset().top : (dropdownToggle.offset().top + dropdownToggleHeight)
+                    top: lxDropdown.overToggle ? dropdownToggle.offset().top : (dropdownToggle.offset().top + dropdownToggleHeight + ~~lxDropdown.offset)
                 });
 
                 return dropdownMenuBottomAvailable;
@@ -402,7 +404,7 @@
                             {
                                 ctrl.openDropdownMenu();
                             });
-                        });
+                        }, ctrl.hoverDelay);
                     }
                 }
                 else
