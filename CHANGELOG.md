@@ -1,5 +1,36 @@
 # Changelog
 
+## v1.1.2:
+
+#### New features:
+ - dropdown: add fade effect
+
+#### Bug fixes:
+ - dropdown: fix dropdown toggle on hover
+
+
+## v1.1.1:
+
+#### Bug fixes:
+ - button: fix font weight
+
+
+## v1.1.0:
+*No major changes.*
+
+
+## v1.1:
+
+#### Bug fixes:
+ - button: correctly set button font color according to background color
+
+
+## v1.0.9:
+
+#### Bug fixes:
+ - dropdown: fix dropdown delay
+
+
 ## v1.0.8:
 
 #### New features:
