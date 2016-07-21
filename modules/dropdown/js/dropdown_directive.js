@@ -422,6 +422,8 @@
                 {
                     ctrl.mouseOnToggle = false;
 
+                    $timeout.cancel(timer1);
+
                     timer2 = $timeout(function()
                     {
                         if (!ctrl.mouseOnMenu)
