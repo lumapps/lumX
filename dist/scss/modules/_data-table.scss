@@ -1,0 +1,172 @@
+///*------------------------------------*\
+//    #OBJECTS-DATA-TABLE
+//\*------------------------------------*/
+
+// Data table container
+.data-table-container {
+    position: relative;
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+}
+
+
+
+
+
+// Data table header
+.data-table-header {
+    @include display(flex);
+    @include flex-direction(row);
+    @include align-items(center);
+    height: 64px;
+    padding: 0 $base-spacing-unit * 2 0 $base-spacing-unit * 3;
+    border-bottom: 1px solid $black-4;
+}
+
+    // Data table header label
+    .data-table-header__label {
+        @include flex(1);
+    }
+
+
+
+
+
+// Data table base styles
+.data-table {
+    width: 100%;
+    margin: 0;
+    table-layout: fixed;
+
+    th, td {
+        padding-right: 56px;
+        border-bottom: 1px solid #e0e0e0;
+
+        &:first-child {
+            padding-left: $base-spacing-unit * 3;
+            padding-right: $base-spacing-unit * 3;
+        }
+
+        &:last-child {
+            padding-right: $base-spacing-unit * 3;
+        }
+    }
+
+    th {
+        height: 56px;
+        @include font-size(12px);
+        font-weight: 400;
+        color: $black-2;
+        text-align: left;
+        white-space: nowrap;
+
+        i {
+            margin-right: $base-spacing-unit / 2;
+        }
+    }
+
+    td {
+        height: 48px;
+        @include font-size(13px);
+        padding-top: $base-spacing-unit;
+        padding-bottom: $base-spacing-unit;
+    }
+
+    tr:last-child td {
+        border-bottom: none;
+    }
+}
+
+    // Data table selectable row
+    .data-table__selectable-row {
+        th, td {
+            &:first-child {
+                width: $size-xs + $base-spacing-unit * 6;
+
+                &:before {
+                    @include mdi;
+                    @include mdi-icon('checkbox-blank-outline');
+                    @include font-size($size-xs);
+                    line-height: $size-xs;
+                    @include transition-property(transform);
+                    @include transition-duration(0.2s);
+                }
+            }
+
+            &:nth-child(2) {
+                padding-right: $base-spacing-unit * 3;
+            }
+        }
+
+        td {
+            cursor: pointer;
+        }
+
+        &:not(.data-table__selectable-row--is-selected):not(.data-table__selectable-row--is-disabled):hover {
+            td {
+                background-color: $grey-200;
+            }
+        }
+    }
+
+    .data-table__selectable-row--is-selected {
+        th, td {
+            &:first-child {
+                &:before {
+                    @include mdi-icon('checkbox-marked');
+                    color: $blue;
+                }
+            }
+        }
+
+        td {
+            background-color: $grey-100;
+        }
+    }
+
+    .data-table__selectable-row--is-disabled {
+        th, td {
+            &:first-child {
+                &:before {
+                    color: $black-3;
+                }
+            }
+        }
+
+        td {
+            cursor: not-allowed;
+        }
+    }
+
+    // Data table sortable-cell
+    .data-table__sortable-cell {
+        cursor: pointer;
+
+        &:hover {
+            color: $black-1 !important;
+        }
+
+        &:before {
+            @include mdi;
+            margin-right: $base-spacing-unit / 2;
+        }
+    }
+
+    .data-table__sortable-cell--asc,
+    .data-table__sortable-cell--desc {
+        color: $black-1 !important;
+
+        &:before {
+            color: $black-2 !important;
+        }
+    }
+
+    .data-table__sortable-cell--asc:before {
+        @include mdi-icon('arrow-up');
+    }
+
+    .data-table__sortable-cell--desc:before {
+        @include mdi-icon('arrow-down');
+    }
