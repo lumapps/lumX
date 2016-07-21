@@ -18,6 +18,7 @@
             templateUrl: 'dropdown.html',
             scope:
             {
+                effect: '@?lxEffect',
                 escapeClose: '=?lxEscapeClose',
                 hover: '=?lxHover',
                 hoverDelay: '=?lxHoverDelay',
@@ -107,6 +108,7 @@
         lxDropdown.toggle = toggle;
         lxDropdown.uuid = LxUtils.generateUUID();
 
+        lxDropdown.effect = angular.isDefined(lxDropdown.effect) ? lxDropdown.effect : 'expand';
         lxDropdown.escapeClose = angular.isDefined(lxDropdown.escapeClose) ? lxDropdown.escapeClose : true;
         lxDropdown.isOpen = false;
         lxDropdown.overToggle = angular.isDefined(lxDropdown.overToggle) ? lxDropdown.overToggle : false;
@@ -121,6 +123,9 @@
 
         function closeDropdownMenu()
         {
+            var velocityProperties;
+            var velocityEasing;
+
             $interval.cancel(dropdownInterval);
 
             dropdownMenu.css(
@@ -128,14 +133,28 @@
                 overflow: 'hidden'
             });
 
-            dropdownMenu.velocity(
+            if (lxDropdown.effect === 'expand')
             {
-                width: 0,
-                height: 0,
-            },
+                velocityProperties = {
+                    width: 0,
+                    height: 0
+                };
+
+                velocityEasing = 'easeOutQuint';
+            }
+            else if (lxDropdown.effect === 'fade')
+            {
+                velocityProperties = {
+                    opacity: 0
+                };
+
+                velocityEasing = 'linear';
+            }
+
+            dropdownMenu.velocity(velocityProperties,
             {
                 duration: 200,
-                easing: 'easeOutQuint',
+                easing: velocityEasing,
                 complete: function()
                 {
                     $element.find('.dropdown').removeClass('dropdown--is-open');
@@ -190,69 +209,91 @@
                     height = availableHeight;
                 }
 
-                dropdownMenu.css(
+                if (lxDropdown.effect === 'expand')
                 {
-                    width: 0,
-                    height: 0,
-                    opacity: 1,
-                    overflow: 'hidden'
-                });
-
-                dropdownMenu.find('.dropdown-menu__content').css(
-                {
-                    width: width,
-                    height: height
-                });
-
-                dropdownMenu.velocity(
-                {
-                    width: width
-                },
-                {
-                    duration: 200,
-                    easing: 'easeOutQuint',
-                    queue: false
-                });
-
-                dropdownMenu.velocity(
-                {
-                    height: height
-                },
-                {
-                    duration: 500,
-                    easing: 'easeOutQuint',
-                    queue: false,
-                    complete: function()
+                    dropdownMenu.css(
                     {
-                        dropdownMenu.css(
-                        {
-                            overflow: 'auto'
-                        });
+                        width: 0,
+                        height: 0,
+                        opacity: 1,
+                        overflow: 'hidden'
+                    });
 
-                        if (enoughtHeight)
+                    dropdownMenu.find('.dropdown-menu__content').css(
+                    {
+                        width: width,
+                        height: height
+                    });
+
+                    dropdownMenu.velocity(
+                    {
+                        width: width
+                    },
+                    {
+                        duration: 200,
+                        easing: 'easeOutQuint',
+                        queue: false
+                    });
+
+                    dropdownMenu.velocity(
+                    {
+                        height: height
+                    },
+                    {
+                        duration: 500,
+                        easing: 'easeOutQuint',
+                        queue: false,
+                        complete: function()
                         {
                             dropdownMenu.css(
                             {
-                                height: 'auto'
+                                overflow: 'auto'
                             });
-                        }
 
-                        if (angular.isUndefined(lxDropdown.width))
-                        {
-                            dropdownMenu.css(
+                            if (enoughtHeight)
                             {
-                                width: 'auto'
-                            });
+                                dropdownMenu.css(
+                                {
+                                    height: 'auto'
+                                });
+                            }
+
+                            if (angular.isUndefined(lxDropdown.width))
+                            {
+                                dropdownMenu.css(
+                                {
+                                    width: 'auto'
+                                });
+                            }
+
+                            dropdownMenu.find('.dropdown-menu__content').removeAttr('style');
+
+                            dropdownInterval = $interval(function()
+                            {
+                                setDropdownMenuCss();
+                            }, 500);
                         }
-
-                        dropdownMenu.find('.dropdown-menu__content').removeAttr('style');
-
-                        dropdownInterval = $interval(function()
+                    });
+                }
+                else if (lxDropdown.effect === 'fade')
+                {
+                    dropdownMenu.velocity(
+                    {
+                        opacity: 1,
+                    },
+                    {
+                        duration: 200,
+                        easing: 'linear',
+                        queue: false,
+                        complete: function()
                         {
-                            setDropdownMenuCss();
-                        }, 500);
-                    }
-                });
+                            dropdownInterval = $interval(function()
+                            {
+                                setDropdownMenuCss();
+                            }, 500);
+                        }
+                    });
+                }
             });
         }
 
