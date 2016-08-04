@@ -38,8 +38,8 @@ TestBed.initTestEnvironment(BrowserDynamicTestingModule, platformBrowserDynamicT
  * any file that ends with spec.ts and get its path. By passing in true
  * we say do this recursively
  */
-var testContext = require.context('../src/client/app', true, /\.spec\.ts/);
+var testContext = require.context('../../../src/client/app', true, /\.spec\.ts/);
 testContext.keys().forEach(testContext);
 
-var coverageContext = require.context('../src/client/app', true, /^(?!.*(spec|e2e)\.ts?$).*\.ts?$/);
+var coverageContext = require.context('../../../src/client/app', true, /^(?!.*(spec|e2e)\.ts?$).*\.ts?$/);
 coverageContext.keys().forEach(coverageContext);

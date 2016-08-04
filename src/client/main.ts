@@ -4,7 +4,7 @@
 import { platformBrowser } from '@angular/platform-browser';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
-import { decorateComponentRef } from 'libs/environment';
+import { decorateComponentRef } from './libs/environment';
 
 
 /*

@@ -76,6 +76,7 @@ module.exports = {
 
         // Make sure root is src/client
         root: [
+            helpers.root(''),
             helpers.root('src/client'),
             helpers.root('src/client/app'),
             helpers.root('src/client/assets'),

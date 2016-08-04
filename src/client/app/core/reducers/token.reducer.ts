@@ -3,6 +3,9 @@ import { Action, ActionReducer } from '@ngrx/store';
 import { TokenActions } from 'core/constants/actions';
 
 
+/**
+ * Represent the state of the token in the reducer
+ */
 export interface TokenState {
     needed: boolean;
     value: string;

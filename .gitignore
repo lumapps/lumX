@@ -59,12 +59,8 @@ ehthumbs.db
 **/npm-debug.log
 
 # Test files
-***/cover/
-.coverage
-.tern-report
-**/lib-cov/
-**/coverage/
-**/e2e/
+tests/**/report
+coverage.json
 
 # Logs files
 **/logs

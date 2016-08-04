@@ -1,2 +1,2 @@
 reporting:
-    dir: ./tests/client/coverage
+    dir: ./tests/client/unit/report
