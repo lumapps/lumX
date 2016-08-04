@@ -1,0 +1,85 @@
+#!/bin/bash
+
+RED="\e[31m"
+GREEN="\e[32m"
+BLUE="\e[34m"
+DEFAULT="\e[39m"
+
+
+function display_tslint_logs() {
+    while read -r line; do
+        filename=`echo ${line} | cut -d'[' -f 1 | xargs`
+
+        next=`echo ${line} | cut -d'[' -f 2 | xargs`
+        line_col=`echo ${next} | cut -d']' -f 1 | xargs`
+
+        line_number=`echo ${line_col} | cut -d',' -f 1 | xargs`
+        col_number=`echo ${line_col} | cut -d',' -f 2 | xargs`
+
+        error=`echo ${next} | cut -d':' -f 2 | xargs`
+
+        if [[ "$filename" != "$next" ]]; then
+            printf "${filename}@${line_number}:${col_number}\n"
+            printf "\t${RED}$error${DEFAULT}\n"
+        fi
+    done < "$1"
+}
+
+
+PYFILES=$(git diff --cached --name-only --diff-filter=ACM | grep ".py$")
+if [ "$PYFILES" != "" ]; then
+    printf "Launching PEP8................ "
+    pep8 ${PYFILES} --max-line-length=120 --ignore=E402 --exclude=strings.py
+    if [[ "$?" = "0" ]]; then
+        printf "${GREEN}SUCCESS${DEFAULT}\n"
+    else
+        printf "${RED}FAILED${DEFAULT}\n"
+        exit 1
+    fi
+
+    printf "Launching pyflakes............ "
+    pyflakes ${PYFILES}
+    if [[ "$?" = "0" ]]; then
+        printf "${GREEN}SUCCESS${DEFAULT}\n"
+    else
+        printf "${RED}FAILED${DEFAULT}"
+        exit 1
+    fi
+else
+    printf "${BLUE}No Python files to check${DEFAULT}\n"
+fi
+
+
+TSFILES=$(git diff --cached --name-only --diff-filter=ACM | grep ".ts$")
+if [ "$TSFILES" != "" ]; then
+    exit_code=0
+
+    printf "Launching TSLint..... "
+    touch /tmp/tslint-result.log
+
+    for FILE in ${TSFILES}; do
+        node_modules/tslint/bin/tslint ${FILE} > /tmp/tslint-result.log 2>&1 &
+    done
+
+    wait
+
+    TSHINT_FAILS=$(cat /tmp/tslint-result.log)
+    if [[ $TSHINT_FAILS != "" ]]; then
+        printf "${RED}FAILED${DEFAULT}"
+        printf "\n\n===== TSLint logs =====\n"
+        display_tslint_logs /tmp/tslint-result.log
+
+        exit_code=1
+    else
+        printf "${GREEN}SUCCESS${DEFAULT}\n"
+    fi
+
+    rm /tmp/tslint-result.log
+
+    exit $exit_code
+else
+    printf "${BLUE}No TypeScript files to check${DEFAULT}\n"
+fi
+
+
+exit 0

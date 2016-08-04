@@ -1,0 +1,85 @@
+# IDEs files
+*.sublime-*
+/.vscode/settings.json
+*.iml
+*.idea
+*.ropeproject
+/nbproject/private/
+/nbproject/project.properties
+/nbproject/project.xml
+
+# Misc temp files
+*.tmp
+*.*~*
+*.\#*
+\#*\#
+*.cache
+Icon?
+*.swp
+
+# SASS & CSS
+.sass-cache
+*.css.map
+
+# Source files
+*.src
+*.js.map
+
+# Linux files
+**/pids/
+*.pid
+*.seed
+
+# Windows files
+Desktop.ini
+$RECYCLE.BIN/
+*._*
+Thumbs.db
+ehthumbs.db
+
+# MacOS files
+.DS_Store
+.AppleDouble
+.LSOverride
+.Spotlight-V100
+.Trashes
+
+# Python files
+*.pip_cache
+*.pyc
+
+# GAE Specific files
+*datastore*
+*blobstore*
+*.search_index*
+
+# NPM files
+**/node_modules/
+**/bower_components/
+**/npm-debug.log
+
+# Test files
+***/cover/
+.coverage
+.tern-report
+**/lib-cov/
+**/coverage/
+**/e2e/
+
+# Logs files
+**/logs
+*.log
+
+# Typescript & Typings
+/src/client/typings/tsd/
+**/tsd_typings/
+
+# Webpack
+.webpack.json
+
+# Langs
+lang.csv
+lang.js
+
+# Dist
+dist/**

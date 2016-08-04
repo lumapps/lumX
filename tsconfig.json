@@ -1,0 +1,50 @@
+{
+    "atom": {
+        "rewriteTsconfig": false
+    },
+    "awesomeTypescriptLoaderOptions": {
+        "forkChecker": true,
+        "useWebpackText": true
+    },
+    "buildOnSave": false,
+    "compileOnSave": false,
+    "compilerOptions": {
+        "allowSyntheticDefaultImports": true,
+        "baseUrl": "./src/client/app",
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "forceConsistentCasingInFileNames": true,
+        "lib": [
+            "es6",
+            "dom"
+        ],
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "noEmitHelpers": true,
+        "paths": {
+            "libs/*": [
+                "../libs/*"
+            ],
+            "tests/e2e/*": [
+                "../../../tests/client/e2e/*"
+            ]
+        },
+        "pretty": true,
+        "sourceMap": true,
+        "target": "es5",
+        "types": [
+            "jasmine",
+            "jasmine-expect",
+            "node",
+            "protractor",
+            "selenium-webdriver",
+            "source-map",
+            "uglify-js",
+            "webpack"
+        ]
+    },
+    "exclude": [
+        "dist",
+        "node_modules"
+    ]
+}

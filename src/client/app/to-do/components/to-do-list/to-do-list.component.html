@@ -1,0 +1,17 @@
+<ul class="to-do__list">
+    <li class="to-do__item"
+        *ngFor="let toDoItem of toDoStore.items"
+        (click)="toDoItem.toggle()">
+        <span class="to-do__item-label"
+              [ngClass]="{
+                'to-do__item-label--is-done': toDoItem.done
+              }">
+            {{ toDoItem.label }}
+        </span>
+
+        <span class="to-do__item-done-date"
+              *ngIf="toDoItem.done">
+            ({{ toDoItem.done | date:"medium" }})
+        </span>
+    </li>
+</ul>

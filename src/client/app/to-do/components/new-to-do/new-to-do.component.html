@@ -1,0 +1,9 @@
+<div class="new-to-do">
+    <input type="text" class="new-item__input" placeholder="Enter the label of the new to-do item" autofocus
+           [(ngModel)]="newItem" (keyup.enter)="addItem()">
+
+    <button class="add-item__btn"
+            (click)="addItem()">
+        Add
+    </button>
+</div>

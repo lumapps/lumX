@@ -1,0 +1,40 @@
+.new-to-do {
+    box-shadow: inset 0 -2px 1px rgba(0, 0, 0, 0.03);
+}
+
+.new-item__input {
+    background: rgba(0, 0, 0, 0.003);
+    border: none;
+    box-sizing: border-box;
+    color: inherit;
+    font-family: inherit;
+    font-size: 24px;
+    font-smoothing: antialiased;
+    font-weight: inherit;
+    line-height: 1.4em;
+    margin: 0;
+    outline: none;
+    padding: 6px;
+    position: relative;
+    width: 90%;
+
+    & input {
+        &::input-placeholder {
+            color: #E6E6E6;
+            font-style: italic;
+            font-weight: 300;
+        }
+    }
+}
+
+.add-item__btn {
+    border: 1px solid transparent;
+    border-radius: 3px;
+    cursor: pointer;
+    margin: 3px;
+    padding: 3px 7px;
+
+    &:hover {
+        border-color: rgba(175, 47, 47, 0.1);
+    }
+}
