@@ -327,6 +327,8 @@
             var dropdownMenuTopAvailable;
             var dropdownMenuBottomAvailable;
             var dropdownMenuWidth;
+            var dropdownMenuLeft;
+            var dropdownMenuRight;
 
             if (lxDropdown.overToggle)
             {
@@ -355,10 +357,26 @@
                 dropdownMenuWidth = 'auto';
             }
 
+            if (lxDropdown.position === 'left')
+            {
+                dropdownMenuLeft = dropdownToggle.offset().left;
+                dropdownMenuRight = 'auto';
+            }
+            else if (lxDropdown.position === 'right')
+            {
+                dropdownMenuLeft = 'auto';
+                dropdownMenuRight = windowWidth - dropdownToggle.offset().left - dropdownToggleWidth;
+            }
+            else if (lxDropdown.position === 'center')
+            {
+                dropdownMenuLeft = (dropdownToggle.offset().left + (dropdownToggleWidth / 2)) - (dropdownMenuWidth / 2);
+                dropdownMenuRight = 'auto';
+            }
+
             dropdownMenu.css(
             {
-                right: lxDropdown.position === 'right' ? (windowWidth - dropdownToggle.offset().left - dropdownToggleWidth) : 'auto',
-                left: lxDropdown.position === 'right' ? 'auto' : dropdownToggle.offset().left,
+                left: dropdownMenuLeft,
+                right: dropdownMenuRight,
                 width: dropdownMenuWidth
             });
 
