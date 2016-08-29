@@ -1,5 +1,15 @@
 # Changelog
 
+## v1.1.4:
+
+#### New features:
+ - dropdown: add center position
+
+
+## v1.1.3:
+*No major changes.*
+
+
 ## v1.1.2:
 
 #### New features:
