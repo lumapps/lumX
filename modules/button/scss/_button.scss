@@ -100,7 +100,7 @@ $btn-icon-size: ('xs': 13px, 's': 15px, 'm': 20px, 'l': 24px, 'xl': 28px);
 
 @mixin btn-color($color, $type) {
     @if $type == 'raised' or $type == 'fab' {
-        @if $color == 'white' or $color == 'light-blue' or $color == 'cyan' or $color == 'green' or $color == 'light-green' or $color == 'lime' or $color == 'yellow' or $color == 'amber' or $color == 'orange' or $color == 'grey' {
+        @if $color == 'white' or $color == 'light-blue' or $color == 'cyan' or $color == 'light-green' or $color == 'lime' or $color == 'yellow' or $color == 'amber' or $color == 'orange' or $color == 'grey' {
             color: $black-1;
         } @else {
             color: $white-1;
