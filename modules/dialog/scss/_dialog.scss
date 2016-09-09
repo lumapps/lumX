@@ -31,8 +31,10 @@ $dialog-margin: $base-spacing-unit * 4;
 .dialog {
     display: none;
     @include position(fixed, $dialog-margin null null 50%);
+    border-radius: $base-round;
     background-color: $white;
     opacity: 0;
+    overflow: hidden;
     @include z-depth(3);
     @include transform(translateY(-50px));
     @include transition-property(opacity, transform);
