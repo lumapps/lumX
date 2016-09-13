@@ -5,30 +5,6 @@ function HtmlElementsPlugin(locations) {
     this.locations = locations;
 }
 
-HtmlElementsPlugin.prototype.apply = function(compiler) {
-    var self = this;
-    compiler.plugin('compilation', function(compilation) {
-        compilation.options.htmlElements = compilation.options.htmlElements || {};
-
-        compilation.plugin('html-webpack-plugin-before-html-generation', function(htmlPluginData, callback) {
-            const locations = self.locations;
-
-            if (locations) {
-                const publicPath = htmlPluginData.assets.publicPath;
-
-                Object.getOwnPropertyNames(locations).forEach(function(loc) {
-                    compilation.options.htmlElements[loc] = getHtmlElementString(locations[loc], publicPath);
-                });
-            }
-
-
-            callback(null, htmlPluginData);
-        });
-    });
-
-};
-
-
 /**
  * Create an HTML tag with attributes from a map.
  *
@@ -45,26 +21,31 @@ function createTag(tagName, attrMap, publicPath) {
     publicPath = publicPath || '';
 
     // add trailing slash if we have a publicPath and it doesn't have one.
-    if (publicPath && !RE_ENDS_WITH_BS.test(publicPath)) publicPath += '/';
+    if (publicPath && !RE_ENDS_WITH_BS.test(publicPath)) {
+        publicPath += '/';
+    }
 
-    const attributes = Object.getOwnPropertyNames(attrMap).filter(function(name) {
-        return name[0] !== '=';
-    }).map(function(name) {
-        var value = attrMap[name];
+    const attributes = Object.getOwnPropertyNames(attrMap)
+        .filter(function filterAttrs(attrName) {
+            return attrName[0] !== '=';
+        })
+        .map(function forEachAttrs(attrName) {
+            var value = attrMap[attrName];
 
-        if (publicPath) {
-            // check if we have explicit instruction, use it if so (e.g: =herf: false)
-            // if no instruction, use public path if it's href attribute.
-            const usePublicPath = attrMap.hasOwnProperty('=' + name) ? !!attrMap['=' + name] : name === 'href';
+            if (publicPath) {
+                // check if we have explicit instruction, use it if so (e.g: =herf: false)
+                // if no instruction, use public path if it's href attribute.
+                const usePublicPath = (attrMap.hasOwnProperty('=' + attrName)) ? !attrMap['=' + attrName] :
+                                                                                 attrName === 'href';
 
-            if (usePublicPath) {
-                // remove a starting trailing slash if the value has one so we wont have //
-                value = publicPath + (value[0] === '/' ? value.substr(1) : value);
+                if (usePublicPath) {
+                    // remove a starting trailing slash if the value has one so we wont have //
+                    value = publicPath + (value[0] === '/' ? value.substr(1) : value);
+                }
             }
-        }
 
-        return name + '="' + value + '"';
-    });
+            return attrName + '="' + value + '"';
+        });
 
     return '<' + tagName + ' ' + attributes.join(' ') + '>';
 }
@@ -90,18 +71,45 @@ function createTag(tagName, attrMap, publicPath) {
  * @return {string} The string representing the HTML Element
  */
 function getHtmlElementString(dataSource, publicPath) {
-    return Object.getOwnPropertyNames(dataSource).map(function(name) {
-        if (Array.isArray(dataSource[name])) {
-            return dataSource[name].map(function(attrs) {
-                return createTag(name, attrs, publicPath);
-            });
-        } else {
-            return [createTag(name, dataSource[name], publicPath)];
-        }
-    }).reduce(function(arr, curr) {
-        return arr.concat(curr);
-    }, []).join('\n\t');
+    return Object.getOwnPropertyNames(dataSource)
+        .map(function forEachDataSource(dataSourceName) {
+            if (Array.isArray(dataSource[dataSourceName])) {
+                return dataSource[dataSourceName].map(function forEachDataSourceName(attrs) {
+                    return createTag(dataSourceName, attrs, publicPath);
+                });
+            }
+
+            return [createTag(dataSourceName, dataSource[dataSourceName], publicPath)];
+        })
+        .reduce(function reduce(arr, curr) {
+            return arr.concat(curr);
+        }, [])
+        .join('\n\t');
 }
+
+
+HtmlElementsPlugin.prototype.apply = function htmlElementsPlugin(compiler) {
+    var _this = this;
+    compiler.plugin('compilation', function compilationFunction(compilation) {
+        compilation.options.htmlElements = compilation.options.htmlElements || {};
+
+        compilation.plugin('html-webpack-plugin-before-html-generation', function generationFunction(htmlPluginData,
+                                                                                                     callback) {
+            const locations = _this.locations;
+
+            if (locations) {
+                const publicPath = htmlPluginData.assets.publicPath;
+
+                Object.getOwnPropertyNames(locations).forEach(function forEachLocations(loc) {
+                    compilation.options.htmlElements[loc] = getHtmlElementString(locations[loc], publicPath);
+                });
+            }
+
+
+            callback(null, htmlPluginData);
+        });
+    });
+};
 
 
 // Export our class

@@ -4,7 +4,7 @@ import { BaseRequestOptions, Headers, Response, ResponseOptions, XHRBackend } fr
 import { MockBackend, MockConnection } from '@angular/http/testing';
 
 import { CoreModule } from 'core/modules/core.module';
-import { TokenState } from 'core/reducers/token.reducer';
+import { ITokenState } from 'core/reducers/token.reducer';
 import { HttpInterceptorService } from 'core/services/http-interceptor.service';
 import { TokenService } from 'core/services/token.service';
 
@@ -51,7 +51,7 @@ describe('Application startup', () => {
             }
         );
 
-        tokenService.token.subscribe((token: TokenState) => {
+        tokenService.token.subscribe((token: ITokenState) => {
             if (token && !token.needed) {
                 expect(token.value).toBe(generatedToken);
             }

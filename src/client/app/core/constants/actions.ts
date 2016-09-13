@@ -1,7 +1,8 @@
 /**
- * All valid actions for the token ReduxStore
+ * All valid actions for the token ReduxStore.
  *
- * @type {Object}
+ * @readonly
+ * @enum {string}
  */
 export class TokenActions {
     public static TOKEN_CLEARED: string = 'TOKEN_CLEARED';

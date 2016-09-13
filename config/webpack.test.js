@@ -1,7 +1,7 @@
-const commonConfig = require('./webpack.common.js'); // The settings that are common to prod and dev
+const commonConfig = require('./webpack.common.js');
 const helpers = require('./modules/helpers');
-const webpackMerge = require('webpack-merge'); // Rsed to merge webpack configs
-const webpackValidator = require('webpack-validator')
+const webpackMerge = require('webpack-merge');
+const webpackValidator = require('webpack-validator');
 
 /**
  * Webpack Plugins
@@ -14,179 +14,201 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
  */
 const ENV = process.env.ENV = process.env.NODE_ENV = 'test';
 const HMR = false;
-const METADATA = webpackMerge(commonConfig.metadata, {
-    host: 'localhost',
-    port: 8880,
+const METADATA = webpackMerge(commonConfig({ env: ENV }).metadata, {
     ENV: ENV,
     HMR: HMR,
+    host: 'localhost',
+    port: 8880,
 });
 
 /**
  * Webpack configuration
  *
  * @see http://webpack.github.io/docs/configuration.html#cli
+ *
+ * @param {{ env: string }} options The options to generate the config
  */
-module.exports = webpackValidator(webpackMerge.smart(commonConfig, {
-    /**
-     * Merged metadata from webpack.common.js for index.html
-     *
-     * @see (custom attribute)
-     */
-    metadata: METADATA,
-
-    /**
-     * Switch loaders to debug mode.
-     *
-     * @see http://webpack.github.io/docs/configuration.html#debug
-     */
-    debug: false,
-
-    /**
-     * Developer tool to enhance debugging
-     *
-     * @see http://webpack.github.io/docs/configuration.html#devtool
-     * @see https://github.com/webpack/docs/wiki/build-performance#sourcemaps
-     */
-    devtool: 'inline-source-map',
-
-    /**
-     * Options affecting the output of the compilation.
-     *
-     * @see http://webpack.github.io/docs/configuration.html#output
-     */
-    output: {
+module.exports = function webpackTestConfigExport(options) {
+    return webpackValidator(webpackMerge.smart(commonConfig(options), {
         /**
-         * The output directory as absolute path (required).
+         * Switch loaders to debug mode.
          *
-         * @see http://webpack.github.io/docs/configuration.html#output-path
+         * @see http://webpack.github.io/docs/configuration.html#debug
          */
-        path: helpers.root('src/client/dist'),
+        debug: false,
 
         /**
-         * Specifies the name of each output file on disk.
-         * IMPORTANT: You must not specify an absolute path here!
+         * Developer tool to enhance debugging
          *
-         * @see http://webpack.github.io/docs/configuration.html#output-filename
+         * @see http://webpack.github.io/docs/configuration.html#devtool
+         * @see https://github.com/webpack/docs/wiki/build-performance#sourcemaps
          */
-        filename: '[name].bundle.js',
+        devtool: 'inline-source-map',
 
         /**
-         * The filename of the SourceMaps for the JavaScript files.
-         * They are inside the output.path directory.
+         * Merged metadata from webpack.common.js for index.html
          *
-         * @see http://webpack.github.io/docs/configuration.html#output-sourcemapfilename
+         * @see (custom attribute)
          */
-        sourceMapFilename: '[name].map',
-
-        /** The filename of non-entry chunks as relative path
-         * inside the output.path directory.
-         *
-         * @see http://webpack.github.io/docs/configuration.html#output-chunkfilename
-         */
-        chunkFilename: '[id].chunk.js',
-    },
+        metadata: METADATA,
 
 
-    /**
-     * Options affecting the normal modules.
-     *
-     * @see http://webpack.github.io/docs/configuration.html#module
-     */
-    module: {
         /**
-         * An array of automatically applied loaders.
+         * Options affecting the normal modules.
          *
-         * IMPORTANT: The loaders here are resolved relative to the resource which they are applied to.
-         * This means they are not resolved relative to the configuration file.
-         *
-         * @see http://webpack.github.io/docs/configuration.html#module-loaders
+         * @see http://webpack.github.io/docs/configuration.html#module
          */
-        loaders: [
+        module: {
             /**
-             * Typescript loader support for .ts and Angular 2 async routes via .async.ts
+             * An array of automatically applied loaders.
              *
-             * @see https://github.com/s-panferov/awesome-typescript-loader
+             * IMPORTANT: The loaders here are resolved relative to the resource which they are applied to.
+             * This means they are not resolved relative to the configuration file.
+             *
+             * @see http://webpack.github.io/docs/configuration.html#module-loaders
              */
-            {
-                test: /\.ts$/,
-                loader: 'awesome-typescript',
-                query: {
-                    compilerOptions: {
-                        // Remove TypeScript helpers to be injected
-                        // below by DefinePlugin
-                        removeComments: true,
+            loaders: [
+                /**
+                 * Typescript loader support for .ts and Angular 2 async routes via .async.ts
+                 *
+                 * @see https://github.com/s-panferov/awesome-typescript-loader
+                 */
+                {
+                    exclude: [
+                        /\.e2e\.ts$/,
+                        helpers.root('tests'),
+                        helpers.root('dist'),
+                    ],
+                    loaders: [
+                        'awesome-typescript',
+                        'angular2-template',
+                    ],
+                    query: {
+                        compilerOptions: {
+                            // Remove TypeScript helpers to be injected
+                            // below by DefinePlugin
+                            removeComments: true,
+                        },
+
+                        inlineSourceMap: true,
+                        sourceMap: false,
                     },
-
-                    sourceMap: false,
-                    inlineSourceMap: true,
+                    test: /\.ts$/,
                 },
-                exclude: [
-                    /\.e2e\.ts$/,
-                    helpers.root('tests'),
-                    helpers.root('dist'),
-                ],
-            },
-        ],
 
-        /**
-         * An array of applied post loaders.
-         *
-         * @see http://webpack.github.io/docs/configuration.html#module-preloaders-module-postloaders
-         */
-        postLoaders: [
+                /* HTML loader support for *.html
+                 *
+                 * @see https://github.com/webpack/raw-loader
+                 */
+                {
+                    exclude: [
+                        helpers.root('src/client/index.html'),
+                    ],
+                    loader: 'raw',
+                    test: /\.html$/,
+                },
+            ],
+
             /**
-             * Instruments JS files with Istanbul for subsequent code coverage reporting.
-             * Instrument only testing sources.
+             * An array of applied post loaders.
              *
-             * @see https://github.com/deepsweet/istanbul-instrumenter-loader
+             * @see http://webpack.github.io/docs/configuration.html#module-preloaders-module-postloaders
              */
-            {
-                test: /\.(js|ts)$/,
-                loader: 'istanbul-instrumenter',
-                include: helpers.root('src/client/app'),
-                exclude: [
-                    /\.(spec|specs|e2e)\.(js|ts)$/,
-                    helpers.root('tests'),
-                    helpers.root('dist'),
-                ],
-            },
-        ],
-    },
+            postLoaders: [
+                /**
+                 * Instruments JS files with Istanbul for subsequent code coverage reporting.
+                 * Instrument only testing sources.
+                 *
+                 * @see https://github.com/deepsweet/istanbul-instrumenter-loader
+                 */
+                {
+                    exclude: [
+                        /\.(spec|specs|e2e)\.(js|ts)$/,
+                        helpers.root('tests'),
+                        helpers.root('dist'),
+                    ],
+                    include: helpers.root('src/client/app'),
+                    loader: 'istanbul-instrumenter',
+                    test: /\.(js|ts)$/,
+                },
+            ],
+        },
 
-    plugins: [
-        /**
-         * Plugin: DefinePlugin
-         * Description: Define free variables.
-         * Useful for having development builds with debug logging or adding global constants.
+        /*
+         * Include polyfills or mocks for various node stuff
+         * Description: Node configuration
          *
-         * Environment helpers
-         *
-         * @see https://webpack.github.io/docs/list-of-plugins.html#defineplugin
+         * @see https://webpack.github.io/docs/configuration.html#node
          */
-        // NOTE: when adding more properties, make sure you include them in custom-typings.d.ts
-        new DefinePlugin({
-            'ENV': JSON.stringify(METADATA.ENV),
-            'HMR': METADATA.HMR,
-            'process.env': {
-                'ENV': JSON.stringify(METADATA.ENV),
-                'NODE_ENV': JSON.stringify(METADATA.ENV),
-                'HMR': METADATA.HMR,
-            },
-        }),
-    ],
+        node: {
+            clearImmediate: false,
+            crypto: 'empty',
+            global: 'window',
+            module: false,
+            process: true,
+            setImmediate: false,
+        },
 
-    /*
-     * Include polyfills or mocks for various node stuff
-     * Description: Node configuration
-     *
-     * @see https://webpack.github.io/docs/configuration.html#node
-     */
-    node: {
-        clearImmediate: false,
-        crypto: 'empty',
-        global: 'window',
-        module: false,
-        process: true,
-        setImmediate: false,
-    },
-}), commonConfig.validatorsOptions);
+        /**
+         * Options affecting the output of the compilation.
+         *
+         * @see http://webpack.github.io/docs/configuration.html#output
+         */
+        output: {
+            /** The filename of non-entry chunks as relative path
+             * inside the output.path directory.
+             *
+             * @see http://webpack.github.io/docs/configuration.html#output-chunkfilename
+             */
+            chunkFilename: '[id].chunk.js',
+
+            /**
+             * Specifies the name of each output file on disk.
+             * IMPORTANT: You must not specify an absolute path here!
+             *
+             * @see http://webpack.github.io/docs/configuration.html#output-filename
+             */
+            filename: '[name].bundle.js',
+
+            /**
+             * The output directory as absolute path (required).
+             *
+             * @see http://webpack.github.io/docs/configuration.html#output-path
+             */
+            path: helpers.root('src/client/dist'),
+
+            /**
+             * The filename of the SourceMaps for the JavaScript files.
+             * They are inside the output.path directory.
+             *
+             * @see http://webpack.github.io/docs/configuration.html#output-sourcemapfilename
+             */
+            sourceMapFilename: '[name].map',
+        },
+
+        plugins: [
+            /**
+             * Plugin: DefinePlugin
+             * Description: Define free variables.
+             * Useful for having development builds with debug logging or adding global constants.
+             *
+             * Environment helpers
+             *
+             * @see https://webpack.github.io/docs/list-of-plugins.html#defineplugin
+             */
+            // NOTE: when adding more properties, make sure you include them in custom-typings.d.ts
+            new DefinePlugin({
+                'ENV': JSON.stringify(METADATA.ENV),
+                'HMR': METADATA.HMR,
+                'process.env': {
+                    ENV: JSON.stringify(METADATA.ENV),
+                    HMR: METADATA.HMR,
+                    NODE_ENV: JSON.stringify(METADATA.ENV),
+                },
+            }),
+
+            new ExtractTextPlugin('[name].css'),
+        ],
+    }),
+    commonConfig(options).validatorsOptions);
+};

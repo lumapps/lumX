@@ -1,51 +1,53 @@
 import { Component } from '@angular/core';
 
-import { SELECTOR_PREFIX } from 'core/settings/common.settings';
+import { NEW_TO_DO_SELECTOR as SELECTOR } from 'core/settings/selectors.settings';
+import { SELECTOR_PREFIX, SELECTOR_SEPARATOR } from 'core/settings/selectors.settings';
 
 import { ToDoItem } from 'to-do/to-do-item.model';
 import { ToDoStore } from 'to-do/to-do.store';
 
 
-export const SELECTOR: string = 'new-to-do';
-
-
-/**
- * New To-do Component
- * Allow to add a new to-do item
+/*
+ * Component styles
  */
+import './new-to-do.component.scss';
+
 @Component({
-    selector: SELECTOR_PREFIX + '-' + SELECTOR,
-    styles: [
-        require('./' + SELECTOR + '.component.scss'),
-    ],
+    selector: SELECTOR_PREFIX + SELECTOR_SEPARATOR + SELECTOR,
     template: require('./' + SELECTOR + '.component.html'),
 })
+/**
+ * New To-do Component.
+
+ * Allow to add a new to-do item.
+ */
 export class NewToDoComponent {
     /**
-     * The label of the new to-do item to add
+     * The label of the new to-do item to add.
      *
-     * @type       {string}
-     * @visibility public
+     * @type {string}
+     * @public
      */
     public newItem: string = '';
 
 
     /**
-     * Construct a new NewToDo component
+     * Construct a new NewToDo component.
      *
-     * @param {ToDoStore} toDoStore The store that stores all of our to-do items
+     * @constructs NewToDoComponent
+     *
+     * @param {ToDoStore} _ToDoStore The store that stores all of our to-do items.
      */
-    constructor(public toDoStore: ToDoStore) {}
+    constructor(private _ToDoStore: ToDoStore) {}
 
 
     /**
-     * Add a new to-do item in the store
-     * And empty the new to-do item input
+     * Add a new to-do item in the store and empty the new to-do item input.
      *
-     * @return {number} The id of the newly added item
+     * @return {number} The id of the newly added item.
      */
     addItem(): number {
-        let newItemId: number = this.toDoStore.add(new ToDoItem(this.newItem));
+        let newItemId: number = this._ToDoStore.add(new ToDoItem(this.newItem));
         this.newItem = '';
 
         return newItemId;

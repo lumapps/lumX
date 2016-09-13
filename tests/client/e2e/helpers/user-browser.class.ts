@@ -2,7 +2,7 @@ import { ElementFinder, ExpectedConditions, IBrowser } from 'protractor';
 import { Locator, promise as WebdriverPromise } from 'selenium-webdriver';
 
 
-interface Array<T> {
+interface Array<T> { // tslint:disable-line
     except(o: T): T[];
     intersect(o: T): T[];
 }
@@ -16,74 +16,76 @@ Array.prototype['intersect'] = function(o) { // tslint:disable-line
 
 
 /**
- * User browser object to facilitate login and DOM manipulation
+ * User browser object to facilitate login and DOM manipulation.
  */
 export class UserBrowser {
     /**
-     * The name of the user
+     * The name of the user.
      *
-     * @type       {string}
-     * @visibility public
+     * @type {string}
+     * @public
      */
     public name: string;
     /**
-     * The Selenium webdriver browser object attached to the user
+     * The Selenium webdriver browser object attached to the user.
      *
-     * @type       {IBrowser}
-     * @visibility public
+     * @type {IBrowser}
+     * @public
      */
     public browser: IBrowser;
 
     /**
-     * A unique text prefix for this user
+     * A unique text prefix for this user.
      *
-     * @type       {string}
-     * @visibility public
+     * @type {string}
+     * @public
      */
     public prefix: string;
 
     /**
-     * Alias for the "browser.$" CSS selector helper
+     * Alias for the "browser.$" CSS selector helper.
      *
-     * @type       {cssSelectorHelper}
-     * @visibility public
+     * @type {cssSelectorHelper}
+     * @public
      */
     public $: cssSelectorHelper;
     /**
-     * Alias for the "browser.$$" CSS array selector helper
+     * Alias for the "browser.$$" CSS array selector helper.
      *
-     * @type       {cssArraySelectorHelper}
-     * @visibility public
+     * @type {cssArraySelectorHelper}
+     * @public
      */
     public $$: cssArraySelectorHelper;
     /**
-     * Alias for the "browser.element" root element
+     * Alias for the "browser.element" root element.
      *
-     * @type       {any}
-     * @visibility public
+     * @type {any}
+     * @public
      */
     public element: (locator: Locator) => ElementFinder;
     /**
-     * Alias for the "browser.driver" webdriver property
+     * Alias for the "browser.driver" webdriver property.
      *
-     * @type       {webdriver.WebDriver}
-     * @visibility public
+     * @type {webdriver.WebDriver}
+     * @public
      */
     public driver: webdriver.WebDriver;
     /**
-     * Alias for the "browser.sleep" function
+     * Alias for the "browser.sleep" function.
      *
-     * @type       {Function}
-     * @visibility public
+     * @type {Function}
+     * @public
      */
     public sleep: Function;
 
 
     /**
-     * Construct a new user object
+     * Construct a new user object.
      *
-     * @param {string}   name    The name of the user
-     * @param {IBrowser} browser The browser to attach to the user
+     * @constructs UserBrowser
+     *
+     * @param {string}   name    The name of the user.
+     * @param {IBrowser} browser The browser to attach to the user.
      */
     constructor(name: string, browser: IBrowser) {
         this.name = name;
@@ -98,10 +100,10 @@ export class UserBrowser {
 
 
     /**
-     * Move an element inside another element
+     * Move an element inside another element.
      *
-     * @param  {ElementFinder}                           element     The element we want to move
-     * @param  {ElementFinder}                           destination The element which will contain the element
+     * @param  {ElementFinder}                           element     The element we want to move.
+     * @param  {ElementFinder}                           destination The element which will contain the element.
      * @return {WebdriverPromise.Promise<ElementFinder>}             The promise.
      */
     appendChild(element: ElementFinder, destination: ElementFinder): WebdriverPromise.Promise<ElementFinder> {
@@ -110,21 +112,21 @@ export class UserBrowser {
     }
 
     /**
-     * Evaluate boolean promises
+     * Evaluate boolean promises.
      *
-     * @param {boolean} bool
-     * @return {boolean} bool
+     * @param  {boolean} bool The boolean to evaluate.
+     * @return {boolean}      The boolean.
      */
     evaluateBoolean(bool: boolean): boolean {
         return bool;
     }
 
     /**
-     * Click on the element
+     * Click on the element.
      *
-     * @param {ElementFinder} element                 The element we want to click
-     * @param {boolean}       isWebElement [Optional] If the element is already in the webElement format
-     * @param {number}        timeout      [Optional] Max waiting time
+     * @param {ElementFinder} element              The element we want to click.
+     * @param {boolean}       [isWebElement=false] If the element is already in the webElement format.
+     * @param {number}        [timeout=1000]       Max waiting time.
      */
     clickOn(element: ElementFinder, isWebElement: boolean = false, timeout: number = 1000): void {
         isWebElement = isWebElement || false;
@@ -145,9 +147,9 @@ export class UserBrowser {
     }
 
     /**
-     * Load home page in order to be redirected to google auth and then connect to it
+     * Load home page in order to be redirected to google auth and then connect to it.
      *
-     * @return {UserBrowser} The connected user browser
+     * @return {UserBrowser} The connected user browser.
      */
     connect(): UserBrowser {
         this.driver.get(this.browser.baseUrl);
@@ -156,10 +158,10 @@ export class UserBrowser {
     }
 
     /**
-     * Move an element right after another element
+     * Move an element right after another element.
      *
-     * @param  {ElementFinder}                           element     The element we want to move
-     * @param  {ElementFinder}                           destination The element we use as destination point
+     * @param  {ElementFinder}                           element     The element we want to move.
+     * @param  {ElementFinder}                           destination The element we use as destination point.
      * @return {WebdriverPromise.Promise<ElementFinder>}             The promise.
      */
     insertAfter(element: ElementFinder, destination: ElementFinder): WebdriverPromise.Promise<ElementFinder> {
@@ -168,10 +170,10 @@ export class UserBrowser {
     }
 
     /**
-     * Move an element right before another element
+     * Move an element right before another element.
      *
-     * @param  {ElementFinder}                            element     The element we want to move
-     * @param  {ElementFinder}                            destination The element we use as destination point
+     * @param  {ElementFinder}                            element     The element we want to move.
+     * @param  {ElementFinder}                            destination The element we use as destination point.
      * @return {!WebdriverPromise.Promise<ElementFinder>}             The promise.
      */
     insertBefore(element: ElementFinder, destination: ElementFinder): WebdriverPromise.Promise<ElementFinder> {
@@ -180,15 +182,16 @@ export class UserBrowser {
     }
 
     /**
-     * Scroll to an input and then write on it
+     * Scroll to an input and then write on it.
      *
-     * @param {ElementFinder} element            The element we want to click
-     * @param {string}        keys               The text we want to use to erase or append
-     * @param {boolean}       clear              Indicates if we want to clear the input before write on it
-     *                                           or add the text at the end
-     * @param {boolean}       prefix             Indicates if we want to prefix the input
-     *                                          (useful but not for email or password or search e.g. ...)
-     * @param {number}        timeout [Optional] Max waiting time
+     * @param {ElementFinder} element              The element we want to click.
+     * @param {string}        keys                 The text we want to use to erase or append.
+     * @param {boolean}       [clear=true]         Indicates if we want to clear the input before write on it or add the
+     *                                             text at the end.
+     * @param {boolean}       [prefix=false]       Indicates if we want to prefix the input (useful but not for email or
+     *                                             password or search e.g. ...).
+     * @param {boolean}       [isWebElement=false] Indicates if it's a web element.
+     * @param {number}        [timeout=1000]       Max waiting time.
      */
     scrollAndInput(element: ElementFinder, keys: string, clear: boolean = true, prefix: boolean = false,
                    isWebElement: boolean = false, timeout: number = 1000): void {

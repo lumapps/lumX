@@ -1,29 +1,33 @@
 import { Component } from '@angular/core';
 
-import { SELECTOR_PREFIX } from 'core/settings/common.settings';
+import { TO_DO_LIST_SELECTOR as SELECTOR } from 'core/settings/selectors.settings';
+import { SELECTOR_PREFIX, SELECTOR_SEPARATOR } from 'core/settings/selectors.settings';
 
 import { ToDoStore } from 'to-do/to-do.store';
 
 
-export const SELECTOR: string = 'to-do-list';
-
-
-/**
- * To-do list Component
- * Display the list of to-do items
+/*
+ * Component styles
  */
+import './to-do-list.component.scss';
+
+
 @Component({
-    selector: SELECTOR_PREFIX + '-' + SELECTOR,
-    styles: [
-        require('./' + SELECTOR + '.component.scss'),
-    ],
+    selector: SELECTOR_PREFIX + SELECTOR_SEPARATOR + SELECTOR,
     template: require('./' + SELECTOR + '.component.html'),
 })
+/**
+ * To-do list Component.
+ *
+ * Display the list of to-do items.
+ */
 export class ToDoListComponent {
     /**
-     * Construct a new ToDoList component
+     * Construct a new ToDoList component.
      *
-     * @param {ToDoStore} toDoStore The store that stores all of our to-do items
+     * @constructs ToDoListComponent
+     *
+     * @param {ToDoStore} _ToDoStore The store that stores all of our to-do items.
      */
-    constructor(public toDoStore: ToDoStore) {}
+    constructor(private _ToDoStore: ToDoStore) {}
 }

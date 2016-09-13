@@ -4,29 +4,47 @@ import { TokenActions } from 'core/constants/actions';
 
 
 /**
- * Represent the state of the token in the reducer
+ * Represent the state of the token in the reducer.
+ *
+ * @interface
  */
-export interface TokenState {
+export interface ITokenState {
     needed: boolean;
     value: string;
 }
 
 /**
- * Initial state of the token ReduxStore
+ * Initial state of the token ReduxStore.
  *
- * @type {Object}
+ * @readonly
  */
-export const initialState: TokenState = {
+export const initialState: ITokenState = {
+    /**
+     * Indicates if the token is needed.
+     *
+     * @type {boolean}
+     * @default false
+     */
     needed: false,
+
+    /**
+     * The value of the token.
+     *
+     * @type {string}
+     * @default undefined
+     */
     value: undefined,
 };
 
 /**
- * Responsible to handle the state of our token store
+ * Responsible to handle the state of our token store.
  *
- * @type {ActionReducer}
+ * @param  {ITokenState} state  The updated state of the token.
+ * @param  {Action}      action The action to execute.
+ *                              See {@link TokenActions} for allowed value
+ * @return {ITokenState}        The new state of the token
  */
-export const tokenReducer: ActionReducer<TokenState> = (state: TokenState = initialState, action: Action) => {
+export const tokenReducer: ActionReducer<ITokenState> = (state: ITokenState = initialState, action: Action) => {
     switch (action.type) {
         case TokenActions.TOKEN_RECEIVED:
             return Object.assign({}, state, {

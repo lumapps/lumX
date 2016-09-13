@@ -1,3 +1,3 @@
-exports.HmrState = function() {
-
-}
+exports.HmrState = function hmrState() {
+    // Nothing to do here
+};

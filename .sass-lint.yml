@@ -1,5 +1,6 @@
 files:
-  include: '**/*.scss'
+  include: 'src/client/**/*.s+(a|c)ss'
+  ignore: 'node_modules/**/*.s+(a|c)ss'
 options:
   formatter: stylish
   merge-default-rules: false

@@ -8,24 +8,16 @@ function hasProcessFlag(flag) {
 }
 
 function isWebpackDevServer() {
-    return process.argv[1] && !!(/webpack-dev-server$/.exec(process.argv[1]));
+    return process.argv[1] && !!(/webpack-dev-server/.exec(process.argv[1])); // eslint-disable-line
 }
 
-function root(args) {
+function rootFunction(args) {
     args = Array.prototype.slice.call(arguments, 0);
+
     return path.join.apply(path, [ROOT].concat(args));
 }
 
-function checkNodeImport(context, request, callback) {
-    if (!path.isAbsolute(request) && request.charAt(0) !== '.') {
-        callback(null, 'commonjs ' + request);
-        return;
-    }
-
-    callback();
-}
 
 exports.hasProcessFlag = hasProcessFlag;
 exports.isWebpackDevServer = isWebpackDevServer;
-exports.root = root;
-exports.checkNodeImport = checkNodeImport;
+exports.root = rootFunction;

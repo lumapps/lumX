@@ -10,10 +10,6 @@ import { HttpInterceptorService } from 'core/services/http-interceptor.service';
 import { TokenService } from 'core/services/token.service';
 
 
-/**
- * Our application module
- * Handles the bootstrapping and declaration of everything
- */
 @NgModule({
     exports: [
         CommonModule,
@@ -26,7 +22,17 @@ import { TokenService } from 'core/services/token.service';
         StoreModule.provideStore(tokenReducer, initialState),
     ],
 })
+/**
+ * Our application module.
+ *
+ * Handles the bootstrapping and declaration of everything.
+ */
 export class CoreModule {
+    /**
+     * Export the module for the app's root module.
+     *
+     * @return {ModuleWithProviders} The modules with the providers that can be used for the app's root module.
+     */
     static forRoot(): ModuleWithProviders {
         return {
             ngModule: CoreModule,

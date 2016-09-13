@@ -14,7 +14,8 @@ import '@angular/platform-browser-dynamic';
 import '@angular/router';
 
 // AngularClass
-import '@angularclass/webpack-toolkit';
+import '@angularclass/hmr';
+// import '@angularclass/webpack-toolkit';
 
 // RxJS
 import 'rxjs/add/operator/map';
@@ -25,5 +26,4 @@ if (ENV === 'production') {
     // Production
 } else {
     // Development
-    require('angular2-hmr'); // tslint:disable-line
 }

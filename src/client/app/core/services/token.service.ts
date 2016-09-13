@@ -4,36 +4,37 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Rx';
 
 import { TokenActions } from 'core/constants/actions';
-import { TokenState } from 'core/reducers/token.reducer';
+import { ITokenState } from 'core/reducers/token.reducer';
 
 
-/**
- * Responsible of managing the OAuth token of our application through a ReduxStore
- */
 @Injectable()
+/**
+ * Responsible of managing the OAuth token of our application through a ReduxStore.
+ */
 export class TokenService {
     /**
-     * The OAuth token (as an observable)
+     * The OAuth token (as an observable).
      *
-     * @type       {Observable<TokenState>}
-     * @visibility public
+     * @type {Observable<ITokenState>}
+     * @public
      */
-    public token: Observable<TokenState>;
+    public token: Observable<ITokenState>;
 
 
     /**
-     * Construct a new Token service
-     * Initialize the token store
+     * Construct a new Token service and initialize the token store.
      *
-     * @param {Store<TokenState>} store The ReduxStore that will store our token state
+     * @constructs TokenService
+     *
+     * @param {Store<ITokenState>} _Store The ReduxStore that will store our token state.
      */
-    constructor(private store: Store<TokenState>) {
-        this.token = store.select<TokenState>('token');
+    constructor(private _Store: Store<ITokenState>) {
+        this.token = this._Store.select<ITokenState>('token');
     }
 
 
     clearToken(): void {
-        this.store.dispatch({
+        this._Store.dispatch({
             type: TokenActions.TOKEN_CLEARED,
         });
     }
@@ -41,7 +42,7 @@ export class TokenService {
     getToken(): string {
         let currentToken: string;
 
-        this.token.take(1).subscribe((token: TokenState) => {
+        this.token.take(1).subscribe((token: ITokenState) => {
             if (token !== undefined) {
                 currentToken = token.value;
             }
@@ -51,13 +52,13 @@ export class TokenService {
     }
 
     refreshToken(): void {
-        this.store.dispatch({
+        this._Store.dispatch({
             type: TokenActions.TOKEN_NEEDED,
         });
     }
 
     setToken(token: string): void {
-        this.store.dispatch({
+        this._Store.dispatch({
             payload: token,
             type: TokenActions.TOKEN_RECEIVED,
         });

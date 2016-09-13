@@ -29,11 +29,12 @@ import 'core-js/es6/symbol';
 import 'core-js/es6/typed';
 import 'core-js/es6/weak-map';
 import 'core-js/es6/weak-set'; */
+
 /*
  * There is an issue with the ES6 Promise polyfill
  *
  * @see https://github.com/AngularClass/angular2-webpack-starter/issues/709
-
+ */
 /* import 'core-js/es6/promise'; */
 
 /*

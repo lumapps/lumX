@@ -5,9 +5,9 @@ const Joi = require('webpack-validator').Joi;
 /*
  * Webpack Plugins
  */
+const AssetsPlugin = require('assets-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const ForkCheckerPlugin = require('awesome-typescript-loader').ForkCheckerPlugin;
+// const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const TsConfigPathsPlugin = require('awesome-typescript-loader').TsConfigPathsPlugin;
 const HtmlElementsPlugin = require('./html-elements-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -17,397 +17,380 @@ const sassLintPlugin = require('sasslint-webpack-plugin');
  * Webpack Constants
  */
 const METADATA = {
-    title: 'LumBoilerplate',
     baseUrl: '/',
     isDevServer: helpers.isWebpackDevServer(),
+    title: 'LumBoilerplate',
 };
 
 /*
- * Webpack configuration
+ * Webpack configuration.
  *
- * @see http://webpack.github.io/docs/configuration.html#cli
+ * @see {@link http://webpack.github.io/docs/configuration.html#cli|The webpack documentation on CLI}
  */
-module.exports = {
-    /*
-     * Static metadata for index.html
-     *
-     * @see (custom attribute)
-     */
-    metadata: METADATA,
-
-    /*
-     * Cache generated modules and chunks to improve performance for multiple incremental builds.
-     * This is enabled by default in watch mode.
-     * You can pass false to disable it.
-     *
-     * @see http://webpack.github.io/docs/configuration.html#cache
-     */
-    //cache: false,
-
-    /*
-     * The entry point for the bundle
-     * Our Angular.js app
-     *
-     * @see http://webpack.github.io/docs/configuration.html#entry
-     */
-    entry: {
-        'polyfills': './src/client/polyfills.ts',
-        'vendor': './src/client/vendors.ts',
-        'main': './src/client/main.ts',
-    },
-
-    /*
-     * Options affecting the resolving of modules.
-     *
-     * @see http://webpack.github.io/docs/configuration.html#resolve
-     */
-    resolve: {
+module.exports = function webpackCommonConfigExport() {
+    return {
         /*
-         * An array of extensions that should be used to resolve modules.
+         * The entry point for the bundle
+         * Our Angular.js app
          *
-         * @see http://webpack.github.io/docs/configuration.html#resolve-extensions
+         * @see {@link http://webpack.github.io/docs/configuration.html#entry|The webpack documentation on entries}
          */
-        extensions: [
-            '',
-            '.ts',
-            '.js',
-            '.json',
-        ],
-
-        // Make sure root is src/client
-        root: [
-            helpers.root(''),
-            helpers.root('src/client'),
-            helpers.root('src/client/app'),
-            helpers.root('src/client/assets'),
-            helpers.root('src/client/assets/styles'),
-        ],
-
-        // Remove other default values
-        modulesDirectories: [
-            'node_modules',
-        ],
-    },
-
-    /*
-     * Options affecting the normal modules.
-     *
-     * @see http://webpack.github.io/docs/configuration.html#module
-     */
-    module: {
-        /*
-         * An array of applied pre loaders.
-         *
-         * @see http://webpack.github.io/docs/configuration.html#module-preloaders-module-postloaders
-         */
-        preLoaders: [
-            /*
-             * Tslint loader support for *.ts files
-             *
-             * @see https://github.com/wbuchwalter/tslint-loader
-             */
-            {
-                test: /\.ts$/,
-                loader: 'tslint',
-                exclude: [
-                    helpers.root('node_modules'),
-                ],
-            },
-
-            /*
-             * Source map loader support for *.js files
-             * Extracts SourceMaps for source files that as added as sourceMappingURL comment.
-             *
-             * @see https://github.com/webpack/source-map-loader
-             */
-            {
-                test: /\.(js|css)$/,
-                loader: 'source-map',
-                exclude: [
-                    // These packages have problems with their sourcemaps
-                    helpers.root('node_modules/rxjs'),
-                    helpers.root('node_modules/@angular'),
-                    helpers.root('node_modules/@ngrx'),
-                    helpers.root('node_modules/@angular2-material'),
-                ],
-            },
-        ],
+        entry: {
+            main: './src/client/main.ts',
+            polyfills: './src/client/polyfills.ts',
+            vendors: './src/client/vendors.ts',
+        },
 
         /*
-         * An array of automatically applied loaders.
-         * IMPORTANT: The loaders here are resolved relative to the resource which they are applied to.
-         * This means they are not resolved relative to the configuration file.
-         *
-         * @see http://webpack.github.io/docs/configuration.html#module-loaders
+         * Static metadata for index.html.
          */
-        loaders: [
-            /*
-             * Json loader support for *.json files.
-             *
-             * @see https://github.com/webpack/json-loader
-             */
-            {
-                test: /\.json$/,
-                loader: 'json',
-                exclude: [
-                    helpers.root('src/client/index.html'),
-                ],
-            },
+        metadata: METADATA,
 
-            /* HTML loader support for *.html
-             *
-             * @see https://github.com/webpack/raw-loader
-             */
-            {
-                test: /\.html$/,
-                loader: 'html',
-                exclude: [
-                    helpers.root('src/client/index.html'),
-                ],
-            },
-
-            /*
-             * File loader for assets
-             *
-             * @see https://github.com/webpack/file-loader
-             */
-            {
-                test: /\.(png|jpe?g|gif|svg|woff|woff2|ttf|eot|ico)$/,
-                loader: 'file?name=assets/[name].[hash].[ext]'
-            },
-
-            /*
-             * Load CSS
-             */
-            {
-                test: /\.css$/,
-                // loader: ExtractTextPlugin.extract(
-                //     'style',
-                //     'css?sourceMap!postcss'
-                // ),
-                loaders: [
-                    'to-string',
-                    'css?sourceMap',
-                    'postcss',
-                    'resolve-url',
-                ],
-                exclude: [
-                    helpers.root('src/client/index.html'),
-                    /node_modules/,
-                ],
-            },
-
-            /*
-             * Load SCSS
-             */
-            {
-                test: /\.scss$/,
-                // loader: ExtractTextPlugin.extract(
-                //     'style',
-                //     'css?sourceMap!postcss!resolve-url!sass?sourceMap'
-                // ),
-                loaders: [
-                    'to-string',
-                    'css?sourceMap',
-                    'postcss',
-                    'resolve-url',
-                    'sass?sourceMap',
-                ],
-                exclude: /node_modules/,
-            },
-        ],
-
-        /**
-         * An array of applied post loaders.
-         *
-         * @see http://webpack.github.io/docs/configuration.html#module-preloaders-module-postloaders
-         */
-        postLoaders: [
-            /*
-             * Automagically add needed polyfillers
-             *
-             * @see https://github.com/webpack/file-loader
-             */
-            {
-                test: /\.js$/,
-                exclude: /\/(node_modules|bower_components|config)\//,
-                loader: 'autopolyfiller-webpack',
-                query: {
-                    browsers: ['last 2 versions', 'ie >= 9']
-                }
-            },
-        ],
-    },
-
-    /*
-     * Add additional plugins to the compiler.
-     *
-     * @see http://webpack.github.io/docs/configuration.html#plugins
-     */
-    plugins: [
         /*
-         * Plugin: CopyWebpackPlugin
-         * Description: Copy files and directories in webpack.
+         * Options affecting the normal modules.
          *
-         * Copies project static assets.
-         *
-         * @see https://www.npmjs.com/package/copy-webpack-plugin
+         * @see {@link http://webpack.github.io/docs/configuration.html#module|The webpack documentation on modules}
          */
-        new CopyWebpackPlugin([
-            {
+        module: {
+            /*
+             * An array of automatically applied loaders.
+             * IMPORTANT: The loaders here are resolved relative to the resource which they are applied to.
+             * This means they are not resolved relative to the configuration file.
+             *
+             * @see {@link http://webpack.github.io/docs/configuration.html#module-loaders|The webpack documentation on module loaders}
+             */
+            loaders: [
+                /*
+                 * Json loader support for *.json files.
+                 *
+                 * @see {@link https://github.com/webpack/json-loader|JSON Loader}
+                 */
+                {
+                    exclude: [
+                        helpers.root('src/client/index.html'),
+                    ],
+                    loader: 'json',
+                    test: /\.json$/,
+                },
+
+                /*
+                 * File loader for assets.
+                 *
+                 * @see {@link https://github.com/webpack/file-loader|File loader}
+                 */
+                {
+                    loader: 'file?name=assets/[name].[hash].[ext]',
+                    test: /\.(png|jpe?g|gif|svg|woff|woff2|ttf|eot|ico)$/,
+                },
+
+                /*
+                 * Load CSS.
+                 */
+                {
+                    exclude: [
+                        helpers.root('src/client/index.html'),
+                        /node_modules/,
+                    ],
+                    loaders: [
+                        'to-string',
+                        'css?sourceMap',
+                        'postcss',
+                        'resolve-url',
+                    ],
+                    test: /\.css$/,
+                },
+
+                /*
+                 * Load SCSS.
+                 */
+                {
+                    include: helpers.root('src', 'client'),
+                    loaders: [
+                        'style',
+                        'css?sourceMap',
+                        'postcss',
+                        'resolve-url',
+                        'sass?sourceMap',
+                    ],
+                    test: /\.scss$/,
+                },
+            ],
+
+            /**
+             * An array of applied post loaders.
+             *
+             * @see {@link http://webpack.github.io/docs/configuration.html#module-preloaders-module-postloaders|The webpack documentation on post loaders}
+             */
+            postLoaders: [
+                /*
+                 * Automagically add needed polyfillers
+                 *
+                 * @see https://github.com/webpack/file-loader
+                 */
+                {
+                    exclude: /\/(node_modules|bower_components|config)\//,
+                    loader: 'autopolyfiller-webpack',
+                    query: {
+                        browsers: ['last 2 versions', 'ie >= 9'],
+                    },
+                    test: /\.js$/,
+                },
+
+                {
+                    loader: 'string-replace',
+                    query: {
+                        flags: 'g',
+                        replace: 'var sourceMappingUrl = "";',
+                        search: 'var sourceMappingUrl = extractSourceMappingUrl\\(cssText\\);',
+                    },
+                    test: /\.js$/,
+                },
+            ],
+
+            /*
+             * An array of applied pre loaders.
+             *
+             * @see {@link http://webpack.github.io/docs/configuration.html#module-preloaders-module-postloaders|The webpack documentation on pre loaders}
+             */
+            preLoaders: [
+                /*
+                 * Replace any reference to System JS
+                 */
+                {
+                    include: [
+                        helpers.root('src/client'),
+                    ],
+                    loader: 'string-replace',
+                    query: {
+                        flags: 'g',
+                        replace: '$1.import($3).then(mod => (mod.__esModule && mod.default) ? mod.default : mod)',
+                        search: '(System|SystemJS)(.*[\\n\\r]\\s*\\.|\\.)import\\((.+)\\)',
+                    },
+                    test: /\.ts$/,
+                },
+
+                /*
+                 * Tslint loader support for *.ts files.
+                 *
+                 * @see {@link https://github.com/wbuchwalter/tslint-loader|TSLint Loader}
+                 */
+                {
+                    exclude: [
+                        helpers.root('node_modules'),
+                    ],
+                    loader: 'tslint',
+                    test: /\.ts$/,
+                },
+
+                /*
+                 * Source map loader support for *.js files.
+                 * Extracts SourceMaps for source files that as added as sourceMappingURL comment.
+                 *
+                 * @see {@link https://github.com/webpack/source-map-loader|SourceMap Loader}
+                 */
+                {
+                    exclude: [
+                        // These packages have problems with their sourcemaps.
+                        helpers.root('node_modules/rxjs'),
+                        helpers.root('node_modules/@angular'),
+                        helpers.root('node_modules/@ngrx'),
+                        helpers.root('node_modules/@angular2-material'),
+                    ],
+                    loader: 'source-map',
+                    test: /\.(js|css)$/,
+                },
+            ],
+        },
+
+        /*
+         * Add additional plugins to the compiler.
+         *
+         * @see {@link http://webpack.github.io/docs/configuration.html#plugins|The webpack documentation on plugins}
+         */
+        plugins: [
+            /*
+             * AssetsPlugin.
+             */
+            new AssetsPlugin({
+                filename: 'webpack-assets.json',
+                path: helpers.root('dist/client'),
+                prettyPrint: true,
+            }),
+
+            /*
+             * CopyWebpackPlugin.
+             * Copy files and directories in webpack.
+             *
+             * Copies project static assets.
+             *
+             * @see {@link https://www.npmjs.com/package/copy-webpack-plugin|Copy Webpack Plugin}
+             */
+            new CopyWebpackPlugin([{
                 from: 'src/client/assets',
                 to: 'assets',
-        }]),
+            }], {
+                ignore: [
+                    '*.scss',
+                    '*_specRunner*',
+                ],
+            }),
+
+            /*
+             * HtmlWebpackPlugin.
+             * Simplifies creation of HTML files to serve your webpack bundles.
+             * This is especially useful for webpack bundles that include a hash in the filename which changes every
+             * compilation.
+             *
+             * @see {@link https://github.com/ampedandwired/html-webpack-plugin|HTML Webpack Plugin}
+             */
+            new HtmlWebpackPlugin({
+                chunksSortMode: 'dependency',
+                template: 'src/client/index.html',
+            }),
+
+            /*
+             * HtmlHeadConfigPlugin.
+             * Generate html tags based on javascript maps.
+             *
+             * If a publicPath is set in the webpack output configuration, it will be automatically added to href
+             * attributes, you can disable that by adding a "=href": false property.
+             * You can also enable it to other attribute by settings "=attName": true.
+             *
+             * The configuration supplied is map between a location (key) and an element definition object (value).
+             * The location (key) is then exported to the template under then htmlElements property in webpack
+             * configuration.
+             *
+             * Example:
+             *  Adding this plugin configuration
+             *  new HtmlElementsPlugin({
+             *    headTags: { ... }
+             *  })
+             *
+             *  Means we can use it in the template like this:
+             *  <%= webpackConfig.htmlElements.headTags %>
+             *
+             * @dependencies: HtmlWebpackPlugin
+             */
+            new HtmlElementsPlugin({
+                headTags: require('../src/client/head-config.common'),
+            }),
+
+            /**
+             * SASSLintPlugin.
+             * Lint the SASS files.
+             *
+             * @see {@link https://github.com/alleyinteractive/sasslint-webpack-plugin|SASS Lint Webpack Plugin}
+             */
+            new sassLintPlugin({ // eslint-disable-line
+                failOnError: false,
+                failOnWarning: false,
+                glob: './src/client/**/*.s?(a|c)ss',
+                ignoreFiles: [],
+                quiet: false,
+                testing: false,
+            }),
+
+            new TsConfigPathsPlugin(),
+        ],
 
         /*
-         * Plugin: HtmlWebpackPlugin
-         * Description: Simplifies creation of HTML files to serve your webpack bundles.
-         * This is especially useful for webpack bundles that include a hash in the filename
-         * which changes every compilation.
+         * Configure PostCSS.
          *
-         * @see https://github.com/ampedandwired/html-webpack-plugin
+         * @see {@link https://github.com/postcss/autoprefixer#webpack|PostCSS}
          */
-        new HtmlWebpackPlugin({
-            template: 'src/client/index.html',
-            chunksSortMode: 'dependency',
-        }),
+        postcss: [
+            autoprefixer({
+                browsers: [
+                    'last 2 versions',
+                ],
+            }),
+        ],
 
         /*
-         * Plugin: HtmlHeadConfigPlugin
-         * Description: Generate html tags based on javascript maps.
+         * Cache generated modules and chunks to improve performance for multiple incremental builds.
+         * This is enabled by default in watch mode.
+         * You can pass false to disable it.
          *
-         * If a publicPath is set in the webpack output configuration, it will be automatically added to
-         * href attributes, you can disable that by adding a "=href": false property.
-         * You can also enable it to other attribute by settings "=attName": true.
-         *
-         * The configuration supplied is map between a location (key) and an element definition object (value)
-         * The location (key) is then exported to the template under then htmlElements property in webpack configuration.
-         *
-         * Example:
-         *  Adding this plugin configuration
-         *  new HtmlElementsPlugin({
-         *    headTags: { ... }
-         *  })
-         *
-         *  Means we can use it in the template like this:
-         *  <%= webpackConfig.htmlElements.headTags %>
-         *
-         * Dependencies: HtmlWebpackPlugin
+         * @see {@link http://webpack.github.io/docs/configuration.html#cache|The webpack documentation on cache}
          */
-        new HtmlElementsPlugin({
-            headTags: require('../src/client/head-config.common'),
-        }),
+        // cache: false,
 
         /*
-         * Plugin: ExtractTextWebpackPlugin
-         * Description: Create a bundle file for inlined CSS files
+         * Options affecting the resolving of modules.
          *
-         * @see https://github.com/webpack/extract-text-webpack-plugin
+         * @see {@link http://webpack.github.io/docs/configuration.html#resolve|The webpack documentation on resolve}
          */
-        new ExtractTextPlugin('assets/styles.[contenthash].css', {
-            allChunks: true,
-        }),
+        resolve: {
+            /*
+             * An array of extensions that should be used to resolve modules.
+             *
+             * @see http://webpack.github.io/docs/configuration.html#resolve-extensions
+             */
+            extensions: [
+                '',
+                '.ts',
+                '.js',
+                '.json',
+            ],
+
+            // Remove other default values
+            modulesDirectories: [
+                'node_modules',
+            ],
+
+            root: [
+                helpers.root(''),
+                helpers.root('src/client'),
+                helpers.root('src/client/app'),
+                helpers.root('src/client/assets'),
+                helpers.root('src/client/assets/styles'),
+            ],
+        },
+
+        /*
+         * Configure Sass.
+         *
+         * @see {@link https://github.com/jtangelder/sass-loader|SASS Loader}
+         */
+        sassLoader: {
+            includePaths: [
+                'src/client/assets/styles',
+            ],
+            indentType: 'space',
+            indentWidth: 4,
+            outputStyle: 'expanded',
+        },
+
+        target: 'web',
 
         /**
-         * Plugin: SASSLintPlugin
-         * Description: Lint the SASS files
+         * Static analysis linter for TypeScript advanced options configuration.
+         * An extensible linter for the TypeScript language.
          *
-         * @see https://github.com/alleyinteractive/sasslint-webpack-plugin
+         * @see {@link https://github.com/wbuchwalter/tslint-loader|TSLint Loader}
          */
-        new sassLintPlugin({
-            failOnError: false,
-            failOnWarning: false,
-            glob: './src/client/**/*.s?(a|c)ss',
-            ignoreFiles: [],
-            quiet: false,
-            testing: false,
-        }),
+        tslint: {
+            // TSLint errors are displayed by default as warnings.
+            // Set emitErrors to true to display them as errors.
+            emitErrors: true,
 
-        new TsConfigPathsPlugin(),
-    ],
-
-    /*
-     * Configure HTML Loader
-     *
-     * @see https://github.com/webpack/html-loader
-     */
-    htmlLoader: {
-        minimize: true,
-        removeAttributeQuotes: false,
-        caseSensitive: true,
-        customAttrSurround: [ [/#/, /(?:)/], [/\*/, /(?:)/], [/\[?\(?/, /(?:)/] ],
-        customAttrAssign: [ /\)?\]?=/ ]
-    },
-
-    /*
-     * Configure PostCSS
-     *
-     * @see https://github.com/postcss/autoprefixer#webpack
-     */
-    postcss: [
-        autoprefixer({
-            browsers: [
-                'last 2 versions',
-            ],
-        }),
-    ],
-
-    /*
-     * Configure Sass
-     *
-     * @see https://github.com/jtangelder/sass-loader
-     */
-    sassLoader: {
-        includePaths: [
-            'src/client/assets/styles',
-        ],
-        indentType: 'space',
-        indentWidth: 4,
-        outputStyle: 'expanded',
-    },
-
-    /**
-     * Static analysis linter for TypeScript advanced options configuration
-     * Description: An extensible linter for the TypeScript language.
-     *
-     * @see https://github.com/wbuchwalter/tslint-loader
-     */
-    tslint: {
-        // TSLint errors are displayed by default as warnings
-        // Set emitErrors to true to display them as errors
-        emitErrors: true,
-
-        // TSLint does not interrupt the compilation by default
-        // If you want any file with tslint errors to fail
-        // set failOnHint to true
-        failOnHint: false,
-    },
-
-    /*
-     * Include polyfills or mocks for various node stuff
-     * Description: Node configuration
-     *
-     * @see https://webpack.github.io/docs/configuration.html#node
-     */
-    node: {
-        clearImmediate: false,
-        crypto: 'empty',
-        global: 'window',
-        module: false,
-        setImmediate: false,
-    },
-
-    validatorsOptions: {
-        quiet: true,
-        rules: {
-            'no-root-files-node-modules-nameclash': false,
+            // TSLint does not interrupt the compilation by default.
+            // If you want any file with tslint errors to fail set failOnHint to true.
+            failOnHint: false,
         },
-        schemaExtension: Joi.object({
-            htmlLoader: Joi.object(),
-            postcss: Joi.any(),
-            sassLoader: Joi.object(),
-            tslint: Joi.object(),
-            validatorsOptions: Joi.object(),
-        }),
-    },
+
+        validatorsOptions: {
+            quiet: true,
+            rules: {
+                'no-root-files-node-modules-nameclash': false,
+            },
+            schemaExtension: Joi.object({
+                htmlLoader: Joi.object(),
+                postcss: Joi.any(),
+                sassLoader: Joi.object(),
+                tslint: Joi.object(),
+                validatorsOptions: Joi.object(),
+            }),
+        },
+    };
 };

@@ -1,8 +1,6 @@
-const helpers = require('./modules/helpers');
-
-const commonConfig = require('./webpack.common.js'); // The settings that are common to prod and dev
+const commonConfig = require('./webpack.common.js');
 const webpack = require('webpack');
-const webpackMerge = require('webpack-merge'); // Rsed to merge webpack configs
+const webpackMerge = require('webpack-merge');
 
 /*
  * Webpack Plugins
@@ -10,82 +8,42 @@ const webpackMerge = require('webpack-merge'); // Rsed to merge webpack configs
 const ForkCheckerPlugin = require('awesome-typescript-loader').ForkCheckerPlugin;
 
 /*
- * Webpack configuration
+ * Webpack configuration.
  *
- * @see http://webpack.github.io/docs/configuration.html#cli
+ * @see {@link http://webpack.github.io/docs/configuration.html#cli|The webpack documentation on CLI}
+ *
+ * @param {{ env: string }} options The options to generate the config
  */
-module.exports = webpackMerge.smart(commonConfig, {
-    /*
-     * Options affecting the normal modules.
-     *
-     * @see http://webpack.github.io/docs/configuration.html#module
-     */
-    module: {
+module.exports = function webpackCommonBuildConfigExport(options) {
+    return webpackMerge.smart(commonConfig(options), {
         /*
-         * An array of automatically applied loaders.
-         * IMPORTANT: The loaders here are resolved relative to the resource which they are applied to.
-         * This means they are not resolved relative to the configuration file.
+         * Add additional plugins to the compiler.
          *
-         * @see http://webpack.github.io/docs/configuration.html#module-loaders
+         * @see {@link http://webpack.github.io/docs/configuration.html#plugins|The webpack documentation on plugins}
          */
-        loaders: [
+        plugins: [
             /*
-             * Typescript loader support for .ts and Angular 2 async routes via .async.ts
+             * ForkCheckerPlugin.
+             * Do type checking in a separate process, so webpack don't need to wait.
              *
-             * @see https://github.com/s-panferov/awesome-typescript-loader
+             * @see {@link https://github.com/s-panferov/awesome-typescript-loader#forkchecker-boolean-defaultfalse|Awesome Typescript Loader forkchecker}
              */
-            {
-                test: /\.ts$/,
-                loaders: [
-                    'awesome-typescript',
-                    'angular2-template',
-                ],
-                exclude: [
-                    /\.(spec|specs|e2e)\.ts$/,
-                    helpers.root('tests'),
-                    helpers.root('dist'),
-                ],
-            },
+            new ForkCheckerPlugin(),
+
+            /*
+             * CommonsChunkPlugin.
+             * Shares common code between the pages.
+             * It identifies common modules and put them into a commons chunk.
+             *
+             * @see {@link https://webpack.github.io/docs/list-of-plugins.html#commonschunkplugin|The webpack Common Chunck Plugin page}
+             * @see {@link https://github.com/webpack/docs/wiki/optimization#multi-page-app|The webpack documentation on optimization}
+             */
+            new webpack.optimize.CommonsChunkPlugin({
+                name: [
+                    'polyfills',
+                    'vendors',
+                ].reverse(),
+            }),
         ],
-    },
-
-    /*
-     * Add additional plugins to the compiler.
-     *
-     * @see http://webpack.github.io/docs/configuration.html#plugins
-     */
-    plugins: [
-        /*
-         * Plugin: ForkCheckerPlugin
-         * Description: Do type checking in a separate process, so webpack don't need to wait.
-         *
-         * @see https://github.com/s-panferov/awesome-typescript-loader#forkchecker-boolean-defaultfalse
-         */
-        new ForkCheckerPlugin(),
-
-        /*
-         * Plugin: OccurenceOrderPlugin
-         * Description: Varies the distribution of the ids to get the smallest id length
-         * for often used ids.
-         *
-         * @see https://webpack.github.io/docs/list-of-plugins.html#occurrenceorderplugin
-         * @see https://github.com/webpack/docs/wiki/optimization#minimize
-         */
-        new webpack.optimize.OccurenceOrderPlugin(true),
-
-        /*
-         * Plugin: CommonsChunkPlugin
-         * Description: Shares common code between the pages.
-         * It identifies common modules and put them into a commons chunk.
-         *
-         * @see https://webpack.github.io/docs/list-of-plugins.html#commonschunkplugin
-         * @see https://github.com/webpack/docs/wiki/optimization#multi-page-app
-         */
-        new webpack.optimize.CommonsChunkPlugin({
-            name: [
-                'polyfills',
-                'vendor',
-            ].reverse(),
-        }),
-    ],
-});
+    });
+};

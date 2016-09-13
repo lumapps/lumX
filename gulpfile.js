@@ -15,8 +15,8 @@ const testsFolder = "./tests/client";
 
 const appFolder = `${sourceFolder}/app`;
 
-const unitestFolder = `${testsFolder}/unit`;
-const unitestReportFolder = `${unitestFolder}/report`;
+const unitFolder = `${testsFolder}/unit`;
+const unitReportFolder = `${unitFolder}/report`;
 const e2eFolder = `${testsFolder}/e2e`;
 const e2eReportFolder = `${e2eFolder}/report`;
 
@@ -27,32 +27,60 @@ const e2eReportFolder = `${e2eFolder}/report`;
 // Toggle the "-s" flag to make npm verbose (nothing) or silent (-s)
 const npmRun = `npm run -s`;
 
-const webpackBuildParameters = `--profile --display-cached --hide-modules`;
-const webpackDevServerParameters = `--watch --content-base ${sourceFolder}`;
+const webpackBuildParameters = `--profile --display-cached --hide-modules --progress --colors`;
+const webpackDevParameters = ``;
+const webpackDevServerClassicParameters = `--progress --colors`;
+const webpackDevServerCommonParameters = `--watch --content-base ${sourceFolder}`;
 const webpackDevServerHotReloadParameters = `--inline --hot`;
-const webpackCommonParameters = `--progress --colors --display-error-details`;
+const webpackCommonParameters = `--display-error-details`;
+const webpackConfig = `--config webpack.config.js`;
 const webpackDevConfig = `--config config/webpack.dev.js`;
-const webpackProdConfig = `--config config/webpack.prod.js --bail`;
+const webpackProdConfig = `--config config/webpack.prod.js`;
+const webpackProdParameters = `--bail`;
+
+const debug = `DEBUG=true`;
+const envDev = `NODE_ENV='dev'`;
+const envProd = `NODE_ENV='prod'`;
+const envTest = `NODE_ENV='test'`;
+const hidden = `HIDDEN=true`;
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Define your tasks here
 // Attention: Use the bash syntax for variable templating
 // ---------------------------------------------------------------------------------------------------------------------
 shelter({
-    lint: {
+    'lint:config': {
+        dsc: `Lint config of ${project}`,
+        cmd: `${npmRun} eslint -- "./*.conf*.js" "./config/**/*.js"`,
+    },
+    'lint:src': {
+        dsc: `Lint source code of ${project}`,
+        cmd: `${npmRun} lint:src:ts && ${npmRun} lint:src:js && ${npmRun} lint:src:scss`,
+    },
+    'lint:src:ts': {
         dsc: `Lint TypeScript code of ${project}`,
         cmd: `${npmRun} tsconfig-lint -- --passive`,
+    },
+    'lint:src:js': {
+        dsc: `Lint Javascript code of ${project}`,
+        cmd: `${npmRun} eslint -- "${sourceFolder}/**/*.js" "${testsFolder}/**/*.js"`,
+    },
+    'lint:src:scss': {
+        dsc: `Lint SASS code of ${project}`,
+        cmd: `${npmRun} sass-lint -- "${sourceFolder}/**/*.s+(a|c)ss" --verbose`,
     },
 
     'build:dev': {
         dsc: `Build the development bundle of ${project}`,
-        cmd: `${npmRun} task -- clean:dist && ${npmRun} webpack -- ${webpackDevConfig} ${webpackCommonParameters}
-                                                                   ${webpackBuildParameters}`,
+        cmd: `${npmRun} task -- clean:dist
+              && ${envDev} ${npmRun} webpack -- ${webpackConfig} ${webpackCommonParameters}
+                                                ${webpackBuildParameters} ${webpackDevParameters}`,
     },
     'build:prod': {
         dsc: `Build the production bundle of ${project}`,
-        cmd: `${npmRun} task -- clean:dist && ${npmRun} webpack -- ${webpackProdConfig} ${webpackCommonParameters}
-                                                                   ${webpackBuildParameters}`,
+        cmd: `${npmRun} task -- clean:dist
+              && ${envProd} ${npmRun} webpack -- ${webpackConfig} ${webpackCommonParameters}
+                                                 ${webpackBuildParameters} ${webpackProdParameters}`,
     },
 
     'clean:dist': {
@@ -61,7 +89,7 @@ shelter({
     },
     'clean:unit:report': {
         dsc: `Clean the "unit/report" folder of ${project}`,
-        cmd: `${npmRun} rimraf -- ${unitestReportFolder}/*`,
+        cmd: `${npmRun} rimraf -- ${unitReportFolder}/*`,
     },
     'clean:e2e:report': {
         dsc: `Clean the "e2e/report" folder of ${project}`,
@@ -73,8 +101,8 @@ shelter({
     },
     'clean:all': {
         dsc: `Clean the whole ${project} project (NPM, docs, test and dist)`,
-        cmd: `npm cache clean && ${npmRun} rimraf -- node_modules ${docsFolder} ${unitestReportFolder} ${e2eReportFolder}
-                                                     ${distFolder}`,
+        cmd: `npm cache clean
+              && ${npmRun} rimraf -- node_modules ${docsFolder} ${unitReportFolder} ${e2eReportFolder} ${distFolder}`,
     },
 
     docs: {
@@ -88,66 +116,89 @@ shelter({
         cmd: ``,
     },
 
-    e2e: {
-        dsc: `Run End to End test (Protractor with PhantomJS) on ${project}`,
-        cmd: `${npmRun} webdriver:update -- --standalone && ${npmRun} task -- clean:e2e:report
-              && ${npmRun} protractor; ${npmRun} rimraf ./phantomjsdriver.log`,
+    'e2e': {
+        dsc: `Run End to End test (Protractor with Chrome) on ${project}`,
+        cmd: `${npmRun} webdriver:update -- --standalone
+              && ${npmRun} task -- clean:e2e:report
+              && ${npmRun} protractor`,
     },
     'e2e:fast': {
-        dsc: `Run End to End test (Protractor with PhantomJS, skip updates) on ${project}`,
-        cmd: `${npmRun} task -- clean:e2e:report && ${npmRun} protractor; ${npmRun} rimraf ./phantomjsdriver.log`,
+        dsc: `Run End to End test (Protractor with Chrome, skip updates) on ${project}`,
+        cmd: `${npmRun} task -- clean:e2e:report
+              && ${npmRun} protractor`,
     },
     'e2e:debug': {
-        dsc: `Run End to End test (Protractor with Chrome) on ${project}`,
-        cmd: `${npmRun} webdriver:update -- --standalone && ${npmRun} task -- clean:e2e:report
-              && DEBUG=true ${npmRun} protractor; ${npmRun} rimraf ./phantomjsdriver.log`,
+        dsc: `Run End to End test (Protractor with Chrome) in debug mode on ${project}`,
+        cmd: `${npmRun} webdriver:update -- --standalone
+              && ${debug} ${npmRun} protractor -- --elementExplorer`,
     },
-    unitest: {
+    'e2e:phantom': {
+        dsc: `Run End to End test (Protractor with PhantomJS) on ${project}`,
+        cmd: `${npmRun} webdriver:update -- --standalone
+              && ${npmRun} task -- clean:e2e:report
+              && ${hidden} ${npmRun} protractor;
+              ${npmRun} rimraf -- ./phantomjsdriver.log`,
+    },
+    'e2e:phantom:fast': {
+        dsc: `Run End to End test (Protractor with PhantomJS, skip updates) on ${project}`,
+        cmd: `${npmRun} task -- clean:e2e:report
+              && ${hidden} ${npmRun} protractor;
+              ${npmRun} rimraf -- ./phantomjsdriver.log`,
+    },
+    unit: {
         dsc: `Run unit tests (Karma with PhantomJS) on ${project}`,
-        cmd: `${npmRun} task -- clean:unit:report && ${npmRun} karma -- start && ${npmRun} task -- coverage`,
+        cmd: `${npmRun} task -- clean:unit:report
+              && ${envTest} ${npmRun} karma -- start
+              && ${npmRun} task -- coverage`,
     },
-    'unitest:debug': {
+    'unit:debug': {
         dsc: `Run unit tests (Karma with Chrome) on ${project}`,
-        cmd: `${npmRun} task -- clean:unit:report && DEBUG=true ${npmRun} karma -- start --no-single-run &&
-              ${npmRun} task -- coverage`,
+        cmd: `${npmRun} task -- clean:unit:report
+              && ${debug} ${envDev} ${npmRun} karma -- start --no-single-run
+              && ${npmRun} task -- coverage`,
     },
-    'unitest:live': {
+    'unit:live': {
         dsc: `Run unit tests (Karma with PhantomJS) in watch mode on ${project}`,
-        cmd: `${npmRun} karma -- start --auto-watch --no-single-run`,
+        cmd: `${envDev} ${npmRun} karma -- start --auto-watch --no-single-run`,
     },
-    'unitest:live:debug': {
+    'unit:live:debug': {
         dsc: `Run unit tests (Karma with Chrome) in watch mode on ${project}`,
-        cmd: `DEBUG=true ${npmRun} karma -- start --auto-watch --no-single-run`,
+        cmd: `${debug} ${envDev} ${npmRun} karma -- start --auto-watch --no-single-run`,
     },
     coverage: {
         dsc: `Run the tests coverage for ${project}`,
-        cmd: `${npmRun} remap-istanbul -- -i ${unitestReportFolder}/coverage.json
-                                          -o ${unitestReportFolder}/coverage.json -t json
-                                          -e node_modules,karma.entry.ts
+        cmd: `${npmRun} remap-istanbul -- -i ${unitReportFolder}/coverage.json -o ${unitReportFolder}/coverage.json
+                                          -t json -e node_modules,karma.entry.ts
               && ${npmRun} istanbul -- report`,
     },
     tests: {
         dsc: `Run all the tests (Karma and Protractor with PhantomJS) on ${project}`,
-        cmd: `${npmRun} task -- unitest && ${npmRun} task -- e2e`,
+        cmd: `${npmRun} task -- unit
+              && ${npmRun} task -- e2e`,
     },
     'tests:debug': {
         dsc: `Run all the tests (Karma and Protractor with Chrome) on ${project}`,
-        cmd: `${npmRun} task -- unitest:debug && ${npmRun} task -- e2e:debug`,
+        cmd: `${npmRun} task -- unit:debug
+              && ${npmRun} task -- e2e:debug`,
     },
 
     serve: {
         dsc: `Start ${project} development with watcher (compile, lint, build)`,
-        cmd: `${npmRun} webpack-dev-server -- ${webpackDevConfig} ${webpackCommonParameters} ${webpackCommonParameters}
-                                              ${webpackDevServerParameters}`,
+        cmd: `${envDev} ${npmRun} webpack-dev-server -- ${webpackConfig} ${webpackCommonParameters}
+                                                        ${webpackDevParameters}
+                                                        ${webpackDevServerCommonParameters}
+                                                        ${webpackDevServerClassicParameters}`,
     },
     'serve:live': {
         dsc: `Start ${project} development with watcher (compile, lint, build) and hot reload`,
-        cmd: `${npmRun} webpack-dev-server -- ${webpackDevConfig} ${webpackCommonParameters}
-                                              ${webpackDevServerParameters} ${webpackDevServerHotReloadParameters}`,
+        cmd: `${envDev} ${npmRun} webpack-dev-server -- ${webpackConfig} ${webpackCommonParameters}
+                                                        ${webpackDevParameters}
+                                                        ${webpackDevServerCommonParameters}
+                                                        ${webpackDevServerHotReloadParameters}`,
     },
     'serve:prod': {
         dsc: `Start ${project} production release test`,
-        cmd: `${npmRun} http-server -- ${distFolder} -p 8881 -i False --silent -o --proxy http://localhost:8888
-                                       --cors`,
+        cmd: `${npmRun} http-server -- ${distFolder} -p 8881 -i False --silent -o --cors
+                                       --proxy http://localhost:8888`,
     },
 });

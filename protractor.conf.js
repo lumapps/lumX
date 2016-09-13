@@ -4,68 +4,70 @@ var helpers = require('./config/modules/helpers');
 var Jasmine2HtmlReporter = require('protractor-jasmine2-html-reporter');
 var SpecReporter = require('jasmine-spec-reporter');
 
-var config = require('./tests/client/e2e/e2e.conf');
-
-var isDebug = process.env.DEBUG || false;
+var isHidden = process.env.HIDDEN || false;
 
 exports.config = {
+    allScriptsTimeout: 110000,
+
     baseUrl: 'http://localhost:8880/',
 
-    specs: [
-        helpers.root('tests/client/e2e/specs/**/*.ts'),
-    ],
+    capabilities: {
+        browserName: 'chrome',
+    },
+
+    directConnect: !isHidden,
+
     exclude: [],
 
     framework: 'jasmine2',
 
-    allScriptsTimeout: 110000,
-
     jasmineNodeOpts: {
         defaultTimeoutInterval: 400000,
-        includeStackTrace: true,
-        isVerbose: true,
+        includeStackTrace: false,
+        isVerbose: false,
         showColors: true,
         showTiming: true,
     },
 
-    directConnect: isDebug,
-
-    capabilities: {
-        'browserName': 'chrome',
-    },
-
-    onPrepare: function() {
+    onPrepare: function onPrepare() {
         browser.ignoreSynchronization = true;
-        browser.driver.manage().window().maximize();
+        browser.driver
+               .manage()
+               .window()
+               .maximize();
 
         jasmine.getEnv().addReporter(
             new Jasmine2HtmlReporter({
+                consolidate: true,
+                consolidateAll: true,
                 filePrefix: 'e2e-report-' + Date.now(),
                 savePath: './tests/client/e2e/report/',
                 screenshotsFolder: 'screenshots',
                 takeScreenshots: true,
                 takeScreenshotsOnlyOnFailures: true,
-                consolidate: true,
-                consolidateAll: true,
             })
         );
         jasmine.getEnv().addReporter(
             new SpecReporter({
-                displayStacktrace: 'specs', // display stacktrace for each failed. Values: all|specs|summary|none
-                displayFailuresSummary: true, // display summary of all failures after execution
-                displayPendingSummary: true, // display summary of all pending specs after execution
-                displaySuccessfulSpec: true, // display each successful spec
-                displayFailedSpec: true, // display each failed spec
-                displayPendingSpec: false, // display each pending spec
-                displaySpecDuration: false, // display each spec duration
-                displaySuiteNumber: false, // display each suite number (hierarchical)
+                displayFailedSpec: true,
+                displayFailuresSummary: true,
+                displayPendingSpec: false,
+                displayPendingSummary: true,
+                displaySpecDuration: false,
+                displayStacktrace: 'specs',
+                displaySuccessfulSpec: true,
+                displaySuiteNumber: false,
             })
         );
 
-        jasmine.getEnv().beforeEach(function() {
+        jasmine.getEnv().beforeEach(function beforeEachJasmineGetEnv() {
             jasmine.addMatchers(require('./config/modules/jasmine-matchers'));
         });
     },
+
+    specs: [
+        helpers.root('tests/client/e2e/specs/**/*.ts'),
+    ],
 
     /**
      * Angular 2 configuration
@@ -76,8 +78,10 @@ exports.config = {
     useAllAngular2AppRoots: true,
 };
 
-exports.config.jasmineNodeOpts.print = function() {};
-if (!isDebug) {
+exports.config.jasmineNodeOpts.print = function jasminePrint() {
+    // Nothing to do here
+};
+if (isHidden) {
     exports.config.capabilities.browserName = 'phantomjs';
     exports.config.capabilities['phantomjs.binary.path'] = require('phantomjs').path;
     exports.config.capabilities['phantomjs.cli.args'] = [

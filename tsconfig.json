@@ -31,8 +31,10 @@
         },
         "pretty": true,
         "sourceMap": true,
+        "strictNullChecks": false,
         "target": "es5",
         "types": [
+            "hammerjs",
             "jasmine",
             "jasmine-expect",
             "node",

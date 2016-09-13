@@ -18,11 +18,11 @@ describe('Application', () => {
         expect(homePage.app).toBePresent();
     });
 
-    xit('should have an "to-do" element', () => {
+    it('should have a "to-do" element', () => {
         expect(homePage.toDo).toBePresent();
     });
 
-    xdescribe('To-Do Component', () => {
+    describe('To-Do Component', () => {
         beforeEach(() => {
             this.newItemLabel = 'Test New Item';
         });
@@ -106,12 +106,12 @@ describe('Application', () => {
             });
 
             /**
-             * Check if a to-do item is done or not
+             * Check if a to-do item is done or not.
              *
-             * @param {protractor.ElementFinder} item The item to check
-             * @param {boolean}                  not  Indicates if we want to check that the item is not done
+             * @param {protractor.ElementFinder} item        The item to check.
+             * @param {boolean}                  [not=false] Indicates if we want to check that the item is not done.
              */
-            function checkIsDone(item: protractor.ElementFinder, not: boolean = false): void {
+            function checkIsDone(item: protractor.ElementFinder, not: boolean = false): void { // tslint:disable-line
                 let itemLabel: protractor.ElementFinder = homePage.getLabel(item);
                 let itemDoneDate: protractor.ElementFinder = homePage.getDoneDate(item);
 
@@ -125,11 +125,11 @@ describe('Application', () => {
             }
 
             /**
-             * Check if a to-do item is not done
+             * Check if a to-do item is not done.
              *
-             * @param {protractor.ElementFinder} item The item to check
+             * @param {protractor.ElementFinder} item The item to check.
              */
-            function checkIsNotDone(item: protractor.ElementFinder): void {
+            function checkIsNotDone(item: protractor.ElementFinder): void { // tslint:disable-line
                 checkIsDone(item, true);
             }
         });
