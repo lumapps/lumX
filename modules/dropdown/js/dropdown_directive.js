@@ -90,12 +90,11 @@
         }
     }
 
-    LxDropdownController.$inject = ['$element', '$interval', '$scope', '$timeout', '$window', 'LxDepthService', 'LxEventSchedulerService', 'LxUtils'];
+    LxDropdownController.$inject = ['$element', '$scope', '$timeout', '$window', 'LxDepthService', 'LxEventSchedulerService', 'LxUtils'];
 
-    function LxDropdownController($element, $interval, $scope, $timeout, $window, LxDepthService, LxEventSchedulerService, LxUtils)
+    function LxDropdownController($element, $scope, $timeout, $window, LxDepthService, LxEventSchedulerService, LxUtils)
     {
         var lxDropdown = this;
-        var dropdownInterval;
         var dropdownMenu;
         var dropdownToggle;
         var idEventScheduler;
@@ -126,7 +125,10 @@
             var velocityProperties;
             var velocityEasing;
 
-            $interval.cancel(dropdownInterval);
+            angular.element('body').css(
+            {
+                overflow: 'visible'
+            });
 
             dropdownMenu.css(
             {
@@ -183,6 +185,11 @@
             LxDepthService.register();
 
             lxDropdown.isOpen = true;
+
+            angular.element('body').css(
+            {
+                overflow: 'hidden'
+            });
 
             $element.find('.dropdown').addClass('dropdown--is-open');
 
@@ -267,11 +274,6 @@
                             }
 
                             dropdownMenu.find('.dropdown-menu__content').removeAttr('style');
-
-                            dropdownInterval = $interval(function()
-                            {
-                                setDropdownMenuCss();
-                            }, 500);
                         }
                     });
                 }
@@ -284,14 +286,7 @@
                     {
                         duration: 200,
                         easing: 'linear',
-                        queue: false,
-                        complete: function()
-                        {
-                            dropdownInterval = $interval(function()
-                            {
-                                setDropdownMenuCss();
-                            }, 500);
-                        }
+                        queue: false
                     });
                 }
             });
