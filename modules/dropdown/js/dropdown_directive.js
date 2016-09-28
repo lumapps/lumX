@@ -65,28 +65,11 @@
                 }
             });
 
-            $document.on('click', closeDropdownMenu);
-
             scope.$on('$destroy', function()
             {
                 ctrl.closeDropdownMenu();
-                $document.off('click', closeDropdownMenu);
                 $timeout.cancel(timer);
             });
-
-            function closeDropdownMenu()
-            {
-                if (scope.lxDropdown.isOpen)
-                {
-                    timer = $timeout(function()
-                    {
-                        scope.$apply(function()
-                        {
-                            ctrl.closeDropdownMenu();
-                        });
-                    });
-                }
-            }
         }
     }
 
@@ -116,18 +99,34 @@
         lxDropdown.overToggle = angular.isDefined(lxDropdown.overToggle) ? lxDropdown.overToggle : false;
         lxDropdown.position = angular.isDefined(lxDropdown.position) ? lxDropdown.position : 'left';
 
+        $scope.$on('lx-dropdown__open', function(_event, _params)
+        {
+            if (_params.uuid === lxDropdown.uuid)
+            {
+                registerDropdownToggle(angular.element(_params.target));
+                openDropdownMenu();
+            }
+        });
+
+        $scope.$on('lx-dropdown__close-active-dropdown', function(_event, _params)
+        {
+            if (_params.uuid === lxDropdown.uuid)
+            {
+                closeDropdownMenu();
+            }
+        });
+
         $scope.$on('$destroy', function()
         {
             $timeout.cancel(timer);
-            LxDropdownService.removeScope(lxDropdown.uuid);
         });
-
-        init();
 
         ////////////
 
         function closeDropdownMenu()
         {
+            LxDropdownService.resetActiveDropdownUuid();
+
             var velocityProperties;
             var velocityEasing;
 
@@ -184,11 +183,6 @@
                     });
                 }
             });
-        }
-
-        function init()
-        {
-            LxDropdownService.registerScope($scope);
         }
 
         function openDropdownMenu()
@@ -447,7 +441,8 @@
                     _event.stopPropagation();
                 }
 
-                LxDropdownService.closeAll(ctrl.uuid);
+                LxDropdownService.closeActiveDropdown();
+                LxDropdownService.registerActiveDropdownUuid(ctrl.uuid);
 
                 if (ctrl.hover)
                 {

@@ -16,8 +16,10 @@
 
         ////////////
 
-        function openDropdown(_dropdown, _target)
+        function openDropdown(_event, _dropdown, _target)
         {
+            _event.stopPropagation();
+
             LxDropdownService.open(_dropdown, _target);
         }
     }

@@ -6,55 +6,54 @@
         .module('lumx.dropdown')
         .service('LxDropdownService', LxDropdownService);
 
-    LxDropdownService.$inject = ['$timeout'];
+    LxDropdownService.$inject = ['$document', '$rootScope', '$timeout'];
 
-    function LxDropdownService($timeout)
+    function LxDropdownService($document, $rootScope, $timeout)
     {
         var service = this;
-        var scopes = {};
+        var activeDropdownUuid;
 
-        service.closeAll = closeAll;
-        service.getScope = getScope;
+        service.closeActiveDropdown = closeActiveDropdown;
         service.open = open;
-        service.registerScope = registerScope;
-        service.removeScope = removeScope;
+        service.registerActiveDropdownUuid = registerActiveDropdownUuid;
+        service.resetActiveDropdownUuid = resetActiveDropdownUuid;
+
+        $document.on('click', closeActiveDropdown);
 
         ////////////
 
-        function closeAll(_uuid)
+        function closeActiveDropdown()
         {
-            for (var uuid in scopes)
+            $rootScope.$broadcast('lx-dropdown__close-active-dropdown',
             {
-                if (uuid !== _uuid)
-                {
-                    scopes[uuid].lxDropdown.closeDropdownMenu();
-                }
-            }
-        }
-
-        function getScope(_uuid)
-        {
-            return scopes[_uuid];
+                uuid: activeDropdownUuid
+            });
         }
 
         function open(_uuid, _target)
         {
-            scopes[_uuid].lxDropdown.registerDropdownToggle(angular.element(_target));
-
-            $timeout(function()
+            angular.element(_target).on('click', function(_event)
             {
-                scopes[_uuid].lxDropdown.openDropdownMenu();
+                _event.stopPropagation();
+            });
+
+            activeDropdownUuid = _uuid;
+
+            $rootScope.$broadcast('lx-dropdown__open',
+            {
+                uuid: _uuid,
+                target: _target
             });
         }
 
-        function registerScope(_scope)
+        function registerActiveDropdownUuid(_uuid)
         {
-            scopes[_scope.lxDropdown.uuid] = _scope;
+            activeDropdownUuid = _uuid;
         }
 
-        function removeScope(_uuid)
+        function resetActiveDropdownUuid()
         {
-            delete scopes[_uuid];
+            activeDropdownUuid = undefined;
         }
     }
 })();
