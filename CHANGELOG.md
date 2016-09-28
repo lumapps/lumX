@@ -1,5 +1,14 @@
 # Changelog
 
+## v1.1.9:
+
+#### New features:
+ - dropdown: add a close method in service
+
+#### Bug fixes:
+ - dropdown: do not open an already opened dropdown
+
+
 ## v1.1.8:
 
 #### Bug fixes:
