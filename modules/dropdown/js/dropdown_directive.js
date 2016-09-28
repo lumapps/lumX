@@ -90,9 +90,12 @@
         }
     }
 
-    LxDropdownController.$inject = ['$element', '$scope', '$timeout', '$window', 'LxDepthService', 'LxEventSchedulerService', 'LxUtils'];
+    LxDropdownController.$inject = ['$element', '$scope', '$timeout', '$window', 'LxDepthService', 'LxDropdownService',
+        'LxEventSchedulerService', 'LxUtils'
+    ];
 
-    function LxDropdownController($element, $scope, $timeout, $window, LxDepthService, LxEventSchedulerService, LxUtils)
+    function LxDropdownController($element, $scope, $timeout, $window, LxDepthService, LxDropdownService,
+        LxEventSchedulerService, LxUtils)
     {
         var lxDropdown = this;
         var dropdownMenu;
@@ -116,7 +119,10 @@
         $scope.$on('$destroy', function()
         {
             $timeout.cancel(timer);
+            LxDropdownService.removeScope(lxDropdown.uuid);
         });
+
+        init();
 
         ////////////
 
@@ -178,6 +184,11 @@
                     });
                 }
             });
+        }
+
+        function init()
+        {
+            LxDropdownService.registerScope($scope);
         }
 
         function openDropdownMenu()
@@ -408,9 +419,9 @@
         }
     }
 
-    lxDropdownToggle.$inject = ['$timeout'];
+    lxDropdownToggle.$inject = ['$timeout', 'LxDropdownService'];
 
-    function lxDropdownToggle($timeout)
+    function lxDropdownToggle($timeout, LxDropdownService)
     {
         return {
             restrict: 'AE',
@@ -436,15 +447,7 @@
                     _event.stopPropagation();
                 }
 
-                angular.element('.dropdown').each(function(index, dropdownElem)
-                {
-                    if (angular.isDefined(angular.element(dropdownElem).scope().lxDropdown) &&
-                        angular.element(dropdownElem).scope().lxDropdown.isOpen &&
-                        angular.element(dropdownElem).scope().lxDropdown.uuid !== ctrl.uuid)
-                    {
-                        angular.element(dropdownElem).scope().lxDropdown.closeDropdownMenu();
-                    }
-                });
+                LxDropdownService.closeAll(ctrl.uuid);
 
                 if (ctrl.hover)
                 {
