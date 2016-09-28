@@ -1,5 +1,31 @@
 # Changelog
 
+## v1.1.7:
+
+#### New features:
+ - dropdown: add possibility to open a dropdown programmatically
+ - dropdown: use a service to handle dropdown close
+
+
+## v1.1.6:
+
+#### New features:
+ - dropdown: add body hidden overflow when dropdown is open
+
+#### Bug fixes:
+ - icon: fix icon style following mdi update
+ - typo
+
+
+## v1.1.5:
+
+#### New features:
+ - dialog: add round borders
+
+#### Bug fixes:
+ - button: fix green button typo color
+
+
 ## v1.1.4:
 
 #### New features:
