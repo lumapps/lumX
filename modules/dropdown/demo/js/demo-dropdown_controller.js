@@ -14,13 +14,16 @@
 
         vm.openDropdown = openDropdown;
 
+        vm.dropdownId = 'test-dropdown-menu';
+        vm.dropdownTarget = 'test-dropdown-target';
+
         ////////////
 
-        function openDropdown(_event, _dropdown, _target)
+        function openDropdown(_event)
         {
             _event.stopPropagation();
 
-            LxDropdownService.open(_dropdown, _target);
+            LxDropdownService.open(vm.dropdownId, '#' + vm.dropdownTarget);
         }
     }
 })();

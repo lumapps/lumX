@@ -65,6 +65,11 @@
                 }
             });
 
+            attrs.$observe('id', function(_newId)
+            {
+                ctrl.uuid = _newId;
+            });
+
             scope.$on('$destroy', function()
             {
                 ctrl.closeDropdownMenu();
@@ -73,11 +78,11 @@
         }
     }
 
-    LxDropdownController.$inject = ['$attrs', '$element', '$scope', '$timeout', '$window', 'LxDepthService', 'LxDropdownService',
+    LxDropdownController.$inject = ['$element', '$scope', '$timeout', '$window', 'LxDepthService', 'LxDropdownService',
         'LxEventSchedulerService', 'LxUtils'
     ];
 
-    function LxDropdownController($attrs, $element, $scope, $timeout, $window, LxDepthService, LxDropdownService,
+    function LxDropdownController($element, $scope, $timeout, $window, LxDepthService, LxDropdownService,
         LxEventSchedulerService, LxUtils)
     {
         var lxDropdown = this;
@@ -91,7 +96,7 @@
         lxDropdown.registerDropdownMenu = registerDropdownMenu;
         lxDropdown.registerDropdownToggle = registerDropdownToggle;
         lxDropdown.toggle = toggle;
-        lxDropdown.uuid = $attrs.id ? $attrs.id : LxUtils.generateUUID();
+        lxDropdown.uuid = LxUtils.generateUUID();
 
         lxDropdown.effect = angular.isDefined(lxDropdown.effect) ? lxDropdown.effect : 'expand';
         lxDropdown.escapeClose = angular.isDefined(lxDropdown.escapeClose) ? lxDropdown.escapeClose : true;
