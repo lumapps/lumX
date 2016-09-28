@@ -1,5 +1,13 @@
 # Changelog
 
+## v1.1.8:
+
+#### Bug fixes:
+ - dropdown: close active dropdown before dropdown open in service
+ - dropdown: correctly generate dropdown uuid
+ - dropdown: enhance the way of handle dropdowns
+
+
 ## v1.1.7:
 
 #### New features:
