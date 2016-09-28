@@ -32,15 +32,6 @@
 
         function open(_uuid, _target)
         {
-            angular.element(_target).on('click', function(_event)
-            {
-                _event.stopPropagation();
-            });
-
-            closeActiveDropdown();
-
-            activeDropdownUuid = _uuid;
-
             $rootScope.$broadcast('lx-dropdown__open',
             {
                 uuid: _uuid,

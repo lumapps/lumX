@@ -106,8 +106,11 @@
 
         $scope.$on('lx-dropdown__open', function(_event, _params)
         {
-            if (_params.uuid === lxDropdown.uuid)
+            if (_params.uuid === lxDropdown.uuid && !lxDropdown.isOpen)
             {
+                LxDropdownService.closeActiveDropdown();
+                LxDropdownService.registerActiveDropdownUuid(lxDropdown.uuid);
+
                 registerDropdownToggle(angular.element(_params.target));
                 openDropdownMenu();
             }
