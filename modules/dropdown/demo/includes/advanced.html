@@ -1,5 +1,8 @@
 <div class="p+">
-    <lx-button id="{{ vm.dropdownTarget }}" ng-click="vm.openDropdown($event)">Open dropdown</lx-button>
+    <lx-button ng-click="vm.openDropdown($event)">Open dropdown</lx-button>
+    <lx-button ng-click="vm.closeDropdown($event)">Close dropdown</lx-button>
+
+    <div class="mt+ p bgc-grey-100" id="{{ vm.dropdownTarget }}">Target</div>
  
     <lx-dropdown id="{{ vm.dropdownId }}">
         <lx-dropdown-menu>

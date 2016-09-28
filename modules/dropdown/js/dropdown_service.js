@@ -13,6 +13,7 @@
         var service = this;
         var activeDropdownUuid;
 
+        service.close = close;
         service.closeActiveDropdown = closeActiveDropdown;
         service.open = open;
         service.registerActiveDropdownUuid = registerActiveDropdownUuid;
@@ -22,9 +23,17 @@
 
         ////////////
 
+        function close(_uuid)
+        {
+            $rootScope.$broadcast('lx-dropdown__close',
+            {
+                uuid: _uuid
+            });
+        }
+
         function closeActiveDropdown()
         {
-            $rootScope.$broadcast('lx-dropdown__close-active-dropdown',
+            $rootScope.$broadcast('lx-dropdown__close',
             {
                 uuid: activeDropdownUuid
             });

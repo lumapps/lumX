@@ -31,7 +31,8 @@
             controller: LxDropdownController,
             controllerAs: 'lxDropdown',
             bindToController: true,
-            transclude: true
+            transclude: true,
+            replace: true
         };
 
         function link(scope, element, attrs, ctrl)
@@ -100,6 +101,7 @@
 
         lxDropdown.effect = angular.isDefined(lxDropdown.effect) ? lxDropdown.effect : 'expand';
         lxDropdown.escapeClose = angular.isDefined(lxDropdown.escapeClose) ? lxDropdown.escapeClose : true;
+        lxDropdown.hasToggle = false;
         lxDropdown.isOpen = false;
         lxDropdown.overToggle = angular.isDefined(lxDropdown.overToggle) ? lxDropdown.overToggle : false;
         lxDropdown.position = angular.isDefined(lxDropdown.position) ? lxDropdown.position : 'left';
@@ -116,9 +118,9 @@
             }
         });
 
-        $scope.$on('lx-dropdown__close-active-dropdown', function(_event, _params)
+        $scope.$on('lx-dropdown__close', function(_event, _params)
         {
-            if (_params.uuid === lxDropdown.uuid)
+            if (_params.uuid === lxDropdown.uuid && lxDropdown.isOpen)
             {
                 closeDropdownMenu();
             }
@@ -440,6 +442,7 @@
             var timer1;
             var timer2;
 
+            ctrl.hasToggle = true;
             ctrl.registerDropdownToggle(element);
 
             element.on(ctrl.hover ? 'mouseenter' : 'click', function(_event)
