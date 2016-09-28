@@ -6,15 +6,16 @@
         .module('lumx.dropdown')
         .service('LxDropdownService', LxDropdownService);
 
-    LxDropdownService.$inject = [];
+    LxDropdownService.$inject = ['$timeout'];
 
-    function LxDropdownService()
+    function LxDropdownService($timeout)
     {
         var service = this;
         var scopes = {};
 
         service.closeAll = closeAll;
         service.getScope = getScope;
+        service.open = open;
         service.registerScope = registerScope;
         service.removeScope = removeScope;
 
@@ -34,6 +35,16 @@
         function getScope(_uuid)
         {
             return scopes[_uuid];
+        }
+
+        function open(_uuid, _target)
+        {
+            scopes[_uuid].lxDropdown.registerDropdownToggle(angular.element(_target));
+
+            $timeout(function()
+            {
+                scopes[_uuid].lxDropdown.openDropdownMenu();
+            });
         }
 
         function registerScope(_scope)

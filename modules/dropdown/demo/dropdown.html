@@ -10,6 +10,10 @@
         <code>lx-dropdown-toggle</code> that transclude the toggle button and <code>lx-dropdown-menu</code> that transclude the menu content.
     </lx-component>
 
+    <lx-component lx-title="Advanced usage" lx-path="/includes/modules/dropdown/includes/advanced.html" lx-js-path="/js/dropdown/demo/demo-dropdown_controller.js">
+        You can use the service if you want to open a dropdown programmatically.
+    </lx-component>
+
     <lx-component-attributes>
         <table>
             <thead>
@@ -73,4 +77,31 @@
             </tbody>
         </table>
     </lx-component-attributes>
+
+    <lx-component-methods lx-title="Service api">
+        <lx-component-method lx-name="LxDropdownService.open(dropdownId, targetElement)" lx-description="Open a dropdown from a target outside of the directive.">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Parameter</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td>dropdownId*</td>
+                        <td><code>string</code></td>
+                        <td>The dropdown id specified in the directive id attribute.</td>
+                    </tr>
+                    <tr>
+                        <td>targetElement*</td>
+                        <td><code>string</code></td>
+                        <td>The target element selector.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </lx-component-method>
+    </lx-component-methods>
 </div>

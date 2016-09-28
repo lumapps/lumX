@@ -234,7 +234,9 @@
                     {
                         'main@':
                         {
-                            templateUrl: '/includes/modules/dropdown/dropdown.html'
+                            templateUrl: '/includes/modules/dropdown/dropdown.html',
+                            controller: 'DemoDropdownController',
+                            controllerAs: 'vm'
                         }
                     }
                 })

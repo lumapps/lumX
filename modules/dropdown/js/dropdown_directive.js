@@ -90,11 +90,11 @@
         }
     }
 
-    LxDropdownController.$inject = ['$element', '$scope', '$timeout', '$window', 'LxDepthService', 'LxDropdownService',
+    LxDropdownController.$inject = ['$attrs', '$element', '$scope', '$timeout', '$window', 'LxDepthService', 'LxDropdownService',
         'LxEventSchedulerService', 'LxUtils'
     ];
 
-    function LxDropdownController($element, $scope, $timeout, $window, LxDepthService, LxDropdownService,
+    function LxDropdownController($attrs, $element, $scope, $timeout, $window, LxDepthService, LxDropdownService,
         LxEventSchedulerService, LxUtils)
     {
         var lxDropdown = this;
@@ -108,7 +108,7 @@
         lxDropdown.registerDropdownMenu = registerDropdownMenu;
         lxDropdown.registerDropdownToggle = registerDropdownToggle;
         lxDropdown.toggle = toggle;
-        lxDropdown.uuid = LxUtils.generateUUID();
+        lxDropdown.uuid = $attrs.id ? $attrs.id : LxUtils.generateUUID();
 
         lxDropdown.effect = angular.isDefined(lxDropdown.effect) ? lxDropdown.effect : 'expand';
         lxDropdown.escapeClose = angular.isDefined(lxDropdown.escapeClose) ? lxDropdown.escapeClose : true;
