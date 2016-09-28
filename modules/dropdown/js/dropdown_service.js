@@ -37,6 +37,8 @@
                 _event.stopPropagation();
             });
 
+            closeActiveDropdown();
+
             activeDropdownUuid = _uuid;
 
             $rootScope.$broadcast('lx-dropdown__open',
