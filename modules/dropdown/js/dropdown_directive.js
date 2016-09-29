@@ -31,8 +31,7 @@
             controller: LxDropdownController,
             controllerAs: 'lxDropdown',
             bindToController: true,
-            transclude: true,
-            replace: true
+            transclude: true
         };
 
         function link(scope, element, attrs, ctrl)
