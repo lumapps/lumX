@@ -1,5 +1,15 @@
 # Changelog
 
+## v1.2.0:
+
+#### New features:
+ - select: use custom style to disable all select styles
+
+#### Bug fixes:
+ - select: fix style
+ - dropdown: don't use replace in directive
+
+
 ## v1.1.9:
 
 #### New features:
