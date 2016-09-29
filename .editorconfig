@@ -15,3 +15,4 @@ trim_trailing_whitespace = true
 # For MarkDown files
 [*.md]
 insert_final_newline = false
+trim_trailing_whitespace = true
