@@ -7,7 +7,9 @@
                  'lx-select--is-unique': !lxSelect.multiple,
                  'lx-select--theme-light': !lxSelect.theme || lxSelect.theme === 'light',
                  'lx-select--theme-dark': lxSelect.theme === 'dark',
-                 'lx-select--valid': lxSelect.valid }">
+                 'lx-select--valid': lxSelect.valid,
+                 'lx-select--custom-style': lxSelect.customStyle,
+                 'lx-select--default-style': !lxSelect.customStyle }">
     <span class="lx-select-label">
         {{ ::lxSelect.label }}
     </span>
