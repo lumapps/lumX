@@ -1,5 +1,17 @@
 # Changelog
 
+## v1.2.1:
+
+#### New features:
+ - select: enhance select multiple style
+ - select: add possibility to set custom style for selected and choices
+
+#### Breaking changes:
+ - Before, custom style parameter applied to select choices only.
+ - Now, custom style parameter applies to the whole select ans choices
+ - custom style parameter applies to choices only.
+
+
 ## v1.2.0:
 
 #### New features:
