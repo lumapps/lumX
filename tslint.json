@@ -17,7 +17,7 @@
         "no-internal-module": true,
         "no-namespace": false,
         "no-reference": true,
-        "no-var-requires": true,
+        "no-var-requires": false,
         "only-arrow-functions": true,
         "typedef": [
             true,

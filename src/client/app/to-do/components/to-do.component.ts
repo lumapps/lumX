@@ -12,10 +12,15 @@ import { ToDoStore } from 'to-do/to-do.store';
  */
 import './to-do.component.scss';
 
+/*
+ * Component template
+ */
+const template: string = require('./' + SELECTOR + '.component.html');
+
 
 @Component({
     selector: SELECTOR_PREFIX + SELECTOR_SEPARATOR + SELECTOR,
-    template: require('./' + SELECTOR + '.component.html'),
+    template: template,
 })
 /**
  * To-do list Component.
