@@ -3,14 +3,14 @@ import { inject, TestBed } from '@angular/core/testing';
 import { ToDoItem } from 'to-do/to-do-item.model';
 import { ToDoStore } from 'to-do/to-do.store';
 
-import { ToDoComponent } from './to-do.component';
+import { AppModule } from 'app.module';
 
 
 describe('To-Do Store', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
-            declarations: [
-                ToDoComponent,
+            imports: [
+                AppModule,
             ],
 
             providers: [

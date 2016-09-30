@@ -13,7 +13,8 @@ Error.stackTraceLimit = Infinity;
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 2000;
 
 /*
- * Import all CoreJS, TypeScript, Zone and RXJS polyfils
+ * Import all SystemJS, CoreJS, TypeScript, Zone and RXJS polyfils
+ * Order is important
  */
 require('core-js/es6');
 require('core-js/es7/reflect');

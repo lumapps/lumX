@@ -4,17 +4,14 @@ import { FormsModule } from '@angular/forms';
 import { ToDoItem } from 'to-do/to-do-item.model';
 import { ToDoStore } from 'to-do/to-do.store';
 
-import { NewToDoComponent } from './new-to-do.component';
+import { AppModule } from 'app.module';
 
 
 describe('New To-Do', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
-            declarations: [
-                NewToDoComponent,
-            ],
-
             imports: [
+                AppModule,
                 FormsModule,
             ],
 

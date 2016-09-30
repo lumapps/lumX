@@ -1,32 +1,24 @@
-import { provide } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { BaseRequestOptions, Headers, Response, ResponseOptions, XHRBackend } from '@angular/http';
 import { MockBackend, MockConnection } from '@angular/http/testing';
 
-import { CoreModule } from 'core/modules/core.module';
 import { ITokenState } from 'core/reducers/token.reducer';
 import { HttpInterceptorService } from 'core/services/http-interceptor.service';
 import { TokenService } from 'core/services/token.service';
 
-import { AppComponent } from './app.component';
+import { AppModule } from 'app.module';
 
 
 describe('Application startup', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
-            declarations: [
-                AppComponent,
-            ],
-
             imports: [
-                CoreModule,
+                AppModule,
             ],
 
             providers: [
                 HttpInterceptorService,
-                provide(XHRBackend, {
-                    useClass: MockBackend,
-                }),
+                { provide: XHRBackend, useClass: MockBackend },
                 TokenService,
             ],
         });
