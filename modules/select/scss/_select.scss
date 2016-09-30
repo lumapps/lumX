@@ -323,37 +323,20 @@
     .lx-select-choices--is-multiple.lx-select-choices--default-style .lx-select-choices__choice {
         padding-left: 46px;
 
-        &:before,
-        &:after {
+        &:before {
             @include mdi;
+            @include mdi-icon('checkbox-blank-outline');
             @include position(absolute, 0 null null $base-spacing-unit * 2);
             @include size($size-xs 32px);
             @include font-size(18px);
+            color: $black-2;
             line-height: 32px;
             text-align: center;
-            @include transition-property(opacity);
-            @include transition-duration(0.2s);
-        }
-
-        &:before {
-            opacity: 1;
-            @include mdi-icon('checkbox-blank-outline');
-            color: $black-2;
-        }
-
-        &:after {
-            opacity: 0;
-            @include mdi-icon('checkbox-marked');
-            color: $accent;
         }
 
         &.lx-select-choices__choice--is-selected {
             &:before {
-                opacity: 0;
-            }
-
-            &:after {
-                opacity: 1;
+                @include mdi-icon('check');
             }
         }
     }
