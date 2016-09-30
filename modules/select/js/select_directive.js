@@ -53,7 +53,8 @@
             {
                 allowClear: '=?lxAllowClear',
                 choices: '=?lxChoices',
-                customStyle: '@?lxCustomStyle',
+                choicesCustomStyle: '=?lxChoicesCustomStyle',
+                customStyle: '=?lxCustomStyle',
                 displayFilter: '=?lxDisplayFilter',
                 error: '=?lxError',
                 filter: '&?lxFilter',
