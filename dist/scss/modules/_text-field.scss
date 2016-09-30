@@ -1,0 +1,235 @@
+///*------------------------------------*\
+//    #TEXT-FIELD
+//\*------------------------------------*/
+
+// Text field
+.text-field {
+    position: relative;
+    padding-top: $base-spacing-unit * 4;
+    padding-bottom: $base-spacing-unit;
+
+    &:before,
+    &:after {
+        content: '';
+    }
+
+    &:before {
+        @include position(absolute, null 0 $base-spacing-unit - 1 0);
+        height: 1px;
+        border-bottom-width: 1px;
+        border-bottom-style: solid;
+    }
+
+    &:after {
+        @include position(absolute, null 0 $base-spacing-unit - 2 0);
+        height: 2px;
+        background-color: $blue;
+        @include transform(scale(0));
+        @include transition-property(transform);
+        @include transition-duration(0.6s);
+        @include transition-timing-function($ease-out-quint);
+    }
+
+    &.text-field--theme-light:before {
+        border-bottom-color: $black-4;
+    }
+
+    &.text-field--theme-dark:before {
+        border-bottom-color: $white-4;
+    }
+}
+
+.text-field--is-focus {
+    &:after {
+        @include transform(scale(1));
+    }
+}
+
+.text-field--is-disabled {
+    pointer-events: none;
+
+    &:before {
+        border-bottom-style: dashed;
+    }
+}
+
+.text-field--fixed-label {
+    padding-top: $base-spacing-unit;
+}
+
+.text-field--valid {
+    &:after {
+        background-color: $green;
+        @include transform(scale(1));
+    }
+}
+
+.text-field--error {
+    &:after {
+        background-color: $red;
+        @include transform(scale(1));
+    }
+}
+
+.text-field--has-icon {
+    margin-left: $base-spacing-unit * 8;
+}
+
+    // Text field: label
+    .text-field__label {
+        display: block;
+        @include position(absolute, $base-spacing-unit null null 0);
+        line-height: 32px;
+        pointer-events: none;
+        @include transform(translateY($base-spacing-unit * 3));
+        @include transform-origin(bottom left);
+        @include transition-property(transform, color);
+        @include transition-duration(0.4s);
+        @include transition-timing-function($ease-out-quint);
+
+        .text-field--fixed-label.text-field--has-value & {
+            display: none;
+        }
+
+        .text-field--theme-light & {
+            color: $black-2;
+        }
+
+        .text-field--theme-dark & {
+            color: $white-2;
+        }
+
+        .text-field--fixed-label & {
+            @include transform(none);
+        }
+
+        .text-field--is-active:not(.text-field--fixed-label) & {
+            @include transform(scale(0.75) translateY(0));
+        }
+
+        .text-field--is-focus:not(.text-field--fixed-label) & {
+            color: $blue;
+        }
+
+        .text-field--is-disabled.text-field--theme-light & {
+            color: $black-3 !important;
+        }
+
+        .text-field--is-disabled.text-field--theme-dark & {
+            color: $white-3 !important;
+        }
+
+        .text-field--valid & {
+            color: $green !important;
+        }
+
+        .text-field--error & {
+            color: $red !important;
+        }
+    }
+
+    // Text field: input
+    .text-field__input {
+        @include text-field-reset();
+        width: 100%;
+        font-weight: 400;
+
+        .text-field--theme-light & {
+            color: $black-1;
+        }
+
+        .text-field--theme-dark & {
+            color: $white-1;
+        }
+
+        .text-field--is-disabled.text-field--theme-light & {
+            color: $black-3;
+        }
+
+        .text-field--is-disabled.text-field--theme-dark & {
+            color: $white-3;
+        }
+    }
+
+    input.text-field__input {
+        height: 32px;
+    }
+
+    textarea.text-field__input {
+        height: 24px;
+        margin: 4px 0;
+        resize: none;
+    }
+
+    // Text field: icon
+    .text-field__icon {
+        @include position(absolute, 2px null null -68px);
+        @include size(48px 44px);
+        line-height: 44px;
+        @include font-size(24px);
+        text-align: center;
+        @include transition-property(color);
+        @include transition-duration(0.4s);
+        @include transition-timing-function($ease-out-quint);
+
+        .text-field--theme-light & {
+            color: $black-2;
+        }
+
+        .text-field--theme-dark & {
+            color: $white-2;
+        }
+
+        .text-field--is-focus & {
+            color: $blue;
+        }
+
+        .text-field--valid & {
+            color: $green;
+        }
+
+        .text-field--error & {
+            color: $red;
+        }
+    }
+    
+    // Text field: clear
+    .text-field__clear {
+        display: block;
+        @include position(absolute, null 0 $base-spacing-unit null);
+        opacity: 0;
+        cursor: pointer;
+        line-height: 32px;
+        @include transition-property(opacity, color);
+        @include transition-duration(0.2s);
+
+        &:hover {
+            color: $red-500;
+        }
+
+        .text-field:hover & {
+            opacity: 1;
+        }
+    }
+
+
+
+
+
+// Text field error
+.text-field-error {
+    display: block;
+    @include font-size(12px);
+    color: $red;
+}
+
+
+
+
+
+// Text field help
+.text-field-help {
+    display: block;
+    @include font-size(12px);
+    color: $black-2;
+}
