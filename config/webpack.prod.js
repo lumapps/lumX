@@ -58,26 +58,7 @@ module.exports = function webpackProdConfigExport(options) {
          * @see https://github.com/webpack/html-loader
          */
         htmlLoader: {
-            caseSensitive: true,
-            customAttrAssign: [
-                /\)?\]?=/,
-            ],
-            customAttrSurround: [
-                [
-                    /#/,
-                    /(?:)/,
-                ],
-                [
-                    /\*/,
-                    /(?:)/,
-                ],
-                [
-                    /\[?\(?/,
-                    /(?:)/,
-                ],
-            ],
             minimize: true,
-            removeAttributeQuotes: false,
         },
 
         /*
@@ -110,18 +91,6 @@ module.exports = function webpackProdConfigExport(options) {
                         'angular2-template',
                     ],
                     test: /\.ts$/,
-                },
-
-                /* HTML loader support for *.html
-                 *
-                 * @see https://github.com/webpack/raw-loader
-                 */
-                {
-                    exclude: [
-                        helpers.root('src/client/index.html'),
-                    ],
-                    loader: 'html',
-                    test: /\.html$/,
                 },
             ],
         },

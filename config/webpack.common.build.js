@@ -40,9 +40,10 @@ module.exports = function webpackCommonBuildConfigExport(options) {
              */
             new webpack.optimize.CommonsChunkPlugin({
                 name: [
-                    'polyfills',
+                    'app',
                     'vendors',
-                ].reverse(),
+                    'polyfills',
+                ],
             }),
         ],
     });

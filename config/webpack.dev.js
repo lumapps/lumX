@@ -27,6 +27,10 @@ const METADATA = webpackMerge.smart(commonConfig({ env: ENV }).metadata, {
     port: 8880,
 });
 
+/**
+ * Other constants
+ */
+const ENABLE_DASHBOARD = false;
 const APPENGINE_DEV_SERVER = {
     host: 'localhost',
     port: 8888,
@@ -95,18 +99,20 @@ let devServerConfig = {
 };
 
 if (HMR) {
-    const dashboard = new Dashboard();
+    if (ENABLE_DASHBOARD) {
+        const dashboard = new Dashboard();
 
-    plugins.unshift(
-        /**
-         * Plugin: DashboardPlugin
-         * Description: View progress.
-         * `'It's like to work at NASA.'`
-         *
-         * See: https://github.com/FormidableLabs/webpack-dashboard
-         */
-        new DashboardPlugin(dashboard.setData)
-    );
+        plugins.unshift(
+            /**
+             * Plugin: DashboardPlugin
+             * Description: View progress.
+             * `'It's like to work at NASA.'`
+             *
+             * See: https://github.com/FormidableLabs/webpack-dashboard
+             */
+            new DashboardPlugin(dashboard.setData)
+        );
+    }
 
     plugins.push(
         new OpenBrowserPlugin({
@@ -220,18 +226,6 @@ module.exports = function webpackDevConfigExport(options) {
                         'angular2-template',
                     ],
                     test: /\.ts$/,
-                },
-
-                /* HTML loader support for *.html
-                 *
-                 * @see https://github.com/webpack/raw-loader
-                 */
-                {
-                    exclude: [
-                        helpers.root('src/client/index.html'),
-                    ],
-                    loader: 'raw',
-                    test: /\.html$/,
                 },
             ],
         },

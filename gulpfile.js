@@ -31,7 +31,7 @@ const webpackBuildParameters = `--profile --display-cached --hide-modules --prog
 const webpackDevParameters = ``;
 const webpackDevServerClassicParameters = `--progress --colors`;
 const webpackDevServerCommonParameters = `--watch --content-base ${sourceFolder}`;
-const webpackDevServerHotReloadParameters = `--inline --hot`;
+let   webpackDevServerHotReloadParameters = `--inline --hot`;
 const webpackCommonParameters = `--display-error-details`;
 const webpackConfig = `--config webpack.config.js`;
 const webpackDevConfig = `--config config/webpack.dev.js`;
@@ -43,6 +43,11 @@ const envDev = `NODE_ENV='dev'`;
 const envProd = `NODE_ENV='prod'`;
 const envTest = `NODE_ENV='test'`;
 const hidden = `HIDDEN=true`;
+
+const ENABLE_DASHBOARD = false;
+if (!ENABLE_DASHBOARD) {
+    webpackDevServerHotReloadParameters = `${webpackDevServerHotReloadParameters} ${webpackDevServerClassicParameters}`;
+}
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Define your tasks here

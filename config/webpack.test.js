@@ -80,32 +80,10 @@ module.exports = function webpackTestConfigExport(options) {
                         helpers.root('dist'),
                     ],
                     loaders: [
-                        'awesome-typescript',
+                        'awesome-typescript?removeComments=true&inlineSourceMap=true&sourceMap=false',
                         'angular2-template',
                     ],
-                    query: {
-                        compilerOptions: {
-                            // Remove TypeScript helpers to be injected
-                            // below by DefinePlugin
-                            removeComments: true,
-                        },
-
-                        inlineSourceMap: true,
-                        sourceMap: false,
-                    },
                     test: /\.ts$/,
-                },
-
-                /* HTML loader support for *.html
-                 *
-                 * @see https://github.com/webpack/raw-loader
-                 */
-                {
-                    exclude: [
-                        helpers.root('src/client/index.html'),
-                    ],
-                    loader: 'raw',
-                    test: /\.html$/,
                 },
             ],
 

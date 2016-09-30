@@ -6,6 +6,7 @@ const Joi = require('webpack-validator').Joi;
  * Webpack Plugins
  */
 const AssetsPlugin = require('assets-webpack-plugin');
+const ContextReplacementPlugin = require('webpack/lib/ContextReplacementPlugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 // const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const TsConfigPathsPlugin = require('awesome-typescript-loader').TsConfigPathsPlugin;
@@ -39,6 +40,34 @@ module.exports = function webpackCommonConfigExport() {
             main: './src/client/main.ts',
             polyfills: './src/client/polyfills.ts',
             vendors: './src/client/vendors.ts',
+        },
+
+        /*
+         * Configure HTML Loader
+         *
+         * @see https://github.com/webpack/html-loader
+         */
+        htmlLoader: {
+            caseSensitive: true,
+            customAttrAssign: [
+                /\)?\]?=/,
+            ],
+            customAttrSurround: [
+                [
+                    /#/,
+                    /(?:)/,
+                ],
+                [
+                    /\*/,
+                    /(?:)/,
+                ],
+                [
+                    /\[?\(?/,
+                    /(?:)/,
+                ],
+            ],
+            minimize: false,
+            removeAttributeQuotes: false,
         },
 
         /*
@@ -113,6 +142,18 @@ module.exports = function webpackCommonConfigExport() {
                         'sass?sourceMap',
                     ],
                     test: /\.scss$/,
+                },
+
+                /* HTML loader support for *.html
+                 *
+                 * @see https://github.com/webpack/html-loader
+                 */
+                {
+                    exclude: [
+                        helpers.root('src/client/index.html'),
+                    ],
+                    loader: 'html',
+                    test: /\.html$/,
                 },
             ],
 
@@ -216,6 +257,19 @@ module.exports = function webpackCommonConfigExport() {
                 path: helpers.root('dist/client'),
                 prettyPrint: true,
             }),
+
+            /**
+             * Plugin: ContextReplacementPlugin
+             * Description: Provides context to Angular's use of System.import
+             *
+             * See: https://webpack.github.io/docs/list-of-plugins.html#contextreplacementplugin
+             * See: https://github.com/angular/angular/issues/11580
+             */
+            new ContextReplacementPlugin(
+                    // The (\\|\/) piece accounts for path separators in *nix and Windows
+                    /angular(\\|\/)core(\\|\/)(esm(\\|\/)src|src)(\\|\/)linker/,
+                    helpers.root('src/client') // location of your src
+                ),
 
             /*
              * CopyWebpackPlugin.
