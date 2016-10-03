@@ -172,9 +172,8 @@ shelter({
     },
     coverage: {
         dsc: `Run the tests coverage for ${project}`,
-        cmd: `${npmRun} remap-istanbul -- -i ${unitReportFolder}/coverage.json -o ${unitReportFolder}/coverage.json
-                                          -t json -e node_modules,karma.entry.ts
-              && ${npmRun} istanbul -- report`,
+        cmd: `${npmRun} remap-istanbul -- -i ${unitReportFolder}/coverage.json -o ${unitReportFolder}
+                                          -t html -e node_modules,karma.entry.ts`,
     },
     tests: {
         dsc: `Run all the tests (Karma and Protractor with PhantomJS) on ${project}`,

@@ -80,7 +80,7 @@ module.exports = function webpackTestConfigExport(options) {
                         helpers.root('dist'),
                     ],
                     loaders: [
-                        'awesome-typescript?inlineSourceMap=true&sourceMap=false',
+                        'awesome-typescript?inlineSourceMap=true&removeComments=true&sourceMap=false',
                         'angular2-template',
                     ],
                     test: /\.ts$/,
