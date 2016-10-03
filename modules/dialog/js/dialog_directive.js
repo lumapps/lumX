@@ -14,11 +14,12 @@
     {
         return {
             restrict: 'E',
-            template: '<div class="dialog dialog--l"><div ng-if="lxDialog.isOpen" ng-transclude></div></div>',
+            template: '<div class="dialog" ng-class="{ \'dialog--l\': !lxDialog.size || lxDialog.size === \'l\', \'dialog--s\': lxDialog.size === \'s\', \'dialog--m\': lxDialog.size === \'m\' }"><div ng-if="lxDialog.isOpen" ng-transclude></div></div>',
             scope:
             {
                 autoClose: '=?lxAutoClose',
-                escapeClose: '=?lxEscapeClose'
+                escapeClose: '=?lxEscapeClose',
+                size: '@?lxSize'
             },
             link: link,
             controller: LxDialogController,

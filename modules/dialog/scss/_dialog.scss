@@ -40,6 +40,11 @@ $dialog-margin: $base-spacing-unit * 4;
     @include transition-property(opacity, transform);
     @include transition-duration(0.6s);
     @include transition-timing-function($ease-out-quint);
+
+    @include media-query(portable) {
+        width: 80%;
+        margin-left: -40%;
+    }
 }
 
 .dialog--alert {
@@ -47,15 +52,24 @@ $dialog-margin: $base-spacing-unit * 4;
     margin-left: -200px;
 }
 
+.dialog--s {
+    @include media-query(desk) {
+        width: 250px;
+        margin-left: -125px;
+    }
+}
+
+.dialog--m {
+    @include media-query(desk) {
+        width: 500px;
+        margin-left: -250px;
+    }
+}
+
 .dialog--l {
     @include media-query(desk) {
         width: 800px;
         margin-left: -400px;
-    }
-
-    @include media-query(portable) {
-        width: 80%;
-        margin-left: -40%;
     }
 }
 
