@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.2.2:
+
+#### New features:
+ - dialog: add possibility to define sizes
+
+
 ## v1.2.1:
 
 #### New features:
