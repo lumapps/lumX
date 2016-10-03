@@ -80,7 +80,7 @@ module.exports = function webpackTestConfigExport(options) {
                         helpers.root('dist'),
                     ],
                     loaders: [
-                        'awesome-typescript?removeComments=true&inlineSourceMap=true&sourceMap=false',
+                        'awesome-typescript?inlineSourceMap=true&sourceMap=false',
                         'angular2-template',
                     ],
                     test: /\.ts$/,
@@ -104,6 +104,7 @@ module.exports = function webpackTestConfigExport(options) {
                         /\.(spec|specs|e2e)\.(js|ts)$/,
                         helpers.root('tests'),
                         helpers.root('dist'),
+                        /node_modules/,
                     ],
                     include: helpers.root('src/client/app'),
                     loader: 'istanbul-instrumenter',

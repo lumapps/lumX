@@ -14,9 +14,10 @@
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
         "forceConsistentCasingInFileNames": true,
+        "inlineSourceMap": false,
         "lib": [
-            "es6",
-            "dom"
+            "dom",
+            "es6"
         ],
         "module": "commonjs",
         "moduleResolution": "node",
@@ -31,6 +32,7 @@
         },
         "pretty": true,
         "sourceMap": true,
+        "removeComments": true,
         "strictNullChecks": false,
         "target": "es5",
         "types": [

@@ -41,6 +41,15 @@ var platformBrowserDynamicTesting = require('@angular/platform-browser-dynamic/t
 TestBed.initTestEnvironment(BrowserDynamicTestingModule, platformBrowserDynamicTesting());
 
 /*
+ * get all the files, for each file, call the context function
+ * that will require the file and load it up here. Context will
+ * loop and require those spec files here
+ */
+function requireAll(requireContext) {
+  return requireContext.keys().map(requireContext);
+}
+
+/*
  * Ok, this is kinda crazy. We can use the context method on
  * require that webpack created in order to tell webpack
  * what files we actually want to require or import.
@@ -50,7 +59,4 @@ TestBed.initTestEnvironment(BrowserDynamicTestingModule, platformBrowserDynamicT
  * we say do this recursively
  */
 var testContext = require.context('../../../src/client/app', true, /\.spec\.ts/);
-testContext.keys().forEach(testContext);
-
-var coverageContext = require.context('../../../src/client/app', true, /^(?!.*(spec|e2e)\.ts?$).*\.ts?$/);
-coverageContext.keys().forEach(coverageContext);
+var modules = requireAll(testContext);
