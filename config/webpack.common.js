@@ -1,6 +1,6 @@
 const autoprefixer = require('autoprefixer');
 const helpers = require('./modules/helpers');
-const Joi = require('webpack-validator').Joi;
+const Joi = require('webpack2-validator').Joi;
 
 /*
  * Webpack Plugins
@@ -99,7 +99,7 @@ module.exports = function webpackCommonConfigExport() {
                         helpers.root('src/client/index.html'),
                     ],
                     loader: 'json',
-                    test: /\.json$/,
+                    test: /\.json$/i,
                 },
 
                 /*
@@ -109,7 +109,7 @@ module.exports = function webpackCommonConfigExport() {
                  */
                 {
                     loader: 'file?name=assets/[name].[hash].[ext]',
-                    test: /\.(png|jpe?g|gif|svg|woff|woff2|ttf|eot|ico)$/,
+                    test: /\.(png|jpe?g|gif|svg|woff|woff2|ttf|eot|ico)$/i,
                 },
 
                 /*
@@ -118,7 +118,7 @@ module.exports = function webpackCommonConfigExport() {
                 {
                     exclude: [
                         helpers.root('src/client/index.html'),
-                        /node_modules/,
+                        /node_modules/i,
                     ],
                     loaders: [
                         'to-string',
@@ -126,7 +126,7 @@ module.exports = function webpackCommonConfigExport() {
                         'postcss',
                         'resolve-url',
                     ],
-                    test: /\.css$/,
+                    test: /\.css$/i,
                 },
 
                 /*
@@ -141,7 +141,7 @@ module.exports = function webpackCommonConfigExport() {
                         'resolve-url',
                         'sass?sourceMap',
                     ],
-                    test: /\.scss$/,
+                    test: /\.scss$/i,
                 },
 
                 /* HTML loader support for *.html
@@ -153,7 +153,7 @@ module.exports = function webpackCommonConfigExport() {
                         helpers.root('src/client/index.html'),
                     ],
                     loader: 'html',
-                    test: /\.html$/,
+                    test: /\.html$/i,
                 },
             ],
 
@@ -169,12 +169,12 @@ module.exports = function webpackCommonConfigExport() {
                  * @see https://github.com/webpack/file-loader
                  */
                 {
-                    exclude: /\/(node_modules|bower_components|config)\//,
+                    exclude: /\/(node_modules|bower_components|config)\//i,
                     loader: 'autopolyfiller-webpack',
                     query: {
                         browsers: ['last 2 versions', 'ie >= 9'],
                     },
-                    test: /\.js$/,
+                    test: /\.js$/i,
                 },
 
                 {
@@ -184,7 +184,7 @@ module.exports = function webpackCommonConfigExport() {
                         replace: 'var sourceMappingUrl = "";',
                         search: 'var sourceMappingUrl = extractSourceMappingUrl\\(cssText\\);',
                     },
-                    test: /\.js$/,
+                    test: /\.js$/i,
                 },
             ],
 
@@ -207,7 +207,7 @@ module.exports = function webpackCommonConfigExport() {
                         replace: '$1.import($3).then(mod => (mod.__esModule && mod.default) ? mod.default : mod)',
                         search: '(System|SystemJS)(.*[\\n\\r]\\s*\\.|\\.)import\\((.+)\\)',
                     },
-                    test: /\.ts$/,
+                    test: /\.ts$/i,
                 },
 
                 /*
@@ -220,7 +220,7 @@ module.exports = function webpackCommonConfigExport() {
                         helpers.root('node_modules'),
                     ],
                     loader: 'tslint',
-                    test: /\.ts$/,
+                    test: /\.ts$/i,
                 },
 
                 /*
@@ -238,7 +238,7 @@ module.exports = function webpackCommonConfigExport() {
                         helpers.root('node_modules/@angular2-material'),
                     ],
                     loader: 'source-map',
-                    test: /\.(js|css)$/,
+                    test: /\.(js|css)$/i,
                 },
             ],
         },
@@ -267,7 +267,7 @@ module.exports = function webpackCommonConfigExport() {
              */
             new ContextReplacementPlugin(
                     // The (\\|\/) piece accounts for path separators in *nix and Windows
-                    /angular(\\|\/)core(\\|\/)(esm(\\|\/)src|src)(\\|\/)linker/,
+                    /angular(\\|\/)core(\\|\/)(esm(\\|\/)src|src)(\\|\/)linker/i,
                     helpers.root('src/client') // location of your src
                 ),
 
@@ -387,17 +387,13 @@ module.exports = function webpackCommonConfigExport() {
                 '.json',
             ],
 
-            // Remove other default values
-            modulesDirectories: [
-                'node_modules',
-            ],
-
-            root: [
+            modules: [
                 helpers.root(''),
                 helpers.root('src/client'),
                 helpers.root('src/client/app'),
                 helpers.root('src/client/assets'),
                 helpers.root('src/client/assets/styles'),
+                'node_modules',
             ],
         },
 

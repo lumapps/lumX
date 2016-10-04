@@ -18,14 +18,7 @@ module.exports = function karmaConfig(config) {
         colors: true,
 
         coverageReporter: {
-            dir: './tests/client/unit/report/',
-            reporters: [
-                {
-                    file: 'coverage.json',
-                    subdir: '.',
-                    type: 'json',
-                },
-            ],
+            type: 'in-memory',
         },
 
         // List of files to exclude
@@ -49,27 +42,14 @@ module.exports = function karmaConfig(config) {
         frameworks: [
             'jasmine',
             'jasmine-matchers',
-            'source-map-support',
         ],
 
         /*
          * Level of logging
-         * Possible values: 'config.LOG_DISABLE', 'config.LOG_ERROR', 'config.LOG_WARN', 'config.LOG_INFO', 'config.LOG_DEBUG'
+         * Possible values: 'config.LOG_DISABLE', 'config.LOG_ERROR', 'config.LOG_WARN', 'config.LOG_INFO',
+         *                  'config.LOG_DEBUG'
          */
         logLevel: config.LOG_INFO,
-
-        // Load the plugins
-        plugins: [
-            'karma-chrome-launcher',
-            'karma-coverage',
-            'karma-jasmine',
-            'karma-jasmine-matchers',
-            'karma-mocha-reporter',
-            'karma-phantomjs-launcher',
-            'karma-source-map-support',
-            'karma-typescript-preprocessor',
-            'karma-webpack',
-        ],
 
         // Web server port
         port: 9876,
@@ -79,16 +59,17 @@ module.exports = function karmaConfig(config) {
          * Available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
          */
         preprocessors: {
-            './src/client/app/**/*.spec.ts': [
-                'typescript',
-            ],
-            './src/client/app/**/*.specs.ts': [
-                'typescript',
-            ],
             './tests/client/unit/specs-bundle.js': [
                 'coverage',
                 'webpack',
+                'sourcemap',
             ],
+        },
+
+        remapCoverageReporter: {
+            'text-summary': null,
+            json: './tests/client/unit/report/coverage.json',
+            html: './tests/client/unit/report/',
         },
 
         /*
@@ -99,6 +80,7 @@ module.exports = function karmaConfig(config) {
         reporters: [
             'mocha',
             'coverage',
+            'remap-coverage',
         ],
 
         /*

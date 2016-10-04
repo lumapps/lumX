@@ -2,7 +2,7 @@ const commonConfig = require('./webpack.common.build.js');
 const cssNano = require('cssnano');
 const helpers = require('./modules/helpers');
 const webpackMerge = require('webpack-merge');
-const webpackValidator = require('webpack-validator');
+const webpackValidator = require('webpack2-validator');
 
 /**
  * Webpack Plugins
@@ -82,7 +82,7 @@ module.exports = function webpackProdConfigExport(options) {
                  */
                 {
                     exclude: [
-                        /\.(spec|specs|e2e)\.ts$/,
+                        /\.(spec|specs|e2e)\.ts$/i,
                         helpers.root('tests'),
                         helpers.root('dist'),
                     ],
@@ -90,7 +90,7 @@ module.exports = function webpackProdConfigExport(options) {
                         'awesome-typescript',
                         'angular2-template',
                     ],
-                    test: /\.ts$/,
+                    test: /\.ts$/i,
                 },
             ],
         },
@@ -241,7 +241,7 @@ module.exports = function webpackProdConfigExport(options) {
              */
 
             new NormalModuleReplacementPlugin(
-                /angular2-hmr/,
+                /angular2-hmr/i,
                 helpers.root('config/modules/angular2-hmr-prod.js')
             ),
 

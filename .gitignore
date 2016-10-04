@@ -78,4 +78,4 @@ lang.csv
 lang.js
 
 # Dist
-dist/**
+/dist

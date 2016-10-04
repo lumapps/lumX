@@ -1,13 +1,14 @@
 const commonConfig = require('./webpack.common.js');
 const helpers = require('./modules/helpers');
 const webpackMerge = require('webpack-merge');
-const webpackValidator = require('webpack-validator');
+const webpackValidator = require('webpack2-validator');
 
 /**
  * Webpack Plugins
  */
 const DefinePlugin = require('webpack/lib/DefinePlugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const SourceMapDevToolPlugin = require('webpack/lib/SourceMapDevToolPlugin');
 
 /**
  * Webpack Constants
@@ -75,7 +76,7 @@ module.exports = function webpackTestConfigExport(options) {
                  */
                 {
                     exclude: [
-                        /\.e2e\.ts$/,
+                        /\.e2e\.ts$/i,
                         helpers.root('tests'),
                         helpers.root('dist'),
                     ],
@@ -83,7 +84,7 @@ module.exports = function webpackTestConfigExport(options) {
                         'awesome-typescript?inlineSourceMap=true&removeComments=true&sourceMap=false',
                         'angular2-template',
                     ],
-                    test: /\.ts$/,
+                    test: /\.ts$/i,
                 },
             ],
 
@@ -101,14 +102,15 @@ module.exports = function webpackTestConfigExport(options) {
                  */
                 {
                     exclude: [
-                        /\.(spec|specs|e2e)\.(js|ts)$/,
-                        helpers.root('tests'),
-                        helpers.root('dist'),
+                        /\.(spec|specs|e2e)\.(js|ts)$/i,
                         /node_modules/,
                     ],
-                    include: helpers.root('src/client/app'),
+                    include: [
+                        helpers.root('src/client/app'),
+                        helpers.root('tests/client/unit'),
+                    ],
                     loader: 'istanbul-instrumenter',
-                    test: /\.(js|ts)$/,
+                    test: /\.(js|ts)$/i,
                 },
             ],
         },
@@ -187,6 +189,12 @@ module.exports = function webpackTestConfigExport(options) {
             }),
 
             new ExtractTextPlugin('[name].css'),
+
+            new SourceMapDevToolPlugin({
+                exclude: /node_modules/i,
+                filename: null,
+                test: /\.(ts|js)($|\?)/i,
+            }),
         ],
     }),
     commonConfig(options).validatorsOptions);

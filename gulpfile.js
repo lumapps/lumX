@@ -27,12 +27,12 @@ const e2eReportFolder = `${e2eFolder}/report`;
 // Toggle the "-s" flag to make npm verbose (nothing) or silent (-s)
 const npmRun = `npm run -s`;
 
-const webpackBuildParameters = `--profile --display-cached --hide-modules --progress --colors`;
+const webpackBuildParameters = `--profile --display-cached --hide-modules --progress`;
 const webpackDevParameters = ``;
-const webpackDevServerClassicParameters = `--progress --colors`;
+const webpackDevServerClassicParameters = `--progress`;
 const webpackDevServerCommonParameters = `--watch --content-base ${sourceFolder}`;
 let   webpackDevServerHotReloadParameters = `--inline --hot`;
-const webpackCommonParameters = `--display-error-details`;
+const webpackCommonParameters = ``;
 const webpackConfig = `--config webpack.config.js`;
 const webpackDevConfig = `--config config/webpack.dev.js`;
 const webpackProdConfig = `--config config/webpack.prod.js`;
@@ -153,14 +153,12 @@ shelter({
     unit: {
         dsc: `Run unit tests (Karma with PhantomJS) on ${project}`,
         cmd: `${npmRun} task -- clean:unit:report
-              && ${envTest} ${npmRun} karma -- start
-              && ${npmRun} task -- coverage`,
+              && ${envTest} ${npmRun} karma -- start`,
     },
     'unit:debug': {
         dsc: `Run unit tests (Karma with Chrome) on ${project}`,
         cmd: `${npmRun} task -- clean:unit:report
-              && ${debug} ${envDev} ${npmRun} karma -- start --no-single-run
-              && ${npmRun} task -- coverage`,
+              && ${debug} ${envDev} ${npmRun} karma -- start --no-single-run`,
     },
     'unit:live': {
         dsc: `Run unit tests (Karma with PhantomJS) in watch mode on ${project}`,
@@ -170,11 +168,7 @@ shelter({
         dsc: `Run unit tests (Karma with Chrome) in watch mode on ${project}`,
         cmd: `${debug} ${envDev} ${npmRun} karma -- start --auto-watch --no-single-run`,
     },
-    coverage: {
-        dsc: `Run the tests coverage for ${project}`,
-        cmd: `${npmRun} remap-istanbul -- -i ${unitReportFolder}/coverage.json -o ${unitReportFolder}
-                                          -t html -e node_modules,karma.entry.ts`,
-    },
+
     tests: {
         dsc: `Run all the tests (Karma and Protractor with PhantomJS) on ${project}`,
         cmd: `${npmRun} task -- unit

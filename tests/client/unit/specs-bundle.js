@@ -58,5 +58,5 @@ function requireAll(requireContext) {
  * any file that ends with spec.ts and get its path. By passing in true
  * we say do this recursively
  */
-var testContext = require.context('../../../src/client/app', true, /\.spec\.ts/);
+var testContext = require.context('../../../src/client/app', true, /\.spec\.ts/i);
 var modules = requireAll(testContext);

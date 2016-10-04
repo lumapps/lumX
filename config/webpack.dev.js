@@ -1,7 +1,7 @@
 const commonConfig = require('./webpack.common.build.js');
 const helpers = require('./modules/helpers');
 const webpackMerge = require('webpack-merge');
-const webpackValidator = require('webpack-validator');
+const webpackValidator = require('webpack2-validator');
 
 /**
  * Webpack Plugins
@@ -216,7 +216,7 @@ module.exports = function webpackDevConfigExport(options) {
                  */
                 {
                     exclude: [
-                        /\.(spec|specs|e2e)\.ts$/,
+                        /\.(spec|specs|e2e)\.ts$/i,
                         helpers.root('tests'),
                         helpers.root('dist'),
                     ],
@@ -225,7 +225,7 @@ module.exports = function webpackDevConfigExport(options) {
                         'awesome-typescript',
                         'angular2-template',
                     ],
-                    test: /\.ts$/,
+                    test: /\.ts$/i,
                 },
             ],
         },
