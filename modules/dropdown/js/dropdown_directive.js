@@ -72,7 +72,11 @@
 
             scope.$on('$destroy', function()
             {
-                ctrl.closeDropdownMenu();
+                if (ctrl.isOpen)
+                {
+                    ctrl.closeDropdownMenu();
+                }
+
                 $timeout.cancel(timer);
             });
         }
