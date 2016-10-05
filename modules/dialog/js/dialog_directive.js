@@ -50,6 +50,7 @@
         var dialogHeight;
         var dialogInterval;
         var dialogScrollable;
+        var elementParent = $element.parent();
         var idEventScheduler;
         var resizeDebounce;
         var windowHeight;
@@ -266,7 +267,7 @@
                 $element
                     .hide()
                     .removeClass('dialog--is-fixed')
-                    .appendTo($element.parent());
+                    .appendTo(elementParent);
 
                 lxDialog.isOpen = false;
                 dialogHeight = undefined;
