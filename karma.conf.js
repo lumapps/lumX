@@ -84,6 +84,7 @@ module.exports = function karmaConfig(config) {
         },
 
         remapCoverageReporter: {
+            text: null,
             'text-summary': null,
             json: coverageReportDirectory + 'coverage-remapped.json',
             html: coverageReportDirectory,
