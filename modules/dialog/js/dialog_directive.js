@@ -38,9 +38,9 @@
         }
     }
 
-    LxDialogController.$inject = ['$element', '$interval', '$rootScope', '$timeout', '$window', 'LxDepthService', 'LxEventSchedulerService'];
+    LxDialogController.$inject = ['$element', '$interval', '$rootScope', '$scope', '$timeout', '$window', 'LxDepthService', 'LxEventSchedulerService'];
 
-    function LxDialogController($element, $interval, $rootScope, $timeout, $window, LxDepthService, LxEventSchedulerService)
+    function LxDialogController($element, $interval, $rootScope, $scope, $timeout, $window, LxDepthService, LxEventSchedulerService)
     {
         var lxDialog = this;
         var dialogFilter = angular.element('<div/>',
@@ -59,7 +59,7 @@
         lxDialog.escapeClose = angular.isDefined(lxDialog.escapeClose) ? lxDialog.escapeClose : true;
         lxDialog.isOpen = false;
 
-        $rootScope.$on('lx-dialog__open', function(event, id)
+        $scope.$on('lx-dialog__open', function(event, id)
         {
             if (id === lxDialog.id)
             {
@@ -67,7 +67,7 @@
             }
         });
 
-        $rootScope.$on('lx-dialog__close', function(event, id)
+        $scope.$on('lx-dialog__close', function(event, id)
         {
             if (id === lxDialog.id)
             {
