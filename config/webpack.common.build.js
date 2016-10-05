@@ -16,6 +16,23 @@ const ForkCheckerPlugin = require('awesome-typescript-loader').ForkCheckerPlugin
  */
 module.exports = function webpackCommonBuildConfigExport(options) {
     return webpackMerge.smart(commonConfig(options), {
+        module: {
+            postLoaders: [
+                /*
+                 * Fix an Angular2 performance issue
+                 */
+                {
+                    loader: 'string-replace',
+                    query: {
+                        flags: 'g',
+                        replace: 'var sourceMappingUrl = "";',
+                        search: 'var sourceMappingUrl = extractSourceMappingUrl\\(cssText\\);',
+                    },
+                    test: /\.js$/i,
+                },
+            ],
+        },
+
         /*
          * Add additional plugins to the compiler.
          *

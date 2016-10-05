@@ -1,5 +1,17 @@
 var isDebug = process.env.DEBUG || false;
+var enableRemapping = true;
+var coverageReportDirectory = './tests/client/unit/report/';
+
 var browsers = [(isDebug) ? 'Chrome' : 'PhantomJS'];
+
+var reporters = ['mocha'];
+if (!isDebug) {
+    reporters.push('coverage');
+
+    if (enableRemapping) {
+        reporters.push('remap-coverage');
+    }
+}
 
 module.exports = function karmaConfig(config) {
     var configuration = {
@@ -18,7 +30,12 @@ module.exports = function karmaConfig(config) {
         colors: true,
 
         coverageReporter: {
-            type: 'in-memory',
+            dir: coverageReportDirectory,
+            reporters: [
+                {
+                    type: 'in-memory',
+                },
+            ],
         },
 
         // List of files to exclude
@@ -68,8 +85,8 @@ module.exports = function karmaConfig(config) {
 
         remapCoverageReporter: {
             'text-summary': null,
-            json: './tests/client/unit/report/coverage.json',
-            html: './tests/client/unit/report/',
+            json: coverageReportDirectory + 'coverage-remapped.json',
+            html: coverageReportDirectory,
         },
 
         /*
@@ -77,11 +94,7 @@ module.exports = function karmaConfig(config) {
          * Possible values: 'dots', 'progress'
          * Available reporters: https://npmjs.org/browse/keyword/karma-reporter
          */
-        reporters: [
-            'mocha',
-            'coverage',
-            'remap-coverage',
-        ],
+        reporters: reporters,
 
         /*
          * Continuous Integration mode

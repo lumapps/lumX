@@ -20,6 +20,9 @@ const unitReportFolder = `${unitFolder}/report`;
 const e2eFolder = `${testsFolder}/e2e`;
 const e2eReportFolder = `${e2eFolder}/report`;
 
+
+const ENABLE_DASHBOARD = false;
+
 // ---------------------------------------------------------------------------------------------------------------------
 // You can define here commands, arguments or fragment to re-use in tasks
 // Attention: Use the bash syntax for variable templating
@@ -27,12 +30,12 @@ const e2eReportFolder = `${e2eFolder}/report`;
 // Toggle the "-s" flag to make npm verbose (nothing) or silent (-s)
 const npmRun = `npm run -s`;
 
-const webpackBuildParameters = `--profile --display-cached --hide-modules --progress`;
+const webpackBuildParameters = `--profile --display-cached --hide-modules --progress --colors`;
 const webpackDevParameters = ``;
-const webpackDevServerClassicParameters = `--progress`;
+const webpackDevServerClassicParameters = `--progress --colors`;
 const webpackDevServerCommonParameters = `--watch --content-base ${sourceFolder}`;
 let   webpackDevServerHotReloadParameters = `--inline --hot`;
-const webpackCommonParameters = ``;
+const webpackCommonParameters = `--display-error-details`;
 const webpackConfig = `--config webpack.config.js`;
 const webpackDevConfig = `--config config/webpack.dev.js`;
 const webpackProdConfig = `--config config/webpack.prod.js`;
@@ -44,7 +47,6 @@ const envProd = `NODE_ENV='prod'`;
 const envTest = `NODE_ENV='test'`;
 const hidden = `HIDDEN=true`;
 
-const ENABLE_DASHBOARD = false;
 if (!ENABLE_DASHBOARD) {
     webpackDevServerHotReloadParameters = `${webpackDevServerHotReloadParameters} ${webpackDevServerClassicParameters}`;
 }

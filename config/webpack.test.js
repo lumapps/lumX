@@ -1,14 +1,11 @@
 const commonConfig = require('./webpack.common.js');
 const helpers = require('./modules/helpers');
 const webpackMerge = require('webpack-merge');
-const webpackValidator = require('webpack2-validator');
 
 /**
  * Webpack Plugins
  */
 const DefinePlugin = require('webpack/lib/DefinePlugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const SourceMapDevToolPlugin = require('webpack/lib/SourceMapDevToolPlugin');
 
 /**
  * Webpack Constants
@@ -30,14 +27,11 @@ const METADATA = webpackMerge(commonConfig({ env: ENV }).metadata, {
  * @param {{ env: string }} options The options to generate the config
  */
 module.exports = function webpackTestConfigExport(options) {
-    return webpackValidator(webpackMerge.smart(commonConfig(options), {
-        /**
-         * Switch loaders to debug mode.
-         *
-         * @see http://webpack.github.io/docs/configuration.html#debug
-         */
-        debug: false,
+    const realCommonConfig = commonConfig(options);
+    realCommonConfig.entry = {};
+    realCommonConfig.plugins = [];
 
+    return webpackMerge.smart(realCommonConfig, {
         /**
          * Developer tool to enhance debugging
          *
@@ -77,11 +71,9 @@ module.exports = function webpackTestConfigExport(options) {
                 {
                     exclude: [
                         /\.e2e\.ts$/i,
-                        helpers.root('tests'),
-                        helpers.root('dist'),
                     ],
                     loaders: [
-                        'awesome-typescript?inlineSourceMap=true&removeComments=true&sourceMap=false',
+                        'awesome-typescript?inlineSourceMap=true&sourceMap=false',
                         'angular2-template',
                     ],
                     test: /\.ts$/i,
@@ -91,7 +83,7 @@ module.exports = function webpackTestConfigExport(options) {
             /**
              * An array of applied post loaders.
              *
-             * @see http://webpack.github.io/docs/configuration.html#module-preloaders-module-postloaders
+             * @see {@link http://webpack.github.io/docs/configuration.html#module-preloaders-module-postloaders|The webpack documentation on post loaders}
              */
             postLoaders: [
                 /**
@@ -105,10 +97,7 @@ module.exports = function webpackTestConfigExport(options) {
                         /\.(spec|specs|e2e)\.(js|ts)$/i,
                         /node_modules/,
                     ],
-                    include: [
-                        helpers.root('src/client/app'),
-                        helpers.root('tests/client/unit'),
-                    ],
+                    include: helpers.root('src/client/app'),
                     loader: 'istanbul-instrumenter',
                     test: /\.(js|ts)$/i,
                 },
@@ -128,43 +117,6 @@ module.exports = function webpackTestConfigExport(options) {
             module: false,
             process: true,
             setImmediate: false,
-        },
-
-        /**
-         * Options affecting the output of the compilation.
-         *
-         * @see http://webpack.github.io/docs/configuration.html#output
-         */
-        output: {
-            /** The filename of non-entry chunks as relative path
-             * inside the output.path directory.
-             *
-             * @see http://webpack.github.io/docs/configuration.html#output-chunkfilename
-             */
-            chunkFilename: '[id].chunk.js',
-
-            /**
-             * Specifies the name of each output file on disk.
-             * IMPORTANT: You must not specify an absolute path here!
-             *
-             * @see http://webpack.github.io/docs/configuration.html#output-filename
-             */
-            filename: '[name].bundle.js',
-
-            /**
-             * The output directory as absolute path (required).
-             *
-             * @see http://webpack.github.io/docs/configuration.html#output-path
-             */
-            path: helpers.root('src/client/dist'),
-
-            /**
-             * The filename of the SourceMaps for the JavaScript files.
-             * They are inside the output.path directory.
-             *
-             * @see http://webpack.github.io/docs/configuration.html#output-sourcemapfilename
-             */
-            sourceMapFilename: '[name].map',
         },
 
         plugins: [
@@ -187,15 +139,6 @@ module.exports = function webpackTestConfigExport(options) {
                     NODE_ENV: JSON.stringify(METADATA.ENV),
                 },
             }),
-
-            new ExtractTextPlugin('[name].css'),
-
-            new SourceMapDevToolPlugin({
-                exclude: /node_modules/i,
-                filename: null,
-                test: /\.(ts|js)($|\?)/i,
-            }),
         ],
-    }),
-    commonConfig(options).validatorsOptions);
+    });
 };

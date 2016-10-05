@@ -1,7 +1,6 @@
 const commonConfig = require('./webpack.common.build.js');
 const helpers = require('./modules/helpers');
 const webpackMerge = require('webpack-merge');
-const webpackValidator = require('webpack2-validator');
 
 /**
  * Webpack Plugins
@@ -10,7 +9,6 @@ const Dashboard = require('webpack-dashboard');
 const DashboardPlugin = require('webpack-dashboard/plugin');
 const DefinePlugin = require('webpack/lib/DefinePlugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const JasmineWebpackPlugin = require('jasmine-webpack-plugin');
 const NamedModulesPlugin = require('webpack/lib/NamedModulesPlugin');
 const OpenBrowserPlugin = require('open-browser-webpack-plugin');
 const WebpackNotifierPlugin = require('webpack-notifier');
@@ -68,8 +66,6 @@ let plugins = [
     }),
 
     new ExtractTextPlugin('[name].css'),
-
-    new JasmineWebpackPlugin(),
 
     /**
      * Plugin: NamedModulesPlugin (experimental)
@@ -162,14 +158,7 @@ if (HMR) {
  * @param {{ env: string }} options The options to generate the config
  */
 module.exports = function webpackDevConfigExport(options) {
-    return webpackValidator(webpackMerge.smart(commonConfig(options), {
-        /**
-         * Switch loaders to debug mode.
-         *
-         * @see http://webpack.github.io/docs/configuration.html#debug
-         */
-        debug: true,
-
+    return webpackMerge.smart(commonConfig(options), {
         /**
          * Webpack Development Server configuration
          * Description: The webpack-dev-server is a little node.js Express server.
@@ -286,6 +275,5 @@ module.exports = function webpackDevConfigExport(options) {
         },
 
         plugins: plugins,
-    }),
-    commonConfig(options).validatorsOptions);
+    });
 };

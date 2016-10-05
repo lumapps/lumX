@@ -1,6 +1,5 @@
 const autoprefixer = require('autoprefixer');
 const helpers = require('./modules/helpers');
-const Joi = require('webpack2-validator').Joi;
 
 /*
  * Webpack Plugins
@@ -8,11 +7,10 @@ const Joi = require('webpack2-validator').Joi;
 const AssetsPlugin = require('assets-webpack-plugin');
 const ContextReplacementPlugin = require('webpack/lib/ContextReplacementPlugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-// const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const TsConfigPathsPlugin = require('awesome-typescript-loader').TsConfigPathsPlugin;
 const HtmlElementsPlugin = require('./html-elements-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const sassLintPlugin = require('sasslint-webpack-plugin');
+const SassLintPlugin = require('sasslint-webpack-plugin');
 
 /*
  * Webpack Constants
@@ -176,16 +174,6 @@ module.exports = function webpackCommonConfigExport() {
                     },
                     test: /\.js$/i,
                 },
-
-                {
-                    loader: 'string-replace',
-                    query: {
-                        flags: 'g',
-                        replace: 'var sourceMappingUrl = "";',
-                        search: 'var sourceMappingUrl = extractSourceMappingUrl\\(cssText\\);',
-                    },
-                    test: /\.js$/i,
-                },
             ],
 
             /*
@@ -235,7 +223,6 @@ module.exports = function webpackCommonConfigExport() {
                         helpers.root('node_modules/rxjs'),
                         helpers.root('node_modules/@angular'),
                         helpers.root('node_modules/@ngrx'),
-                        helpers.root('node_modules/@angular2-material'),
                     ],
                     loader: 'source-map',
                     test: /\.(js|css)$/i,
@@ -335,7 +322,7 @@ module.exports = function webpackCommonConfigExport() {
              *
              * @see {@link https://github.com/alleyinteractive/sasslint-webpack-plugin|SASS Lint Webpack Plugin}
              */
-            new sassLintPlugin({ // eslint-disable-line
+            new SassLintPlugin({
                 failOnError: false,
                 failOnWarning: false,
                 glob: './src/client/**/*.s?(a|c)ss',
@@ -387,13 +374,16 @@ module.exports = function webpackCommonConfigExport() {
                 '.json',
             ],
 
-            modules: [
+            modulesDirectories: [
+                'node_modules',
+            ],
+
+            root: [
                 helpers.root(''),
                 helpers.root('src/client'),
                 helpers.root('src/client/app'),
                 helpers.root('src/client/assets'),
                 helpers.root('src/client/assets/styles'),
-                'node_modules',
             ],
         },
 
@@ -427,20 +417,6 @@ module.exports = function webpackCommonConfigExport() {
             // TSLint does not interrupt the compilation by default.
             // If you want any file with tslint errors to fail set failOnHint to true.
             failOnHint: false,
-        },
-
-        validatorsOptions: {
-            quiet: true,
-            rules: {
-                'no-root-files-node-modules-nameclash': false,
-            },
-            schemaExtension: Joi.object({
-                htmlLoader: Joi.object(),
-                postcss: Joi.any(),
-                sassLoader: Joi.object(),
-                tslint: Joi.object(),
-                validatorsOptions: Joi.object(),
-            }),
         },
     };
 };

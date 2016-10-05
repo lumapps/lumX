@@ -2,7 +2,6 @@ const commonConfig = require('./webpack.common.build.js');
 const cssNano = require('cssnano');
 const helpers = require('./modules/helpers');
 const webpackMerge = require('webpack-merge');
-const webpackValidator = require('webpack2-validator');
 
 /**
  * Webpack Plugins
@@ -36,14 +35,7 @@ const METADATA = webpackMerge.smart(commonConfig({ env: ENV }).metadata, {
  * @param {{ env: string }} options The options to generate the config
  */
 module.exports = function webpackProdConfigExport(options) {
-    return webpackValidator(webpackMerge.smart(commonConfig(options), {
-        /**
-         * Switch loaders to debug mode.
-         *
-         * @see http://webpack.github.io/docs/configuration.html#debug
-         */
-        debug: false,
-
+    return webpackMerge.smart(commonConfig(options), {
         /**
          * Developer tool to enhance debugging
          *
@@ -287,6 +279,5 @@ module.exports = function webpackProdConfigExport(options) {
         tslint: {
             failOnHint: true,
         },
-    }),
-    commonConfig(options).validatorsOptions);
+    });
 };
