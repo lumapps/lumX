@@ -23,9 +23,17 @@
 
         function link(scope, element, attrs, ctrl)
         {
-            if (angular.isDefined(attrs.tooltipPosition))
+            if (angular.isDefined(attrs.lxTooltip))
             {
-                attrs.$observe('tooltipPosition', function(newValue)
+                attrs.$observe('lxTooltip', function(newValue)
+                {
+                    ctrl.updateTooltipText(newValue);
+                });
+            }
+
+            if (angular.isDefined(attrs.lxTooltipPosition))
+            {
+                attrs.$observe('lxTooltipPosition', function(newValue)
                 {
                     scope.lxTooltip.position = newValue;
                 });
@@ -54,6 +62,7 @@
 
         lxTooltip.hideTooltip = hideTooltip;
         lxTooltip.showTooltip = showTooltip;
+        lxTooltip.updateTooltipText = updateTooltipText;
 
         lxTooltip.position = angular.isDefined(lxTooltip.position) ? lxTooltip.position : 'top';
 
@@ -62,6 +71,7 @@
             if (angular.isDefined(tooltip))
             {
                 tooltip.remove();
+                tooltip = undefined;
             }
 
             $timeout.cancel(timer1);
@@ -79,6 +89,7 @@
                 timer1 = $timeout(function()
                 {
                     tooltip.remove();
+                    tooltip = undefined;
                 }, 200);
             }
         }
@@ -131,36 +142,47 @@
 
         function showTooltip()
         {
-            LxDepthService.register();
-
-            tooltip = angular.element('<div/>',
+            if (angular.isUndefined(tooltip))
             {
-                class: 'tooltip tooltip--' + lxTooltip.position
-            });
+                LxDepthService.register();
 
-            tooltipBackground = angular.element('<div/>',
+                tooltip = angular.element('<div/>',
+                {
+                    class: 'tooltip tooltip--' + lxTooltip.position
+                });
+
+                tooltipBackground = angular.element('<div/>',
+                {
+                    class: 'tooltip__background'
+                });
+
+                tooltipLabel = angular.element('<span/>',
+                {
+                    class: 'tooltip__label',
+                    text: lxTooltip.tooltip
+                });
+
+                setTooltipPosition();
+
+                tooltip
+                    .append(tooltipBackground)
+                    .append(tooltipLabel)
+                    .css('z-index', LxDepthService.getDepth())
+                    .appendTo('body');
+
+                timer2 = $timeout(function()
+                {
+                    tooltip.addClass('tooltip--is-active');
+                });
+            }
+        }
+
+        function updateTooltipText(_newValue)
+        {
+            if (angular.isDefined(tooltipLabel))
             {
-                class: 'tooltip__background'
-            });
-
-            tooltipLabel = angular.element('<span/>',
-            {
-                class: 'tooltip__label',
-                text: lxTooltip.tooltip
-            });
-
-            setTooltipPosition();
-
-            tooltip
-                .append(tooltipBackground)
-                .append(tooltipLabel)
-                .css('z-index', LxDepthService.getDepth())
-                .appendTo('body');
-
-            timer2 = $timeout(function()
-            {
-                tooltip.addClass('tooltip--is-active');
-            });
+                tooltipLabel.text(_newValue);
+            }
         }
     }
 })();
