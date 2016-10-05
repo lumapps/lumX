@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.2.4:
+
+#### Bug fixes:
+ - dialog: listen to broadcast from directive scope
+
+
 ## v1.2.3:
 
 #### Bug fixes:
