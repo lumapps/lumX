@@ -1,5 +1,13 @@
 # Changelog
 
+## v1.2.3:
+
+#### Bug fixes:
+ - tooltip: update text and position on change
+ - dialog: append dialog to its orginal parent on close
+ - dropdown: check if dropdown is open before close on destroy
+
+
 ## v1.2.2:
 
 #### New features:
