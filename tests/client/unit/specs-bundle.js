@@ -57,8 +57,8 @@ var testContext = require.context('../../../src/client/app', true, /\.spec|specs
  * loop and require those spec files here
  */
 function requireAll(requireContext) {
-  return requireContext.keys().map(requireContext);
+    return requireContext.keys().map(requireContext);
 }
 
 // requires and returns all modules that match
-var modules = requireAll(testContext);
+requireAll(testContext);

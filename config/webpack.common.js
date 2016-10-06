@@ -253,10 +253,10 @@ module.exports = function webpackCommonConfigExport() {
              * See: https://github.com/angular/angular/issues/11580
              */
             new ContextReplacementPlugin(
-                    // The (\\|\/) piece accounts for path separators in *nix and Windows
-                    /angular(\\|\/)core(\\|\/)(esm(\\|\/)src|src)(\\|\/)linker/i,
-                    helpers.root('src/client') // location of your src
-                ),
+                // The (\\|\/) piece accounts for path separators in *nix and Windows
+                /angular(\\|\/)core(\\|\/)(esm(\\|\/)src|src)(\\|\/)linker/i,
+                helpers.root('src/client')
+            ),
 
             /*
              * CopyWebpackPlugin.
