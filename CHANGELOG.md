@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.2.6:
+
+#### New features:
+ - dropdown: add no scroll to body only if dropdown menu has overflow
+
+
 ## v1.2.5:
 
 #### Bug fixes:
