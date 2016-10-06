@@ -201,8 +201,6 @@
 
             lxDropdown.isOpen = true;
 
-            angular.element('body').addClass('no-scroll-dropdown-' + lxDropdown.uuid);
-
             $element.find('.dropdown').addClass('dropdown--is-open');
 
             dropdownMenu
@@ -226,6 +224,8 @@
                 {
                     enoughtHeight = false;
                     height = availableHeight;
+
+                    angular.element('body').addClass('no-scroll-dropdown-' + lxDropdown.uuid);
                 }
 
                 if (lxDropdown.effect === 'expand')
