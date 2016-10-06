@@ -38,9 +38,9 @@
         }
     }
 
-    LxDialogController.$inject = ['$element', '$interval', '$rootScope', '$scope', '$timeout', '$window', 'LxDepthService', 'LxEventSchedulerService'];
+    LxDialogController.$inject = ['$element', '$interval', '$rootScope', '$scope', '$timeout', '$window', 'LxDepthService', 'LxEventSchedulerService', 'LxUtils'];
 
-    function LxDialogController($element, $interval, $rootScope, $scope, $timeout, $window, LxDepthService, LxEventSchedulerService)
+    function LxDialogController($element, $interval, $rootScope, $scope, $timeout, $window, LxDepthService, LxEventSchedulerService, LxUtils)
     {
         var lxDialog = this;
         var dialogFilter = angular.element('<div/>',
@@ -58,6 +58,7 @@
         lxDialog.autoClose = angular.isDefined(lxDialog.autoClose) ? lxDialog.autoClose : true;
         lxDialog.escapeClose = angular.isDefined(lxDialog.escapeClose) ? lxDialog.escapeClose : true;
         lxDialog.isOpen = false;
+        lxDialog.uuid = LxUtils.generateUUID();
 
         $scope.$on('lx-dialog__open', function(event, id)
         {
@@ -174,10 +175,7 @@
         {
             LxDepthService.register();
 
-            angular.element('body').css(
-            {
-                overflow: 'hidden'
-            });
+            angular.element('body').addClass('no-scroll-dialog-' + lxDialog.uuid);
 
             dialogFilter
                 .css('z-index', LxDepthService.getDepth())
@@ -262,10 +260,7 @@
 
             $timeout(function()
             {
-                angular.element('body').css(
-                {
-                    overflow: 'visible'
-                });
+                angular.element('body').removeClass('no-scroll-dialog-' + lxDialog.uuid);
 
                 dialogFilter.remove();
 

@@ -143,10 +143,7 @@
             var velocityProperties;
             var velocityEasing;
 
-            angular.element('body').css(
-            {
-                overflow: 'visible'
-            });
+            angular.element('body').removeClass('no-scroll-dropdown-' + lxDropdown.uuid);
 
             dropdownMenu.css(
             {
@@ -204,10 +201,7 @@
 
             lxDropdown.isOpen = true;
 
-            angular.element('body').css(
-            {
-                overflow: 'hidden'
-            });
+            angular.element('body').addClass('no-scroll-dropdown-' + lxDropdown.uuid);
 
             $element.find('.dropdown').addClass('dropdown--is-open');
 

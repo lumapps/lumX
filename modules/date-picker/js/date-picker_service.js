@@ -39,10 +39,7 @@
 
             $timeout(function()
             {
-                angular.element('body').css(
-                {
-                    overflow: 'visible'
-                });
+                angular.element('body').removeClass('no-scroll-date-picker-' + scopeMap[_datePickerId].uuid);
 
                 datePickerFilter.remove();
 
@@ -71,10 +68,7 @@
 
             activeDatePickerId = _datePickerId;
 
-            angular.element('body').css(
-            {
-                overflow: 'hidden'
-            });
+            angular.element('body').addClass('no-scroll-date-picker-' + scopeMap[_datePickerId].uuid);
 
             datePickerFilter = angular.element('<div/>',
             {

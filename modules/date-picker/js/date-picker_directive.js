@@ -51,9 +51,9 @@
         }
     }
 
-    LxDatePickerController.$inject = ['$element', '$scope', '$timeout', '$transclude', 'LxDatePickerService'];
+    LxDatePickerController.$inject = ['$element', '$scope', '$timeout', '$transclude', 'LxDatePickerService', 'LxUtils'];
 
-    function LxDatePickerController($element, $scope, $timeout, $transclude, LxDatePickerService)
+    function LxDatePickerController($element, $scope, $timeout, $transclude, LxDatePickerService, LxUtils)
     {
         var lxDatePicker = this;
         var input;
@@ -80,6 +80,7 @@
         lxDatePicker.isOpen = false;
         lxDatePicker.moment = moment;
         lxDatePicker.yearSelection = false;
+        lxDatePicker.uuid = LxUtils.generateUUID();
 
         $transclude(function(clone)
         {
