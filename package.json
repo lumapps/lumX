@@ -128,7 +128,6 @@
         "autoprefixer": "latest",
         "cssnano": "latest",
         "node-sass": "latest",
-        "sass-lint": "latest",
 
         "karma": "latest",
         "karma-chrome-launcher": "latest",
@@ -148,6 +147,8 @@
         "protractor-jasmine2-html-reporter": "latest",
 
         "codelyzer": "latest",
+        "eslint": "latest",
+        "sass-lint": "latest",
         "tsconfig-lint": "latest",
         "tslint": "latest",
         "tslint-eslint-rules": "latest",
