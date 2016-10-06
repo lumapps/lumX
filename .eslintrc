@@ -1,22 +1,99 @@
 {
-    "parserOptions": {
-        "ecmaFeatures": {
-            "impliedStrict": true
-        },
-        "ecmaVersion": 6,
-        "sourceType": "module"
+    "env": {
+        "amd": false,
+        "applescript": false,
+        "atomtest": false,
+        "browser": true,
+        "commonjs": false,
+        "embertest": false,
+        "es6": false,
+        "jasmine": true,
+        "jest": false,
+        "jquery": true,
+        "greasemonkey": true,
+        "meteor": false,
+        "mocha": false,
+        "mongo": false,
+        "nashorn": false,
+        "node": false,
+        "phantomjs": true,
+        "prototypejs": false,
+        "protractor": true,
+        "qunit": false,
+        "serviceworker": false,
+        "shared-node-browser": false,
+        "shelljs": false,
+        "webextensions": false,
+        "worker": false,
     },
 
-    "env": {
-        "amd": true,
-        "browser": true,
-        "commonjs": true,
-        "es6": true,
-        "jasmine": true,
-        "node": true,
-        "phantomjs": true,
-        "protractor": true
+    "extends": "eslint:recommended",
+
+    "globals": {
+        "angular": false,
+        "google": false,
+        "ga": false,
+        "gapi": false,
+        "moment": false,
+
+        "Chart": false,
+        "Intercom": false,
+        "Utils": false,
+
+        "APPLICATION_NAME": false,
+        "HOST": false,
+        "API_NAME": false,
+        "API_VERSION": false,
+        "ENABLE_ANGULAR_DEBUG_INFO": false,
+        "CURRENT_SHA1": false,
+
+        "ACCOUNT_CHOICE": true,
+        "ADMIN_CUSTOMER": true,
+        "AUTH_TOKEN": true,
+        "AUTH_URI": true,
+        "AUTHORIZATION_ACTION": true,
+        "BASE_URL": true,
+        "COMMUNITY_POST_TYPES": true,
+        "CONNECTED_USER": true,
+        "CONTENT_TYPES": true,
+        "CUSTOMER": true,
+        "CUSTOMER_ERROR": true,
+        "CUSTOMER_METADATA": true,
+        "CUSTOMER_STATUS": true,
+        "DEFAULT_CONTENT_LISTS": true,
+        "DEPENDENCIES": true,
+        "DIRECTORIES": true,
+        "FEATURES": true,
+        "FEED_ALL": true,
+        "FEED_PUBLIC": true,
+        "HEADER": true,
+        "INITIAL_CONTENT": true,
+        "INSTANCE": true,
+        "INSTANCE_SIBLINGS_CUSTOM_CONTENT_TYPES": true,
+        "INSTANCES_IN_FAVORITES": true,
+        "INSTANCES_SIBLINGS": true,
+        "NEWS_LIST_CONTENT": true,
+        "PARENT_CUSTOMER": true,
+        "PARENT_DATA": true,
+        "SERVER_BASE_URL": true,
+        "STOCK_MARKET": true,
+        "URL_PARAMS": true,
+        "USER_DIRECTORIES": true,
+        "USER_ROLES": true,
     },
+
+    "parserOptions": {
+        "ecmaFeatures": {
+            "globalReturn": false,
+            "impliedStrict": false,
+            "jsx": false,
+            "experimentalObjectRestSpread": false
+        },
+        "ecmaVersion": 5,
+        "sourceType": "script"
+    },
+
+    "plugins": [],
 
     "rules": {
         "accessor-pairs": "off",
@@ -205,6 +282,7 @@
         ],
         "no-floating-decimal": "error",
         "no-func-assign": "error",
+        "no-global-assign": "error",
         "no-implicit-coercion": "error",
         "no-implied-eval": "error",
         "no-inline-comments": "error",
@@ -227,7 +305,7 @@
         "no-multiple-empty-lines": [
             "error",
             {
-                "max": 2
+                "max": 5
             }
         ],
         "no-negated-condition": "error",
@@ -419,7 +497,5 @@
         ]
     },
 
-    "globals": {
-        "angular": true
-    }
+    "settings": {}
 }
