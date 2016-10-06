@@ -75,6 +75,11 @@
             }
         });
 
+        $scope.$on('$destroy', function()
+        {
+            close();
+        });
+
         ////////////
 
         function checkDialogHeight()
