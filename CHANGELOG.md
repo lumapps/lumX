@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.2.5:
+
+#### Bug fixes:
+ - dialog: close dialog on destroy
+
+
 ## v1.2.4:
 
 #### Bug fixes:
