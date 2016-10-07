@@ -6,26 +6,6 @@ BLUE="\e[34m"
 DEFAULT="\e[39m"
 
 
-function display_tslint_logs() {
-    while read -r line; do
-        filename=`echo ${line} | cut -d'[' -f 1 | xargs`
-
-        next=`echo ${line} | cut -d'[' -f 2 | xargs`
-        line_col=`echo ${next} | cut -d']' -f 1 | xargs`
-
-        line_number=`echo ${line_col} | cut -d',' -f 1 | xargs`
-        col_number=`echo ${line_col} | cut -d',' -f 2 | xargs`
-
-        error=`echo ${next} | cut -d':' -f 2 | xargs`
-
-        if [[ "$filename" != "$next" ]]; then
-            printf "${filename}@${line_number}:${col_number}\n"
-            printf "\t${RED}$error${DEFAULT}\n"
-        fi
-    done < "$1"
-}
-
-
 PYFILES=$(git diff --cached --name-only --diff-filter=ACM | grep ".py$")
 if [ "$PYFILES" != "" ]; then
     printf "Launching PEP8................ "
