@@ -12,8 +12,11 @@
         "webpack"
     ],
     "homepage": "https://github.com/lumapps/lumboilerplate/",
-    "main": "setup.sh",
-    "config": {},
+    "config": {
+      "commitizen": {
+        "path": "./node_modules/cz-conventional-changelog"
+      }
+    },
     "scripts": {
         "build": "npm run -s build:prod",
         "build:fast": "npm run -s build:prod:fast",
@@ -164,6 +167,7 @@
     },
     "devDependencies": {
         "commitizen": "latest",
+        "cz-conventional-changelog": "latest",
         "http-server": "latest",
         "npm-run-all": "latest",
         "rimraf": "latest",
