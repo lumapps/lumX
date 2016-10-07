@@ -165,7 +165,11 @@ Must be one of the following:
 * **style**: Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc)
 * **refactor**: A code change that neither fixes a bug or adds a feature
 * **perf**: A code change that improves performance
+* **test**: Adding missing tests or correcting existing tests
+* **build**: Changes that affect the build system or external dependencies (gulp, npm, webpack, ...)
+* **ci**: Changes to our CI configuration files and scripts
 * **chore**: Changes to the build process or auxiliary tools and libraries such as distribution generation
+* **revert**: Reverts a previous commit
 
 ### Scope
 
@@ -178,7 +182,7 @@ The body should include the motivation for the change and contrast this with pre
 ### Footer
 
 The footer should contain any information about **Breaking Changes** and is also the place to reference GitHub issues that this commit **Closes**.
-The breaking changes must be at the end of the commit with only on "BROKEN:" before the list of breaking changes. They must be each on a new line.
+The breaking changes must be at the end of the commit with only "BROKEN:" before the list of breaking changes. They must be each on a new line.
 
 ### Commit example
 
