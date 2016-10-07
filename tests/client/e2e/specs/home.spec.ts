@@ -34,7 +34,7 @@ describe('Application', () => {
 
         it('should have a title', () => {
             expect(homePage.title).toBePresent();
-            expect(homePage.title).toHaveExactText('Todos');
+            expect(homePage.title).toHaveExactText('To-do');
         });
 
         it('should have a section', () => {

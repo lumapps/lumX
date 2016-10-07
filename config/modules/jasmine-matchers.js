@@ -69,8 +69,8 @@ module.exports = {
             compare: function toBeCheckedCompare(elementToTest) {
                 var ret = {
                     pass: elementToTest.getAttribute('checked').then(function getAttributeThen(checked) {
-                        var pass = checked === 'true';
-                        ret.message = 'Expected' + (pass ? ' not ' : '') + ' to be checked';
+                        var pass = (checked === 'true');
+                        ret.message = 'Expected' + ((pass) ? ' not ' : '') + ' to be checked';
 
                         return pass;
                     }),
@@ -93,8 +93,8 @@ module.exports = {
             compare: function toBeDisplayedCompare(elementToTest) {
                 var ret = {
                     pass: elementToTest.isDisplayed().then(function isDisplayedThen(isDisplayed) {
-                        var pass = !isDisplayed;
-                        ret.message = 'Expected' + (pass ? ' not ' : '') + ' to be displayed';
+                        var pass = isDisplayed;
+                        ret.message = 'Expected' + ((pass) ? ' not ' : '') + ' to be displayed';
 
                         return pass;
                     }),
@@ -127,14 +127,14 @@ module.exports = {
                             Math.pow(actualLocation.y - expectedLocation.y, 2)
                         );
 
-                        var pass = distance <= maxDistance;
+                        var pass = (distance <= maxDistance);
 
                         // { x: 1, y: 2 } => '(1, 2)'
                         function coordinatesToString(obj) {
                             return '(' + obj.x + ', ' + obj.y + ')';
                         }
 
-                        ret.message = 'Expected ' + (pass ? ' not' : '') + ' to be near ' +
+                        ret.message = 'Expected ' + ((pass) ? ' not' : '') + ' to be near ' +
                                       coordinatesToString(expectedLocation) + ' but is at ' +
                                       coordinatesToString((actualLocation)) + ', ' + distance + ' pixels from it.';
 
@@ -159,8 +159,8 @@ module.exports = {
             compare: function toBePresentCompare(elementToTest) {
                 var ret = {
                     pass: elementToTest.isPresent().then(function isPresentThen(isPresent) {
-                        var pass = !isPresent;
-                        ret.message = 'Expected' + (pass ? ' not ' : '') + ' to be present';
+                        var pass = isPresent;
+                        ret.message = 'Expected' + ((pass) ? ' not ' : '') + ' to be present';
 
                         return pass;
                     }),
@@ -325,7 +325,7 @@ module.exports = {
             compare: function toHaveExactTextCompare(elementToTest, expectedText) {
                 var ret = {
                     pass: elementToTest.getText().then(function getTextThen(actualText) {
-                        var pass = actualText === expectedText;
+                        var pass = (actualText === expectedText);
                         if (pass) {
                             ret.message = 'Expected not to have text ' + expectedText;
                         } else {
@@ -354,7 +354,7 @@ module.exports = {
             compare: function toHaveValueCompare(elementToTest, expectedValue) {
                 var ret = {
                     pass: elementToTest.getAttribute('value').then(function getAttributeThen(actualValue) {
-                        var pass = actualValue === expectedValue;
+                        var pass = (actualValue === expectedValue);
                         if (pass) {
                             ret.message = 'Expected not to have value ' + expectedValue;
                         } else {

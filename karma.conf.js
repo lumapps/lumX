@@ -2,8 +2,6 @@ var isDebug = process.env.DEBUG || false;
 var enableRemapping = true;
 var coverageReportDirectory = './tests/client/unit/report/';
 
-var browsers = [(isDebug) ? 'Chrome' : 'PhantomJS'];
-
 var reporters = ['mocha'];
 if (!isDebug) {
     reporters.push('coverage');
@@ -24,7 +22,7 @@ module.exports = function karmaConfig(config) {
          * Start these browsers
          * Available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
          */
-        browsers: browsers,
+        browsers: ['Chrome'],
 
         // Enable/disable colors in the output (reporters and logs)
         colors: true,

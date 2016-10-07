@@ -3,7 +3,7 @@ import { Locator } from 'selenium-webdriver';
 
 import { UserBrowser } from '../helpers/user-browser.class';
 
-import { APP_SELECTOR, NEW_TO_DO_SELECTOR, SELECTOR_PREFIX, TO_DO_LIST_SELECTOR, TO_DO_SELECTOR }
+import { APP_SELECTOR, NEW_TO_DO_SELECTOR, SELECTOR_PREFIX, SELECTOR_SEPARATOR, TO_DO_LIST_SELECTOR, TO_DO_SELECTOR }
     from '../../../../src/client/app/core/settings/selectors.settings';
 
 
@@ -64,18 +64,18 @@ export class HomePage {
         this._toDoItemDoneDateAccessor = by.css('.' + this.toDoItemDoneDateClass);
         this._toDoItemLabelAccessor = by.css('.' + this.toDoItemLabelClass);
 
-        this.app = this.userBrowser.element(by.tagName(SELECTOR_PREFIX + '-' + APP_SELECTOR));
-        this.toDo = this.app.element(by.tagName(SELECTOR_PREFIX + '-' + TO_DO_SELECTOR));
+        this.app = this.userBrowser.element(by.tagName(SELECTOR_PREFIX + SELECTOR_SEPARATOR + APP_SELECTOR));
+        this.toDo = this.app.element(by.tagName(SELECTOR_PREFIX + SELECTOR_SEPARATOR + TO_DO_SELECTOR));
         this.header = this.toDo.element(by.tagName('header'));
         this.title = this.header.element(by.tagName('h1'));
         this.section = this.toDo.element(by.tagName('section'));
 
-        this.newToDo = this.section.element(by.tagName(SELECTOR_PREFIX + '-' + NEW_TO_DO_SELECTOR));
+        this.newToDo = this.section.element(by.tagName(SELECTOR_PREFIX + SELECTOR_SEPARATOR + NEW_TO_DO_SELECTOR));
         this.addNewItemButton = this.newToDo.element(by.css(this.addNewItemButtonClass));
         this.newItemInput = this.newToDo.element(by.css(this.newItemInputClass));
         this.newToDoDiv = this.newToDo.element(by.tagName('div'));
 
-        this.toDoList = this.section.element(by.tagName(SELECTOR_PREFIX + '-' + TO_DO_LIST_SELECTOR));
+        this.toDoList = this.section.element(by.tagName(SELECTOR_PREFIX + SELECTOR_SEPARATOR + TO_DO_LIST_SELECTOR));
         this.toDoListContainer = this.toDoList.element(by.css(this.toDoListClass));
         this.toDoListElements = this.toDoListContainer.all(by.tagName('li'));
     }

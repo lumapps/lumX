@@ -2,20 +2,26 @@ require('ts-node/register');
 
 var helpers = require('./config/modules/helpers');
 var Jasmine2HtmlReporter = require('protractor-jasmine2-html-reporter');
-var SpecReporter = require('jasmine-spec-reporter');
+var ConsoleReporter = require('jasmine-console-reporter');
 
 var isHidden = process.env.HIDDEN || false;
+var isDebug = process.env.DEBUG || false;
+
+var useWebpack = false;
+
+var host = 'localhost';
+var port = (useWebpack) ? '8880' : '8881';
 
 exports.config = {
     allScriptsTimeout: 110000,
 
-    baseUrl: 'http://localhost:8880/',
+    baseUrl: 'http://' + host + ':' + port + '/',
 
     capabilities: {
         browserName: 'chrome',
     },
 
-    directConnect: !isHidden,
+    directConnect: true,
 
     exclude: [],
 
@@ -25,8 +31,9 @@ exports.config = {
         defaultTimeoutInterval: 400000,
         includeStackTrace: false,
         isVerbose: false,
-        showColors: true,
-        showTiming: true,
+        showColors: false,
+        showTiming: false,
+        silent: true,
     },
 
     onPrepare: function onPrepare() {
@@ -36,29 +43,24 @@ exports.config = {
                .window()
                .maximize();
 
-        jasmine.getEnv().addReporter(
-            new Jasmine2HtmlReporter({
-                consolidate: true,
-                consolidateAll: true,
-                filePrefix: 'e2e-report-' + Date.now(),
-                savePath: './tests/client/e2e/report/',
-                screenshotsFolder: 'screenshots',
-                takeScreenshots: true,
-                takeScreenshotsOnlyOnFailures: true,
-            })
-        );
-        jasmine.getEnv().addReporter(
-            new SpecReporter({
-                displayFailedSpec: true,
-                displayFailuresSummary: true,
-                displayPendingSpec: false,
-                displayPendingSummary: true,
-                displaySpecDuration: false,
-                displayStacktrace: 'specs',
-                displaySuccessfulSpec: true,
-                displaySuiteNumber: false,
-            })
-        );
+        jasmine.getEnv().clearReporters();
+
+        jasmine.getEnv().addReporter(new Jasmine2HtmlReporter({
+            consolidate: true,
+            consolidateAll: true,
+            filePrefix: 'e2e-report-' + Date.now(),
+            savePath: './tests/client/e2e/report/',
+            screenshotsFolder: 'screenshots',
+            takeScreenshots: true,
+            takeScreenshotsOnlyOnFailures: true,
+        }));
+        jasmine.getEnv().addReporter(new ConsoleReporter({
+            colors: 1,
+            cleanStack: 2,
+            verbosity: 4,
+            listStyle: 'indent',
+            activity: !isDebug,
+        }));
 
         jasmine.getEnv().beforeEach(function beforeEachJasmineGetEnv() {
             jasmine.addMatchers(require('./config/modules/jasmine-matchers'));
@@ -69,6 +71,8 @@ exports.config = {
         helpers.root('tests/client/e2e/specs/**/*.ts'),
     ],
 
+    stackTrace: false,
+
     /**
      * Angular 2 configuration
      *
@@ -77,15 +81,3 @@ exports.config = {
      */
     useAllAngular2AppRoots: true,
 };
-
-exports.config.jasmineNodeOpts.print = function jasminePrint() {
-    // Nothing to do here
-};
-if (isHidden) {
-    exports.config.capabilities.browserName = 'phantomjs';
-    exports.config.capabilities['phantomjs.binary.path'] = require('phantomjs').path;
-    exports.config.capabilities['phantomjs.cli.args'] = [
-        '--webdriver-loglevel=DEBUG',
-        '--webdriver-logfile=./tests/client/e2e/phantomjsdriver.log',
-    ];
-}

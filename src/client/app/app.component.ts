@@ -4,8 +4,6 @@ import { Response } from '@angular/http';
 import { APP_SELECTOR as SELECTOR } from 'core/settings/selectors.settings';
 import { SELECTOR_PREFIX, SELECTOR_SEPARATOR } from 'core/settings/selectors.settings';
 
-import { ITokenMessage } from 'core/messages/token.message';
-
 import { HttpInterceptorService } from 'core/services/http-interceptor.service';
 import { TokenService } from 'core/services/token.service';
 
@@ -46,10 +44,9 @@ export class AppComponent {
      * @param {TokenService}           _TokenService The token service
      */
     constructor(_Http: HttpInterceptorService, _TokenService: TokenService) {
-        _Http.get('/services/oauthtoken')
-            .map((response: Response) => response.json())
+        _Http.get('/')
             .subscribe(
-                (tokenResponse: ITokenMessage) => _TokenService.setToken(tokenResponse.token)
+                () => _TokenService.setToken('1234')
             );
     }
 }

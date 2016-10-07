@@ -197,26 +197,20 @@ module.exports = function webpackProdConfigExport(options) {
             // "Plain production configuration"
             new UglifyJsPlugin({
                 // Debug production configuration
+
                 // beautify: true,
-                // mangle: false,
-                // dead_code: false,
-                // unused: false,
-                // deadCode: false,
-                // compress: {
-                //   screw_ie8: true,
-                //   keep_fnames: true,
-                //   drop_debugger: false,
-                //   dead_code: false,
-                //   unused: false
-                // },
                 // comments: true,
+                // compress: false,
+                // mangle: false,
 
                 // Plain production configuration
+
                 beautify: false,
                 comments: false,
                 /* eslint-disable camelcase */
                 compress: {
                     screw_ie8: true,
+                    warnings: false,
                 },
                 mangle: {
                     keep_fnames: true,
