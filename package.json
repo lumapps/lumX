@@ -3,7 +3,7 @@
     "version": "1.0.0",
     "description": "Default boilerplate for new project generation",
     "keywords": [
-        "angular2"
+        "angular2",
         "boilerplate",
         "lumapps",
         "project",
@@ -16,7 +16,9 @@
     "config": {},
     "scripts": {
         "build": "npm run -s build:dev",
+        "prebuild:dev": "npm run -s lint:src && npm run -s clean:dist",
         "build:dev": "npm run -s task -- build:dev",
+        "prebuild:prod": "npm run -s lint:src && npm run -s clean:dist",
         "build:prod": "npm run -s task -- build:prod",
         "dev": "npm run -s build:dev",
         "dist": "npm run -s build:prod",
@@ -34,13 +36,21 @@
         "lang": "npm run -s task -- lang",
         "langs": "npm run -s lang",
 
+        "pree2e": "npm run -s serve:prod",
         "e2e": "npm run -s task -- e2e",
+        "pree2e:fast": "npm run -s serve:prod",
         "e2e:fast": "npm run -s task -- e2e:fast",
+        "pree2e:debug": "npm run -s serve:prod",
         "e2e:debug": "npm run -s task -- e2e:debug",
+        "pree2e:phantom": "npm run -s serve:prod",
         "e2e:phantom": "npm run -s task -- e2e:phantom",
+        "pree2e:phantom:fast": "npm run -s serve:prod",
         "e2e:phantom:fast": "npm run -s task -- e2e:phantom:fast",
+        "pree2e:hidden": "npm run -s serve:prod",
         "e2e:hidden": "npm run -s e2e:phantom",
+        "pree2e:hidden:fast": "npm run -s serve:prod",
         "e2e:hidden:fast": "npm run -s e2e:phantom:fast",
+
         "unit": "npm run -s task -- unit",
         "unit:debug": "npm run -s task -- unit:debug",
         "unit:live": "npm run -s task -- unit:live",
@@ -52,15 +62,22 @@
         "test:live": "npm run -s unit:live",
         "test:live:debug": "npm run -s unit:live:debug",
 
-        "clean": "npm run -s task -- clean:dist",
+        "clean": "npm run -s clean:dist",
         "clean:all": "npm run -s task -- clean:all",
-        "clean:unit:report": "npm run -s task -- clean:unit:report",
-        "clean:e2e:report": "npm run -s task -- clean:e2e:report",
+        "clean:dist": "npm run -s task -- clean:dist",
         "clean:docs": "npm run -s task -- clean:docs",
+        "clean:packages": "npm run -s task -- clean:packages",
+        "clean:npm": "npm run -s clean:packages",
+        "clean:project": "npm run -s task -- clean:project",
+        "clean:reports": "npm run -s clean:tests:reports",
+        "clean:tests": "npm run -s clean:tests:reports",
+        "clean:tests:reports": "npm run -s task -- clean:tests:reports",
 
         "help": "npm run -s task -- --tasks",
         "task": "gulp",
         "tasks": "help",
+
+        "setup": "rm -Rf -- node_module && npm cache clean && npm install && npm run -s task -- clean:project",
 
         "commit": "npm run -s task -- commit",
         "co": "npm run -s commit",
@@ -68,8 +85,12 @@
 
         "live": "npm run -s start",
         "start": "npm run -s serve:live",
+        "run": "npm run -s serve:live",
         "serve": "npm run -s task -- serve",
         "serve:live": "npm run -s task -- serve:live",
+        "preserve:dev": "npm run -s build:dev",
+        "serve:dev": "npm run -s task -- serve:prod",
+        "preserve:prod": "npm run -s build:prod",
         "serve:prod": "npm run -s task -- serve:prod",
 
         "commitizen": "git-cz",
@@ -84,14 +105,12 @@
         "tsconfig-lint": "tsconfig-lint",
         "tslint": "tslint",
         "typedoc": "typedoc",
-
-        "webpack": "webpack",
-        "webpack-dashboard": "webpack-dashboard",
-        "webpack-dev-server": "webpack-dev-server",
-
         "webdriver-manager": "webdriver-manager",
         "webdriver:start": "npm run -s webdriver-manager start 2>&1",
-        "webdriver:update": "npm run -s webdriver-manager update 2>&1"
+        "webdriver:update": "npm run -s webdriver-manager update 2>&1",
+        "webpack": "webpack",
+        "webpack-dashboard": "webpack-dashboard",
+        "webpack-dev-server": "webpack-dev-server"
     },
     "engines": {
         "node": ">= 4.4.7",
@@ -100,7 +119,7 @@
     "private": true,
     "author": "Lumapps <contact@lumapps.com> (https://www.lumapps.com)",
     "contributors": [
-        "Arnaud V. <arnaud@lumapps.com> (https://github.com/arnaudvalle)"
+        "Arnaud V. <arnaud@lumapps.com> (https://github.com/arnaudvalle)",
         "Clément P. <clement@lumapps.com> (https://github.com/clementprevot)"
     ],
     "license": "MIT",
@@ -132,11 +151,13 @@
     },
     "devDependencies": {
         "commitizen": "latest",
-        "gulp": "latest",
-        "gulp-shelter": "latest",
         "http-server": "latest",
         "phantomjs-prebuilt": "latest",
         "rimraf": "latest",
+
+        "gulp": "latest",
+        "gulp-cli": "latest",
+        "gulp-shelter": "latest",
 
         "@angularclass/hmr": "latest",
 

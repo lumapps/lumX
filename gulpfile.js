@@ -89,38 +89,48 @@ shelter({
               && ${envProd} ${npmRun} webpack -- ${webpackConfig} ${webpackCommonParameters}
                                                  ${webpackBuildParameters} ${webpackProdParameters}`,
     },
-
     'clean:dist': {
         dsc: `Clean the "dist" folder of ${project}`,
         cmd: `${npmRun} rimraf -- ${distFolder}`,
     },
+    'clean:tests:reports': {
+        dsc: `Clean the tests reports folder of ${project}`,
+        cmd: `${npmRun} task -- clean:unit:report
+              && ${npmRun} task -- clean:e2e:report`,
+    },
     'clean:unit:report': {
         dsc: `Clean the "unit/report" folder of ${project}`,
-        cmd: `${npmRun} rimraf -- ${unitReportFolder}/*`,
+        cmd: `${npmRun} rimraf -- ${unitReportFolder}`,
     },
     'clean:e2e:report': {
         dsc: `Clean the "e2e/report" folder of ${project}`,
-        cmd: `${npmRun} rimraf -- ${e2eReportFolder}/*`,
+        cmd: `${npmRun} rimraf -- ${e2eReportFolder}`,
     },
     'clean:docs': {
-        dsc: 'Clean the "docs" folder',
-        cmd: `${npmRun} rimraf -- ${docsFolder}/*`,
+        dsc: `Clean the "docs" folder of ${project}`,
+        cmd: `${npmRun} rimraf -- ${docsFolder}`,
+    },
+    'clean:project': {
+        dsc: `Clean the ${project} project, but leave the NPM dependancies installed`,
+        cmd: `${npmRun} task -- clean:dist
+              && ${npmRun} task -- clean:tests:reports
+              && ${npmRun} task -- clean:docs`,
+    },
+    'clean:packages': {
+        dsc: `Clean the installed packages and the NPM cache of ${project}`,
+        cmd: `npm cache clean
+              && ${npmRun} rimraf -- node_modules`,
     },
     'clean:all': {
         dsc: `Clean the whole ${project} project (NPM, docs, test and dist)`,
-        cmd: `npm cache clean
-              && ${npmRun} rimraf -- node_modules ${docsFolder} ${unitReportFolder} ${e2eReportFolder} ${distFolder}`,
+        cmd: `${npmRun} task -- clean:project
+              && ${npmRun} task -- clean:packages`,
     },
 
     'docs': {
         dsc: `Generate the TypeScript documentation for ${project}`,
         cmd: `${npmRun} typedoc -- --options typedoc.json --exclude '**/*.(spec|specs|e2e).ts' --out ${docsFolder}
                                    --name ${project} ${appFolder}`,
-    },
-
-    'lang': {
-        dsc: ``,
-        cmd: ``,
     },
 
     'e2e': {
