@@ -1,8 +1,16 @@
 {
     "name": "lumboilerplate",
-    "version": "0.0.1",
+    "version": "1.0.0",
     "description": "Default boilerplate for new project generation",
-    "keywords": ["boilerplate", "project", "lumapps"],
+    "keywords": [
+        "angular2"
+        "boilerplate",
+        "lumapps",
+        "project",
+        "typescript",
+        "sass",
+        "webpack"
+    ],
     "homepage": "https://github.com/lumapps/lumboilerplate/",
     "main": "setup.sh",
     "config": {},
@@ -54,12 +62,17 @@
         "task": "gulp",
         "tasks": "help",
 
+        "commit": "npm run -s task -- commit",
+        "co": "npm run -s commit",
+        "cz": "npm run -s commit",
+
         "live": "npm run -s start",
         "start": "npm run -s serve:live",
         "serve": "npm run -s task -- serve",
         "serve:live": "npm run -s task -- serve:live",
         "serve:prod": "npm run -s task -- serve:prod",
 
+        "commitizen": "git-cz",
         "eslint": "eslint",
         "http-server": "http-server",
         "istanbul": "istanbul",
@@ -87,6 +100,7 @@
     "private": true,
     "author": "Lumapps <contact@lumapps.com> (https://www.lumapps.com)",
     "contributors": [
+        "Arnaud V. <arnaud@lumapps.com> (https://github.com/arnaudvalle)"
         "Clément P. <clement@lumapps.com> (https://github.com/clementprevot)"
     ],
     "license": "MIT",
@@ -117,6 +131,7 @@
         "zone.js": "latest"
     },
     "devDependencies": {
+        "commitizen": "latest",
         "gulp": "latest",
         "gulp-shelter": "latest",
         "http-server": "latest",

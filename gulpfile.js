@@ -112,13 +112,13 @@ shelter({
               && ${npmRun} rimraf -- node_modules ${docsFolder} ${unitReportFolder} ${e2eReportFolder} ${distFolder}`,
     },
 
-    docs: {
+    'docs': {
         dsc: `Generate the TypeScript documentation for ${project}`,
         cmd: `${npmRun} typedoc -- --options typedoc.json --exclude '**/*.(spec|specs|e2e).ts' --out ${docsFolder}
                                    --name ${project} ${appFolder}`,
     },
 
-    lang: {
+    'lang': {
         dsc: ``,
         cmd: ``,
     },
@@ -152,7 +152,7 @@ shelter({
               && ${hidden} ${npmRun} protractor;
               ${npmRun} rimraf -- ./phantomjsdriver.log`,
     },
-    unit: {
+    'unit': {
         dsc: `Run unit tests (Karma with PhantomJS) on ${project}`,
         cmd: `${npmRun} task -- clean:unit:report
               && ${envTest} ${npmRun} karma -- start`,
@@ -171,7 +171,7 @@ shelter({
         cmd: `${debug} ${envDev} ${npmRun} karma -- start --auto-watch --no-single-run`,
     },
 
-    tests: {
+    'tests': {
         dsc: `Run all the tests (Karma and Protractor with PhantomJS) on ${project}`,
         cmd: `${npmRun} task -- unit
               && ${npmRun} task -- e2e`,
@@ -182,7 +182,7 @@ shelter({
               && ${npmRun} task -- e2e:debug`,
     },
 
-    serve: {
+    'serve': {
         dsc: `Start ${project} development with watcher (compile, lint, build)`,
         cmd: `${envDev} ${npmRun} webpack-dev-server -- ${webpackConfig} ${webpackCommonParameters}
                                                         ${webpackDevParameters}
@@ -200,5 +200,10 @@ shelter({
         dsc: `Start ${project} production release test`,
         cmd: `${npmRun} http-server -- ${distFolder} -p 8881 -i False --silent -o --cors
                                        --proxy http://localhost:8888`,
+    },
+
+    'commit': {
+        dsc: `Commit according to guidelines with Commitizen`,
+        cmd: `${npmRun} commitizen`,
     },
 });
