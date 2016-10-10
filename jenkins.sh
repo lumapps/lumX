@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source ~/.bashrc
+
 GRAY="\e[37m"
 BLUE="\e[34m"
 RED="\e[31m"
@@ -57,7 +59,7 @@ function step() {
 GIT_NAME=$(git --no-pager show -s --format='%an' $GIT_COMMIT)
 GIT_EMAIL=$(git --no-pager show -s --format='%ae' $GIT_COMMIT)
 
-nvm use --node
+nvm use node
 
 printf "Starting Boilerplate CI on branch '${GIT_BRANCH}' ($(date)) because of '${GIT_NAME} <${GIT_EMAIL}>' changes\n\n"
 
@@ -77,7 +79,7 @@ if [[ $TESTS == *"unit"* ]]; then
     step "Units tests" "unit"
 fi
 if [[ $TESTS == *"e2e"* ]]; then
-    nvm use --node
+    nvm use node
     step "E2E tests" "e2e:headless"
 fi
 
