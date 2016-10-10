@@ -57,6 +57,8 @@ function step() {
 GIT_NAME=$(git --no-pager show -s --format='%an' $GIT_COMMIT)
 GIT_EMAIL=$(git --no-pager show -s --format='%ae' $GIT_COMMIT)
 
+nvm use --node
+
 printf "Starting Boilerplate CI on branch '${GIT_BRANCH}' ($(date)) because of '${GIT_NAME} <${GIT_EMAIL}>' changes\n\n"
 
 if [[ "$SETUP" != "None" ]]; then
@@ -71,8 +73,11 @@ if [[ $LINT == *"source"* ]]; then
 fi
 
 if [[ $TESTS == *"unit"* ]]; then
+    nvm use --lts
     step "Units tests" "unit"
-elif [[ $TESTS == *"e2e"* ]]; then
+fi
+if [[ $TESTS == *"e2e"* ]]; then
+    nvm use --node
     step "E2E tests" "e2e:headless"
 fi
 
