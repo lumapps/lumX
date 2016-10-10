@@ -34,6 +34,7 @@
         "prod:fast": "npm run -s build:prod:fast",
 
         "docs": "npm run -s task -- docs",
+        "doc": "npm run -s docs",
 
         "lint": "npm run -s lint:src",
         "lint:all": "npm run -s lint:config && npm run -s lint:src",
