@@ -55,7 +55,7 @@ exports.config = {
             takeScreenshotsOnlyOnFailures: true,
         }));
         jasmine.getEnv().addReporter(new ConsoleReporter({
-            activity: !isDebug,
+            activity: !isCI && !isDebug,
             cleanStack: 2,
             colors: (isCI) ? 0 : 1,
             listStyle: 'indent',
