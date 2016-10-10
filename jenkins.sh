@@ -26,7 +26,7 @@ if [[ "$1" = "--no-colors" ]]; then
 fi
 
 function exitWithCode() {
-    printf "Boilerplate CI on branch ${GIT_BRANCH} done ($(date))\n"
+    printf "Boilerplate CI on branch "${GIT_BRANCH}" done ($(date))\n"
     printf "Exit with code ${1}"
 
     exit $1
@@ -49,7 +49,7 @@ function step() {
     displayResult $? $1
 }
 
-printf "Starting Boilerplate CI on branch ${GIT_BRANCH} ($(date))\n"
+printf "Starting Boilerplate CI on branch "${GIT_BRANCH}" ($(date))\n"
 
 
 step "Setup" "setup${setupType}"
