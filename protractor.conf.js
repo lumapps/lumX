@@ -4,7 +4,6 @@ var helpers = require('./config/modules/helpers');
 var Jasmine2HtmlReporter = require('protractor-jasmine2-html-reporter');
 var ConsoleReporter = require('jasmine-console-reporter');
 
-var isHidden = process.env.HIDDEN || false;
 var isDebug = process.env.DEBUG || false;
 
 var useWebpack = false;
@@ -55,11 +54,11 @@ exports.config = {
             takeScreenshotsOnlyOnFailures: true,
         }));
         jasmine.getEnv().addReporter(new ConsoleReporter({
-            colors: 1,
-            cleanStack: 2,
-            verbosity: 4,
-            listStyle: 'indent',
             activity: !isDebug,
+            cleanStack: 2,
+            colors: 1,
+            listStyle: 'indent',
+            verbosity: 4,
         }));
 
         jasmine.getEnv().beforeEach(function beforeEachJasmineGetEnv() {
