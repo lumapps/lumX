@@ -7,14 +7,14 @@ GREEN="\e[32m"
 DEFAULT="\e[39m"
 
 npmFlags="-s"
-if [[ $VERBOSE = true ]]; then
+if [[ $VERBOSE == true ]]; then
     npmFlags=""
     set -x
 fi
 
 setupLabel="Setup"
 setupType=""
-if [[ $FAST_SETUP = true ]]; then
+if [[ $SETUP == "Fast" ]]; then
     setupLabel="Fast setup"
     setupType=":fast"
 fi
@@ -55,10 +55,23 @@ function step() {
 
 printf "Starting Boilerplate CI on branch "${GIT_BRANCH}" ($(date))\n\n"
 
+if [[ "$SETUP" != "None" ]]; then
+    step "${setupLabel}" "setup${setupType}"
+fi
 
-step "${setupLabel}" "setup${setupType}"
-step "Lint" "lint:all"
-step "Tests" "tests"
+if [[ $LINT == *"config"* ]]; then
+    step "Lint configuration" "lint:config"
+fi
+if [[ $LINT == *"source"* ]]; then
+    step "Lint sources" "lint:src"
+fi
+
+if [[ $LINT == *"unit"* ]]; then
+    step "Units tests" "unit"
+elif [[ $LINT == *"e2e"* ]]; then
+    step "E2E tests" "e2e:headless"
+fi
+
 
 zip -r tests/client/unit/report/unitReport.zip tests/client/unit/report
 zip -r tests/client/e2e/report/e2eReport.zip tests/client/e2e/report
