@@ -66,14 +66,14 @@ if [[ $LINT == *"source"* ]]; then
     step "Lint sources" "lint:src"
 fi
 
-if [[ $LINT == *"unit"* ]]; then
+if [[ $TESTS == *"unit"* ]]; then
     step "Units tests" "unit"
-elif [[ $LINT == *"e2e"* ]]; then
+elif [[ $TESTS == *"e2e"* ]]; then
     step "E2E tests" "e2e:headless"
 fi
 
 
-zip -r tests/client/unit/report/unitReport.zip tests/client/unit/report
-zip -r tests/client/e2e/report/e2eReport.zip tests/client/e2e/report
+tar -czf tests/client/unit/report/unitReport.tar.gz tests/client/unit/report
+tar -czf tests/client/e2e/report/e2eReport.tar.gz tests/client/e2e/report
 
 exitWithCode 0
