@@ -55,7 +55,10 @@ function step() {
     printf "\n"
 }
 
-printf "Starting Boilerplate CI on branch '${GIT_BRANCH}' ($(date)) because of '${GIT_COMMITTER_NAME} <${GIT_COMMITTER_EMAIL}>' changes\n\n"
+GIT_NAME=$(git --no-pager show -s --format='%an' $GIT_COMMIT)
+GIT_EMAIL=$(git --no-pager show -s --format='%ae' $GIT_COMMIT)
+
+printf "Starting Boilerplate CI on branch '${GIT_BRANCH}' ($(date)) because of '${GIT_NAME} <${GIT_EMAIL}>' changes\n\n"
 
 if [[ "$SETUP" != "None" ]]; then
     step "${setupLabel}" "setup${setupType}"
