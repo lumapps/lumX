@@ -1,3 +1,6 @@
+"use strict";
+
+
 const gulp = require('gulp');
 const shelter = require('gulp-shelter')(gulp);
 
