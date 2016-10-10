@@ -86,6 +86,7 @@
 
         "help": "npm run -s tasks",
         "setup": "rm -Rf -- node_module && npm cache clean && npm install && npm run -s task -- clean:project",
+        "setup:fast": "npm prune && npm install && npm update && npm run -s task -- clean:project",
         "start": "npm run -s serve:live",
 
         "co": "npm run -s commit",
