@@ -6,6 +6,8 @@ RED="\e[31m"
 GREEN="\e[32m"
 DEFAULT="\e[39m"
 
+CI=true
+
 npmFlags="-s"
 if [[ $VERBOSE == true ]]; then
     npmFlags=""
@@ -48,12 +50,12 @@ function step() {
 
     npm run ${npmFlags} ${2}
 
-    displayResult $? $1
+    displayResult $? "$1"
 
     printf "\n"
 }
 
-printf "Starting Boilerplate CI on branch '${GIT_BRANCH}' ($(date)) because of '${GIT_COMMITER_NAME} <${GIT_COMMITER_EMAIL}>' changes\n\n"
+printf "Starting Boilerplate CI on branch '${GIT_BRANCH}' ($(date)) because of '${GIT_COMMITTER_NAME} <${GIT_COMMITTER_EMAIL}>' changes\n\n"
 
 if [[ "$SETUP" != "None" ]]; then
     step "${setupLabel}" "setup${setupType}"

@@ -1,4 +1,7 @@
+var isCI = process.env.CI || false;
+
 var isDebug = process.env.DEBUG || false;
+
 var enableRemapping = true;
 var coverageReportDirectory = './tests/client/unit/report/';
 
@@ -25,7 +28,7 @@ module.exports = function karmaConfig(config) {
         browsers: ['Chrome'],
 
         // Enable/disable colors in the output (reporters and logs)
-        colors: true,
+        colors: !isCI,
 
         coverageReporter: {
             dir: coverageReportDirectory,
@@ -104,6 +107,7 @@ module.exports = function karmaConfig(config) {
         // Webpack Config at ./config/webpack.test.js
         webpack: require('./config/webpack.test')({ env: 'test' }),
         webpackMiddleware: {
+            colors: !isCI,
             noInfo: true,
             quiet: true,
             stats: 'errors-only',

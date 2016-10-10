@@ -4,6 +4,7 @@ var helpers = require('./config/modules/helpers');
 var Jasmine2HtmlReporter = require('protractor-jasmine2-html-reporter');
 var ConsoleReporter = require('jasmine-console-reporter');
 
+var isCI = process.env.CI || false;
 var isDebug = process.env.DEBUG || false;
 
 var useWebpack = false;
@@ -56,7 +57,7 @@ exports.config = {
         jasmine.getEnv().addReporter(new ConsoleReporter({
             activity: !isDebug,
             cleanStack: 2,
-            colors: 1,
+            colors: (isCI) ? 0 : 1,
             listStyle: 'indent',
             verbosity: 4,
         }));
