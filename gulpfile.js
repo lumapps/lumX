@@ -1,8 +1,7 @@
-"use strict";
-
-
 const gulp = require('gulp');
 const shelter = require('gulp-shelter')(gulp);
+
+const isCI = process.env.CI || false;
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Define the project configuration here
@@ -41,9 +40,9 @@ const e2eBuildType = 'prod';
 // Toggle the "-s" flag to make npm verbose (nothing) or silent (-s)
 const npmRun = `npm run -s`;
 
-const webpackBuildParameters = `--profile --display-cached --hide-modules --progress --colors`;
+const webpackBuildParameters = `--profile --display-cached --hide-modules ${(!isCI) ? '--progress --colors' : ''}`;
 const webpackDevParameters = ``;
-const webpackDevServerClassicParameters = `--progress --colors`;
+const webpackDevServerClassicParameters = `${(!isCI) ? '--progress --colors' : ''}`;
 const webpackDevServerCommonParameters = `--watch --content-base ${sourceFolder}`;
 let   webpackDevServerHotReloadParameters = `--inline --hot`;
 const webpackCommonParameters = `--display-error-details`;
