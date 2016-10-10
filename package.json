@@ -168,15 +168,18 @@
         "zone.js": "latest"
     },
     "devDependencies": {
+        "http-server": "latest",
+        "rimraf": "latest",
+
         "commitizen": "latest",
         "cz-conventional-changelog": "latest",
-        "http-server": "latest",
-        "npm-run-all": "latest",
-        "rimraf": "latest",
+        "husky": "latest",
+        "validate-commit-msg": "latest",
 
         "gulp": "latest",
         "gulp-cli": "latest",
         "gulp-shelter": "latest",
+        "npm-run-all": "latest",
 
         "@angularclass/hmr": "latest",
 
