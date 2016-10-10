@@ -17,6 +17,14 @@ if [[ $FAST_SETUP = true ]]; then
     setupType=":fast"
 fi
 
+if [[ "$1" = "--no-colors" ]]; then
+    GRAY=""
+    BLUE=""
+    RED=""
+    GREEN=""
+    DEFAULT=""
+fi
+
 function exitWithCode() {
     printf "Boilerplate CI on branch ${GIT_BRANCH} done ($(date))\n"
     printf "Exit with code ${1}"
