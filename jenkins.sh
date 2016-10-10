@@ -6,7 +6,6 @@ RED="\e[31m"
 GREEN="\e[32m"
 DEFAULT="\e[39m"
 
-CI=true
 
 npmFlags="-s"
 if [[ $VERBOSE == true ]]; then
@@ -48,7 +47,7 @@ function displayResult() {
 function step() {
     printf "${GRAY}Launching ${BLUE}${1}${DEFAULT}... \n"
 
-    npm run ${npmFlags} ${2}
+    CI=true npm run ${npmFlags} ${2}
 
     displayResult $? "$1"
 
