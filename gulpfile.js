@@ -122,11 +122,13 @@ shelter({
     },
     'clean:unit:report': {
         dsc: `Clean the "unit/report" folder of ${project}`,
-        cmd: `${npmRun} rimraf -- ${unitReportFolder}/*`,
+        cmd: `${npmRun} rimraf -- ${unitReportFolder}/*
+              && ${npmRun} rimraf -- ${testsFolder}/unit*.tar.gz`,
     },
     'clean:e2e:report': {
         dsc: `Clean the "e2e/report" folder of ${project}`,
-        cmd: `${npmRun} rimraf -- ${e2eReportFolder}/*`,
+        cmd: `${npmRun} rimraf -- ${e2eReportFolder}/*
+              && ${npmRun} rimraf -- ${testsFolder}/e2e*.tar.gz`,
     },
     'clean:docs': {
         dsc: `Clean the "docs" folder of ${project}`,

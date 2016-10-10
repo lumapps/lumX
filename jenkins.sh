@@ -78,8 +78,8 @@ if [[ $TESTS == *"e2e"* ]]; then
 fi
 
 
-tar -czf tests/client/unit/report/unitReport.tar.gz tests/client/unit/report
-tar -czf tests/client/e2e/report/e2eReport.tar.gz tests/client/e2e/report
+tar -czf tests/client/unitReport.tar.gz tests/client/unit/report
+tar -czf tests/client/e2eReport.tar.gz tests/client/e2e/report
 
 
 exitWithCode 0
