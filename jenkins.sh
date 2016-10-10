@@ -12,8 +12,10 @@ if [[ $VERBOSE = true ]]; then
     set -x
 fi
 
+setupLabel="Setup"
 setupType=""
 if [[ $FAST_SETUP = true ]]; then
+    setupLabel="Fast setup"
     setupType=":fast"
 fi
 
@@ -27,7 +29,7 @@ fi
 
 function exitWithCode() {
     printf "Boilerplate CI on branch "${GIT_BRANCH}" done ($(date))\n"
-    printf "Exit with code ${1}"
+    printf "Exit with code ${1}\n"
 
     exit $1
 }
@@ -36,7 +38,7 @@ function displayResult() {
     if [[ "$1" = "0" ]]; then
         printf "${GREEN}✔ ${2} successful${DEFAULT}\n"
     else
-        printf "${RED}❌ ${2} failed${DEFAULT}"
+        printf "${RED}❌ ${2} failed${DEFAULT}\n\n"
         exitWithCode $1
     fi
 }
@@ -47,12 +49,14 @@ function step() {
     npm run ${npmFlags} ${2}
 
     displayResult $? $1
+
+    printf "\n"
 }
 
-printf "Starting Boilerplate CI on branch "${GIT_BRANCH}" ($(date))\n"
+printf "Starting Boilerplate CI on branch "${GIT_BRANCH}" ($(date))\n\n"
 
 
-step "Setup" "setup${setupType}"
+step "${setupLabel}" "setup${setupType}"
 step "Lint" "lint:all"
 step "Tests" "tests"
 
