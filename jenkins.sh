@@ -41,6 +41,7 @@ rm -f build.properties
 rm -f build.status
 
 REASON=""
+DETAILS=""
 REASON_MORE="<br />Please check the attached build log to see what wents wrong."
 
 GIT_NAME=$(git --no-pager show -s --format='%an' $GIT_COMMIT)
@@ -65,8 +66,9 @@ fi
 function exitWithCode() {
     printf "\nBoilerplate CI on branch "${GIT_BRANCH}" done ($(date))\n"
     printf "Exit with code ${1}\n"
+    printf "${REASON/<br \/>/\\n}\n"
 
-    echo "REASON=${REASON}" > build.status
+    echo "REASON=${REASON}${DETAILS}" > build.status
     echo "EXIT_CODE=${1}" >> build.status
 
     exit 0
@@ -141,6 +143,66 @@ if [[ $? -ne 0 ]]; then
     exitWithCode $?
 fi
 
-REASON="This means that the setup process is fine, lint is OK and every tests have passed. Congrats!<br />You'll find the tests reports and build log attached to this email."
+REASON=""
+EXPLANATION=""
+DETAILS="<br />You'll find "
+if [[ "$SETUP" != "None" ]]; then
+    EXPLANATION="the setup process is fine"
+fi
+
+if [[ -n "$LINT" ]]; then
+    if [[ -n "$EXPLANATION" ]]; then
+        if [[ -z "$TESTS" ]]; then
+            EXPLANATION="${EXPLANATION} and "
+        else
+            EXPLANATION="${EXPLANATION}, "
+        fi
+    fi
+
+    LINT_TYPE=""
+    if [[ $LINT == *"config"* ]]; then
+        LINT_TYPE="configuration "
+    fi
+    if [[ $LINT == *"source"* ]]; then
+        if [[ -z "$LINT_TYPE" ]]; then
+            LINT_TYPE="sources "
+        else
+            LINT_TYPE="all "
+        fi
+    fi
+
+    EXPLANATION="${EXPLANATION}${LINT_TYPE}lint is OK"
+fi
+
+if [[ -n "$TESTS" ]]; then
+    if [[ -n "$EXPLANATION" ]]; then
+        EXPLANATION="${EXPLANATION} and "
+    fi
+
+    TESTS_TYPES=""
+    if [[ $TESTS == *"unit"* ]]; then
+        TESTS_TYPES="units"
+    fi
+    if [[ $TESTS == *"e2e"* ]]; then
+        if [[ -z "$TESTS_TYPES" ]]; then
+            TESTS_TYPES="E2E"
+        else
+            TESTS_TYPES="every"
+        fi
+    fi
+
+    EXPLANATION="${EXPLANATION}${TESTS_TYPES} tests have passed"
+
+    DETAILS="${DETAILS}the tests reports and "
+fi
+
+if [[ -n "$EXPLANATION" ]]; then
+    REASON="This means that "
+    EXPLANATION="${EXPLANATION}. Congrats!"
+fi
+
+DETAILS="${DETAILS}build log attached to this email."
+
+REASON="${REASON}${EXPLANATION}"
 
 exitWithCode 0
