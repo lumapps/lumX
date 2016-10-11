@@ -61,6 +61,7 @@ ehthumbs.db
 # Test files
 tests/**/report
 coverage.json
+tests/**/*Report.tar.gz
 
 # Logs files
 **/logs
@@ -79,3 +80,7 @@ lang.js
 
 # Dist
 /dist
+
+# CI
+build.status
+build.properties
