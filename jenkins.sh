@@ -45,7 +45,7 @@ function displayResult() {
 }
 
 function step() {
-    printf "${GRAY}Launching ${BLUE}${1}${DEFAULT}... \n"
+    printf "Launching ${BLUE}${1}${DEFAULT}... \n"
 
     CI=true npm run ${npmFlags} ${2}
 
@@ -81,8 +81,8 @@ if [[ $TESTS == *"e2e"* ]]; then
 fi
 
 
-tar -czf tests/client/unitReport.tar.gz tests/client/unit/report
-tar -czf tests/client/e2eReport.tar.gz tests/client/e2e/report
+tar -czf tests/client/unitReport.tar.gz -C tests/client/unit/report .
+tar -czf tests/client/e2eReport.tar.gz -C tests/client/e2e/report .
 
 
 exitWithCode 0
