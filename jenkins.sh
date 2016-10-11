@@ -46,8 +46,8 @@ REASON_MORE="<br />Please check the attached build log to see what wents wrong."
 GIT_NAME=$(git --no-pager show -s --format='%an' $GIT_COMMIT)
 GIT_EMAIL=$(git --no-pager show -s --format='%ae' $GIT_COMMIT)
 
-echo "GIT_NAME=\"${GIT_NAME}\"" > build.properties
-echo "GIT_EMAIL=\"${GIT_EMAIL}\"" >> build.properties
+echo "GIT_NAME=${GIT_NAME}" > build.properties
+echo "GIT_EMAIL=${GIT_EMAIL}" >> build.properties
 
 npmFlags="-s"
 if [[ $VERBOSE == true ]]; then
@@ -66,7 +66,7 @@ function exitWithCode() {
     printf "\nBoilerplate CI on branch "${GIT_BRANCH}" done ($(date))\n"
     printf "Exit with code ${1}\n"
 
-    echo "REASON=\"${REASON}\"" > build.status
+    echo "REASON=${REASON}" > build.status
     echo "EXIT_CODE=${1}" >> build.status
 
     exit 0
