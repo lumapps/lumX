@@ -35,108 +35,124 @@ if test -t 1; then
     fi
 fi
 
+pyLint="flake8"
+pyLintIgnore="E402,E711,E712,F403"
+pyLintLineLength=120
+pyLintIgnore="src/server/i18n/i18n*,src/server/libs"
 
-PYFILES=$(git diff --cached --name-only --diff-filter=ACM | grep ".py$")
-printf "Checking ${BOLD}Python${DEFAULT} files with ${BLUE}FLAKE8${DEFAULT}......... "
-if [ "$PYFILES" != "" ]; then
-    flake8 ${PYFILES}
-    if [[ "$?" = "0" ]]; then
-        printf "${GREEN}✔ SUCCESS${DEFAULT}\n"
-    else
-        printf "${RED}❌ FAIL${DEFAULT}\n"
-        exit 1
-    fi
-else
-    printf "${CYAN}DONE${DEFAULT}\n"
-fi
+tsLint="./node_modules/tslint/bin/tslint"
+tsLintLog="/tmp/tslint-result.log"
 
+jsLint="./node_modules/eslint/bin/eslint.js"
+jsLintLog="/tmp/eslint-result.log"
 
-TSFILES=$(git diff --cached --name-only --diff-filter=ACM | grep ".ts$")
-printf "Checking ${BOLD}Typescript${DEFAULT} files with ${BLUE}TSLint${DEFAULT}..... "
-if [ "$TSFILES" != "" ]; then
-    exit_code=0
+sassLint="./node_modules/sass-lint/bin/sass-lint.js"
+sassLintLog="/tmp/sasslint-result.log"
 
-    touch /tmp/tslint-result.log
+exit_code=0
 
-    node_modules/tslint/bin/tslint -t stylish -o /tmp/tslint-result.log ${TSFILES}
+if type $pyLint &> /dev/null; then
+    printf "Checking ${BOLD}Python${DEFAULT} files with ${BLUE}Flake8${DEFAULT}......... "
 
-    TSLINT_FAILS=$(cat /tmp/tslint-result.log | grep "warning|error")
-    if [[ $TSLINT_FAILS != "" ]]; then
-        printf "${RED}FAILED${DEFAULT}"
-        printf "\n\n===== TSLint logs =====\n"
-        cat /tmp/tslint-result.log
+    PYFILES=$(git diff --cached --name-only --diff-filter=ACM | grep ".py$")
+    if [ "$PYFILES" != "" ]; then
+        $(${pyLint} --ignore=${pyLintIgnore} --max-line-length=${pyLintLineLength} --exclude=${pyLintExclude} ${PYFILES})
 
-        exit_code=1
-    else
-        printf "${GREEN}SUCCESS${DEFAULT}\n"
-    fi
-
-    rm /tmp/tslint-result.log
-
-    exit $exit_code
-else
-    printf "${CYAN}DONE${DEFAULT}\n"
-fi
-
-
-JSFILES=$(git diff --cached --name-only --diff-filter=ACM | grep ".js$")
-printf "Checking ${BOLD}Javascript${DEFAULT} files with ${BLUE}ESLint${DEFAULT}..... "
-if [ "$JSFILES" != "" ]; then
-    exit_code=0
-
-    touch /tmp/eslint-result.log
-
-    node_modules/eslint/bin/eslint.js -f stylish -o /tmp/eslint-result.log ${JSFILES}
-
-    ESLINT_FAILS=$(cat /tmp/eslint-result.log | grep "warning|error")
-    if [[ $ESLINT_FAILS != "" ]]; then
-        printf "${RED}FAILED${DEFAULT}"
-        printf "\n\n===== ESLint logs =====\n"
-        cat /tmp/eslint-result.log
-
-        exit_code=1
-    else
-        printf "${GREEN}SUCCESS${DEFAULT}\n"
-    fi
-
-    rm /tmp/eslint-result.log
-
-    exit $exit_code
-else
-    printf "${CYAN}DONE${DEFAULT}\n"
-fi
-
-
-SASSFILES=$(git diff --cached --name-only --diff-filter=ACM | grep ".scss$")
-printf "Checking ${BOLD}SASS${DEFAULT} files with ${BLUE}SASS-Lint${DEFAULT}........ "
-if [ "$SASSFILES" != "" ]; then
-    exit_code=0
-
-    touch /tmp/sasslint-result.log
-
-    ./node_modules/sass-lint/bin/sass-lint.js -t stylish -q -o /tmp/sasslint-result.log ${SASSFILES}
-
-    SASSLINT_FAILS=$(cat /tmp/sasslint-result.log | grep "warning|error")
-    if [[ $SASSLINT_FAILS != "" ]]; then
-        printf "${RED}❌ FAILED${DEFAULT}"
-
-        if [[ $SASSLINT_FAILS != "" ]]; then
-            printf "\n\n===== SASS-Lint logs =====\n"
-            cat /tmp/sasslint-result.log
+        if [[ "$?" = "0" ]]; then
+            printf "${GREEN}✔ SUCCESS${DEFAULT}\n"
+        else
+            printf "${RED}❌ FAILED${DEFAULT}\n"
 
             exit_code=1
         fi
     else
-        printf "${GREEN}✔ SUCCESS${DEFAULT}\n"
+        printf "${CYAN}DONE${DEFAULT}\n"
     fi
+fi
 
-    rm /tmp/sasslint-result.log
 
-    exit $exit_code
-else
-    printf "${CYAN}DONE${DEFAULT}\n"
+if [[ -x $tsLint ]]; then
+    printf "Checking ${BOLD}Typescript${DEFAULT} files with ${BLUE}TSLint${DEFAULT}..... "
+
+    TSFILES=$(git diff --cached --name-only --diff-filter=ACM | grep ".ts$")
+    if [ "$TSFILES" != "" ]; then
+        touch ${tsLintLog}
+
+        $(${tsLint} -t stylish -o ${tsLintLog} ${TSFILES})
+
+        TSLINT_FAILS=$(cat ${tsLintLog})
+        if [[ $TSLINT_FAILS != "" ]]; then
+            printf "${RED}❌ FAILED${DEFAULT}"
+            printf "\n===== TSLint logs =====\n"
+            cat $tsLintLog
+
+            exit_code=1
+        else
+            printf "${GREEN}✔ SUCCESS${DEFAULT}\n"
+        fi
+
+        rm ${tsLintLog}
+    else
+        printf "${CYAN}DONE${DEFAULT}\n"
+    fi
+fi
+
+if [[ -x $jsLint ]]; then
+    printf "Checking ${BOLD}Javascript${DEFAULT} files with ${BLUE}ESLint${DEFAULT}..... "
+
+    JSFILES=$(git diff --cached --name-only --diff-filter=ACM | grep ".js$")
+    if [ "$JSFILES" != "" ]; then
+        touch ${jsLintLog}
+
+        $(${jsLint} -f stylish -o ${jsLintLog} ${JSFILES})
+
+        ESLINT_FAILS=$(cat ${jsLintLog} | grep -e "warning" -e "error")
+        if [[ $ESLINT_FAILS != "" ]]; then
+            printf "${RED}❌ FAILED${DEFAULT}"
+            printf "\n===== ESLint logs ====="
+            cat ${jsLintLog}
+            printf "\n"
+
+            exit_code=1
+        else
+            printf "${GREEN}✔ SUCCESS${DEFAULT}\n"
+        fi
+
+        rm ${jsLintLog}
+    else
+        printf "${CYAN}DONE${DEFAULT}\n"
+    fi
+fi
+
+if [[ -x $sassLint ]]; then
+    printf "Checking ${BOLD}SASS${DEFAULT} files with ${BLUE}SASS-Lint${DEFAULT}........ "
+
+    SASSFILES=$(git diff --cached --name-only --diff-filter=ACM | grep ".scss$")
+    if [ "$SASSFILES" != "" ]; then
+        touch ${sassLintLog}
+
+        $(${sassLint} -f stylish -q -v ${SASSFILES} > ${sassLintLog})
+
+        SASSLINT_FAILS=$(cat ${sassLintLog} | grep -e "warning" -e "error")
+        if [[ $SASSLINT_FAILS != "" ]]; then
+            printf "${RED}❌ FAILED${DEFAULT}"
+
+            if [[ $SASSLINT_FAILS != "" ]]; then
+                printf "\n===== SASS-Lint logs =====\n"
+                cat ${sassLintLog}
+
+                exit_code=1
+            fi
+        else
+            printf "${GREEN}✔ SUCCESS${DEFAULT}\n"
+        fi
+
+        rm ${sassLintLog}
+    else
+        printf "${CYAN}DONE${DEFAULT}\n"
+    fi
 fi
 
 printf "\n"
 
-exit 0
+exit ${exit_code}
