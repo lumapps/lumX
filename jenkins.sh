@@ -63,8 +63,9 @@ function exitWithCode() {
     printf "Exit with code ${1}\n"
 
     echo "REASON=\"${REASON}\"" > build.status
+    echo "EXIT_CODE=${1}" >> build.status
 
-    exit $1
+    exit 0
 }
 
 function displayResult() {
