@@ -36,6 +36,10 @@ if [[ "$*" != *"--no-colors"* ]]; then
     fi
 fi
 
+rm -Rf tests/client/*Report.tar.gz
+rm -f build.properties
+rm -f build.status
+
 REASON=""
 REASON_MORE="<br />Please check the attached build log to see what wents wrong."
 
