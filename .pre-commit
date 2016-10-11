@@ -1,43 +1,64 @@
 #!/bin/bash
 
-RED="\e[31m"
-GREEN="\e[32m"
-BLUE="\e[34m"
-DEFAULT="\e[39m"
+BOLD=""
+UNDERLINE=""
+STANDOUT=""
+DEFAULT=""
+BLACK=""
+RED=""
+GREEN=""
+YELLOW=""
+BLUE=""
+MAGENTA=""
+CYAN=""
+WHITE=""
+
+# Check if stdout is a terminal...
+if test -t 1; then
+
+    # See if it supports colors...
+    ncolors=$(tput colors)
+
+    if test -n "$ncolors" && test $ncolors -ge 8; then
+        BOLD="$(tput bold)"
+        UNDERLINE="$(tput smul)"
+        STANDOUT="$(tput smso)"
+        DEFAULT="$(tput sgr0)"
+        BLACK="$(tput setaf 0)"
+        RED="$(tput setaf 1)"
+        GREEN="$(tput setaf 2)"
+        YELLOW="$(tput setaf 3)"
+        BLUE="$(tput setaf 4)"
+        MAGENTA="$(tput setaf 5)"
+        CYAN="$(tput setaf 6)"
+        WHITE="$(tput setaf 7)"
+    fi
+fi
 
 
 PYFILES=$(git diff --cached --name-only --diff-filter=ACM | grep ".py$")
+printf "Checking ${BOLD}Python${DEFAULT} files with ${BLUE}FLAKE8${DEFAULT}......... "
 if [ "$PYFILES" != "" ]; then
-    printf "Launching PEP8................ "
-    pep8 ${PYFILES} --max-line-length=120 --ignore=E402 --exclude=strings.py
+    flake8 ${PYFILES}
     if [[ "$?" = "0" ]]; then
-        printf "${GREEN}SUCCESS${DEFAULT}\n"
+        printf "${GREEN}✔ SUCCESS${DEFAULT}\n"
     else
-        printf "${RED}FAILED${DEFAULT}\n"
-        exit 1
-    fi
-
-    printf "Launching pyflakes............ "
-    pyflakes ${PYFILES}
-    if [[ "$?" = "0" ]]; then
-        printf "${GREEN}SUCCESS${DEFAULT}\n"
-    else
-        printf "${RED}FAILED${DEFAULT}"
+        printf "${RED}❌ FAIL${DEFAULT}\n"
         exit 1
     fi
 else
-    printf "${BLUE}No Python files to check${DEFAULT}\n"
+    printf "${CYAN}DONE${DEFAULT}\n"
 fi
 
 
 TSFILES=$(git diff --cached --name-only --diff-filter=ACM | grep ".ts$")
+printf "Checking ${BOLD}Typescript${DEFAULT} files with ${BLUE}TSLint${DEFAULT}..... "
 if [ "$TSFILES" != "" ]; then
     exit_code=0
 
-    printf "Launching TSLint..... "
     touch /tmp/tslint-result.log
 
-    node_modules/tslint/bin/tslint -t stylish -o ${TSFILES}
+    node_modules/tslint/bin/tslint -t stylish -o /tmp/tslint-result.log ${TSFILES}
 
     TSLINT_FAILS=$(cat /tmp/tslint-result.log | grep "warning|error")
     if [[ $TSLINT_FAILS != "" ]]; then
@@ -53,17 +74,19 @@ if [ "$TSFILES" != "" ]; then
     rm /tmp/tslint-result.log
 
     exit $exit_code
+else
+    printf "${CYAN}DONE${DEFAULT}\n"
 fi
 
 
 JSFILES=$(git diff --cached --name-only --diff-filter=ACM | grep ".js$")
+printf "Checking ${BOLD}Javascript${DEFAULT} files with ${BLUE}ESLint${DEFAULT}..... "
 if [ "$JSFILES" != "" ]; then
     exit_code=0
 
-    printf "Launching ESLint..... "
     touch /tmp/eslint-result.log
 
-    node_modules/eslint/bin/eslint -t stylish -o ${JSFILES}
+    node_modules/eslint/bin/eslint.js -f stylish -o /tmp/eslint-result.log ${JSFILES}
 
     ESLINT_FAILS=$(cat /tmp/eslint-result.log | grep "warning|error")
     if [[ $ESLINT_FAILS != "" ]]; then
@@ -79,17 +102,19 @@ if [ "$JSFILES" != "" ]; then
     rm /tmp/eslint-result.log
 
     exit $exit_code
+else
+    printf "${CYAN}DONE${DEFAULT}\n"
 fi
 
 
 SASSFILES=$(git diff --cached --name-only --diff-filter=ACM | grep ".scss$")
+printf "Checking ${BOLD}SASS${DEFAULT} files with ${BLUE}SASS-Lint${DEFAULT}........ "
 if [ "$SASSFILES" != "" ]; then
     exit_code=0
 
-    printf "${GRAY}Launching ${BLUE}SASS-Lint${DEFAULT}..... "
     touch /tmp/sasslint-result.log
 
-    ./node_modules/sass-lint/bin/sass-lint.js ${SASSFILES} -t stylish -q -o /tmp/sasslint-result.log
+    ./node_modules/sass-lint/bin/sass-lint.js -t stylish -q -o /tmp/sasslint-result.log ${SASSFILES}
 
     SASSLINT_FAILS=$(cat /tmp/sasslint-result.log | grep "warning|error")
     if [[ $SASSLINT_FAILS != "" ]]; then
@@ -108,7 +133,10 @@ if [ "$SASSFILES" != "" ]; then
     rm /tmp/sasslint-result.log
 
     exit $exit_code
+else
+    printf "${CYAN}DONE${DEFAULT}\n"
 fi
 
+printf "\n"
 
 exit 0

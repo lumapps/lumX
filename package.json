@@ -13,9 +13,20 @@
     ],
     "homepage": "https://github.com/lumapps/lumboilerplate/",
     "config": {
-      "commitizen": {
-        "path": "./node_modules/cz-conventional-changelog"
-      }
+        "commitizen": {
+            "path": "./node_modules/cz-conventional-changelog"
+        },
+        "husky": {
+            "flags": "--silent"
+        },
+        "validate-commit-msg": {
+            "types": "conventional-commit-types",
+            "warnOnFail": false,
+            "maxSubjectLength": 100,
+            "subjectPattern": ".+",
+            "subjectPatternErrorMsg": "Commit subject is not valid. It must be at least one character long.",
+            "helpMessage": "\nHere is the format for valid commit messages: \n<type> <scope>: <subject>\n<BLANK LINE>\n<body>\n<BLANK LINE>\n<footer>\n\nIf your commit message starts with 'WIP', then no commit validation will be enforced."
+        }
     },
     "scripts": {
         "build": "npm run -s build:prod",
@@ -87,8 +98,11 @@
         "help": "npm run -s tasks",
         "setup": "rm -Rf -- node_module && npm cache clean && npm install --silent && npm run -s task -- clean:project",
         "setup:fast": "npm prune && npm install --silent && npm update && npm run -s task -- clean:project",
+        "setup:git-hooks": "node node_modules/husky/bin/uninstall.js && node node_modules/husky/bin/install.js",
         "start": "npm run -s serve:live",
 
+        "precommit": "./.pre-commit",
+        "preparecommitmsg": "npm run -s validate-commit",
         "co": "npm run -s commit",
         "commit": "npm run -s task -- commit",
         "cz": "npm run -s commit",
@@ -123,6 +137,7 @@
         "tsconfig-lint": "tsconfig-lint",
         "tslint": "tslint",
         "typedoc": "typedoc",
+        "validate-commit": "validate-commit-msg",
         "webdriver-manager": "webdriver-manager",
         "webdriver:start": "npm run -s webdriver-manager -- start 2>&1",
         "webdriver:update": "npm run -s webdriver-manager -- update --standalone 2>&1",
@@ -172,8 +187,9 @@
         "rimraf": "latest",
 
         "commitizen": "latest",
+        "conventional-commit-types": "latest",
         "cz-conventional-changelog": "latest",
-        "husky": "latest",
+        "husky": "github:clementprevot/husky",
         "validate-commit-msg": "latest",
 
         "gulp": "latest",
