@@ -1,4 +1,4 @@
-var isCI = process.env.CI || false;
+var isCI = process.env.CI || require('is-ci') || false;
 
 var isDebug = process.env.DEBUG || false;
 

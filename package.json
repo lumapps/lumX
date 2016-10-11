@@ -184,6 +184,7 @@
     },
     "devDependencies": {
         "http-server": "latest",
+        "is-ci": "latest",
         "rimraf": "latest",
 
         "commitizen": "latest",

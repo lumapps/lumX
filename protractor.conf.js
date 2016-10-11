@@ -1,10 +1,11 @@
 require('ts-node/register');
 
 var helpers = require('./config/modules/helpers');
-var Jasmine2HtmlReporter = require('protractor-jasmine2-html-reporter');
-var ConsoleReporter = require('jasmine-console-reporter');
 
-var isCI = process.env.CI || false;
+var ConsoleReporter = require('jasmine-console-reporter');
+var Jasmine2HtmlReporter = require('protractor-jasmine2-html-reporter');
+
+var isCI = process.env.CI || require('is-ci') || false;
 var isDebug = process.env.DEBUG || false;
 
 var useWebpack = false;

@@ -1,7 +1,7 @@
 const gulp = require('gulp');
 const shelter = require('gulp-shelter')(gulp);
 
-const isCI = process.env.CI || false;
+const isCI = process.env.CI || require('is-ci') || false;
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Define the project configuration here
