@@ -57,6 +57,9 @@ function step() {
 GIT_NAME=$(git --no-pager show -s --format='%an' $GIT_COMMIT)
 GIT_EMAIL=$(git --no-pager show -s --format='%ae' $GIT_COMMIT)
 
+echo "GIT_NAME=${GIT_NAME}" > build.properties
+echo "GIT_EMAIL=${GIT_EMAIL}" >> build.properties
+
 printf "Starting Boilerplate CI on branch '${GIT_BRANCH}' ($(date)) because of '${GIT_NAME} <${GIT_EMAIL}>' changes\n\n"
 
 if [[ "$SETUP" != "None" ]]; then
