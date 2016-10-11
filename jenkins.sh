@@ -36,6 +36,14 @@ if [[ "$*" != *"--no-colors"* ]]; then
     fi
 fi
 
+REASON=""
+
+GIT_NAME=$(git --no-pager show -s --format='%an' $GIT_COMMIT)
+GIT_EMAIL=$(git --no-pager show -s --format='%ae' $GIT_COMMIT)
+
+echo "GIT_NAME=\"${GIT_NAME}\"" > build.properties
+echo "GIT_EMAIL=\"${GIT_EMAIL}\"" >> build.properties
+
 npmFlags="-s"
 if [[ $VERBOSE == true ]]; then
     npmFlags=""
@@ -53,7 +61,7 @@ function exitWithCode() {
     printf "Boilerplate CI on branch "${GIT_BRANCH}" done ($(date))\n"
     printf "Exit with code ${1}\n"
 
-    echo "REASON=${REASON}" >> build.properties
+    echo "REASON=\"${REASON}\"" > build.status
 
     exit $1
 }
@@ -77,17 +85,11 @@ function step() {
     printf "\n"
 }
 
-GIT_NAME=$(git --no-pager show -s --format='%an' $GIT_COMMIT)
-GIT_EMAIL=$(git --no-pager show -s --format='%ae' $GIT_COMMIT)
-
-echo "GIT_NAME=${GIT_NAME}" > build.properties
-echo "GIT_EMAIL=${GIT_EMAIL}" >> build.properties
-
 printf "Starting Boilerplate CI on branch '${GIT_BRANCH}' ($(date)) because of '${GIT_NAME} <${GIT_EMAIL}>' changes\n\n"
 
 REASON="The ${setupLabel,,} step failed. Please check the attached build log to see what wents wrong."
 if [[ $FAIL == *"setup"* ]]; then
-    printf "${YELLOW}Simulating ${setupLabel,,} failure${DEFAULT}"
+    printf "${YELLOW}Simulating ${setupLabel,,} failure${DEFAULT}\n"
     exitWithCode 1
 fi
 if [[ "$SETUP" != "None" ]]; then
@@ -96,15 +98,16 @@ fi
 
 REASON="A configuration file is not correctly formatted and has been rejected by the linter.<br />Please check the attached build log to see what wents wrong."
 if [[ $FAIL == *"lint:config"* ]]; then
-    printf "${YELLOW}Simulating lint configuration failure${DEFAULT}"
+    printf "${YELLOW}Simulating lint configuration failure${DEFAULT}\n"
     exitWithCode 1
 fi
 if [[ $LINT == *"config"* ]]; then
     step "Lint configuration" "lint:config"
 fi
+
 REASON="A source file is not correctly formatted and has been rejected by the linter.<br />Please check the attached build log to see what wents wrong."
 if [[ $FAIL == *"lint:src"* ]]; then
-    printf "${YELLOW}Simulating lint source failure${DEFAULT}"
+    printf "${YELLOW}Simulating lint source failure${DEFAULT}\n"
     exitWithCode 1
 fi
 if [[ $LINT == *"source"* ]]; then
@@ -113,15 +116,16 @@ fi
 
 REASON="At least one unit test has failed and the build has been cancelled.<br />Please check the attached build log to see what wents wrong."
 if [[ $FAIL == *"tests:units"* ]]; then
-    printf "${YELLOW}Simulating units tests failure${DEFAULT}"
+    printf "${YELLOW}Simulating units tests failure${DEFAULT}\n"
     exitWithCode 1
 fi
 if [[ $TESTS == *"unit"* ]]; then
     step "Units tests" "unit"
 fi
+
 REASON="At least one E2E test has failed and the build has been cancelled.<br />Please check the attached build log to see what wents wrong."
 if [[ $FAIL == *"tests:e2e"* ]]; then
-    printf "${YELLOW}Simulating E2E tests failure${DEFAULT}"
+    printf "${YELLOW}Simulating E2E tests failure${DEFAULT}\n"
     exitWithCode 1
 fi
 if [[ $TESTS == *"e2e"* ]]; then
@@ -129,9 +133,8 @@ if [[ $TESTS == *"e2e"* ]]; then
 fi
 
 REASON="The setup process is fine, lint is OK and every tests have passed. However, tests reports couldn't have been generated.<br />This means that your build is fine, but you should consider checking on the attached build log to see what wents wrong with reports generation."
-
 if [[ $FAIL == *"tests:reports"* ]]; then
-    printf "${YELLOW}Simulating reports generation failure${DEFAULT}"
+    printf "${YELLOW}Simulating reports generation failure${DEFAULT}\n"
     exitWithCode 1
 fi
 tar -czf tests/client/unitReport.tar.gz -C tests/client/unit/report .
