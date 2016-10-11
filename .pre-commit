@@ -15,7 +15,6 @@ WHITE=""
 
 # Check if stdout is a terminal...
 if test -t 1; then
-
     # See if it supports colors...
     ncolors=$(tput colors)
 
