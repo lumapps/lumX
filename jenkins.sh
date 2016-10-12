@@ -53,10 +53,16 @@ GIT_SUBJECT=$(git --no-pager show -s --format='%s' $GIT_COMMIT)
 
 if [[ -n "$ghprbActualCommit" ]]; then
     if [[ -z "$ghprbActualCommitAuthorEmail" ]]; then
+        ghprbActualCommitAuthor=${GIT_NAME}
         echo "ghprbActualCommitAuthor=${GIT_NAME}" >> build.properties
     fi
     if [[ -z "$ghprbActualCommitAuthorEmail" ]]; then
+        ghprbActualCommitAuthorEmail=${GIT_EMAIL}
         echo "ghprbActualCommitAuthorEmail=${GIT_EMAIL}" >> build.properties
+    fi
+    if [[ -z "$ghprbPullTitle" ]]; then
+        ghprbPullTitle=${GIT_BRANCH}
+        echo "ghprbPullTitle=${GIT_EMAIL}" >> build.properties
     fi
 
     if [[ -n "${ghprbPullId}" ]]; then
