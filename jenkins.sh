@@ -124,7 +124,7 @@ function simulateFailure() {
 }
 
 printf "[$(date)] Starting Boilerplate CI on branch \"${GIT_BRANCH}\" because of \"${GIT_NAME} <${GIT_EMAIL}>\" changes\n"
-printf "#{${GIT_SHA}} - (${GIT_DATE}): \"${GIT_SUBJECT}\"\n\n"
+printf "[${GIT_DATE}] #{${GIT_SHA}}: \"${GIT_SUBJECT}\"\n\n"
 
 REASON="The ${setupLabel,,} step failed. Please check the attached build log to see what wents wrong."
 simulateFailure $setupLabel "setup"
