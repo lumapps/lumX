@@ -154,23 +154,14 @@ REASON="At least one unit test has failed and the build has been cancelled.${REA
 simulateFailure "Units tests" "tests:units"
 if [[ $TESTS == *"unit"* ]]; then
     step "Units tests" "unit"
+    tar -czf tests/client/unitReport.tar.gz -C tests/client/unit/report .
 fi
 
 REASON="At least one E2E test has failed and the build has been cancelled.${REASON_MORE}"
 simulateFailure "E2E tests" "tests:e2e"
 if [[ $TESTS == *"e2e"* ]]; then
     step "E2E tests" "e2e:headless"
-fi
-
-REASON="The setup process is fine, lint is OK and every tests have passed. However, tests reports couldn't have been generated.<br />This means that your build is fine, but you should consider checking on the attached build log to see what wents wrong with reports generation."
-simulateFailure "Reports generation" "tests:reports"
-tar -czf tests/client/unitReport.tar.gz -C tests/client/unit/report .
-if [[ $? -ne 0 ]]; then
-    exitWithCode $?
-fi
-tar -czf tests/client/e2eReport.tar.gz -C tests/client/e2e/report .
-if [[ $? -ne 0 ]]; then
-    exitWithCode $?
+    tar -czf tests/client/e2eReport.tar.gz -C tests/client/e2e/report .
 fi
 
 REASON=""
