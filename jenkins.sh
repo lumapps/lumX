@@ -54,24 +54,24 @@ GIT_SUBJECT=$(git --no-pager show -s --format='%s' $GIT_COMMIT)
 touch build.properties
 touch build.status
 
-if [[ -n "$ghprbActualCommit" ]]; then
-    if [[ -z "$ghprbActualCommitAuthorEmail" ]]; then
-        ghprbActualCommitAuthor=${GIT_NAME}
-        echo "ghprbActualCommitAuthor=${GIT_NAME}" >> build.properties
+if [[ -n "$GITHUB_PR_NUMBER" ]]; then
+    if [[ -z "$GITHUB_PR_TRIGGER_SENDER_AUTHOR" ]]; then
+        GITHUB_PR_TRIGGER_SENDER_AUTHOR=${GIT_NAME}
+        echo "GITHUB_PR_TRIGGER_SENDER_AUTHOR=${GIT_NAME}" >> build.properties
     fi
-    if [[ -z "$ghprbActualCommitAuthorEmail" ]]; then
-        ghprbActualCommitAuthorEmail=${GIT_EMAIL}
-        echo "ghprbActualCommitAuthorEmail=${GIT_EMAIL}" >> build.properties
+    if [[ -z "$GITHUB_PR_TRIGGER_SENDER_EMAIL" ]]; then
+        GITHUB_PR_TRIGGER_SENDER_EMAIL=${GIT_EMAIL}
+        echo "GITHUB_PR_TRIGGER_SENDER_EMAIL=${GIT_EMAIL}" >> build.properties
     fi
-    if [[ -z "$ghprbPullTitle" ]]; then
+    if [[ -z "$GITHUB_PR_TITLE" ]]; then
         ghprbPullTitle=${GIT_BRANCH}
         echo "ghprbPullTitle=${GIT_SUBJECT}" >> build.properties
     fi
 
-    if [[ -n "${ghprbPullId}" ]]; then
-        CUSTOM_BUILD_SOURCE="Pull Request \"<a href=\"${ghprbPullLink}\" target=\"_blank\">#${ghprbPullId} - ${ghprbPullTitle}</a>\" (<em>${ghprbTargetBranch}/${ghprbSourceBranch}</em>)"
+    if [[ -n "$GITHUB_PR_URL" ]]; then
+        CUSTOM_BUILD_SOURCE="Pull Request \"<a href=\"${GITHUB_PR_URL}\" target=\"_blank\">#${GITHUB_PR_NUMBER} - ${GITHUB_PR_TITLE}</a>\" (<em>${GITHUB_PR_TARGET_BRANCH}/${GITHUB_PR_SOURCE_BRANCH}</em>)"
     else
-        CUSTOM_BUILD_SOURCE="\"$ghprbActualCommit\""
+        CUSTOM_BUILD_SOURCE="\"${GITHUB_PR_COND_REF}\""
     fi
 else
     CUSTOM_BUILD_SOURCE="branch \"<em>${GIT_BRANCH}</em>\""
