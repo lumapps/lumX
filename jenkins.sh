@@ -43,12 +43,32 @@ rm -f build.status
 REASON=""
 DETAILS=""
 REASON_MORE="<br />Please check the attached build log to see what wents wrong."
+CUSTOM_BUILD_SOURCE=""
 
 GIT_NAME=$(git --no-pager show -s --format='%an' $GIT_COMMIT)
 GIT_EMAIL=$(git --no-pager show -s --format='%ae' $GIT_COMMIT)
 
-echo "GIT_NAME=${GIT_NAME}" > build.properties
-echo "GIT_EMAIL=${GIT_EMAIL}" >> build.properties
+if [[ -n "$ghprbActualCommit" ]]; then
+    if [[ -z "$ghprbActualCommitAuthorEmail" ]]; then
+        echo "ghprbActualCommitAuthor=${GIT_NAME}" >> build.properties
+    fi
+    if [[ -z "$ghprbActualCommitAuthorEmail" ]]; then
+        echo "ghprbActualCommitAuthorEmail=${GIT_EMAIL}" >> build.properties
+    fi
+
+    if [[ -n "${ghprbPullId}" ]]; then
+        CUSTOM_BUILD_SOURCE="Pull Request \"<a href=\"${ghprbPullLink}\" target=\"_blank\">#${ghprbPullId} - ${ghprbPullTitle}</a>\" (<em>${ghprbTargetBranch}/${ghprbSourceBranch}</em>)"
+    else
+        CUSTOM_BUILD_SOURCE="\"$ghprbActualCommit\""
+    fi
+else
+    echo "GIT_NAME=${GIT_NAME}" > build.properties
+    echo "GIT_EMAIL=${GIT_EMAIL}" > build.properties
+
+    CUSTOM_BUILD_SOURCE="branch \"<em>${GIT_BRANCH}</em>\""
+fi
+
+echo "CUSTOM_BUILD_SOURCE=${CUSTOM_BUILD_SOURCE}" > build.properties
 
 npmFlags="-s"
 if [[ $VERBOSE == true ]]; then
