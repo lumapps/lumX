@@ -96,8 +96,8 @@
         "tasks": "npm run -s task -- --tasks",
 
         "help": "npm run -s tasks",
-        "setup": "rm -Rf -- node_module && npm cache clean && npm install --silent && npm run -s task -- clean:project",
-        "setup:fast": "npm prune && npm install --silent && npm update && npm run -s task -- clean:project",
+        "setup": "rm -Rf -- node_module && npm --silent cache clean && npm install --silent && npm run -s task -- clean:project",
+        "setup:fast": "npm --silent prune && npm install --silent && npm --silent update && npm run -s task -- clean:project",
         "setup:git-hooks": "node node_modules/husky/bin/uninstall.js && node node_modules/husky/bin/install.js",
         "start": "npm run -s serve:live",
 
