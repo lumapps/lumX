@@ -51,6 +51,9 @@ GIT_SHA=$(git --no-pager show -s --format='%h' $GIT_COMMIT)
 GIT_DATE=$(git --no-pager show -s --format='%aD' $GIT_COMMIT)
 GIT_SUBJECT=$(git --no-pager show -s --format='%s' $GIT_COMMIT)
 
+echo "GIT_NAME=${GIT_NAME}" > build.properties
+echo "GIT_EMAIL=${GIT_EMAIL}" > build.properties
+
 if [[ -n "$ghprbActualCommit" ]]; then
     if [[ -z "$ghprbActualCommitAuthorEmail" ]]; then
         ghprbActualCommitAuthor=${GIT_NAME}
@@ -71,9 +74,6 @@ if [[ -n "$ghprbActualCommit" ]]; then
         CUSTOM_BUILD_SOURCE="\"$ghprbActualCommit\""
     fi
 else
-    echo "GIT_NAME=${GIT_NAME}" > build.properties
-    echo "GIT_EMAIL=${GIT_EMAIL}" > build.properties
-
     CUSTOM_BUILD_SOURCE="branch \"<em>${GIT_BRANCH}</em>\""
 fi
 
