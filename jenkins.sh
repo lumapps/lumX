@@ -62,7 +62,7 @@ if [[ -n "$ghprbActualCommit" ]]; then
     fi
     if [[ -z "$ghprbPullTitle" ]]; then
         ghprbPullTitle=${GIT_BRANCH}
-        echo "ghprbPullTitle=${GIT_EMAIL}" >> build.properties
+        echo "ghprbPullTitle=${GIT_SUBJECT}" >> build.properties
     fi
 
     if [[ -n "${ghprbPullId}" ]]; then
