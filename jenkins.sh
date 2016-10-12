@@ -47,6 +47,9 @@ CUSTOM_BUILD_SOURCE=""
 
 GIT_NAME=$(git --no-pager show -s --format='%an' $GIT_COMMIT)
 GIT_EMAIL=$(git --no-pager show -s --format='%ae' $GIT_COMMIT)
+GIT_SHA=$(git --no-pager show -s --format='%h' $GIT_COMMIT)
+GIT_DATE=$(git --no-pager show -s --format='%aD' $GIT_COMMIT)
+GIT_SUBJECT=$(git --no-pager show -s --format='%s' $GIT_COMMIT)
 
 if [[ -n "$ghprbActualCommit" ]]; then
     if [[ -z "$ghprbActualCommitAuthorEmail" ]]; then
@@ -120,7 +123,8 @@ function simulateFailure() {
     fi
 }
 
-printf "Starting Boilerplate CI on branch '${GIT_BRANCH}' ($(date)) because of '${GIT_NAME} <${GIT_EMAIL}>' changes\n\n"
+printf "Starting Boilerplate CI on branch \"${GIT_BRANCH}\" ($(date)) because of \"${GIT_NAME} <${GIT_EMAIL}>\" changes\n"
+printf "#{${GIT_SHA}} - (${GIT_DATE}): \"${GIT_SUBJECT}\"\n\n"
 
 REASON="The ${setupLabel,,} step failed. Please check the attached build log to see what wents wrong."
 simulateFailure $setupLabel "setup"
