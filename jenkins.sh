@@ -51,6 +51,9 @@ GIT_SHA=$(git --no-pager show -s --format='%h' $GIT_COMMIT)
 GIT_DATE=$(git --no-pager show -s --format='%aD' $GIT_COMMIT)
 GIT_SUBJECT=$(git --no-pager show -s --format='%s' $GIT_COMMIT)
 
+touch build.properties
+touch build.status
+
 if [[ -n "$ghprbActualCommit" ]]; then
     if [[ -z "$ghprbActualCommitAuthorEmail" ]]; then
         ghprbActualCommitAuthor=${GIT_NAME}
@@ -73,8 +76,8 @@ if [[ -n "$ghprbActualCommit" ]]; then
 else
     CUSTOM_BUILD_SOURCE="branch \"<em>${GIT_BRANCH}</em>\""
 
-    echo "GIT_NAME=${GIT_NAME}" > build.properties
-    echo "GIT_EMAIL=${GIT_EMAIL}" > build.properties
+    echo "GIT_NAME=${GIT_NAME}" >> build.properties
+    echo "GIT_EMAIL=${GIT_EMAIL}" >> build.properties
 fi
 
 echo "CUSTOM_BUILD_SOURCE=${CUSTOM_BUILD_SOURCE}" >> build.properties
@@ -97,7 +100,7 @@ function exitWithCode() {
     printf "Exit with code ${1}\n"
     printf "${REASON/<br \/>/\\n}\n"
 
-    echo "REASON=${REASON}${DETAILS}" > build.status
+    echo "REASON=${REASON}${DETAILS}" >> build.status
     echo "EXIT_CODE=${1}" >> build.status
 
     exit 0
