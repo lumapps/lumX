@@ -64,14 +64,14 @@ if [[ -n "$GITHUB_PR_NUMBER" ]]; then
         echo "GITHUB_PR_TRIGGER_SENDER_EMAIL=${GIT_EMAIL}" >> build.properties
     fi
     if [[ -z "$GITHUB_PR_TITLE" ]]; then
-        ghprbPullTitle=${GIT_BRANCH}
+        GITHUB_PR_TITLE=${GIT_BRANCH}
         echo "GITHUB_PR_TITLE=${GIT_SUBJECT}" >> build.properties
     fi
 
     if [[ -n "$GITHUB_PR_URL" ]]; then
         CUSTOM_BUILD_SOURCE="Pull Request \"<a href=\"${GITHUB_PR_URL}\" target=\"_blank\">#${GITHUB_PR_NUMBER} - ${GITHUB_PR_TITLE}</a>\" (<em>${GITHUB_PR_TARGET_BRANCH}/${GITHUB_PR_SOURCE_BRANCH}</em>)"
     else
-        CUSTOM_BUILD_SOURCE="\"${GITHUB_PR_COND_REF}\""
+        CUSTOM_BUILD_SOURCE="Pull Request #${GITHUB_PR_NUMBER}:${GITHUB_PR_COND_REF}"
     fi
 else
     CUSTOM_BUILD_SOURCE="branch \"<em>${GIT_BRANCH}</em>\""
