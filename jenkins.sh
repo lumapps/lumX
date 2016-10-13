@@ -159,7 +159,7 @@ fi
 REASON="At least one unit test has failed and the build has been cancelled.${REASON_MORE}"
 simulateFailure "Units tests" "tests:units"
 if [[ $TESTS == *"unit"* ]]; then
-    step "Units tests" "unit"
+    step "Units tests" "unit:headless"
     tar -czf tests/client/unitReport.tar.gz -C tests/client/unit/report .
 fi
 
