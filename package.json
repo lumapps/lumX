@@ -155,7 +155,7 @@
         "webpack-dev-server": "webpack-dev-server"
     },
     "engines": {
-        "node": ">= 4.4.7",
+        "node": ">= 4.6.0",
         "npm": ">= 3"
     },
     "private": true,
