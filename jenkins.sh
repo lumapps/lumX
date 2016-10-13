@@ -44,6 +44,7 @@ REASON=""
 DETAILS=""
 REASON_MORE="<br />Please check the attached build log to see what wents wrong."
 CUSTOM_BUILD_SOURCE=""
+CUSTOM_BUILD_SOURCE_LOG=""
 
 GIT_NAME=$(git --no-pager show -s --format='%an' $GIT_COMMIT)
 GIT_EMAIL=$(git --no-pager show -s --format='%ae' $GIT_COMMIT)
@@ -69,12 +70,14 @@ if [[ -n "$GITHUB_PR_NUMBER" ]]; then
     fi
 
     if [[ -n "$GITHUB_PR_URL" ]]; then
-        CUSTOM_BUILD_SOURCE="Pull Request \"<a href=\"${GITHUB_PR_URL}\" target=\"_blank\">#${GITHUB_PR_NUMBER} - ${GITHUB_PR_TITLE}</a>\" (<em>${GITHUB_PR_TARGET_BRANCH}/${GITHUB_PR_SOURCE_BRANCH}</em>)"
+        CUSTOM_BUILD_SOURCE="Pull Request <strong><a href=\"${GITHUB_PR_URL}\" target=\"_blank\">#${GITHUB_PR_NUMBER} \"${GITHUB_PR_TITLE}\"</a></strong> (<em>${GITHUB_PR_TARGET_BRANCH}/${GITHUB_PR_SOURCE_BRANCH}</em>)"
+        CUSTOM_BUILD_SOURCE_LOG="Pull Request #${GITHUB_PR_NUMBER} \"${GITHUB_PR_TITLE}\" (${GITHUB_PR_URL}) (${GITHUB_PR_TARGET_BRANCH}/${GITHUB_PR_SOURCE_BRANCH})"
     else
-        CUSTOM_BUILD_SOURCE="Pull Request #${GITHUB_PR_NUMBER}:${GITHUB_PR_COND_REF}"
+        CUSTOM_BUILD_SOURCE="Pull Request <strong>#${GITHUB_PR_NUMBER}:${GITHUB_PR_COND_REF}</strong>"
+        CUSTOM_BUILD_SOURCE_LOG="Pull Request #${GITHUB_PR_NUMBER}:${GITHUB_PR_COND_REF}"
     fi
 else
-    CUSTOM_BUILD_SOURCE="branch \"<em>${GIT_BRANCH}</em>\""
+    CUSTOM_BUILD_SOURCE="branch \"<strong>${GIT_BRANCH}</strong>\""
 
     echo "GIT_NAME=${GIT_NAME}" >> build.properties
     echo "GIT_EMAIL=${GIT_EMAIL}" >> build.properties
@@ -132,7 +135,7 @@ function simulateFailure() {
     fi
 }
 
-printf "[$(date)] Starting Boilerplate CI on ${CUSTOM_BUILD_SOURCE} because of \"${GIT_NAME} <${GIT_EMAIL}>\" changes:\n"
+printf "[$(date)] Starting Boilerplate CI on ${CUSTOM_BUILD_SOURCE_LOG} because of \"${GIT_NAME} <${GIT_EMAIL}>\" changes:\n"
 printf "#${GIT_SHA} (commited ${GIT_DATE}): \"${GIT_SUBJECT}\"\n\n"
 
 REASON="The ${setupLabel,,} step failed. Please check the attached build log to see what wents wrong."
