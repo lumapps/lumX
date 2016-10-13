@@ -85,7 +85,7 @@
             if (angular.isDefined(tooltip))
             {
                 tooltip.removeClass('tooltip--is-active');
-                
+
                 timer1 = $timeout(function()
                 {
                     if (angular.isDefined(tooltip))
