@@ -85,15 +85,15 @@
             if (angular.isDefined(tooltip))
             {
                 tooltip.removeClass('tooltip--is-active');
-
-                if (angular.isDefined(tooltip))
+                
+                timer1 = $timeout(function()
                 {
-                    timer1 = $timeout(function()
+                    if (angular.isDefined(tooltip))
                     {
                         tooltip.remove();
                         tooltip = undefined;
-                    }, 200);
-                }
+                    }
+                }, 200);
             }
         }
 
