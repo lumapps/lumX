@@ -173,6 +173,11 @@
 
         function open()
         {
+            if (lxDialog.isOpen)
+            {
+                return;
+            }
+            
             LxDepthService.register();
 
             angular.element('body').addClass('no-scroll-dialog-' + lxDialog.uuid);
@@ -237,6 +242,11 @@
 
         function close()
         {
+            if (!lxDialog.isOpen)
+            {
+                return;
+            }
+            
             if (angular.isDefined(idEventScheduler))
             {
                 LxEventSchedulerService.unregister(idEventScheduler);
