@@ -67,7 +67,7 @@ shelter({
         cmd: `${npmRun} run-parallel -- clean:dist ${(CHECK_LINT_BEFORE_BUILD) ? 'lint:src' : ''}
               && ${envDev} ${npmRun} webpack -- ${webpackConfig} ${webpackCommonParameters}
                                                 ${webpackBuildParameters} ${webpackDevParameters}`,
-        dsc: `Build the development bundle (with linting) of ${project}`,
+        dsc: `Build the development bundle after linting of ${project}`,
     },
     'build:dev:fast': {
         cmd: `${npmRun} clean:dist
@@ -79,7 +79,7 @@ shelter({
         cmd: `${npmRun} run-parallel -- clean:dist ${(CHECK_LINT_BEFORE_BUILD) ? 'lint:src' : ''}
               && ${envProd} ${npmRun} webpack -- ${webpackConfig} ${webpackCommonParameters}
                                                  ${webpackBuildParameters} ${webpackProdParameters}`,
-        dsc: `Build the production bundle (with linting) of ${project}`,
+        dsc: `Build the production bundle after linting of ${project}`,
     },
     'build:prod:fast': {
         cmd: `${npmRun} clean:dist
@@ -138,32 +138,32 @@ shelter({
     'e2e': {
         cmd: `${npmRun} run-parallel -- build:${e2eBuildType}:fast clean:e2e:report webdriver:update
               && ${npmRun} run-parallel -- -r serve:${e2eBuildType}:fast protractor`,
-        dsc: `Run End to End test (Protractor with Chrome) on ${project}`,
+        dsc: `Run End to End test (Protractor with Chrome) after rebuilding on ${project}`,
     },
     'e2e:debug': {
         cmd: `${npmRun} run-parallel -- build:${e2eBuildType}:fast clean:e2e:report webdriver:update
               && ${debug} ${npmRun} run-parallel -- -r serve:${e2eBuildType}:fast protractor:debug`,
-        dsc: `Run End to End test (Protractor with Chrome) in debug mode on ${project}`,
+        dsc: `Debug End to End test (Protractor with Chrome) after rebuilding on ${project}`,
     },
     'e2e:debug:fast': {
         cmd: `${npmRun} run-parallel -- clean:e2e:report
               && ${debug} ${npmRun} run-parallel -- -r serve:${e2eBuildType}:fast protractor:debug`,
-        dsc: `Run End to End test (Protractor with Chrome) in debug mode on ${project}`,
+        dsc: `Debug End to End test (Protractor with Chrome) with existing build on ${project}`,
     },
     'e2e:fast': {
         cmd: `${npmRun} run-parallel -- clean:e2e:report
               && ${npmRun} run-parallel -- -r serve:${e2eBuildType}:fast protractor`,
-        dsc: `Run End to End test (Protractor with Chrome) on ${project}`,
+        dsc: `Run End to End test (Protractor with Chrome) with existing build on ${project}`,
     },
     'e2e:headless': {
         cmd: `${npmRun} run-parallel -- build:${e2eBuildType}:fast clean:e2e:report webdriver:update
               && ${hidden} ${npmRun} run-parallel -- -r serve:${e2eBuildType}:fast protractor:headless`,
-        dsc: `Run End to End test (Protractor with Headless Chrome, XVFB needed) on ${project}`,
+        dsc: `Run End to End test (Protractor with Headless Chrome, XVFB needed) after rebuilding on ${project}`,
     },
     'e2e:headless:fast': {
         cmd: `${npmRun} run-parallel -- clean:e2e:report
               && ${hidden} ${npmRun} run-parallel -- -r serve:${e2eBuildType}:fast protractor:headless`,
-        dsc: `Run End to End test (Protractor with Headless Chome, XVFB needed) on ${project}`,
+        dsc: `Run End to End test (Protractor with Headless Chome, XVFB needed) with existing build on ${project}`,
     },
 
     'lint:config': {
@@ -198,12 +198,12 @@ shelter({
         cmd: `${npmRun} build:dev:fast
               && ${npmRun} http-server -- ${distFolder} -p ${serverPort} -i False --silent --cors
                                           ${(ENABLE_SERVER_PROXY) ? '--proxy ' + serverProxy : ''}`,
-        dsc: `Build and start ${project} development release test server (on port ${serverPort})`,
+        dsc: `Start ${project} development release test server (on port ${serverPort}) after rebuilding`,
     },
     'serve:dev:fast': {
         cmd: `${npmRun} http-server -- ${distFolder} -p ${serverPort} -i False --silent --cors
                                        ${(ENABLE_SERVER_PROXY) ? '--proxy ' + serverProxy : ''}`,
-        dsc: `Start ${project} development release test server (on port ${serverPort}) on an existing build`,
+        dsc: `Start ${project} development release test server (on port ${serverPort}) with an existing build`,
     },
     'serve:live': {
         cmd: `${envDev} ${npmRun} webpack-dev-server -- ${webpackConfig} ${webpackCommonParameters}
@@ -216,41 +216,55 @@ shelter({
         cmd: `${npmRun} build:prod:fast
               && ${npmRun} http-server -- ${distFolder} -p ${serverPort} -i False --silent --cors
                                           ${(ENABLE_SERVER_PROXY) ? '--proxy ' + serverProxy : ''}`,
-        dsc: `Build and start ${project} production release test server (on port ${serverPort})`,
+        dsc: `Start ${project} production release test server (on port ${serverPort}) after rebuilding`,
     },
     'serve:prod:fast': {
         cmd: `${npmRun} http-server -- ${distFolder} -p ${serverPort} -i False --silent --cors
                                        ${(ENABLE_SERVER_PROXY) ? '--proxy ' + serverProxy : ''}`,
-        dsc: `Start ${project} production release test server (on port ${serverPort}) on an existing build`,
+        dsc: `Start ${project} production release test server (on port ${serverPort}) with an existing build`,
     },
 
     'tests': {
         cmd: `${npmRun} unit
-              && ${npmRun} e2e:headless`,
-        dsc: `Run all the tests (Karma and Protractor with Headless Chrome, XVFB needed) on ${project}`,
+              && ${npmRun} e2e`,
+        dsc: `Run all the tests (Karma and Protractor) on ${project}`,
     },
     'tests:debug': {
         cmd: `${npmRun} unit:debug
               && ${npmRun} e2e:debug`,
-        dsc: `Run all the tests (Karma and Protractor with Chrome) on ${project}`,
+        dsc: `Debug all the tests (Karma and Protractor with Chrome) on ${project}`,
+    },
+    'tests:headless': {
+        cmd: `${npmRun} unit:headless
+              && ${npmRun} e2e:headless`,
+        dsc: `Run all the tests (Karma and Protractor with Headless Chrome, XVFB needed) on ${project}`,
     },
 
     'unit': {
         cmd: `${npmRun} clean:unit:report
-              && ${envTest} ${npmRun} karma:headless -- start`,
-        dsc: `Run unit tests (Karma with Headless Chrome, XVFB needed) on ${project}`,
+              && ${debug} ${envDev} ${npmRun} karma -- start`,
+        dsc: `Run unit tests (Karma with Chrome) on ${project}`,
     },
     'unit:debug': {
         cmd: `${npmRun} clean:unit:report
               && ${debug} ${envDev} ${npmRun} karma -- start --no-single-run`,
-        dsc: `Run unit tests (Karma with Chrome) on ${project}`,
+        dsc: `Debug unit tests (Karma with Chrome) on ${project}`,
+    },
+    'unit:headless': {
+        cmd: `${npmRun} clean:unit:report
+              && ${envTest} ${npmRun} karma:headless -- start`,
+        dsc: `Run unit tests (Karma with Headless Chrome, XVFB needed) on ${project}`,
     },
     'unit:live': {
-        cmd: `${envDev} ${npmRun} karma:headless -- start --auto-watch --no-single-run`,
-        dsc: `Run unit tests (Karma with Headless Chrome, XVFB needed) in watch mode on ${project}`,
+        cmd: `${envDev} ${npmRun} karma -- start --auto-watch --no-single-run`,
+        dsc: `Run unit tests (Karma with Chrome) in watch mode on ${project}`,
     },
     'unit:live:debug': {
         cmd: `${debug} ${envDev} ${npmRun} karma -- start --auto-watch --no-single-run`,
-        dsc: `Run unit tests (Karma with Chrome) in watch mode on ${project}`,
+        dsc: `Debug unit tests (Karma with Chrome) in watch mode on ${project}`,
+    },
+    'unit:live:headless': {
+        cmd: `${envDev} ${npmRun} karma:headless -- start --auto-watch --no-single-run`,
+        dsc: `Run unit tests (Karma with Headless Chrome, XVFB needed) in watch mode on ${project}`,
     },
 });
