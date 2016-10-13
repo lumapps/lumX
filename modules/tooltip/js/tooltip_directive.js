@@ -88,8 +88,11 @@
 
                 timer1 = $timeout(function()
                 {
-                    tooltip.remove();
-                    tooltip = undefined;
+                    if (angular.isDefined(tooltip))
+                    {
+                        tooltip.remove();
+                        tooltip = undefined;
+                    }
                 }, 200);
             }
         }
