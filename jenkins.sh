@@ -65,7 +65,7 @@ if [[ -n "$GITHUB_PR_NUMBER" ]]; then
         echo "GITHUB_PR_TRIGGER_SENDER_EMAIL=${GIT_EMAIL}" >> build.properties
     fi
     if [[ -z "$GITHUB_PR_TITLE" ]]; then
-        GITHUB_PR_TITLE=${GIT_BRANCH}
+        GITHUB_PR_TITLE=${GIT_SUBJECT}
         echo "GITHUB_PR_TITLE=${GIT_SUBJECT}" >> build.properties
     fi
 
