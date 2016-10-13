@@ -70,8 +70,8 @@ if [[ -n "$GITHUB_PR_NUMBER" ]]; then
     fi
 
     if [[ -n "$GITHUB_PR_URL" ]]; then
-        CUSTOM_BUILD_SOURCE="Pull Request <strong><a href=\"${GITHUB_PR_URL}\" target=\"_blank\">#${GITHUB_PR_NUMBER} \"${GITHUB_PR_TITLE}\"</a></strong> (<em>${GITHUB_PR_TARGET_BRANCH}/${GITHUB_PR_SOURCE_BRANCH}</em>)"
-        CUSTOM_BUILD_SOURCE_LOG="Pull Request #${GITHUB_PR_NUMBER} \"${GITHUB_PR_TITLE}\" (${GITHUB_PR_URL}) (${GITHUB_PR_TARGET_BRANCH}/${GITHUB_PR_SOURCE_BRANCH})"
+        CUSTOM_BUILD_SOURCE="Pull Request <strong><a href=\"${GITHUB_PR_URL}\" target=\"_blank\">#${GITHUB_PR_NUMBER} \"${GITHUB_PR_TITLE}\"</a></strong> (<em>${GITHUB_PR_TARGET_BRANCH}...${GITHUB_PR_SOURCE_BRANCH}</em>)"
+        CUSTOM_BUILD_SOURCE_LOG="Pull Request #${GITHUB_PR_NUMBER} \"${GITHUB_PR_TITLE}\" (${GITHUB_PR_URL}) (${GITHUB_PR_TARGET_BRANCH}...${GITHUB_PR_SOURCE_BRANCH})"
     else
         CUSTOM_BUILD_SOURCE="Pull Request <strong>#${GITHUB_PR_NUMBER}:${GITHUB_PR_COND_REF}</strong>"
         CUSTOM_BUILD_SOURCE_LOG="Pull Request #${GITHUB_PR_NUMBER}:${GITHUB_PR_COND_REF}"
