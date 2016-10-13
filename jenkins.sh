@@ -65,7 +65,7 @@ if [[ -n "$GITHUB_PR_NUMBER" ]]; then
     fi
     if [[ -z "$GITHUB_PR_TITLE" ]]; then
         ghprbPullTitle=${GIT_BRANCH}
-        echo "ghprbPullTitle=${GIT_SUBJECT}" >> build.properties
+        echo "GITHUB_PR_TITLE=${GIT_SUBJECT}" >> build.properties
     fi
 
     if [[ -n "$GITHUB_PR_URL" ]]; then
