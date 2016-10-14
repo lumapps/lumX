@@ -17,12 +17,12 @@ export class HomePage {
      * @type {string}
      * @public
      */
-    public addNewItemButtonClass: string = '.add-item__btn';
-    public newItemInputClass: string = '.new-item__input';
+    public addNewItemButtonClass: string = 'add-item__btn';
+    public newItemInputClass: string = 'new-item__input';
     public toDoItemDoneClass: string = 'to-do__item-label--is-done';
     public toDoItemDoneDateClass: string = 'to-do__item-done-date';
     public toDoItemLabelClass: string = 'to-do__item-label';
-    public toDoListClass: string = '.to-do__list';
+    public toDoListClass: string = 'to-do__list';
 
     /**
      * References all elements needed for this page.
@@ -71,12 +71,12 @@ export class HomePage {
         this.section = this.toDo.element(by.tagName('section'));
 
         this.newToDo = this.section.element(by.tagName(SELECTOR_PREFIX + SELECTOR_SEPARATOR + NEW_TO_DO_SELECTOR));
-        this.addNewItemButton = this.newToDo.element(by.css(this.addNewItemButtonClass));
-        this.newItemInput = this.newToDo.element(by.css(this.newItemInputClass));
+        this.addNewItemButton = this.newToDo.element(by.css('.' + this.addNewItemButtonClass));
+        this.newItemInput = this.newToDo.element(by.css('.' + this.newItemInputClass));
         this.newToDoDiv = this.newToDo.element(by.tagName('div'));
 
         this.toDoList = this.section.element(by.tagName(SELECTOR_PREFIX + SELECTOR_SEPARATOR + TO_DO_LIST_SELECTOR));
-        this.toDoListContainer = this.toDoList.element(by.css(this.toDoListClass));
+        this.toDoListContainer = this.toDoList.element(by.css('.' + this.toDoListClass));
         this.toDoListElements = this.toDoListContainer.all(by.tagName('li'));
     }
 
