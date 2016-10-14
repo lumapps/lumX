@@ -106,7 +106,7 @@ shelter({
         dsc: `Clean the "e2e/report" folder of ${project}`,
     },
     'clean:misc': {
-        cmd: `${npmRun} rimraf -- build.properties build.status`,
+        cmd: `${npmRun} rimraf -- ./build.*`,
         dsc: `Clean misceallenous files of ${project}`,
     },
     'clean:packages': {
