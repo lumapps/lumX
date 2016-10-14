@@ -37,7 +37,7 @@ const e2eBuildType = 'prod';
 // Attention: Use the bash syntax for variable templating
 // ---------------------------------------------------------------------------------------------------------------------
 // Toggle the "-s" flag to make npm verbose (nothing) or silent (-s)
-const npmRun = `npm run -s`;
+const npmRun = `npm -s run`;
 
 const webpackBuildParameters = `--profile --display-cached --hide-modules ${(isCI) ? '' : '--progress --colors'}`;
 const webpackDevParameters = ``;
@@ -105,13 +105,17 @@ shelter({
               && ${npmRun} rimraf -- ${testsFolder}/e2e*.tar.gz`,
         dsc: `Clean the "e2e/report" folder of ${project}`,
     },
+    'clean:misc': {
+        cmd: `${npmRun} rimraf -- build.properties build.status`,
+        dsc: `Clean misceallenous files of ${project}`,
+    },
     'clean:packages': {
         cmd: `npm cache clean
               && ${npmRun} rimraf -- node_modules/*`,
         dsc: `Clean the installed packages and the NPM cache of ${project}`,
     },
     'clean:project': {
-        cmd: `${npmRun} run-parallel -- clean:dist clean:tests:reports clean:docs`,
+        cmd: `${npmRun} run-parallel -- clean:dist clean:tests:reports clean:docs clean:misc`,
         dsc: `Clean the ${project} project, but leave the NPM dependancies installed`,
     },
     'clean:tests:reports': {
