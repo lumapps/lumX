@@ -35,18 +35,27 @@ if test -t 1; then
     fi
 fi
 
+
+function exitIfError() {
+    if [[ $? -ne 0 ]]; then
+        printf "${BOLD}${RED}Error with code $? ${DEFAULT}\n"
+        exit $?
+    fi
+}
+
 function readWithDefault() {
     if [ -n "$1" ] && [ -n "$2" ]; then
         defaultVarName="default${2^}"
-        printf "${YELLOW}${1}?${DEFAULT} (${BOLD}${CYAN}${!defaultVarName}${DEFAULT}) "
 
-        read inputValue
-        eval "$2"="${inputValue}"
-        if [[ -z "${!2}" ]]; then
-            eval "$2"="${!defaultVarName}"
+        IFS= read -r -p "${YELLOW}${1}?${DEFAULT} (${BOLD}${CYAN}${!defaultVarName}${DEFAULT}) " inputValue
+        if [[ -n "${!inputValue}" ]]; then
+            eval $2=`echo -ne \""${inputValue}"\"`
+        else
+            eval $2=`echo -ne \""${!defaultVarName}"\"`
         fi
     fi
 }
+
 
 CONTRIBUTING_FILE="./CONTRIBUTING.md"
 INDEX_FILE="./src/client/index.html"
@@ -57,8 +66,15 @@ defaultName="LumBoilerplate"
 defaultDescription=""
 defaultStackOverflowTag="lumboilerplate"
 defaultRepositoryURL="https://github.com/lumapps/boilerplate/"
-defaultComponentsPrefix="lb"
+defaultComponentsNamePrefix="lb"
 defaultComponentsNameSeparator="-"
+
+defaultName="My super project"
+defaultDescription="This is the description of my super project"
+defaultStackOverflowTag="superproject"
+defaultRepositoryURL="https://github.com/clementprevot/superproject"
+defaultComponentsNamePrefix="sp"
+defaultComponentsNameSeparator="_"
 
 printf "${BOLD}Welcome to the initialization of the ${BLUE}boilerplate${WHITE}!${DEFAULT}\n"
 printf "We will ask you some question to help you setup your new project. Ready?\n\n"
@@ -70,12 +86,11 @@ readWithDefault "What is you repository URL" "repositoryURL"
 readWithDefault "What prefix do you want to use for the components name" "componentsNamePrefix"
 readWithDefault "What prefix do you want to use for the components name" "componentsNameSeparator"
 
-printf "\n\n"
-printf "We are now ready to initialize the boilerplate for your project.\n"
-printf "Please wait...\n\n"
+printf "\n"
+printf "We are now ready to initialize the boilerplate for your project. Please wait...\n\n"
 
-printf "Cleaning the boilerplate... "
-npm run -s clean:all 2>&1 /dev/null
+printf "Cleaning and setting up the boilerplate..."
+npm run -s setup 2>&1 /dev/null
 printf "${BLUE}Done${DEFAULT}\n"
 
 printf "Removing useless files... "
@@ -85,13 +100,13 @@ rm -Rf "./tests/client/e2e/specs/home.spec.ts"
 printf "${BLUE}Done${DEFAULT}\n"
 
 printf "Emptying some files... "
-echo "" > ".src/client/assets/humans.txt"
+echo "" > "./src/client/assets/humans.txt"
 echo "" > $README_FILE
 printf "${BLUE}Done${DEFAULT}\n"
 
 printf "Removing useless code... "
-grep -v "subscribe" ./src/client/app/app.component.ts > temp && mv ./src/client/app/app.component.ts
-grep -v "ToDoModule" ./src/client/app/app.module.ts > temp && mv ./src/client/app/app.module.ts
+grep -v "subscribe" ./src/client/app/app.component.ts > temp && mv temp ./src/client/app/app.component.ts
+grep -v "ToDoModule" ./src/client/app/app.module.ts > temp && mv temp ./src/client/app/app.module.ts
 printf "${BLUE}Done${DEFAULT}\n"
 
 if [[ -n "$name" ]]; then
@@ -141,11 +156,7 @@ echo "export const SELECTOR_SEPARATOR: string = '${componentsNameSeparator}';\n\
 sed -i "s/${defaultComponentsNamePrefix}${defaultComponentsNameSeparator}app/${componentsNamePrefix}${componentsNameSeparator}app/g" $INDEX_FILE
 printf "${BLUE}Done${DEFAULT}\n"
 
-printf "Running setup... "
-npm run -s setup
-printf "${BLUE}Done${DEFAULT}\n"
-
-printf "\n\n"
+printf "\n"
 printf "${GREEN}Your project has been successfully initialized!${DEFAULT}\n"
 printf "You can now start coding. Run ${BOLD}npm run -s start${DEFAULT} to start the server with all coding stuff you need.\n"
 printf "Then go to ${BOLD}http://localhost:8880/${DEFAULT} to access your project.\n"
