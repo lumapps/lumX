@@ -1,3 +1,4 @@
+
 #!/bin/bash
 # This script will initialize the boilerplate
 
@@ -48,7 +49,7 @@ function readWithDefault() {
         defaultVarName="default${2^}"
 
         IFS= read -r -p "${YELLOW}${1}?${DEFAULT} (${BOLD}${CYAN}${!defaultVarName}${DEFAULT}) " inputValue
-        if [[ -n "${!inputValue}" ]]; then
+        if [[ -n "${inputValue}" ]]; then
             eval $2=`echo -ne \""${inputValue}"\"`
         else
             eval $2=`echo -ne \""${!defaultVarName}"\"`
@@ -59,47 +60,47 @@ function readWithDefault() {
 
 CONTRIBUTING_FILE="./CONTRIBUTING.md"
 INDEX_FILE="./src/client/index.html"
+PACKAGE_FILE="./package.json"
 README_FILE="./README.md"
 SELECTORS_FILE="./src/client/app/core/settings/selectors.settings.ts"
 
 defaultName="LumBoilerplate"
 defaultDescription=""
-defaultStackOverflowTag="lumboilerplate"
-defaultRepositoryURL="https://github.com/lumapps/boilerplate/"
+defaultGithubUsername="lumapps"
+defaultRepository="boilerplate"
 defaultComponentsNamePrefix="lb"
 defaultComponentsNameSeparator="-"
-
-defaultName="My super project"
-defaultDescription="This is the description of my super project"
-defaultStackOverflowTag="superproject"
-defaultRepositoryURL="https://github.com/clementprevot/superproject"
-defaultComponentsNamePrefix="sp"
-defaultComponentsNameSeparator="_"
 
 printf "${BOLD}Welcome to the initialization of the ${BLUE}boilerplate${WHITE}!${DEFAULT}\n"
 printf "We will ask you some question to help you setup your new project. Ready?\n\n"
 
 readWithDefault "What is the plain human readable name of your project" "name"
 readWithDefault "How would you describe your project" "description"
-readWithDefault "What tag do you want to use on StackOverflow" "stackOverflowTag"
-readWithDefault "What is you repository URL" "repositoryURL"
+readWithDefault "What is your GitHub username or organisation" "githubUsername"
+readWithDefault "What is your GitHub repository name" "repository"
 readWithDefault "What prefix do you want to use for the components name" "componentsNamePrefix"
 readWithDefault "What prefix do you want to use for the components name" "componentsNameSeparator"
 
 printf "\n"
 printf "We are now ready to initialize the boilerplate for your project. Please wait...\n\n"
 
-printf "Cleaning and setting up the boilerplate..."
-npm run -s setup
-exitIfError
-printf "${BLUE}Done${DEFAULT}\n"
-
 printf "Removing useless files... "
+rm -Rf "./dist"
+exitIfError
 rm -Rf "./src/client/app/to-do"
 exitIfError
 rm -Rf "./tests/client/e2e/pages/home.page.ts"
 exitIfError
 rm -Rf "./tests/client/e2e/specs/home.spec.ts"
+exitIfError
+rm -Rf "./tests/client/e2e/report"
+exitIfError
+rm -Rf "./tests/client/unit/report"
+exitIfError
+rm -Rf "./tests/client/*Report.tar.gz"
+exitIfError
+rm -Rf "build.*"
+exitIfError
 printf "${BLUE}Done${DEFAULT}\n"
 
 printf "Emptying some files... "
@@ -114,61 +115,89 @@ grep -v "subscribe" ./src/client/app/app.component.ts > temp && mv temp ./src/cl
 exitIfError
 grep -v "ToDoModule" ./src/client/app/app.module.ts > temp && mv temp ./src/client/app/app.module.ts
 exitIfError
+echo "<h1>This is the application component</h1>" > ./src/client/app/app.component.html
+exitIfError
 printf "${BLUE}Done${DEFAULT}\n"
 
 if [[ -n "$name" ]]; then
-    if [[ "$name" != "$defaultName" ]]; then
-        printf "Customizing project name... "
-        echo "# ${name}\n\n" >> $README_FILE
-        exitIfError
+    printf "Customizing project name... "
+    printf "# ${name}\n\n" > $README_FILE
+    exitIfError
 
-        FILES_WITH_NAME=$(grep -rl ${defaultName} .)
-        echo $FILES_WITH_NAME;
-        for fileName in $FILES_WITH_NAME; do
+    FILES_WITH_NAME=$(grep -rl "${defaultName}" .)
+    for fileName in $FILES_WITH_NAME; do
+        if [[ "$fileName" != "./init.sh" ]]; then
             sed -i "s/${defaultName}/${name}/g" $fileName
             exitIfError
-        done
-        printf "${BLUE}Done${DEFAULT}\n"
 
-        printf "Customizing StackOverflow... "
-        if [[ -z "$stackOverflowTag" ]]; then
-            stackOverflowTag=${name,,}
         fi
-        sed -i "s/${defaultStackOverflowTag}/${stackOverflowTag}/g" $CONTRIBUTING_FILE
-        exitIfError
-        printf "${BLUE}Done${DEFAULT}\n"
-
-        printf "Customizing GitHub... "
-        if [[ -z "$repositoryURL" ]]; then
-            repositoryURL="https://github.com/${name,,}/${name,,}/"
-        fi
-        repositoryURLLength=$(${#repositoryURL}-1)
-        if [ "${repositoryURL:repositoryURLLength}" != "/" ]; then
-            repositoryURL="${repositoryURL}/"
-        fi
-        sed -i "s/${defaultRepositoryURL}/${repositoryURL}/g" $CONTRIBUTING_FILE
-        exitIfError
-        printf "${BLUE}Done${DEFAULT}\n"
-    fi
+    done
+    printf "${BLUE}Done${DEFAULT}\n"
 fi
 
+printf "Customizing GitHub and StackOverflow... "
+if [[ -z "$githubUsername" ]]; then
+    githubUsername="${name,,}"
+fi
+if [[ -n "${githubUsername}" ]]; then
+    sed -i "s/${defaultGithubUsername}\//${githubUsername}\//g" $CONTRIBUTING_FILE
+    exitIfError
+fi
+
+if [[ -z "$repository" ]]; then
+    repository="${name,,}"
+fi
+if [[ -n "${repository}" ]]; then
+    sed -i "s/${defaultRepository}/${repository}/g" $CONTRIBUTING_FILE
+    exitIfError
+fi
+printf "${BLUE}Done${DEFAULT}\n"
+
+printf "Customizing NPM... "
+if [[ -n "$name" ]]; then
+    cleanName="$(echo -e "${name,,}" | tr -d '[[:space:]]')"
+    sed -i "s/${defaultName,,}/${cleanName}/g" $PACKAGE_FILE
+    exitIfError
+fi
+if [[ -n "${description}" ]]; then
+    sed -i "s/\"description\".*/\"description\": \"${description}\",/g" $PACKAGE_FILE
+    exitIfError
+fi
+if [[ -n "${githubUsername}" ]]; then
+    sed -i "s/${defaultGithubUsername}\//${githubUsername}\//g" $PACKAGE_FILE
+    exitIfError
+fi
+if [[ -n "${repository}" ]]; then
+    sed -i "s/${defaultRepository}/${repository}/g" $PACKAGE_FILE
+    exitIfError
+fi
+sed -i "s/\"author\".*/\"author\": \"\",/g" $PACKAGE_FILE
+exitIfError
+printf "${BLUE}Done${DEFAULT}\n"
+
 printf "Customizing Readme... "
-echo "[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg?style=flat-square)](http://commitizen.github.io/cz-cli/)\n" >> $README_FILE
+printf "[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg?style=flat-square)](http://commitizen.github.io/cz-cli/)\n" >> $README_FILE
 if [[ -n "$description" ]]; then
-    echo "\n${description}\n" > $README_FILE
+    printf "\n${description}\n" >> $README_FILE
     exitIfError
 fi
 printf "${BLUE}Done${DEFAULT}\n"
 
 printf "Customizing selectors... "
-echo "" > $SELECTORS_FILE
 exitIfError
-echo "export const SELECTOR_PREFIX: string = '${componentsNamePrefix}';\n" >> $SELECTORS_FILE
+printf "export const SELECTOR_PREFIX: string = '${componentsNamePrefix}';\n" > $SELECTORS_FILE
 exitIfError
-echo "export const SELECTOR_SEPARATOR: string = '${componentsNameSeparator}';\n\n" >> $SELECTORS_FILE
+printf "export const SELECTOR_SEPARATOR: string = '${componentsNameSeparator}';\n\n" >> $SELECTORS_FILE
+exitIfError
+printf "export const APP_SELECTOR: string = 'app';\n" >> $SELECTORS_FILE
 exitIfError
 
 sed -i "s/${defaultComponentsNamePrefix}${defaultComponentsNameSeparator}app/${componentsNamePrefix}${componentsNameSeparator}app/g" $INDEX_FILE
+exitIfError
+printf "${BLUE}Done${DEFAULT}\n"
+
+printf "Cleaning and setting up the boilerplate..."
+npm run -s setup
 exitIfError
 printf "${BLUE}Done${DEFAULT}\n"
 

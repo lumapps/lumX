@@ -141,6 +141,8 @@ We have very precise rules over how our git commit messages can be formatted.  T
 
 We recommend you to use [Commitizen](https://github.com/commitizen/cz-cli) with the `npm run commit` command to help you construct your commit message and be sure to match these guidelines.
 
+For the ease of use and contributing, most of the commit message style is enforced. So as long as the pre-commit script let you commit, you should be good.
+
 ### Commit message format
 
 Each commit message consists of a **header**, a **body** and a **footer**.  The header has a special format that includes a **type**, a **scope** and a **subject**:

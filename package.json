@@ -11,7 +11,7 @@
         "sass",
         "webpack"
     ],
-    "homepage": "https://github.com/lumapps/lumboilerplate/",
+    "homepage": "https://github.com/lumapps/boilerplate/",
     "config": {
         "commitizen": {
             "path": "./node_modules/cz-conventional-changelog"
@@ -75,9 +75,6 @@
         "e2e:hidden:fast": "npm -s run e2e:headless:fast",
 
         "help": "npm -s run tasks",
-
-        "lang": "npm -s run task -- lang",
-        "langs": "npm -s run lang",
 
         "lint": "npm -s run lint:src",
         "lint:all": "npm -s run lint:config && npm -s run lint:src",

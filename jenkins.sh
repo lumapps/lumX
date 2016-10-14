@@ -99,7 +99,7 @@ if [[ $SETUP == "Fast" ]]; then
 fi
 
 function exitWithCode() {
-    printf "\n[$(date)] Boilerplate CI on branch "${GIT_BRANCH}" done\n"
+    printf "\n[$(date)] LumBoilerplate CI on branch "${GIT_BRANCH}" done\n"
     printf "Exit with code ${1}\n"
     printf "${REASON/<br \/>/\\n}\n"
 
@@ -135,7 +135,7 @@ function simulateFailure() {
     fi
 }
 
-printf "[$(date)] Starting Boilerplate CI on ${CUSTOM_BUILD_SOURCE_LOG} because of \"${GIT_NAME} <${GIT_EMAIL}>\" changes:\n"
+printf "[$(date)] Starting LumBoilerplate CI on ${CUSTOM_BUILD_SOURCE_LOG} because of \"${GIT_NAME} <${GIT_EMAIL}>\" changes:\n"
 printf "#${GIT_SHA} (commited ${GIT_DATE}): \"${GIT_SUBJECT}\"\n\n"
 
 REASON="The ${setupLabel,,} step failed. Please check the attached build log to see what wents wrong."

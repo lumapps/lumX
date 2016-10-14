@@ -89,7 +89,7 @@ shelter({
     },
 
     'clean:all': {
-        cmd: `${npmRun} run-parallel -- clean:project clean:packages`,
+        cmd: `${npmRun} run-parallel -- clean:project clean:packages clean:misc`,
         dsc: `Clean the whole ${project} project (NPM, docs, test and dist)`,
     },
     'clean:dist': {
@@ -115,7 +115,7 @@ shelter({
         dsc: `Clean the installed packages and the NPM cache of ${project}`,
     },
     'clean:project': {
-        cmd: `${npmRun} run-parallel -- clean:dist clean:tests:reports clean:docs clean:misc`,
+        cmd: `${npmRun} run-parallel -- clean:dist clean:tests:reports clean:docs`,
         dsc: `Clean the ${project} project, but leave the NPM dependancies installed`,
     },
     'clean:tests:reports': {
