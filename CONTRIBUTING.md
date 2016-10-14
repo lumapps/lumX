@@ -16,7 +16,7 @@ As heavy users of [Angular 2](https://github.com/angular/angular), we encourage 
 
 ## <a name="got-a-question-or-a-problem-"></a> Got a question or a problem?
 
-If you have questions about how to use the boilerplate, please direct these to [StackOverflow](http://stackoverflow.com/questions/tagged/lumboilerplate).
+If you have questions about how to use LumBoilerplate, please direct these to [StackOverflow](http://stackoverflow.com/questions/tagged/lumboilerplate).
 
 ## <a name="found-an-issue-"></a> Found an issue?
 
