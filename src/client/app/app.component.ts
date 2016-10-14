@@ -44,9 +44,6 @@ export class AppComponent {
      * @param {TokenService}           _TokenService The token service
      */
     constructor(_Http: HttpInterceptorService, _TokenService: TokenService) {
-        _Http.get('/')
-            .subscribe(
-                () => _TokenService.setToken('1234')
-            );
+        _Http.get('/').subscribe(() => _TokenService.setToken('1234'));
     }
 }
