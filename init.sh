@@ -111,8 +111,6 @@ exitIfError
 printf "${BLUE}Done${DEFAULT}\n"
 
 printf "Removing useless code... "
-grep -v "subscribe" ./src/client/app/app.component.ts > temp && mv temp ./src/client/app/app.component.ts
-exitIfError
 grep -v "ToDoModule" ./src/client/app/app.module.ts > temp && mv temp ./src/client/app/app.module.ts
 exitIfError
 echo "<h1>This is the application component</h1>" > ./src/client/app/app.component.html
