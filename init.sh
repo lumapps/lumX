@@ -64,25 +64,47 @@ PACKAGE_FILE="./package.json"
 README_FILE="./README.md"
 SELECTORS_FILE="./src/client/app/core/settings/selectors.settings.ts"
 
-defaultName="LumBoilerplate"
-defaultDescription=""
-defaultGithubUsername="lumapps"
-defaultRepository="boilerplate"
-defaultComponentsNamePrefix="lb"
-defaultComponentsNameSeparator="-"
-
 printf "${BOLD}Welcome to the initialization of the ${BLUE}boilerplate${WHITE}!${DEFAULT}\n"
 printf "We will ask you some question to help you setup your new project. Ready?\n\n"
 
+defaultName="LumBoilerplate"
 readWithDefault "What is the plain human readable name of your project" "name"
+
+defaultDescription="This is the description of ${name}"
 readWithDefault "How would you describe your project" "description"
+
+defaultGithubUsername=$(whoami)
+defaultGithubUsername=${defaultGithubUsername,,}
 readWithDefault "What is your GitHub username or organisation" "githubUsername"
+githubUsername="${githubUsername,,}"
+
+defaultRepository=${PWD##*/}
+defaultRepository=${defaultRepository,,}
 readWithDefault "What is your GitHub repository name" "repository"
+repository="${repository,,}"
+
+defaultComponentsNamePrefix=$(echo $name | sed 's/\(\w\|-_ \)[^A-Z\-_ ]*\([^A-Z]\|$\)/\1/g')
+defaultComponentsNamePrefix=${defaultComponentsNamePrefix,,}
 readWithDefault "What prefix do you want to use for the components name" "componentsNamePrefix"
+componentsNamePrefix="${componentsNamePrefix,,}"
+
+defaultComponentsNameSeparator="-"
 readWithDefault "What prefix do you want to use for the components name" "componentsNameSeparator"
+componentsNameSeparator="${componentsNameSeparator,,}"
 
 printf "\n"
 printf "We are now ready to initialize the boilerplate for your project. Please wait...\n\n"
+
+printf "Preparing git... "
+rm -Rf ".git"
+exitIfError
+git init -q
+exitIfError
+git add .
+exitIfError
+git commit -q -m "feat(${repository}): initialization of the repository with boilerplate"
+exitIfError
+printf "${BLUE}Done${DEFAULT}\n"
 
 printf "Removing useless files... "
 rm -Rf "./dist"
@@ -134,17 +156,11 @@ if [[ -n "$name" ]]; then
 fi
 
 printf "Customizing GitHub and StackOverflow... "
-if [[ -z "$githubUsername" ]]; then
-    githubUsername="${name,,}"
-fi
 if [[ -n "${githubUsername}" ]]; then
     sed -i "s/${defaultGithubUsername}\//${githubUsername}\//g" $CONTRIBUTING_FILE
     exitIfError
 fi
 
-if [[ -z "$repository" ]]; then
-    repository="${name,,}"
-fi
 if [[ -n "${repository}" ]]; then
     sed -i "s/${defaultRepository}/${repository}/g" $CONTRIBUTING_FILE
     exitIfError
