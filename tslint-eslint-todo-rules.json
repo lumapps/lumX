@@ -1,0 +1,103 @@
+{
+    "rules": {
+        "consistent-return": true,
+        "dot-location": [
+            true,
+            "property"
+        ],
+        "no-alert": true,
+        "no-else-return": true,
+        "no-empty-character-class": true,
+        "no-empty-function": true,
+        "no-empty-pattern": true,
+        "no-extra-bind": true,
+        "no-floating-decimal": true,
+        "no-implicit-coercion": true,
+        "no-implied-eval": true,
+        "no-lone-blocks": true,
+        "no-loop-func": true,
+        "no-magic-number": false,
+        "no-multi-spaces": true,
+        "no-multi-str": true,
+        "no-new-func": true,
+        "no-param-reassign": [
+            true,
+            {
+                "props": false
+            }
+        ],
+        "no-return-assign": true,
+        "no-script-url": true,
+        "no-self-compare": true,
+        "no-throw-literal": true,
+        "no-unmodified-loop-condition": true,
+        "no-useless-call": true,
+        "no-useless-concat": true,
+        "no-useless-escape": true,
+        "wrap-iife": [
+            true,
+            "inside"
+        ],
+        "yoda": [
+            true,
+            "never"
+        ],
+        "no-undef-init": true,
+        "computed-property-spacing": [
+            true,
+            "never"
+        ],
+        "func-call-spacing": true,
+        "func-names": [
+            true,
+            "always"
+        ],
+        "func-style": [
+            true,
+            "declaration",
+            {
+                "allowArrowFunctions": true
+            }
+        ],
+        "newline-before-return": true,
+        "newline-per-chained-call": [
+            true,
+            {
+                "ignoreChainWithDepth": 2
+            }
+        ],
+        "no-inline-comments": true,
+        "no-lonely-if": true,
+        "no-negated-condition": true,
+        "no-nested-ternary": true,
+        "no-new-object": true,
+        "no-unneeded-ternary": true,
+        "no-unsafe-negation": true,
+        "operator-linebreak": [
+            true,
+            "after"
+        ],
+        "padded-blocks": [
+            true,
+            "never"
+        ],
+        "no-class-assign": true,
+        "no-const-assign": true,
+        "no-duplicate-imports": true,
+        "no-new-symbol": true,
+        "no-this-before-super": true,
+        "object-shorthand": [
+            true,
+            "consistent-as-needed"
+        ],
+        "prefer-const": true,
+        "prefer-rest-params": true,
+        "prefer-spread": true,
+        "prefer-template": true,
+        "require-yield": true,
+        "template-curly-spacing": [
+            true,
+            "never"
+        ]
+    }
+}

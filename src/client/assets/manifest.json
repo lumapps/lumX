@@ -1,0 +1,27 @@
+{
+    "short_name": "LumX²",
+    "name": "LumX²",
+
+    "icons": [
+      {
+          "sizes": "96x96",
+          "src": "/assets/icon/launcher-icon-2x.png",
+          "type": "image/png"
+      },
+      {
+          "sizes": "144x144",
+          "src": "/assets/icon/launcher-icon-3x.png",
+          "type": "image/png"
+      },
+      {
+          "sizes": "192x192",
+          "src": "/assets/icon/launcher-icon-4x.png",
+          "type": "image/png"
+      }
+    ],
+
+    "start_url": "/index.html",
+
+    "display": "standalone",
+    "orientation": "portrait"
+}
