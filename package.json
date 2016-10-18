@@ -34,6 +34,7 @@
         "clean:dist": "npm -s run task -- clean:dist",
         "clean:docs": "npm -s run task -- clean:docs",
         "clean:e2e:report": "npm -s run task -- clean:e2e:report",
+        "clean:maps": "npm -s run task clean:maps",
         "clean:misc": "npm -s run task clean:misc",
         "clean:npm": "npm -s run clean:packages",
         "clean:packages": "npm -s run task -- clean:packages",
@@ -109,8 +110,10 @@
         "unit:live:debug": "npm -s run task -- unit:live:debug",
 
         "setup": "rm -Rf -- node_module && npm -s cache clean && npm -s install && npm -s run task -- clean:project",
-        "setup:fast": "npm -s prune && npm install -s && npm -s update && npm -s run task -- clean:project",
+        "setup:fast": "npm -s prune && npm -s install && npm -s update && npm -s run task -- clean:project",
+        "setup:update": "npm -s prune && npm -s install && npm -s update",
         "setup:git-hooks": "node node_modules/husky/bin/uninstall.js && node node_modules/husky/bin/install.js",
+        "update": "npm -s run setup:update",
 
         "start": "npm -s run serve:live",
 
@@ -272,6 +275,7 @@
         "html-webpack-plugin": "latest",
         "open-browser-webpack-plugin": "latest",
         "sasslint-webpack-plugin": "latest",
+        "script-ext-html-webpack-plugin": "latest",
         "webpack": "latest",
         "webpack-dashboard": "latest",
         "webpack-dev-middleware": "latest",

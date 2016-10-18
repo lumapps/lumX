@@ -62,6 +62,7 @@ CONTRIBUTING_FILE="./CONTRIBUTING.md"
 INDEX_FILE="./src/client/index.html"
 PACKAGE_FILE="./package.json"
 README_FILE="./README.md"
+ROADMAP_FILE="./ROADMAP.md"
 SELECTORS_FILE="./src/client/app/core/settings/selectors.settings.ts"
 
 printf "${BOLD}Welcome to the initialization of the ${BLUE}boilerplate${WHITE}!${DEFAULT}\n"
@@ -100,10 +101,6 @@ rm -Rf ".git"
 exitIfError
 git init -q
 exitIfError
-git add .
-exitIfError
-git commit -q -m "feat(${repository}): initialization of the repository with boilerplate"
-exitIfError
 printf "${BLUE}Done${DEFAULT}\n"
 
 printf "Removing useless files... "
@@ -126,7 +123,7 @@ exitIfError
 printf "${BLUE}Done${DEFAULT}\n"
 
 printf "Emptying some files... "
-echo "" > "./src/client/assets/humans.txt"
+echo "" > "./src/client/meta/humans.txt"
 exitIfError
 echo "" > $README_FILE
 exitIfError
@@ -141,6 +138,7 @@ printf "${BLUE}Done${DEFAULT}\n"
 
 if [[ -n "$name" ]]; then
     printf "Customizing project name... "
+
     printf "# ${name}\n\n" > $README_FILE
     exitIfError
 
@@ -213,6 +211,9 @@ printf "${BLUE}Done${DEFAULT}\n"
 printf "Cleaning and setting up the boilerplate..."
 npm run -s setup
 exitIfError
+git add .
+exitIfError
+git commit -q -m "feat(${repository}): initialization of the repository with boilerplate"
 printf "${BLUE}Done${DEFAULT}\n"
 
 printf "\n"

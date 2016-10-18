@@ -1,9 +1,10 @@
 # humanstxt.org
+# The humans responsible & technology colophon
 
 # TEAM
 
-    Arnaud V.
-    Clément P.
+    Arnaud V. -- Contributor
+    Clément P. -- Project manager, Contributor
 
 # THANKS
 

@@ -105,6 +105,11 @@ shelter({
               && ${npmRun} rimraf -- ${testsFolder}/e2e*.tar.gz`,
         dsc: `Clean the "e2e/report" folder of ${project}`,
     },
+    'clean:maps': {
+        cmd: `${npmRun} rimraf -- ${sourceFolder}/**/*.map
+              && ${npmRun} rimraf -- ${testsFolder}/**/*.map`,
+        dsc: `Clean maps files of ${project}`,
+    },
     'clean:misc': {
         cmd: `${npmRun} rimraf -- ./build.*`,
         dsc: `Clean misceallenous files of ${project}`,
@@ -115,7 +120,7 @@ shelter({
         dsc: `Clean the installed packages and the NPM cache of ${project}`,
     },
     'clean:project': {
-        cmd: `${npmRun} run-parallel -- clean:dist clean:tests:reports clean:docs`,
+        cmd: `${npmRun} run-parallel -- clean:dist clean:tests:reports clean:docs clean:maps`,
         dsc: `Clean the ${project} project, but leave the NPM dependancies installed`,
     },
     'clean:tests:reports': {

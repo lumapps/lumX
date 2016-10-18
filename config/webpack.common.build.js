@@ -1,10 +1,10 @@
 const commonConfig = require('./webpack.common.js');
-const webpack = require('webpack');
 const webpackMerge = require('webpack-merge');
 
 /*
  * Webpack Plugins
  */
+const CommonsChunkPlugin = require('webpack/lib/optimize/CommonsChunkPlugin');
 const ForkCheckerPlugin = require('awesome-typescript-loader').ForkCheckerPlugin;
 
 /*
@@ -40,14 +40,6 @@ module.exports = function webpackCommonBuildConfigExport(options) {
          */
         plugins: [
             /*
-             * ForkCheckerPlugin.
-             * Do type checking in a separate process, so webpack don't need to wait.
-             *
-             * @see {@link https://github.com/s-panferov/awesome-typescript-loader#forkchecker-boolean-defaultfalse|Awesome Typescript Loader forkchecker}
-             */
-            new ForkCheckerPlugin(),
-
-            /*
              * CommonsChunkPlugin.
              * Shares common code between the pages.
              * It identifies common modules and put them into a commons chunk.
@@ -55,13 +47,20 @@ module.exports = function webpackCommonBuildConfigExport(options) {
              * @see {@link https://webpack.github.io/docs/list-of-plugins.html#commonschunkplugin|The webpack Common Chunck Plugin page}
              * @see {@link https://github.com/webpack/docs/wiki/optimization#multi-page-app|The webpack documentation on optimization}
              */
-            new webpack.optimize.CommonsChunkPlugin({
+            new CommonsChunkPlugin({
                 name: [
-                    'app',
-                    'vendors',
                     'polyfills',
-                ],
+                    'vendors',
+                ].reverse(),
             }),
+
+            /*
+             * ForkCheckerPlugin.
+             * Do type checking in a separate process, so webpack don't need to wait.
+             *
+             * @see {@link https://github.com/s-panferov/awesome-typescript-loader#forkchecker-boolean-defaultfalse|Awesome Typescript Loader forkchecker}
+             */
+            new ForkCheckerPlugin(),
         ],
     });
 };

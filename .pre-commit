@@ -35,9 +35,10 @@ if test -t 1; then
 fi
 
 pyLint="flake8"
+pyLintLog="/tmp/pylint-result.log"
 pyLintIgnore="E402,E711,E712,F403"
 pyLintLineLength=120
-pyLintIgnore="src/server/i18n/i18n*,src/server/libs"
+pyLintExclude="src/server/i18n/i18n*,src/server/libs"
 
 tsLint="./node_modules/tslint/bin/tslint"
 tsLintLog="/tmp/tslint-result.log"
@@ -55,15 +56,20 @@ if type $pyLint &> /dev/null; then
 
     PYFILES=$(git diff --cached --name-only --diff-filter=ACM | grep ".py$")
     if [ "$PYFILES" != "" ]; then
-        $(${pyLint} --ignore=${pyLintIgnore} --max-line-length=${pyLintLineLength} --exclude=${pyLintExclude} ${PYFILES})
+        $(${pyLint} --max-line-length=${pyLintLineLength} --ignore=${pyLintIgnore} --exclude=${pyLintExclude} --output-file=${pyLintLog} ${PYFILES})
 
         if [[ "$?" = "0" ]]; then
             printf "${GREEN}✔ SUCCESS${DEFAULT}\n"
         else
-            printf "${RED}❌ FAILED${DEFAULT}\n"
+            printf "${RED}❌ FAILED${DEFAULT}"
+            printf "\n===== Flake8 logs =====\n"
+            cat $pyLintLog
+            printf "\n"
 
             exit_code=1
         fi
+
+        rm ${pyLintLog}
     else
         printf "${CYAN}DONE${DEFAULT}\n"
     fi
