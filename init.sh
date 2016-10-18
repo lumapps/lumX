@@ -65,11 +65,19 @@ README_FILE="./README.md"
 ROADMAP_FILE="./ROADMAP.md"
 SELECTORS_FILE="./src/client/app/core/settings/selectors.settings.ts"
 
+originalName='LumBoilerplate'
+originalDescription=''
+originalGithubUsername='lumapps'
+originalRepository='lumboilerplate'
+originalComponentsNamePrefix='lb'
+originalComponentsNameSeparator='-'
+
 printf "${BOLD}Welcome to the initialization of the ${BLUE}boilerplate${WHITE}!${DEFAULT}\n"
 printf "We will ask you some question to help you setup your new project. Ready?\n\n"
 
-defaultName="LumBoilerplate"
+defaultName=${PWD##*/}
 readWithDefault "What is the plain human readable name of your project" "name"
+cleanName=$(echo -e "${name}" | tr -d '[[:space:]]' | tr -dc '[:alnum:]\n\r-_' | tr '[:upper:]' '[:lower:]')
 
 defaultDescription="This is the description of ${name}"
 readWithDefault "How would you describe your project" "description"
@@ -89,7 +97,7 @@ defaultComponentsNamePrefix=${defaultComponentsNamePrefix,,}
 readWithDefault "What prefix do you want to use for the components name" "componentsNamePrefix"
 componentsNamePrefix="${componentsNamePrefix,,}"
 
-defaultComponentsNameSeparator="-"
+defaultComponentsNameSeparator=${originalComponentsNameSeparator,,}
 readWithDefault "What prefix do you want to use for the components name" "componentsNameSeparator"
 componentsNameSeparator="${componentsNameSeparator,,}"
 
@@ -145,7 +153,7 @@ if [[ -n "$name" ]]; then
     FILES_WITH_NAME=$(grep -rl "${defaultName}" .)
     for fileName in $FILES_WITH_NAME; do
         if [[ "$fileName" != "./init.sh" ]]; then
-            sed -i "s/${defaultName}/${name}/g" $fileName
+            sed -i "s/${originalName}/${name}/g" $fileName
             exitIfError
 
         fi
@@ -155,20 +163,19 @@ fi
 
 printf "Customizing GitHub and StackOverflow... "
 if [[ -n "${githubUsername}" ]]; then
-    sed -i "s/${defaultGithubUsername}\//${githubUsername}\//g" $CONTRIBUTING_FILE
+    sed -i "s/${originalGithubUsername}\//${githubUsername}\//g" $CONTRIBUTING_FILE
     exitIfError
 fi
 
 if [[ -n "${repository}" ]]; then
-    sed -i "s/${defaultRepository}/${repository}/g" $CONTRIBUTING_FILE
+    sed -i "s/${originalRepository}/${repository}/g" $CONTRIBUTING_FILE
     exitIfError
 fi
 printf "${BLUE}Done${DEFAULT}\n"
 
 printf "Customizing NPM... "
 if [[ -n "$name" ]]; then
-    cleanName="$(echo -e "${name,,}" | tr -d '[[:space:]]')"
-    sed -i "s/${defaultName,,}/${cleanName}/g" $PACKAGE_FILE
+    sed -i "s/${originalName,,}/${cleanName,,}/g" $PACKAGE_FILE
     exitIfError
 fi
 if [[ -n "${description}" ]]; then
@@ -176,14 +183,16 @@ if [[ -n "${description}" ]]; then
     exitIfError
 fi
 if [[ -n "${githubUsername}" ]]; then
-    sed -i "s/${defaultGithubUsername}\//${githubUsername}\//g" $PACKAGE_FILE
+    sed -i "s/${originalGithubUsername}\//${githubUsername}\//g" $PACKAGE_FILE
     exitIfError
 fi
 if [[ -n "${repository}" ]]; then
-    sed -i "s/${defaultRepository}/${repository}/g" $PACKAGE_FILE
+    sed -i "s/${originalRepository}/${repository}/g" $PACKAGE_FILE
     exitIfError
 fi
-sed -i "s/\"author\".*/\"author\": \"\",/g" $PACKAGE_FILE
+gitUserName=$(git config user.name)
+gitUserEmail=$(git config user.email)
+sed -i "s/\"author\".*/\"author\": \"${gitUserName} <${gitUserEmail}> (https://github.com/${githubUsername})\",/g" $PACKAGE_FILE
 exitIfError
 printf "${BLUE}Done${DEFAULT}\n"
 
@@ -204,7 +213,7 @@ exitIfError
 printf "export const APP_SELECTOR: string = 'app';\n" >> $SELECTORS_FILE
 exitIfError
 
-sed -i "s/${defaultComponentsNamePrefix}${defaultComponentsNameSeparator}app/${componentsNamePrefix}${componentsNameSeparator}app/g" $INDEX_FILE
+sed -i "s/${originalComponentsNamePrefix}${originalComponentsNameSeparator}app/${componentsNamePrefix}${componentsNameSeparator}app/g" $INDEX_FILE
 exitIfError
 printf "${BLUE}Done${DEFAULT}\n"
 
