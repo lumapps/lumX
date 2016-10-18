@@ -190,7 +190,12 @@
         "core-js": "latest",
         "ie-shim": "latest",
         "rxjs": "latest",
-        "zone.js": "latest"
+        "zone.js": "latest",
+
+        "bourbon": "latest",
+        "mdi": "latest",
+        "moment": "latest",
+        "velocity-animate": "latest"
     },
     "devDependencies": {
         "http-server": "latest",

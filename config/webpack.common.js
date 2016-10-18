@@ -398,7 +398,7 @@ module.exports = function webpackCommonConfigExport() {
                 helpers.root('src/client'),
                 helpers.root('src/client/app'),
                 helpers.root('src/client/assets'),
-                helpers.root('src/client/assets/styles'),
+                helpers.root('src/client/app/core/styles'),
             ],
         },
 
@@ -409,7 +409,9 @@ module.exports = function webpackCommonConfigExport() {
          */
         sassLoader: {
             includePaths: [
-                'src/client/assets/styles',
+                'src/client/app/core/styles',
+                'node_modules/bourbon/app/assets/stylesheets',
+                'node_modules/mdi/scss',
             ],
             indentType: 'space',
             indentWidth: 4,
