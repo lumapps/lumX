@@ -9,7 +9,6 @@ const webpackMerge = require('webpack-merge');
 // const DedupePlugin = require('webpack/lib/optimize/DedupePlugin');
 const DefinePlugin = require('webpack/lib/DefinePlugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-// const IgnorePlugin = require('webpack/lib/IgnorePlugin');
 const NormalModuleReplacementPlugin = require('webpack/lib/NormalModuleReplacementPlugin');
 const UglifyJsPlugin = require('webpack/lib/optimize/UglifyJsPlugin');
 const WebpackMd5Hash = require('webpack-md5-hash');
@@ -230,14 +229,6 @@ module.exports = function webpackProdConfigExport(options) {
                 /angular2-hmr/i,
                 helpers.root('config/modules/angular2-hmr-prod.js')
             ),
-
-            /**
-             * Plugin: IgnorePlugin
-             * Description: Don’t generate modules for requests matching the provided RegExp.
-             *
-             * @see http://webpack.github.io/docs/list-of-plugins.html#ignoreplugin
-             */
-            // new IgnorePlugin(/angular2-hmr/),
 
             /**
              * Plugin: CompressionPlugin

@@ -6,7 +6,6 @@ import { createNewHosts, removeNgStyles } from '@angularclass/hmr';
 import { CoreModule } from 'core/modules/core.module';
 import { IHmrStore } from 'core/types/hmr-store.type';
 
-
 import { AppComponent } from 'app.component';
 
 

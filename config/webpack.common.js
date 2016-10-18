@@ -7,10 +7,11 @@ const helpers = require('./modules/helpers');
 const AssetsPlugin = require('assets-webpack-plugin');
 const ContextReplacementPlugin = require('webpack/lib/ContextReplacementPlugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const TsConfigPathsPlugin = require('awesome-typescript-loader').TsConfigPathsPlugin;
 const HtmlElementsPlugin = require('./html-elements-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const SassLintPlugin = require('sasslint-webpack-plugin');
+const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
+const TsConfigPathsPlugin = require('awesome-typescript-loader').TsConfigPathsPlugin;
 
 /*
  * Webpack Constants
@@ -262,17 +263,19 @@ module.exports = function webpackCommonConfigExport() {
              * CopyWebpackPlugin.
              * Copy files and directories in webpack.
              *
-             * Copies project static assets.
+             * Copies project static assets to the dist assets.
              *
              * @see {@link https://www.npmjs.com/package/copy-webpack-plugin|Copy Webpack Plugin}
              */
-            new CopyWebpackPlugin([{
-                from: 'src/client/assets',
-                to: 'assets',
-            }], {
+            new CopyWebpackPlugin([
+                {
+                    from: 'src/client/assets',
+                    to: 'assets',
+                },
+                { from: 'src/client/meta' },
+            ], {
                 ignore: [
                     '*.scss',
-                    '*_specRunner*',
                 ],
             }),
 
@@ -286,6 +289,7 @@ module.exports = function webpackCommonConfigExport() {
              */
             new HtmlWebpackPlugin({
                 chunksSortMode: 'dependency',
+                inject: 'head',
                 template: 'src/client/index.html',
             }),
 
@@ -329,6 +333,17 @@ module.exports = function webpackCommonConfigExport() {
                 ignoreFiles: [],
                 quiet: false,
                 testing: false,
+            }),
+
+            /*
+             * Plugin: ScriptExtHtmlWebpackPlugin
+             * Description: Enhances html-webpack-plugin functionality
+             * with different deployment options for your scripts including:
+             *
+             * See: https://github.com/numical/script-ext-html-webpack-plugin
+             */
+            new ScriptExtHtmlWebpackPlugin({
+                defaultAttribute: 'defer',
             }),
 
             new TsConfigPathsPlugin(),

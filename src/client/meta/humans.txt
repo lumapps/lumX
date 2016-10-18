@@ -4,9 +4,7 @@
 # TEAM
 
     Arnaud V. -- Contributor
-    Clément P. -- Contributor
-    Matthias M. -- Project manager, Contributor
-    Maxime B. -- Contributor
+    Clément P. -- Project manager, Contributor
 
 # THANKS
 
