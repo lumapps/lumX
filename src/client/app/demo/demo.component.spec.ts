@@ -6,7 +6,7 @@ import { ITokenState } from 'core/reducers/token.reducer';
 import { HttpInterceptorService } from 'core/services/http-interceptor.service';
 import { TokenService } from 'core/services/token.service';
 
-import { DemoModule } from 'demo.module';
+import { DemoModule } from './demo.module';
 
 
 describe('Application startup', () => {
