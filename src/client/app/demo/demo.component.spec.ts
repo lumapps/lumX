@@ -6,14 +6,14 @@ import { ITokenState } from 'core/reducers/token.reducer';
 import { HttpInterceptorService } from 'core/services/http-interceptor.service';
 import { TokenService } from 'core/services/token.service';
 
-import { AppModule } from 'app.module';
+import { DemoModule } from 'demo.module';
 
 
 describe('Application startup', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
             imports: [
-                AppModule,
+                DemoModule,
             ],
 
             providers: [
