@@ -327,7 +327,7 @@ module.exports = function webpackCommonConfigExport() {
              * @see {@link https://github.com/alleyinteractive/sasslint-webpack-plugin|SASS Lint Webpack Plugin}
              */
             new SassLintPlugin({
-                failOnError: false,
+                failOnError: true,
                 failOnWarning: false,
                 glob: './src/client/**/*.s?(a|c)ss',
                 ignoreFiles: [],
