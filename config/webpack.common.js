@@ -327,10 +327,15 @@ module.exports = function webpackCommonConfigExport() {
              * @see {@link https://github.com/alleyinteractive/sasslint-webpack-plugin|SASS Lint Webpack Plugin}
              */
             new SassLintPlugin({
+                context: ['./src/client'],
                 failOnError: false,
                 failOnWarning: false,
-                glob: './src/client/**/*.s?(a|c)ss',
-                ignoreFiles: [],
+                // NOTE: we need to use the ignoreFiles array here and have the same files as in the .sass-lint.yml
+                // because the plugin doesn't parse the config file for ignored files... *lame*
+                ignoreFiles: [
+                    './src/client/app/core/styles/base/_colors.scss',
+                    './src/client/app/core/styles/generic/_normalize.scss',
+                ],
                 quiet: false,
                 testing: false,
             }),

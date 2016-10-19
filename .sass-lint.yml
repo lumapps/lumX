@@ -1,7 +1,8 @@
 files:
-  include: 'src/client/**/*.s+(a|c)ss'
+  include: 'src/client/**/*.scss'
   ignore:
     - 'node_modules/**/*.s+(a|c)ss'
+    - 'src/client/app/core/styles/base/_colors.scss'
     - 'src/client/app/core/styles/generic/_normalize.scss'
 options:
   formatter: stylish
@@ -95,7 +96,7 @@ rules:
   no-universal-selectors: 0
   no-url-protocols: 2
   no-vendor-prefixes:
-    - 1
+    - 0
     - additional-identifiers: []
       excluded-identifiers: []
   no-warn: 0
