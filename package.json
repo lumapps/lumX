@@ -113,7 +113,7 @@
         "init": "bash -- ./init.sh",
         "check:prerequisite": "bash -- ./prerequisite.sh",
         "presetup": "npm -s run check:prerequisite",
-        "setup": "rm -Rf -- node_module && npm -s cache clean && npm -s install && npm -s run task -- clean:project",
+        "setup": "rm -Rf -- node_modules && npm -s cache clean && npm -s install && npm -s run task -- clean:project",
         "presetup:fast": "npm -s run check:prerequisite",
         "setup:fast": "npm -s prune && npm -s install && npm -s update && npm -s run task -- clean:project",
         "setup:update": "npm -s prune && npm -s install && npm -s update",
