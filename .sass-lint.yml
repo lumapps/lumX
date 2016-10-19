@@ -6,107 +6,107 @@ options:
   merge-default-rules: false
 rules:
   attribute-quotes:
-    - 1
+    - 2
     - include: true
   bem-depth:
     - 0
     - max-depth: 1
   border-zero:
-    - 1
-    - convention: none
+    - 2
+    - convention: '0'
   brace-style:
-    - 1
+    - 2
     - allow-single-line: true
   class-name-format:
     - 1
     - convention: hyphenatedbem
   clean-import-paths:
-    - 1
+    - 2
     - filename-extension: false
       leading-underscore: false
   empty-args:
-    - 1
+    - 2
     - include: true
   empty-line-between-blocks:
-    - 1
+    - 2
     - ignore-single-line-rulesets: true
-  extends-before-declarations: 1
-  extends-before-mixins: 1
+  extends-before-declarations: 2
+  extends-before-mixins: 2
   final-newline:
-    - 1
+    - 2
     - include: true
-  force-attribute-nesting: 1
-  force-element-nesting: 1
-  force-pseudo-nesting: 1
+  force-attribute-nesting: 2
+  force-element-nesting: 2
+  force-pseudo-nesting: 2
   function-name-format:
-    - 1
+    - 2
     - allow-leading-underscore: true
       convention: hyphenatedlowercase
   hex-length:
-    - 1
+    - 2
     - style: long
   hex-notation:
-    - 1
+    - 2
     - style: uppercase
   id-name-format:
-    - 1
+    - 2
     - convention: hyphenatedbem
   indentation:
-    - 1
+    - 2
     - size: 4
   leading-zero:
-    - 1
+    - 2
     - include: true
   mixin-name-format:
-    - 1
-    - allow-leading-underscore: true
+    - 2
+    - allow-leading-underscore: false
       convention: hyphenatedlowercase
-  mixins-before-declarations: 1
+  mixins-before-declarations: 2
   nesting-depth:
     - 1
     - max-depth: 3
-  no-attribute-selectors: 1
-  no-color-keywords: 0
+  no-attribute-selectors: 0
+  no-color-keywords: 2
   no-color-literals: 0
   no-combinators: 0
-  no-css-comments: 1
-  no-debug: 1
+  no-css-comments: 2
+  no-debug: 2
   no-disallowed-properties: 0
   no-duplicate-properties: 1
   no-empty-rulesets: 1
   no-extends: 0
-  no-ids: 1
+  no-ids: 2
   no-important: 0
-  no-invalid-hex: 1
+  no-invalid-hex: 0
   no-mergeable-selectors: 1
   no-misspelled-properties:
-    - 1
+    - 2
     - extra-properties: []
   no-qualifying-elements:
-    - 1
+    - 2
     - allow-element-with-attribute: true
       allow-element-with-class: false
       allow-element-with-id: false
-  no-trailing-whitespace: 1
-  no-trailing-zero: 1
-  no-transition-all: 1
+  no-trailing-whitespace: 2
+  no-trailing-zero: 2
+  no-transition-all: 2
   no-universal-selectors: 1
-  no-url-protocols: 1
+  no-url-protocols: 2
   no-vendor-prefixes:
     - 1
     - additional-identifiers: []
       excluded-identifiers: []
-  no-warn: 1
+  no-warn: 0
   one-declaration-per-line: 1
-  placeholder-in-extend: 1
+  placeholder-in-extend: 2
   placeholder-name-format:
-    - 1
+    - 2
     - convention: hyphenatedbem
   property-sort-order:
-    - 1
+    - 0
     - ignore-custom-properties: false
   property-units:
-    - 1
+    - 2
     - global:
         - ch
         - em
@@ -136,44 +136,43 @@ rules:
         - dppx
         - '%'
       per-property: {}
-  pseudo-element: 1
+  pseudo-element: 2
   quotes:
-    - 1
+    - 2
     - style: single
   shorthand-values:
-    - 1
+    - 2
     - allowed-shorthands:
         - 1
         - 2
         - 3
-        - 4
   single-line-per-selector: 1
   space-after-bang:
-    - 1
+    - 2
     - include: false
   space-after-colon:
-    - 1
+    - 2
     - include: true
   space-before-bang:
-    - 1
+    - 2
     - include: true
   space-after-comma:
-    - 1
+    - 2
     - include: true
   space-before-brace:
-    - 1
+    - 2
     - include: true
-  space-before-colon: 1
+  space-before-colon: 0
   space-between-parens:
-    - 1
+    - 2
     - include: false
-  trailing-semicolon: 1
-  url-quotes: 1
+  trailing-semicolon: 2
+  url-quotes: 2
   variable-for-property:
     - 0
     - properties: []
   variable-name-format:
     - 1
-    - allow-leading-underscore: true
-      convention: hyphenatedlowercase
-  zero-unit: 1
+    - allow-leading-underscore: false
+      convention: '^[A-Za-z0-9-]+$'
+  zero-unit: 2
