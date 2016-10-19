@@ -16,7 +16,7 @@ Three quick start options are available:
 
 ## Documentation
 
-lumX²'s documentation, included in this repo in the demo directory, is built with [Webpack][webpack] and hosted on [Google App Engine][gae] at http://ui2.lumapps.com. The docs may also be run locally.
+LumX²'s documentation, included in this repo in the demo directory, is built with [Webpack][webpack] and hosted on [Google App Engine][gae] at http://ui2.lumapps.com. The docs may also be run locally.
 
 ### Running documentation locally
 
