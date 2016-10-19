@@ -5,19 +5,19 @@
 // Flex container
 [flex-container] {
     @include media-query(desk) {
-        @include display(flex);
+        display: flex;
     }
 }
 
 [flex-container='row'] {
     @include media-query(desk) {
-        @include flex-direction(row);
+        flex-direction: row;
     }
 }
 
 [flex-container='column'] {
     @include media-query(desk) {
-        @include flex-direction(column);
+        flex-direction: column;
     }
 }
 
@@ -27,7 +27,7 @@
 
 // Flex wrap
 [flex-wrap] {
-    @include flex-wrap(wrap);
+    flex-wrap: wrap;
 }
 
 
@@ -44,7 +44,7 @@
 [flex-align='center start'],
 [flex-align='center end'] {
     @include media-query(desk) {
-        @include justify-content(center);
+        justify-content: center;
     }
 }
 
@@ -54,7 +54,7 @@
 [flex-align='end start'],
 [flex-align='end end'] {
     @include media-query(desk) {
-        @include justify-content(flex-end);
+        justify-content: flex-end;
     }
 }
 
@@ -64,7 +64,7 @@
 [flex-align='space-around start'],
 [flex-align='space-around end'] {
     @include media-query(desk) {
-        @include justify-content(space-around);
+        justify-content: space-around;
     }
 }
 
@@ -74,7 +74,7 @@
 [flex-align='space-between start'],
 [flex-align='space-between end'] {
     @include media-query(desk) {
-        @include justify-content(space-between);
+        justify-content: space-between;
     }
 }
 
@@ -89,7 +89,7 @@
 [flex-align='space-between center'],
 [flex-align='space-around center'] {
     @include media-query(desk) {
-        @include align-items(center);
+        align-items: center;
     }
 }
 
@@ -100,7 +100,7 @@
 [flex-align='space-between start'],
 [flex-align='space-around start'] {
     @include media-query(desk) {
-        @include align-items(flex-start);
+        align-items: flex-start;
     }
 }
 
@@ -111,7 +111,7 @@
 [flex-align='space-between end'],
 [flex-align='space-around end'] {
     @include media-query(desk) {
-        @include align-items(flex-end);
+        align-items: flex-end;
     }
 }
 

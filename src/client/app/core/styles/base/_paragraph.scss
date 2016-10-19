@@ -4,11 +4,21 @@
 
 // Paragraph mixin
 @mixin paragraph() {
-    h1, h2, h3, h4, h5, h6,
-    ul, ol, dl,
-    blockquote, p, address,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    ul,
+    ol,
+    dl,
+    blockquote,
+    p,
+    address,
     table,
-    fieldset, figure,
+    fieldset,
+    figure,
     pre,
     hr,
     iframe {
@@ -19,7 +29,9 @@
         }
     }
 
-    ul, ol, dd {
+    ul,
+    ol,
+    dd {
         margin-left: $base-spacing-unit * 6;
     }
 

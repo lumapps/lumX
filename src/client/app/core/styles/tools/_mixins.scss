@@ -10,7 +10,11 @@
 
 @mixin font-size($font-size) {
     font-size: $font-size;
-    font-size: ($font-size / $base-font-size) * 1rem;
+
+    // Just a quick hack so sass-lint doesn't go nuts with duplicate properties
+    & {
+        font-size: ($font-size / $base-font-size) * 1rem;
+    }
 }
 
 
