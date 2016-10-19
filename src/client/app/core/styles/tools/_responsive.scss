@@ -45,7 +45,7 @@
 
     // If the user specifies a non-exitent alias, send them a warning.
     @if $breakpoint-found == false {
-        @warn "Oops! Breakpoint ‘#{$mq}’ does not exist."
+        @warn 'Oops! Breakpoint \‘#{$mq}\’ does not exist.';
     }
 
 }

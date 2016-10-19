@@ -18,11 +18,11 @@ html {
     color: $base-text-color;
     min-height: 100%; // [2]
     -webkit-text-size-adjust: 100%; // [3]
-        -ms-text-size-adjust: 100%; // [3]
+    -ms-text-size-adjust:     100%; // [3]
     -moz-osx-font-smoothing: grayscale; // [4]
-     -webkit-font-smoothing: antialiased; // [4]
+    -webkit-font-smoothing:  antialiased; // [4]
 }
 
-body[class*="no-scroll"] {
+body[class*='no-scroll'] {
     overflow: hidden;
 }

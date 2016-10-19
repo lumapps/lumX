@@ -1,6 +1,8 @@
 files:
   include: 'src/client/**/*.s+(a|c)ss'
-  ignore: 'node_modules/**/*.s+(a|c)ss'
+  ignore:
+    - 'node_modules/**/*.s+(a|c)ss'
+    - 'src/client/app/core/styles/generic/_normalize.scss'
 options:
   formatter: stylish
   merge-default-rules: false
@@ -35,9 +37,9 @@ rules:
   final-newline:
     - 2
     - include: true
-  force-attribute-nesting: 2
-  force-element-nesting: 2
-  force-pseudo-nesting: 2
+  force-attribute-nesting: 0
+  force-element-nesting: 0
+  force-pseudo-nesting: 0
   function-name-format:
     - 2
     - allow-leading-underscore: true
@@ -88,9 +90,9 @@ rules:
       allow-element-with-class: false
       allow-element-with-id: false
   no-trailing-whitespace: 2
-  no-trailing-zero: 2
+  no-trailing-zero: 0
   no-transition-all: 2
-  no-universal-selectors: 1
+  no-universal-selectors: 0
   no-url-protocols: 2
   no-vendor-prefixes:
     - 1

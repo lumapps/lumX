@@ -11,5 +11,5 @@
 
 .bare-list,
 %bare-list {
-    @include bare-list;
+    @include bare-list();
 }

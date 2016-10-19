@@ -39,5 +39,5 @@
 // Paragraph base styles
 .paragraph,
 %paragraph {
-    @include paragraph;
+    @include paragraph();
 }

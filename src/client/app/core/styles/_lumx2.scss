@@ -2,39 +2,39 @@
 //    #CORE
 //\*------------------------------------*/
 
-@import "bourbon";
-@import "materialdesignicons";
+@import 'bourbon';
+@import 'materialdesignicons';
 
-@import "settings/colors";
-@import "settings/defaults";
-@import "settings/responsive";
+@import 'settings/colors';
+@import 'settings/defaults';
+@import 'settings/responsive';
 
-@import "tools/mixins";
-@import "tools/responsive";
-@import "tools/widths";
+@import 'tools/mixins';
+@import 'tools/responsive';
+@import 'tools/widths';
 
-@import "generic/normalize";
-@import "generic/box-sizing";
-@import "generic/reset";
+@import 'generic/normalize';
+@import 'generic/box-sizing';
+@import 'generic/reset';
 
-@import "base/page";
-@import "base/flexbox";
-@import "base/images";
-@import "base/paragraph";
-@import "base/typography";
-@import "base/colors";
+@import 'base/page';
+@import 'base/flexbox';
+@import 'base/images';
+@import 'base/paragraph';
+@import 'base/typography';
+@import 'base/colors';
 
-@import "trumps/widths";
-@import "trumps/widths-responsive";
-@import "trumps/spacing";
-@import "trumps/helpers";
+@import 'trumps/widths';
+@import 'trumps/widths-responsive';
+@import 'trumps/spacing';
+@import 'trumps/helpers';
 
-@import "animations/ripple";
-@import "animations/spin";
+@import 'animations/ripple';
+@import 'animations/spin';
 
-@import "objects/bare-list";
-@import "objects/divider";
-@import "objects/z-depth";
+@import 'objects/bare-list';
+@import 'objects/divider';
+@import 'objects/z-depth';
 
 // @import "../../modules/button/scss/button";
 // @import "../../modules/card/scss/card";
