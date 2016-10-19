@@ -1,4 +1,3 @@
-
 #!/bin/bash
 # This script will initialize the boilerplate
 
