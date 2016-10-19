@@ -107,7 +107,7 @@
         "unit:live:headless": "npm -s run task -- unit:live:headless",
         "unit:live:debug": "npm -s run task -- unit:live:debug",
 
-        "setup": "rm -Rf -- node_module && npm -s cache clean && npm -s install && npm -s run task -- clean:project",
+        "setup": "rm -Rf -- node_modules && npm -s cache clean && npm -s install && npm -s run task -- clean:project",
         "setup:fast": "npm -s prune && npm -s install && npm -s update && npm -s run task -- clean:project",
         "setup:update": "npm -s prune && npm -s install && npm -s update",
         "setup:git-hooks": "node node_modules/husky/bin/uninstall.js && node node_modules/husky/bin/install.js",
