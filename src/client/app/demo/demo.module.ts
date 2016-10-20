@@ -6,16 +6,16 @@ import { createNewHosts, removeNgStyles } from '@angularclass/hmr';
 import { CoreModule } from 'core/modules/core.module';
 import { IHmrStore } from 'core/types/hmr-store.type';
 
-import { AppComponent } from 'app.component';
+import { DemoComponent } from './demo.component';
 
 
 @NgModule({
     bootstrap: [
-        AppComponent,
+        DemoComponent,
     ],
 
     declarations: [
-        AppComponent,
+        DemoComponent,
     ],
 
     imports: [
@@ -24,15 +24,15 @@ import { AppComponent } from 'app.component';
     ],
 })
 /**
- * Our application module.
+ * Our demo module.
  *
  * Handles the bootstrapping and declaration of everything.
  */
-export class AppModule {
+export class DemoModule {
     /**
      * Construct the application module.
      *
-     * @constructs AppModule
+     * @constructs DemoModule
      *
      * @param {ApplicationRef} _appRef The application reference.
      */

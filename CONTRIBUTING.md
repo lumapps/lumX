@@ -148,7 +148,7 @@ For the ease of use and contributing, most of the commit message style is enforc
 Each commit message consists of a **header**, a **body** and a **footer**.  The header has a special format that includes a **type**, a **scope** and a **subject**:
 
 ```
-<type> <scope>: <subject>
+<type>(<scope>): <subject>
 <BLANK LINE>
 <body>
 <BLANK LINE>
