@@ -30,9 +30,7 @@ import { ToDoComponent } from 'to-do/components/to-do.component';
     ],
 })
 /**
- * Our application module.
- *
- * Handles the bootstrapping and declaration of everything.
+ * The ToDo module.
  */
 export class ToDoModule {}
 

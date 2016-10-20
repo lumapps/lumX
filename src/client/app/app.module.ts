@@ -1,14 +1,17 @@
-import { ApplicationRef, ComponentRef, NgModule }      from '@angular/core';
+import { ApplicationRef, ComponentRef, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { createNewHosts, removeNgStyles } from '@angularclass/hmr';
 
+import { AppRoutingModule } from 'app-routing.module';
 import { CoreModule } from 'core/modules/core.module';
+
 import { IHmrStore } from 'core/types/hmr-store.type';
 
-import { ToDoModule } from 'to-do/to-do.module';
+import { HomeModule } from 'home/home.module';
 
 import { AppComponent } from 'app.component';
+
 
 
 @NgModule({
@@ -21,9 +24,13 @@ import { AppComponent } from 'app.component';
     ],
 
     imports: [
+        AppRoutingModule,
         BrowserModule,
         CoreModule.forRoot(),
-        ToDoModule,
+        HomeModule,
+    ],
+
+    providers: [
     ],
 })
 /**

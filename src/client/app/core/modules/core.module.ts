@@ -9,8 +9,14 @@ import { initialState, tokenReducer } from 'core/reducers/token.reducer';
 import { HttpInterceptorService } from 'core/services/http-interceptor.service';
 import { TokenService } from 'core/services/token.service';
 
+import { NotFoundComponent } from 'core/components/not-found/not-found.component';
+
 
 @NgModule({
+    declarations: [
+        NotFoundComponent,
+    ],
+
     exports: [
         CommonModule,
         FormsModule,
