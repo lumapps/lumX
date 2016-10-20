@@ -257,6 +257,7 @@
         "@types/webpack": "latest",
 
         "@angularclass/hmr-loader": "latest",
+        "angular2-router-loader": "latest",
         "angular2-template-loader": "latest",
         "awesome-typescript-loader": "latest",
         "css-loader": "latest",

@@ -74,6 +74,7 @@ module.exports = function webpackTestConfigExport(options) {
                     ],
                     loaders: [
                         'awesome-typescript?inlineSourceMap=true&sourceMap=false',
+                        'angular2-router?aot=false',
                         'angular2-template',
                     ],
                     test: /\.ts$/i,

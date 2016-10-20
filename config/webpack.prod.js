@@ -26,6 +26,8 @@ const METADATA = webpackMerge.smart(commonConfig({ env: ENV }).metadata, {
     port: PORT,
 });
 
+const ENABLE_AOT = false;
+
 /**
  * Webpack configuration
  *
@@ -79,6 +81,7 @@ module.exports = function webpackProdConfigExport(options) {
                     ],
                     loaders: [
                         'awesome-typescript',
+                        'angular2-router?aot=' + ENABLE_AOT,
                         'angular2-template',
                     ],
                     test: /\.ts$/i,
