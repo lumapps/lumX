@@ -403,7 +403,6 @@ module.exports = function webpackCommonConfigExport() {
                 helpers.root('src/client'),
                 helpers.root('src/client/app'),
                 helpers.root('src/client/assets'),
-                helpers.root('src/client/app/core/styles'),
             ],
         },
 

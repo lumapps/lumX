@@ -11,7 +11,7 @@ import { TokenService } from 'core/services/token.service';
 /*
  * Global styles
  */
-import '_lumx2.scss';
+import 'core/styles/_lumx2.scss';
 
 /*
  * Component styles
