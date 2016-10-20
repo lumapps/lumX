@@ -7,11 +7,6 @@ import { ToDoStore } from 'to-do/to-do.store';
 
 
 /*
- * Component styles
- */
-import './to-do-list.component.scss';
-
-/*
  * Component template
  */
 const template: string = require('./' + SELECTOR + '.component.html');
@@ -19,6 +14,9 @@ const template: string = require('./' + SELECTOR + '.component.html');
 
 @Component({
     selector: SELECTOR_PREFIX + SELECTOR_SEPARATOR + SELECTOR,
+    styles: [
+        require('./' + SELECTOR + '.component.scss'),
+    ],
     template: template,
 })
 /**

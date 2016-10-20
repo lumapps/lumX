@@ -129,7 +129,22 @@ module.exports = function webpackCommonConfigExport() {
                 },
 
                 /*
-                 * Load SCSS.
+                 * Load Specific SCSS.
+                 */
+                {
+                    exclude: /\.global\.scss$/i,
+                    include: helpers.root('src', 'client'),
+                    loaders: [
+                        'raw',
+                        'postcss',
+                        'resolve-url',
+                        'sass?sourceMap',
+                    ],
+                    test: /\.scss$/i,
+                },
+
+                /*
+                 * Load Global SCSS.
                  */
                 {
                     include: helpers.root('src', 'client'),
@@ -140,7 +155,7 @@ module.exports = function webpackCommonConfigExport() {
                         'resolve-url',
                         'sass?sourceMap',
                     ],
-                    test: /\.scss$/i,
+                    test: /\.global\.scss$/i,
                 },
 
                 /* HTML loader support for *.html

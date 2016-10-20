@@ -92,6 +92,24 @@ let devServerConfig = {
             target: 'http://' + APPENGINE_DEV_SERVER.host + ':' + APPENGINE_DEV_SERVER.port,
         },
     },
+
+    quiet: false,
+    stats: {
+        assets: false,
+        children: false,
+        chunks: false,
+        colors: true,
+        errorDetails: true,
+        errors: true,
+        hash: false,
+        modules: false,
+        publicPath: false,
+        reasons: false,
+        source: false,
+        timings: false,
+        version: false,
+        warnings: true,
+    },
 };
 
 if (HMR) {
@@ -123,7 +141,6 @@ if (HMR) {
     );
 
     devServerConfig.hot = true;
-    devServerConfig.quiet = true;
     devServerConfig.watchOptions = {
         aggregateTimeout: 300,
         poll: 1000,
@@ -131,23 +148,6 @@ if (HMR) {
 } else {
     devServerConfig.info = false;
     devServerConfig.noInfo = true;
-    devServerConfig.quiet = false;
-    devServerConfig.stats = {
-        assets: false,
-        children: false,
-        chunks: false,
-        colors: true,
-        errorDetails: true,
-        errors: true,
-        hash: false,
-        modules: false,
-        publicPath: false,
-        reasons: false,
-        source: false,
-        timings: false,
-        version: false,
-        warnings: true,
-    };
 }
 
 /**
