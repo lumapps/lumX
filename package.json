@@ -25,7 +25,7 @@
             "maxSubjectLength": 100,
             "subjectPattern": ".+",
             "subjectPatternErrorMsg": "Commit subject is not valid. It must be at least one character long.",
-            "helpMessage": "\nHere is the format for valid commit messages: \n<type> <scope>: <subject>\n<BLANK LINE>\n<body>\n<BLANK LINE>\n<footer>\n\nIf your commit message starts with 'WIP', then no commit validation will be enforced."
+            "helpMessage": "\nHere is the format for valid commit messages: \n<type>(<scope>): <subject>\n<BLANK LINE>\n<body>\n<BLANK LINE>\n<footer>\n\nIf your commit message starts with 'WIP', then no commit validation will be enforced."
         }
     },
     "scripts": {

@@ -10,7 +10,7 @@ import { AppModule } from 'app.module';
 /*
  * Bootstrap our Angular app
  */
-let _main: () => Promise<{}> = (): Promise<{}> => {
+let _main: () => Promise<any> = (): Promise<any> => {
     return platformBrowserDynamic().bootstrapModule(AppModule)
                                    .then(decorateModuleRef)
                                    .catch((error: string) => console.error(error));
@@ -18,4 +18,4 @@ let _main: () => Promise<{}> = (): Promise<{}> => {
 
 bootloader(_main);
 
-export const main: () => Promise<{}> = _main;
+export const main: () => Promise<any> = _main;

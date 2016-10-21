@@ -63,7 +63,7 @@ export class AppModule {
     }
 
     hmrOnDestroy(_HmrStore: IHmrStore): void {
-        let cmpLocation: ComponentRef<{}>[] = this._appRef.components.map((cmp: ComponentRef<{}>) => {
+        let cmpLocation: ComponentRef<any>[] = this._appRef.components.map((cmp: ComponentRef<any>) => {
             return cmp.location.nativeElement;
         });
 

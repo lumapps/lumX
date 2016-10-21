@@ -12,7 +12,7 @@
             "static-before-instance",
             "variables-before-functions"
         ],
-        "no-any": true,
+        "no-any": false,
         "no-inferrable-types": false,
         "no-internal-module": true,
         "no-namespace": false,
@@ -109,7 +109,7 @@
             true,
             120
         ],
-        "no-default-export": true,
+        "no-default-export": false,
         "no-mergeable-namespace": true,
         "no-require-imports": false,
         "no-trailing-whitespace": true,
