@@ -1,7 +1,10 @@
+import { APP_BASE_HREF } from '@angular/common';
 import { ApplicationRef, ComponentRef, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { createNewHosts, removeNgStyles } from '@angularclass/hmr';
+
+import { BASE_HREF } from 'core/settings/common.settings';
 
 import { AppRoutingModule } from 'app-routing.module';
 import { CoreModule } from 'core/modules/core.module';
@@ -31,6 +34,10 @@ import { AppComponent } from 'app.component';
     ],
 
     providers: [
+        {
+            provide: APP_BASE_HREF,
+            useValue: BASE_HREF,
+        },
     ],
 })
 /**

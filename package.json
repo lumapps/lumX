@@ -200,6 +200,8 @@
     "devDependencies": {
         "http-server": "latest",
         "is-ci": "latest",
+        "merge": "latest",
+        "parse5": "latest",
         "rimraf": "latest",
 
         "commitizen": "latest",
@@ -278,15 +280,14 @@
         "assets-webpack-plugin": "latest",
         "autopolyfiller-webpack": "latest",
         "copy-webpack-plugin": "latest",
-        "extract-text-webpack-plugin": "latest",
         "html-webpack-plugin": "latest",
-        "open-browser-webpack-plugin": "latest",
+        "webpack-browser-plugin": "latest",
         "sasslint-webpack-plugin": "latest",
         "script-ext-html-webpack-plugin": "latest",
-        "webpack": "latest",
+        "webpack": "beta",
         "webpack-dashboard": "latest",
         "webpack-dev-middleware": "latest",
-        "webpack-dev-server": "latest",
+        "webpack-dev-server": "beta",
         "webpack-md5-hash": "latest",
         "webpack-merge": "latest",
         "webpack-notifier": "latest"
