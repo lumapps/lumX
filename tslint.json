@@ -12,7 +12,7 @@
             "static-before-instance",
             "variables-before-functions"
         ],
-        "no-any": true,
+        "no-any": false,
         "no-inferrable-types": false,
         "no-internal-module": true,
         "no-namespace": false,
@@ -205,11 +205,11 @@
         ],
         "directive-selector-prefix": [
             true,
-            "lb"
+            "lx"
         ],
         "component-selector-prefix": [
             true,
-            "lb"
+            "lx"
         ],
         "use-input-property-decorator": true,
         "use-output-property-decorator": true,
