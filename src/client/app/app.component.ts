@@ -10,7 +10,7 @@ import { TokenService } from 'core/services/token.service';
 /*
  * Global styles
  */
-import 'app.global.scss';
+import 'core/styles/app.scss';
 
 
 /*

@@ -6,15 +6,14 @@ import { createNewHosts, removeNgStyles } from '@angularclass/hmr';
 
 import { BASE_HREF } from 'core/settings/common.settings';
 
-import { AppRoutingModule } from 'app-routing.module';
+import { AppRoutingModule } from 'app.routing.module';
 import { CoreModule } from 'core/modules/core.module';
 
 import { IHmrStore } from 'core/types/hmr-store.type';
 
 import { HomeModule } from 'home/home.module';
 
-import { AppComponent } from 'app.component';
-
+import { AppComponent } from './app.component';
 
 
 @NgModule({

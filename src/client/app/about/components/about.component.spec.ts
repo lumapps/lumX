@@ -1,7 +1,7 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, Data } from '@angular/router';
 
-import { AboutComponent } from 'about/components/about.module';
+import { AboutComponent } from './about.component';
 
 
 describe('About', () => {

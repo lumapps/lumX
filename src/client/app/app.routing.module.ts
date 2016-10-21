@@ -23,7 +23,6 @@ import { NotFoundComponent } from 'core/components/not-found/not-found.component
                 component: HomeComponent,
                 path: '',
             },
-
             {
                 component: NotFoundComponent,
                 path: '**',

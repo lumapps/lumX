@@ -6,8 +6,6 @@ import { ABOUT_SELECTOR as SELECTOR } from 'core/settings/selectors.settings';
 import { SELECTOR_PREFIX, SELECTOR_SEPARATOR } from 'core/settings/selectors.settings';
 
 
-console.log('`About` component has been loaded!');
-
 /*
  * Component template
  */
