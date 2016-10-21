@@ -58,11 +58,14 @@ function readWithDefault() {
 
 
 CONTRIBUTING_FILE="./CONTRIBUTING.md"
+HUMANS_FILE="./src/client/meta/humans.txt"
 INDEX_FILE="./src/client/index.html"
 PACKAGE_FILE="./package.json"
 README_FILE="./README.md"
 ROADMAP_FILE="./ROADMAP.md"
 SELECTORS_FILE="./src/client/app/core/settings/selectors.settings.ts"
+SETTINGS_FILE="./src/client/app/core/settings/common.settings.ts"
+TSLINT_FILE="./tslint.json"
 
 originalName='LumBoilerplate'
 originalDescription=''
@@ -70,6 +73,7 @@ originalGithubUsername='lumapps'
 originalRepository='lumboilerplate'
 originalComponentsNamePrefix='lb'
 originalComponentsNameSeparator='-'
+originalBaseUrl='/'
 
 printf "${BOLD}Welcome to the initialization of the ${BLUE}boilerplate${WHITE}!${DEFAULT}\n"
 printf "We will ask you some question to help you setup your new project. Ready?\n\n"
@@ -99,6 +103,10 @@ componentsNamePrefix="${componentsNamePrefix,,}"
 defaultComponentsNameSeparator=${originalComponentsNameSeparator,,}
 readWithDefault "What prefix do you want to use for the components name" "componentsNameSeparator"
 componentsNameSeparator="${componentsNameSeparator,,}"
+
+defaultBaseUrl=${originalBaseUrl,,}
+readWithDefault "What will your base URL be" "baseUrl"
+baseUrl="${baseUrl,,}"
 
 printf "\n"
 printf "We are now ready to initialize the boilerplate for your project. Please wait...\n\n"
@@ -130,7 +138,7 @@ exitIfError
 printf "${BLUE}Done${DEFAULT}\n"
 
 printf "Emptying some files... "
-echo "" > "./src/client/meta/humans.txt"
+echo "" > $HUMANS_FILE
 exitIfError
 echo "" > $README_FILE
 exitIfError
@@ -203,6 +211,11 @@ if [[ -n "$description" ]]; then
 fi
 printf "${BLUE}Done${DEFAULT}\n"
 
+printf "Customizing app settings... "
+printf "export const BASE_HREF: string = '${baseUrl}';\n" > $SETTINGS_FILE
+exitIfError
+printf "${BLUE}Done${DEFAULT}\n"
+
 printf "Customizing selectors... "
 exitIfError
 printf "export const SELECTOR_PREFIX: string = '${componentsNamePrefix}';\n" > $SELECTORS_FILE
@@ -213,6 +226,9 @@ printf "export const APP_SELECTOR: string = 'app';\n" >> $SELECTORS_FILE
 exitIfError
 
 sed -i "s/${originalComponentsNamePrefix}${originalComponentsNameSeparator}app/${componentsNamePrefix}${componentsNameSeparator}app/g" $INDEX_FILE
+exitIfError
+
+sed -i "s/\"${originalComponentsNamePrefix}\"/\"${componentsNamePrefix}\"/g" $TSLINT_FILE
 exitIfError
 printf "${BLUE}Done${DEFAULT}\n"
 
