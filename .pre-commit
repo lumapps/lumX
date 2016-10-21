@@ -138,7 +138,7 @@ if [[ -x $sassLint ]]; then
 
         $(${sassLint} -f stylish -q -v ${SASSFILES} > ${sassLintLog})
 
-        SASSLINT_FAILS=$(cat ${sassLintLog} | grep -e "warning" -e "error")
+        SASSLINT_FAILS=$(cat ${sassLintLog} | grep -e "error ")
         if [[ $SASSLINT_FAILS != "" ]]; then
             printf "${RED}❌ FAILED${DEFAULT}"
 
