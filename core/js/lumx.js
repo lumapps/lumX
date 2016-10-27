@@ -16,6 +16,7 @@
 
     angular.module('lumx.button', []);
     angular.module('lumx.checkbox', []);
+    angular.module('lumx.data-table', []);
     angular.module('lumx.date-picker', []);
     angular.module('lumx.dialog', ['lumx.utils.event-scheduler']);
     angular.module('lumx.dropdown', ['lumx.utils.event-scheduler']);
@@ -36,6 +37,7 @@
     angular.module('lumx', [
         'lumx.button',
         'lumx.checkbox',
+        'lumx.data-table',
         'lumx.date-picker',
         'lumx.dialog',
         'lumx.dropdown',

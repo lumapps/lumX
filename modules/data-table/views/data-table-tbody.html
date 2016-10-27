@@ -1,0 +1,12 @@
+<tbody>
+    <tr ng-class="{ 'data-table__selectable-row': lxDataTableTbody.parentCtrl.selectable,
+                    'data-table__selectable-row--is-disabled': lxDataTableTbody.parentCtrl.selectable && tr.disabled,
+                    'data-table__selectable-row--is-selected': lxDataTableTbody.parentCtrl.selectable && tr.selected }"
+        ng-repeat="tr in lxDataTableThead.parentCtrl.tbody"
+        ng-click="lxDataTableTbody.toggle(tr)">
+        <td ng-if="lxDataTableTbody.parentCtrl.selectable"></td>
+        <td ng-repeat="td in tr.td">
+            <span>{{ td.name }}</span>
+        </td>
+    </tr>
+</tbody>

@@ -197,7 +197,9 @@
                     {
                         'main@':
                         {
-                            templateUrl: '/includes/modules/data-table/data-table.html'
+                            templateUrl: '/includes/modules/data-table/data-table.html',
+                            controller: 'DemoDataTableController',
+                            controllerAs: 'vm'
                         }
                     }
                 })

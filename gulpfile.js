@@ -33,7 +33,8 @@ var paths = {
         'build/js/templates/radio-button_template.js',
         'build/js/templates/switch_template.js',
         'build/js/templates/fab_template.js',
-        'build/js/templates/icon_template.js'
+        'build/js/templates/icon_template.js',
+        'build/js/templates/data-table_template.js',
     ],
     demo: [
         'demo/**/*',
@@ -375,7 +376,20 @@ gulp.task('tpl:icon', function()
         .pipe(gulp.dest('build/js/templates'));
 });
 
-gulp.task('dist:scripts', ['tpl:dropdown', 'tpl:file-input', 'tpl:text-field', 'tpl:search-filter', 'tpl:select', 'tpl:tabs', 'tpl:date-picker', 'tpl:progress', 'tpl:button', 'tpl:checkbox', 'tpl:radio-button', 'tpl:switch', 'tpl:fab', 'tpl:icon'], function()
+gulp.task('tpl:data-table', function()
+{
+    return gulp.src('modules/data-table/views/*.html')
+        .pipe(plugins.plumber())
+        .pipe(plugins.templatecache(
+        {
+            output: 'data-table_template.js',
+            moduleName: 'lumx.data-table',
+            strip: 'views/'
+        }))
+        .pipe(gulp.dest('build/js/templates'));
+});
+
+gulp.task('dist:scripts', ['tpl:dropdown', 'tpl:file-input', 'tpl:text-field', 'tpl:search-filter', 'tpl:select', 'tpl:tabs', 'tpl:date-picker', 'tpl:progress', 'tpl:button', 'tpl:checkbox', 'tpl:radio-button', 'tpl:switch', 'tpl:fab', 'tpl:icon', 'tpl:data-table'], function()
 {
     return gulp.src(paths.distJs.concat(paths.templates))
         .pipe(plugins.plumber())
@@ -416,12 +430,13 @@ gulp.task('watch', ['build'], function()
     watcherWithCache('tpl:radio-button', 'modules/radio-button/views/*.html', ['tpl:radio-button']);
     watcherWithCache('tpl:switch', 'modules/switch/views/*.html', ['tpl:switch']);
     watcherWithCache('tpl:fab', 'modules/fab/views/*.html', ['tpl:fab']);
-    watcherWithCache('tpl:fab', 'modules/fab/views/*.html', ['tpl:icon']);
+    watcherWithCache('tpl:icon', 'modules/icon/views/*.html', ['tpl:icon']);
+    watcherWithCache('tpl:data-table', 'modules/data-table/views/*.html', ['tpl:data-table']);
 });
 
 gulp.task('clean', ['clean:build', 'clean:dist']);
 
-gulp.task('build', ['lint', 'scss', 'fonts', 'demo', 'examples', 'libs', 'tpl:dropdown', 'tpl:file-input', 'tpl:text-field', 'tpl:search-filter', 'tpl:select', 'tpl:tabs', 'tpl:date-picker', 'tpl:progress', 'tpl:button', 'tpl:checkbox', 'tpl:radio-button', 'tpl:switch', 'tpl:fab', 'tpl:icon']);
+gulp.task('build', ['lint', 'scss', 'fonts', 'demo', 'examples', 'libs', 'tpl:dropdown', 'tpl:file-input', 'tpl:text-field', 'tpl:search-filter', 'tpl:select', 'tpl:tabs', 'tpl:date-picker', 'tpl:progress', 'tpl:button', 'tpl:checkbox', 'tpl:radio-button', 'tpl:switch', 'tpl:fab', 'tpl:icon', 'tpl:data-table']);
 gulp.task('dist', ['clean:dist'], function()
 {
     gulp.start('dist:css');

@@ -1,0 +1,14 @@
+<thead>
+    <tr ng-class="{ 'data-table__selectable-row': lxDataTableThead.parentCtrl.selectable,
+                    'data-table__selectable-row--is-selected': lxDataTableThead.parentCtrl.selectable && lxDataTableThead.parentCtrl.allRowsSelected }">
+        <th ng-click="lxDataTableThead.toggleAllSelected()"
+            ng-if="lxDataTableThead.parentCtrl.selectable"></th>
+        <th ng-class=" { 'data-table__sortable-cell': th.sortable,
+                         'data-table__sortable-cell--asc': th.sortable && th.sort === 'asc',
+                         'data-table__sortable-cell--desc': th.sortable && th.sort === 'desc' }"
+            ng-repeat="th in lxDataTableThead.parentCtrl.thead">
+            <lx-icon lx-id="{{ th.icon }}" ng-if="th.icon"></lx-icon>
+            <span>{{ th.name }}</span>
+        </th>
+    </tr>
+</thead>
