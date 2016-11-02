@@ -76,7 +76,7 @@
                 lxDataTable.selectedRows.push(_row);
                 lxDataTable.areAllRowsSelected();
 
-                $rootScope.$broadcast('data-table__select', lxDataTable.selectedRows);
+                $rootScope.$broadcast('lx-data-table__select', lxDataTable.selectedRows);
             }
             else
             {
@@ -87,7 +87,7 @@
 
                 lxDataTable.allRowsSelected = false;
 
-                $rootScope.$broadcast('data-table__unselect', lxDataTable.selectedRows);
+                $rootScope.$broadcast('lx-data-table__unselect', lxDataTable.selectedRows);
             }
         }
 
@@ -119,13 +119,13 @@
                 lxDataTable.allRowsSelected = false;
                 lxDataTable.selectedRows.length = 0;
 
-                $rootScope.$broadcast('data-table__select', lxDataTable.selectedRows);
+                $rootScope.$broadcast('lx-data-table__select', lxDataTable.selectedRows);
             }
             else
             {
                 lxDataTable.allRowsSelected = true;
 
-                $rootScope.$broadcast('data-table__unselect', lxDataTable.selectedRows);
+                $rootScope.$broadcast('lx-data-table__unselect', lxDataTable.selectedRows);
             }
         }
     }

@@ -85,8 +85,8 @@
             selectedCount: 0
         };
 
-        $scope.$on('data-table__select', updateActions);
-        $scope.$on('data-table__unselect', updateActions);
+        $scope.$on('lx-data-table__select', updateActions);
+        $scope.$on('lx-data-table__unselect', updateActions);
 
         ////////////
 
