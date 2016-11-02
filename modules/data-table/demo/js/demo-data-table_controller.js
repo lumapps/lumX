@@ -6,93 +6,77 @@
         .module('Controllers')
         .controller('DemoDataTableController', DemoDataTableController);
 
-    DemoDataTableController.$inject = ['$scope'];
+    DemoDataTableController.$inject = ['$filter', '$scope'];
 
-    function DemoDataTableController($scope)
+    function DemoDataTableController($filter, $scope)
     {
         var vm = this;
 
         vm.dataTableThead = [
         {
-            name: 'Dessert',
+            id: 1,
+            name: 'dessert',
+            label: 'Dessert',
             sortable: true
         },
         {
-            name: 'Calories',
+            id: 2,
+            name: 'calories',
+            label: 'Calories',
             sortable: true
         },
         {
-            name: 'Fat (g)',
+            id: 3,
+            name: 'fat',
+            label: 'Fat (g)',
             sortable: true,
             sort: 'asc'
         },
         {
-            name: 'Comments',
+            id: 4,
+            name: 'comments',
+            label: 'Comments',
             icon: 'comment-text',
             sortable: false
         }];
         vm.dataTableTbody = [
         {
             id: 1,
-            td: [
-            {
-                name: 'Frozen yogurt'
-            },
-            {
-                name: '159'
-            },
-            {
-                name: '6.0'
-            },
-            {
-                name: 'Lorem ipsum'
-            }]
+            dessert: 'Frozen yogurt',
+            calories: 159,
+            fat: 6.0,
+            comments: 'Lorem ipsum'
         },
         {
             id: 2,
-            disabled: true,
-            td: [
-            {
-                name: 'Ice cream sandwich'
-            },
-            {
-                name: '237'
-            },
-            {
-                name: '9.0'
-            },
-            {
-                name: 'Lorem ipsum'
-            }]
+            dessert: 'Ice cream sandwich',
+            calories: 237,
+            fat: 9.0,
+            comments: 'Lorem ipsum',
+            lxDataTableDisabled: true
         },
         {
             id: 3,
-            td: [
-            {
-                name: 'Eclair'
-            },
-            {
-                name: '262'
-            },
-            {
-                name: '16.0'
-            },
-            {
-                name: 'Lorem ipsum'
-            }]
+            dessert: 'Eclair',
+            calories: 262,
+            fat: 16.0,
+            comments: 'Lorem ipsum'
         }];
-        vm.dataTableParams = {
-            selectedCount: 0
-        };
 
         $scope.$on('lx-data-table__select', updateActions);
         $scope.$on('lx-data-table__unselect', updateActions);
+        $scope.$on('lx-data-table__sort', updateSort);
 
         ////////////
 
         function updateActions(_event, _selectedRows)
         {
             vm.selectedRows = _selectedRows;
+        }
+
+        function updateSort(_event, _column)
+        {
+            vm.dataTableTbody = $filter('orderBy')(vm.dataTableTbody, _column.name, _column.sort === 'desc' ? true : false);
         }
     }
 })();

@@ -8,22 +8,23 @@
                 <th ng-class=" { 'data-table__sortable-cell': th.sortable,
                                  'data-table__sortable-cell--asc': th.sortable && th.sort === 'asc',
                                  'data-table__sortable-cell--desc': th.sortable && th.sort === 'desc' }"
+                    ng-click="lxDataTable.sort(th)"
                     ng-repeat="th in lxDataTable.thead">
                     <lx-icon lx-id="{{ th.icon }}" ng-if="th.icon"></lx-icon>
-                    <span>{{ th.name }}</span>
+                    <span>{{ th.label }}</span>
                 </th>
             </tr>
         </thead>
 
         <tbody>
             <tr ng-class="{ 'data-table__selectable-row': lxDataTable.selectable,
-                            'data-table__selectable-row--is-disabled': lxDataTable.selectable && tr.disabled,
-                            'data-table__selectable-row--is-selected': lxDataTable.selectable && tr.selected }"
+                            'data-table__selectable-row--is-disabled': lxDataTable.selectable && tr.lxDataTableDisabled,
+                            'data-table__selectable-row--is-selected': lxDataTable.selectable && tr.lxDataTableSelected }"
                 ng-repeat="tr in lxDataTable.tbody"
                 ng-click="lxDataTable.toggle(tr)">
                 <td ng-if="lxDataTable.selectable"></td>
-                <td ng-repeat="td in tr.td">
-                    <span>{{ td.name }}</span>
+                <td ng-repeat="td in lxDataTable.thead">
+                    <span>{{ tr[td.name] }}</span>
                 </td>
             </tr>
         </tbody>

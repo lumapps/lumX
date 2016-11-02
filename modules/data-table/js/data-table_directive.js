@@ -32,6 +32,7 @@
         var lxDataTable = this;
 
         lxDataTable.areAllRowsSelected = areAllRowsSelected;
+        lxDataTable.sort = sort;
         lxDataTable.toggle = toggle;
         lxDataTable.toggleAllSelected = toggleAllSelected;
 
@@ -46,7 +47,7 @@
 
             for (var i = 0, len = lxDataTable.tbody.length; i < len; i++)
             {
-                if (!lxDataTable.tbody[i].disabled)
+                if (!lxDataTable.tbody[i].lxDataTableDisabled)
                 {
                     displayedRows++;
                 }
@@ -62,16 +63,43 @@
             }
         }
 
-        function toggle(_row)
+        function sort(_column)
         {
-            if (_row.disabled)
+            if (!_column.sortable)
             {
                 return;
             }
 
-            _row.selected = !_row.selected;
+            for (var i = 0, len = lxDataTable.thead.length; i < len; i++)
+            {
+                if (lxDataTable.thead[i].sortable && lxDataTable.thead[i].id !== _column.id)
+                {
+                    lxDataTable.thead[i].sort = undefined;
+                }
+            }
 
-            if (_row.selected)
+            if (!_column.sort || _column.sort === 'desc')
+            {
+                _column.sort = 'asc';
+            }
+            else
+            {
+                _column.sort = 'desc';
+            }
+
+            $rootScope.$broadcast('lx-data-table__sort', _column);
+        }
+
+        function toggle(_row)
+        {
+            if (_row.lxDataTableDisabled)
+            {
+                return;
+            }
+
+            _row.lxDataTableSelected = !_row.lxDataTableSelected;
+
+            if (_row.lxDataTableSelected)
             {
                 lxDataTable.selectedRows.push(_row);
                 lxDataTable.areAllRowsSelected();
@@ -100,15 +128,15 @@
 
             for (var i = 0, len = lxDataTable.tbody.length; i < len; i++)
             {
-                if (!lxDataTable.tbody[i].disabled)
+                if (!lxDataTable.tbody[i].lxDataTableDisabled)
                 {
                     if (lxDataTable.allRowsSelected)
                     {
-                        lxDataTable.tbody[i].selected = false;
+                        lxDataTable.tbody[i].lxDataTableSelected = false;
                     }
                     else
                     {
-                        lxDataTable.tbody[i].selected = true;
+                        lxDataTable.tbody[i].lxDataTableSelected = true;
                         lxDataTable.selectedRows.push(lxDataTable.tbody[i]);
                     }
                 }
