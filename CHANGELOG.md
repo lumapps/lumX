@@ -1,5 +1,23 @@
 # Changelog
 
+## v1.2.8:
+
+#### New features:
+ - data-table: add possiblity to format data
+ - data-table: support sorting
+ - data-table: make a directive
+
+#### Bug fixes:
+ - tooltip: check for undefined inside the timeout
+ - tooltip: only remove if defined
+
+
+## v1.2.7:
+
+#### Bug fixes:
+ - dialog: only process closing if dialog is really opened
+
+
 ## v1.2.6:
 
 #### New features:
