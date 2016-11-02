@@ -1,9 +1,9 @@
-<header class="data-table-header">
-    <div class="data-table-header__label">
-        <span>{{ vm.selectedRows.length || 0 }}</span> <span>selected item(s)</span>
+<div class="toolbar has-divider has-divider--dark">
+    <div class="toolbar__label pl">
+        <span>{{ vm.selectedRows.length || 0 }} selected item(s)</span>
     </div>
 
-    <div class="data-table-header__actions">
+    <div class="toolbar__right">
         <lx-button lx-size="l" lx-color="grey" lx-type="icon" ng-if="vm.selectedRows.length === 1">
             <i class="mdi mdi-pencil"></i>
         </lx-button>
@@ -12,7 +12,7 @@
             <i class="mdi mdi-delete"></i>
         </lx-button>
     </div>
-</header>
+</div>
 
 <lx-data-table lx-selectable="true" lx-thead="vm.dataTableThead" lx-tbody="vm.dataTableTbody">
     <lx-data-table-thead></lx-data-table-thead>
