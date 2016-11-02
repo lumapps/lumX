@@ -1,3 +1,31 @@
 <div class="data-table-container">
-    <table class="data-table" ng-transclude></table>
+    <table class="data-table">
+        <thead>
+            <tr ng-class="{ 'data-table__selectable-row': lxDataTable.selectable,
+                            'data-table__selectable-row--is-selected': lxDataTable.selectable && lxDataTable.allRowsSelected }">
+                <th ng-click="lxDataTable.toggleAllSelected()"
+                    ng-if="lxDataTable.selectable"></th>
+                <th ng-class=" { 'data-table__sortable-cell': th.sortable,
+                                 'data-table__sortable-cell--asc': th.sortable && th.sort === 'asc',
+                                 'data-table__sortable-cell--desc': th.sortable && th.sort === 'desc' }"
+                    ng-repeat="th in lxDataTable.thead">
+                    <lx-icon lx-id="{{ th.icon }}" ng-if="th.icon"></lx-icon>
+                    <span>{{ th.name }}</span>
+                </th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr ng-class="{ 'data-table__selectable-row': lxDataTable.selectable,
+                            'data-table__selectable-row--is-disabled': lxDataTable.selectable && tr.disabled,
+                            'data-table__selectable-row--is-selected': lxDataTable.selectable && tr.selected }"
+                ng-repeat="tr in lxDataTable.tbody"
+                ng-click="lxDataTable.toggle(tr)">
+                <td ng-if="lxDataTable.selectable"></td>
+                <td ng-repeat="td in tr.td">
+                    <span>{{ td.name }}</span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </div>
