@@ -1,0 +1,28 @@
+///*------------------------------------*\
+//    #TRUMPS-WIDTHS-RESPONSIVE
+//\*------------------------------------*/
+
+// Responsive width classes based on your responsive settings.
+// Use this in your markup:
+//
+// <div class="w-3/4-desk">
+
+// By default we will create wholes, halves, thirds, quarters, and fifths.
+$widths-columns-responsive: (
+    1,
+    2,
+    3,
+    4,
+    5,
+) !default;
+
+// Loop over our breakpoints defined in settings
+@each $breakpoint in $breakpoints {
+    $alias: nth($breakpoint, 1);
+
+    @include media-query($alias) {
+        @each $widths-column in $widths-columns-responsive {
+            @include widths($widths-column, -#{$alias});
+        }
+    }
+}
