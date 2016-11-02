@@ -23,8 +23,9 @@
                 ng-repeat="tr in lxDataTable.tbody"
                 ng-click="lxDataTable.toggle(tr)">
                 <td ng-if="lxDataTable.selectable"></td>
-                <td ng-repeat="td in lxDataTable.thead">
-                    <span>{{ tr[td.name] }}</span>
+                <td ng-repeat="th in lxDataTable.thead">
+                    <span ng-if="!th.format">{{ tr[th.name] }}</span>
+                    <div ng-if="th.format" ng-bind-html="lxDataTable.$sce.trustAsHtml(th.format(tr))"></div>
                 </td>
             </tr>
         </tbody>

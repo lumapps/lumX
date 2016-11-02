@@ -38,6 +38,16 @@
             label: 'Comments',
             icon: 'comment-text',
             sortable: false
+        },
+        {
+            id: 5,
+            name: 'image',
+            label: 'Image',
+            sortable: false,
+            format: function(row)
+            {
+                return '<img src="' + row.image + '" width="40" height="40" class="img-round">';
+            }
         }];
         vm.dataTableTbody = [
         {
@@ -45,7 +55,8 @@
             dessert: 'Frozen yogurt',
             calories: 159,
             fat: 6.0,
-            comments: 'Lorem ipsum'
+            comments: 'Lorem ipsum',
+            image: '/images/placeholder/1-square.jpg'
         },
         {
             id: 2,
@@ -53,6 +64,7 @@
             calories: 237,
             fat: 9.0,
             comments: 'Lorem ipsum',
+            image: '/images/placeholder/2-square.jpg',
             lxDataTableDisabled: true
         },
         {
@@ -60,7 +72,8 @@
             dessert: 'Eclair',
             calories: 262,
             fat: 16.0,
-            comments: 'Lorem ipsum'
+            comments: 'Lorem ipsum',
+            image: '/images/placeholder/3-square.jpg'
         }];
 
         $scope.$on('lx-data-table__select', updateActions);

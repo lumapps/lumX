@@ -25,9 +25,9 @@
         };
     }
 
-    LxDataTableController.$inject = ['$rootScope'];
+    LxDataTableController.$inject = ['$rootScope', '$sce'];
 
-    function LxDataTableController($rootScope)
+    function LxDataTableController($rootScope, $sce)
     {
         var lxDataTable = this;
 
@@ -36,6 +36,7 @@
         lxDataTable.toggle = toggle;
         lxDataTable.toggleAllSelected = toggleAllSelected;
 
+        lxDataTable.$sce = $sce;
         lxDataTable.allRowsSelected = false;
         lxDataTable.selectedRows = [];
 
