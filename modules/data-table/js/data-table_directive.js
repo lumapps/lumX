@@ -73,7 +73,7 @@
 
             for (var i = 0, len = lxDataTable.thead.length; i < len; i++)
             {
-                if (lxDataTable.thead[i].sortable && lxDataTable.thead[i].id !== _column.id)
+                if (lxDataTable.thead[i].sortable && lxDataTable.thead[i].name !== _column.name)
                 {
                     lxDataTable.thead[i].sort = undefined;
                 }

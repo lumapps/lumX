@@ -14,33 +14,28 @@
 
         vm.dataTableThead = [
         {
-            id: 1,
             name: 'dessert',
             label: 'Dessert',
             sortable: true
         },
         {
-            id: 2,
             name: 'calories',
             label: 'Calories',
             sortable: true
         },
         {
-            id: 3,
             name: 'fat',
             label: 'Fat (g)',
             sortable: true,
             sort: 'asc'
         },
         {
-            id: 4,
             name: 'comments',
             label: 'Comments',
             icon: 'comment-text',
             sortable: false
         },
         {
-            id: 5,
             name: 'image',
             label: 'Image',
             sortable: false,
