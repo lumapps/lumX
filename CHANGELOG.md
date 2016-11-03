@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.2.9:
+
+#### New features:
+ - data-table: add layout options (thumbnail and border)
+
+
 ## v1.2.8:
 
 #### New features:
