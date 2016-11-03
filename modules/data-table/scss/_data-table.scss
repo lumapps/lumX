@@ -2,6 +2,35 @@
 //    #OBJECTS-DATA-TABLE
 //\*------------------------------------*/
 
+// Data table vars
+@mixin data-table-checkbox() {
+    &:before {
+        @include mdi;
+        @include mdi-icon('checkbox-blank-outline');
+        @include font-size($size-xs);
+        line-height: $size-xs;
+        @include transition-property(transform);
+        @include transition-duration(0.2s);
+    }
+}
+
+@mixin data-table-checkbox-checked() {
+    &:before {
+        @include mdi-icon('checkbox-marked');
+        color: $blue;
+    }
+}
+
+@mixin data-table-checkbox-disabled() {
+    &:before {
+        color: $black-3;
+    }
+}
+
+
+
+
+
 // Data table container
 .data-table-container {
     position: relative;
@@ -15,7 +44,7 @@
 
 
 
-// Data table header
+// Data table header (seprecated)
 .data-table-header {
     @include display(flex);
     @include flex-direction(row);
@@ -54,6 +83,22 @@
         }
     }
 
+    &.data-table--no-border {
+        td {
+            border-bottom: none;
+        }
+    }
+
+    &.data-table--thumbnail {
+        th:first-child,
+        td:first-child {
+            width: $size-l * 3;
+            padding-left: $size-l;
+            padding-right: $size-l;
+            border-bottom: none;
+        }
+    }
+
     th {
         height: 56px;
         @include font-size(12px);
@@ -81,66 +126,79 @@
 
     // Data table selectable row
     .data-table__selectable-row {
-        th, td {
-            &:first-child {
-                width: $size-xs + $base-spacing-unit * 6;
-
-                &:before {
-                    @include mdi;
-                    @include mdi-icon('checkbox-blank-outline');
-                    @include font-size($size-xs);
-                    line-height: $size-xs;
-                    @include transition-property(transform);
-                    @include transition-duration(0.2s);
-                }
-            }
-
-            &:nth-child(2) {
-                padding-right: $base-spacing-unit * 3;
-            }
-        }
-
-        th:first-child:before {
-            cursor: pointer;
-        }
-
         td {
             cursor: pointer;
         }
 
-        &:not(.data-table__selectable-row--is-selected):not(.data-table__selectable-row--is-disabled):hover {
-            td {
-                background-color: $grey-200;
-            }
+        &:not(.data-table__selectable-row--is-selected):not(.data-table__selectable-row--is-disabled):hover td {
+            background-color: $grey-200;
         }
     }
 
-    .data-table__selectable-row--is-selected {
-        th, td {
-            &:first-child {
-                &:before {
-                    @include mdi-icon('checkbox-marked');
-                    color: $blue;
-                }
-            }
+    .data-table:not(.data-table--thumbnail) .data-table__selectable-row {
+        th:first-child,
+        td:first-child {
+            width: $size-xs + $base-spacing-unit * 6;
+            @include data-table-checkbox();
         }
 
+        th:first-child {
+            cursor: pointer;
+        }
+    }
+
+    .data-table.data-table--thumbnail .data-table__selectable-row {
+        th:nth-child(2),
+        td:nth-child(2) {
+            width: $size-xs + $base-spacing-unit * 3;
+            padding-right: $base-spacing-unit * 3;
+            @include data-table-checkbox();
+        }
+
+        th:nth-child(2) {
+            cursor: pointer;
+        }
+    }
+
+    // Data table selectable row (selected)
+    .data-table__selectable-row--is-selected {
         td {
             background-color: $grey-100;
         }
     }
 
-    .data-table__selectable-row--is-disabled {
-        th, td {
-            &:first-child {
-                &:before {
-                    color: $black-3;
-                }
-            }
+    .data-table:not(.data-table--thumbnail) .data-table__selectable-row--is-selected {
+        th:first-child,
+        td:first-child {
+            @include data-table-checkbox-checked();
         }
+    }
 
+    .data-table.data-table--thumbnail .data-table__selectable-row--is-selected {
+        th:nth-child(2),
+        td:nth-child(2) {
+            @include data-table-checkbox-checked();
+        }
+    }
+
+    // Data table selectable row (disabled)
+    .data-table__selectable-row--is-disabled {
         td {
             cursor: not-allowed;
+        }
+    }
+
+    .data-table:not(.data-table--thumbnail) .data-table__selectable-row--is-disabled {
+        th:first-child,
+        td:first-child {
+            @include data-table-checkbox-disabled();
+        }
+    }
+
+    .data-table.data-table--thumbnail .data-table__selectable-row--is-disabled {
+        th:nth-child(2),
+        td:nth-child(2) {
+            @include data-table-checkbox-disabled();
         }
     }
 

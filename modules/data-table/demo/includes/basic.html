@@ -1,17 +1,1 @@
-<div class="toolbar has-divider has-divider--dark">
-    <div class="toolbar__label pl">
-        <span>{{ vm.selectedRows.length || 0 }} selected item(s)</span>
-    </div>
-
-    <div class="toolbar__right">
-        <lx-button lx-size="l" lx-color="grey" lx-type="icon" ng-if="vm.selectedRows.length === 1">
-            <i class="mdi mdi-pencil"></i>
-        </lx-button>
-
-        <lx-button lx-size="l" lx-color="grey" lx-type="icon" ng-if="vm.selectedRows.length >= 1">
-            <i class="mdi mdi-delete"></i>
-        </lx-button>
-    </div>
-</div>
-
 <lx-data-table lx-selectable="true" lx-thead="vm.dataTableThead" lx-tbody="vm.dataTableTbody"></lx-data-table>

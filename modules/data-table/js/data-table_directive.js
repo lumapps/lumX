@@ -13,7 +13,9 @@
             templateUrl: 'data-table.html',
             scope:
             {
+                border: '=?lxBorder',
                 selectable: '=?lxSelectable',
+                thumbnail: '=?lxThumbnail',
                 tbody: '=lxTbody',
                 thead: '=lxThead'
             },
@@ -32,6 +34,7 @@
         var lxDataTable = this;
 
         lxDataTable.areAllRowsSelected = areAllRowsSelected;
+        lxDataTable.border = angular.isUndefined(lxDataTable.border) ? true : lxDataTable.border;
         lxDataTable.sort = sort;
         lxDataTable.toggle = toggle;
         lxDataTable.toggleAllSelected = toggleAllSelected;

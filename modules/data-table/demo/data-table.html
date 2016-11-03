@@ -6,6 +6,7 @@
     </p>
 
     <lx-component lx-title="Basic usage" lx-path="/includes/modules/data-table/includes/basic.html" lx-js-path="/js/data-table/demo/demo-data-table_controller.js"></lx-component>
+    <lx-component lx-title="Layout example" lx-path="/includes/modules/data-table/includes/advanced.html" lx-js-path="/js/data-table/demo/demo-data-table_controller.js"></lx-component>
 
     <lx-component-attributes>
         <table>
@@ -19,6 +20,12 @@
             </thead>
 
             <tbody>
+                <tr>
+                    <td>lx-border</td>
+                    <td><code>boolean</code></td>
+                    <td><code>true</code></td>
+                    <td>Specify if the data datable rows have border.</td>
+                </tr>
                 <tr>
                     <td>lx-selectable</td>
                     <td><code>boolean</code></td>
@@ -36,6 +43,12 @@
                     <td><code>object</code></td>
                     <td></td>
                     <td>Define the data table thead. Refer to the demo controller.</td>
+                </tr>
+                <tr>
+                    <td>lx-thumbnail</td>
+                    <td><code>boolean</code></td>
+                    <td><code>false</code></td>
+                    <td>Make the first thead array element the row thumbnail. Format option should return a 40px squared image.</td>
                 </tr>
             </tbody>
         </table>
@@ -61,7 +74,7 @@
                     <tr>
                         <td>selectedRows</td>
                         <td><code>array</code></td>
-                        <td>The selected rows from tbody object.</td>
+                        <td>The selected rows from tbody array.</td>
                     </tr>
                 </tbody>
             </table>
@@ -86,7 +99,7 @@
                     <tr>
                         <td>selectedRows</td>
                         <td><code>array</code></td>
-                        <td>The selected rows from tbody object.</td>
+                        <td>The selected rows from tbody array.</td>
                     </tr>
                 </tbody>
             </table>
@@ -111,7 +124,7 @@
                     <tr>
                         <td>column</td>
                         <td><code>object</code></td>
-                        <td>The sorted column from thead object.</td>
+                        <td>The sorted column from thead array.</td>
                     </tr>
                 </tbody>
             </table>
