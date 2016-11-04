@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnDestroy, Renderer } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, OnDestroy, Renderer } from '@angular/core';
 
 import { MobileNavService } from 'demo/services/mobile-nav.service';
 
@@ -24,18 +24,23 @@ const template: string = require('./' + SELECTOR + '.component.html');
 /**
  * Main Navigation Component.
  */
-export class MainNavigationComponent implements OnDestroy {
+export class MainNavigationComponent implements AfterViewInit, OnDestroy {
     @Input('lx-context') context: string = 'header';
 
     private onMainNavClick: Function;
 
+
     constructor(private elementRef: ElementRef,
                 private renderer: Renderer,
                 private mobileNavService: MobileNavService) {
+        /* Nothing here yet */
+    }
+
+    ngAfterViewInit(): void {
         // Listen events in the element and store it so we can destroy it later on
-        this.onMainNavClick = renderer.listen(elementRef.nativeElement, 'click', () => {
+        this.onMainNavClick = this.renderer.listen(this.elementRef.nativeElement, 'click', () => {
             if (this.context === 'mobile-nav') {
-                mobileNavService.closeMobileNav();
+                this.mobileNavService.closeMobileNav();
             }
         });
     }

@@ -2,13 +2,16 @@
 //    #MAIN-NAV-LINK
 //\*------------------------------------*/
 
+// Bourbon
+@import 'functions/unpack';
+@import 'addons/position';
+
+// mdi
+@import 'variables';
+
 // LumX
 @import 'settings/colors';
 @import 'tools/mixins';
-
-// mdi
-@import 'functions';
-@import 'variables';
 
 
 // Main nav link
@@ -30,8 +33,8 @@
                 @include mdi();
                 @include mdi-icon('chevron-right');
                 @include position(absolute, 50% $base-spacing-unit * 3 null null);
-                @include transform(translateY(-50%));
                 @include font-size(20px);
+                transform: translateY(-50%);
                 color: $black-2;
             }
 

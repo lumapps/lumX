@@ -2,11 +2,8 @@
     <div class="header-top">
         <div class="header-top__wrapper">
             <div class="header-top__left">
-
-                <button (click)="mobileNavService.toggleMobileNav()">NAV</button>
-
-
-                <div class="header-top__mobile-nav" (click)="mobileNavService.toggleMobileNav()">
+                <div class="header-top__mobile-nav">
+                    <button (click)="mobileNavService.toggleMobileNav()">NAV</button>
 
 
                     <!--
@@ -14,9 +11,11 @@
                             <lx-icon icon="menu"></lx-icon>
                         </lx-button>
                     -->
+
+
                 </div>
 
-                <a ui-sref="app.home" class="header-top__logo">
+                <a routerLink="/" class="header-top__logo">
                     <img src="/app/demo/images/logo/lumx.png">
                 </a>
             </div>

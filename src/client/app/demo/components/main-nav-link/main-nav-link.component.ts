@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 import { MAIN_NAV_LINK_SELECTOR as SELECTOR } from 'core/settings/selectors.settings';
 import { SELECTOR_PREFIX, SELECTOR_SEPARATOR } from 'core/settings/selectors.settings';
@@ -23,17 +23,29 @@ const template: string = require('./' + SELECTOR + '.component.html');
  * Main Navigation Link Component.
  */
 export class MainNavigationLinkComponent {
-    // @Input('lxContext') context:
+    @Input('lx-context') context: string;
+    @Input('lx-label') label: string;
+    @Input('lx-url') url: string;
+
+    private displaySubNav: boolean = false;
+
+// $scope.$on('$stateChangeSuccess', function(_event, _toState)
+// {
+//     lxMainNavLink.displaySubNav = _toState.name.indexOf(lxMainNavLink.state) > -1;
+// });
+
+
+    public toggleSubNav(_event: Event): void {
+        if (this.context === 'mobile-nav') {
+            _event.preventDefault();
+            _event.stopPropagation();
+
+            this.displaySubNav = !this.displaySubNav;
+        }
+    }
 }
 
 
-// (function()
-// {
-//     'use strict';
-
-//     angular
-//         .module('Directives')
-//         .directive('lxMainNavLink', lxMainNavLink);
 
 //     function lxMainNavLink()
 //     {
@@ -42,41 +54,8 @@ export class MainNavigationLinkComponent {
 //             templateUrl: '/js/demo/main-nav/views/main-nav-link.html',
 //             scope:
 //             {
-//                 context: '@lxContext',
-//                 label: '@lxLabel',
 //                 state: '@lxState',
 //                 subNav: '@lxSubNav'
 //             },
-//             controller: LxMainNavLinkController,
-//             controllerAs: 'lxMainNavLink',
-//             bindToController: true
 //         };
 //     }
-
-//     LxMainNavLinkController.$inject = ['$scope', '$state'];
-
-//     function LxMainNavLinkController($scope, $state)
-//     {
-//         var lxMainNavLink = this;
-
-//         lxMainNavLink.toggleSubNav = toggleSubNav;
-
-//         $scope.$on('$stateChangeSuccess', function(_event, _toState)
-//         {
-//             lxMainNavLink.displaySubNav = _toState.name.indexOf(lxMainNavLink.state) > -1;
-//         });
-
-//         ////////////
-
-//         function toggleSubNav(_event)
-//         {
-//             if (lxMainNavLink.context === 'mobile-nav')
-//             {
-//                 _event.preventDefault();
-//                 _event.stopPropagation();
-
-//                 lxMainNavLink.displaySubNav = !lxMainNavLink.displaySubNav;
-//             }
-//         }
-//     }
-// })();
