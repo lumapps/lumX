@@ -191,7 +191,7 @@
 // Flex item
 [flex-item] {
     @include media-query(desk) {
-        @include flex(1);
+        flex: 1;
         position: relative;
     }
 }
@@ -200,7 +200,7 @@
     [flex-container='row'] > [flex-item='#{$i}'],
     [flex-container='row'][flex-column='12'] > [flex-item='#{$i}'] {
         @include media-query(desk) {
-            @include flex(unquote('0 0 #{(100 / 12) * $i + '%'}'));
+            flex: unquote('0 0 #{(100 / 12) * $i + '%'}');
             max-width: #{(100 / 12) * $i + '%'};
         }
     }
@@ -208,7 +208,7 @@
     [flex-container='column'] > [flex-item='#{$i}'],
     [flex-container='column'][flex-column='12'] > [flex-item='#{$i}'] {
         @include media-query(desk) {
-            @include flex(unquote('0 0 #{(100 / 12) * $i + '%'}'));
+            flex: unquote('0 0 #{(100 / 12) * $i + '%'}');
             max-height: #{(100 / 12) * $i + '%'};
         }
     }
@@ -217,14 +217,14 @@
 @for $i from 1 through 16 {
     [flex-container='row'][flex-column='16'] > [flex-item='#{$i}'] {
         @include media-query(desk) {
-            @include flex(unquote('0 0 #{(100 / 16) * $i + '%'}'));
+            flex: unquote('0 0 #{(100 / 16) * $i + '%'}');
             max-width: #{(100 / 16) * $i + '%'};
         }
     }
 
     [flex-container='column'][flex-column='16'] > [flex-item='#{$i}'] {
         @include media-query(desk) {
-            @include flex(unquote('0 0 #{(100 / 16) * $i + '%'}'));
+            flex: unquote('0 0 #{(100 / 16) * $i + '%'}');
             max-height: #{(100 / 16) * $i + '%'};
         }
     }
@@ -237,19 +237,19 @@
 // Flex item align
 [flex-item-align='center'] {
     @include media-query(desk) {
-        @include align-self(center);
+        align-self: center;
     }
 }
 
 [flex-item-align='start'] {
     @include media-query(desk) {
-        @include align-self(flex-start);
+        align-self: flex-start;
     }
 }
 
 [flex-item-align='end'] {
     @include media-query(desk) {
-        @include align-self(flex-end);
+        align-self: flex-end;
     }
 }
 
@@ -261,7 +261,7 @@
 @for $i from 1 through 16 {
     [flex-item-order='#{$i}'] {
         @include media-query(desk) {
-            @include order($i);
+            order: $i;
         }
     }
 }

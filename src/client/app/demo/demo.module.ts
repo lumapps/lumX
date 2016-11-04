@@ -7,7 +7,13 @@ import { BASE_HREF } from 'core/settings/common.settings';
 import { DemoRoutingModule } from './demo.routing.module';
 import { CoreModule } from 'core/modules/core.module';
 
+import { MobileNavService } from './services/mobile-nav.service';
+
 import { DemoComponent } from './demo.component';
+
+import { HeaderComponent } from './components/header/header.component';
+import { MainNavigationComponent } from './components/main-nav/main-nav.component';
+import { MobileNavigationComponent } from './components/mobile-nav/mobile-nav.component';
 
 
 @NgModule({
@@ -17,6 +23,9 @@ import { DemoComponent } from './demo.component';
 
     declarations: [
         DemoComponent,
+        HeaderComponent,
+        MainNavigationComponent,
+        MobileNavigationComponent,
     ],
 
     imports: [
@@ -30,6 +39,7 @@ import { DemoComponent } from './demo.component';
             provide: APP_BASE_HREF,
             useValue: BASE_HREF,
         },
+        MobileNavService,
     ],
 })
 /**

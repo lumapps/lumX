@@ -2,34 +2,29 @@ import { Component } from '@angular/core';
 
 import { MobileNavService } from 'demo/services/mobile-nav.service';
 
-import { DEMO_SELECTOR as SELECTOR } from 'core/settings/selectors.settings';
+import { HEADER_SELECTOR as SELECTOR } from 'core/settings/selectors.settings';
 import { SELECTOR_PREFIX, SELECTOR_SEPARATOR } from 'core/settings/selectors.settings';
 
 
 /*
- * Global styles
+ * Component styles
  */
-import 'core/styles/_lumx2.scss';
-
+import './header.component.scss';
 
 /*
  * Component template
  */
-const template: string = require(`./${SELECTOR}.component.html`);
+const template: string = require('./' + SELECTOR + '.component.html');
 
 
 @Component({
     selector: SELECTOR_PREFIX + SELECTOR_SEPARATOR + SELECTOR,
-    styles: [
-        require(`./${SELECTOR}.component.scss`),
-    ],
     template: template,
 })
 /**
- * Demo Component.
- * Top Level Component.
+ * Header Component.
  */
-export class DemoComponent {
+export class HeaderComponent {
     constructor(private mobileNavService: MobileNavService) {
         /* Nothing here yet */
     }

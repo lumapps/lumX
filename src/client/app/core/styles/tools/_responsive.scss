@@ -2,6 +2,9 @@
 //    #TOOLS-RESPONSIVE
 //\*------------------------------------*/
 
+@import 'settings/responsive';
+
+
 // A simple mixin to quickly generate whole media queries from the aliases and
 // conditions defined in `_settings.responsive.scss`.
 //

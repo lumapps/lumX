@@ -1,0 +1,162 @@
+///*------------------------------------*\
+//    #HEADER
+//\*------------------------------------*/
+
+// Bourbon
+@import 'bourbon/app/assets/stylesheets/functions/unpack';
+@import 'bourbon/app/assets/stylesheets/addons/position';
+@import 'bourbon/app/assets/stylesheets/addons/size';
+
+// LumX
+@import 'objects/bare-list';
+@import 'settings/colors';
+@import 'tools/mixins';
+@import 'tools/responsive';
+
+// demo
+@import 'demo/styles/tools/mixins';
+
+
+// Header
+body:not(.home) .header {
+    @include media-query(palm) {
+        height: 60px;
+    }
+
+    @include media-query(lap) {
+        height: 330px;
+    }
+
+    @include media-query(desk) {
+        height: 378px;
+    }
+}
+
+body.home .header {
+    @include media-query(portable) {
+        height: 60px;
+    }
+
+    @include media-query(desk) {
+        height: 108px;
+    }
+}
+
+
+
+
+
+// Header top
+.header-top {
+    @include position(fixed, 0 0 null 0);
+    z-index: 999;
+    height: 60px;
+    background-color: $white;
+
+    @include media-query(portable) {
+        @include z-depth(1);
+    }
+
+    // Header top: wrapper
+    &__wrapper {
+        @include wrapper();
+        display: flex;
+        align-items: center;
+
+        @include media-query(portable) {
+            margin-left: 0;
+        }
+    }
+
+    // Header top: left
+    &__left {
+        display: flex;
+        align-items: center;
+        flex: 1;
+    }
+
+    // Header top: right
+    &__right {
+        display: flex;
+        align-items: center;
+
+        a,
+        img {
+            @include size(30px);
+            display: block;
+        }
+    }
+
+    // Header top: mobile nav
+    &__mobile-nav {
+        margin: 0 $base-spacing-unit;
+
+        @include media-query(desk) {
+            display: none;
+        }
+    }
+
+    // Header top: logo
+    &__logo {
+        height: 60px;
+        padding: 12px 0;
+
+        img {
+            max-height: 100%;
+        }
+    }
+}
+
+
+
+
+
+// Header nav
+.header-nav {
+    @include position(fixed, 60px 0 null 0);
+    z-index: 999;
+    height: 48px;
+    background-color: $indigo-700;
+
+    &::after {
+        @include position(absolute, null 0 0 0);
+        content: '';
+        height: 1px;
+        background-color: $white-4;
+    }
+
+    @include media-query(portable) {
+        display: none;
+    }
+
+    // Header nav: wrapper
+    &__wrapper {
+        @include wrapper();
+
+        ul {
+            @include bare-list();
+            display: flex;
+        }
+    }
+}
+
+
+
+
+
+// Header background
+body:not(.home) .header-background {
+    @include media-query(lap-and-up) {
+        z-index: 0;
+        height: 270px;
+        background-color: $indigo-700;
+    }
+
+    @include media-query(lap) {
+        @include position(fixed, 60px 0 null 0);
+    }
+
+    @include media-query(desk) {
+        @include position(fixed, 108px 0 null 0);
+    }
+}

@@ -1,0 +1,75 @@
+///*------------------------------------*\
+//    #MOBILE-NAV
+//\*------------------------------------*/
+
+// Bourbon
+@import 'bourbon/app/assets/stylesheets/functions/unpack';
+@import 'bourbon/app/assets/stylesheets/addons/position';
+@import 'bourbon/app/assets/stylesheets/addons/timing-functions';
+
+// LumX
+@import 'settings/colors';
+@import 'tools/mixins';
+@import 'tools/responsive';
+
+
+// Mobile nav
+.mobile-nav {
+    @include position(fixed, 0 null 0 -300px);
+    z-index: 1000;
+    width: 300px;
+    background-color: $white;
+    transform: translateX(0);
+    transition-property: box-shadow, transform;
+    transition-duration: 0.4s;
+    transition-timing-function: $ease-out-quint;
+    overflow: auto;
+
+    @include media-query(desk) {
+        display: none !important;
+    }
+
+    // Mobile nav: logo
+    &__logo {
+        display: block;
+        height: 60px;
+        padding: $base-spacing-unit * 1.5 $base-spacing-unit * 3;
+        border-bottom: 1px solid $black-4;
+
+        img {
+            max-height: 100%;
+        }
+    }
+}
+
+.mobile-nav--is-open {
+    @include media-query(portable) {
+        @include z-depth(3);
+        transform: translateX(300px);
+    }
+}
+
+
+
+
+
+// Mobile nav filter
+.mobile-nav-filter {
+    @include position(fixed, 0 0 0 0);
+    z-index: 999;
+    background-color: $black-2;
+    opacity: 0;
+    transition-property: opacity;
+    transition-duration: 0.4s;
+    transition-timing-function: $ease-out-quint;
+    pointer-events: none;
+
+    @include media-query(desk) {
+        display: none;
+    }
+}
+
+.mobile-nav-filter--is-open {
+    opacity: 1;
+    pointer-events: auto;
+}

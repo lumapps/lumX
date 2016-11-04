@@ -1,0 +1,13 @@
+<div>
+    <div class="mobile-nav-filter" [ngClass]="{ 'mobile-nav-filter--is-open': mobileNavService.mobileNavIsOpen }" (click)="mobileNavService.toggleMobileNav()"></div>
+
+    <div class="mobile-nav" [ngClass]="{ 'mobile-nav--is-open': mobileNavService.mobileNavIsOpen }">
+        <a ui-sref="app.home" class="mobile-nav__logo">
+            <img src="/app/demo/images/logo/lumx.png">
+        </a>
+
+        <div class="mobile-nav__main-nav">
+            <lx-main-nav [lx-context]="'mobile-nav'"></lx-main-nav>
+        </div>
+    </div>
+</div>

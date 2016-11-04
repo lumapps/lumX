@@ -1,0 +1,16 @@
+///*------------------------------------*\
+//    #MAIN-NAV
+//\*------------------------------------*/
+
+// LumX
+@import 'tools/responsive';
+
+
+// Main nav
+.main-nav {
+    @include media-query(portable) {
+        &.main-nav--header {
+            display: none;
+        }
+    }
+}
