@@ -75,8 +75,10 @@ originalComponentsNamePrefix='lb'
 originalComponentsNameSeparator='-'
 originalBaseUrl='/'
 
+
 printf "${BOLD}Welcome to the initialization of the ${BLUE}boilerplate${WHITE}!${DEFAULT}\n"
 printf "We will ask you some question to help you setup your new project. Ready?\n\n"
+
 
 defaultName=${PWD##*/}
 readWithDefault "What is the plain human readable name of your project" "name"
@@ -108,48 +110,54 @@ defaultBaseUrl=${originalBaseUrl,,}
 readWithDefault "What will your base URL be" "baseUrl"
 baseUrl="${baseUrl,,}"
 
+
 printf "\n"
-printf "We are now ready to initialize the boilerplate for your project. Please wait...\n\n"
+printf "We are now ready to initialize the boilerplate for your project \"${BOLD}${name}${DEFAULT}\". Please wait...\n\n"
+
 
 printf "Preparing git... "
-rm -Rf ".git"
-exitIfError
-git init -q
-exitIfError
+    rm -Rf ".git"
+    exitIfError
+    git init -q
+    exitIfError
 printf "${BLUE}Done${DEFAULT}\n"
+
 
 printf "Removing useless files... "
-rm -Rf "./dist"
-exitIfError
-rm -Rf "./src/client/app/to-do"
-exitIfError
-rm -Rf "./tests/client/e2e/pages/home.page.ts"
-exitIfError
-rm -Rf "./tests/client/e2e/specs/home.spec.ts"
-exitIfError
-rm -Rf "./tests/client/e2e/report"
-exitIfError
-rm -Rf "./tests/client/unit/report"
-exitIfError
-rm -Rf "./tests/client/*Report.tar.gz"
-exitIfError
-rm -Rf "build.*"
-exitIfError
+    rm -Rf "./dist"
+    exitIfError
+    rm -Rf "./src/client/app/to-do"
+    exitIfError
+    rm -Rf "./tests/client/e2e/pages/home.page.ts"
+    exitIfError
+    rm -Rf "./tests/client/e2e/specs/home.spec.ts"
+    exitIfError
+    rm -Rf "./tests/client/e2e/report"
+    exitIfError
+    rm -Rf "./tests/client/unit/report"
+    exitIfError
+    rm -Rf "./tests/client/*Report.tar.gz"
+    exitIfError
+    rm -Rf "build.*"
+    exitIfError
 printf "${BLUE}Done${DEFAULT}\n"
+
 
 printf "Emptying some files... "
-echo "" > $HUMANS_FILE
-exitIfError
-echo "" > $README_FILE
-exitIfError
+    echo "" > $HUMANS_FILE
+    exitIfError
+    echo "" > $README_FILE
+    exitIfError
 printf "${BLUE}Done${DEFAULT}\n"
 
+
 printf "Removing useless code... "
-grep -v "ToDoModule" ./src/client/app/app.module.ts > temp && mv temp ./src/client/app/app.module.ts
-exitIfError
-echo "<h1>This is the application component</h1>" > ./src/client/app/app.component.html
-exitIfError
+    grep -v "ToDoModule" ./src/client/app/app.module.ts > temp && mv temp ./src/client/app/app.module.ts
+    exitIfError
+    echo "<h1>This is the application component</h1>" > ./src/client/app/app.component.html
+    exitIfError
 printf "${BLUE}Done${DEFAULT}\n"
+
 
 if [[ -n "$name" ]]; then
     printf "Customizing project name... "
@@ -168,77 +176,83 @@ if [[ -n "$name" ]]; then
     printf "${BLUE}Done${DEFAULT}\n"
 fi
 
-printf "Customizing GitHub and StackOverflow... "
-if [[ -n "${githubUsername}" ]]; then
-    sed -i "s/${originalGithubUsername}\//${githubUsername}\//g" $CONTRIBUTING_FILE
-    exitIfError
-fi
 
-if [[ -n "${repository}" ]]; then
-    sed -i "s/${originalRepository}/${repository}/g" $CONTRIBUTING_FILE
-    exitIfError
-fi
+printf "Customizing GitHub and StackOverflow... "
+    if [[ -n "${githubUsername}" ]]; then
+        sed -i "s/${originalGithubUsername}\//${githubUsername}\//g" $CONTRIBUTING_FILE
+        exitIfError
+    fi
+
+    if [[ -n "${repository}" ]]; then
+        sed -i "s/${originalRepository}/${repository}/g" $CONTRIBUTING_FILE
+        exitIfError
+    fi
 printf "${BLUE}Done${DEFAULT}\n"
+
 
 printf "Customizing NPM... "
-if [[ -n "$name" ]]; then
-    sed -i "s/${originalName,,}/${cleanName,,}/g" $PACKAGE_FILE
+    if [[ -n "$name" ]]; then
+        sed -i "s/${originalName,,}/${cleanName,,}/g" $PACKAGE_FILE
+        exitIfError
+    fi
+    if [[ -n "${description}" ]]; then
+        sed -i "s/\"description\".*/\"description\": \"${description}\",/g" $PACKAGE_FILE
+        exitIfError
+    fi
+    if [[ -n "${githubUsername}" ]]; then
+        sed -i "s/${originalGithubUsername}\//${githubUsername}\//g" $PACKAGE_FILE
+        exitIfError
+    fi
+    if [[ -n "${repository}" ]]; then
+        sed -i "s/${originalRepository}/${repository}/g" $PACKAGE_FILE
+        exitIfError
+    fi
+    gitUserName=$(git config user.name)
+    gitUserEmail=$(git config user.email)
+    sed -i "s/\"author\".*/\"author\": \"${gitUserName} <${gitUserEmail}> (https://github.com/${githubUsername})\",/g" $PACKAGE_FILE
     exitIfError
-fi
-if [[ -n "${description}" ]]; then
-    sed -i "s/\"description\".*/\"description\": \"${description}\",/g" $PACKAGE_FILE
-    exitIfError
-fi
-if [[ -n "${githubUsername}" ]]; then
-    sed -i "s/${originalGithubUsername}\//${githubUsername}\//g" $PACKAGE_FILE
-    exitIfError
-fi
-if [[ -n "${repository}" ]]; then
-    sed -i "s/${originalRepository}/${repository}/g" $PACKAGE_FILE
-    exitIfError
-fi
-gitUserName=$(git config user.name)
-gitUserEmail=$(git config user.email)
-sed -i "s/\"author\".*/\"author\": \"${gitUserName} <${gitUserEmail}> (https://github.com/${githubUsername})\",/g" $PACKAGE_FILE
-exitIfError
 printf "${BLUE}Done${DEFAULT}\n"
+
 
 printf "Customizing Readme... "
-printf "[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg?style=flat-square)](http://commitizen.github.io/cz-cli/)\n" >> $README_FILE
-if [[ -n "$description" ]]; then
-    printf "\n${description}\n" >> $README_FILE
-    exitIfError
-fi
+    printf "[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg?style=flat-square)](http://commitizen.github.io/cz-cli/)\n" >> $README_FILE
+    if [[ -n "$description" ]]; then
+        printf "\n${description}\n" >> $README_FILE
+        exitIfError
+    fi
 printf "${BLUE}Done${DEFAULT}\n"
+
 
 printf "Customizing app settings... "
-printf "export const BASE_HREF: string = '${baseUrl}';\n" > $SETTINGS_FILE
-exitIfError
+    printf "export const BASE_HREF: string = '${baseUrl}';\n" > $SETTINGS_FILE
+    exitIfError
 printf "${BLUE}Done${DEFAULT}\n"
+
 
 printf "Customizing selectors... "
-exitIfError
-printf "export const SELECTOR_PREFIX: string = '${componentsNamePrefix}';\n" > $SELECTORS_FILE
-exitIfError
-printf "export const SELECTOR_SEPARATOR: string = '${componentsNameSeparator}';\n\n" >> $SELECTORS_FILE
-exitIfError
-printf "export const APP_SELECTOR: string = 'app';\n" >> $SELECTORS_FILE
-exitIfError
+    printf "export const SELECTOR_PREFIX: string = '${componentsNamePrefix}';\n" > $SELECTORS_FILE
+    exitIfError
+    printf "export const SELECTOR_SEPARATOR: string = '${componentsNameSeparator}';\n\n" >> $SELECTORS_FILE
+    exitIfError
+    printf "export const APP_SELECTOR: string = 'app';\n" >> $SELECTORS_FILE
+    exitIfError
 
-sed -i "s/${originalComponentsNamePrefix}${originalComponentsNameSeparator}app/${componentsNamePrefix}${componentsNameSeparator}app/g" $INDEX_FILE
-exitIfError
+    sed -i "s/${originalComponentsNamePrefix}${originalComponentsNameSeparator}app/${componentsNamePrefix}${componentsNameSeparator}app/g" $INDEX_FILE
+    exitIfError
 
-sed -i "s/\"${originalComponentsNamePrefix}\"/\"${componentsNamePrefix}\"/g" $TSLINT_FILE
-exitIfError
+    sed -i "s/\"${originalComponentsNamePrefix}\"/\"${componentsNamePrefix}\"/g" $TSLINT_FILE
+    exitIfError
 printf "${BLUE}Done${DEFAULT}\n"
+
 
 printf "Cleaning and setting up the boilerplate..."
-npm run -s setup
-exitIfError
-git add .
-exitIfError
-git commit -q -m "feat(${repository}): initialization of the repository with boilerplate"
+    npm run -s setup
+    exitIfError
+    git add .
+    exitIfError
+    git commit -q -m "feat(${repository}): initialization of the repository with boilerplate"
 printf "${BLUE}Done${DEFAULT}\n"
+
 
 printf "\n"
 printf "${GREEN}Your project has been successfully initialized!${DEFAULT}\n\n"
