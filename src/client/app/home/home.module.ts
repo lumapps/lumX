@@ -22,6 +22,9 @@ import { HomeComponent } from './components/home.component';
         CoreModule,
         ToDoModule,
     ],
+
+    providers: [
+    ],
 })
 /**
  * The Home module.

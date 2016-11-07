@@ -22,5 +22,4 @@ const template: string = require('./' + SELECTOR + '.component.html');
  *
  * Displayed when a route cannot be found
  */
-export class NotFoundComponent {
-}
+export class NotFoundComponent {}

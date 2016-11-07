@@ -34,21 +34,13 @@ export class AboutComponent implements OnInit {
     public data: string;
 
     /**
-     * The activated route.
-     *
-     * @type {ActivatedRoute}
-     * @public
-     */
-    public route: ActivatedRoute;
-
-    /**
      * Construct a new About component.
      *
      * @constructs AboutComponent
      *
      * @param {ActivatedRoute} route The activated route.
      */
-    constructor(route: ActivatedRoute) {
+    constructor(public route: ActivatedRoute) {
         this.route = route;
     }
 

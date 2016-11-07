@@ -20,8 +20,14 @@ import { AboutComponent } from './components/about.component';
     imports: [
         CoreModule,
         RouterModule.forChild([
-            { component: AboutComponent, path: '' },
+            {
+                component: AboutComponent,
+                path: '',
+            },
         ]),
+    ],
+
+    providers: [
     ],
 })
 /**

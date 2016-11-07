@@ -19,8 +19,7 @@ const template: string = require('./' + SELECTOR + '.component.html');
 })
 /**
  * Home Component.
-
+ *
  * Display the to-do list.
  */
-export class HomeComponent {
-}
+export class HomeComponent {}
