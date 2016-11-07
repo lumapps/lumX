@@ -133,6 +133,13 @@
         "serve:prod": "npm -s run task -- serve:prod",
         "serve:prod:fast": "npm -s run task -- serve:prod:fast",
 
+        "scaffold": "bash -- ./scaffold.sh",
+        "scaffold:help": "bash -- ./scaffold.sh --help",
+        "scaffold:component": "bash -- ./scaffold.sh -t Component --not-core",
+        "scaffold:component:core": "bash -- ./scaffold.sh -t Component --core",
+        "scaffold:module": "bash -- ./scaffold.sh -t Module --not-core",
+        "scaffold:module:core": "bash -- ./scaffold.sh -t Module --core",
+
 
         "commitizen": "git-cz",
         "eslint": "eslint",
