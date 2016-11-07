@@ -204,7 +204,8 @@ const DEFAULT_OPTIONS = {
          */
         sassLoader: {
             includePaths: [
-                rootFunction('src', 'client', 'assets', 'styles'),
+                rootFunction('src', 'client', 'app', 'core', 'styles'),
+                rootFunction('node_modules'),
             ],
             indentType: 'space',
             indentWidth: 4,

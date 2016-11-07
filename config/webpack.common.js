@@ -120,8 +120,7 @@ module.exports = function webpackCommonConfigExport(metadata) {
                 {
                     from: 'src/client/assets',
                     to: 'assets',
-                },
-                {
+                }, {
                     from: 'src/client/meta',
                 },
             ], {
@@ -140,7 +139,7 @@ module.exports = function webpackCommonConfigExport(metadata) {
                 context: [
                     './src/client',
                 ],
-                failOnError: false,
+                failOnError: true,
                 failOnWarning: false,
                 glob: './src/client/**/*.s?(a|c)ss',
                 // NOTE: we need to use the ignoreFiles array here and have the same files as in the .sass-lint.yml
@@ -399,7 +398,6 @@ module.exports = function webpackCommonConfigExport(metadata) {
                 helpers.root('src', 'client'),
                 helpers.root('src', 'client', 'app'),
                 helpers.root('src', 'client', 'assets'),
-                helpers.root('src', 'client', 'assets', 'styles'),
                 'node_modules',
             ],
         },
