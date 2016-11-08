@@ -84,3 +84,6 @@ lang.js
 # CI
 build.status
 build.properties
+
+# Docs
+/docs

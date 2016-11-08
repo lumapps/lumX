@@ -1,0 +1,25 @@
+{
+    "opts": {
+        "destination": "./docs/config/",
+        "encoding": "utf8",
+        "recurse": true
+    },
+    "plugins": [
+        "plugins/escapeHtml"
+    ],
+    "source": {
+        "includePattern": ".+\\.js(doc|x)?$",
+        "excludePattern": "(^|\\/|\\\\)_"
+    },
+    "tags": {
+        "allowUnknownTags": true,
+        "dictionaries": [
+            "jsdoc",
+            "closure"
+        ]
+    },
+    "templates": {
+        "cleverLinks": true,
+        "monospaceLinks": false
+    }
+}
