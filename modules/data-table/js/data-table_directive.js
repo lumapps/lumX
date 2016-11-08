@@ -19,17 +19,26 @@
                 tbody: '=lxTbody',
                 thead: '=lxThead'
             },
+            link: link,
             controller: LxDataTableController,
             controllerAs: 'lxDataTable',
             bindToController: true,
             transclude: true,
             replace: true
         };
+
+        function link(scope, element, attrs, ctrl)
+        {
+            attrs.$observe('id', function(_newId)
+            {
+                ctrl.id = _newId;
+            });
+        }
     }
 
-    LxDataTableController.$inject = ['$rootScope', '$sce'];
+    LxDataTableController.$inject = ['$rootScope', '$sce', '$scope'];
 
-    function LxDataTableController($rootScope, $sce)
+    function LxDataTableController($rootScope, $sce, $scope)
     {
         var lxDataTable = this;
 
@@ -42,6 +51,58 @@
         lxDataTable.$sce = $sce;
         lxDataTable.allRowsSelected = false;
         lxDataTable.selectedRows = [];
+
+        $scope.$on('lx-data-table__select-all', function(event, id)
+        {
+            if (id === lxDataTable.id)
+            {
+                _selectAll();
+            }
+        });
+
+        $scope.$on('lx-data-table__unselect-all', function(event, id)
+        {
+            if (id === lxDataTable.id)
+            {
+                _unselectAll();
+            }
+        });
+
+        ////////////
+
+        function _selectAll()
+        {
+            lxDataTable.selectedRows.length = 0;
+
+            for (var i = 0, len = lxDataTable.tbody.length; i < len; i++)
+            {
+                if (!lxDataTable.tbody[i].lxDataTableDisabled)
+                {
+                    lxDataTable.tbody[i].lxDataTableSelected = true;
+                    lxDataTable.selectedRows.push(lxDataTable.tbody[i]);
+                }
+            }
+
+            lxDataTable.allRowsSelected = true;
+
+            $rootScope.$broadcast('lx-data-table__unselect', lxDataTable.selectedRows);
+        }
+
+        function _unselectAll()
+        {
+            for (var i = 0, len = lxDataTable.tbody.length; i < len; i++)
+            {
+                if (!lxDataTable.tbody[i].lxDataTableDisabled)
+                {
+                    lxDataTable.tbody[i].lxDataTableSelected = false;
+                }
+            }
+
+            lxDataTable.allRowsSelected = false;
+            lxDataTable.selectedRows.length = 0;
+
+            $rootScope.$broadcast('lx-data-table__select', lxDataTable.selectedRows);
+        }
 
         ////////////
 
@@ -125,39 +186,13 @@
 
         function toggleAllSelected()
         {
-            if (!lxDataTable.allRowsSelected)
-            {
-                lxDataTable.selectedRows.length = 0;
-            }
-
-            for (var i = 0, len = lxDataTable.tbody.length; i < len; i++)
-            {
-                if (!lxDataTable.tbody[i].lxDataTableDisabled)
-                {
-                    if (lxDataTable.allRowsSelected)
-                    {
-                        lxDataTable.tbody[i].lxDataTableSelected = false;
-                    }
-                    else
-                    {
-                        lxDataTable.tbody[i].lxDataTableSelected = true;
-                        lxDataTable.selectedRows.push(lxDataTable.tbody[i]);
-                    }
-                }
-            }
-
             if (lxDataTable.allRowsSelected)
             {
-                lxDataTable.allRowsSelected = false;
-                lxDataTable.selectedRows.length = 0;
-
-                $rootScope.$broadcast('lx-data-table__select', lxDataTable.selectedRows);
+                _unselectAll();
             }
             else
             {
-                lxDataTable.allRowsSelected = true;
-
-                $rootScope.$broadcast('lx-data-table__unselect', lxDataTable.selectedRows);
+                _selectAll();
             }
         }
     }

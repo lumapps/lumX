@@ -54,6 +54,48 @@
         </table>
     </lx-component-attributes>
 
+    <lx-component-methods lx-title="Service api">
+        <lx-component-method lx-name="LxDataTableService.selectAll(dataTableId)" lx-description="Select all rows of a data table.">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Parameter</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td>dataTableId*</td>
+                        <td><code>string</code></td>
+                        <td>The data table id specified in the directive id attribute.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </lx-component-method>
+
+        <lx-component-method lx-name="LxDataTableService.unselectAll(dataTableId)" lx-description="Unselect all rows of a data table.">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Parameter</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td>dataTableId*</td>
+                        <td><code>string</code></td>
+                        <td>The data table id specified in the directive id attribute.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </lx-component-method>
+    </lx-component-methods>
+
     <lx-component-methods lx-title="Events">
         <lx-component-method lx-name="lx-data-table__select" lx-description="A broadcast is sent when a row is selected.">
             <table>
