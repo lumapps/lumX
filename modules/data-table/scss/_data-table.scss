@@ -67,6 +67,7 @@
 .data-table {
     width: 100%;
     margin: 0;
+    table-layout: fixed;
 
     th, td {
         padding-right: 56px;
