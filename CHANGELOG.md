@@ -1,5 +1,24 @@
 # Changelog
 
+## v1.3.2:
+
+#### New features:
+ - data-table: add service to select / unselect all rows
+
+#### Bug fixes:
+ - data-table: prevent row select if data-table is not selectable
+
+
+## v1.3.1:
+*No major changes.*
+
+
+## v1.3.0:
+
+#### Bug fixes:
+ - data-table: remove useless css param
+
+
 ## v1.2.9:
 
 #### New features:
