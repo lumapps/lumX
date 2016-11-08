@@ -11,7 +11,8 @@ const project = 'LumX²';
 
 const configFolder = './config';
 const distFolder = './dist/client';
-const docsFolder = './docs/client';
+const clientDocsFolder = './docs/client';
+const configDocsFolder = './docs/config';
 const sourceFolder = './src/client';
 const testsFolder = './tests/client';
 
@@ -22,13 +23,15 @@ const unitReportFolder = `${unitFolder}/report`;
 const e2eFolder = `${testsFolder}/e2e`;
 const e2eReportFolder = `${e2eFolder}/report`;
 
-const ENABLE_DASHBOARD = false;
+const enableDashboard = false;
+const isWebpack2 = true;
 
 const serverPort = '8881';
-const ENABLE_SERVER_PROXY = false;
+const enableServerProxy = false;
 const serverProxy = 'http://localhost:8888';
+const withProxy = (enableServerProxy) ? '--proxy ' + serverProxy : '';
 
-const CHECK_LINT_BEFORE_BUILD = true;
+const checkLintBeforeBuild = true;
 
 const e2eBuildType = 'prod';
 
@@ -39,12 +42,19 @@ const e2eBuildType = 'prod';
 // Toggle the "-s" flag to make npm verbose (nothing) or silent (-s)
 const npmRun = `npm -s run`;
 
-const webpackBuildParameters = `--profile --display-cached --hide-modules ${(isCI) ? '' : '--progress --colors'}`;
+const withDisplayCached = (isWebpack2) ? '' : '--display-cached';
+const withDisplayErrorDetail = (isWebpack2) ? '' : '--display-error-details';
+const withWatch = (isWebpack2) ? '' : '--watch';
+const withProgress = (isCI) ? '' : '--progress';
+
+const linterTask = (checkLintBeforeBuild) ? 'lint:src' : '';
+
+const webpackBuildParameters = `--profile ${withDisplayCached} --hide-modules ${withProgress}`;
 const webpackDevParameters = ``;
-const webpackDevServerClassicParameters = `${(isCI) ? '' : '--progress --colors'}`;
-const webpackDevServerCommonParameters = `--watch --content-base ${sourceFolder}`;
+const webpackDevServerClassicParameters = `${withProgress}`;
+const webpackDevServerCommonParameters = `${withWatch} --content-base ${sourceFolder}`;
 let webpackDevServerHotReloadParameters = `--inline --hot`;
-const webpackCommonParameters = `--display-error-details`;
+const webpackCommonParameters = `${withDisplayErrorDetail}`;
 const webpackConfig = `--config webpack.config.js`;
 const webpackProdParameters = `--bail`;
 
@@ -54,7 +64,7 @@ const envProd = `NODE_ENV='prod'`;
 const envTest = `NODE_ENV='test'`;
 const hidden = `HIDDEN=true`;
 
-if (!ENABLE_DASHBOARD) {
+if (!enableDashboard) {
     webpackDevServerHotReloadParameters = `${webpackDevServerHotReloadParameters} ${webpackDevServerClassicParameters}`;
 }
 
@@ -64,32 +74,40 @@ if (!ENABLE_DASHBOARD) {
 // ---------------------------------------------------------------------------------------------------------------------
 shelter({
     'build:dev': {
-        cmd: `${npmRun} run-parallel -- clean:dist ${(CHECK_LINT_BEFORE_BUILD) ? 'lint:src' : ''}
-              && ${envDev} ${npmRun} webpack -- ${webpackConfig} ${webpackCommonParameters}
-                                                ${webpackBuildParameters} ${webpackDevParameters}`,
+        cmd: `${npmRun} run-parallel -- clean:dist
+                                        ${linterTask}
+              && ${envDev} ${npmRun} run-parallel -- docs
+                                                     "webpack ${webpackConfig} ${webpackCommonParameters}
+                                                              ${webpackBuildParameters} ${webpackDevParameters}"`,
         dsc: `Build the development bundle after linting of ${project}`,
     },
     'build:dev:fast': {
         cmd: `${npmRun} clean:dist
-              && ${envDev} ${npmRun} webpack -- ${webpackConfig} ${webpackCommonParameters}
-                                                ${webpackBuildParameters} ${webpackDevParameters}`,
+              && ${envDev} ${npmRun} run-parallel -- docs
+                                                     "webpack -- ${webpackConfig} ${webpackCommonParameters}
+                                                                 ${webpackBuildParameters} ${webpackDevParameters}"`,
         dsc: `Build the development bundle (without linting) of ${project}`,
     },
     'build:prod': {
-        cmd: `${npmRun} run-parallel -- clean:dist ${(CHECK_LINT_BEFORE_BUILD) ? 'lint:src' : ''}
-              && ${envProd} ${npmRun} webpack -- ${webpackConfig} ${webpackCommonParameters}
-                                                 ${webpackBuildParameters} ${webpackProdParameters}`,
+        cmd: `${npmRun} run-parallel -- clean:dist
+                                        ${linterTask}
+              && ${envProd} ${npmRun} run-parallel -- docs
+                                                      "webpack -- ${webpackConfig} ${webpackCommonParameters}
+                                                                  ${webpackBuildParameters} ${webpackProdParameters}"`,
         dsc: `Build the production bundle after linting of ${project}`,
     },
     'build:prod:fast': {
         cmd: `${npmRun} clean:dist
-              && ${envProd} ${npmRun} webpack -- ${webpackConfig} ${webpackCommonParameters}
-                                                 ${webpackBuildParameters} ${webpackProdParameters}`,
+              && ${envProd} ${npmRun} run-parallel -- docs
+                                                      "webpack -- ${webpackConfig} ${webpackCommonParameters}
+                                                                  ${webpackBuildParameters} ${webpackProdParameters}"`,
         dsc: `Build the production bundle (without linting) of ${project}`,
     },
 
     'clean:all': {
-        cmd: `${npmRun} run-parallel -- clean:project clean:packages clean:misc`,
+        cmd: `${npmRun} run-parallel -- clean:project
+                                        clean:packages
+                                        clean:misc`,
         dsc: `Clean the whole ${project} project (NPM, docs, test and dist)`,
     },
     'clean:dist': {
@@ -97,17 +115,26 @@ shelter({
         dsc: `Clean the "dist" folder of ${project}`,
     },
     'clean:docs': {
-        cmd: `${npmRun} rimraf -- ${docsFolder}/*`,
-        dsc: `Clean the "docs" folder of ${project}`,
+        cmd: `${npmRun} run-parallel -- clean:docs:client
+                                        clean:docs:config`,
+        dsc: `Clean the "client" and "config" folder of the "docs" folder of ${project}`,
+    },
+    'clean:docs:client': {
+        cmd: `${npmRun} rimraf -- ${clientDocsFolder}/*`,
+        dsc: `Clean the "docs/client" folder of ${project}`,
+    },
+    'clean:docs:config': {
+        cmd: `${npmRun} rimraf -- ${configDocsFolder}/*`,
+        dsc: `Clean the "docs/config" folder of ${project}`,
     },
     'clean:e2e:report': {
-        cmd: `${npmRun} rimraf -- ${e2eReportFolder}/*
-              && ${npmRun} rimraf -- ${testsFolder}/e2e*.tar.gz`,
+        cmd: `${npmRun} run-parallel -- "rimraf -- ${e2eReportFolder}/*"
+                                        "rimraf -- ${testsFolder}/e2e*.tar.gz"`,
         dsc: `Clean the "e2e/report" folder of ${project}`,
     },
     'clean:maps': {
-        cmd: `${npmRun} rimraf -- ${sourceFolder}/**/*.map
-              && ${npmRun} rimraf -- ${testsFolder}/**/*.map`,
+        cmd: `${npmRun} run-parallel -- "rimraf -- ${sourceFolder}/**/*.map"
+                                        "rimraf -- ${testsFolder}/**/*.map"`,
         dsc: `Clean maps files of ${project}`,
     },
     'clean:misc': {
@@ -120,7 +147,10 @@ shelter({
         dsc: `Clean the installed packages and the NPM cache of ${project}`,
     },
     'clean:project': {
-        cmd: `${npmRun} run-parallel -- clean:dist clean:tests:reports clean:docs clean:maps`,
+        cmd: `${npmRun} run-parallel -- clean:dist
+                                        clean:tests:reports
+                                        clean:docs
+                                        clean:maps`,
         dsc: `Clean the ${project} project, but leave the NPM dependancies installed`,
     },
     'clean:tests:reports': {
@@ -128,8 +158,8 @@ shelter({
         dsc: `Clean the tests reports folder of ${project}`,
     },
     'clean:unit:report': {
-        cmd: `${npmRun} rimraf -- ${unitReportFolder}/*
-              && ${npmRun} rimraf -- ${testsFolder}/unit*.tar.gz`,
+        cmd: `${npmRun} run-parallel -- "rimraf -- ${unitReportFolder}/*"
+                                        "rimraf -- ${testsFolder}/unit*.tar.gz"`,
         dsc: `Clean the "unit/report" folder of ${project}`,
     },
 
@@ -139,39 +169,60 @@ shelter({
     },
 
     'docs': {
-        cmd: `${npmRun} typedoc -- --options typedoc.json --exclude '**/*.(spec|specs|e2e).ts' --out ${docsFolder}
-                                   --name ${project} ${appFolder}`,
+        cmd: `${npmRun} run-parallel -- docs:client
+                                        docs:config`,
+        dsc: `Generate the whole (client and config) documentation of ${project}`,
+    },
+    'docs:client': {
+        cmd: `${npmRun} typedoc -- --options typedoc.json --out ${clientDocsFolder} --name "${project}" --hideGenerator
+                                   --target ES5 --readme ./README.md --excludeExternals ${appFolder}`,
         dsc: `Generate the TypeScript documentation for ${project}`,
+    },
+    'docs:config': {
+        cmd: `${npmRun} jsdoc -- --configure jsdoc.json --package ./package.json --readme ./README.md ${configFolder}`,
+        dsc: `Generate the JavaScript documentation of the config of ${project}`,
     },
 
     'e2e': {
-        cmd: `${npmRun} run-parallel -- build:${e2eBuildType}:fast clean:e2e:report webdriver:update
-              && ${npmRun} run-parallel -- -r serve:${e2eBuildType}:fast protractor`,
+        cmd: `${npmRun} run-parallel -- build:${e2eBuildType}:fast
+                                        clean:e2e:report
+                                        webdriver:update
+              && ${npmRun} run-parallel -- -r serve:${e2eBuildType}:fast:silent
+                                              protractor`,
         dsc: `Run End to End test (Protractor with Chrome) after rebuilding on ${project}`,
     },
     'e2e:debug': {
-        cmd: `${npmRun} run-parallel -- build:${e2eBuildType}:fast clean:e2e:report webdriver:update
-              && ${debug} ${npmRun} run-parallel -- -r serve:${e2eBuildType}:fast protractor:debug`,
+        cmd: `${npmRun} run-parallel -- build:${e2eBuildType}:fast
+                                        clean:e2e:report
+                                        webdriver:update
+              && ${debug} ${npmRun} run-parallel -- -r serve:${e2eBuildType}:fast:silent
+                                                       protractor:debug`,
         dsc: `Debug End to End test (Protractor with Chrome) after rebuilding on ${project}`,
     },
     'e2e:debug:fast': {
-        cmd: `${npmRun} run-parallel -- clean:e2e:report
-              && ${debug} ${npmRun} run-parallel -- -r serve:${e2eBuildType}:fast protractor:debug`,
+        cmd: `${npmRun} clean:e2e:report
+              && ${debug} ${npmRun} run-parallel -- -r serve:${e2eBuildType}:fast:silent
+                                                       protractor:debug`,
         dsc: `Debug End to End test (Protractor with Chrome) with existing build on ${project}`,
     },
     'e2e:fast': {
-        cmd: `${npmRun} run-parallel -- clean:e2e:report
-              && ${npmRun} run-parallel -- -r serve:${e2eBuildType}:fast protractor`,
+        cmd: `${npmRun} clean:e2e:report
+              && ${npmRun} run-parallel -- -r serve:${e2eBuildType}:fast:silent
+                                              protractor`,
         dsc: `Run End to End test (Protractor with Chrome) with existing build on ${project}`,
     },
     'e2e:headless': {
-        cmd: `${npmRun} run-parallel -- build:${e2eBuildType}:fast clean:e2e:report webdriver:update
-              && ${hidden} ${npmRun} run-parallel -- -r serve:${e2eBuildType}:fast protractor:headless`,
+        cmd: `${npmRun} run-parallel -- build:${e2eBuildType}:fast
+                                        clean:e2e:report
+                                        webdriver:update
+              && ${hidden} ${npmRun} run-parallel -- -r serve:${e2eBuildType}:fast:silent
+                                                        protractor:headless`,
         dsc: `Run End to End test (Protractor with Headless Chrome, XVFB needed) after rebuilding on ${project}`,
     },
     'e2e:headless:fast': {
-        cmd: `${npmRun} run-parallel -- clean:e2e:report
-              && ${hidden} ${npmRun} run-parallel -- -r serve:${e2eBuildType}:fast protractor:headless`,
+        cmd: `${npmRun} clean:e2e:report
+              && ${hidden} ${npmRun} run-parallel -- -r serve:${e2eBuildType}:fast:silent
+                                                        protractor:headless`,
         dsc: `Run End to End test (Protractor with Headless Chome, XVFB needed) with existing build on ${project}`,
     },
 
@@ -180,7 +231,9 @@ shelter({
         dsc: `Lint config of ${project}`,
     },
     'lint:src': {
-        cmd: `${npmRun} run-parallel -- lint:src:ts lint:src:js lint:src:scss`,
+        cmd: `${npmRun} run-parallel -- lint:src:ts
+                                        lint:src:js
+                                        lint:src:scss`,
         dsc: `Lint source code of ${project}`,
     },
     'lint:src:js': {
@@ -197,40 +250,60 @@ shelter({
     },
 
     'serve': {
-        cmd: `${envDev} ${npmRun} webpack-dev-server -- ${webpackConfig} ${webpackCommonParameters}
-                                                        ${webpackDevParameters}
-                                                        ${webpackDevServerCommonParameters}
-                                                        ${webpackDevServerClassicParameters}`,
+        cmd: `${envDev} ${npmRun} run-parallel -- docs
+                                                  "webpack-dev-server -- ${webpackConfig} ${webpackCommonParameters}
+                                                                         ${webpackDevParameters}
+                                                                         ${webpackDevServerCommonParameters}
+                                                                         ${webpackDevServerClassicParameters}"`,
         dsc: `Start ${project} development with watcher (compile, lint, build)`,
     },
     'serve:dev': {
         cmd: `${npmRun} build:dev:fast
-              && ${npmRun} http-server -- ${distFolder} -p ${serverPort} -i False --silent --cors
-                                          ${(ENABLE_SERVER_PROXY) ? '--proxy ' + serverProxy : ''}`,
+              && ${npmRun} http-server -- ${distFolder} -p ${serverPort} -d False -i False --cors -s ${withProxy}`,
         dsc: `Start ${project} development release test server (on port ${serverPort}) after rebuilding`,
     },
     'serve:dev:fast': {
-        cmd: `${npmRun} http-server -- ${distFolder} -p ${serverPort} -i False --silent --cors
-                                       ${(ENABLE_SERVER_PROXY) ? '--proxy ' + serverProxy : ''}`,
+        cmd: `${npmRun} http-server -- ${distFolder} -p ${serverPort} -d False -i False --cors -s ${withProxy}`,
         dsc: `Start ${project} development release test server (on port ${serverPort}) with an existing build`,
     },
+    'serve:dev:fast:open': {
+        cmd: `${npmRun} http-server -- ${distFolder} -p ${serverPort} -d False -i False -o --cors -s ${withProxy}`,
+        dsc: `Start ${project} development release test server (on port ${serverPort}) with an existing build and open
+              it in a browser`,
+    },
+    'serve:dev:open': {
+        cmd: `${npmRun} build:dev:fast
+              && ${npmRun} http-server -- ${distFolder} -p ${serverPort} -d False -i False -o --cors -s ${withProxy}`,
+        dsc: `Start ${project} development release test server (on port ${serverPort}) after rebuilding and open it in a
+              browser`,
+    },
     'serve:live': {
-        cmd: `${envDev} ${npmRun} webpack-dev-server -- ${webpackConfig} ${webpackCommonParameters}
-                                                        ${webpackDevParameters}
-                                                        ${webpackDevServerCommonParameters}
-                                                        ${webpackDevServerHotReloadParameters}`,
+        cmd: `${envDev} ${npmRun} run-parallel -- docs
+                                                  "webpack-dev-server -- ${webpackConfig} ${webpackCommonParameters}
+                                                                         ${webpackDevParameters}
+                                                                         ${webpackDevServerCommonParameters}
+                                                                         ${webpackDevServerHotReloadParameters}"`,
         dsc: `Start ${project} development with watcher (compile, lint, build) and hot reload`,
     },
     'serve:prod': {
         cmd: `${npmRun} build:prod:fast
-              && ${npmRun} http-server -- ${distFolder} -p ${serverPort} -i False --silent --cors
-                                          ${(ENABLE_SERVER_PROXY) ? '--proxy ' + serverProxy : ''}`,
+              && ${npmRun} http-server -- ${distFolder} -p ${serverPort} -d False -i False --cors -s ${withProxy}`,
         dsc: `Start ${project} production release test server (on port ${serverPort}) after rebuilding`,
     },
     'serve:prod:fast': {
-        cmd: `${npmRun} http-server -- ${distFolder} -p ${serverPort} -i False --silent --cors
-                                       ${(ENABLE_SERVER_PROXY) ? '--proxy ' + serverProxy : ''}`,
+        cmd: `${npmRun} http-server -- ${distFolder} -p ${serverPort} -d False -i False --cors -s ${withProxy}`,
         dsc: `Start ${project} production release test server (on port ${serverPort}) with an existing build`,
+    },
+    'serve:prod:fast:open': {
+        cmd: `${npmRun} http-server -- ${distFolder} -p ${serverPort} -d False -i False -o --cors -s ${withProxy}`,
+        dsc: `Start ${project} production release test server (on port ${serverPort}) with an existing build and open it
+              in a browser`,
+    },
+    'serve:prod:open': {
+        cmd: `${npmRun} build:prod:fast
+              && ${npmRun} http-server -- ${distFolder} -p ${serverPort} -d False -i False -o --cors -s ${withProxy}`,
+        dsc: `Start ${project} production release test server (on port ${serverPort}) after rebuilding and open it in a
+              browser`,
     },
 
     'tests': {
@@ -265,15 +338,18 @@ shelter({
         dsc: `Run unit tests (Karma with Headless Chrome, XVFB needed) on ${project}`,
     },
     'unit:live': {
-        cmd: `${envDev} ${npmRun} karma -- start --auto-watch --no-single-run`,
+        cmd: `${envDev} ${npmRun} run-parallel -- docs
+                                                  "karma -- start --auto-watch --no-single-run"`,
         dsc: `Run unit tests (Karma with Chrome) in watch mode on ${project}`,
     },
     'unit:live:debug': {
-        cmd: `${debug} ${envDev} ${npmRun} karma -- start --auto-watch --no-single-run`,
+        cmd: `${debug} ${envDev} ${npmRun} run-parallel -- docs
+                                                           "karma -- start --auto-watch --no-single-run"`,
         dsc: `Debug unit tests (Karma with Chrome) in watch mode on ${project}`,
     },
     'unit:live:headless': {
-        cmd: `${envDev} ${npmRun} karma:headless -- start --auto-watch --no-single-run`,
+        cmd: `${envDev} ${npmRun} run-parallel -- docs
+                                                  "karma:headless -- start --auto-watch --no-single-run"`,
         dsc: `Run unit tests (Karma with Headless Chrome, XVFB needed) in watch mode on ${project}`,
     },
 });

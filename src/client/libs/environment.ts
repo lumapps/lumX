@@ -6,7 +6,7 @@ import { INgObject, INgWindow } from 'core/types/ng-window.type';
 
 
 interface IDecorateModuleRef {
-    (value: NgModuleRef<{}>): NgModuleRef<{}>;
+    (value: NgModuleRef<any>): NgModuleRef<any>;
 }
 
 /* Angular debug tools in the dev console
@@ -20,9 +20,9 @@ if (ENV === 'production') {
     disableDebugTools();
     enableProdMode();
 } else {
-    _decorateModuleRef = (moduleRef: NgModuleRef<{}>) => {
+    _decorateModuleRef = (moduleRef: NgModuleRef<any>) => {
         let appRef: ApplicationRef = moduleRef.injector.get(ApplicationRef);
-        let cmpRef: ComponentRef<{}> = appRef.components[0];
+        let cmpRef: ComponentRef<any> = appRef.components[0];
 
         let ng: INgObject = (<INgWindow>window).ng;
         (<INgWindow>window).ng.probe = ng.probe;

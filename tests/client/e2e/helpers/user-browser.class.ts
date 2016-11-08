@@ -1,5 +1,5 @@
-import { ElementFinder, ExpectedConditions, IBrowser } from 'protractor';
-import { Locator, promise as WebdriverPromise } from 'selenium-webdriver';
+import { ElementArrayFinder, ElementFinder, ElementHelper, ExpectedConditions, ProtractorBrowser } from 'protractor';
+import { promise as WebdriverPromise, WebDriver } from 'selenium-webdriver';
 
 
 interface Array<T> { // tslint:disable-line
@@ -29,10 +29,10 @@ export class UserBrowser {
     /**
      * The Selenium webdriver browser object attached to the user.
      *
-     * @type {IBrowser}
+     * @type {ProtractorBrowser}
      * @public
      */
-    public browser: IBrowser;
+    public browser: ProtractorBrowser;
 
     /**
      * A unique text prefix for this user.
@@ -45,31 +45,34 @@ export class UserBrowser {
     /**
      * Alias for the "browser.$" CSS selector helper.
      *
-     * @type {cssSelectorHelper}
+     * @type {(query: string) => ElementFinder}
      * @public
      */
-    public $: cssSelectorHelper;
+    public $: (query: string) => ElementFinder;
     /**
      * Alias for the "browser.$$" CSS array selector helper.
      *
-     * @type {cssArraySelectorHelper}
+     * @type {(query: string) => ElementArrayFinder}
      * @public
      */
-    public $$: cssArraySelectorHelper;
+    public $$: (query: string) => ElementArrayFinder;
+
     /**
      * Alias for the "browser.element" root element.
      *
-     * @type {any}
+     * @type {ElementHelper}
      * @public
      */
-    public element: (locator: Locator) => ElementFinder;
+    public element: ElementHelper;
+
     /**
      * Alias for the "browser.driver" webdriver property.
      *
-     * @type {webdriver.WebDriver}
+     * @type {WebDriver}
      * @public
      */
-    public driver: webdriver.WebDriver;
+    public driver: WebDriver;
+
     /**
      * Alias for the "browser.sleep" function.
      *
@@ -84,10 +87,10 @@ export class UserBrowser {
      *
      * @constructs UserBrowser
      *
-     * @param {string}   name    The name of the user.
-     * @param {IBrowser} browser The browser to attach to the user.
+     * @param {string}            name    The name of the user.
+     * @param {ProtractorBrowser} browser The browser to attach to the user.
      */
-    constructor(name: string, browser: IBrowser) {
+    constructor(name: string, browser: ProtractorBrowser) {
         this.name = name;
         this.browser = browser;
         this.$ = browser.$;
@@ -199,7 +202,7 @@ export class UserBrowser {
 
         this.driver.wait(() => {
             return element.isPresent().then(this.evaluateBoolean) && element.isDisplayed().then(this.evaluateBoolean)
-                   && protractor.ExpectedConditions.elementToBeClickable(element);
+                   && ExpectedConditions.elementToBeClickable(element);
         },
                          timeout);
         this.browser.sleep(timeout / 10);

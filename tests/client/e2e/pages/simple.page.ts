@@ -1,9 +1,9 @@
-import { ElementArrayFinder, ElementFinder } from 'protractor';
-import { Locator } from 'selenium-webdriver';
+import { by, ElementArrayFinder, ElementFinder } from 'protractor';
+import { By } from 'selenium-webdriver';
 
 import { UserBrowser } from '../helpers/user-browser.class';
 
-import { DEMO_SELECTOR, SELECTOR_PREFIX, SELECTOR_SEPARATOR }
+import { APP_SELECTOR, SELECTOR_PREFIX, SELECTOR_SEPARATOR }
     from '../../../../src/client/app/core/settings/selectors.settings';
 
 
@@ -17,7 +17,7 @@ export class SimplePage {
      * @type {string}
      * @public
      */
-    public appSelector: string = SELECTOR_PREFIX + SELECTOR_SEPARATOR + DEMO_SELECTOR;
+    public appSelector: string = SELECTOR_PREFIX + SELECTOR_SEPARATOR + APP_SELECTOR;
 
     /**
      * References all elements needed for this page.
@@ -30,10 +30,10 @@ export class SimplePage {
     /**
      * References all accessors needed for this page.
      *
-     * @type {Locator}
+     * @type {By}
      * @private
      */
-    private _appAccessor: Locator;
+    private _appAccessor: By;
 
 
     /**

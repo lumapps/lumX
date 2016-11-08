@@ -109,7 +109,7 @@
             true,
             120
         ],
-        "no-default-export": true,
+        "no-default-export": false,
         "no-mergeable-namespace": true,
         "no-require-imports": false,
         "no-trailing-whitespace": true,

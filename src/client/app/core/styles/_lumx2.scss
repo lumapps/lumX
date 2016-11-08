@@ -2,8 +2,8 @@
 //    #CORE
 //\*------------------------------------*/
 
-@import 'bourbon';
-@import 'materialdesignicons';
+@import 'bourbon/app/assets/stylesheets/bourbon';
+@import 'mdi/scss/materialdesignicons';
 
 @import 'settings/colors';
 @import 'settings/defaults';
