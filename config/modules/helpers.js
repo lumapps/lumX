@@ -159,7 +159,7 @@ const DEFAULT_OPTIONS = {
         htmlLoader: {
             caseSensitive: true,
             customAttrAssign: [
-                /\)?\]?=/,
+                /\)?]?=/,
             ],
             customAttrSurround: [
                 [

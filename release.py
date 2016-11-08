@@ -5,6 +5,7 @@ import subprocess
 import sys
 
 
+# Check if the new tag we want to create exists already or not
 def checkExistingTag(version):
     if (subprocess.call(('git show-ref --verify --quiet refs/heads/%s' % version).split()) == 0 or
             subprocess.call(('git show-ref --verify --quiet refs/tags/%s' % version).split()) == 0):
@@ -12,6 +13,7 @@ def checkExistingTag(version):
         raise Exception()
 
 
+# Remove /dist from the .gitignore for the releases
 def updateGitignore():
     file_str = None
     with open('.gitignore') as f:
@@ -23,6 +25,7 @@ def updateGitignore():
         f.write(file_str)
 
 
+# Commit the changes (/dist, .gitignore, /demo) and push the new tag
 def commit(version):
     untrackedFiles = subprocess.Popen('git ls-files -o --exclude-standard'.split(), stdout=subprocess.PIPE)
     subprocess.call(('git add %s' % untrackedFiles.stdout.read().replace('\n', ' ')).split())

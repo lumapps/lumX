@@ -265,7 +265,6 @@ module.exports = function webpackCommonConfigExport(metadata) {
                 {
                     exclude: [
                         helpers.root('src', 'client', 'index.html'),
-                        /node_modules/i,
                     ],
                     loaders: [
                         'to-string',
