@@ -1,5 +1,4 @@
 import { Component, ViewEncapsulation } from '@angular/core';
-import { Response } from '@angular/http';
 
 import { DEMO_SELECTOR as SELECTOR } from 'core/settings/selectors.settings';
 import { SELECTOR_PREFIX, SELECTOR_SEPARATOR } from 'core/settings/selectors.settings';
@@ -13,10 +12,6 @@ import { TokenService } from 'core/services/token.service';
  */
 import 'core/styles/_lumx2.scss';
 
-/*
- * Component styles
- */
-import './demo.component.scss';
 
 /*
  * Component template
@@ -25,7 +20,11 @@ const template: string = require('./' + SELECTOR + '.component.html');
 
 
 @Component({
+    encapsulation: ViewEncapsulation.Emulated,
     selector: SELECTOR_PREFIX + SELECTOR_SEPARATOR + SELECTOR,
+    styles: [
+        require('./' + SELECTOR + '.component.scss'),
+    ],
     template: template,
 })
 /**

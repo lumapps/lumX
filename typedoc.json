@@ -1,14 +1,15 @@
 {
-    "mode": "modules",
-    "theme": "default",
-    "ignoreCompilerErrors": "true",
-    "experimentalDecorators": "true",
     "emitDecoratorMetadata": "true",
-    "target": "ES5",
+    "exclude": "**/*.+(spec|specs|e2e).ts",
+    "experimentalDecorators": "true",
+    "ignoreCompilerErrors": "true",
+    "mode": "file",
+    "module": "commonjs",
     "moduleResolution": "node",
     "preserveConstEnums": "true",
     "stripInternal": "true",
     "suppressExcessPropertyErrors": "true",
     "suppressImplicitAnyIndexErrors": "true",
-    "module": "commonjs"
+    "target": "ES5",
+    "theme": "default"
 }

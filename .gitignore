@@ -53,10 +53,12 @@ ehthumbs.db
 *blobstore*
 *.search_index*
 
-# NPM files
+# NPM/Yarn files
 **/node_modules/
 **/bower_components/
 **/npm-debug.log
+yarn.lock
+yarn-error.log
 
 # Test files
 tests/**/report
@@ -84,3 +86,6 @@ lang.js
 # CI
 build.status
 build.properties
+
+# Docs
+/docs

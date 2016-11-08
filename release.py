@@ -13,12 +13,6 @@ def checkExistingTag(version):
         raise Exception()
 
 
-# def checkout(node):
-#     if subprocess.call(('git checkout %s' % node).split(), stderr=subprocess.STDOUT, stdout=subprocess.PIPE) != 0:
-#         print "Error: The git node '%s' doesn't exist" % node
-#         exit(-1)
-
-
 # Update content on the homepage
 def updateHomepage(version):
     file_str = None
@@ -58,8 +52,6 @@ def commit(version):
     subprocess.call(['git', 'commit', '-am', 'chore release: new release %s' % version], stderr=subprocess.STDOUT,
                     stdout=subprocess.PIPE)
     subprocess.call(('git tag %s' % version).split())
-    # print "Publishing new commit to master"
-    # subprocess.call('git push origin master'.split(), stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
     print "Publishing new tag"
     subprocess.call(('git push origin %s' % version).split(), stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
     print "Release %s created!" % version
@@ -74,10 +66,6 @@ if __name__ == "__main__":
         version = sys.argv[1]
 
         checkExistingTag(version)
-
-        # if len(sys.argv) > 2:
-        #     checkout(sys.argv[2])
-
         updateHomepage(version)
         updateGitignore()
         commit(version)
