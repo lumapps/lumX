@@ -3,10 +3,9 @@
     "version": "1.0.0",
     "description": "Default boilerplate for new project generation",
     "keywords": [
+        "lumapps",
         "angular2",
         "boilerplate",
-        "lumapps",
-        "project",
         "typescript",
         "sass",
         "webpack"
