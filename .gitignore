@@ -58,6 +58,7 @@ ehthumbs.db
 **/bower_components/
 **/npm-debug.log
 yarn.lock
+yarn-error.log
 
 # Test files
 tests/**/report
