@@ -383,7 +383,11 @@ printf "${BLUE}Done${DEFAULT}\n"
 
 if [ "$skipSetup" = false ]; then
     printf "Cleaning and setting up the boilerplate\n"
-        npm run -s setup
+        if type yarn &> /dev/null; then
+            npm run -s setup:yarn
+        else
+            npm run -s setup
+        fi
         exitIfError "Setting up NPM"
     printf "${BLUE}Done${DEFAULT}\n"
 fi
