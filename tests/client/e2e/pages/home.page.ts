@@ -1,5 +1,5 @@
-import { ElementArrayFinder, ElementFinder } from 'protractor';
-import { Locator } from 'selenium-webdriver';
+import { by, ElementArrayFinder, ElementFinder } from 'protractor';
+import { By } from 'selenium-webdriver';
 
 import { UserBrowser } from '../helpers/user-browser.class';
 
@@ -46,11 +46,11 @@ export class HomePage {
     /**
      * References all accessors needed for this page.
      *
-     * @type {Locator}
+     * @type {By}
      * @private
      */
-    private _toDoItemDoneDateAccessor: Locator;
-    private _toDoItemLabelAccessor: Locator;
+    private _toDoItemDoneDateAccessor: By;
+    private _toDoItemLabelAccessor: By;
 
 
     /**

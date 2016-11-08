@@ -1,3 +1,4 @@
+import { browser } from 'protractor';
 import { promise as WebDriverPromise } from 'selenium-webdriver';
 
 import { UserBrowser } from '../helpers/user-browser.class';

@@ -1,5 +1,5 @@
-import { ElementArrayFinder, ElementFinder } from 'protractor';
-import { Locator } from 'selenium-webdriver';
+import { by, ElementArrayFinder, ElementFinder } from 'protractor';
+import { By } from 'selenium-webdriver';
 
 import { UserBrowser } from '../helpers/user-browser.class';
 
@@ -30,10 +30,10 @@ export class SimplePage {
     /**
      * References all accessors needed for this page.
      *
-     * @type {Locator}
+     * @type {By}
      * @private
      */
-    private _appAccessor: Locator;
+    private _appAccessor: By;
 
 
     /**

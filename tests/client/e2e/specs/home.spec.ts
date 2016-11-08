@@ -1,3 +1,4 @@
+import { browser, ElementFinder } from 'protractor';
 import { promise as WebDriverPromise } from 'selenium-webdriver';
 
 import { UserBrowser } from '../helpers/user-browser.class';
@@ -71,7 +72,7 @@ describe('Application', () => {
 
                 expect(homePage.toDoListElements.count()).toBeGreaterThan(0);
 
-                let lastItemLabel: protractor.ElementFinder = homePage.getLabel(homePage.getLastItem());
+                let lastItemLabel: ElementFinder = homePage.getLabel(homePage.getLastItem());
                 expect(lastItemLabel).toContainText(this.newItemLabel);
             });
         });
@@ -108,12 +109,12 @@ describe('Application', () => {
             /**
              * Check if a to-do item is done or not.
              *
-             * @param {protractor.ElementFinder} item        The item to check.
+             * @param {ElementFinder} item        The item to check.
              * @param {boolean}                  [not=false] Indicates if we want to check that the item is not done.
              */
-            function checkIsDone(item: protractor.ElementFinder, not: boolean = false): void { // tslint:disable-line
-                let itemLabel: protractor.ElementFinder = homePage.getLabel(item);
-                let itemDoneDate: protractor.ElementFinder = homePage.getDoneDate(item);
+            function checkIsDone(item: ElementFinder, not: boolean = false): void { // tslint:disable-line
+                let itemLabel: ElementFinder = homePage.getLabel(item);
+                let itemDoneDate: ElementFinder = homePage.getDoneDate(item);
 
                 if (not) {
                     expect(itemLabel).not.toHaveClass(homePage.toDoItemDoneClass);
@@ -127,9 +128,9 @@ describe('Application', () => {
             /**
              * Check if a to-do item is not done.
              *
-             * @param {protractor.ElementFinder} item The item to check.
+             * @param {ElementFinder} item The item to check.
              */
-            function checkIsNotDone(item: protractor.ElementFinder): void { // tslint:disable-line
+            function checkIsNotDone(item: ElementFinder): void { // tslint:disable-line
                 checkIsDone(item, true);
             }
         });
