@@ -3,7 +3,7 @@ import { RouterModule } from '@angular/router';
 
 import { CoreModule } from 'core/modules/core.module';
 
-import { AboutComponent } from './components/about.component';
+import { AboutComponent } from './about.component';
 
 
 @NgModule({

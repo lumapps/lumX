@@ -68,7 +68,11 @@ ${UNDERLINE}${BLUE}Components options${DEFAULT}:
 
 function exitIfError() {
     if [ $? -ne 0 ]; then
-        printf "${BOLD}${RED}Error with code $? ${DEFAULT}\n"
+        printf "${BOLD}${RED}Error with code $?"
+        if [ -n "$1" ]; then
+            printf "${DEFAULT} ${RED}while ${1}"
+        fi
+        printf "${DEFAULT}\n"
         exit $?
     fi
 }
@@ -156,14 +160,20 @@ function convertTabToSpace() {
 SCAFFOLD_TYPES=("Module" "Component" "Model" "Constant" "Message" "Reducer" "Service" "Setting" "Global Style" "Type")
 SELECTORS_FILE="src/client/app/core/settings/selectors.settings.ts"
 
+
 while [[ $# -ge 1 ]]; do
     key="$1"
 
     case $key in
+        --debug)
+            set -x
+            ;;
+
         --help)
             usage
             exit 0
             ;;
+
         -n|--name)
             name="$2"
             shift
@@ -222,10 +232,6 @@ while [[ $# -ge 1 ]]; do
 
         --constructor)
             constructor="y"
-            ;;
-
-        --debug)
-            set -x
             ;;
 
         *)
@@ -344,10 +350,10 @@ function initModule() {
             return 0
         fi
 
-        printf "Creating module directory '${directory}'... "
+        printf "Creating module directory \"${directory}\"... "
         if [ ! -d $directory ]; then
             mkdir -p $directory
-            exitIfError
+            exitIfError "Creating module \"${directory}\" directory"
         fi
         printf "${BLUE}Done${DEFAULT}\n"
     fi
@@ -363,19 +369,19 @@ function initModule() {
 
     if [ "$createModuleFile" == "y" ]; then
         rm -Rf $moduleFile
-        exitIfError
+        exitIfError "Deleting existing \"${directory}/${moduleFile}\" file"
     else
         return 0
     fi
 
     printf "Creating files and directories... "
-        if [ "$_isCoreModule" = false ] && [ ! -d "components" ]; then
+        if [ "$_isCoreModule" = false ] && [ "$_forComponent" = false ] && [ ! -d "components" ]; then
             mkdir -p "components"
-            exitIfError
+            exitIfError "Creating \"${directory}/components\" directory"
         fi
 
         touch $moduleFile
-        exitIfError
+        exitIfError "Creating \"${directory}/${moduleFile}\" file"
     printf "${BLUE}Done${DEFAULT}\n"
 
     printf "Creating TypeScript module... "
@@ -396,9 +402,9 @@ function initModule() {
             subPath=""
             if [ "$_isCoreModule" = true ]; then
                 root=".."
-                subPath="${_selector}/"
+                subPath="components/${_selector}/"
             fi
-            printf "\nimport { ${className}Component } from '${root}/components/${subPath}${_selector}.component';\n" >> $moduleFile
+            printf "\nimport { ${className}Component } from '${root}/${subPath}${_selector}.component';\n" >> $moduleFile
         fi
 
         printf "\n" >> $moduleFile
@@ -474,7 +480,7 @@ function initComponent() {
                 _modulePath="${_modulePath}/"
             fi
         fi
-        directory="src/client/app/${_modulePath}${_selector}/components/"
+        directory="src/client/app/${_modulePath}${_selector}/"
     fi
 
     defaultCreateComponentsDirectory="y"
@@ -489,7 +495,7 @@ function initComponent() {
     printf "Creating component directory '${directory}'... "
     if [ ! -d $directory ]; then
         mkdir -p $directory
-        exitIfError
+        exitIfError "Creating \"${directory}\" directory"
     fi
     printf "${BLUE}Done${DEFAULT}\n"
 
@@ -500,13 +506,13 @@ function initComponent() {
     componentStyleFile="${_selector}.component.scss"
     printf "Creating files... "
         touch $componentFile
-        exitIfError
+        exitIfError "Creating \"${directory}/${componentFile}\" file"
         touch $componentSpecFile
-        exitIfError
+        exitIfError "Creating \"${directory}/${componentSpecFile}\" file"
         touch $componentTemplateFile
-        exitIfError
+        exitIfError "Creating \"${directory}/${componentTemplateFile}\" file"
         touch $componentStyleFile
-        exitIfError
+        exitIfError "Creating \"${directory}/${componentStyleFile}\" file"
     printf "${BLUE}Done${DEFAULT}\n"
 
     printf "Creating TypeScript component... "
@@ -649,7 +655,7 @@ function initComponent() {
     if [ -w $SELECTORS_FILE ]; then
         printf "Adding selector... "
             printf "export const ${className^^}_SELECTOR: string = '${_selector}';\n" >> $SELECTORS_FILE
-            exitIfError
+            exitIfError "Adding selector to the selectors file"
         printf "${BLUE}Done${DEFAULT}\n"
     fi
 }
@@ -657,16 +663,16 @@ function initComponent() {
 case "${scaffoldType}" in
     "module")
         initModule "$name" "$selector" "$modulePath" "$core" "$router" "$importCore"
-        exitIfError
+        exitIfError "Scaffolding the module"
         ;;
 
     "component")
         if [ "$createModule" == "y" ]; then
             initModule "$name" "$selector" "$modulePath" "$core" "$router" "$importCore" "y"
-            exitIfError
+            exitIfError "Scaffolding the component's module"
         fi
         initComponent "$name" "$selector" "$modulePath" "$core" "$onInit" "$onDestroy" "$onChange" "$activatedRoute" "$constructor"
-        exitIfError
+        exitIfError "Scaffolding the component"
         ;;
 
     "model")

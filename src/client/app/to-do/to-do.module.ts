@@ -4,9 +4,9 @@ import { CoreModule } from 'core/modules/core.module';
 
 import { ToDoStore } from './to-do.store';
 
-import { NewToDoComponent } from './components/new-to-do/new-to-do.component';
-import { ToDoListComponent } from './components/to-do-list/to-do-list.component';
-import { ToDoComponent } from './components/to-do.component';
+import { NewToDoComponent } from './new-to-do/new-to-do.component';
+import { ToDoListComponent } from './to-do-list/to-do-list.component';
+import { ToDoComponent } from './to-do.component';
 
 
 @NgModule({

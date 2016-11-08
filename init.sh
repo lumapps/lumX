@@ -36,6 +36,27 @@ if [ -t 1 ]; then
 fi
 
 
+function usage {
+    printf """${BOLD}${GREEN}LumBoilerplate initialization${DEFAULT}
+
+${UNDERLINE}${MAGENTA}${BOLD}Usage${DEFAULT}:
+npm run -s init -- [--debug] [--help] [--skip-setup]
+
+${UNDERLINE}${BLUE}Common options${DEFAULT}:
+\t${CYAN}--debug${DEFAULT}\t\t\tDebug this scaffold script
+\t${CYAN}--help${DEFAULT}\t\t\tPrint this help message.
+\t${CYAN}-n, --name ${YELLOW}<name>${DEFAULT}\tThe name of the project.
+\t${CYAN}-d, --description ${YELLOW}<description>${DEFAULT}\tThe description of the project.
+\t${CYAN}-u, --github-username ${YELLOW}<github username>${DEFAULT}\tThe Github username of the repository of the project.
+\t${CYAN}-r, --repository ${YELLOW}<repository>${DEFAULT}\tThe name of the repository of the project.
+\t${CYAN}-p, --prefix ${YELLOW}<prefix>${DEFAULT}\tThe prefix for the components selector.
+\t${CYAN}-s, --separator ${YELLOW}<description>${DEFAULT}\tThe separator of the components selector (between prefix and component selector).
+\t${CYAN}-b, --base-url ${YELLOW}<description>${DEFAULT}\tThe base URL of the project.
+\t${CYAN}--skip-git\tSkip the Git repository setup (initialization, initial commit, ...).
+\t${CYAN}--skip-setup\tSkip the NPM setup (package installation, cleanup, ...).
+"""
+}
+
 function exitIfError() {
     if [ $? -ne 0 ]; then
         printf "${BOLD}${RED}Error with code $?"
@@ -48,14 +69,50 @@ function exitIfError() {
 }
 
 function readWithDefault() {
+    if [ -n "${!2}" ]; then
+        return 0
+    fi
+
     if [ -n "$1" ] && [ -n "$2" ]; then
         defaultVarName="default${2^}"
 
-        IFS= read -r -p "${YELLOW}${1}?${DEFAULT} (${BOLD}${CYAN}${!defaultVarName}${DEFAULT}) " inputValue
+        printf "${YELLOW}${1}?${DEFAULT} "
+        if [ -n "${!defaultVarName}" ]; then
+            printf "(${BOLD}${CYAN}${!defaultVarName}${DEFAULT}) "
+        fi
+
+        IFS= read -r inputValue
         if [ -n "$inputValue" ]; then
             eval $2=`echo -ne \""${inputValue}"\"`
         else
             eval $2=`echo -ne \""${!defaultVarName}"\"`
+        fi
+    fi
+}
+
+function readBooleanWithDefault() {
+    if [ "${!2,,}" == "y" ] || [ "${!2,,}" == "n" ]; then
+        return 0
+    fi
+
+    if [ -n "$1" ] && [ -n "$2" ]; then
+        defaultVarName="default${2^}"
+
+        choices="(${BOLD}${CYAN}${!defaultVarName^^}${DEFAULT}/n)"
+        if [ "${!defaultVarName,,}" == "n" ]; then
+            choices="(y/${BOLD}${CYAN}${!defaultVarName^^}${DEFAULT})"
+        fi
+
+        IFS= read -r -p "${YELLOW}${1}?${DEFAULT} ${choices} " inputValue
+        if [ -n "$inputValue" ]; then
+            if [ "${inputValue,,}" != 'y' ] && [ "${inputValue,,}" != 'n' ]; then
+                readBooleanWithDefault "$1" "$2"
+                return
+            fi
+
+            eval $2=`echo -ne \""${inputValue,,}"\"`
+        else
+            eval $2=`echo -ne \""${!defaultVarName,,}"\"`
         fi
     fi
 }
@@ -78,6 +135,74 @@ originalRepository='boilerplate'
 originalComponentsNamePrefix='lb'
 originalComponentsNameSeparator='-'
 originalBaseUrl='/'
+
+skipGit=false
+skipSetup=false
+
+
+while [[ $# -ge 1 ]]; do
+    key="$1"
+
+    case $key in
+        --debug)
+            set -x
+            ;;
+
+        --help)
+            usage
+            exit 0
+            ;;
+
+        -n|--name)
+            name="$2"
+            shift
+            ;;
+
+        -d|--description)
+            description="$2"
+            shift
+            ;;
+
+        -u|--github-username)
+            githubUsername="$2"
+            shift
+            ;;
+
+        -r|--repository)
+            repository="$2"
+            shift
+            ;;
+
+        -p|--prefix)
+            componentsNamePrefix="$2"
+            shift
+            ;;
+
+        -s|--separator)
+            componentsNameSeparator="$2"
+            shift
+            ;;
+
+        -b|--base-url)
+            baseUrl="$2"
+            shift
+            ;;
+
+        --skip-git)
+            skipGit=true
+            ;;
+
+        --skip-setup)
+            skipSetup=true
+            ;;
+
+        *)
+            # unknown option
+        ;;
+    esac
+
+    shift
+done
 
 
 printf "${BOLD}Welcome to the initialization of the ${BLUE}boilerplate${WHITE}!${DEFAULT}\n"
@@ -119,12 +244,14 @@ printf "\n"
 printf "We are now ready to initialize the boilerplate for your project \"${BOLD}${name}${DEFAULT}\". Please wait...\n\n"
 
 
-printf "Preparing git... "
-    rm -Rf ".git"
-    exitIfError "Deleting git"
-    git init -q
-    exitIfError "Initializing git"
-printf "${BLUE}Done${DEFAULT}\n"
+if [ "$skipGit" = false]; then
+    printf "Preparing git... "
+        rm -Rf ".git"
+        exitIfError "Deleting git"
+        git init -q
+        exitIfError "Initializing git"
+    printf "${BLUE}Done${DEFAULT}\n"
+fi
 
 
 printf "Removing useless files... "
@@ -255,11 +382,17 @@ printf "${BLUE}Done${DEFAULT}\n"
 
 
 printf "Cleaning and setting up the boilerplate\n"
-    npm run -s setup
-    exitIfError "Setting up NPM"
-    git add .
-    exitIfError "Adding project in git repository"
-    git commit -q -m "feat(${repository}): initialization of the repository with boilerplate"
+    if [ "$skipSetup" = false]; then
+        npm run -s setup
+        exitIfError "Setting up NPM"
+    fi
+
+    if [ "$skipGit" = false]; then
+        git add .
+        exitIfError "Adding project in git repository"
+
+        git commit -q -m "feat(${repository}): initialization of the repository with boilerplate"
+    fi
 printf "Cleaning and setting up the boilerplate... ${BLUE}Done${DEFAULT}\n"
 
 
