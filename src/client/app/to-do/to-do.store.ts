@@ -1,4 +1,4 @@
-import { ToDoItem } from './to-do-item.model.ts';
+import { ToDoItem } from './to-do-item.model';
 
 
 /**
