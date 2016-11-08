@@ -42,18 +42,18 @@ function usage {
 ${UNDERLINE}${MAGENTA}${BOLD}Usage${DEFAULT}:
 npm run -s init -- [--debug] [--help] [--skip-setup]
 
-${UNDERLINE}${BLUE}Common options${DEFAULT}:
-\t${CYAN}--debug${DEFAULT}\t\t\tDebug this scaffold script
-\t${CYAN}--help${DEFAULT}\t\t\tPrint this help message.
-\t${CYAN}-n, --name ${YELLOW}<name>${DEFAULT}\tThe name of the project.
-\t${CYAN}-d, --description ${YELLOW}<description>${DEFAULT}\tThe description of the project.
+${UNDERLINE}${BLUE}Options${DEFAULT}:
+\t${CYAN}--debug${DEFAULT}\t\t\t\t\tDebug this scaffold script
+\t${CYAN}--help${DEFAULT}\t\t\t\t\tPrint this help message.
+\t${CYAN}-n, --name ${YELLOW}<name>${DEFAULT}\t\t\tThe name of the project.
+\t${CYAN}-d, --description ${YELLOW}<description>${DEFAULT}\t\tThe description of the project.
 \t${CYAN}-u, --github-username ${YELLOW}<github username>${DEFAULT}\tThe Github username of the repository of the project.
-\t${CYAN}-r, --repository ${YELLOW}<repository>${DEFAULT}\tThe name of the repository of the project.
-\t${CYAN}-p, --prefix ${YELLOW}<prefix>${DEFAULT}\tThe prefix for the components selector.
-\t${CYAN}-s, --separator ${YELLOW}<description>${DEFAULT}\tThe separator of the components selector (between prefix and component selector).
-\t${CYAN}-b, --base-url ${YELLOW}<description>${DEFAULT}\tThe base URL of the project.
-\t${CYAN}--skip-git\tSkip the Git repository setup (initialization, initial commit, ...).
-\t${CYAN}--skip-setup\tSkip the NPM setup (package installation, cleanup, ...).
+\t${CYAN}-r, --repository ${YELLOW}<repository>${DEFAULT}\t\tThe name of the repository of the project.
+\t${CYAN}-p, --prefix ${YELLOW}<prefix>${DEFAULT}\t\t\tThe prefix for the components selector.
+\t${CYAN}-s, --separator ${YELLOW}<separator>${DEFAULT}\t\tThe separator of the components selector (between prefix and component selector).
+\t${CYAN}-b, --base-url ${YELLOW}<base url>${DEFAULT}\t\tThe base URL of the project.
+\t${CYAN}--skip-git${DEFAULT}\t\t\t\tSkip the Git repository setup (initialization, initial commit, ...).
+\t${CYAN}--skip-setup${DEFAULT}\t\t\t\tSkip the NPM setup (package installation, cleanup, ...).
 """
 }
 
@@ -244,7 +244,7 @@ printf "\n"
 printf "We are now ready to initialize the boilerplate for your project \"${BOLD}${name}${DEFAULT}\". Please wait...\n\n"
 
 
-if [ "$skipGit" = false]; then
+if [ "$skipGit" = false ]; then
     printf "Preparing git... "
         rm -Rf ".git"
         exitIfError "Deleting git"
@@ -279,7 +279,7 @@ printf "${BLUE}Done${DEFAULT}\n"
 
 
 printf "Emptying some files... "
-    printf "# humanstxt.org\n# The humans responsible & technology colophon\n\n# TEAM\n\n\n# THANKS\n\nAngularClass -- @AngularClass\nLumapps -- @lumapps\nPatrickJS -- @gdi2290\n\n# TECHNOLOGY COLOPHON\n\nHTML5, CSS3, SASS\nAngular2, TypeScript, Webpack\n" > $HUMANS_FILE
+    printf "# humanstxt.org\n# The humans responsible & technology colophon\n\n# TEAM\n\n\n# THANKS\n\n    AngularClass -- @AngularClass\n    Lumapps -- @lumapps\n    PatrickJS -- @gdi2290\n\n# TECHNOLOGY COLOPHON\n\n    HTML5, CSS3, SASS\n    Angular2, TypeScript, Webpack\n" > $HUMANS_FILE
     exitIfError "Emptying humans file"
 
     echo "" > $README_FILE
@@ -302,7 +302,7 @@ if [ -n "$name" ]; then
     printf "# ${name}\n\n" > $README_FILE
     exitIfError "Writing project name in readme file"
 
-    FILES_WITH_NAME=$(grep -rl "${defaultName}" .)
+    FILES_WITH_NAME=$(grep -rl "${originalName}" .)
     for fileName in $FILES_WITH_NAME; do
         if [ "$fileName" != "./init.sh" ]; then
             sed -i "s/${originalName}/${name}/g" $fileName
@@ -381,19 +381,20 @@ printf "Customizing selectors... "
 printf "${BLUE}Done${DEFAULT}\n"
 
 
-printf "Cleaning and setting up the boilerplate\n"
-    if [ "$skipSetup" = false]; then
+if [ "$skipSetup" = false ]; then
+    printf "Cleaning and setting up the boilerplate\n"
         npm run -s setup
         exitIfError "Setting up NPM"
-    fi
+    printf "${BLUE}Done${DEFAULT}\n"
+fi
 
-    if [ "$skipGit" = false]; then
+if [ "$skipGit" = false ]; then
+    printf "Creating the first git commit... "
         git add .
         exitIfError "Adding project in git repository"
-
         git commit -q -m "feat(${repository}): initialization of the repository with boilerplate"
-    fi
-printf "Cleaning and setting up the boilerplate... ${BLUE}Done${DEFAULT}\n"
+    printf "${BLUE}Done${DEFAULT}\n"
+fi
 
 
 printf "\n"
