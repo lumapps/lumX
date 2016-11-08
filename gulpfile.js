@@ -29,6 +29,7 @@ const isWebpack2 = true;
 const serverPort = '8881';
 const enableServerProxy = false;
 const serverProxy = 'http://localhost:8888';
+const withProxy = (enableServerProxy) ? '--proxy ' + serverProxy : '';
 
 const checkLintBeforeBuild = true;
 
@@ -41,14 +42,19 @@ const e2eBuildType = 'prod';
 // Toggle the "-s" flag to make npm verbose (nothing) or silent (-s)
 const npmRun = `npm -s run`;
 
-const webpackBuildParameters =
-    `--profile ${(isWebpack2) ? '' : '--display-cached'} --hide-modules
-                                ${(isCI) ? '' : '--progress'}`;
+const withDisplayCached = (isWebpack2) ? '' : '--display-cached';
+const withDisplayErrorDetail = (isWebpack2) ? '' : '--display-error-details';
+const withWatch = (isWebpack2) ? '' : '--watch';
+const withProgress = (isCI) ? '' : '--progress';
+
+const linterTask = (checkLintBeforeBuild) ? 'lint:src' : '';
+
+const webpackBuildParameters = `--profile ${withDisplayCached} --hide-modules ${withProgress}`;
 const webpackDevParameters = ``;
-const webpackDevServerClassicParameters = `${(isCI) ? '' : '--progress'}`;
-const webpackDevServerCommonParameters = `${(isWebpack2) ? '' : '--watch'} --content-base ${sourceFolder}`;
+const webpackDevServerClassicParameters = `${withProgress}`;
+const webpackDevServerCommonParameters = `${withWatch} --content-base ${sourceFolder}`;
 let webpackDevServerHotReloadParameters = `--inline --hot`;
-const webpackCommonParameters = `${(isWebpack2) ? '' : '--display-error-details'}`;
+const webpackCommonParameters = `${withDisplayErrorDetail}`;
 const webpackConfig = `--config webpack.config.js`;
 const webpackProdParameters = `--bail`;
 
@@ -69,7 +75,7 @@ if (!enableDashboard) {
 shelter({
     'build:dev': {
         cmd: `${npmRun} run-parallel -- clean:dist
-                                        ${(checkLintBeforeBuild) ? 'lint:src' : ''}
+                                        ${linterTask}
               && ${envDev} ${npmRun} run-parallel -- docs
                                                      "webpack ${webpackConfig} ${webpackCommonParameters}
                                                               ${webpackBuildParameters} ${webpackDevParameters}"`,
@@ -84,7 +90,7 @@ shelter({
     },
     'build:prod': {
         cmd: `${npmRun} run-parallel -- clean:dist
-                                        ${(checkLintBeforeBuild) ? 'lint:src' : ''}
+                                        ${linterTask}
               && ${envProd} ${npmRun} run-parallel -- docs
                                                       "webpack -- ${webpackConfig} ${webpackCommonParameters}
                                                                   ${webpackBuildParameters} ${webpackProdParameters}"`,
@@ -253,25 +259,21 @@ shelter({
     },
     'serve:dev': {
         cmd: `${npmRun} build:dev:fast
-              && ${npmRun} http-server -- ${distFolder} -p ${serverPort} -d False -i False --cors -s
-                                          ${(enableServerProxy) ? '--proxy ' + serverProxy : ''}`,
+              && ${npmRun} http-server -- ${distFolder} -p ${serverPort} -d False -i False --cors -s ${withProxy}`,
         dsc: `Start ${project} development release test server (on port ${serverPort}) after rebuilding`,
     },
     'serve:dev:fast': {
-        cmd: `${npmRun} http-server -- ${distFolder} -p ${serverPort} -d False -i False --cors -s
-                                       ${(enableServerProxy) ? '--proxy ' + serverProxy : ''}`,
+        cmd: `${npmRun} http-server -- ${distFolder} -p ${serverPort} -d False -i False --cors -s ${withProxy}`,
         dsc: `Start ${project} development release test server (on port ${serverPort}) with an existing build`,
     },
     'serve:dev:fast:open': {
-        cmd: `${npmRun} http-server -- ${distFolder} -p ${serverPort} -d False -i False -o --cors -s
-                                       ${(enableServerProxy) ? '--proxy ' + serverProxy : ''}`,
+        cmd: `${npmRun} http-server -- ${distFolder} -p ${serverPort} -d False -i False -o --cors -s ${withProxy}`,
         dsc: `Start ${project} development release test server (on port ${serverPort}) with an existing build and open
               it in a browser`,
     },
     'serve:dev:open': {
         cmd: `${npmRun} build:dev:fast
-              && ${npmRun} http-server -- ${distFolder} -p ${serverPort} -d False -i False -o --cors -s
-                                          ${(enableServerProxy) ? '--proxy ' + serverProxy : ''}`,
+              && ${npmRun} http-server -- ${distFolder} -p ${serverPort} -d False -i False -o --cors -s ${withProxy}`,
         dsc: `Start ${project} development release test server (on port ${serverPort}) after rebuilding and open it in a
               browser`,
     },
@@ -285,25 +287,21 @@ shelter({
     },
     'serve:prod': {
         cmd: `${npmRun} build:prod:fast
-              && ${npmRun} http-server -- ${distFolder} -p ${serverPort} -d False -i False --cors -s
-                                          ${(enableServerProxy) ? '--proxy ' + serverProxy : ''}`,
+              && ${npmRun} http-server -- ${distFolder} -p ${serverPort} -d False -i False --cors -s ${withProxy}`,
         dsc: `Start ${project} production release test server (on port ${serverPort}) after rebuilding`,
     },
     'serve:prod:fast': {
-        cmd: `${npmRun} http-server -- ${distFolder} -p ${serverPort} -d False -i False --cors -s
-                                       ${(enableServerProxy) ? '--proxy ' + serverProxy : ''}`,
+        cmd: `${npmRun} http-server -- ${distFolder} -p ${serverPort} -d False -i False --cors -s ${withProxy}`,
         dsc: `Start ${project} production release test server (on port ${serverPort}) with an existing build`,
     },
     'serve:prod:fast:open': {
-        cmd: `${npmRun} http-server -- ${distFolder} -p ${serverPort} -d False -i False -o --cors -s
-                                       ${(enableServerProxy) ? '--proxy ' + serverProxy : ''}`,
+        cmd: `${npmRun} http-server -- ${distFolder} -p ${serverPort} -d False -i False -o --cors -s ${withProxy}`,
         dsc: `Start ${project} production release test server (on port ${serverPort}) with an existing build and open it
               in a browser`,
     },
     'serve:prod:open': {
         cmd: `${npmRun} build:prod:fast
-              && ${npmRun} http-server -- ${distFolder} -p ${serverPort} -d False -i False -o --cors -s
-                                          ${(enableServerProxy) ? '--proxy ' + serverProxy : ''}`,
+              && ${npmRun} http-server -- ${distFolder} -p ${serverPort} -d False -i False -o --cors -s ${withProxy}`,
         dsc: `Start ${project} production release test server (on port ${serverPort}) after rebuilding and open it in a
               browser`,
     },
