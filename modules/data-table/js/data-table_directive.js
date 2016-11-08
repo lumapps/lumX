@@ -157,7 +157,7 @@
 
         function toggle(_row)
         {
-            if (_row.lxDataTableDisabled)
+            if (_row.lxDataTableDisabled || !lxDataTable.selectable)
             {
                 return;
             }
