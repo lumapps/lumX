@@ -13,13 +13,13 @@ MAGENTA=""
 CYAN=""
 WHITE=""
 
-if [[ "$*" != *"--no-colors"* ]]; then
+if [[ ! "$*" =~ "--no-colors" ]]; then
     # Check if stdout is a terminal...
-    if test -t 1; then
+    if [ -t 1 ]; then
         # See if it supports colors...
         ncolors=$(tput colors)
 
-        if test -n "$ncolors" && test $ncolors -ge 8; then
+        if [ -n "$ncolors" ] && [ $ncolors -ge 8 ]; then
             BOLD="$(tput bold)"
             UNDERLINE="$(tput smul)"
             STANDOUT="$(tput smso)"
@@ -55,21 +55,21 @@ GIT_SUBJECT=$(git --no-pager show -s --format='%s' $GIT_COMMIT)
 touch build.properties
 touch build.status
 
-if [[ -n "$GITHUB_PR_NUMBER" ]]; then
-    if [[ -z "$GITHUB_PR_TRIGGER_SENDER_AUTHOR" ]]; then
+if [ -n "$GITHUB_PR_NUMBER" ]; then
+    if [ -z "$GITHUB_PR_TRIGGER_SENDER_AUTHOR" ]; then
         GITHUB_PR_TRIGGER_SENDER_AUTHOR=${GIT_NAME}
         echo "GITHUB_PR_TRIGGER_SENDER_AUTHOR=${GIT_NAME}" >> build.properties
     fi
-    if [[ -z "$GITHUB_PR_TRIGGER_SENDER_EMAIL" ]]; then
+    if [ -z "$GITHUB_PR_TRIGGER_SENDER_EMAIL" ]; then
         GITHUB_PR_TRIGGER_SENDER_EMAIL=${GIT_EMAIL}
         echo "GITHUB_PR_TRIGGER_SENDER_EMAIL=${GIT_EMAIL}" >> build.properties
     fi
-    if [[ -z "$GITHUB_PR_TITLE" ]]; then
+    if [ -z "$GITHUB_PR_TITLE" ]; then
         GITHUB_PR_TITLE=${GIT_SUBJECT}
         echo "GITHUB_PR_TITLE=${GIT_SUBJECT}" >> build.properties
     fi
 
-    if [[ -n "$GITHUB_PR_URL" ]]; then
+    if [ -n "$GITHUB_PR_URL" ]; then
         CUSTOM_BUILD_SOURCE="Pull Request <strong><a href=\"${GITHUB_PR_URL}\" target=\"_blank\">#${GITHUB_PR_NUMBER} \"${GITHUB_PR_TITLE}\"</a></strong> (<em>${GITHUB_PR_TARGET_BRANCH}...${GITHUB_PR_SOURCE_BRANCH}</em>)"
         CUSTOM_BUILD_SOURCE_LOG="Pull Request #${GITHUB_PR_NUMBER} \"${GITHUB_PR_TITLE}\" (${GITHUB_PR_URL}) (${GITHUB_PR_TARGET_BRANCH}...${GITHUB_PR_SOURCE_BRANCH})"
     else
@@ -86,14 +86,14 @@ fi
 echo "CUSTOM_BUILD_SOURCE=${CUSTOM_BUILD_SOURCE}" >> build.properties
 
 npmFlags="-s"
-if [[ $VERBOSE == true ]]; then
+if [ "$VERBOSE" = true ]; then
     npmFlags=""
     set -x
 fi
 
 setupLabel="Setup"
 setupType=""
-if [[ $SETUP == "Fast" ]]; then
+if [ "$SETUP" == "Fast" ]; then
     setupLabel="Fast setup"
     setupType=":fast"
 fi
@@ -110,7 +110,7 @@ function exitWithCode() {
 }
 
 function displayResult() {
-    if [[ "$1" = "0" ]]; then
+    if [ "$1" = "0" ]; then
         printf "${GREEN}✔ ${2} successful${DEFAULT}\n"
     else
         printf "${RED}❌ ${2} failed${DEFAULT}\n\n"
@@ -129,7 +129,7 @@ function step() {
 }
 
 function simulateFailure() {
-    if [[ $FAIL == *"$2"* ]]; then
+    if [[ "$FAIL" =~ "$2" ]]; then
         printf "${YELLOW}Simulating $1 failure${DEFAULT}\n"
         exitWithCode 5
     fi
@@ -140,32 +140,32 @@ printf "#${GIT_SHA} (commited ${GIT_DATE}): \"${GIT_SUBJECT}\"\n\n"
 
 REASON="The ${setupLabel,,} step failed. Please check the attached build log to see what wents wrong."
 simulateFailure $setupLabel "setup"
-if [[ "$SETUP" != "None" ]]; then
+if [ "$SETUP" != "None" ]; then
     step "${setupLabel}" "setup${setupType}"
 fi
 
 REASON="A configuration file is not correctly formatted and has been rejected by the linter.${REASON_MORE}"
 simulateFailure "Lint configuration" "lint:config"
-if [[ $LINT == *"config"* ]]; then
+if [[ "$LINT" =~ "config" ]]; then
     step "Lint configuration" "lint:config"
 fi
 
 REASON="A source file is not correctly formatted and has been rejected by the linter.${REASON_MORE}"
 simulateFailure "Lint source" "lint:src"
-if [[ $LINT == *"source"* ]]; then
+if [[ "$LINT" =~ "source" ]]; then
     step "Lint sources" "lint:src"
 fi
 
 REASON="At least one unit test has failed and the build has been cancelled.${REASON_MORE}"
 simulateFailure "Units tests" "tests:units"
-if [[ $TESTS == *"unit"* ]]; then
+if [[ "$TESTS" =~ "unit" ]]; then
     step "Units tests" "unit:headless"
     tar -czf tests/client/unitReport.tar.gz -C tests/client/unit/report .
 fi
 
 REASON="At least one E2E test has failed and the build has been cancelled.${REASON_MORE}"
 simulateFailure "E2E tests" "tests:e2e"
-if [[ $TESTS == *"e2e"* ]]; then
+if [[ "$TESTS" =~ "e2e" ]]; then
     step "E2E tests" "e2e:headless"
     tar -czf tests/client/e2eReport.tar.gz -C tests/client/e2e/report .
 fi
@@ -173,13 +173,13 @@ fi
 REASON=""
 EXPLANATION=""
 DETAILS="<br />You'll find "
-if [[ "$SETUP" != "None" ]]; then
+if [ "$SETUP" != "None" ]; then
     EXPLANATION="the setup process is fine"
 fi
 
-if [[ -n "$LINT" ]]; then
-    if [[ -n "$EXPLANATION" ]]; then
-        if [[ -z "$TESTS" ]]; then
+if [ -n "$LINT" ]; then
+    if [ -n "$EXPLANATION" ]; then
+        if [ -z "$TESTS" ]; then
             EXPLANATION="${EXPLANATION} and "
         else
             EXPLANATION="${EXPLANATION}, "
@@ -187,11 +187,11 @@ if [[ -n "$LINT" ]]; then
     fi
 
     LINT_TYPE=""
-    if [[ $LINT == *"config"* ]]; then
+    if [[ "$LINT" =~ "config" ]]; then
         LINT_TYPE="configuration "
     fi
-    if [[ $LINT == *"source"* ]]; then
-        if [[ -z "$LINT_TYPE" ]]; then
+    if [[ "$LINT" =~ "source" ]]; then
+        if [ -z "$LINT_TYPE" ]; then
             LINT_TYPE="sources "
         else
             LINT_TYPE="all "
@@ -201,17 +201,17 @@ if [[ -n "$LINT" ]]; then
     EXPLANATION="${EXPLANATION}${LINT_TYPE}lint is OK"
 fi
 
-if [[ -n "$TESTS" ]]; then
-    if [[ -n "$EXPLANATION" ]]; then
+if [ -n "$TESTS" ]; then
+    if [ -n "$EXPLANATION" ]; then
         EXPLANATION="${EXPLANATION} and "
     fi
 
     TESTS_TYPES=""
-    if [[ $TESTS == *"unit"* ]]; then
+    if [[ "$TESTS" =~ "unit" ]]; then
         TESTS_TYPES="units"
     fi
-    if [[ $TESTS == *"e2e"* ]]; then
-        if [[ -z "$TESTS_TYPES" ]]; then
+    if [[ "$TESTS" =~ "e2e" ]]; then
+        if [ -z "$TESTS_TYPES" ]; then
             TESTS_TYPES="E2E"
         else
             TESTS_TYPES="every"
@@ -223,7 +223,7 @@ if [[ -n "$TESTS" ]]; then
     DETAILS="${DETAILS}the tests reports and "
 fi
 
-if [[ -n "$EXPLANATION" ]]; then
+if [ -n "$EXPLANATION" ]; then
     REASON="This means that "
     EXPLANATION="${EXPLANATION}. Congrats!"
 fi
