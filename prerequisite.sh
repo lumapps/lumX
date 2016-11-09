@@ -15,11 +15,11 @@ CYAN=""
 WHITE=""
 
 # Check if stdout is a terminal...
-if test -t 1; then
+if [ -t 1 ]; then
     # See if it supports colors...
     ncolors=$(tput colors)
 
-    if test -n "$ncolors" && test $ncolors -ge 8; then
+    if [ -n "$ncolors" ] && [ $ncolors -ge 8 ]; then
         BOLD="$(tput bold)"
         UNDERLINE="$(tput smul)"
         STANDOUT="$(tput smso)"
@@ -37,14 +37,18 @@ fi
 
 
 function exitIfError() {
-    if [[ $? -ne 0 ]]; then
-        printf "${BOLD}${RED}Error with code $? ${DEFAULT}\n"
+    if [ $? -ne 0 ]; then
+        printf "${BOLD}${RED}Error with code $?"
+        if [ -n "$1" ]; then
+            printf "${DEFAULT} ${RED}while ${1}"
+        fi
+        printf "${DEFAULT}\n"
         exit $?
     fi
 }
 
-compareVersion () {
-    if [[ $1 == $2 ]]; then
+function compareVersion () {
+    if [ $1 == $2 ]; then
         return 0
     fi
 
@@ -57,7 +61,7 @@ compareVersion () {
     done
 
     for ((i=0; i<${#ver1[@]}; i++)); do
-        if [[ -z ${ver2[i]} ]]; then
+        if [ -z "${ver2[i]}" ]; then
             # fill empty fields in ver2 with zeros
             ver2[i]=0
         fi
@@ -74,14 +78,21 @@ compareVersion () {
     return 0
 }
 
-printf "${BOLD}Checking prerequisites for ${BLUE}LumX²${WHITE}!${DEFAULT}\n\n"
 
+MIN_NODE_VERSION="6.0.0"
 exitCode=0
 
+
+printf "${BOLD}Checking prerequisites for ${BLUE}LumBoilerplate${WHITE}!${DEFAULT}\n\n"
+
 printf "NodeJS... "
-MIN_NODE_VERSION="6.0.0"
+
 nodeVersion=$(node --version)
+exitIfError "Getting current node version"
+
 nodeVersion=$(echo ${nodeVersion} | sed 's/^v\(.*\)/\1/g')
+exitIfError "Cleaning currentnode version"
+
 compareVersion $nodeVersion $MIN_NODE_VERSION
 if [[ $? -eq 2 ]]; then
     printf "${BOLD}${RED}❌ FAILED: NodeJS v${nodeVersion} is lower than v${MIN_NODE_VERSION} ${DEFAULT}\n"
@@ -96,10 +107,10 @@ fi
 
 printf "\n"
 printf "${MAGENTA}All prerequisites have been checked."
-if [[ $exit -eq 0 ]]; then
-    printf " Everything is fine, have fun using ${BOLD}LumX²${DEFAULT}${MAGENTA}!"
+if [ $exitCode -eq 0 ]; then
+    printf " Everything is fine, have fun using ${BOLD}LumBoilerplate${DEFAULT}${MAGENTA}!"
 else
-    printf "You have failed prerequisite(s), please take necessary actions before continuing to use ${BOLD}LumX²${DEFAULT}${MAGENTA}."
+    printf "You have failed prerequisite(s), please take necessary actions before continuing to use ${BOLD}LumBoilerplate${DEFAULT}${MAGENTA}."
 fi
 
 printf "${DEFAULT}\n\n"
