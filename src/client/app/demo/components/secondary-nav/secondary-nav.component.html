@@ -1,0 +1,12 @@
+<h1>Secondary nav</h1>
+
+<!--
+    <li>
+        <a class="sub-nav__link" ui-sref="app.getting-started.installation" ui-sref-active="sub-nav__link--is-active">Installation</a>
+    </li>
+</ul>-->
+<ul class="secondary-nav">
+    <li *ngFor="let link of secondaryNavLinks; trackBy: link?.url">
+        <lx-secondary-nav-link [lx-label]="link.label" [lx-url]="link.url"></lx-secondary-nav-link>
+    </li>
+</ul>

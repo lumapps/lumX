@@ -1,25 +1,26 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { RouterModule } from '@angular/router';
 
 import { NotFoundComponent } from 'core/components/not-found/not-found.component';
+
+import { HomeComponent } from './components/home/home.component';
 
 
 @NgModule({
     exports: [
         RouterModule,
     ],
-
     imports: [
         RouterModule.forRoot([
             {
-                component: NotFoundComponent,
+                component: HomeComponent,
                 path: '',
             },
             {
                 component: NotFoundComponent,
                 path: '**',
             },
-        ]),
-    ],
+        ],
+    )],
 })
 export class DemoRoutingModule {}

@@ -1,13 +1,13 @@
 import { Component, Input } from '@angular/core';
 
-import { MAIN_NAV_LINK_SELECTOR as SELECTOR } from 'core/settings/selectors.settings';
+import { PRIMARY_NAV_LINK_SELECTOR as SELECTOR } from 'core/settings/selectors.settings';
 import { SELECTOR_PREFIX, SELECTOR_SEPARATOR } from 'core/settings/selectors.settings';
 
 
 /*
  * Component styles
  */
-import './main-nav-link.component.scss';
+import './primary-nav-link.component.scss';
 
 /*
  * Component template
@@ -20,9 +20,9 @@ const template: string = require('./' + SELECTOR + '.component.html');
     template: template,
 })
 /**
- * Main Navigation Link Component.
+ * Primary Navigation Link Component.
  */
-export class MainNavigationLinkComponent {
+export class PrimaryNavLinkComponent {
     @Input('lx-context') context: string;
     @Input('lx-label') label: string;
     @Input('lx-url') url: string;

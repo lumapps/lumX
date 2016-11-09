@@ -1,15 +1,13 @@
 import { Component } from '@angular/core';
 
-import { DocumentationAbstract } from '../documentation/documentation.abstract';
-
-import { PAGE_CSS_SELECTOR as SELECTOR } from 'core/settings/selectors.settings';
+import { PAGE_INSTALLATION_SELECTOR as SELECTOR } from 'core/settings/selectors.settings';
 import { SELECTOR_PREFIX, SELECTOR_SEPARATOR } from 'core/settings/selectors.settings';
 
 
 /*
  * Component styles
  */
-import './css.component.scss';
+import './installation.component.scss';
 
 /*
  * Component template
@@ -22,10 +20,6 @@ const template: string = require('./' + SELECTOR + '.component.html');
     template: template,
 })
 /**
- * CSS page Component.
+ * Installation page Component.
  */
-export class CSSComponent extends DocumentationAbstract {
-    constructor() {
-        super('css');
-    }
-}
+export class InstallationComponent {}

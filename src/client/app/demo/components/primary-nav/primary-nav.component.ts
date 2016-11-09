@@ -2,14 +2,14 @@ import { AfterViewInit, Component, ElementRef, Input, OnDestroy, Renderer } from
 
 import { MobileNavService } from 'demo/services/mobile-nav.service';
 
-import { MAIN_NAV_SELECTOR as SELECTOR } from 'core/settings/selectors.settings';
+import { PRIMARY_NAV_SELECTOR as SELECTOR } from 'core/settings/selectors.settings';
 import { SELECTOR_PREFIX, SELECTOR_SEPARATOR } from 'core/settings/selectors.settings';
 
 
 /*
  * Component styles
  */
-import './main-nav.component.scss';
+import './primary-nav.component.scss';
 
 /*
  * Component template
@@ -22,10 +22,25 @@ const template: string = require('./' + SELECTOR + '.component.html');
     template: template,
 })
 /**
- * Main Navigation Component.
+ * Primary Navigation Component.
  */
-export class MainNavigationComponent implements AfterViewInit, OnDestroy {
+export class PrimaryNavComponent implements AfterViewInit, OnDestroy {
     @Input('lx-context') context: string = 'header';
+
+    public primaryNavLinks: Array<Object> = [
+        {
+            label: 'Getting started',
+            url: 'getting-started',
+        },
+        {
+            label: 'CSS',
+            url: 'css',
+        },
+        {
+            label: 'Components',
+            url: 'components',
+        },
+    ];
 
     private onMainNavClick: Function;
 

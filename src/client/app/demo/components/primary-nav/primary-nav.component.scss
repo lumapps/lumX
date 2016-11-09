@@ -1,15 +1,15 @@
 ///*------------------------------------*\
-//    #MAIN-NAV
+//    #PRIMARY-NAV
 //\*------------------------------------*/
 
 // LumX
 @import 'tools/responsive';
 
 
-// Main nav
-.main-nav {
+// Primary nav
+.primary-nav {
     @include media-query(portable) {
-        &.main-nav--header {
+        &.primary-nav--header {
             display: none;
         }
     }

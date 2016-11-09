@@ -1,5 +1,5 @@
 ///*------------------------------------*\
-//    #MAIN-NAV-LINK
+//    #PRIMARY-NAV-LINK
 //\*------------------------------------*/
 
 // Bourbon
@@ -14,11 +14,11 @@
 @import 'tools/mixins';
 
 
-// Main nav link
-.main-nav-link {
-    // Main nav link: state
+// Primary nav link
+.primary-nav-link {
+    // Primary nav link: state
     &__state {
-        .main-nav--mobile-nav & {
+        .primary-nav--mobile-nav & {
             @include font-size(14px);
             display: block;
             position: relative;
@@ -38,14 +38,14 @@
                 color: $black-2;
             }
 
-            &.main-nav-link__state--is-open {
+            &.primary-nav-link__state--is-open {
                 &::after {
                     @include mdi-icon(chevron-down);
                 }
             }
         }
 
-        .main-nav--header & {
+        .primary-nav--header & {
             @include font-size(14px);
             display: block;
             height: 48px;
@@ -56,15 +56,15 @@
             color: $white-1;
 
             &:hover,
-            &.main-nav-link__state--is-active {
+            &.primary-nav-link__state--is-active {
                 border-bottom: 4px solid $amber;
             }
         }
     }
 
-    // Main nav link: sub nav
+    // Primary nav link: sub nav
     &__sub-nav {
-        .main-nav--header & {
+        .primary-nav--header & {
             display: none;
         }
     }

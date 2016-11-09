@@ -121,6 +121,9 @@ module.exports = function webpackCommonConfigExport(metadata) {
                     from: 'src/client/assets',
                     to: 'assets',
                 }, {
+                    from: 'src/client/app/demo/images',
+                    to: 'assets',
+                }, {
                     from: 'src/client/meta',
                 },
             ], {
