@@ -157,9 +157,9 @@
         }
     }
 
-    LxSelectController.$inject = ['$interpolate', '$sce'];
+    LxSelectController.$inject = ['$interpolate', '$sce', '$scope'];
 
-    function LxSelectController($interpolate, $sce)
+    function LxSelectController($interpolate, $sce, $scope)
     {
         var lxSelect = this;
         var choiceTemplate;
@@ -181,16 +181,15 @@
 
         function displayChoice(_choice)
         {
-            var choiceScope = {
-                $choice: _choice
-            };
+            var choiceScope = $scope.$parent.$parent.$new();
+            choiceScope.$choice = _choice;
 
             return $sce.trustAsHtml($interpolate(choiceTemplate)(choiceScope));
         }
 
         function displaySelected(_selected)
         {
-            var selectedScope = {};
+            var selectedScope = $scope.$parent.$parent.$new();
 
             if (!angular.isArray(lxSelect.choices))
             {
