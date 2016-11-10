@@ -234,6 +234,7 @@
     "devDependencies": {
         "http-server": "latest",
         "is-ci": "latest",
+        "lodash": "latest",
         "merge": "latest",
         "parse5": "latest",
         "rimraf": "latest",
