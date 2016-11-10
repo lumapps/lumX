@@ -367,10 +367,6 @@ module.exports = function webpackCommonConfigExport(metadata) {
             setImmediate: false,
         },
 
-        output: {
-            publicPath: '/',
-        },
-
         /*
          * Configure the output publicPath so that the file path are relative to the root
          */
