@@ -2,4 +2,4 @@
 
 ### LumBoilerplate
 
-- First public Release
+- Add Angular AoT compilation for prod/dist build
