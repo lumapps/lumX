@@ -309,7 +309,7 @@ elif [ "$scaffoldType" == "component" ]; then
     if [ "$createModule" == "y" ] && [ "$router" == "y" ]; then
         defaultActivatedRoute="y"
     fi
-    readBooleanWithDefault "Do you want to access route route params in \"${name}\" ${coreMessage}${scaffoldType}" "activatedRoute"
+    readBooleanWithDefault "Do you want to access route params in \"${name}\" ${coreMessage}${scaffoldType}" "activatedRoute"
 
     defaultConstructor="y"
     constructor=$activatedRoute
