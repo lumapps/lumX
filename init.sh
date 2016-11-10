@@ -282,8 +282,10 @@ printf "Emptying some files... "
     printf "# humanstxt.org\n# The humans responsible & technology colophon\n\n# TEAM\n\n\n# THANKS\n\n    AngularClass -- @AngularClass\n    Lumapps -- @lumapps\n    PatrickJS -- @gdi2290\n\n# TECHNOLOGY COLOPHON\n\n    HTML5, CSS3, SASS\n    Angular2, TypeScript, Webpack\n" > $HUMANS_FILE
     exitIfError "Emptying humans file"
 
-    echo "" > $README_FILE
-    exitIfError "Emptying readme file"
+    mv $README_FILE README.boilerplate.md
+    exitIfError "Copying readme file"
+    touch $README_FILE
+    exitIfError "Creating new readme file"
 printf "${BLUE}Done${DEFAULT}\n"
 
 
@@ -304,7 +306,7 @@ if [ -n "$name" ]; then
 
     FILES_WITH_NAME=$(grep -rl "${originalName}" .)
     for fileName in $FILES_WITH_NAME; do
-        if [ "$fileName" != "./init.sh" ]; then
+        if [ "$fileName" != "./init.sh" ] && [ "$fileName" != "./README.boilerplate.md" ]; then
             sed -i "s/${originalName}/${name}/g" $fileName
             exitIfError "Replacing original name in ${fileName}"
         fi
