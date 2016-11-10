@@ -1,5 +1,5 @@
 <a class="secondary-nav__link"
-   routerLink="{{ link.url }}"
-   routerLinkActive="secondary-nav__link--is-active">
+   [routerLink]="link.url"
+   [routerLinkActive]="'secondary-nav__link--is-active'">
     {{ link.label }}
 </a>

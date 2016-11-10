@@ -13,7 +13,7 @@
 
 // Secondary nav: link
 .secondary-nav__link {
-    :host-context(.primary-nav--palm-nav) & {
+    :host-context(.primary-nav--mobile-nav) & {
         @include font-size(14px);
         display: block;
         position: relative;
