@@ -13,11 +13,11 @@
     padding: $base-spacing-unit * 1.5 0;
     list-style: none;
 
-    :host-context(.primary-nav--palm-nav) & {
+    :host-context(.primary-nav--mobile-nav) & {
         border-bottom: 1px solid $black-4;
     }
 
-    :host-context(.primary-nav--palm-nav > li:last-child) & {
+    :host-context(.primary-nav--mobile-nav > li:last-child) & {
         border-bottom: 0;
     }
 }

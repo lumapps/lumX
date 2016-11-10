@@ -33,3 +33,4 @@ export const PAGE_TYPOGRAPHY_SELECTOR: string = 'typography';
 
 // components
 export const PAGE_COMPONENTS_SELECTOR: string = 'components';
+export const FOOTER_SELECTOR: string = 'footer';

@@ -1,8 +1,9 @@
 <h1>CSS</h1>
 
 <div flex-container="row" flex-column="12">
-
-    <lx-secondary-nav [lx-links]="secondaryNavLinks" flex-item="3"></lx-secondary-nav>
+    <div class="app__sidebar">
+        <lx-secondary-nav [lx-links]="secondaryNavLinks"></lx-secondary-nav>
+    </div>
 
     <div flex-item="9">
         <router-outlet></router-outlet>

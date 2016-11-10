@@ -17,6 +17,7 @@ import { DemoComponent } from './demo.component';
 
 import { HomeComponent } from './components/home/home.component';
 
+import { FooterComponent } from './components/footer/footer.component';
 import { HeaderComponent } from './components/header/header.component';
 import { MobileNavigationComponent } from './components/mobile-nav/mobile-nav.component';
 import { PrimaryNavLinkComponent } from './components/primary-nav-link/primary-nav-link.component';
@@ -35,6 +36,7 @@ import { GettingStartedModule } from './components/getting-started/getting-start
     declarations: [
         DemoComponent,
         HomeComponent,
+        FooterComponent,
         HeaderComponent,
         PrimaryNavComponent,
         PrimaryNavLinkComponent,

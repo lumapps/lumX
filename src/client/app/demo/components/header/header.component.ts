@@ -21,6 +21,8 @@ const template: string = require(`./${SELECTOR}.component.html`);
 })
 /**
  * Header Component.
+ *
+ * The header of the application that contains the main navigation.
  */
 export class HeaderComponent {
     constructor(private mobileNavService: MobileNavService) {}

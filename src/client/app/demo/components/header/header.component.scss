@@ -140,7 +140,7 @@
 
 
 // Header background
-body:not(.home) .header-background {
+:host-context(body):not(.home) .header-background {
     @include media-query(lap-and-up) {
         z-index: 0;
         height: 270px;

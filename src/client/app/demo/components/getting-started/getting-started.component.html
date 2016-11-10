@@ -1,10 +1,11 @@
 <h1>Getting Started</h1>
 
 <div flex-container="row" flex-column="12">
+    <div class="app__sidebar">
+        <lx-secondary-nav [lx-links]="secondaryNavLinks"></lx-secondary-nav>
+    </div>
 
-    <lx-secondary-nav [lx-links]="secondaryNavLinks" flex-item="3"></lx-secondary-nav>
-
-    <div flex-item="9">
+    <div class="app__main">
         <router-outlet></router-outlet>
     </div>
 </div>
