@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component } from '@angular/core';
 
 import { APP_SELECTOR as SELECTOR } from 'core/settings/selectors.settings';
 import { SELECTOR_PREFIX, SELECTOR_SEPARATOR } from 'core/settings/selectors.settings';
@@ -20,7 +20,6 @@ const template: string = require(`./${SELECTOR}.component.html`);
 
 
 @Component({
-    encapsulation: ViewEncapsulation.Emulated,
     selector: SELECTOR_PREFIX + SELECTOR_SEPARATOR + SELECTOR,
     styles: [
         require(`./${SELECTOR}.component.scss`),
