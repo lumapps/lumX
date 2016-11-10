@@ -42,6 +42,7 @@ If your issue appears to be a bug, and hasn't been reported, open a new issue. H
 - **Reproduce the Error** - provide a live example (using [Plunker](http://plnkr.co/edit) or [JSFiddle](http://jsfiddle.net/)) or a unambiguous set of steps.
 
 ### Submitting a pull request
+
 Before you submit your pull request consider the following guidelines:
 
 * Search [GitHub](https://github.com/lumapps/boilerplate/pulls) for an open or closed Pull Request
