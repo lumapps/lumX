@@ -204,6 +204,7 @@ const DEFAULT_OPTIONS = {
          */
         sassLoader: {
             includePaths: [
+                rootFunction('src', 'client', 'app'),
                 rootFunction('src', 'client', 'app', 'core', 'styles'),
                 rootFunction('node_modules'),
             ],

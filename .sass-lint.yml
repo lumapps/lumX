@@ -62,7 +62,9 @@ rules:
     - 2
     - allow-leading-underscore: false
       convention: hyphenatedlowercase
-  mixins-before-declarations: 2
+  mixins-before-declarations:
+    - 2
+    - exclude: ['media-query']
   nesting-depth:
     - 1
     - max-depth: 3
@@ -86,7 +88,7 @@ rules:
   no-qualifying-elements:
     - 2
     - allow-element-with-attribute: true
-      allow-element-with-class: false
+      allow-element-with-class: true
       allow-element-with-id: false
   no-trailing-whitespace: 2
   no-trailing-zero: 0

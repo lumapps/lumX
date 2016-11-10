@@ -1,0 +1,60 @@
+///*------------------------------------*\
+//    #APP
+//\*------------------------------------*/
+
+// LumX
+@import 'settings/colors';
+@import 'tools/mixins';
+@import 'tools/responsive';
+
+// demo
+@import 'demo/styles/tools/mixins';
+
+
+// App
+:host-context(body):not(.home) .app {
+    @include media-query(lap-and-up) {
+        margin-top: -246px;
+    }
+
+    // App: wrapper
+    &__wrapper {
+        background-color: $white;
+
+        @include media-query(lap-and-up) {
+            @include wrapper();
+            @include z-depth(1);
+            border-radius: $base-round;
+        }
+
+        @include media-query(desk) {
+            display: flex;
+        }
+    }
+
+    // App: sidebar
+    &__sidebar {
+        @include media-query(portable) {
+            display: none;
+        }
+
+        @include media-query(desk) {
+            flex: 0 0 20%;
+            max-width: 20%;
+            border-right: 1px solid $black-4;
+            background-color: $grey-50;
+        }
+    }
+
+    // App: main
+    &__main {
+        @include media-query(palm) {
+            background-color: $grey-50;
+        }
+
+        @include media-query(desk) {
+            flex: 0 0 80%;
+            max-width: 80%;
+        }
+    }
+}

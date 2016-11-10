@@ -1,0 +1,71 @@
+///*------------------------------------*\
+//    #PRIMARY-NAV-LINK
+//\*------------------------------------*/
+
+// Bourbon
+@import 'bourbon/app/assets/stylesheets/functions/unpack';
+@import 'bourbon/app/assets/stylesheets/addons/position';
+
+// mdi
+@import 'mdi/scss/variables';
+
+// LumX
+@import 'settings/colors';
+@import 'tools/mixins';
+
+
+// Primary nav link
+.primary-nav-link {
+    // Primary nav link: state
+    &__state {
+        :host-context(.primary-nav--mobile-nav) & {
+            @include font-size(14px);
+            display: block;
+            position: relative;
+            padding: 0 $base-spacing-unit * 3;
+            border-bottom: 1px solid $black-4;
+            font-weight: 700;
+            color: $black-1;
+            line-height: 60px;
+            text-decoration: none;
+
+            &::after {
+                @include mdi();
+                @include mdi-icon('chevron-right');
+                @include position(absolute, 50% $base-spacing-unit * 3 null null);
+                @include font-size(20px);
+                transform: translateY(-50%);
+                color: $black-2;
+            }
+
+            &.primary-nav-link__state--is-open {
+                &::after {
+                    @include mdi-icon('chevron-down');
+                }
+            }
+        }
+
+        :host-context(.primary-nav--header) & {
+            @include font-size(14px);
+            display: block;
+            height: 48px;
+            padding: 0 $base-spacing-unit * 2;
+            font-weight: 700;
+            line-height: 48px;
+            text-decoration: none;
+            color: $white-1;
+
+            &:hover,
+            &.primary-nav-link__state--is-active {
+                border-bottom: 4px solid $amber;
+            }
+        }
+    }
+
+    // Primary nav link: sub nav
+    &__sub-nav {
+        :host-context(.primary-nav--header) & {
+            display: none;
+        }
+    }
+}

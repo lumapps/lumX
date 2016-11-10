@@ -1,4 +1,4 @@
-# LumX²
+# LumX² (Work in progress)
 
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg?style=flat-square)](http://commitizen.github.io/cz-cli/)
 

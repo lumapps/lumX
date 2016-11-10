@@ -1,0 +1,9 @@
+<div class="primary-nav-link">
+    <a class="primary-nav-link__state"
+       [ngClass]="{ 'primary-nav-link__state--is-open': displaySubNav }"
+       (click)="toggleSubNav($event)"
+       [routerLink]="link.url"
+       [routerLinkActive]="'primary-nav-link__state--is-active'">
+        {{ link.label }}
+    </a>
+</div>

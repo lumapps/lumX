@@ -1,0 +1,23 @@
+///*------------------------------------*\
+//    #SECONDARY-NAV
+//\*------------------------------------*/
+
+// LumX
+@import 'settings/colors';
+@import 'tools/mixins';
+
+
+// Secondary nav
+.secondary-nav {
+    margin: 0;
+    padding: $base-spacing-unit * 1.5 0;
+    list-style: none;
+
+    :host-context(.primary-nav--mobile-nav) & {
+        border-bottom: 1px solid $black-4;
+    }
+
+    :host-context(.primary-nav--mobile-nav > li:last-child) & {
+        border-bottom: 0;
+    }
+}

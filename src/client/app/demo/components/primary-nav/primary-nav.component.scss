@@ -1,0 +1,22 @@
+///*------------------------------------*\
+//    #PRIMARY-NAV
+//\*------------------------------------*/
+
+// LumX
+@import 'objects/bare-list';
+@import 'tools/responsive';
+
+
+// Primary nav
+.primary-nav {
+    @include media-query(desk) {
+        @include bare-list();
+        display: flex;
+    }
+
+    @include media-query(portable) {
+        &.primary-nav--header {
+            display: none;
+        }
+    }
+}

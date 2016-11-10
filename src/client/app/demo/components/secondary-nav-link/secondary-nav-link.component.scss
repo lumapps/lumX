@@ -1,0 +1,47 @@
+///*------------------------------------*\
+//    #PRIMARY-NAV-LINK
+//\*------------------------------------*/
+
+// Bourbon
+@import 'bourbon/app/assets/stylesheets/functions/unpack';
+@import 'bourbon/app/assets/stylesheets/addons/position';
+
+// LumX
+@import 'settings/colors';
+@import 'tools/mixins';
+
+
+// Secondary nav: link
+.secondary-nav__link {
+    :host-context(.primary-nav--mobile-nav) & {
+        @include font-size(14px);
+        display: block;
+        position: relative;
+        padding: 0 $base-spacing-unit * 3;
+        font-weight: 700;
+        color: $black-1;
+        line-height: 48px;
+        text-decoration: none;
+
+        &:hover,
+        &.secondary-nav__link--is-active {
+            background-color: $grey-200;
+        }
+    }
+
+    :host-context(.app__sidebar) & {
+        @include font-size(14px);
+        display: block;
+        padding: 0 $base-spacing-unit * 2;
+        font-weight: 700;
+        color: $black-1;
+        line-height: $size-l;
+        text-decoration: none;
+
+        &:hover,
+        &.secondary-nav__link--is-active {
+            background-color: $primary;
+            color: $white-1;
+        }
+    }
+}

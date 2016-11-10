@@ -1,0 +1,5 @@
+<ul class="primary-nav primary-nav--{{ context }}">
+    <li *ngFor="let link of primaryNavLinks">
+        <lx-primary-nav-link [lx-context]="context" [lx-link]="link"></lx-primary-nav-link>
+    </li>
+</ul>
