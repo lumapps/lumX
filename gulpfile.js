@@ -105,7 +105,7 @@ shelter({
     },
 
     'check:prerequisites': {
-        cmd: `bash -- ./pre-requisites.sh`,
+        cmd: `${npmRun} check:prerequisites:core`,
         dsc: `Check that you meet the pre-requisites needed for using ${project}`,
     },
 
@@ -147,9 +147,8 @@ shelter({
         dsc: `Clean misceallenous files of ${project}`,
     },
     'clean:packages': {
-        cmd: `npm cache clean
-              && ${npmRun} rimraf -- node_modules/*`,
-        dsc: `Clean the installed packages and the NPM cache of ${project}`,
+        cmd: `${npmRun} clean:packages:core`,
+        dsc: `Clean the installed packages and the Yarn or NPM cache of ${project}`,
     },
     'clean:project': {
         cmd: `${npmRun} run-parallel -- clean:dist
@@ -255,27 +254,27 @@ shelter({
     },
 
     'scaffold': {
-        cmd: `bash -- ./scaffold.sh`,
+        cmd: `bash -c "./scaffold.sh"`,
         dsc: `Scaffold a new stub element in ${project}`,
     },
     'scaffold:component': {
-        cmd: `bash -- ./scaffold.sh -t Component --not-core`,
+        cmd: `bash -c "./scaffold.sh -t Component --not-core"`,
         dsc: `Scaffold a new stub component in ${project}`,
     },
     'scaffold:component:core': {
-        cmd: `bash -- ./scaffold.sh -t Component --core`,
+        cmd: `bash -c "./scaffold.sh -t Component --core"`,
         dsc: `Scaffold a new stub core component in ${project}`,
     },
     'scaffold:help': {
-        cmd: `bash -- ./scaffold.sh --help`,
+        cmd: `bash -c "./scaffold.sh --help"`,
         dsc: `Show the help page for the scaffolding in ${project}`,
     },
     'scaffold:module': {
-        cmd: `bash -- ./scaffold.sh -t Module --not-core`,
+        cmd: `bash -c "./scaffold.sh -t Module --not-core"`,
         dsc: `Scaffold a new stub module in ${project}`,
     },
     'scaffold:module:core': {
-        cmd: `bash -- ./scaffold.sh -t Module --core`,
+        cmd: `bash -c "./scaffold.sh -t Module --core"`,
         dsc: `Scaffold a new stub core module in ${project}`,
     },
 
@@ -337,16 +336,20 @@ shelter({
     },
 
     'setup': {
-        cmd: `yarn --version &> /dev/null && ${npmRun} setup:yarn || ${npmRun} setup:npm`,
+        cmd: `${npmRun} setup:core
+              && ${npmRun} task -- clean:project`,
         dsc: `Clean setup ${project}: cleanup already installed packages, empty cache, install packages (using Yarn if
                                 available, NPM else) and prepare for running`,
     },
     'setup:fast': {
-        cmd: `yarn --version &> /dev/null && npm -s run setup:fast:yarn || npm -s run setup:fast:npm`,
+        cmd: `${npmRun} check:prerequisites
+              && ${npmRun} setup:fast:yarn:npm
+              && ${npmRun} task -- clean:project`,
         dsc: `Quick setup ${project}: install packages (using Yarn if available, NPM else) and prepare for running`,
     },
     'setup:update': {
-        cmd: `yarn --version &> /dev/null && npm -s run setup:update:yarn || npm -s run setup:update:npm`,
+        cmd: `${npmRun} setup:update:yarn:npm
+              && ${npmRun} task -- clean:project`,
         dsc: `Update ${project}: upgrade packages (using Yarn if available, NPM else)`,
     },
 
