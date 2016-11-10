@@ -1,9 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { AboutDemoComponent } from 'demo/about/components/about.component';
-import { HomeDemoComponent } from 'demo/home/components/home.component';
-
 import { NotFoundComponent } from 'core/components/not-found/not-found.component';
 
 
@@ -15,12 +12,7 @@ import { NotFoundComponent } from 'core/components/not-found/not-found.component
     imports: [
         RouterModule.forRoot([
             {
-                loadChildren: 'demo/about/about.module#AboutDemoModule',
-                path: 'about',
-            },
-
-            {
-                component: HomeDemoComponent,
+                component: NotFoundComponent,
                 path: '',
             },
             {
