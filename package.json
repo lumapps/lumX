@@ -129,7 +129,7 @@
         "setup:npm": "npm -s install",
         "setup:yarn": "yarn install",
 
-        "setup:fast": "npm -s run task -- setup:fast",
+        "setup:fast": "bash -c \"(gulp --version &> /dev/null) && npm -s run task -- setup:fast || npm -s run setup:core\"",
         "setup:fast:yarn:npm": "bash -c \"(yarn --version &> /dev/null) && npm -s run setup:fast:yarn || npm -s run setup:fast:npm\"",
         "setup:fast:npm": "npm -s run setup:update:npm",
         "setup:fast:yarn": "npm -s run setup:update:yarn",
