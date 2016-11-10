@@ -367,6 +367,13 @@ module.exports = function webpackCommonConfigExport(metadata) {
         },
 
         /*
+         * Configure the output publicPath so that the file path are relative to the root
+         */
+        output: {
+            publicPath: '/',
+        },
+
+        /*
          * Add additional plugins to the compiler.
          *
          * @see {@link http://webpack.github.io/docs/configuration.html#plugins|The webpack documentation on plugins}
