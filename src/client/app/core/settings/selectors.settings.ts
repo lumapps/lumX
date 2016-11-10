@@ -14,7 +14,6 @@ export const MOBILE_NAV_SELECTOR: string = 'mobile-nav';
 
 // pages
 export const PAGE_HOME_SELECTOR: string = 'home';
-export const NOT_FOUND_SELECTOR: string = 'not-found';
 
 // getting started
 export const PAGE_GETTING_STARTED_SELECTOR: string = 'getting-started';
