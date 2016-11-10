@@ -2,8 +2,6 @@ files:
   include: 'src/client/**/*.scss'
   ignore:
     - 'node_modules/**/*.s+(a|c)ss'
-    - 'src/client/app/core/styles/base/_colors.scss'
-    - 'src/client/app/core/styles/generic/_normalize.scss'
 options:
   formatter: stylish
   merge-default-rules: false
