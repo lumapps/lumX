@@ -1,0 +1,26 @@
+///*------------------------------------*\
+//    #FOOTER
+//\*------------------------------------*/
+
+// LumX
+@import 'settings/colors';
+@import 'tools/mixins';
+
+
+// Footer
+.footer {
+    @include font-size(14px);
+    padding: $base-spacing-unit * 4 0;
+    line-height: 32px;
+    text-align: center;
+
+    // Footer: Link
+    &__link img {
+        display: inline-block;
+        vertical-align: top;
+        height: 32px;
+        margin-left: $base-spacing-unit;
+    }
+}
+
+
