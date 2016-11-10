@@ -104,6 +104,11 @@ shelter({
         dsc: `Build the production bundle (without linting) of ${project}`,
     },
 
+    'check:prerequisites': {
+        cmd: `bash -- ./pre-requisites.sh`,
+        dsc: `Check that you meet the pre-requisites needed for using ${project}`,
+    },
+
     'clean:all': {
         cmd: `${npmRun} run-parallel -- clean:project
                                         clean:packages
@@ -249,6 +254,31 @@ shelter({
         dsc: `Lint TypeScript code of ${project}`,
     },
 
+    'scaffold': {
+        cmd: `bash -- ./scaffold.sh`,
+        dsc: `Scaffold a new stub element in ${project}`,
+    },
+    'scaffold:component': {
+        cmd: `bash -- ./scaffold.sh -t Component --not-core`,
+        dsc: `Scaffold a new stub component in ${project}`,
+    },
+    'scaffold:component:core': {
+        cmd: `bash -- ./scaffold.sh -t Component --core`,
+        dsc: `Scaffold a new stub core component in ${project}`,
+    },
+    'scaffold:help': {
+        cmd: `bash -- ./scaffold.sh --help`,
+        dsc: `Show the help page for the scaffolding in ${project}`,
+    },
+    'scaffold:module': {
+        cmd: `bash -- ./scaffold.sh -t Module --not-core`,
+        dsc: `Scaffold a new stub module in ${project}`,
+    },
+    'scaffold:module:core': {
+        cmd: `bash -- ./scaffold.sh -t Module --core`,
+        dsc: `Scaffold a new stub core module in ${project}`,
+    },
+
     'serve': {
         cmd: `${envDev} ${npmRun} run-parallel -- docs
                                                   "webpack-dev-server -- ${webpackConfig} ${webpackCommonParameters}
@@ -304,6 +334,20 @@ shelter({
               && ${npmRun} http-server -- ${distFolder} -p ${serverPort} -d False -i False -o --cors -s ${withProxy}`,
         dsc: `Start ${project} production release test server (on port ${serverPort}) after rebuilding and open it in a
               browser`,
+    },
+
+    'setup': {
+        cmd: `yarn --version &> /dev/null && ${npmRun} setup:yarn || ${npmRun} setup:npm`,
+        dsc: `Clean setup ${project}: cleanup already installed packages, empty cache, install packages (using Yarn if
+                                available, NPM else) and prepare for running`,
+    },
+    'setup:fast': {
+        cmd: `yarn --version &> /dev/null && npm -s run setup:fast:yarn || npm -s run setup:fast:npm`,
+        dsc: `Quick setup ${project}: install packages (using Yarn if available, NPM else) and prepare for running`,
+    },
+    'setup:update': {
+        cmd: `yarn --version &> /dev/null && npm -s run setup:update:yarn || npm -s run setup:update:npm`,
+        dsc: `Update ${project}: upgrade packages (using Yarn if available, NPM else)`,
     },
 
     'tests': {

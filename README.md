@@ -38,7 +38,8 @@ For example, using bash in a Unix system with the default path will need to edit
 
 ## How to get help, contribute, or provide feedback
 
-Please refer to our [contributing guidelines](CONTRIBUTING.md). The roadmap is available in [this repo](ROADMAP.md).
+Please refer to our [contributing guidelines](CONTRIBUTING.md).
+The roadmap is available in [this repo](ROADMAP.md).
 
 ## Copyright and license
 

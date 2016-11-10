@@ -80,10 +80,6 @@
         "e2e:fast": "npm -s run task -- e2e:fast",
         "e2e:headless": "npm -s run task -- e2e:headless",
         "e2e:headless:fast": "npm -s run task -- e2e:headless:fast",
-        "e2e:hidden": "npm -s run e2e:headless",
-        "e2e:hidden:fast": "npm -s run e2e:headless:fast",
-
-        "help": "npm -s run tasks",
 
         "lint": "npm -s run lint:src",
         "lint:all": "npm -s run lint:config && npm -s run lint:src",
@@ -96,6 +92,7 @@
         "precommit": "./.pre-commit",
         "preparecommitmsg": "npm -s run validate-commit",
 
+        "help": "npm -s run tasks",
         "task": "gulp",
         "tasks": "npm -s run task -- --tasks",
 
@@ -117,32 +114,33 @@
         "unit:live:headless": "npm -s run task -- unit:live:headless",
         "unit:live:debug": "npm -s run task -- unit:live:debug",
 
-        "check:prerequisite": "bash -- ./prerequisite.sh",
-        "preinit": "npm -s run check:prerequisite",
+        "check:prerequisites": "npm -s run task -- check:prerequisites",
+        "preinit": "npm -s run check:prerequisites",
         "init": "bash -- ./init.sh",
+
         "setup:git-hooks": "node node_modules/husky/bin/uninstall.js && node node_modules/husky/bin/install.js",
 
-        "presetup:common": "npm -s run check:prerequisite && rm -Rf -- node_modules",
+        "presetup:common": "npm -s run check:prerequisites && rm -Rf -- node_modules",
         "presetup:npm": "npm -s run presetup:common",
         "presetup:yarn": "npm -s run presetup:common",
-        "setup": "yarn --version &> /dev/null && npm -s run setup:yarn || npm -s run setup:npm",
+        "setup": "npm -s run task -- setup",
         "setup:npm": "npm -s cache clean && npm -s install",
         "setup:yarn": "yarn cache clean && yarn install",
         "postsetup:common": "npm -s run task -- clean:project",
         "postsetup:npm": "npm -s run postsetup:common",
         "postsetup:yarn": "npm -s run postsetup:common",
 
-        "presetup:fast:common": "npm -s run check:prerequisite",
+        "presetup:fast:common": "npm -s run check:prerequisites",
         "presetup:fast:npm": "npm -s run presetup:fast:common",
         "presetup:fast:yarn": "npm -s run presetup:fast:common",
-        "setup:fast": "yarn --version &> /dev/null && npm -s run setup:fast:yarn || npm -s run setup:fast:npm",
-        "setup:fast:npm": "npm -s run setup:update",
-        "setup:fast:yarn": "npm -s run setup:yarn:update",
+        "setup:fast": "npm -s run task -- setup:fast",
+        "setup:fast:npm": "npm -s run setup:update:npm",
+        "setup:fast:yarn": "npm -s run setup:update:yarn",
         "postsetup:fast:common": "npm -s run task -- clean:project",
         "postsetup:fast:npm": "npm -s run postsetup:fast:common",
         "postsetup:fast:yarn": "npm -s run postsetup:fast:common",
 
-        "setup:update": "yarn --version &> /dev/null && npm -s run setup:update:yarn || npm -s run setup:update:npm",
+        "setup:update": "npm -s run task -- setup:update",
         "setup:update:npm": "npm -s prune && npm -s install && npm -s update",
         "setup:update:yarn": "yarn install && yarn upgrade",
         "update": "npm -s run setup:update",
@@ -168,12 +166,12 @@
         "serve:prod:fast": "npm -s run task -- serve:prod:fast:open",
         "serve:prod:fast:silent": "npm -s run task -- serve:prod:fast",
 
-        "scaffold": "bash -- ./scaffold.sh",
-        "scaffold:help": "bash -- ./scaffold.sh --help",
-        "scaffold:component": "bash -- ./scaffold.sh -t Component --not-core",
-        "scaffold:component:core": "bash -- ./scaffold.sh -t Component --core",
-        "scaffold:module": "bash -- ./scaffold.sh -t Module --not-core",
-        "scaffold:module:core": "bash -- ./scaffold.sh -t Module --core",
+        "scaffold": "npm -s run task -- scaffold",
+        "scaffold:help": "npm -s run task -- scaffold:help",
+        "scaffold:component": "npm -s run task -- scaffold:component",
+        "scaffold:component:core": "npm -s run task -- scaffold:component:core",
+        "scaffold:module": "npm -s run task -- scaffold:module",
+        "scaffold:module:core": "npm -s run task -- scaffold:module:core",
 
 
         "commitizen": "git-cz",

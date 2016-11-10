@@ -50,7 +50,6 @@
         "curly": true,
         "forin": true,
         "label-position": true,
-        "label-undefined": true,
         "no-arg": true,
         "no-bitwise": true,
         "no-conditional-assignment": true,
@@ -90,10 +89,6 @@
         "switch-default": true,
         "triple-equals": true,
         "use-isnan": true,
-        "use-strict": [
-            true,
-            "check-module"
-        ],
 
         "eofline": true,
         "indent": [
