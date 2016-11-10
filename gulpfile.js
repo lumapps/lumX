@@ -76,31 +76,27 @@ shelter({
     'build:dev': {
         cmd: `${npmRun} run-parallel -- clean:dist
                                         ${linterTask}
-              && ${envDev} ${npmRun} run-parallel -- docs
-                                                     "webpack ${webpackConfig} ${webpackCommonParameters}
-                                                              ${webpackBuildParameters} ${webpackDevParameters}"`,
+              && ${envDev} ${npmRun} webpack ${webpackConfig} ${webpackCommonParameters}
+                                             ${webpackBuildParameters} ${webpackDevParameters}`,
         dsc: `Build the development bundle after linting of ${project}`,
     },
     'build:dev:fast': {
         cmd: `${npmRun} clean:dist
-              && ${envDev} ${npmRun} run-parallel -- docs
-                                                     "webpack -- ${webpackConfig} ${webpackCommonParameters}
-                                                                 ${webpackBuildParameters} ${webpackDevParameters}"`,
+              && ${envDev} ${npmRun} webpack -- ${webpackConfig} ${webpackCommonParameters}
+                                                ${webpackBuildParameters} ${webpackDevParameters}`,
         dsc: `Build the development bundle (without linting) of ${project}`,
     },
     'build:prod': {
         cmd: `${npmRun} run-parallel -- clean:dist
                                         ${linterTask}
-              && ${envProd} ${npmRun} run-parallel -- docs
-                                                      "webpack -- ${webpackConfig} ${webpackCommonParameters}
-                                                                  ${webpackBuildParameters} ${webpackProdParameters}"`,
+              && ${envProd} ${npmRun} webpack -- ${webpackConfig} ${webpackCommonParameters}
+                                                 ${webpackBuildParameters} ${webpackProdParameters}`,
         dsc: `Build the production bundle after linting of ${project}`,
     },
     'build:prod:fast': {
         cmd: `${npmRun} clean:dist
-              && ${envProd} ${npmRun} run-parallel -- docs
-                                                      "webpack -- ${webpackConfig} ${webpackCommonParameters}
-                                                                  ${webpackBuildParameters} ${webpackProdParameters}"`,
+              && ${envProd} ${npmRun} webpack -- ${webpackConfig} ${webpackCommonParameters}
+                                                 ${webpackBuildParameters} ${webpackProdParameters}`,
         dsc: `Build the production bundle (without linting) of ${project}`,
     },
 
@@ -279,11 +275,10 @@ shelter({
     },
 
     'serve': {
-        cmd: `${envDev} ${npmRun} run-parallel -- docs
-                                                  "webpack-dev-server -- ${webpackConfig} ${webpackCommonParameters}
-                                                                         ${webpackDevParameters}
-                                                                         ${webpackDevServerCommonParameters}
-                                                                         ${webpackDevServerClassicParameters}"`,
+        cmd: `${envDev} ${npmRun} webpack-dev-server -- ${webpackConfig} ${webpackCommonParameters}
+                                                        ${webpackDevParameters}
+                                                        ${webpackDevServerCommonParameters}
+                                                        ${webpackDevServerClassicParameters}`,
         dsc: `Start ${project} development with watcher (compile, lint, build)`,
     },
     'serve:dev': {
@@ -307,11 +302,10 @@ shelter({
               browser`,
     },
     'serve:live': {
-        cmd: `${envDev} ${npmRun} run-parallel -- docs
-                                                  "webpack-dev-server -- ${webpackConfig} ${webpackCommonParameters}
-                                                                         ${webpackDevParameters}
-                                                                         ${webpackDevServerCommonParameters}
-                                                                         ${webpackDevServerHotReloadParameters}"`,
+        cmd: `${envDev} ${npmRun} webpack-dev-server -- ${webpackConfig} ${webpackCommonParameters}
+                                                        ${webpackDevParameters}
+                                                        ${webpackDevServerCommonParameters}
+                                                        ${webpackDevServerHotReloadParameters}`,
         dsc: `Start ${project} development with watcher (compile, lint, build) and hot reload`,
     },
     'serve:prod': {
@@ -385,18 +379,15 @@ shelter({
         dsc: `Run unit tests (Karma with Headless Chrome, XVFB needed) on ${project}`,
     },
     'unit:live': {
-        cmd: `${envDev} ${npmRun} run-parallel -- docs
-                                                  "karma -- start --auto-watch --no-single-run"`,
+        cmd: `${envDev} ${npmRun} "karma -- start --auto-watch --no-single-run`,
         dsc: `Run unit tests (Karma with Chrome) in watch mode on ${project}`,
     },
     'unit:live:debug': {
-        cmd: `${debug} ${envDev} ${npmRun} run-parallel -- docs
-                                                           "karma -- start --auto-watch --no-single-run"`,
+        cmd: `${debug} ${envDev} ${npmRun} karma -- start --auto-watch --no-single-run`,
         dsc: `Debug unit tests (Karma with Chrome) in watch mode on ${project}`,
     },
     'unit:live:headless': {
-        cmd: `${envDev} ${npmRun} run-parallel -- docs
-                                                  "karma:headless -- start --auto-watch --no-single-run"`,
+        cmd: `${envDev} ${npmRun} karma:headless -- start --auto-watch --no-single-run`,
         dsc: `Run unit tests (Karma with Headless Chrome, XVFB needed) in watch mode on ${project}`,
     },
 });
