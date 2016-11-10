@@ -3,11 +3,11 @@
 //\*------------------------------------*/
 
 // Bourbon
-@import 'functions/unpack';
-@import 'addons/position';
+@import 'bourbon/app/assets/stylesheets/functions/unpack';
+@import 'bourbon/app/assets/stylesheets/addons/position';
 
 // mdi
-@import 'variables';
+@import 'mdi/scss/variables';
 
 // LumX
 @import 'settings/colors';
@@ -18,7 +18,7 @@
 .primary-nav-link {
     // Primary nav link: state
     &__state {
-        .primary-nav--mobile-nav & {
+        :host-context(.primary-nav--mobile-nav) & {
             @include font-size(14px);
             display: block;
             position: relative;
@@ -40,12 +40,12 @@
 
             &.primary-nav-link__state--is-open {
                 &::after {
-                    @include mdi-icon(chevron-down);
+                    @include mdi-icon('chevron-down');
                 }
             }
         }
 
-        .primary-nav--header & {
+        :host-context(.primary-nav--header) & {
             @include font-size(14px);
             display: block;
             height: 48px;
@@ -64,7 +64,7 @@
 
     // Primary nav link: sub nav
     &__sub-nav {
-        .primary-nav--header & {
+        :host-context(.primary-nav--header) & {
             display: none;
         }
     }

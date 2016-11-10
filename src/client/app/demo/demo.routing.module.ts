@@ -17,6 +17,18 @@ import { HomeComponent } from './components/home/home.component';
                 path: '',
             },
             {
+                loadChildren: './components/components/components.module#ComponentsModule',
+                path: 'components',
+            },
+            {
+                loadChildren: './components/css/css.module#CSSModule',
+                path: 'css',
+            },
+            {
+                loadChildren: './components/getting-started/getting-started.module#GettingStartedModule',
+                path: 'getting-started',
+            },
+            {
                 component: NotFoundComponent,
                 path: '**',
             },

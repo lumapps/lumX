@@ -7,14 +7,9 @@ import { SELECTOR_PREFIX, SELECTOR_SEPARATOR } from 'core/settings/selectors.set
 
 
 /*
- * Component styles
- */
-import './css.component.scss';
-
-/*
  * Component template
  */
-const template: string = require('./' + SELECTOR + '.component.html');
+const template: string = require(`./${SELECTOR}.component.html`);
 
 
 @Component({
@@ -26,6 +21,23 @@ const template: string = require('./' + SELECTOR + '.component.html');
  */
 export class CSSComponent extends DocumentationAbstract {
     constructor() {
-        super('css');
+        super([
+            {
+                label: 'Color',
+                url: '/css/color',
+            },
+            {
+                label: 'Flexbox',
+                url: '/css/flexbox',
+            },
+            {
+                label: 'Mixin',
+                url: '/css/mixin',
+            },
+            {
+                label: 'Typography',
+                url: '/css/typography',
+            },
+        ]);
     }
 }

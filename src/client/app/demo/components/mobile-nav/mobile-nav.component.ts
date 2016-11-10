@@ -7,25 +7,21 @@ import { SELECTOR_PREFIX, SELECTOR_SEPARATOR } from 'core/settings/selectors.set
 
 
 /*
- * Component styles
- */
-import './mobile-nav.component.scss';
-
-/*
  * Component template
  */
-const template: string = require('./' + SELECTOR + '.component.html');
+const template: string = require(`./${SELECTOR}.component.html`);
 
 
 @Component({
     selector: SELECTOR_PREFIX + SELECTOR_SEPARATOR + SELECTOR,
+    styles: [
+        require(`./${SELECTOR}.component.scss`),
+    ],
     template: template,
 })
 /**
  * Mobile Navigation Component.
  */
 export class MobileNavigationComponent {
-    constructor(private mobileNavService: MobileNavService) {
-        /* Nothing here yet */
-    }
+    constructor(private mobileNavService: MobileNavService) {}
 }

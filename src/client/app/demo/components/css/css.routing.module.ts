@@ -1,40 +1,46 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
-// import { GettingStartedComponent } from './getting-started.component';
+import { CSSComponent } from './css.component';
 
-// import { ContributeComponent } from './contribute/contribute.component';
-// import { CustomizationComponent } from './customization/customization.component';
-// import { InstallationComponent } from './installation/installation.component';
+import { ColorComponent } from './color/color.component';
+import { FlexboxComponent } from './flexbox/flexbox.component';
+import { MixinComponent } from './mixin/mixin.component';
+import { TypographyComponent } from './typography/typography.component';
 
 
 @NgModule({
     exports: [
         RouterModule,
     ],
+
     imports: [
         RouterModule.forChild([
             {
-                // children: [
-                //     {
-                //         path: '',
-                //         redirectTo: 'installation',
-                //     },
-                //     {
-                //         component: ContributeComponent,
-                //         path: 'contribute',
-                //     },
-                //     {
-                //         component: CustomizationComponent,
-                //         path: 'customization',
-                //     },
-                //     {
-                //         component: InstallationComponent,
-                //         path: 'installation',
-                //     },
-                // ],
-                // component: GettingStartedComponent,
-                // path: 'getting-started',
+                children: [
+                    {
+                        path: '',
+                        redirectTo: 'color',
+                    },
+                    {
+                        component: ColorComponent,
+                        path: 'color',
+                    },
+                    {
+                        component: FlexboxComponent,
+                        path: 'flexbox',
+                    },
+                    {
+                        component: MixinComponent,
+                        path: 'mixin',
+                    },
+                    {
+                        component: TypographyComponent,
+                        path: 'typography',
+                    },
+                ],
+                component: CSSComponent,
+                path: '',
             },
         ]),
     ],

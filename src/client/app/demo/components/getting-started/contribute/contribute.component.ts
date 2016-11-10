@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
 
-import { MobileNavService } from 'demo/services/mobile-nav.service';
-
-import { HEADER_SELECTOR as SELECTOR } from 'core/settings/selectors.settings';
+import { PAGE_CONTRIBUTE_SELECTOR as SELECTOR } from 'core/settings/selectors.settings';
 import { SELECTOR_PREFIX, SELECTOR_SEPARATOR } from 'core/settings/selectors.settings';
 
 
@@ -14,14 +12,9 @@ const template: string = require(`./${SELECTOR}.component.html`);
 
 @Component({
     selector: SELECTOR_PREFIX + SELECTOR_SEPARATOR + SELECTOR,
-    styles: [
-        require(`./${SELECTOR}.component.scss`),
-    ],
     template: template,
 })
 /**
- * Header Component.
+ * Contribute page Component.
  */
-export class HeaderComponent {
-    constructor(private mobileNavService: MobileNavService) {}
-}
+export class ContributeComponent {}

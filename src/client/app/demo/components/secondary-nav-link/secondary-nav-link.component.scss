@@ -3,11 +3,8 @@
 //\*------------------------------------*/
 
 // Bourbon
-@import 'functions/unpack';
-@import 'addons/position';
-
-// mdi
-@import 'variables';
+@import 'bourbon/app/assets/stylesheets/functions/unpack';
+@import 'bourbon/app/assets/stylesheets/addons/position';
 
 // LumX
 @import 'settings/colors';
@@ -16,7 +13,7 @@
 
 // Secondary nav: link
 .secondary-nav__link {
-    .primary-nav--palm-nav & {
+    :host-context(.primary-nav--palm-nav) & {
         @include font-size(14px);
         display: block;
         position: relative;
@@ -32,7 +29,7 @@
         }
     }
 
-    .app__sidebar & {
+    :host-context(.app__sidebar) & {
         @include font-size(14px);
         display: block;
         padding: 0 $base-spacing-unit * 2;

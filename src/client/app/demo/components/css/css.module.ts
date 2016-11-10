@@ -1,21 +1,30 @@
-import { NgModule }       from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import { CSSComponent } from './css.component';
-// import { InstallationComponent } from './installation/installation.component';
+import { CoreModule } from 'core/modules/core.module';
+import { CoreModule as DemoCoreModule } from 'demo/core/core.module';
 
 import { CSSRoutingModule } from './css.routing.module';
 
-import { SecondaryNavComponent } from 'demo/components/secondary-nav/secondary-nav.component';
+import { CSSComponent } from './css.component';
+
+import { ColorComponent } from './color/color.component';
+import { FlexboxComponent } from './flexbox/flexbox.component';
+import { MixinComponent } from './mixin/mixin.component';
+import { TypographyComponent } from './typography/typography.component';
 
 
 @NgModule({
     declarations: [
         CSSComponent,
-        // InstallationComponent,
-        SecondaryNavComponent,
+        ColorComponent,
+        FlexboxComponent,
+        MixinComponent,
+        TypographyComponent,
     ],
 
     imports: [
+        CoreModule,
+        DemoCoreModule,
         CSSRoutingModule,
     ],
 })

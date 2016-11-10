@@ -1,22 +1,22 @@
 import { Component, Input } from '@angular/core';
 
+import { ILink } from 'demo/types/link.type';
+
 import { PRIMARY_NAV_LINK_SELECTOR as SELECTOR } from 'core/settings/selectors.settings';
 import { SELECTOR_PREFIX, SELECTOR_SEPARATOR } from 'core/settings/selectors.settings';
 
 
 /*
- * Component styles
- */
-import './primary-nav-link.component.scss';
-
-/*
  * Component template
  */
-const template: string = require('./' + SELECTOR + '.component.html');
+const template: string = require(`./${SELECTOR}.component.html`);
 
 
 @Component({
     selector: SELECTOR_PREFIX + SELECTOR_SEPARATOR + SELECTOR,
+    styles: [
+        require(`./${SELECTOR}.component.scss`),
+    ],
     template: template,
 })
 /**
@@ -24,8 +24,7 @@ const template: string = require('./' + SELECTOR + '.component.html');
  */
 export class PrimaryNavLinkComponent {
     @Input('lx-context') context: string;
-    @Input('lx-label') label: string;
-    @Input('lx-url') url: string;
+    @Input('lx-link') link: ILink;
 
     private displaySubNav: boolean = false;
 

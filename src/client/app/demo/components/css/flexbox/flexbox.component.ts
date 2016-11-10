@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
 
-import { PAGE_CONTRIBUTE_SELECTOR as SELECTOR } from 'core/settings/selectors.settings';
+import { PAGE_FLEXBOX_SELECTOR as SELECTOR } from 'core/settings/selectors.settings';
 import { SELECTOR_PREFIX, SELECTOR_SEPARATOR } from 'core/settings/selectors.settings';
 
 
 /*
  * Component template
  */
-const template: string = require('./' + SELECTOR + '.component.html');
+const template: string = require(`./${SELECTOR}.component.html`);
 
 
 @Component({
@@ -15,6 +15,6 @@ const template: string = require('./' + SELECTOR + '.component.html');
     template: template,
 })
 /**
- * Contribute page Component.
+ * Flexbox page Component.
  */
-export class ContributeComponent {}
+export class FlexboxComponent {}

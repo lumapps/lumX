@@ -5,18 +5,16 @@ import { SELECTOR_PREFIX, SELECTOR_SEPARATOR } from 'core/settings/selectors.set
 
 
 /*
- * Component styles
- */
-import './secondary-nav.component.scss';
-
-/*
  * Component template
  */
-const template: string = require('./' + SELECTOR + '.component.html');
+const template: string = require(`./${SELECTOR}.component.html`);
 
 
 @Component({
     selector: SELECTOR_PREFIX + SELECTOR_SEPARATOR + SELECTOR,
+    styles: [
+        require(`./${SELECTOR}.component.scss`),
+    ],
     template: template,
 })
 /**

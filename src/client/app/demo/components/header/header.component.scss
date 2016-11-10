@@ -18,7 +18,7 @@
 
 
 // Header
-body:not(.home) .header {
+:host-context(body):not(.home) .header {
     @include media-query(palm) {
         height: 60px;
     }
@@ -32,7 +32,7 @@ body:not(.home) .header {
     }
 }
 
-body.home .header {
+:host-context(body).home .header {
     @include media-query(portable) {
         height: 60px;
     }
@@ -132,11 +132,6 @@ body.home .header {
     // Header nav: wrapper
     &__wrapper {
         @include wrapper();
-
-        ul {
-            @include bare-list();
-            display: flex;
-        }
     }
 }
 

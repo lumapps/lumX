@@ -7,18 +7,16 @@ import { SELECTOR_PREFIX, SELECTOR_SEPARATOR } from 'core/settings/selectors.set
 
 
 /*
- * Component styles
- */
-import './primary-nav.component.scss';
-
-/*
  * Component template
  */
-const template: string = require('./' + SELECTOR + '.component.html');
+const template: string = require(`./${SELECTOR}.component.html`);
 
 
 @Component({
     selector: SELECTOR_PREFIX + SELECTOR_SEPARATOR + SELECTOR,
+    styles: [
+        require(`./${SELECTOR}.component.scss`),
+    ],
     template: template,
 })
 /**
@@ -47,9 +45,7 @@ export class PrimaryNavComponent implements AfterViewInit, OnDestroy {
 
     constructor(private elementRef: ElementRef,
                 private renderer: Renderer,
-                private mobileNavService: MobileNavService) {
-        /* Nothing here yet */
-    }
+                private mobileNavService: MobileNavService) {}
 
     ngAfterViewInit(): void {
         // Listen events in the element and store it so we can destroy it later on

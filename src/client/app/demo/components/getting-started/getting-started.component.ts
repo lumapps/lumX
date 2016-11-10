@@ -7,14 +7,9 @@ import { SELECTOR_PREFIX, SELECTOR_SEPARATOR } from 'core/settings/selectors.set
 
 
 /*
- * Component styles
- */
-import './getting-started.component.scss';
-
-/*
  * Component template
  */
-const template: string = require('./' + SELECTOR + '.component.html');
+const template: string = require(`./${SELECTOR}.component.html`);
 
 
 @Component({
@@ -29,15 +24,15 @@ export class GettingStartedComponent extends DocumentationAbstract {
         super([
             {
                 label: 'Installation',
-                url: 'getting-started/installation',
+                url: '/getting-started/installation',
             },
             {
                 label: 'Customization',
-                url: 'getting-started/customization',
+                url: '/getting-started/customization',
             },
             {
                 label: 'Contribute',
-                url: 'getting-started/contribute',
+                url: '/getting-started/contribute',
             },
         ]);
     }

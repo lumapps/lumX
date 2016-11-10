@@ -1,24 +1,28 @@
 import { NgModule } from '@angular/core';
 
 import { CoreModule } from 'core/modules/core.module';
-
-import { GettingStartedComponent } from './getting-started.component';
-import { InstallationComponent } from './installation/installation.component';
+import { CoreModule as DemoCoreModule } from 'demo/core/core.module';
 
 import { GettingStartedRoutingModule } from './getting-started.routing.module';
 
-import { SecondaryNavComponent } from 'demo/components/secondary-nav/secondary-nav.component';
+import { GettingStartedComponent } from './getting-started.component';
+
+import { ContributeComponent } from './contribute/contribute.component';
+import { CustomizationComponent } from './customization/customization.component';
+import { InstallationComponent } from './installation/installation.component';
 
 
 @NgModule({
     declarations: [
         GettingStartedComponent,
+        ContributeComponent,
+        CustomizationComponent,
         InstallationComponent,
-        SecondaryNavComponent,
     ],
 
     imports: [
-        CoreModule.forRoot(),
+        CoreModule,
+        DemoCoreModule,
         GettingStartedRoutingModule,
     ],
 })

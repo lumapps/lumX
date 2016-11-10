@@ -15,7 +15,6 @@ import { MobileNavService } from './services/mobile-nav.service';
 
 import { DemoComponent } from './demo.component';
 
-// import { DocumentationAbstract } from './components/documentation/documentation.abstract';
 import { HomeComponent } from './components/home/home.component';
 
 import { HeaderComponent } from './components/header/header.component';
@@ -23,8 +22,8 @@ import { MobileNavigationComponent } from './components/mobile-nav/mobile-nav.co
 import { PrimaryNavLinkComponent } from './components/primary-nav-link/primary-nav-link.component';
 import { PrimaryNavComponent } from './components/primary-nav/primary-nav.component';
 
-// import { ComponentsModule } from './components/components/components.module';
-// import { CSSModule } from './components/css/css.module';
+import { ComponentsModule } from './components/components/components.module';
+import { CSSModule } from './components/css/css.module';
 import { GettingStartedModule } from './components/getting-started/getting-started.module';
 
 
@@ -46,9 +45,8 @@ import { GettingStartedModule } from './components/getting-started/getting-start
         DemoRoutingModule,
         BrowserModule,
         CoreModule.forRoot(),
-        DemoRoutingModule,
-        // ComponentsModule,
-        // CSSModule,
+        ComponentsModule,
+        CSSModule,
         GettingStartedModule,
     ],
 
