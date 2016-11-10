@@ -30,7 +30,5 @@ const template: string = require(`./${SELECTOR}.component.html`);
  * Top Level Component.
  */
 export class DemoComponent {
-    constructor(private mobileNavService: MobileNavService) {
-        /* Nothing here yet */
-    }
+    constructor(private mobileNavService: MobileNavService) {}
 }
