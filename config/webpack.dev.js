@@ -151,9 +151,9 @@ module.exports = function webpackDevConfigExport() {
                     ],
                     loaders: [
                         '@angularclass/hmr-loader?pretty=true&prod=false',
-                        'awesome-typescript',
-                        'angular2-router?aot=false',
-                        'angular2-template',
+                        'awesome-typescript-loader',
+                        'angular2-router-loader?aot=false',
+                        'angular2-template-loader',
                     ],
                     test: /\.ts$/i,
                 },

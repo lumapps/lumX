@@ -208,7 +208,7 @@ module.exports = function webpackCommonConfigExport(metadata) {
                     exclude: [
                         helpers.root('node_modules'),
                     ],
-                    loader: 'tslint',
+                    loader: 'tslint-loader',
                     test: /\.ts$/i,
                 },
 
@@ -226,7 +226,7 @@ module.exports = function webpackCommonConfigExport(metadata) {
                         helpers.root('node_modules', '@angular'),
                         helpers.root('node_modules', '@ngrx'),
                     ],
-                    loader: 'source-map',
+                    loader: 'source-map-loader',
                     test: /\.(js|css)$/i,
                 },
 
@@ -240,7 +240,7 @@ module.exports = function webpackCommonConfigExport(metadata) {
                     exclude: [
                         helpers.root('src', 'client', 'index.html'),
                     ],
-                    loader: 'json',
+                    loader: 'json-loader',
                     test: /\.json$/i,
                 },
 
@@ -250,7 +250,7 @@ module.exports = function webpackCommonConfigExport(metadata) {
                  * @see {@link https://github.com/webpack/file-loader|File Loader}
                  */
                 {
-                    loader: 'file?name=assets/[name].[hash].[ext]',
+                    loader: 'file-loader?name=assets/[name].[hash].[ext]',
                     test: /\.(png|jpe?g|gif|svg|woff|woff2|ttf|eot|ico)$/i,
                 },
 
@@ -267,10 +267,10 @@ module.exports = function webpackCommonConfigExport(metadata) {
                         helpers.root('src', 'client', 'index.html'),
                     ],
                     loaders: [
-                        'to-string',
-                        'css?sourceMap',
-                        'postcss',
-                        'resolve-url',
+                        'to-string-loader',
+                        'css-loader?sourceMap',
+                        'postcss-loader',
+                        'resolve-url-loader',
                     ],
                     test: /\.css$/i,
                 },
@@ -288,10 +288,10 @@ module.exports = function webpackCommonConfigExport(metadata) {
                     exclude: helpers.root('src', 'client', 'app', 'core', 'styles'),
                     include: helpers.root('src', 'client'),
                     loaders: [
-                        'raw',
-                        'postcss',
-                        'resolve-url',
-                        'sass?sourceMap',
+                        'raw-loader',
+                        'postcss-loader',
+                        'resolve-url-loader',
+                        'sass-loader?sourceMap',
                     ],
                     test: /\.scss$/i,
                 },
@@ -309,11 +309,11 @@ module.exports = function webpackCommonConfigExport(metadata) {
                 {
                     include: helpers.root('src', 'client', 'app', 'core', 'styles'),
                     loaders: [
-                        'style',
-                        'css?sourceMap',
-                        'postcss',
-                        'resolve-url',
-                        'sass?sourceMap',
+                        'style-loader',
+                        'css-loader?sourceMap',
+                        'postcss-loader',
+                        'resolve-url-loader',
+                        'sass-loader?sourceMap',
                     ],
                     test: /\.scss$/i,
                 },
@@ -326,7 +326,7 @@ module.exports = function webpackCommonConfigExport(metadata) {
                     exclude: [
                         helpers.root('src', 'client', 'index.html'),
                     ],
-                    loader: 'html',
+                    loader: 'html-loader',
                     test: /\.html$/i,
                 },
 
@@ -339,7 +339,7 @@ module.exports = function webpackCommonConfigExport(metadata) {
                 {
                     enforce: 'post',
                     exclude: /\/(node_modules|bower_components|config)\//i,
-                    loader: 'autopolyfiller-webpack',
+                    loader: 'autopolyfiller-webpack-loader',
                     query: {
                         browsers: ['last 2 versions', 'ie >= 9'],
                     },
