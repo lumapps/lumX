@@ -114,7 +114,7 @@ function simulateFailure() {
 
 
 QUIT_ON_FAIL=false
-if [ -n "$SETUP" ]; then
+if [ -z "$SETUP" ]; then
     SETUP="Normal"
 fi
 
