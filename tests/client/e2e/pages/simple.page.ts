@@ -17,7 +17,7 @@ export class SimplePage {
      * @type {string}
      * @public
      */
-    public appSelector: string = SELECTOR_PREFIX + SELECTOR_SEPARATOR + DEMO_SELECTOR;
+    public demoSelector: string = SELECTOR_PREFIX + SELECTOR_SEPARATOR + DEMO_SELECTOR;
 
     /**
      * References all elements needed for this page.
@@ -25,7 +25,7 @@ export class SimplePage {
      * @type {ElementFinder|ElementArrayFinder}
      * @public
      */
-    public app: ElementFinder;
+    public demo: ElementFinder;
 
     /**
      * References all accessors needed for this page.
@@ -33,7 +33,7 @@ export class SimplePage {
      * @type {By}
      * @private
      */
-    private _appAccessor: By;
+    private _demoAccessor: By;
 
 
     /**
@@ -44,8 +44,8 @@ export class SimplePage {
      * @param {UserBrowser} userBrowser The user helper object that will interact with the page.
      */
     constructor(public userBrowser: UserBrowser) {
-        this._appAccessor = by.tagName(this.appSelector);
+        this._demoAccessor = by.tagName(this.demoSelector);
 
-        this.app = this.userBrowser.element(this._appAccessor);
+        this.demo = this.userBrowser.element(this._appAccessor);
     }
 }

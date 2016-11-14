@@ -7,7 +7,7 @@ import { SimplePage } from '../pages/simple.page';
 
 
 describe('Application', () => {
-    let homePage: SimplePage = new SimplePage(new UserBrowser('Jack', browser).connect());
+    let simplePage: SimplePage = new SimplePage(new UserBrowser('Jack', browser).connect());
 
     it('should have a title', () => {
         let title: WebDriverPromise.Promise<string> = browser.getTitle();
@@ -15,7 +15,7 @@ describe('Application', () => {
         expect(title).toEqual('LumX²');
     });
 
-    it('should have an "app" element', () => {
-        expect(homePage.app).toBePresent();
+    it('should have a "demo" element', () => {
+        expect(simplePage.demo).toBePresent();
     });
 });

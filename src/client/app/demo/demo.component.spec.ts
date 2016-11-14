@@ -5,7 +5,7 @@ import { MockBackend, MockConnection } from '@angular/http/testing';
 import { DemoModule } from './demo.module';
 
 
-describe('Application startup', () => {
+describe('Demo', () => {
     it('should have a test', () => {
         expect(true).toBe(true);
     });
