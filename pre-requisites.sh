@@ -176,7 +176,7 @@ else
 
     printf "If you are on a Debian based Linux: ${BOLD}sudo apt-get install xvfb${DEFAULT}\n"
     printf "If you are on a RedHat based Linux: ${BOLD}sudo yum install xvfb${DEFAULT}\n"
-    printf "If you are on MacOS X, you will need to install XQuartz(${UNDERLINE}https://www.xquartz.org/{$DEFAULT}\n"
+    printf "If you are on MacOS X, you will need to install XQuartz (${UNDERLINE}https://www.xquartz.org/${DEFAULT}\n"
     printf "If you are under another OS, see ${BOLD}http://lmgtfy.com/?q=Install+XVFB+<your OS>${DEFAULT}\n"
 fi
 
