@@ -299,7 +299,6 @@
         "@types/jasmine": "latest",
         "@types/jasmine-expect": "latest",
         "@types/node": "latest",
-        "@types/protractor": "latest",
         "@types/selenium-webdriver": "latest",
         "@types/source-map": "latest",
         "@types/uglify-js": "latest",
