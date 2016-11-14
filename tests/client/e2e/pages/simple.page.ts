@@ -46,6 +46,6 @@ export class SimplePage {
     constructor(public userBrowser: UserBrowser) {
         this._demoAccessor = by.tagName(this.demoSelector);
 
-        this.demo = this.userBrowser.element(this._appAccessor);
+        this.demo = this.userBrowser.element(this._demoAccessor);
     }
 }
