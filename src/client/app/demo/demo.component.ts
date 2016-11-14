@@ -34,31 +34,30 @@ export class DemoComponent implements AfterViewInit, OnInit {
     /**
      * A reference to the <body> element
      *
-     * @type {any}
+     * @type {Element}
      * @private
      */
-    private bodyEl: any;
+    private bodyElement: Element;
 
     /**
      * Creates an instance of DemoComponent.
      *
-     * @param {ElementRef} el A reference to the current component element
-     * @param {Router} r      The application router
+     * @param {ElementRef} elementRef A reference to the current component element
+     * @param {Router}     router     The application router
      *
      */
-    constructor(private el: ElementRef,
-                private r: Router) {}
+    constructor(private elementRef: ElementRef, private router: Router) {}
 
     ngOnInit(): void {
         // Listen to page navigation and update the <body> element accordingly
-        this.r.events
+        this.router.events
             .filter((evt: Event) => evt instanceof NavigationEnd)
             .subscribe((evt: NavigationEnd) => {
-                this.bodyEl.classList.toggle('home', evt.urlAfterRedirects === '/');
+                this.bodyElement.classList.toggle('home', evt.urlAfterRedirects === '/');
             });
     }
 
     ngAfterViewInit(): void {
-        this.bodyEl = this.el.nativeElement.parentNode;
+        this.bodyElement = this.elementRef.nativeElement.parentNode;
     }
 }
