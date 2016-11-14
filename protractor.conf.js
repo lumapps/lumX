@@ -51,7 +51,7 @@ exports.config = {
         jasmine.getEnv().addReporter(new Jasmine2HtmlReporter({
             consolidate: true,
             consolidateAll: true,
-            filePrefix: 'e2e-report-' + Date.now(),
+            filePrefix: 'index',
             savePath: './tests/client/e2e/report/',
             screenshotsFolder: 'screenshots',
             takeScreenshots: true,
