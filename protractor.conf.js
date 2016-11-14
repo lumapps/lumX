@@ -40,11 +40,13 @@ exports.config = {
     onPrepare: function onPrepare() {
         browser.ignoreSynchronization = true;
         browser.driver
-               .manage()
-               .window()
-               .maximize();
+            .manage()
+            .window()
+            .maximize();
 
-        jasmine.getEnv().clearReporters();
+        if (jasmine.getEnv().clearReporters) {
+            jasmine.getEnv().clearReporters();
+        }
 
         jasmine.getEnv().addReporter(new Jasmine2HtmlReporter({
             consolidate: true,
