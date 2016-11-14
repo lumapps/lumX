@@ -1,5 +1,5 @@
 #!/bin/bash
-# This script will initialize the boilerplate
+# This script will check pre-requisites for LumX²
 
 BOLD=""
 UNDERLINE=""
@@ -85,7 +85,7 @@ MIN_SED_VERSION="4.0.0"
 exitCode=0
 
 
-printf "${BOLD}Checking prerequisites for ${BLUE}LumBoilerplate${WHITE}!${DEFAULT}\n\n"
+printf "${BOLD}Checking prerequisites for ${BLUE}LumX²${WHITE}!${DEFAULT}\n\n"
 
 printf "NodeJS...\t"
 nodeVersion=$(node --version)
@@ -183,9 +183,9 @@ fi
 printf "\n"
 printf "${MAGENTA}All prerequisites have been checked.${DEFAULT}\n"
 if [ $exitCode -eq 0 ]; then
-    printf "${GREEN}Everything is fine, have fun using ${BOLD}LumBoilerplate${DEFAULT}!"
+    printf "${GREEN}Everything is fine, have fun using ${BOLD}LumX²${DEFAULT}!"
 else
-    printf "${RED}You have failed prerequisite(s), please take necessary actions before continuing to use ${BOLD}LumBoilerplate${DEFAULT}."
+    printf "${RED}You have failed prerequisite(s), please take necessary actions before continuing to use ${BOLD}LumX²${DEFAULT}."
 fi
 
 printf "${DEFAULT}\n\n"
