@@ -42,7 +42,7 @@
         "clean:misc": "npm -s run task clean:misc",
         "clean:npm": "npm -s run clean:packages",
         "clean:packages": "bash -c \"(gulp --version &> /dev/null) && npm -s run task -- clean:packages || npm -s run clean:packages:core\"",
-        "clean:packages:core": "rm -Rf -- node_modules && npm -s run clean:packages:yarn:npm",
+        "clean:packages:core": "rm -Rf -- node_modules",
         "clean:packages:yarn:npm": "bash -c \"(yarn --version &> /dev/null) && yarn cache clean || npm cache clean\"",
         "clean:project": "npm -s run task -- clean:project",
         "clean:reports": "npm -s run clean:tests:reports",
