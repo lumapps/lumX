@@ -3,7 +3,7 @@ import { By } from 'selenium-webdriver';
 
 import { UserBrowser } from '../helpers/user-browser.class';
 
-import { APP_SELECTOR, SELECTOR_PREFIX, SELECTOR_SEPARATOR }
+import { DEMO_SELECTOR, SELECTOR_PREFIX, SELECTOR_SEPARATOR }
     from '../../../../src/client/app/core/settings/selectors.settings';
 
 
@@ -17,7 +17,7 @@ export class SimplePage {
      * @type {string}
      * @public
      */
-    public appSelector: string = SELECTOR_PREFIX + SELECTOR_SEPARATOR + APP_SELECTOR;
+    public appSelector: string = SELECTOR_PREFIX + SELECTOR_SEPARATOR + DEMO_SELECTOR;
 
     /**
      * References all elements needed for this page.
