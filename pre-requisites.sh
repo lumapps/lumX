@@ -1,5 +1,5 @@
 #!/bin/bash
-# This script will initialize the boilerplate
+# This script will check the pre-requisites for LumBoilerplate
 
 BOLD=""
 UNDERLINE=""
