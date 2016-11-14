@@ -329,22 +329,6 @@ module.exports = function webpackCommonConfigExport(metadata) {
                     loader: 'html-loader',
                     test: /\.html$/i,
                 },
-
-
-                /*
-                 * Automagically add needed polyfillers.
-                 *
-                 * @see {@link https://www.npmjs.com/package/autopolyfiller-webpack|Autopolyfiller Loader}
-                 */
-                {
-                    enforce: 'post',
-                    exclude: /\/(node_modules|bower_components|config)\//i,
-                    loader: 'autopolyfiller-webpack-loader',
-                    query: {
-                        browsers: ['last 2 versions', 'ie >= 9'],
-                    },
-                    test: /\.js$/i,
-                },
             ],
         },
 
