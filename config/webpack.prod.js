@@ -68,9 +68,9 @@ module.exports = function webpackProdConfigExport() {
                         helpers.root('dist'),
                     ],
                     loaders: [
-                        'awesome-typescript',
-                        'angular2-router?aot=' + ENABLE_AOT,
-                        'angular2-template',
+                        'awesome-typescript-loader',
+                        'angular2-router-loader?aot=' + ENABLE_AOT,
+                        'angular2-template-loader',
                     ],
                     test: /\.ts$/i,
                 },

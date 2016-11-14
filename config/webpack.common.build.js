@@ -39,7 +39,7 @@ module.exports = function webpackCommonBuildConfigExport(metadata) {
                  */
                 {
                     enforce: 'post',
-                    loader: 'string-replace',
+                    loader: 'string-replace-loader',
                     query: {
                         flags: 'g',
                         replace: 'var sourceMappingUrl = "";',
