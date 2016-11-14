@@ -43,7 +43,7 @@ ${UNDERLINE}${MAGENTA}${BOLD}Usage${DEFAULT}:
 npm run -s init -- [--debug] [--help] [--skip-setup]
 
 ${UNDERLINE}${BLUE}Options${DEFAULT}:
-\t${CYAN}--debug${DEFAULT}\t\t\t\t\tDebug this scaffold script
+\t${CYAN}--debug${DEFAULT}\t\t\t\t\tDebug this initialization script
 \t${CYAN}--help${DEFAULT}\t\t\t\t\tPrint this help message.
 \t${CYAN}-n, --name ${YELLOW}<name>${DEFAULT}\t\t\tThe name of the project.
 \t${CYAN}-d, --description ${YELLOW}<description>${DEFAULT}\t\tThe description of the project.
@@ -198,7 +198,7 @@ while [[ $# -ge 1 ]]; do
 
         *)
             # unknown option
-        ;;
+            ;;
     esac
 
     shift
