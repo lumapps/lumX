@@ -236,7 +236,7 @@ while [[ $# -ge 1 ]]; do
 
         *)
             # unknown option
-        ;;
+            ;;
     esac
 
     shift
