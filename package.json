@@ -324,7 +324,6 @@
         "tslint-loader": "latest",
 
         "assets-webpack-plugin": "latest",
-        "autopolyfiller-webpack": "latest",
         "copy-webpack-plugin": "latest",
         "html-webpack-plugin": "latest",
         "webpack-browser-plugin": "latest",
