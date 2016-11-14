@@ -6,5 +6,7 @@ import { DemoModule } from './demo.module';
 
 
 describe('Application startup', () => {
-    // Test stuff here
+    it('should have a test', () => {
+        expect(true).toBe(true);
+    });
 });
