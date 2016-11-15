@@ -379,7 +379,7 @@ shelter({
         dsc: `Run unit tests (Karma with Headless Chrome, XVFB needed) on ${project}`,
     },
     'unit:live': {
-        cmd: `${envDev} ${npmRun} "karma -- start --auto-watch --no-single-run`,
+        cmd: `${envDev} ${npmRun} karma -- start --auto-watch --no-single-run`,
         dsc: `Run unit tests (Karma with Chrome) in watch mode on ${project}`,
     },
     'unit:live:debug': {
