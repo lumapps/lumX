@@ -1,6 +1,5 @@
 #! /usr/bin/env python
 
-import re
 import subprocess
 import sys
 
@@ -11,18 +10,6 @@ def checkExistingTag(version):
             subprocess.call(('git show-ref --verify --quiet refs/tags/%s' % version).split()) == 0):
         print "Error: The tag '%s' already exists" % version
         raise Exception()
-
-
-# Remove /dist from the .gitignore for the releases
-def updateGitignore():
-    file_str = None
-    with open('.gitignore') as f:
-        file_str = f.read()
-
-    file_str = re.sub(r'/dist', '', file_str)
-
-    with open('.gitignore', "w") as f:
-        f.write(file_str)
 
 
 # Commit the changes (/dist, .gitignore, /demo) and push the new tag
@@ -47,7 +34,6 @@ if __name__ == "__main__":
         version = sys.argv[1]
 
         checkExistingTag(version)
-        updateGitignore()
         commit(version)
     except Exception as e:
         exit(-1)
