@@ -17,18 +17,23 @@ let _decorateModuleRef: IDecorateModuleRef = <T>(value: T): T => value;
 
 if (ENV === 'production') {
     // Production
-    disableDebugTools();
-    enableProdMode();
+    _decorateModuleRef = (moduleRef: NgModuleRef<any>) => {
+        disableDebugTools();
+        enableProdMode();
+
+        return moduleRef;
+    };
 } else {
     _decorateModuleRef = (moduleRef: NgModuleRef<any>) => {
         let appRef: ApplicationRef = moduleRef.injector.get(ApplicationRef);
         let cmpRef: ComponentRef<any> = appRef.components[0];
 
         let ng: INgObject = (<INgWindow>window).ng;
-        (<INgWindow>window).ng.probe = ng.probe;
-        (<INgWindow>window).ng.coreTokens = ng.coreTokens;
 
         enableDebugTools(cmpRef);
+
+        (<INgWindow>window).ng.probe = ng.probe;
+        (<INgWindow>window).ng.coreTokens = ng.coreTokens;
 
         return moduleRef;
     };

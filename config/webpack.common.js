@@ -351,9 +351,19 @@ module.exports = function webpackCommonConfigExport(metadata) {
         },
 
         /*
-         * Configure the output publicPath so that the file path are relative to the root
+         * Configure the output
          */
         output: {
+            /**
+             * The output directory as absolute path (required).
+             *
+             * @see {@link http://webpack.github.io/docs/configuration.html#output-path|The Webpack documentation on output path}
+             */
+            path: helpers.root('dist', 'client'),
+
+            /**
+             * Make the file path relative to the root
+             */
             publicPath: '/',
         },
 

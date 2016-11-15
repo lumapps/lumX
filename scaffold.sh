@@ -563,7 +563,7 @@ function initComponent() {
         printf "/*\n" >> $componentFile
         printf " * Component template\n" >> $componentFile
         printf " */\n" >> $componentFile
-        printf "const template: string = require('./' + SELECTOR + '.component.html');\n" >> $componentFile
+        printf "const template: string = require(\`./${SELECTOR}.component.html\`);\n" >> $componentFile
 
         printf "\n" >> $componentFile
         printf "\n" >> $componentFile
@@ -571,7 +571,7 @@ function initComponent() {
         printf "@Component({\n" >> $componentFile
             printf "\tselector: SELECTOR_PREFIX + SELECTOR_SEPARATOR + SELECTOR,\n" >> $componentFile
             printf "\tstyles: [\n" >> $componentFile
-                printf "\t\trequire('./' + SELECTOR + '.component.scss'),\n" >> $componentFile
+                printf "\t\trequire(\`./${SELECTOR}.component.scss\`),\n" >> $componentFile
             printf "\t],\n" >> $componentFile
             printf "\ttemplate: template,\n" >> $componentFile
         printf "})\n" >> $componentFile

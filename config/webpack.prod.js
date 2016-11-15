@@ -99,13 +99,6 @@ module.exports = function webpackProdConfigExport() {
             filename: '[name].[chunkhash].bundle.js',
 
             /**
-             * The output directory as absolute path (required).
-             *
-             * @see {@link http://webpack.github.io/docs/configuration.html#output-path|The Webpack documentation on output path}
-             */
-            path: helpers.root('dist/client'),
-
-            /**
              * The filename of the SourceMaps for the JavaScript files.
              * They are inside the output.path directory.
              *

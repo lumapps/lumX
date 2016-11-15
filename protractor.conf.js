@@ -71,7 +71,7 @@ exports.config = {
     },
 
     specs: [
-        helpers.root('tests/client/e2e/specs/**/*.ts'),
+        helpers.root('tests', 'client', 'e2e', 'specs', '**', '*.ts'),
     ],
 
     stackTrace: false,
