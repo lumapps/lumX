@@ -12,7 +12,7 @@
 
 
 // App
-:host-context(body):not(.home) .app {
+:host-context(body:not(.home)) .app {
     @include media-query(lap-and-up) {
         margin-top: -246px;
     }
