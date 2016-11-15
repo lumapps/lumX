@@ -47,6 +47,17 @@ import * as _ from 'lodash'
 // support NodeJS modules without type definitions
 declare module '*';
 
+/*
+ * To create your own custom type, simply copy/paste the code above and replace "<my type>" by your type name.
+ * Then add the thing you want to declare and export them.
+
+declare module '<my type>' {
+    let x: any;
+    export = x;
+}
+
+ */
+
 // Extra variables that live on Global that will be replaced by webpack DefinePlugin
 declare var ENV: string;
 declare var HMR: boolean;
