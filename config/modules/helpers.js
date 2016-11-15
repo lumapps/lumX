@@ -68,9 +68,7 @@ function getMetadata(env) {
 const DEV_SERVER_CONFIG = {
     historyApiFallback: true,
     host: 'localhost',
-    info: false,
     noInfo: true,
-    outputPath: rootFunction('dist', 'client'),
     port: 8880,
 
     proxy: {
