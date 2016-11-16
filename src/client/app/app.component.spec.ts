@@ -1,52 +1,51 @@
-import { inject, TestBed } from '@angular/core/testing';
-import { BaseRequestOptions, Headers, Response, ResponseOptions, XHRBackend } from '@angular/http';
-import { MockBackend, MockConnection } from '@angular/http/testing';
+import { ComponentFixtureAutoDetect, fakeAsync, TestBed, tick } from '@angular/core/testing';
 
-import { ITokenState } from 'core/reducers/token.reducer';
-import { HttpInterceptorService } from 'core/services/http-interceptor.service';
 import { TokenService } from 'core/services/token.service';
 
-import { AppModule } from 'app.module';
+import { AppComponent } from './app.component';
+import { AppModule } from './app.module';
 
 
 describe('Application startup', () => {
+    const component: AppComponent;
+    const fixture: ComponentFixture<AppComponent>;
+    const tokenService: TokenService;
+    const spy: any;
+
+    const token: string = '5678';
+
     beforeEach(() => {
         TestBed.configureTestingModule({
+            declarations: [],
+
+            exports: [],
+
             imports: [
                 AppModule,
             ],
 
             providers: [
-                HttpInterceptorService,
-                { provide: XHRBackend, useClass: MockBackend },
+                { provide: ComponentFixtureAutoDetect, useValue: true },
                 TokenService,
             ],
         });
 
-        TestBed.compileComponents().catch((error: string) => console.error(error));
+        fixture = TestBed.createComponent(AppComponent);
+        component = fixture.componentInstance;
+
+        tokenService = fixture.debugElement.injector.get(TokenService);
+
+        spy = spyOn(tokenService, 'getToken').and.returnValue(token);
     });
 
-    it('should request a token', inject([XHRBackend, TokenService],
-                                        (backend: MockBackend, tokenService: TokenService) => {
-        const generatedToken: string = 'Generated Test Token';
-        const mockedResponse: ResponseOptions = new ResponseOptions({
-            body: {
-                token: generatedToken,
-            },
-        });
+    it('should request a token', fakeAsync(() => {
+        expect(spy.calls.any()).toBe(false);
 
-        backend.connections.subscribe(
-            (connection: MockConnection) => {
-                if (connection.request.url === '/services/oauthtoken') {
-                    connection.mockRespond(new Response(mockedResponse));
-                }
-            }
-        );
+        fixture.detectChanges();
+        expect(spy.calls.any()).toBe(true);
 
-        tokenService.token.subscribe((token: ITokenState) => {
-            if (token && !token.needed) {
-                expect(token.value).toBe(generatedToken);
-            }
-        });
+        tick();
+
+        expect(tokenService.getToken()).toBe(token);
     }));
 });
