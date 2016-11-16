@@ -1,6 +1,6 @@
 <ul class="to-do__list">
     <li class="to-do__item"
-        *ngFor="let toDoItem of _ToDoStore.items"
+        *ngFor="let toDoItem of ToDoStore.items"
         (click)="toDoItem.toggle()">
         <span class="to-do__item-label"
               [ngClass]="{

@@ -45,6 +45,7 @@ import * as _ from 'lodash'
  */
 
 // support NodeJS modules without type definitions
+// tslint:disable-next-line
 declare module '*';
 
 /*

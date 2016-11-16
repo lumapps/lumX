@@ -30,7 +30,7 @@ export class ToDoListComponent {
      *
      * @constructs ToDoListComponent
      *
-     * @param {ToDoStore} _ToDoStore The store that stores all of our to-do items.
+     * @param {ToDoStore} ToDoStore The store that stores all of our to-do items.
      */
-    constructor(private _ToDoStore: ToDoStore) {}
+    constructor(public ToDoStore: ToDoStore) {}
 }

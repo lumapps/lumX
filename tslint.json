@@ -78,10 +78,7 @@
         "no-unused-new": true,
         "no-unused-variable": [
             true,
-            "check-parameters",
-            {
-                "ignore-pattern": "e|event"
-            }
+            "check-parameters"
         ],
         "no-use-before-declare": true,
         "no-var-keyword": true,
@@ -170,6 +167,7 @@
             true,
             "check-format",
             "allow-leading-underscore",
+            "allow-pascal-case",
             "ban-keywords"
         ],
         "whitespace": [
