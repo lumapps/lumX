@@ -57,6 +57,16 @@ export class HttpInterceptorService {
      * @return {Observable<Response>}           The response of the request.
      */
     get(url: string, options?: RequestOptionsArgs): Observable<Response> {
+        if (url === '/services/oauthtoken') {
+            const mockedResponse: ResponseOptions = new ResponseOptions({
+                body: {
+                    token: '1234',
+                },
+            });
+
+            return Observable.of(new Response(mockedResponse));
+        }
+
         return this.intercept(this._Http.get(url, this.getRequestOptionArgs(options, true)), 'get', url, undefined,
                               undefined, options);
     }
