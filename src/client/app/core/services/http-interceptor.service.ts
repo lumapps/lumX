@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Headers, Http, Request, RequestOptions, RequestOptionsArgs, Response } from '@angular/http';
-import { Router } from '@angular/router';
+import { Headers, Http, Request, RequestOptions, RequestOptionsArgs, Response, ResponseOptions } from '@angular/http';
 
-import { Observable } from 'rxjs/Rx';
+import 'rxjs/add/observable/of';
+import { Observable } from 'rxjs/Observable';
 
 import { ITokenState } from 'core/reducers/token.reducer';
 import { TokenService } from 'core/services/token.service';
@@ -31,10 +31,10 @@ export class HttpInterceptorService {
      *
      * @constructs HttpInterceptorService
      *
-     * @param {Http}         _Http         The angular's regular HTTP Service.
-     * @param {TokenService} _TokenService The application's token service.
+     * @param {Http}         _Http  The angular's regular HTTP Service.
+     * @param {TokenService} _Token The application's token service.
      */
-    constructor(private _Http: Http, private _TokenService: TokenService) {}
+    constructor(private _Http: Http, private _Token: TokenService) {}
 
 
     /**
@@ -88,7 +88,7 @@ export class HttpInterceptorService {
         options.headers = new Headers();
         options.headers.append('Content-Type', 'application/json');
 
-        this._TokenService.token.subscribe((token: ITokenState) => {
+        this._Token.token.subscribe((token: ITokenState) => {
             if (token && !token.needed) {
                 options.headers.append('Authorization', 'Bearer ' + token.value);
             }
@@ -121,10 +121,10 @@ export class HttpInterceptorService {
                     return Observable.empty();
                 } else {
                     this._loginAttempts++;
-                    this._TokenService.refreshToken();
+                    this._Token.refreshToken();
 
                     // Wait for the token to be retrieved.
-                    return this._TokenService.token.switchMap((token: ITokenState) => {
+                    return this._Token.token.switchMap((token: ITokenState) => {
                         if (!token.needed) {
                             switch (method) {
                                 case 'request':

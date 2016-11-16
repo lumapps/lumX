@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 
 import { Store } from '@ngrx/store';
+
+import 'rxjs/add/operator/take';
 import { Observable } from 'rxjs/Rx';
 
 import { TokenActions } from 'core/constants/actions';
@@ -29,7 +31,7 @@ export class TokenService {
      * @param {Store<ITokenState>} _Store The ReduxStore that will store our token state.
      */
     constructor(private _Store: Store<ITokenState>) {
-        this.token = this._Store.select<ITokenState>('token');
+        this.token = this._Store.select<ITokenState>((token: ITokenState) => token);
     }
 
 
@@ -46,7 +48,7 @@ export class TokenService {
             if (token !== undefined) {
                 currentToken = token.value;
             }
-        });
+        }).unsubscribe();
 
         return currentToken;
     }
