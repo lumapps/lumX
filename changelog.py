@@ -1,6 +1,8 @@
 #! /usr/bin/env python
-from subprocess import Popen, PIPE
+
+from collections import defaultdict
 import re
+from subprocess import Popen, PIPE
 
 
 def getTags():
@@ -32,9 +34,18 @@ def buildNewLogs(fromTag, toTag):
         (stdout, _) = Popen(('git rev-list %s' % toTag).split(), stdout=PIPE).communicate()
 
     commits = stdout.splitlines()
-    feats = []
-    fixs = []
-    brokens = []
+
+    kinds = defaultdict(list)
+    kindTitles = {
+        'feat': 'New features',
+        'fix': 'Bug fixes',
+        'docs': 'New documentations',
+        'style': 'Style changes',
+        'perf': 'Performance improvements',
+        'test': 'Tests',
+        'build': 'Build management improvements',
+        'ci': "Continuous Integration improvements"
+    }
 
     for commit in commits:
         (title, _) = Popen(('git show -s --format=%%s %s' % commit).split(), stdout=PIPE).communicate()
@@ -42,34 +53,31 @@ def buildNewLogs(fromTag, toTag):
         if not title:
             continue
 
-        data = title.split(' ', 1)
+        data = title.split(':', 1)
+        scope = data[0].split('(', 1)
 
-        if data[0] == 'feat':
-            feats.append(data[1].rstrip())
-        elif data[0] == 'fix':
-            fixs.append(data[1].rstrip())
+        kinds[scope[0]].append(scope[1][:-1].rstrip() + ': ' + data[1].strip())
 
         if 'BROKEN:' in body:
-            brokens += body.split('BROKEN:')[1].splitlines()
+            broken = body.split('BROKEN:')[1].splitlines().strip()
+            kinds['broken'].append(broken)
 
     logs = "## %s:\n" % toTag
 
-    if not len(feats) and not len(fixs) and not len(brokens):
+    if not len(kinds):
         logs += "*No major changes.*\n\n\n"
     else:
-        if len(feats):
-            logs += "\n#### New features:\n"
-            for feat in feats:
-                logs += " - %s\n" % feat
-        if len(fixs):
-            logs += "\n#### Bug fixes:\n"
-            for fix in fixs:
-                logs += " - %s\n" % fix
-        if len(brokens):
+        for kind, kindTitle in kindTitles.iteritems():
+            if len(kinds[kind]):
+                logs += "\n#### " + kindTitle + ":\n"
+                for thing in kinds[kind]:
+                    logs += " - %s\n" % thing
+
+        if len(kinds.get('brokens', [])):
             logs += "\n#### Breaking changes:\n"
-            for broken in brokens:
-                if broken.rstrip() != '':
-                    logs += " - %s\n" % broken
+            for broken in kinds['brokens']:
+                logs += " - %s\n" % broken
+
         logs += "\n\n"
 
     return logs
