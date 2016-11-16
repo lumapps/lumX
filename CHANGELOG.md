@@ -1,41 +1,5 @@
 # Changelog
 
-## 1.1.6:
-
-#### Build management improvements:
- - release: OK, let's do that!
-
-
-## 1.1.5:
-
-#### Build management improvements:
- - release: try to find the f****ng good git command
-
-
-## 1.1.4:
-
-#### Build management improvements:
- - release: fix the push of changes and tags
-
-
-## 1.1.3:
-
-#### Build management improvements:
- - release: improve changelog generation again
-
-
-## 1.1.2:
-
-#### Build management improvements:
- - release: improve changelog auto-generation on release
-
-
-## 1.1.1:
-
-#### Build management improvements:
- - release: auto-generate changelog when creating release
-
-
 ## 1.1.0:
 
 #### Tests:
@@ -52,6 +16,7 @@
  - token: mock the token retrieval in the http service
 
 #### Build management improvements:
+ - release: auto-generate changelog when creating release
  - changelog: improve changelog generation
  - init/scaffold: improve initialization and scaffolding
  - gulp: remove an uneeded quote when launching karma
