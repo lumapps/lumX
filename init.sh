@@ -40,20 +40,20 @@ function usage {
     printf """${BOLD}${GREEN}LumBoilerplate initialization${DEFAULT}
 
 ${UNDERLINE}${MAGENTA}${BOLD}Usage${DEFAULT}:
-npm run -s init -- [--debug] [--help] [--skip-setup]
+npm run -s init -- [--debug] [--help] [--skip-setup] [-n|--name <name>|\"default\"] [-d|--description <description>|\"default\"] [-u|--github-username <github username>|\"default\"] [-r|--repository <repository>|\"default\"] [-p|--prefix <prefix>|\"default\"] [-s|--separator <separator>|\"default\"] [-b|--base-url <base url>|\"default\"]
 
 ${UNDERLINE}${BLUE}Options${DEFAULT}:
-\t${CYAN}--debug${DEFAULT}\t\t\t\t\tDebug this initialization script
-\t${CYAN}--help${DEFAULT}\t\t\t\t\tPrint this help message.
-\t${CYAN}-n, --name ${YELLOW}<name>${DEFAULT}\t\t\tThe name of the project.
-\t${CYAN}-d, --description ${YELLOW}<description>${DEFAULT}\t\tThe description of the project.
-\t${CYAN}-u, --github-username ${YELLOW}<github username>${DEFAULT}\tThe Github username of the repository of the project.
-\t${CYAN}-r, --repository ${YELLOW}<repository>${DEFAULT}\t\tThe name of the repository of the project.
-\t${CYAN}-p, --prefix ${YELLOW}<prefix>${DEFAULT}\t\t\tThe prefix for the components selector.
-\t${CYAN}-s, --separator ${YELLOW}<separator>${DEFAULT}\t\tThe separator of the components selector (between prefix and component selector).
-\t${CYAN}-b, --base-url ${YELLOW}<base url>${DEFAULT}\t\tThe base URL of the project.
-\t${CYAN}--skip-git${DEFAULT}\t\t\t\tSkip the Git repository setup (initialization, initial commit, ...).
-\t${CYAN}--skip-setup${DEFAULT}\t\t\t\tSkip the NPM setup (package installation, cleanup, ...).
+\t${CYAN}--debug${DEFAULT}\t\t\t\t\t\t\tDebug this initialization script
+\t${CYAN}--help${DEFAULT}\t\t\t\t\t\t\tPrint this help message.
+\t${CYAN}-n, --name ${YELLOW}<name>|\"default\"${DEFAULT}\t\t\t\tThe name of the project (if \"default\", will be the name of the current directory).
+\t${CYAN}-d, --description ${YELLOW}<description>|\"default\"${DEFAULT}\t\tThe description of the project (if \"default\", will be 'This is the description of <Project's name>).
+\t${CYAN}-u, --github-username ${YELLOW}<github username>|\"default\"${DEFAULT}\tThe Github username of the repository of the project (if \"default\", will be your current username).
+\t${CYAN}-r, --repository ${YELLOW}<repository>|\"default\"${DEFAULT}\t\t\tThe name of the repository of the project (if \"default\", will be the name of the current directory).
+\t${CYAN}-p, --prefix ${YELLOW}<prefix>|\"default\"${DEFAULT}\t\t\t\tThe prefix for the components selector (if \"default\", will be derived from the name of the project).
+\t${CYAN}-s, --separator ${YELLOW}<separator>|\"default\"${DEFAULT}\t\t\tThe separator of the components selector (between prefix and component selector) (if \"default\", will be '-').
+\t${CYAN}-b, --base-url ${YELLOW}<base url>|\"default\"${DEFAULT}\t\t\tThe base URL of the project (if \"default\", will be '/').
+\t${CYAN}--skip-git${DEFAULT}\t\t\t\t\t\tSkip the Git repository setup (initialization, initial commit, ...).
+\t${CYAN}--skip-setup${DEFAULT}\t\t\t\t\t\tSkip the NPM setup (package installation, cleanup, ...).
 """
 }
 
@@ -128,6 +128,7 @@ SELECTORS_FILE="./src/client/app/core/settings/selectors.settings.ts"
 SETTINGS_FILE="./src/client/app/core/settings/common.settings.ts"
 TSLINT_FILE="./tslint.json"
 
+
 originalName='LumBoilerplate'
 originalDescription=''
 originalGithubUsername='lumapps'
@@ -136,8 +137,20 @@ originalComponentsNamePrefix='lb'
 originalComponentsNameSeparator='-'
 originalBaseUrl='/'
 
+
 skipGit=false
 skipSetup=false
+
+
+defaultName="${PWD##*/}"
+defaultDescription="This is the description of ${defaultName}"
+defaultGithubUsername=$(whoami)
+defaultGithubUsername="${defaultGithubUsername,,}"
+defaultRepository="${defaultName,,}"
+defaultComponentsNamePrefix=$(echo $defaultName | sed 's/\(\w\|-_ \)[^A-Z\-_ ]*\([^A-Z]\|$\)/\1/g')
+defaultComponentsNamePrefix="${defaultComponentsNamePrefix,,}"
+defaultComponentsNameSeparator="${originalComponentsNameSeparator,,}"
+defaultBaseUrl="${originalBaseUrl,,}"
 
 
 while [[ $# -ge 1 ]]; do
@@ -164,12 +177,22 @@ while [[ $# -ge 1 ]]; do
             ;;
 
         -u|--github-username)
-            githubUsername="$2"
+            if [ "$2" == "default" ]; then
+                githubUsername="$defaultGithubUsername"
+            else
+                githubUsername="$2"
+            fi
+
             shift
             ;;
 
         -r|--repository)
-            repository="$2"
+            if [ "$2" == "default" ]; then
+                repository="$defaultRepository"
+            else
+                repository="$2"
+            fi
+
             shift
             ;;
 
@@ -179,12 +202,22 @@ while [[ $# -ge 1 ]]; do
             ;;
 
         -s|--separator)
-            componentsNameSeparator="$2"
+            if [ "$2" == "default" ]; then
+                componentsNameSeparator="$defaultComponentsNameSeparator"
+            else
+                componentsNameSeparator="$2"
+            fi
+
             shift
             ;;
 
         -b|--base-url)
-            baseUrl="$2"
+            if [ "$2" == "default" ]; then
+                baseUrl="$defaultBaseUrl"
+            else
+                baseUrl="$2"
+            fi
+
             shift
             ;;
 
@@ -209,33 +242,32 @@ printf "${BOLD}Welcome to the initialization of the ${BLUE}boilerplate${WHITE}!$
 printf "We will ask you some question to help you setup your new project. Ready?\n\n"
 
 
-defaultName=${PWD##*/}
 readWithDefault "What is the plain human readable name of your project" "name"
 cleanName=$(echo -e "${name}" | tr -d '[[:space:]]' | tr -dc '[:alnum:]\n\r-_' | tr '[:upper:]' '[:lower:]')
 
 defaultDescription="This is the description of ${name}"
+if [ "$description" == "default" ]; then
+    description="$defaultDescription"
+fi
 readWithDefault "How would you describe your project" "description"
 
-defaultGithubUsername=$(whoami)
-defaultGithubUsername=${defaultGithubUsername,,}
 readWithDefault "What is your GitHub username or organisation" "githubUsername"
 githubUsername="${githubUsername,,}"
 
-defaultRepository=${PWD##*/}
-defaultRepository=${defaultRepository,,}
 readWithDefault "What is your GitHub repository name" "repository"
 repository="${repository,,}"
 
 defaultComponentsNamePrefix=$(echo $name | sed 's/\(\w\|-_ \)[^A-Z\-_ ]*\([^A-Z]\|$\)/\1/g')
-defaultComponentsNamePrefix=${defaultComponentsNamePrefix,,}
+defaultComponentsNamePrefix="${defaultComponentsNamePrefix,,}"
+if [ "$componentsNamePrefix" == "default" ]; then
+    componentsNamePrefix="${defaultComponentsNamePrefix}"
+fi
 readWithDefault "What prefix do you want to use for the components name" "componentsNamePrefix"
 componentsNamePrefix="${componentsNamePrefix,,}"
 
-defaultComponentsNameSeparator=${originalComponentsNameSeparator,,}
 readWithDefault "What prefix do you want to use for the components name" "componentsNameSeparator"
 componentsNameSeparator="${componentsNameSeparator,,}"
 
-defaultBaseUrl=${originalBaseUrl,,}
 readWithDefault "What will your base URL be" "baseUrl"
 baseUrl="${baseUrl,,}"
 
@@ -257,22 +289,37 @@ fi
 printf "Removing useless files... "
     rm -Rf "./dist"
     exitIfError "Deleting 'dist'"
+
     rm -Rf "./src/client/app/home"
     exitIfError "Deleting 'home'"
     rm -Rf "./src/client/app/to-do"
     exitIfError "Deleting 'to-do'"
     rm -Rf "./src/client/app/about"
     exitIfError "Deleting 'about'"
+
+    rm -Rf "./src/client/app/core/constants/actions.ts"
+    exitIfError "Deleting core constant 'action'"
+    rm -Rf "./src/client/app/core/messages/token.message.ts"
+    exitIfError "Deleting core message 'token'"
+    rm -Rf "./src/client/app/core/reducers/token.reducer.ts"
+    exitIfError "Deleting core reducer 'token'"
+    rm -Rf "./src/client/app/core/services/http-interceptor.service.ts"
+    exitIfError "Deleting core service 'HTTP-Interceptor'"
+    rm -Rf "./src/client/app/core/services/token.service.ts"
+    exitIfError "Deleting core service 'Token'"
+
     rm -Rf "./tests/client/e2e/pages/home.page.ts"
     exitIfError "Deleting E2E 'Home' page"
     rm -Rf "./tests/client/e2e/specs/home.spec.ts"
     exitIfError "Deleting E2E 'Home' specs"
+
     rm -Rf "./tests/client/e2e/report"
     exitIfError "Deleting E2E report"
     rm -Rf "./tests/client/unit/report"
     exitIfError "Deleting Unit report"
     rm -Rf "./tests/client/*Report.tar.gz"
     exitIfError "Deleting tests reports archives"
+
     rm -Rf "build.*"
     exitIfError "Deleting build files"
 printf "${BLUE}Done${DEFAULT}\n"
@@ -291,10 +338,23 @@ printf "${BLUE}Done${DEFAULT}\n"
 
 printf "Removing useless code... "
     grep -v "ToDoModule" ./src/client/app/app.module.ts > temp && mv temp ./src/client/app/app.module.ts
-    exitIfError "Removing useless code in 'app' module"
+    exitIfError "Removing ToDo module in 'app' module"
 
-    echo "<h1>This is the application component</h1>" > ./src/client/app/app.component.html
-    exitIfError "Removing useless code in 'app' component"
+    rm -Rf "./src/client/app/app.component.*"
+    exitIfError "Removing original 'app' component files"
+
+    ./scaffold.sh -- --force -n "App" -p "default" --at-root -t "Component" --not-core -s 'default' --without-module --on-init --no-on-destroy --no-on-change --no-activated-route --no-constructor &> /dev/null
+    exitIfError "Scaffolding new 'app' component"
+    sed -i "7i/*\n* Global styles\n */\nimport 'core/styles/app.scss';\n\n" ./src/client/app/app.component.ts
+
+    grep -v "HttpInterceptorService" ./src/client/app/core/modules/core.module.ts > temp && mv temp ./src/client/app/core/modules/core.module.ts
+    exitIfError "Removing HTTP-Interceptor service in core 'core' module"
+    grep -v "TokenService" ./src/client/app/core/modules/core.module.ts > temp && mv temp ./src/client/app/core/modules/core.module.ts
+    exitIfError "Removing Token service in core 'core' module"
+    grep -v "tokenReducer" ./src/client/app/core/modules/core.module.ts > temp && mv temp ./src/client/app/core/modules/core.module.ts
+    exitIfError "Removing 'tokenReducer' in core 'core' module"
+    grep -v "StoreModule" ./src/client/app/core/modules/core.module.ts > temp && mv temp ./src/client/app/core/modules/core.module.ts
+    exitIfError "Removing Store module in core 'core' module"
 printf "${BLUE}Done${DEFAULT}\n"
 
 
@@ -404,6 +464,8 @@ printf "${GREEN}Your project has been successfully initialized!${DEFAULT}\n\n"
 printf "You can now start coding. Run ${BOLD}npm run -s start${DEFAULT} to start the server with all coding stuff you need.\n"
 printf "Then go to ${BOLD}http://localhost:8880/${DEFAULT} to access your project.\n"
 printf "You can also run ${BOLD}npm run help${DEFAULT} to have a list of all commands available.\n\n"
+
+printf "You can now delete this initialization script: ${BOLD}rm -f ./init.sh${DEFAULT}.\n\n"
 
 printf "${BOLD}${MAGENTA}Have fun coding with this boilerplate!${DEFAULT}\n"
 
