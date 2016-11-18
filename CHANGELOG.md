@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.2.4:
+
+#### Miscellaneous:
+ - linter: fix linter in http-interceptor service tests
+
+
 ## 1.2.3:
 
 #### Miscellaneous:
