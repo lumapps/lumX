@@ -343,8 +343,7 @@ shelter({
         dsc: `Quick setup ${project}: install packages (using Yarn if available, NPM else) and prepare for running`,
     },
     'setup:update': {
-        cmd: `${npmRun} setup:update:yarn:npm
-              && ${npmRun} task -- clean:project`,
+        cmd: `${npmRun} setup:update:yarn:npm`,
         dsc: `Update ${project}: upgrade packages (using Yarn if available, NPM else)`,
     },
 
