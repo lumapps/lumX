@@ -37,9 +37,9 @@ def buildNewLogs(fromTag, toTag):
 
     kinds = defaultdict(list)
     kindTitles = {
-        'feat': 'New features',
+        'feat': 'Features',
         'fix': 'Bug fixes',
-        'docs': 'New documentations',
+        'docs': 'Documentation',
         'style': 'Style changes',
         'perf': 'Performance improvements',
         'test': 'Tests',

@@ -2,8 +2,7 @@
 
 ## 1.2.2:
 
-#### New documentations:
- - changelog: don't log new releases in changelog misc section
+#### Documentation:
  - changelog: add a "misc" section in changelog
 
 
@@ -25,7 +24,7 @@
 #### Bug fixes:
  - bootstrap: enable prod mode before configuring platform
 
-#### New features:
+#### Features:
  - token: add a JSON file to simulate the token retrieval
 
 #### Build management improvements:
@@ -38,13 +37,13 @@
 #### Tests:
  - app: fix and improve units test of the app component
 
-#### New documentations:
+#### Documentation:
  - changelog: fix the version format in changelog
 
 #### Bug fixes:
  - token: fix token setting/getting and improve the process
 
-#### New features:
+#### Features:
  - token: display the token under the to-do list
  - token: mock the token retrieval in the http service
 
