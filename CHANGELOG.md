@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.2.3:
+
+#### Miscellaneous:
+ - gulp: fix "clean" tasks
+
+
 ## 1.2.2:
 
 #### Documentation:
