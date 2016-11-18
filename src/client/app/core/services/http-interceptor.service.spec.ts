@@ -185,7 +185,7 @@ describe('HTTP-Interceptor Service', () => {
 
                         done();
                     },
-                    () => expect(true).toBe(false)
+                    () => expect(true).toBe(false),
                 );
             })();
         });
@@ -220,7 +220,7 @@ describe('HTTP-Interceptor Service', () => {
                         expect(response.statusText).toEqual(errorMessage);
 
                         done();
-                    }
+                    },
                 );
             })();
         });
@@ -258,7 +258,7 @@ describe('HTTP-Interceptor Service', () => {
                         expect(response.statusText).toEqual(errorsToTest[errorCode]);
 
                         done();
-                    }
+                    },
                 );
             });
         })();
@@ -278,7 +278,7 @@ describe('HTTP-Interceptor Service', () => {
                 expect(response.statusText).toEqual('Not found');
 
                 done();
-            }
+            },
         );
     });
 });
