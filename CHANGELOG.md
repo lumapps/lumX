@@ -1,5 +1,25 @@
 # Changelog
 
+## 1.2.0:
+
+#### Tests:
+ - global: fix existing tests, refactor and improve coverage
+ - config: improve karma configuration
+ - config: exclude modules and routing modules from tests
+ - config: leave TS comments in tests
+ - config: allow to have assets in tests
+
+#### Bug fixes:
+ - bootstrap: enable prod mode before configuring platform
+
+#### New features:
+ - token: add a JSON file to simulate the token retrieval
+
+#### Build management improvements:
+ - webpack: don't display lint error as error but as warning
+ - gulpfile: don't cleanup project after update
+
+
 ## 1.1.0:
 
 #### Tests:
@@ -26,4 +46,4 @@
 ## 1.0.0:
 
 #### First release:
- - First release of LumBoilerplate
+ - First release of the Lumapps boilerplate
