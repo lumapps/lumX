@@ -1,6 +1,8 @@
 #! /usr/bin/env python
-from subprocess import Popen, PIPE
+
+from collections import defaultdict
 import re
+from subprocess import Popen, PIPE
 
 
 def getTags():
@@ -32,9 +34,19 @@ def buildNewLogs(fromTag, toTag):
         (stdout, _) = Popen(('git rev-list %s' % toTag).split(), stdout=PIPE).communicate()
 
     commits = stdout.splitlines()
-    feats = []
-    fixs = []
-    brokens = []
+
+    kinds = defaultdict(list)
+    kindTitles = {
+        'feat': 'Features',
+        'fix': 'Bug fixes',
+        'docs': 'Documentation',
+        'style': 'Style changes',
+        'perf': 'Performance improvements',
+        'test': 'Tests',
+        'build': 'Build management improvements',
+        'ci': 'Continuous Integration improvements',
+        'misc': 'Miscellaneous'
+    }
 
     for commit in commits:
         (title, _) = Popen(('git show -s --format=%%s %s' % commit).split(), stdout=PIPE).communicate()
@@ -42,34 +54,36 @@ def buildNewLogs(fromTag, toTag):
         if not title:
             continue
 
-        data = title.split(' ', 1)
+        data = title.split(':', 1)
+        kind = data[0].split('(', 1)
+        scope = kind[1][:-1].rstrip()
+        title = data[1].strip()
 
-        if data[0] == 'feat':
-            feats.append(data[1].rstrip())
-        elif data[0] == 'fix':
-            fixs.append(data[1].rstrip())
+        if not kind[0] in kindTitles and scope != 'release':
+            kind[0] = 'misc'
+
+        kinds[kind[0]].append(scope + ': ' + title)
 
         if 'BROKEN:' in body:
-            brokens += body.split('BROKEN:')[1].splitlines()
+            broken = body.split('BROKEN:')[1].splitlines().strip()
+            kinds['broken'].append(broken)
 
     logs = "## %s:\n" % toTag
 
-    if not len(feats) and not len(fixs) and not len(brokens):
+    if not len(kinds):
         logs += "*No major changes.*\n\n\n"
     else:
-        if len(feats):
-            logs += "\n#### New features:\n"
-            for feat in feats:
-                logs += " - %s\n" % feat
-        if len(fixs):
-            logs += "\n#### Bug fixes:\n"
-            for fix in fixs:
-                logs += " - %s\n" % fix
-        if len(brokens):
+        for kind, kindTitle in kindTitles.iteritems():
+            if len(kinds[kind]):
+                logs += "\n#### " + kindTitle + ":\n"
+                for thing in kinds[kind]:
+                    logs += " - %s\n" % thing
+
+        if len(kinds.get('brokens', [])):
             logs += "\n#### Breaking changes:\n"
-            for broken in brokens:
-                if broken.rstrip() != '':
-                    logs += " - %s\n" % broken
+            for broken in kinds['brokens']:
+                logs += " - %s\n" % broken
+
         logs += "\n\n"
 
     return logs

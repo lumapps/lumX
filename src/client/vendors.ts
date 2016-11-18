@@ -15,7 +15,6 @@ import '@angular/router';
 
 // AngularClass
 import '@angularclass/hmr';
-// import '@angularclass/webpack-toolkit';
 
 // RxJS
 import 'rxjs/add/operator/map';

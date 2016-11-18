@@ -70,7 +70,7 @@ module.exports = function webpackTestConfigExport() {
                         /\.e2e\.ts$/i,
                     ],
                     loaders: [
-                        'awesome-typescript-loader?inlineSourceMap=true&sourceMap=false',
+                        'awesome-typescript-loader?inlineSourceMap=true&sourceMap=false&removeComments=false',
                         'angular2-router-loader?aot=false',
                         'angular2-template-loader',
                     ],
@@ -86,7 +86,7 @@ module.exports = function webpackTestConfigExport() {
                 {
                     enforce: 'post',
                     exclude: [
-                        /\.(spec|specs|e2e)\.(js|ts)$/i,
+                        /\.(spec|specs|e2e|module|routing)\.(js|ts)$/i,
                         /node_modules/,
                     ],
                     include: helpers.root('src', 'client', 'app'),

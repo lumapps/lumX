@@ -17,9 +17,10 @@ let _decorateModuleRef: IDecorateModuleRef = <T>(value: T): T => value;
 
 if (ENV === 'production') {
     // Production
+    enableProdMode();
+
     _decorateModuleRef = (moduleRef: NgModuleRef<any>) => {
         disableDebugTools();
-        enableProdMode();
 
         return moduleRef;
     };

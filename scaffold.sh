@@ -40,29 +40,30 @@ function usage {
     printf """${BOLD}${GREEN}LumX² scaffolder${DEFAULT}
 
 ${UNDERLINE}${MAGENTA}${BOLD}Usage${DEFAULT}:
-npm run -s scaffold -- [--debug] [--help] [-n|--name <name>] [-p|--path <path>] [-t|--type <type>] [--core] [--not-core] [--router] [--import-core]  [-s|--selector <selector>] [--create-module|--with-module] [--on-init] [--on-destroy] [--on-change] [--activated-route] [--constructor]
+npm run -s scaffold -- [--debug] [--help] [--force] [-n|--name <name>] [-p|--path <path>|\"default\"] [--at-root|--not-at-root] [-t|--type <type>] [--core|--not-core] [--router|--no-router] [--import-core|--not-import-core]  [-s|--selector <selector>|\"default\"] [--with-module|--without-module] [--on-init|--no-on-init] [--on-destroy|--no-on-destroy] [--on-change|--no-on-change] [--activated-route|--no-activated-route] [--constructor|--no-constructor]
 
 ${UNDERLINE}${BLUE}Common options${DEFAULT}:
-\t${CYAN}--debug${DEFAULT}\t\t\tDebug this scaffold script
-\t${CYAN}--help${DEFAULT}\t\t\tPrint this help message.
-\t${CYAN}-n, --name ${YELLOW}<name>${DEFAULT}\tThe name of the element you want to scaffold.
-\t${CYAN}-p, --path ${YELLOW}<path>${DEFAULT}\tThe path for the scaffolded element.
-\t${CYAN}-t, --type ${YELLOW}<type>${DEFAULT}\tThe type of element you want to scaffold. Allowed types are: 'Module', 'Component'
-\t${CYAN}--core${DEFAULT}\t\t\tIndicates if it's a core element that's beeing scaffolded.
-\t${CYAN}--not-core${DEFAULT}\t\tIndicates if it's not a core element that's beeing scaffolded.
+\t${CYAN}--debug${DEFAULT}\t\t\t\t\tDebug this scaffold script
+\t${CYAN}--help${DEFAULT}\t\t\t\t\tPrint this help message.
+\t${CYAN}--force${DEFAULT}\t\t\t\t\tDon't ask confirmation for overwritting directory or files.
+\t${CYAN}-n, --name ${YELLOW}<name>${DEFAULT}\t\t\tThe name of the element you want to scaffold.
+\t${CYAN}-p, --path ${YELLOW}<path>|\"default\"${DEFAULT}\t\tThe path (from 'src/client/app/') for the scaffolded element (if \"default\", will be at the root of 'src/client/app/').
+\t${CYAN}--[not-]at-root${DEFAULT}\t\t\t\tIndicates if we want to create the element at the root of the given path or in a subdirectory (whose name will be the selector of the element).
+\t${CYAN}-t, --type ${YELLOW}<type>${DEFAULT}\t\t\tThe type of element you want to scaffold. Allowed types are: 'Module', 'Component'
+\t${CYAN}--[not-]core${DEFAULT}\t\t\t\tIndicates if it's a core element that's beeing scaffolded or not.
 
 ${UNDERLINE}${BLUE}Modules options${DEFAULT}:
-\t${CYAN}--router${DEFAULT}\t\tIndicates if we want to import the Router module in the scaffolded module.
-\t${CYAN}--import-core${DEFAULT}\t\tIndicates if we want to import the Core module in the scaffolded module.
+\t${CYAN}--[no-]router${DEFAULT}\t\t\t\tIndicates if we want to import the Router module in the scaffolded module or not.
+\t${CYAN}--[not-]import-core${DEFAULT}\t\t\tIndicates if we want to import the Core module in the scaffolded module or not.
 
 ${UNDERLINE}${BLUE}Components options${DEFAULT}:
-\t${CYAN}-s, --selector ${YELLOW}<sel>${DEFAULT}\tThe selector of the scaffolded component.
-\t${CYAN}--create-module${DEFAULT}\t\tIndicates if we want to create a module associated with the scaffolded component.
-\t${CYAN}--on-init${DEFAULT}\t\tIndicates if we want the 'ngOnInit' hook in the scaffolded component.
-\t${CYAN}--on-destroy${DEFAULT}\t\tIndicates if we want the 'ngOnDestroy' hook in the scaffolded component.
-\t${CYAN}--on-change${DEFAULT}\t\tIndicates if we want the 'ngOnChange' hook in the scaffolded component.
-\t${CYAN}--activated-route${DEFAULT}\tIndicates if we want to get the activated route in the scaffolded component (will create a default constructor tomatically).
-\t${CYAN}--constructor${DEFAULT}\t\tIndicates if we want to create an empty constructor in the scaffolded component.
+\t${CYAN}-s, --selector ${YELLOW}<selector>|\"default\"${DEFAULT}\tThe selector of the scaffolded component (if \"default\", will be computed from the given component name).
+\t${CYAN}--with[out]-module${DEFAULT}\t\t\tIndicates if we want to create a module associated with the scaffolded component or not.
+\t${CYAN}--[no-]on-init${DEFAULT}\t\t\t\tIndicates if we want the 'ngOnInit' hook in the scaffolded component or not.
+\t${CYAN}--[no-]on-destroy${DEFAULT}\t\t\tIndicates if we want the 'ngOnDestroy' hook in the scaffolded component or not.
+\t${CYAN}--[no-]on-change${DEFAULT}\t\t\tIndicates if we want the 'ngOnChange' hook in the scaffolded component or not.
+\t${CYAN}--[no-]activated-route${DEFAULT}\t\t\tIndicates if we want to get the activated route in the scaffolded component (will create a default constructor automatically) or not.
+\t${CYAN}--[no-]constructor${DEFAULT}\t\t\tIndicates if we want to create an empty constructor in the scaffolded component or not.
 """
 }
 
@@ -161,6 +162,22 @@ SCAFFOLD_TYPES=("Module" "Component" "Model" "Constant" "Message" "Reducer" "Ser
 SELECTORS_FILE="src/client/app/core/settings/selectors.settings.ts"
 
 
+defaultScaffoldType='Module'
+defaultCore="n"
+defaultName=""
+defaultModulePath="."
+defaultAtRoot="n"
+defaultRouter="n"
+defaultImportCore="y"
+defaultSelector=""
+defaultCreateModule="y"
+defaultOnInit="y"
+defaultOnDestroy="y"
+defaultOnChange="n"
+defaultActivatedRoute="n"
+defaultConstructor="y"
+
+
 while [[ $# -ge 1 ]]; do
     key="$1"
 
@@ -180,8 +197,21 @@ while [[ $# -ge 1 ]]; do
             ;;
 
         -p|--path)
-            modulePath="$2"
+            if [ "$2" == "default" ]; then
+                modulePath="${defaultModulePath%/}"
+            else
+                modulePath="${2%/}"
+            fi
+
             shift
+            ;;
+
+        --at-root)
+            atRoot="y"
+            ;;
+
+        --not-at-root)
+            atRoot="n"
             ;;
 
         -s|--selector)
@@ -206,32 +236,64 @@ while [[ $# -ge 1 ]]; do
             router="y"
             ;;
 
+        --no-router)
+            router="n"
+            ;;
+
         --import-core)
             importCore="y"
             ;;
 
-        --create-module|--with-module)
+        --not-import-core)
+            importCore="n"
+            ;;
+
+        --with-module)
             createModule="y"
+            ;;
+
+        --without-module)
+            createModule="n"
             ;;
 
         --on-init)
             onInit="y"
             ;;
 
+        --no-on-init)
+            onInit="n"
+            ;;
+
         --on-destroy)
             onDestroy="y"
+            ;;
+
+        --no-on-destroy)
+            onDestroy="n"
             ;;
 
         --on-change)
             onChange="y"
             ;;
 
+        --no-on-change)
+            onChange="n"
+            ;;
+
         --activated-route)
             activatedRoute="y"
             ;;
 
+        --no-activated-route)
+            activatedRoute="n"
+            ;;
+
         --constructor)
             constructor="y"
+            ;;
+
+        --no-constructor)
+            constructor="n"
             ;;
 
         *)
@@ -245,7 +307,6 @@ done
 
 printf "${BOLD}Welcome to the ${BLUE}LumX²${DEFAULT}${BOLD} scaffolder!${DEFAULT}\n"
 
-defaultScaffoldType='Module'
 if [ -z "$scaffoldType" ]; then
     printf "We will ask you some question to help you scaffold a new element in the project. Ready?\n\n"
 else
@@ -254,7 +315,6 @@ fi
 menuWithDefault "What sort of element do you wish to scaffold" "scaffoldType" "SCAFFOLD_TYPES"
 scaffoldType=${scaffoldType,,}
 
-defaultCore="n"
 coreMessage=""
 if [ "$scaffoldType" == "module" ] || [ "$scaffoldType" == "component" ]; then
     readBooleanWithDefault "Is it a core ${scaffoldType}" "core"
@@ -263,23 +323,24 @@ if [ "$core" == 'y' ]; then
     coreMessage="core "
 fi
 
-defaultName=""
 if [ -z "$name" ]; then
     readWithDefault "Enter the name of your ${coreMessage}${scaffoldType}" "name"
 fi
 
-defaultModulePath="."
-defaultRouter="n"
-defaultImportCore="y"
 defaultSelector=$(echo -e "${name,,}" | tr -d '\n\r' | tr '[[:space:]]' '-' | tr -dc '[:alnum:]-_')
-selector=$defaultSelector
-defaultCreateModule="y"
-defaultOnInit="y"
-defaultOnDestroy="y"
-defaultOnChange="n"
+if [ -z "$selector" ] || [ "$selector" == "default" ]; then
+    selector="$defaultSelector"
+fi
 if [ "$scaffoldType" == "module" ]; then
     if [ "$core" == 'n' ]; then
         readWithDefault "Enter the path (from 'src/client/app') of the module where you want to add the \"${name}\" ${coreMessage}${scaffoldType}" "modulePath"
+        modulePath="${modulePath%/}"
+
+        displayedModulePath="$modulePath"
+        if [ "$displayedModulePath" == "." ]; then
+            displayedModulePath=""
+        fi
+        readBooleanWithDefault "Do you want to add the \"${name}\" ${coreMessage}${scaffoldType} at the root of 'src/client/app/${displayedModulePath}' or in a '${selector}' subdirectory" "atRoot"
     fi
 
     readBooleanWithDefault "Do you want to declare routes in the \"${name}\" ${coreMessage}${scaffoldType}" "router"
@@ -294,6 +355,13 @@ elif [ "$scaffoldType" == "component" ]; then
 
     if [ "$core" == 'n' ]; then
         readWithDefault "Enter the path (from 'src/client/app') of the module where you want to add the ${thing}" "modulePath"
+        modulePath="${modulePath%/}"
+
+        displayedModulePath="$modulePath"
+        if [ "$displayedModulePath" == "." ]; then
+            displayedModulePath=""
+        fi
+        readBooleanWithDefault "Do you want to add the \"${name}\" ${coreMessage}${scaffoldType} at the root of 'src/client/app/${displayedModulePath}' or in a '${selector}' subdirectory" "atRoot"
     fi
 
     if [ "$createModule" == "y" ]; then
@@ -305,16 +373,19 @@ elif [ "$scaffoldType" == "component" ]; then
     readBooleanWithDefault "Do you want to use the 'ngOnDestroy' hook in \"${name}\" ${coreMessage}${scaffoldType}" "onDestroy"
     readBooleanWithDefault "Do you want to use the 'ngOnChange' hook in \"${name}\" ${coreMessage}${scaffoldType}" "onChange"
 
-    defaultActivatedRoute="n"
     if [ "$createModule" == "y" ] && [ "$router" == "y" ]; then
         defaultActivatedRoute="y"
     fi
     readBooleanWithDefault "Do you want to access route params in \"${name}\" ${coreMessage}${scaffoldType}" "activatedRoute"
 
-    defaultConstructor="y"
-    constructor=$activatedRoute
+    constructor="$activatedRoute"
     readBooleanWithDefault "Do you want a constructor in \"${name}\" ${coreMessage}${scaffoldType}" "constructor"
 fi
+
+if [ "$atRoot" == "y" ]; then
+    modulePath="${modulePath}/@root@"
+fi
+modulePath="${modulePath%/}"
 
 
 printf "\n"
@@ -324,26 +395,39 @@ function initModule() {
     _moduleName="$1"
     _selector="${2,,}"
     _modulePath="${3%/}"
-    [[ "$4" = "y" ]] && _isCoreModule=true || _isCoreModule=false
-    [[ "$5" = "y" ]] && _useRouter=true || _useRouter=false
-    [[ "$6" = "y" ]] && _importCore=true || _importCore=false
-    [[ "$7" = "y" ]] && _forComponent=true || _forComponent=false
+    [[ "$4" == "y" ]] && _isCoreModule=true || _isCoreModule=false
+    [[ "$5" == "y" ]] && _useRouter=true || _useRouter=false
+    [[ "$6" == "y" ]] && _importCore=true || _importCore=false
+    [[ "$7" == "y" ]] && _forComponent=true || _forComponent=false
 
     directory="src/client/app/core/modules/"
 
     if [ "$_isCoreModule" = false ]; then
+        local _rootSuffix="@root@"
+        local _atRoot=false
+
         if [ -n "$_modulePath" ]; then
+            if [[ "$_modulePath" == *"$_rootSuffix" ]]; then
+                _atRoot=true
+                modulePath=${_modulePath%$_rootSuffix}
+                modulePath=${_modulePath%/}
+            fi
+
             if [ "$_modulePath" == "." ]; then
                 _modulePath=""
             else
                 _modulePath="${_modulePath}/"
             fi
         fi
-        directory="src/client/app/${_modulePath}${_selector}"
+        directory="src/client/app/${_modulePath}"
+
+        if [ "$_atRoot" = false ]; then
+            directory="${directory}${_selector}/"
+        fi
 
         defaultCreateModuleDirectory="y"
-        if [ -d $directory ]; then
-            readBooleanWithDefault "The module directory \"${directory}\" already exists. Are you sure you want to continue" "createModuleDirectory"
+        if [ -d $directory ] && [ "$force" == "n" ]; then
+            readBooleanWithDefault "The module directory \"${directory}\" already exists. Are you sure you want to continue (some file contained in the directory may be overwritten)" "createModuleDirectory"
         fi
 
         if [ "$createModuleDirectory" == "n" ]; then
@@ -363,8 +447,8 @@ function initModule() {
 
     defaultCreateModuleFile="y"
     createModuleFile="y"
-    if [ -f $moduleFile ]; then
-        readBooleanWithDefault "The module file \"${directory}${moduleFile}\" already exists. Are you sure you want to continue" "createModuleFile"
+    if [ -f $moduleFile ] && [ "$force" == "n" ]; then
+        readBooleanWithDefault "The module file \"${directory}${moduleFile}\" already exists. Are you sure you want to continue (the file will be overwritten)" "createModuleFile"
     fi
 
     if [ "$createModuleFile" == "y" ]; then
@@ -452,7 +536,7 @@ function initModule() {
 
         printf "export class ${className}Module {}\n" >> $moduleFile
 
-        convertTabToSpace "$moduleFile"
+        convertTabToSpace $moduleFile
 
     printf "${BLUE}Done${DEFAULT}\n"
 
@@ -463,29 +547,43 @@ function initComponent() {
     _componentName="$1"
     _selector="${2,,}"
     _modulePath="${3%/}"
-    [[ "$4" = "y" ]] && _isCoreComponent=true || _isCoreComponent=false
-    [[ "$5" = "y" ]] && _generateOnInit=true || _generateOnInit=false
-    [[ "$6" = "y" ]] && _generateOnDestroy=true || _generateOnDestroy=false
-    [[ "$7" = "y" ]] && _generateOnChange=true || _generateOnChange=false
-    [[ "$8" = "y" ]] && _hasActivatedRoute=true || _hasActivatedRoute=false
-    [[ "$9" = "y" ]] && _generateConstructor=true || _generateConstructor=false
+    [[ "$4" == "y" ]] && _isCoreComponent=true || _isCoreComponent=false
+    [[ "$5" == "y" ]] && _generateOnInit=true || _generateOnInit=false
+    [[ "$6" == "y" ]] && _generateOnDestroy=true || _generateOnDestroy=false
+    [[ "$7" == "y" ]] && _generateOnChange=true || _generateOnChange=false
+    [[ "$8" == "y" ]] && _hasActivatedRoute=true || _hasActivatedRoute=false
+    [[ "$9" == "y" ]] && _generateConstructor=true || _generateConstructor=false
+    [[ "${10}" == "y" ]] && _hasGeneratedModule=true || _hasGeneratedModule=false
 
     directory="src/client/app/core/components/${_selector}/"
 
     if [ "$_isCoreComponent" = false ]; then
+        local _rootSuffix="@root@"
+        local _atRoot=false
+
         if [ -n "$_modulePath" ]; then
+            if [[ "$_modulePath" == *"$_rootSuffix" ]]; then
+                _atRoot=true
+                _modulePath=${_modulePath%$_rootSuffix}
+                _modulePath=${_modulePath%/}
+            fi
+
             if [ "$_modulePath" == "." ]; then
                 _modulePath=""
             else
                 _modulePath="${_modulePath}/"
             fi
         fi
-        directory="src/client/app/${_modulePath}${_selector}/"
+        directory="src/client/app/${_modulePath}"
+
+        if [ "$_atRoot" = false ]; then
+            directory="${directory}${_selector}/"
+        fi
     fi
 
     defaultCreateComponentsDirectory="y"
-    if [ -d $directory ] && [ "$createModule" = "n" ]; then
-        readBooleanWithDefault "The component directory \"${directory}\" already exists. All files will be erased! Are you sure you want to continue" "createComponentsDirectory"
+    if [ -d $directory ] && [ "$createModule" == "n" ] && [ "$force" == "n" ]; then
+        readBooleanWithDefault "The component directory \"${directory}\" already exists. All files will be overwritten! Are you sure you want to continue" "createComponentsDirectory"
     fi
 
     if [ "$createComponentsDirectory" == "n" ]; then
@@ -518,36 +616,30 @@ function initComponent() {
     printf "Creating TypeScript component... "
         className=$(echo -e "${_componentName}" | sed -r 's/(^| )([A-Za-z0-9])/\U\2/g' | tr -d '[[:space:]]\n\r-' | tr -dc '[:alnum:]\n\r')
 
-        printf "import { Component } from '@angular/core';\n" > $componentFile
-        imports=""
+        imports="Component"
         implements=""
         if [ "$_generateOnChange" = true ]; then
-            if [ -n "${imports}" ]; then
-                imports="${imports}, "
+            if [ -n "${implements}" ]; then
                 implements="${implements}, "
             fi
-            imports="${imports}OnChange"
+            imports="${imports}, OnChange"
             implements="${implements}OnChange"
         fi
         if [ "$_generateOnDestroy" = true ]; then
-            if [ -n "${imports}" ]; then
-                imports="${imports}, "
+            if [ -n "${implements}" ]; then
                 implements="${implements}, "
             fi
-            imports="${imports}OnDestroy"
+            imports="${imports}, OnDestroy"
             implements="${implements}OnDestroy"
         fi
         if [ "$_generateOnInit" = true ]; then
-            if [ -n "${imports}" ]; then
-                imports="${imports}, "
+            if [ -n "${implements}" ]; then
                 implements="${implements}, "
             fi
-            imports="${imports}OnInit"
+            imports="${imports}, OnInit"
             implements="${implements}OnInit"
         fi
-        if [ -n "$imports" ]; then
-            printf "import { ${imports} } from '@angular/core';\n" >> $componentFile
-        fi
+        printf "import { ${imports} } from '@angular/core';\n" > $componentFile
         if [ "$_hasActivatedRoute" = true ]; then
             printf "import { ActivatedRoute } from '@angular/router';\n" >> $componentFile
         fi
@@ -563,7 +655,7 @@ function initComponent() {
         printf "/*\n" >> $componentFile
         printf " * Component template\n" >> $componentFile
         printf " */\n" >> $componentFile
-        printf "const template: string = require(\`./${SELECTOR}.component.html\`);\n" >> $componentFile
+        printf "const template: string = require(\`./\${SELECTOR}.component.html\`);\n" >> $componentFile
 
         printf "\n" >> $componentFile
         printf "\n" >> $componentFile
@@ -571,7 +663,7 @@ function initComponent() {
         printf "@Component({\n" >> $componentFile
             printf "\tselector: SELECTOR_PREFIX + SELECTOR_SEPARATOR + SELECTOR,\n" >> $componentFile
             printf "\tstyles: [\n" >> $componentFile
-                printf "\t\trequire(\`./${SELECTOR}.component.scss\`),\n" >> $componentFile
+                printf "\t\trequire(\`./\${SELECTOR}.component.scss\`),\n" >> $componentFile
             printf "\t],\n" >> $componentFile
             printf "\ttemplate: template,\n" >> $componentFile
         printf "})\n" >> $componentFile
@@ -647,8 +739,109 @@ function initComponent() {
 
         printf "}\n" >> $componentFile
 
-        convertTabToSpace "$componentFile"
+        convertTabToSpace $componentFile
+    printf "${BLUE}Done${DEFAULT}\n"
 
+    printf "Creating Unit tests component... "
+        printf "import { ComponentFixtureAutoDetect, TestBed } from '@angular/core/testing';\n" > $componentSpecFile
+        printf "// You can also import for exemple: 'async', 'fakeAsync', 'tick', ...\n" >> $componentSpecFile
+        printf "\n" >> $componentSpecFile
+
+        printf "// If you need to import any service or other, import it here\n" >> $componentSpecFile
+        printf "\n" >> $componentSpecFile
+
+        printf "import { ${className}Component } from './${SELECTOR}.component';\n" >> $componentSpecFile
+        if [ "$_hasGeneratedModule" = true ]; then
+            printf "import { ${className}Module } from './${SELECTOR}.module';\n" >> $componentSpecFile
+        fi
+        printf "\n" >> $componentSpecFile
+
+        printf "// If you need another specific module (core module, ...), import it here\n" >> $componentSpecFile
+        printf "\n\n" >> $componentSpecFile
+
+        printf "describe('${_componentName}', () => {\n" >> $componentSpecFile
+            printf "\tconst component: ${className}Component;\n" >> $componentSpecFile
+            printf "\tconst fixture: ComponentFixture<${className}Component>;\n" >> $componentSpecFile
+            printf "\n" >> $componentSpecFile
+
+            printf "\t// If you want to get any service\n" >> $componentSpecFile
+            printf "\t// const myService: MyService;\n" >> $componentSpecFile
+            printf "\n" >> $componentSpecFile
+
+            printf "\t// If you want to declare spies (see http://tobyho.com/2011/12/15/jasmine-spy-cheatsheet/)\n" >> $componentSpecFile
+            printf "\t// const spy: jasmine.Spy;\n" >> $componentSpecFile
+            printf "\n" >> $componentSpecFile
+
+            printf "\tbeforeEach(() => {\n" >> $componentSpecFile
+                printf "\t\tTestBed.configureTestingModule({\n" >> $componentSpecFile
+                    if [ "$_hasGeneratedModule" = true ]; then
+                        printf "\t\t\tdeclarations: [\n" >> $componentSpecFile
+                        printf "\t\t\t],\n\n" >> $componentSpecFile
+                    else
+                        printf "\t\t\tdeclarations: [\n" >> $componentSpecFile
+                            printf "\t\t\t\t${className}Component,\n" >> $componentSpecFile
+                        printf "\t\t\t],\n\n" >> $componentSpecFile
+                    fi
+
+                    printf "\t\t\texports: [\n" >> $componentSpecFile
+                    printf "\t\t\t],\n\n" >> $componentSpecFile
+
+                    printf "\t\t\timports: [\n" >> $componentSpecFile
+                        if [ "$_hasGeneratedModule" = true ]; then
+                            printf "\t\t\t\t${className}Module,\n" >> $componentSpecFile
+                        else
+                            printf "\t\t\t\t// Add any module you want to import here\n" >> $componentSpecFile
+                        fi
+                    printf "\t\t\t],\n\n" >> $componentSpecFile
+
+                    printf "\t\t\tproviders: [\n" >> $componentSpecFile
+                        printf "\t\t\t\t{ provide: ComponentFixtureAutoDetect, useValue: true },\n" >> $componentSpecFile
+                        printf "\t\t\t\t// If you have any other provider to declare, add it here\n" >> $componentSpecFile
+                        printf "\t\t\t\t// You can also declare services doubles (stub, mockup, ...) here:\n" >> $componentSpecFile
+                        printf "\t\t\t\t// { provide: MyService, useValue: myServiceStub }\n" >> $componentSpecFile
+                    printf "\t\t\t],\n" >> $componentSpecFile
+                printf "\t\t});\n" >> $componentSpecFile
+                printf "\n" >> $componentSpecFile
+
+                printf "\t\tfixture = TestBed.createComponent(${className}Component);\n" >> $componentSpecFile
+                printf "\t\tcomponent = fixture.componentInstance;\n" >> $componentSpecFile
+                printf "\n" >> $componentSpecFile
+
+                printf "\t\t// If you want to use any service, remember to get it from either:\n" >> $componentSpecFile
+                printf "\t\t//     The root injector:\n" >> $componentSpecFile
+                printf "\t\t// myService = TestBed.get(MyService);\n" >> $componentSpecFile
+                printf "\t\t//     The component injector:\n" >> $componentSpecFile
+                printf "\t\t// myService = fixture.debugElement.injector.get(MyService);\n" >> $componentSpecFile
+                printf "\n" >> $componentSpecFile
+
+                printf "\t\t// You can also declare spies on method here (see http://tobyho.com/2011/12/15/jasmine-spy-cheatsheet/):\n" >> $componentSpecFile
+                printf "\t\t// spy = spyOn(myService, 'myMethod').and.returnValue('myValue');\n" >> $componentSpecFile
+            printf "\t});\n" >> $componentSpecFile
+            printf "\n" >> $componentSpecFile
+
+            printf "\t// For more info on how to test in Angular2, see https://angular.io/docs/ts/latest/guide/testing.html\n" >> $componentSpecFile
+            printf "\tit('should have a test written here', () => {\n" >> $componentSpecFile
+                printf "\t\t// This is not required here as 'ComponentFixtureAutoDetect' is enabled\n" >> $componentSpecFile
+                printf "\t\t// However, it's always good to be explicit\n" >> $componentSpecFile
+                printf "\t\t// Also, remember to call 'fixture.detectChanges();' anytime you want to update the component state\n" >> $componentSpecFile
+                printf "\t\tfixture.detectChanges();\n" >> $componentSpecFile
+                printf "\n" >> $componentSpecFile
+
+                printf "\t\t// If you have defined spies, you can check them:;\n" >> $componentSpecFile
+                printf "\t\t// expect(spy.calls.any()).toBe(false);\n" >> $componentSpecFile
+                printf "\n" >> $componentSpecFile
+
+                printf "\t\texpect(component).toBeDefined();\n" >> $componentSpecFile
+                printf "\t\texpect(false).toBe(true);\n" >> $componentSpecFile
+            printf "\t});\n" >> $componentSpecFile
+        printf "});\n" >> $componentSpecFile
+
+        convertTabToSpace $componentSpecFile
+    printf "${BLUE}Done${DEFAULT}\n"
+
+    printf "Creating component's template... "
+        printf "<h1>Template of \"${_componentName}\"</h1>\n" > $componentTemplateFile
+        convertTabToSpace $componentSpecFile
     printf "${BLUE}Done${DEFAULT}\n"
 
     cd - > /dev/null
@@ -671,7 +864,7 @@ case "${scaffoldType}" in
             initModule "$name" "$selector" "$modulePath" "$core" "$router" "$importCore" "y"
             exitIfError "Scaffolding the component's module"
         fi
-        initComponent "$name" "$selector" "$modulePath" "$core" "$onInit" "$onDestroy" "$onChange" "$activatedRoute" "$constructor"
+        initComponent "$name" "$selector" "$modulePath" "$core" "$onInit" "$onDestroy" "$onChange" "$activatedRoute" "$constructor" "$createModule"
         exitIfError "Scaffolding the component"
         ;;
 

@@ -47,13 +47,16 @@ def updateGitignore():
 
 # Commit the changes (/dist, .gitignore, /demo) and push the new tag
 def commit(version):
-    untrackedFiles = subprocess.Popen('git ls-files -o --exclude-standard'.split(), stdout=subprocess.PIPE)
-    subprocess.call(('git add %s' % untrackedFiles.stdout.read().replace('\n', ' ')).split())
-    subprocess.call(['git', 'commit', '-am', 'chore release: new release %s' % version], stderr=subprocess.STDOUT,
-                    stdout=subprocess.PIPE)
     subprocess.call(('git tag %s' % version).split())
+
+    subprocess.call(('python changelog.py').split())
+    subprocess.call(('git add .').split())
+    subprocess.call(['git', 'commit', '-m', 'chore(release): new release %s' % version], stderr=subprocess.STDOUT,
+                    stdout=subprocess.PIPE)
+
     print "Publishing new tag"
-    subprocess.call(('git push origin %s' % version).split(), stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
+    subprocess.call(('git push --tags').split(), stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
+    subprocess.call(('git push').split(), stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
     print "Release %s created!" % version
 
 

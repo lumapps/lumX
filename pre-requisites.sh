@@ -1,5 +1,5 @@
 #!/bin/bash
-# This script will check pre-requisites for LumX²
+# This script will check the pre-requisites for LumX²
 
 BOLD=""
 UNDERLINE=""

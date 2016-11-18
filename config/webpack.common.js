@@ -22,6 +22,37 @@ const TsConfigPathsPlugin = require('awesome-typescript-loader').TsConfigPathsPl
  */
 module.exports = function webpackCommonConfigExport(metadata) {
     let plugins = [
+        /*
+         * Plugin: AssetsPlugin.
+         * Description: Emits a JSON file with assets paths.
+         *
+         * @see {@link https://github.com/kossnocorp/assets-webpack-plugin|Assets Webpack Plugin}
+         */
+        new AssetsPlugin({
+            filename: 'webpack-assets.json',
+            path: helpers.root('dist', 'client'),
+            prettyPrint: true,
+        }),
+
+        /*
+         * Plugin: CopyWebpackPlugin.
+         * Description: Copy files and directories in webpack.
+         *
+         * @see {@link https://www.npmjs.com/package/copy-webpack-plugin|Copy Webpack Plugin}
+         */
+        new CopyWebpackPlugin([
+            {
+                from: 'src/client/assets',
+                to: 'assets',
+            }, {
+                from: 'src/client/meta',
+            },
+        ], {
+            ignore: [
+                '*.scss',
+            ],
+        }),
+
         /**
          * Plugin: DefinePlugin.
          * Description: Define free variables. Useful for having development builds with debug logging or adding global
@@ -81,22 +112,18 @@ module.exports = function webpackCommonConfigExport(metadata) {
          * @see {@link https://gist.github.com/sokra/27b24881210b56bbaff7|What's new in Webpack2}
          */
         new LoaderOptionsPlugin(helpers.getOptions()),
+
+        /*
+         * Plugin: TsConfigPathsPlugin.
+         * Description: Add the support of 'tsconfig.json' 'path' property.
+         *
+         * @see {@link https://github.com/s-panferov/awesome-typescript-loader|Awesome Typescript Loader}
+         */
+        new TsConfigPathsPlugin(),
     ];
 
     if (metadata.env !== helpers.ENVS.test) {
         plugins.push(
-            /*
-             * Plugin: AssetsPlugin.
-             * Description: Emits a JSON file with assets paths.
-             *
-             * @see {@link https://github.com/kossnocorp/assets-webpack-plugin|Assets Webpack Plugin}
-             */
-            new AssetsPlugin({
-                filename: 'webpack-assets.json',
-                path: helpers.root('dist', 'client'),
-                prettyPrint: true,
-            }),
-
             /**
              * Plugin: ContextReplacementPlugin.
              * Description: Provides context to Angular's use of System.import.
@@ -109,28 +136,6 @@ module.exports = function webpackCommonConfigExport(metadata) {
                 /angular(\\|\/)core(\\|\/)(esm(\\|\/)src|src)(\\|\/)linker/i,
                 helpers.root('src', 'client')
             ),
-
-            /*
-             * Plugin: CopyWebpackPlugin.
-             * Description: Copy files and directories in webpack.
-             *
-             * @see {@link https://www.npmjs.com/package/copy-webpack-plugin|Copy Webpack Plugin}
-             */
-            new CopyWebpackPlugin([
-                {
-                    from: 'src/client/assets',
-                    to: 'assets',
-                }, {
-                    from: 'src/client/app/demo/images',
-                    to: 'assets',
-                }, {
-                    from: 'src/client/meta',
-                },
-            ], {
-                ignore: [
-                    '*.scss',
-                ],
-            }),
 
             /**
              * Plugin: SASSLintPlugin.
@@ -161,15 +166,7 @@ module.exports = function webpackCommonConfigExport(metadata) {
              */
             new ScriptExtHtmlWebpackPlugin({
                 defaultAttribute: 'defer',
-            }),
-
-            /*
-             * Plugin: TsConfigPathsPlugin.
-             * Description: Add the support of 'tsconfig.json' 'path' property.
-             *
-             * @see {@link https://github.com/s-panferov/awesome-typescript-loader|Awesome Typescript Loader}
-             */
-            new TsConfigPathsPlugin()
+            })
         );
     }
 

@@ -18,7 +18,7 @@
         "no-namespace": false,
         "no-reference": true,
         "no-var-requires": false,
-        "only-arrow-functions": true,
+        "only-arrow-functions": false,
         "typedef": [
             true,
             "call-signature",
@@ -63,7 +63,6 @@
         ],
         "no-construct": true,
         "no-debugger": true,
-        "no-duplicate-key": true,
         "no-duplicate-variable": true,
         "no-empty": true,
         "no-eval": true,
@@ -76,13 +75,6 @@
         "no-unsafe-finally": true,
         "no-unused-expression": true,
         "no-unused-new": true,
-        "no-unused-variable": [
-            true,
-            "check-parameters",
-            {
-                "ignore-pattern": "e|event"
-            }
-        ],
         "no-use-before-declare": true,
         "no-var-keyword": true,
         "radix": true,
@@ -119,8 +111,7 @@
 
         "align": [
             true,
-            "parameters",
-            "arguments"
+            "parameters"
         ],
         "arrow-parens": true,
         "class-name": true,
@@ -136,7 +127,6 @@
         "new-parens": true,
         "no-angle-bracket-type-assertion": false,
         "no-consecutive-blank-lines": false,
-        "no-constructor-vars": false,
         "object-literal-key-quotes": [
             true,
             "as_needed"
@@ -170,6 +160,7 @@
             true,
             "check-format",
             "allow-leading-underscore",
+            "allow-pascal-case",
             "ban-keywords"
         ],
         "whitespace": [

@@ -119,12 +119,12 @@
         "check:prerequisites": "bash -c \"(gulp --version &> /dev/null) && npm -s run task -- check:prerequisites || npm -s run check:prerequisites:core\"",
         "check:prerequisites:core": "bash -c \"./pre-requisites.sh\"",
         "preinit": "npm -s run check:prerequisites:core",
-        "init": "bash -c \"./init.sh\"",
+        "init": "bash ./init.sh",
 
         "setup:git-hooks": "node node_modules/husky/bin/uninstall.js && node node_modules/husky/bin/install.js",
 
         "setup": "bash -c \"(gulp --version &> /dev/null) && npm run -s task -- setup || npm -s run setup:core\"",
-        "setup:core": "npm -s run clean:packages && bash -c \"./pre-requisites.sh\" && npm -s run setup:yarn:npm",
+        "setup:core": "npm -s run clean:packages && bash -c \"./pre-requisites.sh\" && npm -s run setup:yarn:npm && npm -s run task -- clean:project",
         "setup:yarn:npm": "bash -c \"(yarn --version &> /dev/null) && npm -s run setup:yarn || npm -s run setup:npm\"",
         "setup:npm": "npm -s install",
         "setup:yarn": "yarn install",
@@ -287,7 +287,7 @@
         "jsdoc": "latest",
         "sass-lint": "latest",
         "tsconfig-lint": "latest",
-        "tslint": "latest",
+        "tslint": "next",
         "tslint-eslint-rules": "latest",
         "ts-helpers": "latest",
         "ts-node": "latest",

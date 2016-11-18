@@ -11,12 +11,14 @@ const project = 'LumX²';
 
 const configFolder = './config';
 const distFolder = './dist/client';
-const clientDocsFolder = './docs/client';
-const configDocsFolder = './docs/config';
+const docsFolder = './docs';
 const sourceFolder = './src/client';
 const testsFolder = './tests/client';
 
 const appFolder = `${sourceFolder}/app`;
+
+const clientDocsFolder = `${docsFolder}/client`;
+const configDocsFolder = `${docsFolder}/config`;
 
 const unitFolder = `${testsFolder}/unit`;
 const unitReportFolder = `${unitFolder}/report`;
@@ -63,6 +65,7 @@ const envDev = `NODE_ENV='dev'`;
 const envProd = `NODE_ENV='prod'`;
 const envTest = `NODE_ENV='test'`;
 const hidden = `HIDDEN=true`;
+const live = `LIVE=true`;
 
 if (!enableDashboard) {
     webpackDevServerHotReloadParameters = `${webpackDevServerHotReloadParameters} ${webpackDevServerClassicParameters}`;
@@ -112,24 +115,23 @@ shelter({
         dsc: `Clean the whole ${project} project (NPM, docs, test and dist)`,
     },
     'clean:dist': {
-        cmd: `${npmRun} rimraf -- ${distFolder}/*`,
+        cmd: `${npmRun} rimraf -- ${distFolder}/* && rm -Rf -- ${distFolder}`,
         dsc: `Clean the "dist" folder of ${project}`,
     },
     'clean:docs': {
-        cmd: `${npmRun} run-parallel -- clean:docs:client
-                                        clean:docs:config`,
-        dsc: `Clean the "client" and "config" folder of the "docs" folder of ${project}`,
+        cmd: `${npmRun} rimraf -- ${docsFolder}/* && rm -Rf -- ${docsFolder}`,
+        dsc: `Clean the "docs" folder of ${project}`,
     },
     'clean:docs:client': {
-        cmd: `${npmRun} rimraf -- ${clientDocsFolder}/*`,
+        cmd: `${npmRun} rimraf -- ${clientDocsFolder}/* && rm -Rf -- ${clientDocsFolder}`,
         dsc: `Clean the "docs/client" folder of ${project}`,
     },
     'clean:docs:config': {
-        cmd: `${npmRun} rimraf -- ${configDocsFolder}/*`,
+        cmd: `${npmRun} rimraf -- ${configDocsFolder}/* && rm -Rf -- ${configDocsFolder}`,
         dsc: `Clean the "docs/config" folder of ${project}`,
     },
     'clean:e2e:report': {
-        cmd: `${npmRun} run-parallel -- "rimraf -- ${e2eReportFolder}/*"
+        cmd: `${npmRun} run-parallel -- "rimraf -- ${e2eReportFolder}/* && rm -Rf -- ${e2eReportFolder}"
                                         "rimraf -- ${testsFolder}/e2e*.tar.gz"`,
         dsc: `Clean the "e2e/report" folder of ${project}`,
     },
@@ -158,7 +160,7 @@ shelter({
         dsc: `Clean the tests reports folder of ${project}`,
     },
     'clean:unit:report': {
-        cmd: `${npmRun} run-parallel -- "rimraf -- ${unitReportFolder}/*"
+        cmd: `${npmRun} run-parallel -- "rimraf -- ${unitReportFolder} && rm -Rf -- ${unitReportFolder}"
                                         "rimraf -- ${testsFolder}/unit*.tar.gz"`,
         dsc: `Clean the "unit/report" folder of ${project}`,
     },
@@ -250,27 +252,27 @@ shelter({
     },
 
     'scaffold': {
-        cmd: `bash -c "./scaffold.sh"`,
+        cmd: `bash ./scaffold.sh`,
         dsc: `Scaffold a new stub element in ${project}`,
     },
     'scaffold:component': {
-        cmd: `bash -c "./scaffold.sh -t Component --not-core"`,
+        cmd: `bash ./scaffold.sh -t Component --not-core`,
         dsc: `Scaffold a new stub component in ${project}`,
     },
     'scaffold:component:core': {
-        cmd: `bash -c "./scaffold.sh -t Component --core"`,
+        cmd: `bash ./scaffold.sh -t Component --core`,
         dsc: `Scaffold a new stub core component in ${project}`,
     },
     'scaffold:help': {
-        cmd: `bash -c "./scaffold.sh --help"`,
+        cmd: `bash ./scaffold.sh --help`,
         dsc: `Show the help page for the scaffolding in ${project}`,
     },
     'scaffold:module': {
-        cmd: `bash -c "./scaffold.sh -t Module --not-core"`,
+        cmd: `bash ./scaffold.sh -t Module --not-core`,
         dsc: `Scaffold a new stub module in ${project}`,
     },
     'scaffold:module:core': {
-        cmd: `bash -c "./scaffold.sh -t Module --core"`,
+        cmd: `bash ./scaffold.sh -t Module --core`,
         dsc: `Scaffold a new stub core module in ${project}`,
     },
 
@@ -342,8 +344,7 @@ shelter({
         dsc: `Quick setup ${project}: install packages (using Yarn if available, NPM else) and prepare for running`,
     },
     'setup:update': {
-        cmd: `${npmRun} setup:update:yarn:npm
-              && ${npmRun} task -- clean:project`,
+        cmd: `${npmRun} setup:update:yarn:npm`,
         dsc: `Update ${project}: upgrade packages (using Yarn if available, NPM else)`,
     },
 
@@ -379,15 +380,15 @@ shelter({
         dsc: `Run unit tests (Karma with Headless Chrome, XVFB needed) on ${project}`,
     },
     'unit:live': {
-        cmd: `${envDev} ${npmRun} "karma -- start --auto-watch --no-single-run`,
+        cmd: `${live} ${envDev} ${npmRun} karma -- start --auto-watch --no-single-run`,
         dsc: `Run unit tests (Karma with Chrome) in watch mode on ${project}`,
     },
     'unit:live:debug': {
-        cmd: `${debug} ${envDev} ${npmRun} karma -- start --auto-watch --no-single-run`,
+        cmd: `${live} ${debug} ${envDev} ${npmRun} karma -- start --auto-watch --no-single-run`,
         dsc: `Debug unit tests (Karma with Chrome) in watch mode on ${project}`,
     },
     'unit:live:headless': {
-        cmd: `${envDev} ${npmRun} karma:headless -- start --auto-watch --no-single-run`,
+        cmd: `${live} ${envDev} ${npmRun} karma:headless -- start --auto-watch --no-single-run`,
         dsc: `Run unit tests (Karma with Headless Chrome, XVFB needed) in watch mode on ${project}`,
     },
 });
