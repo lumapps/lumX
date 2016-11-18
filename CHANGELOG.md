@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.2.7:
+
+#### Miscellaneous:
+ - linter: fix linter in interceptor-service
+
+
 ## 1.2.6:
 
 #### Build management improvements:
