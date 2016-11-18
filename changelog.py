@@ -44,7 +44,8 @@ def buildNewLogs(fromTag, toTag):
         'perf': 'Performance improvements',
         'test': 'Tests',
         'build': 'Build management improvements',
-        'ci': "Continuous Integration improvements"
+        'ci': 'Continuous Integration improvements',
+        'misc': 'Miscellaneous'
     }
 
     for commit in commits:
@@ -55,6 +56,9 @@ def buildNewLogs(fromTag, toTag):
 
         data = title.split(':', 1)
         scope = data[0].split('(', 1)
+
+        if not scope[0] in kindTitles:
+            scope[0] = 'misc'
 
         kinds[scope[0]].append(scope[1][:-1].rstrip() + ': ' + data[1].strip())
 
