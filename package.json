@@ -229,7 +229,9 @@
         "core-js": "latest",
         "ie-shim": "latest",
         "rxjs": "latest",
-        "zone.js": "latest"
+        "zone.js": "latest",
+
+        "dedent": "latest"
     },
     "devDependencies": {
         "http-server": "latest",

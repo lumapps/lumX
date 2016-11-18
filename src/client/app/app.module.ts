@@ -6,7 +6,7 @@ import { createNewHosts, removeNgStyles } from '@angularclass/hmr';
 
 import { BASE_HREF } from 'core/settings/common.settings';
 
-import { AppRoutingModule } from 'app.routing.module';
+import { AppRouting } from 'app.routing';
 import { CoreModule } from 'core/modules/core.module';
 
 import { IHmrStore } from 'core/types/hmr-store.type';
@@ -26,7 +26,7 @@ import { AppComponent } from './app.component';
     ],
 
     imports: [
-        AppRoutingModule,
+        AppRouting,
         BrowserModule,
         CoreModule.forRoot(),
         HomeModule,
@@ -55,12 +55,24 @@ export class AppModule {
     constructor(private _appRef: ApplicationRef) {}
 
 
+    /**
+     * When Hot Reload has refreshed the app.
+     * Delete any reference to old components.
+     *
+     * @param {IHmrStore} _HmrStore The hmr store
+     */
     hmrAfterDestroy(_HmrStore: IHmrStore): void {
         // Display new elements
         _HmrStore.disposeOldHosts();
         delete _HmrStore.disposeOldHosts;
     }
 
+    /**
+     * When the Hot Reload want to refresh the app.
+     * Recreate elements and clean styles.
+     *
+     * @param {IHmrStore} _HmrStore The HMR store
+     */
     hmrOnDestroy(_HmrStore: IHmrStore): void {
         let cmpLocation: ComponentRef<any>[] = this._appRef.components.map((cmp: ComponentRef<any>) => {
             return cmp.location.nativeElement;
@@ -73,10 +85,17 @@ export class AppModule {
         removeNgStyles();
     }
 
+    /**
+     * On Hot Reload initialization.
+     * Execute the next tick.
+     *
+     * @param {IHmrStore} _HmrStore The HMR store
+     */
     hmrOnInit(_HmrStore: IHmrStore): void {
         if (!_HmrStore || !_HmrStore.state) {
             return;
         }
+
         this._appRef.tick();
     }
 }

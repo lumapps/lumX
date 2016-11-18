@@ -1,29 +1,52 @@
-import { inject, TestBed } from '@angular/core/testing';
+import { ComponentFixtureAutoDetect, TestBed } from '@angular/core/testing';
+
 import { FormsModule } from '@angular/forms';
 
-import { ToDoItem } from 'to-do/to-do-item.model';
 import { ToDoStore } from 'to-do/to-do.store';
 
+import { NewToDoComponent } from './new-to-do.component';
 import { AppModule } from 'app.module';
 
 
 describe('New To-Do', () => {
+    const component: NewToDoComponent;
+    const fixture: ComponentFixture<NewToDoComponent>;
+
+    const _ToDoStore: ToDoStore;
+
+
     beforeEach(() => {
         TestBed.configureTestingModule({
+            declarations: [
+            ],
+
+            exports: [
+            ],
+
             imports: [
                 AppModule,
                 FormsModule,
             ],
 
             providers: [
+                { provide: ComponentFixtureAutoDetect, useValue: true },
                 ToDoStore,
             ],
         });
 
-        TestBed.compileComponents().catch((error: string) => console.error(error));
+        fixture = TestBed.createComponent(NewToDoComponent);
+        component = fixture.componentInstance;
+
+        _ToDoStore = fixture.debugElement.injector.get(ToDoStore);
     });
 
-    xit('can add an new to-do item', inject([ToDoStore], (toDoStore: ToDoStore) => {
-        expect(toDoStore.items).toBeDefined();
-    }));
+
+    it('can add an new to-do item', () => {
+        _ToDoStore.reset();
+        expect(_ToDoStore.items.length).toBe(0);
+
+        let newItemId: number = component.addItem();
+        expect(newItemId).toBe(0);
+        expect(_ToDoStore.items.length).toBe(1);
+    });
 });

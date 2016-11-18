@@ -40,19 +40,19 @@ export class AppComponent implements OnInit {
      *
      * @constructs AppComponent
      *
-     * @param {HttpInterceptorService} _Http  The HTTP service
-     * @param {TokenService}           _Token The token service
+     * @param {HttpInterceptorService} _HttpService  The HTTP service
+     * @param {TokenService}           _TokenService The token service
      */
-    constructor(private _Http: HttpInterceptorService, private _Token: TokenService) {}
+    constructor(private _HttpService: HttpInterceptorService, private _TokenService: TokenService) {}
 
     /**
-     * Initialize the application component.
+     * Initialize the App component.
      */
     ngOnInit(): void {
-        this._Http.get('/services/oauthtoken')
+        this._HttpService.get('/token.json')
             .map((response: Response) => response.json())
             .subscribe((tokenMessage: ITokenMessage) => {
-                this._Token.setToken(tokenMessage.token);
+                this._TokenService.setToken(tokenMessage.token);
             });
     }
 }

@@ -29,4 +29,4 @@ import { NotFoundComponent } from 'core/components/not-found/not-found.component
         ]),
     ],
 })
-export class AppRoutingModule {}
+export class AppRouting {}

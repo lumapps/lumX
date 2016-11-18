@@ -1,24 +1,30 @@
-import { ComponentFixtureAutoDetect, fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { ComponentFixtureAutoDetect, fakeAsync, inject, TestBed, tick } from '@angular/core/testing';
+import { Response, ResponseOptions, XHRBackend } from '@angular/http';
+import { MockBackend, MockConnection } from '@angular/http/testing';
 
+import { HttpInterceptorService } from 'core/services/http-interceptor.service';
 import { TokenService } from 'core/services/token.service';
+import { FAKE_TOKEN } from 'core/settings/common.settings';
 
 import { AppComponent } from './app.component';
 import { AppModule } from './app.module';
 
 
-describe('Application startup', () => {
+describe('Application', () => {
     const component: AppComponent;
     const fixture: ComponentFixture<AppComponent>;
-    const tokenService: TokenService;
-    const spy: any;
 
-    const token: string = '5678';
+    const _HttpService: HttpInterceptorService;
+    const _TokenService: TokenService;
+
 
     beforeEach(() => {
         TestBed.configureTestingModule({
-            declarations: [],
+            declarations: [
+            ],
 
-            exports: [],
+            exports: [
+            ],
 
             imports: [
                 AppModule,
@@ -26,26 +32,45 @@ describe('Application startup', () => {
 
             providers: [
                 { provide: ComponentFixtureAutoDetect, useValue: true },
+                HttpInterceptorService,
                 TokenService,
+                { provide: XHRBackend, useClass: MockBackend },
             ],
         });
 
         fixture = TestBed.createComponent(AppComponent);
         component = fixture.componentInstance;
 
-        tokenService = fixture.debugElement.injector.get(TokenService);
-
-        spy = spyOn(tokenService, 'getToken').and.returnValue(token);
+        _TokenService = fixture.debugElement.injector.get(TokenService);
+        _HttpService = fixture.debugElement.injector.get(HttpInterceptorService);
     });
 
-    it('should request a token', fakeAsync(() => {
-        expect(spy.calls.any()).toBe(false);
 
-        fixture.detectChanges();
-        expect(spy.calls.any()).toBe(true);
+    it('should request a token at startup', fakeAsync(() => {
+        inject([XHRBackend], (backend: MockBackend) => {
+            backend.connections.subscribe((connection: MockConnection) => {
+                if (connection.request.url === '/token.json') {
+                    connection.mockRespond(new Response(new ResponseOptions({
+                        body: {
+                            token: FAKE_TOKEN,
+                        },
+                        status: 200,
+                        statusText: 'OK',
+                        url: connection.request.url,
+                    })));
+                }
+            });
 
-        tick();
+            spyOn(_HttpService, 'get').and.callThrough();
 
-        expect(tokenService.getToken()).toBe(token);
+            expect(_HttpService.get.calls.count()).toEqual(0);
+
+            component.ngOnInit();
+            tick();
+
+            expect(_HttpService.get.calls.count()).toEqual(1);
+            expect(_TokenService.getToken()).toBe(FAKE_TOKEN);
+            expect(_TokenService.isValid()).toBeTrue();
+        })();
     }));
 });

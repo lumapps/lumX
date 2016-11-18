@@ -34,18 +34,26 @@ export class TokenService {
         this.token = this._Store.select<ITokenState>((token: ITokenState) => token);
     }
 
-
+    /**
+     * Clear the token.
+     * Completely remove the token value and the 'needed' information.
+     */
     clearToken(): void {
         this._Store.dispatch({
             type: TokenActions.TOKEN_CLEARED,
         });
     }
 
+    /**
+     * Get the token value.
+     *
+     * @return {string} The token value.
+     */
     getToken(): string {
         let currentToken: string;
 
-        this.token.take(1).subscribe((token: ITokenState) => {
-            if (token !== undefined) {
+        this.token.subscribe((token: ITokenState) => {
+            if (token !== undefined && token.value !== undefined) {
                 currentToken = token.value;
             }
         }).unsubscribe();
@@ -53,16 +61,44 @@ export class TokenService {
         return currentToken;
     }
 
+    /**
+     * Check if the token is still valid or need to be refreshed.
+     *
+     * @return {boolean} If the token needs to be refreshed or not.
+     */
+    isValid(): boolean {
+        let isValid: boolean = false;
+
+        this.token.subscribe((token: ITokenState) => {
+            if (token !== undefined && token.needed !== undefined) {
+                isValid = !token.needed;
+            }
+        }).unsubscribe();
+
+        return isValid;
+    }
+
+    /**
+     * Set the token has needing refresh.
+     * Leave the value as is, but set the 'needed' indicator.
+     */
     refreshToken(): void {
         this._Store.dispatch({
             type: TokenActions.TOKEN_NEEDED,
         });
     }
 
+    /**
+     * Update the token value.
+     *
+     * @param {string} token The token value/
+     */
     setToken(token: string): void {
-        this._Store.dispatch({
-            payload: token,
-            type: TokenActions.TOKEN_RECEIVED,
-        });
+        if (token !== undefined && token.length > 0) {
+            this._Store.dispatch({
+                payload: token,
+                type: TokenActions.TOKEN_RECEIVED,
+            });
+        }
     }
 }
