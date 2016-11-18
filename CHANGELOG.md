@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.2.6:
+
+#### Build management improvements:
+ - scaffold: fix an error when scaffolding unit test file
+
+
 ## 1.2.5:
 
 #### Build management improvements:
