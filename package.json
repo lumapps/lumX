@@ -279,7 +279,7 @@
         "jsdoc": "latest",
         "sass-lint": "latest",
         "tsconfig-lint": "latest",
-        "tslint": "latest",
+        "tslint": "next",
         "tslint-eslint-rules": "latest",
         "ts-helpers": "latest",
         "ts-node": "latest",

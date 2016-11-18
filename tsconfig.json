@@ -22,6 +22,8 @@
         "module": "commonjs",
         "moduleResolution": "node",
         "noEmitHelpers": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
         "paths": {
             "libs/*": [
                 "../libs/*"

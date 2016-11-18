@@ -63,7 +63,6 @@
         ],
         "no-construct": true,
         "no-debugger": true,
-        "no-duplicate-key": true,
         "no-duplicate-variable": true,
         "no-empty": true,
         "no-eval": true,
@@ -76,10 +75,6 @@
         "no-unsafe-finally": true,
         "no-unused-expression": true,
         "no-unused-new": true,
-        "no-unused-variable": [
-            true,
-            "check-parameters"
-        ],
         "no-use-before-declare": true,
         "no-var-keyword": true,
         "radix": true,
@@ -132,7 +127,6 @@
         "new-parens": true,
         "no-angle-bracket-type-assertion": false,
         "no-consecutive-blank-lines": false,
-        "no-constructor-vars": false,
         "object-literal-key-quotes": [
             true,
             "as_needed"
