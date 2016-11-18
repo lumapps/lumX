@@ -86,7 +86,7 @@ module.exports = function webpackTestConfigExport() {
                 {
                     enforce: 'post',
                     exclude: [
-                        /\.(spec|specs|e2e)\.(js|ts)$/i,
+                        /\.(spec|specs|e2e|module|routing)\.(js|ts)$/i,
                         /node_modules/,
                     ],
                     include: helpers.root('src', 'client', 'app'),
