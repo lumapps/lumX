@@ -750,9 +750,9 @@ function initComponent() {
         printf "// If you need to import any service or other, import it here\n" >> $componentSpecFile
         printf "\n" >> $componentSpecFile
 
-        printf "import { ${className}Component } from './${SELECTOR}.component';\n" >> $componentSpecFile
+        printf "import { ${className}Component } from './${_selector}.component';\n" >> $componentSpecFile
         if [ "$_hasGeneratedModule" = true ]; then
-            printf "import { ${className}Module } from './${SELECTOR}.module';\n" >> $componentSpecFile
+            printf "import { ${className}Module } from './${_selector}.module';\n" >> $componentSpecFile
         fi
         printf "\n" >> $componentSpecFile
 
