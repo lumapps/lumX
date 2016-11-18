@@ -11,12 +11,14 @@ const project = 'LumBoilerplate';
 
 const configFolder = './config';
 const distFolder = './dist/client';
-const clientDocsFolder = './docs/client';
-const configDocsFolder = './docs/config';
+const docsFolder = './docs';
 const sourceFolder = './src/client';
 const testsFolder = './tests/client';
 
 const appFolder = `${sourceFolder}/app`;
+
+const clientDocsFolder = `${docsFolder}/client`;
+const configDocsFolder = `${docsFolder}/config`;
 
 const unitFolder = `${testsFolder}/unit`;
 const unitReportFolder = `${unitFolder}/report`;
@@ -117,20 +119,19 @@ shelter({
         dsc: `Clean the "dist" folder of ${project}`,
     },
     'clean:docs': {
-        cmd: `${npmRun} run-parallel -- clean:docs:client
-                                        clean:docs:config`,
-        dsc: `Clean the "client" and "config" folder of the "docs" folder of ${project}`,
+        cmd: `${npmRun} rimRaf -- ${docsFolder}`,
+        dsc: `Clean the "docs" folder of ${project}`,
     },
     'clean:docs:client': {
-        cmd: `${npmRun} rimraf -- ${clientDocsFolder}/*`,
+        cmd: `${npmRun} rimraf -- ${clientDocsFolder}`,
         dsc: `Clean the "docs/client" folder of ${project}`,
     },
     'clean:docs:config': {
-        cmd: `${npmRun} rimraf -- ${configDocsFolder}/*`,
+        cmd: `${npmRun} rimraf -- ${configDocsFolder}`,
         dsc: `Clean the "docs/config" folder of ${project}`,
     },
     'clean:e2e:report': {
-        cmd: `${npmRun} run-parallel -- "rimraf -- ${e2eReportFolder}/*"
+        cmd: `${npmRun} run-parallel -- "rimraf -- ${e2eReportFolder}"
                                         "rimraf -- ${testsFolder}/e2e*.tar.gz"`,
         dsc: `Clean the "e2e/report" folder of ${project}`,
     },
@@ -159,7 +160,7 @@ shelter({
         dsc: `Clean the tests reports folder of ${project}`,
     },
     'clean:unit:report': {
-        cmd: `${npmRun} run-parallel -- "rimraf -- ${unitReportFolder}/*"
+        cmd: `${npmRun} run-parallel -- "rimraf -- ${unitReportFolder}"
                                         "rimraf -- ${testsFolder}/unit*.tar.gz"`,
         dsc: `Clean the "unit/report" folder of ${project}`,
     },
@@ -251,27 +252,27 @@ shelter({
     },
 
     'scaffold': {
-        cmd: `bash -c "./scaffold.sh"`,
+        cmd: `bash ./scaffold.sh`,
         dsc: `Scaffold a new stub element in ${project}`,
     },
     'scaffold:component': {
-        cmd: `bash -c "./scaffold.sh -t Component --not-core"`,
+        cmd: `bash ./scaffold.sh -t Component --not-core`,
         dsc: `Scaffold a new stub component in ${project}`,
     },
     'scaffold:component:core': {
-        cmd: `bash -c "./scaffold.sh -t Component --core"`,
+        cmd: `bash ./scaffold.sh -t Component --core`,
         dsc: `Scaffold a new stub core component in ${project}`,
     },
     'scaffold:help': {
-        cmd: `bash -c "./scaffold.sh --help"`,
+        cmd: `bash ./scaffold.sh --help`,
         dsc: `Show the help page for the scaffolding in ${project}`,
     },
     'scaffold:module': {
-        cmd: `bash -c "./scaffold.sh -t Module --not-core"`,
+        cmd: `bash ./scaffold.sh -t Module --not-core`,
         dsc: `Scaffold a new stub module in ${project}`,
     },
     'scaffold:module:core': {
-        cmd: `bash -c "./scaffold.sh -t Module --core"`,
+        cmd: `bash ./scaffold.sh -t Module --core`,
         dsc: `Scaffold a new stub core module in ${project}`,
     },
 

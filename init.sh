@@ -290,6 +290,9 @@ printf "Removing useless files... "
     rm -Rf "./dist"
     exitIfError "Deleting 'dist'"
 
+    rm -Rf "./src/client/token.json"
+    exitIfError "Deleting 'token.json'"
+
     rm -Rf "./src/client/app/home"
     exitIfError "Deleting 'home'"
     rm -Rf "./src/client/app/to-do"
