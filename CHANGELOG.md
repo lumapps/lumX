@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.2.5:
+
+#### Build management improvements:
+ - init: fix a log
+
+
 ## 1.2.4:
 
 #### Miscellaneous:
