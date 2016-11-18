@@ -127,7 +127,7 @@ export class HttpInterceptorService {
                     status: 404,
                     statusText: 'Not found',
                     url: url,
-                })
+                }),
             ));
         }
 
