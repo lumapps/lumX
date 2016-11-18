@@ -116,8 +116,7 @@
 
         "align": [
             true,
-            "parameters",
-            "arguments"
+            "parameters"
         ],
         "arrow-parens": true,
         "class-name": true,
