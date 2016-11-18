@@ -70,7 +70,7 @@ module.exports = function webpackTestConfigExport() {
                         /\.e2e\.ts$/i,
                     ],
                     loaders: [
-                        'awesome-typescript-loader?inlineSourceMap=true&sourceMap=false',
+                        'awesome-typescript-loader?inlineSourceMap=true&sourceMap=false&removeComments=false',
                         'angular2-router-loader?aot=false',
                         'angular2-template-loader',
                     ],
