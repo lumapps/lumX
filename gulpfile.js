@@ -63,6 +63,7 @@ const envDev = `NODE_ENV='dev'`;
 const envProd = `NODE_ENV='prod'`;
 const envTest = `NODE_ENV='test'`;
 const hidden = `HIDDEN=true`;
+const live = `LIVE=true`;
 
 if (!enableDashboard) {
     webpackDevServerHotReloadParameters = `${webpackDevServerHotReloadParameters} ${webpackDevServerClassicParameters}`;
@@ -379,15 +380,15 @@ shelter({
         dsc: `Run unit tests (Karma with Headless Chrome, XVFB needed) on ${project}`,
     },
     'unit:live': {
-        cmd: `${envDev} ${npmRun} karma -- start --auto-watch --no-single-run`,
+        cmd: `${live} ${envDev} ${npmRun} karma -- start --auto-watch --no-single-run`,
         dsc: `Run unit tests (Karma with Chrome) in watch mode on ${project}`,
     },
     'unit:live:debug': {
-        cmd: `${debug} ${envDev} ${npmRun} karma -- start --auto-watch --no-single-run`,
+        cmd: `${live} ${debug} ${envDev} ${npmRun} karma -- start --auto-watch --no-single-run`,
         dsc: `Debug unit tests (Karma with Chrome) in watch mode on ${project}`,
     },
     'unit:live:headless': {
-        cmd: `${envDev} ${npmRun} karma:headless -- start --auto-watch --no-single-run`,
+        cmd: `${live} ${envDev} ${npmRun} karma:headless -- start --auto-watch --no-single-run`,
         dsc: `Run unit tests (Karma with Headless Chrome, XVFB needed) in watch mode on ${project}`,
     },
 });
