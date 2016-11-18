@@ -115,23 +115,23 @@ shelter({
         dsc: `Clean the whole ${project} project (NPM, docs, test and dist)`,
     },
     'clean:dist': {
-        cmd: `${npmRun} rimraf -- ${distFolder}/*`,
+        cmd: `${npmRun} rimraf -- ${distFolder}/* && rm -Rf -- ${distFolder}`,
         dsc: `Clean the "dist" folder of ${project}`,
     },
     'clean:docs': {
-        cmd: `${npmRun} rimRaf -- ${docsFolder}`,
+        cmd: `${npmRun} rimraf -- ${docsFolder}/* && rm -Rf -- ${docsFolder}`,
         dsc: `Clean the "docs" folder of ${project}`,
     },
     'clean:docs:client': {
-        cmd: `${npmRun} rimraf -- ${clientDocsFolder}`,
+        cmd: `${npmRun} rimraf -- ${clientDocsFolder}/* && rm -Rf -- ${clientDocsFolder}`,
         dsc: `Clean the "docs/client" folder of ${project}`,
     },
     'clean:docs:config': {
-        cmd: `${npmRun} rimraf -- ${configDocsFolder}`,
+        cmd: `${npmRun} rimraf -- ${configDocsFolder}/* && rm -Rf -- ${configDocsFolder}`,
         dsc: `Clean the "docs/config" folder of ${project}`,
     },
     'clean:e2e:report': {
-        cmd: `${npmRun} run-parallel -- "rimraf -- ${e2eReportFolder}"
+        cmd: `${npmRun} run-parallel -- "rimraf -- ${e2eReportFolder}/* && rm -Rf -- ${e2eReportFolder}"
                                         "rimraf -- ${testsFolder}/e2e*.tar.gz"`,
         dsc: `Clean the "e2e/report" folder of ${project}`,
     },
@@ -160,7 +160,7 @@ shelter({
         dsc: `Clean the tests reports folder of ${project}`,
     },
     'clean:unit:report': {
-        cmd: `${npmRun} run-parallel -- "rimraf -- ${unitReportFolder}"
+        cmd: `${npmRun} run-parallel -- "rimraf -- ${unitReportFolder} && rm -Rf -- ${unitReportFolder}"
                                         "rimraf -- ${testsFolder}/unit*.tar.gz"`,
         dsc: `Clean the "unit/report" folder of ${project}`,
     },
