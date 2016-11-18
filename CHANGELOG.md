@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.2.1:
+
+#### Build management improvements:
+ - npm-scripts: fix init and scaffolding call via NPM scripts
+
+
 ## 1.2.0:
 
 #### Tests:
