@@ -454,7 +454,7 @@ if [ "$skipSetup" = false ]; then
 fi
 
 if [ "$skipGit" = false ]; then
-    printf "Creating the first git commit... "
+    printf "Creating the first git commit...\n"
         git add .
         exitIfError "Adding project in git repository"
         git commit -q -m "feat(${repository}): initialization of the repository with boilerplate"
