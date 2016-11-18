@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.2.2:
+
+#### New documentations:
+ - changelog: don't log new releases in changelog misc section
+ - changelog: add a "misc" section in changelog
+
+
 ## 1.2.1:
 
 #### Build management improvements:

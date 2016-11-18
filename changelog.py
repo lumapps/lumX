@@ -55,12 +55,14 @@ def buildNewLogs(fromTag, toTag):
             continue
 
         data = title.split(':', 1)
-        scope = data[0].split('(', 1)
+        kind = data[0].split('(', 1)
+        scope = kind[1][:-1].rstrip()
+        title = data[1].strip()
 
-        if not scope[0] in kindTitles:
-            scope[0] = 'misc'
+        if not kind[0] in kindTitles and scope != 'release':
+            kind[0] = 'misc'
 
-        kinds[scope[0]].append(scope[1][:-1].rstrip() + ': ' + data[1].strip())
+        kinds[kind[0]].append(scope + ': ' + title)
 
         if 'BROKEN:' in body:
             broken = body.split('BROKEN:')[1].splitlines().strip()
