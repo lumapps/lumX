@@ -220,7 +220,7 @@ const DEFAULT_OPTIONS = {
         tslint: {
             // TSLint errors are displayed by default as warnings.
             // Set emitErrors to true to display them as errors.
-            emitErrors: true,
+            emitErrors: false,
 
             // TSLint does not interrupt the compilation by default.
             // If you want any file with tslint errors to fail set failOnHint to true.
