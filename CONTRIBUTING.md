@@ -22,7 +22,7 @@ If you have questions about how to use LumBoilerplate, please direct these to [S
 
 If you find a bug in the source code or a mistake in the documentation, you can help us by submitting an issue to our [GitHub Repository](https://github.com/lumapps/boilerplate/issues). Even better you can submit a Pull Request with a fix.
 
-Please see the Submission Guidelines below.
+Before opening a Pull Request, please see the Submission Guidelines below.
 
 ## <a name="want-a-feature-"></a> Want a feature?
 
@@ -50,7 +50,7 @@ that relates to your submission. You don't want to duplicate effort.
 * Make your changes in a new git branch
 
 ```shell
-git checkout -b my-fix-branch master
+git checkout -b &lt;feat|fix&gt;/&lt;descriptive branch name&gt; master
 ```
 
 * Create your patch.
@@ -60,13 +60,13 @@ git checkout -b my-fix-branch master
 * Check and test your changes locally.
 
 ```shell
-npm run lint:all && npm run tests
+npm run -s lint:all && npm run -s tests
 ```
 
 * Push your branch to GitHub:
 
 ```shell
-git push origin my-fix-branch
+git push origin &lt;full branch name&gt;
 ```
 
 * In GitHub, send a pull request to `boilerplate:master`.
@@ -88,7 +88,7 @@ After your pull request is merged, you can safely delete your branch and pull th
 * Delete the remote branch on GitHub either through the GitHub web UI or your local shell as follows:
 
 ```shell
-git push origin --delete my-fix-branch
+git push origin --delete &lt;full branch name&gt;
 ```
 
 * Check out the master branch:
@@ -100,7 +100,7 @@ git checkout master -f
 * Delete the local branch:
 
 ```shell
-git branch -D my-fix-branch
+git branch -D &lt;full branch name&gt;
 ```
 
 * Update your master with the latest upstream version:
@@ -114,10 +114,11 @@ git pull --ff upstream master
 We're using Javascript and [SCSS](http://sass-lang.com/) to build the framework. We're also using NPM and Wepack to help you contribute:
 
 - `npm start` will build the project, watch for modifications (with hot-reload) and serve an example application.
-- `npm run lint:all` will check the coding style and lint all your configs and source files
-- `npm run tests` will run all unit and E2E tests and produce reports (available in `tests/client/(unit|e2e)/report`)
-- `npm run build:prod` will update the dist folder with the last contents and make a production ready package.
-- Many other NPM command are available. Use `npm run help` to get a list of all available tasks
+- `npm run -s lint:all` will check the coding style and lint all your configs and source files
+- `npm run -s tests` will run all unit and E2E tests and produce reports (available in `tests/client/(unit|e2e)/report`)
+- `npm run -s build:prod` will update the dist folder with the last contents and make a production ready package.
+
+Many other NPM command are available. Use `npm run -s help` to get a list of all available tasks
 
 Our coding convention is the following:
 
@@ -126,7 +127,7 @@ Our coding convention is the following:
 
 For Javascript:
 
-- Use camel-case.
+- Use [camelCase](https://en.wikipedia.org/wiki/Camel_case), except for constants in [UPPER_SNAKE_CASE](https://en.wikipedia.org/wiki/Snake_case).
 - Use the [One True Brace Style (1TBS)](https://en.wikipedia.org/wiki/Indent_style#1TBS).
 
 For SCSS:
@@ -140,7 +141,7 @@ For the ease of use and contributing, most of the coding styles are enforced wit
 
 We have very precise rules over how our git commit messages can be formatted.  This leads to **more readable messages** that are easy to follow when looking through the **project history**.
 
-We recommend you to use [Commitizen](https://github.com/commitizen/cz-cli) with the `npm run commit` command to help you construct your commit message and be sure to match these guidelines.
+We recommend you to use [Commitizen](https://github.com/commitizen/cz-cli) with the `npm run -s commit` command to help you construct your commit message and be sure to match these guidelines.
 
 For the ease of use and contributing, most of the commit message style is enforced. So as long as the pre-commit script let you commit, you should be good.
 
@@ -149,11 +150,11 @@ For the ease of use and contributing, most of the commit message style is enforc
 Each commit message consists of a **header**, a **body** and a **footer**.  The header has a special format that includes a **type**, a **scope** and a **subject**:
 
 ```
-<type>(<scope>): <subject>
-<BLANK LINE>
-<body>
-<BLANK LINE>
-<footer>
+&lt;type&gt;(&lt;scope&gt;): &lt;subject&gt;
+&lt;BLANK LINE&gt;
+&lt;body&gt;
+&lt;BLANK LINE&gt;
+&lt;footer&gt;
 ```
 
 Any line of the commit message cannot be longer 100 characters! This allows the message to be easier to read on github as well as in various git tools.
@@ -164,8 +165,9 @@ Must be one of the following:
 
 * **feat**: A new feature
 * **fix**: A bug fix
+* **theme**: A change concerning themes
 * **docs**: Documentation only changes
-* **style**: Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc)
+* **lint**: Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc)
 * **refactor**: A code change that neither fixes a bug or adds a feature
 * **perf**: A code change that improves performance
 * **test**: Adding missing tests or correcting existing tests
@@ -177,10 +179,26 @@ Must be one of the following:
 ### Scope
 
 The scope could be anything specifying place of the commit change. For example `notification', 'dropdown', etc.
+If the commit reverts a previous commit, it should contains the reverted commit SHA1.
+
+The scope must be written in [kebab-case](https://en.wikipedia.org/wiki/Letter_case#Special_case_styles).
+
+### Subject
+
+A brief but meaningfull description of the change.
+Here are some recommandation for writing your subject:
+
+* use the imperative, present tense: "change" not "changed" nor "changes"
+* don't capitalize first letter
+* no "." (dot) at the end
+
+If the commit reverts a previous commit, it should contains the title of the reverted commit.
 
 ### Body
 
 The body should include the motivation for the change and contrast this with previous behavior.
+
+If the commit reverts a previous commit, explain why you reverted it.
 
 ### Footer
 
@@ -190,9 +208,10 @@ The breaking changes must be at the end of the commit with only "BROKEN:" before
 ### Commit example
 
 ```
-feat TOTO: TOTO for all
+feat(toto-service): provide toto for all
 
-Before we had to do XXX. There was this and this problem. Now, by using TOTO, it's simpler and the problems are managed.
+Before we had to do another thing. There was this and this problem.
+Now, by using "toto", it's simpler and the problems are managed.
 
 Closes PR #25
 Fix #15
@@ -200,3 +219,47 @@ BROKEN:
 first thing broken
 second thing broken
 ```
+
+## <a name="code-comments-guidelines"></a> Code comments guidelines
+
+Your comments must be concise but meaningfull. You don't have to be too verbose in your comments.
+You must comment **all** your functions, methods and members (using [JSDoc](http://usejsdoc.org/)), but you don't have to comment all your code. If your code is self-describing, it's useless to add comments.
+
+When you have to write comments in your code, please follow the guidelines bellow.
+
+### Comment Message Format
+
+```js
+// &lt;type&gt; [&lt;developer&gt;]: &lt;details&gt;
+```
+
+or
+
+```
+/* &lt;type&gt; [&lt;developer&gt;]
+ *
+ * &lt;details&gt;
+ */
+```
+
+### Type
+
+Must be one of the following:
+
+* **FIXME**: Should be corrected
+* **HACK**: A dirty workaround
+* **TODO**: Something to be done
+* **XXX**: Warn other programmers of problematic or misguiding code
+* **UX**: User experience, notice about non-trivial code
+
+### Developer
+
+The developer who created the comment.
+
+### Details
+
+The details explaining precisely the reason of the code:
+
+* use the imperative, present tense: "change" not "changed" nor "changes"
+* capitalize first letter
+* finish you sentence by a "." (dot)

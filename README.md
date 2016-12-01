@@ -35,8 +35,8 @@ If you want to be able to launch the headless tests, you will need to have [XVFB
 
 ## Quick start
 
-- Clone the repo: `git clone https://github.com/lumapps/boilerplate.git <your new project folder>`
-- Go to the new project folder: `cd <your new project folder>`
+- Clone the repo: `git clone https://github.com/lumapps/boilerplate.git &lt;your new project folder&gt;`
+- Go to the new project folder: `cd &lt;your new project folder&gt;`
 - Initialize the boilerplate: `npm run -s init`
 - ...
 - Profit
@@ -63,7 +63,7 @@ This should start everything needed and open a browser to [http://localhost:8880
 ## Coding under the boilerplate
 
 You can scaffold new stub element in you project by using the included scaffolder. Run `npm run -s scaffold:help` to see how to use the scaffolder.
-You can then use the shortcut `npm run -s scaffold[:<element>][:core][ -- <params>]` to create a stub (core) element with the scaffolder. If you don't give any type or any special parameter, the scaffolder will ask you question to help you create your element.
+You can then use the shortcut `npm run -s scaffold[:&lt;element&gt;][:core][ -- &lt;params&gt;]` to create a stub (core) element with the scaffolder. If you don't give any type or any special parameter, the scaffolder will ask you question to help you create your element.
 
 You can use the included linter to check lint and style of your code. Simply run `npm run -s lint:src[:ts|js|scss]` to lint TypeScript, Javascript and SASS code.
 
@@ -75,11 +75,11 @@ If you use JSDoc format in your TypeScript source file, you should be able to ge
 
 ## Building your project
 
-When you want to ship your code, you can package it in bundles. To do so, run `npm run -s build:<target>[:fast]`.
+When you want to ship your code, you can package it in bundles. To do so, run `npm run -s build:&lt;target&gt;[:fast]`.
 `target` can be 'dev' which will produce an non-minified bundle or 'prod'/'dist' which will produce an optimized, minified and obfuscated bundle.
 Before the build your bundle, linter will automatically be launched to ensure that your code is safe to be shipped (unless you specified the `:fast` in the task).
 
-When you have build a bundle, you can test the bundle by starting the project in a specific way. Simply `npm run -s serve:<target>[:fast][:silent]`:
+When you have build a bundle, you can test the bundle by starting the project in a specific way. Simply `npm run -s serve:&lt;target&gt;[:fast][:silent]`:
 
 - `target` is the same target that you specify for the build.
 - If you don't specify `:fast`, then the bundle will be rebuild beforehand and then launched.
@@ -113,7 +113,7 @@ Moreover, a summary of coverage and tests results is displayed in the terminal.
 
 ## Cleaning your project
 
-At any time, you can execute any of the `npm run -s clean:<type>` command to cleanup some part of the boilerplate and your project.
+At any time, you can execute any of the `npm run -s clean:&lt;type&gt;` command to cleanup some part of the boilerplate and your project.
 See `npm run -s help` to see a complete list of available clean commands.
 
 ## How to get help, contribute, or provide feedback
