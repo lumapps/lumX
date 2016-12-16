@@ -79,6 +79,8 @@
             return lxTabs.links;
         }, function(_newLinks)
         {
+            lxTabs.viewMode = angular.isDefined(_newLinks) ? 'separate' : 'gather';
+            
             angular.forEach(_newLinks, function(link, index)
             {
                 var tab = {
