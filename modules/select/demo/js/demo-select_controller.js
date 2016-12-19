@@ -24,14 +24,17 @@
                     vm.selectAjax.loading = true;
 
                     $http.get('http://www.omdbapi.com/?s=' + escape(newFilter))
-                        .then(function updateSuccess(data)
+                        .then(function updateSuccess(response)
                         {
-                            vm.selectAjax.list = data.Search;
+                            if (response.data)
+                            {
+                                vm.selectAjax.list = response.data.Search;
+                            }
                             vm.selectAjax.loading = false;
-                        },
-                        function updateError()
+                        })
+                        .catch(function updateError()
                         {
-                                vm.selectAjax.loading = false;
+                            vm.selectAjax.loading = false;
                         });
                 }
                 else
@@ -57,8 +60,12 @@
                     $http.get('http://www.omdbapi.com/?s=' + escape(data))
                         .then(function toSelectionSuccess(response)
                         {
-                            callback(response.Search[0]);
-                        }, function toSelectionError()
+                            if (response.data)
+                            {
+                                callback(response.data.Search[0]);
+                            }
+                        })
+                        .catch(function toSelectionError()
                         {
                             callback();
                         });
