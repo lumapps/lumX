@@ -1,0 +1,15 @@
+<div class="p+">
+    <lx-select ng-model="vm.selectModel.selectedPeople"
+               lx-choices="vm.selectPeople"
+               lx-label="Lorem Ipsum"
+               lx-multiple="true"
+               lx-view-mode="chips">
+        <lx-select-selected>
+            {{ $selected.name }} - {{ $selected.age }}
+        </lx-select-selected>
+ 
+        <lx-select-choices>
+            {{ $choice.email }}
+        </lx-select-choices>
+    </lx-select>
+</div>

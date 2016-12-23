@@ -70,7 +70,8 @@
                 ngModel: '=',
                 selectionToModel: '&?lxSelectionToModel',
                 theme: '@?lxTheme',
-                valid: '=?lxValid'
+                valid: '=?lxValid',
+                viewMode: '@?lxViewMode'
             },
             link: link,
             controller: LxSelectController,
@@ -176,6 +177,7 @@
 
         lxSelect.ngModel = angular.isUndefined(lxSelect.ngModel) && lxSelect.multiple ? [] : lxSelect.ngModel;
         lxSelect.unconvertedModel = lxSelect.multiple ? [] : undefined;
+        lxSelect.viewMode = angular.isUndefined(lxSelect.viewMode) ? 'field' : 'chips';
 
         ////////////
 

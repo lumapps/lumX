@@ -1,6 +1,6 @@
 <div class="lx-select"
      ng-class="{ 'lx-select--error': lxSelect.error,
-                 'lx-select--fixed-label': lxSelect.fixedLabel,
+                 'lx-select--fixed-label': lxSelect.fixedLabel && lxSelect.viewMode === 'field',
                  'lx-select--is-active': (!lxSelect.multiple && lxSelect.getSelectedModel()) || (lxSelect.multiple && lxSelect.getSelectedModel().length),
                  'lx-select--is-disabled': lxSelect.ngDisabled,
                  'lx-select--is-multiple': lxSelect.multiple,
@@ -9,7 +9,9 @@
                  'lx-select--theme-dark': lxSelect.theme === 'dark',
                  'lx-select--valid': lxSelect.valid,
                  'lx-select--custom-style': lxSelect.customStyle,
-                 'lx-select--default-style': !lxSelect.customStyle }">
+                 'lx-select--default-style': !lxSelect.customStyle,
+                 'lx-select--view-mode-field': !lxSelect.multiple || (lxSelect.multiple && lxSelect.viewMode === 'field'),
+                 'lx-select--view-mode-chips': lxSelect.multiple && lxSelect.viewMode === 'chips' }">
     <span class="lx-select-label">
         {{ ::lxSelect.label }}
     </span>
