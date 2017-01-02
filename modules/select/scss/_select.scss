@@ -319,6 +319,10 @@
         .lx-select--default-style.lx-select--view-mode-field & {
             height: 24px;
             line-height: 24px;
+
+            @include placeholder {
+                @include font-size(14px);
+            }
         }
 
         .lx-select--default-style.lx-select--view-mode-chips & {
@@ -407,6 +411,10 @@
             &:before {
                 @include mdi-icon('check');
             }
+        }
+
+        &.lx-select-choices__choice--is-focus {
+            background-color: $grey-200;
         }
     }
     

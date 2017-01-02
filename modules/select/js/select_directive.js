@@ -159,9 +159,9 @@
         }
     }
 
-    LxSelectController.$inject = ['$interpolate', '$element', '$sce', 'LxDropdownService', 'LxUtils'];
+    LxSelectController.$inject = ['$interpolate', '$element', '$filter', '$sce', 'LxDropdownService', 'LxUtils'];
 
-    function LxSelectController($interpolate, $element, $sce, LxDropdownService, LxUtils)
+    function LxSelectController($interpolate, $element, $filter, $sce, LxDropdownService, LxUtils)
     {
         var lxSelect = this;
         var choiceTemplate;
@@ -171,12 +171,16 @@
         lxSelect.displaySelected = displaySelected;
         lxSelect.displaySubheader = displaySubheader;
         lxSelect.getSelectedModel = getSelectedModel;
+        lxSelect.isSelected = isSelected;
+        lxSelect.keyEvent = keyEvent;
         lxSelect.registerChoiceTemplate = registerChoiceTemplate;
         lxSelect.registerSelectedTemplate = registerSelectedTemplate;
         lxSelect.select = select;
+        lxSelect.toggleChoice = toggleChoice;
         lxSelect.unselect = unselect;
         lxSelect.updateFilter = updateFilter;
 
+        lxSelect.activeChoiceIndex = -1;
         lxSelect.uuid = LxUtils.generateUUID();
         lxSelect.filterModel = undefined;
         lxSelect.ngModel = angular.isUndefined(lxSelect.ngModel) && lxSelect.multiple ? [] : lxSelect.ngModel;
@@ -184,6 +188,19 @@
         lxSelect.viewMode = angular.isUndefined(lxSelect.viewMode) ? 'field' : 'chips';
 
         ////////////
+        
+        function arrayObjectIndexOf(arr, obj)
+        {
+            for (var i = 0; i < arr.length; i++)
+            {
+                if (angular.equals(arr[i], obj))
+                {
+                    return i;
+                }
+            }
+
+            return -1;
+        }
 
         function displayChoice(_choice)
         {
@@ -255,6 +272,78 @@
             }
         }
 
+        function isSelected(_choice)
+        {
+            if (lxSelect.multiple && angular.isDefined(getSelectedModel()))
+            {
+                return arrayObjectIndexOf(getSelectedModel(), _choice) !== -1;
+            }
+            else if (angular.isDefined(getSelectedModel()))
+            {
+                return angular.equals(getSelectedModel(), _choice);
+            }
+        }
+
+        function keyEvent(_event)
+        {
+            switch (_event.keyCode) {
+                case 13:
+                    keySelect();
+                    _event.preventDefault();
+                    break;
+
+                case 38:
+                    keyUp();
+                    _event.preventDefault();
+                    break;
+
+                case 40:
+                    keyDown();
+                    _event.preventDefault();
+                    break;
+            }
+        }
+
+        function keyDown()
+        {
+            var filteredChoices = $filter('filterChoices')(lxSelect.choices, lxSelect.filter, lxSelect.filterModel);
+
+            if (filteredChoices.length)
+            {
+                lxSelect.activeChoiceIndex += 1;
+
+                if (lxSelect.activeChoiceIndex >= filteredChoices.length)
+                {
+                    lxSelect.activeChoiceIndex = 0;
+                }
+            }
+        }
+
+        function keySelect()
+        {
+            var filteredChoices = $filter('filterChoices')(lxSelect.choices, lxSelect.filter, lxSelect.filterModel);
+
+            if (filteredChoices.length)
+            {
+                toggleChoice(filteredChoices[lxSelect.activeChoiceIndex]);
+            }
+        }
+
+        function keyUp()
+        {
+            var filteredChoices = $filter('filterChoices')(lxSelect.choices, lxSelect.filter, lxSelect.filterModel);
+
+            if (filteredChoices.length)
+            {
+                lxSelect.activeChoiceIndex -= 1;
+
+                if (lxSelect.activeChoiceIndex < 0)
+                {
+                    lxSelect.activeChoiceIndex = filteredChoices.length - 1;
+                }
+            }
+        }
+
         function registerChoiceTemplate(_choiceTemplate)
         {
             choiceTemplate = _choiceTemplate;
@@ -310,6 +399,31 @@
                 {
                     $element.find('.lx-select-selected__filter').focus();
                 }
+            }
+        }
+
+        function toggleChoice(_choice, _event)
+        {
+            if (lxSelect.multiple && !lxSelect.autocomplete)
+            {
+                _event.stopPropagation();
+            }
+
+            if (lxSelect.multiple && isSelected(_choice))
+            {
+                unselect(_choice);
+            }
+            else
+            {
+                select(_choice);
+            }
+
+            if (lxSelect.autocomplete)
+            {
+                lxSelect.activeChoiceIndex = -1;
+                lxSelect.filterModel = undefined;
+
+                LxDropdownService.close('dropdown-' + lxSelect.uuid);
             }
         }
 
@@ -462,9 +576,7 @@
         var timer;
 
         lxSelectChoices.isArray = isArray;
-        lxSelectChoices.isSelected = isSelected;
         lxSelectChoices.setParentController = setParentController;
-        lxSelectChoices.toggleChoice = toggleChoice;
 
         $scope.$on('$destroy', function()
         {
@@ -473,34 +585,9 @@
 
         ////////////
 
-        function arrayObjectIndexOf(arr, obj)
-        {
-            for (var i = 0; i < arr.length; i++)
-            {
-                if (angular.equals(arr[i], obj))
-                {
-                    return i;
-                }
-            }
-
-            return -1;
-        }
-
         function isArray()
         {
             return angular.isArray(lxSelectChoices.parentCtrl.choices);
-        }
-
-        function isSelected(_choice)
-        {
-            if (lxSelectChoices.parentCtrl.multiple && angular.isDefined(lxSelectChoices.parentCtrl.getSelectedModel()))
-            {
-                return arrayObjectIndexOf(lxSelectChoices.parentCtrl.getSelectedModel(), _choice) !== -1;
-            }
-            else if (angular.isDefined(lxSelectChoices.parentCtrl.getSelectedModel()))
-            {
-                return angular.equals(lxSelectChoices.parentCtrl.getSelectedModel(), _choice);
-            }
         }
 
         function setParentController(_parentCtrl)
@@ -529,28 +616,6 @@
                     }
                 });
             }, true);
-        }
-
-        function toggleChoice(_choice, _event)
-        {
-            if (lxSelectChoices.parentCtrl.multiple && !lxSelectChoices.parentCtrl.autocomplete)
-            {
-                _event.stopPropagation();
-            }
-
-            if (lxSelectChoices.parentCtrl.multiple && isSelected(_choice))
-            {
-                lxSelectChoices.parentCtrl.unselect(_choice);
-            }
-            else
-            {
-                lxSelectChoices.parentCtrl.select(_choice);
-            }
-
-            if (lxSelectChoices.parentCtrl.autocomplete)
-            {
-                lxSelectChoices.parentCtrl.filterModel = undefined;
-            }
         }
 
         function toSelection()
