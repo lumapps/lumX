@@ -6,14 +6,14 @@
     <ul>
         <li class="lx-select-choices__filter" ng-if="::lxSelectChoices.parentCtrl.displayFilter">
             <lx-search-filter lx-dropdown-filter>
-                <input type="text" ng-model="lxSelectChoices.filterModel" ng-change="lxSelectChoices.updateFilter()">
+                <input type="text" ng-model="lxSelectChoices.parentCtrl.filterModel" ng-change="lxSelectChoices.parentCtrl.updateFilter()">
             </lx-search-filter>
         </li>
         
         <div ng-if="::lxSelectChoices.isArray()">
             <li class="lx-select-choices__choice"
                 ng-class="{ 'lx-select-choices__choice--is-selected': lxSelectChoices.isSelected(choice) }"
-                ng-repeat="choice in lxSelectChoices.parentCtrl.choices | filterChoices:lxSelectChoices.parentCtrl.filter:lxSelectChoices.filterModel"
+                ng-repeat="choice in lxSelectChoices.parentCtrl.choices | filterChoices:lxSelectChoices.parentCtrl.filter:lxSelectChoices.parentCtrl.filterModel"
                 ng-bind-html="::lxSelectChoices.parentCtrl.displayChoice(choice)"
                 ng-click="lxSelectChoices.toggleChoice(choice, $event)"></li>
         </div>
@@ -26,7 +26,7 @@
             <li class="lx-select-choices__choice"
                 ng-class="{ 'lx-select-choices__choice--is-selected': lxSelectChoices.isSelected(choice) }"
                 ng-repeat-end
-                ng-repeat="choice in children | filterChoices:lxSelectChoices.parentCtrl.filter:lxSelectChoices.filterModel"
+                ng-repeat="choice in children | filterChoices:lxSelectChoices.parentCtrl.filter:lxSelectChoices.parentCtrl.filterModel"
                 ng-bind-html="::lxSelectChoices.parentCtrl.displayChoice(choice)"
                 ng-click="lxSelectChoices.toggleChoice(choice, $event)"></li>
         </div>

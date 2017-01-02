@@ -312,6 +312,25 @@
         }
     }
 
+    // Select selected: filter
+    .lx-select-selected__filter {
+        @include text-field-reset();
+
+        .lx-select--default-style.lx-select--view-mode-field & {
+            height: 24px;
+            line-height: 24px;
+        }
+
+        .lx-select--default-style.lx-select--view-mode-chips & {
+            height: 40px;
+            line-height: 40px;
+        }
+
+        @include placeholder {
+            color: $black-2;
+        }
+    }
+
 
 
 

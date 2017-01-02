@@ -52,6 +52,7 @@
             scope:
             {
                 allowClear: '=?lxAllowClear',
+                autocomplete: '=?lxAutocomplete',
                 choices: '=?lxChoices',
                 choicesCustomStyle: '=?lxChoicesCustomStyle',
                 customStyle: '=?lxCustomStyle',
@@ -158,9 +159,9 @@
         }
     }
 
-    LxSelectController.$inject = ['$interpolate', '$sce'];
+    LxSelectController.$inject = ['$interpolate', '$element', '$sce', 'LxDropdownService', 'LxUtils'];
 
-    function LxSelectController($interpolate, $sce)
+    function LxSelectController($interpolate, $element, $sce, LxDropdownService, LxUtils)
     {
         var lxSelect = this;
         var choiceTemplate;
@@ -174,7 +175,10 @@
         lxSelect.registerSelectedTemplate = registerSelectedTemplate;
         lxSelect.select = select;
         lxSelect.unselect = unselect;
+        lxSelect.updateFilter = updateFilter;
 
+        lxSelect.uuid = LxUtils.generateUUID();
+        lxSelect.filterModel = undefined;
         lxSelect.ngModel = angular.isUndefined(lxSelect.ngModel) && lxSelect.multiple ? [] : lxSelect.ngModel;
         lxSelect.unconvertedModel = lxSelect.multiple ? [] : undefined;
         lxSelect.viewMode = angular.isUndefined(lxSelect.viewMode) ? 'field' : 'chips';
@@ -283,6 +287,11 @@
                         {
                             lxSelect.ngModel = resp;
                         }
+
+                        if (lxSelect.autocomplete)
+                        {
+                            $element.find('.lx-select-selected__filter').focus();
+                        }
                     }
                 });
             }
@@ -295,6 +304,11 @@
                 else
                 {
                     lxSelect.ngModel = _choice;
+                }
+
+                if (lxSelect.autocomplete)
+                {
+                    $element.find('.lx-select-selected__filter').focus();
                 }
             }
         }
@@ -309,6 +323,11 @@
                     callback: function(resp)
                     {
                         lxSelect.ngModel.splice(lxSelect.ngModel.indexOf(resp), 1);
+
+                        if (lxSelect.autocomplete)
+                        {
+                            $element.find('.lx-select-selected__filter').focus();
+                        }
                     }
                 });
 
@@ -317,6 +336,27 @@
             else
             {
                 lxSelect.ngModel.splice(lxSelect.ngModel.indexOf(_choice), 1);
+
+                if (lxSelect.autocomplete)
+                {
+                    $element.find('.lx-select-selected__filter').focus();
+                }
+            }
+        }
+
+        function updateFilter()
+        {
+            if (angular.isDefined(lxSelect.filter))
+            {
+                lxSelect.filter(
+                {
+                    newValue: lxSelect.filterModel
+                });
+            }
+
+            if (lxSelect.autocomplete)
+            {
+                LxDropdownService.open('dropdown-' + lxSelect.uuid, '#lx-select-selected-wrapper-' + lxSelect.uuid);
             }
         }
     }
@@ -425,9 +465,6 @@
         lxSelectChoices.isSelected = isSelected;
         lxSelectChoices.setParentController = setParentController;
         lxSelectChoices.toggleChoice = toggleChoice;
-        lxSelectChoices.updateFilter = updateFilter;
-
-        lxSelectChoices.filterModel = undefined;
 
         $scope.$on('$destroy', function()
         {
@@ -496,7 +533,7 @@
 
         function toggleChoice(_choice, _event)
         {
-            if (lxSelectChoices.parentCtrl.multiple)
+            if (lxSelectChoices.parentCtrl.multiple && !lxSelectChoices.parentCtrl.autocomplete)
             {
                 _event.stopPropagation();
             }
@@ -508,6 +545,11 @@
             else
             {
                 lxSelectChoices.parentCtrl.select(_choice);
+            }
+
+            if (lxSelectChoices.parentCtrl.autocomplete)
+            {
+                lxSelectChoices.parentCtrl.filterModel = undefined;
             }
         }
 
@@ -538,17 +580,6 @@
                     {
                         lxSelectChoices.parentCtrl.unconvertedModel = resp;
                     }
-                });
-            }
-        }
-
-        function updateFilter()
-        {
-            if (angular.isDefined(lxSelectChoices.parentCtrl.filter))
-            {
-                lxSelectChoices.parentCtrl.filter(
-                {
-                    newValue: lxSelectChoices.filterModel
                 });
             }
         }

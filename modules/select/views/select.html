@@ -12,11 +12,11 @@
                  'lx-select--default-style': !lxSelect.customStyle,
                  'lx-select--view-mode-field': !lxSelect.multiple || (lxSelect.multiple && lxSelect.viewMode === 'field'),
                  'lx-select--view-mode-chips': lxSelect.multiple && lxSelect.viewMode === 'chips' }">
-    <span class="lx-select-label">
+    <span class="lx-select-label" ng-if="!lxSelect.autocomplete">
         {{ ::lxSelect.label }}
     </span>
 
-    <lx-dropdown lx-width="100%">
+    <lx-dropdown id="dropdown-{{ lxSelect.uuid }}" lx-width="100%">
         <ng-transclude></ng-transclude>
     </lx-dropdown>
 </div>
