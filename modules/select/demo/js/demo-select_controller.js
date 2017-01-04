@@ -150,10 +150,12 @@
                 name: 'Nicole'
             }]
         };
+        vm.selectVegetables = ['Broccoli', 'Cabbage', 'Carrot', 'Lettuce', 'Spinach'];
         vm.selectModel = {
             selectedPerson: undefined,
             selectedPeople: [vm.selectPeople[2], vm.selectPeople[4]],
-            selectedPeopleSections: []
+            selectedPeopleSections: [],
+            selectedVegetables: []
         };
 
         ////////////

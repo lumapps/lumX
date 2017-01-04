@@ -52,6 +52,8 @@
             scope:
             {
                 allowClear: '=?lxAllowClear',
+                allowNewValue: '=?lxAllowNewValue',
+                autocomplete: '=?lxAutocomplete',
                 choices: '=?lxChoices',
                 choicesCustomStyle: '=?lxChoicesCustomStyle',
                 customStyle: '=?lxCustomStyle',
@@ -70,7 +72,8 @@
                 ngModel: '=',
                 selectionToModel: '&?lxSelectionToModel',
                 theme: '@?lxTheme',
-                valid: '=?lxValid'
+                valid: '=?lxValid',
+                viewMode: '@?lxViewMode'
             },
             link: link,
             controller: LxSelectController,
@@ -157,9 +160,9 @@
         }
     }
 
-    LxSelectController.$inject = ['$interpolate', '$sce'];
+    LxSelectController.$inject = ['$interpolate', '$element', '$filter', '$sce', 'LxDropdownService', 'LxUtils'];
 
-    function LxSelectController($interpolate, $sce)
+    function LxSelectController($interpolate, $element, $filter, $sce, LxDropdownService, LxUtils)
     {
         var lxSelect = this;
         var choiceTemplate;
@@ -168,16 +171,39 @@
         lxSelect.displayChoice = displayChoice;
         lxSelect.displaySelected = displaySelected;
         lxSelect.displaySubheader = displaySubheader;
+        lxSelect.getFilteredChoices = getFilteredChoices;
         lxSelect.getSelectedModel = getSelectedModel;
+        lxSelect.isSelected = isSelected;
+        lxSelect.keyEvent = keyEvent;
         lxSelect.registerChoiceTemplate = registerChoiceTemplate;
         lxSelect.registerSelectedTemplate = registerSelectedTemplate;
         lxSelect.select = select;
+        lxSelect.toggleChoice = toggleChoice;
         lxSelect.unselect = unselect;
+        lxSelect.updateFilter = updateFilter;
 
+        lxSelect.activeChoiceIndex = -1;
+        lxSelect.activeSelectedIndex = -1;
+        lxSelect.uuid = LxUtils.generateUUID();
+        lxSelect.filterModel = undefined;
         lxSelect.ngModel = angular.isUndefined(lxSelect.ngModel) && lxSelect.multiple ? [] : lxSelect.ngModel;
         lxSelect.unconvertedModel = lxSelect.multiple ? [] : undefined;
+        lxSelect.viewMode = angular.isUndefined(lxSelect.viewMode) ? 'field' : 'chips';
 
         ////////////
+        
+        function arrayObjectIndexOf(arr, obj)
+        {
+            for (var i = 0; i < arr.length; i++)
+            {
+                if (angular.equals(arr[i], obj))
+                {
+                    return i;
+                }
+            }
+
+            return -1;
+        }
 
         function displayChoice(_choice)
         {
@@ -237,6 +263,11 @@
             return $sce.trustAsHtml(_subheader);
         }
 
+        function getFilteredChoices()
+        {
+            return $filter('filterChoices')(lxSelect.choices, lxSelect.filter, lxSelect.filterModel);
+        }
+
         function getSelectedModel()
         {
             if (angular.isDefined(lxSelect.modelToSelection) || angular.isDefined(lxSelect.selectionToModel))
@@ -246,6 +277,110 @@
             else
             {
                 return lxSelect.ngModel;
+            }
+        }
+
+        function isSelected(_choice)
+        {
+            if (lxSelect.multiple && angular.isDefined(getSelectedModel()))
+            {
+                return arrayObjectIndexOf(getSelectedModel(), _choice) !== -1;
+            }
+            else if (angular.isDefined(getSelectedModel()))
+            {
+                return angular.equals(getSelectedModel(), _choice);
+            }
+        }
+
+        function keyEvent(_event)
+        {
+            if (_event.keyCode !== 8)
+            {
+                lxSelect.activeSelectedIndex = -1;
+            }
+
+            switch (_event.keyCode) {
+                case 8:
+                    keyRemove();
+                    break;
+
+                case 13:
+                    keySelect();
+                    _event.preventDefault();
+                    break;
+
+                case 38:
+                    keyUp();
+                    _event.preventDefault();
+                    break;
+
+                case 40:
+                    keyDown();
+                    _event.preventDefault();
+                    break;
+            }
+        }
+
+        function keyDown()
+        {
+            var filteredChoices = $filter('filterChoices')(lxSelect.choices, lxSelect.filter, lxSelect.filterModel);
+
+            if (filteredChoices.length)
+            {
+                lxSelect.activeChoiceIndex += 1;
+
+                if (lxSelect.activeChoiceIndex >= filteredChoices.length)
+                {
+                    lxSelect.activeChoiceIndex = 0;
+                }
+            }
+        }
+
+        function keyRemove()
+        {
+            if (lxSelect.filterModel || !lxSelect.getSelectedModel().length)
+            {
+                return;
+            }
+
+            if (lxSelect.activeSelectedIndex === -1)
+            {
+                lxSelect.activeSelectedIndex = lxSelect.getSelectedModel().length - 1;
+            }
+            else
+            {
+                unselect(lxSelect.getSelectedModel()[lxSelect.activeSelectedIndex]);
+            }
+        }
+
+        function keySelect()
+        {
+            var filteredChoices = $filter('filterChoices')(lxSelect.choices, lxSelect.filter, lxSelect.filterModel);
+
+            if (filteredChoices.length && filteredChoices[lxSelect.activeChoiceIndex])
+            {
+                toggleChoice(filteredChoices[lxSelect.activeChoiceIndex]);
+            }
+            else if (lxSelect.filterModel && lxSelect.allowNewValue)
+            {
+                getSelectedModel().push(lxSelect.filterModel);
+                lxSelect.filterModel = undefined;
+                LxDropdownService.close('dropdown-' + lxSelect.uuid);
+            }
+        }
+
+        function keyUp()
+        {
+            var filteredChoices = $filter('filterChoices')(lxSelect.choices, lxSelect.filter, lxSelect.filterModel);
+
+            if (filteredChoices.length)
+            {
+                lxSelect.activeChoiceIndex -= 1;
+
+                if (lxSelect.activeChoiceIndex < 0)
+                {
+                    lxSelect.activeChoiceIndex = filteredChoices.length - 1;
+                }
             }
         }
 
@@ -281,6 +416,11 @@
                         {
                             lxSelect.ngModel = resp;
                         }
+
+                        if (lxSelect.autocomplete)
+                        {
+                            $element.find('.lx-select-selected__filter').focus();
+                        }
                     }
                 });
             }
@@ -294,6 +434,36 @@
                 {
                     lxSelect.ngModel = _choice;
                 }
+
+                if (lxSelect.autocomplete)
+                {
+                    $element.find('.lx-select-selected__filter').focus();
+                }
+            }
+        }
+
+        function toggleChoice(_choice, _event)
+        {
+            if (lxSelect.multiple && !lxSelect.autocomplete)
+            {
+                _event.stopPropagation();
+            }
+
+            if (lxSelect.multiple && isSelected(_choice))
+            {
+                unselect(_choice);
+            }
+            else
+            {
+                select(_choice);
+            }
+
+            if (lxSelect.autocomplete)
+            {
+                lxSelect.activeChoiceIndex = -1;
+                lxSelect.filterModel = undefined;
+
+                LxDropdownService.close('dropdown-' + lxSelect.uuid);
             }
         }
 
@@ -307,6 +477,12 @@
                     callback: function(resp)
                     {
                         lxSelect.ngModel.splice(lxSelect.ngModel.indexOf(resp), 1);
+
+                        if (lxSelect.autocomplete)
+                        {
+                            $element.find('.lx-select-selected__filter').focus();
+                            lxSelect.activeSelectedIndex = -1;
+                        }
                     }
                 });
 
@@ -315,6 +491,37 @@
             else
             {
                 lxSelect.ngModel.splice(lxSelect.ngModel.indexOf(_choice), 1);
+
+                if (lxSelect.autocomplete)
+                {
+                    $element.find('.lx-select-selected__filter').focus();
+                    lxSelect.activeSelectedIndex = -1;
+                }
+            }
+        }
+
+        function updateFilter()
+        {
+            if (angular.isDefined(lxSelect.filter))
+            {
+                lxSelect.filter(
+                {
+                    newValue: lxSelect.filterModel
+                });
+            }
+
+            if (lxSelect.autocomplete)
+            {
+                lxSelect.activeChoiceIndex = -1;
+
+                if (lxSelect.filterModel)
+                {
+                    LxDropdownService.open('dropdown-' + lxSelect.uuid, '#lx-select-selected-wrapper-' + lxSelect.uuid);
+                }
+                else
+                {
+                    LxDropdownService.close('dropdown-' + lxSelect.uuid);
+                }
             }
         }
     }
@@ -420,12 +627,7 @@
         var timer;
 
         lxSelectChoices.isArray = isArray;
-        lxSelectChoices.isSelected = isSelected;
         lxSelectChoices.setParentController = setParentController;
-        lxSelectChoices.toggleChoice = toggleChoice;
-        lxSelectChoices.updateFilter = updateFilter;
-
-        lxSelectChoices.filterModel = undefined;
 
         $scope.$on('$destroy', function()
         {
@@ -434,34 +636,9 @@
 
         ////////////
 
-        function arrayObjectIndexOf(arr, obj)
-        {
-            for (var i = 0; i < arr.length; i++)
-            {
-                if (angular.equals(arr[i], obj))
-                {
-                    return i;
-                }
-            }
-
-            return -1;
-        }
-
         function isArray()
         {
             return angular.isArray(lxSelectChoices.parentCtrl.choices);
-        }
-
-        function isSelected(_choice)
-        {
-            if (lxSelectChoices.parentCtrl.multiple && angular.isDefined(lxSelectChoices.parentCtrl.getSelectedModel()))
-            {
-                return arrayObjectIndexOf(lxSelectChoices.parentCtrl.getSelectedModel(), _choice) !== -1;
-            }
-            else if (angular.isDefined(lxSelectChoices.parentCtrl.getSelectedModel()))
-            {
-                return angular.equals(lxSelectChoices.parentCtrl.getSelectedModel(), _choice);
-            }
         }
 
         function setParentController(_parentCtrl)
@@ -492,23 +669,6 @@
             }, true);
         }
 
-        function toggleChoice(_choice, _event)
-        {
-            if (lxSelectChoices.parentCtrl.multiple)
-            {
-                _event.stopPropagation();
-            }
-
-            if (lxSelectChoices.parentCtrl.multiple && isSelected(_choice))
-            {
-                lxSelectChoices.parentCtrl.unselect(_choice);
-            }
-            else
-            {
-                lxSelectChoices.parentCtrl.select(_choice);
-            }
-        }
-
         function toSelection()
         {
             if (lxSelectChoices.parentCtrl.multiple)
@@ -536,17 +696,6 @@
                     {
                         lxSelectChoices.parentCtrl.unconvertedModel = resp;
                     }
-                });
-            }
-        }
-
-        function updateFilter()
-        {
-            if (angular.isDefined(lxSelectChoices.parentCtrl.filter))
-            {
-                lxSelectChoices.parentCtrl.filter(
-                {
-                    newValue: lxSelectChoices.filterModel
                 });
             }
         }

@@ -1,21 +1,7 @@
-<div lx-dropdown-toggle>
-    <div class="lx-select-selected-wrapper">
-        <div class="lx-select-selected" ng-if="!lxSelectSelected.parentCtrl.multiple && lxSelectSelected.parentCtrl.getSelectedModel()">
-            <span class="lx-select-selected__value"
-                  ng-bind-html="lxSelectSelected.parentCtrl.displaySelected()"></span>
+<div>
+    <lx-dropdown-toggle ng-if="::!lxSelectSelected.parentCtrl.autocomplete">
+        <ng-include src="'select-selected-content.html'"></ng-include>
+    </lx-dropdown-toggle>
 
-            <a class="lx-select-selected__clear"
-               ng-click="lxSelectSelected.clearModel($event)"
-               ng-if="::lxSelectSelected.parentCtrl.allowClear">
-                <i class="mdi mdi-close-circle"></i>
-            </a>
-        </div>
-
-        <div class="lx-select-selected" ng-if="lxSelectSelected.parentCtrl.multiple && lxSelectSelected.parentCtrl.getSelectedModel().length">
-            <span class="lx-select-selected__tag"
-                  ng-click="lxSelectSelected.removeSelected(selected, $event)"
-                  ng-repeat="selected in lxSelectSelected.parentCtrl.getSelectedModel()"
-                  ng-bind-html="lxSelectSelected.parentCtrl.displaySelected(selected)"></span>
-        </div>
-    </div>
+    <ng-include src="'select-selected-content.html'" ng-if="::lxSelectSelected.parentCtrl.autocomplete"></ng-include>
 </div>

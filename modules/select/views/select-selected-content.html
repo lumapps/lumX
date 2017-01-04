@@ -1,0 +1,28 @@
+<div class="lx-select-selected-wrapper" id="lx-select-selected-wrapper-{{ lxSelectSelected.parentCtrl.uuid }}">
+    <div class="lx-select-selected" ng-if="!lxSelectSelected.parentCtrl.multiple && lxSelectSelected.parentCtrl.getSelectedModel()">
+        <span class="lx-select-selected__value"
+              ng-bind-html="lxSelectSelected.parentCtrl.displaySelected()"></span>
+
+        <a class="lx-select-selected__clear"
+           ng-click="lxSelectSelected.clearModel($event)"
+           ng-if="::lxSelectSelected.parentCtrl.allowClear">
+            <i class="mdi mdi-close-circle"></i>
+        </a>
+    </div>
+
+    <div class="lx-select-selected" ng-if="lxSelectSelected.parentCtrl.multiple">
+        <span class="lx-select-selected__tag"
+              ng-class="{ 'lx-select-selected__tag--is-active': lxSelectSelected.parentCtrl.activeSelectedIndex === $index }"
+              ng-click="lxSelectSelected.removeSelected(selected, $event)"
+              ng-repeat="selected in lxSelectSelected.parentCtrl.getSelectedModel()"
+              ng-bind-html="lxSelectSelected.parentCtrl.displaySelected(selected)"></span>
+
+        <input type="text"
+               placeholder="{{ ::lxSelectSelected.parentCtrl.label }}"
+               class="lx-select-selected__filter"
+               ng-model="lxSelectSelected.parentCtrl.filterModel"
+               ng-change="lxSelectSelected.parentCtrl.updateFilter()"
+               ng-keydown="lxSelectSelected.parentCtrl.keyEvent($event)"
+               ng-if="::lxSelectSelected.parentCtrl.autocomplete && !lxSelectSelected.parentCtrl.ngDisabled">
+    </div>
+</div>

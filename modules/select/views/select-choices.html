@@ -4,18 +4,19 @@
                               'lx-select-choices--is-multiple': lxSelectChoices.parentCtrl.multiple,
                               'lx-select-choices--is-unique': !lxSelectChoices.parentCtrl.multiple, }">
     <ul>
-        <li class="lx-select-choices__filter" ng-if="::lxSelectChoices.parentCtrl.displayFilter">
+        <li class="lx-select-choices__filter" ng-if="::lxSelectChoices.parentCtrl.displayFilter && !lxSelectChoices.parentCtrl.autocomplete">
             <lx-search-filter lx-dropdown-filter>
-                <input type="text" ng-model="lxSelectChoices.filterModel" ng-change="lxSelectChoices.updateFilter()">
+                <input type="text" ng-model="lxSelectChoices.parentCtrl.filterModel" ng-change="lxSelectChoices.parentCtrl.updateFilter()">
             </lx-search-filter>
         </li>
         
         <div ng-if="::lxSelectChoices.isArray()">
             <li class="lx-select-choices__choice"
-                ng-class="{ 'lx-select-choices__choice--is-selected': lxSelectChoices.isSelected(choice) }"
-                ng-repeat="choice in lxSelectChoices.parentCtrl.choices | filterChoices:lxSelectChoices.parentCtrl.filter:lxSelectChoices.filterModel"
+                ng-class="{ 'lx-select-choices__choice--is-selected': lxSelectChoices.parentCtrl.isSelected(choice),
+                            'lx-select-choices__choice--is-focus': lxSelectChoices.parentCtrl.activeChoiceIndex === $index }"
+                ng-repeat="choice in lxSelectChoices.parentCtrl.choices | filterChoices:lxSelectChoices.parentCtrl.filter:lxSelectChoices.parentCtrl.filterModel"
                 ng-bind-html="::lxSelectChoices.parentCtrl.displayChoice(choice)"
-                ng-click="lxSelectChoices.toggleChoice(choice, $event)"></li>
+                ng-click="lxSelectChoices.parentCtrl.toggleChoice(choice, $event)"></li>
         </div>
 
         <div ng-if="::!lxSelectChoices.isArray()">
@@ -24,14 +25,15 @@
                 ng-bind-html="::lxSelectChoices.parentCtrl.displaySubheader(subheader)"></li>
 
             <li class="lx-select-choices__choice"
-                ng-class="{ 'lx-select-choices__choice--is-selected': lxSelectChoices.isSelected(choice) }"
+                ng-class="{ 'lx-select-choices__choice--is-selected': lxSelectChoices.parentCtrl.isSelected(choice),
+                            'lx-select-choices__choice--is-focus': lxSelectChoices.parentCtrl.activeChoiceIndex === $index }"
                 ng-repeat-end
-                ng-repeat="choice in children | filterChoices:lxSelectChoices.parentCtrl.filter:lxSelectChoices.filterModel"
+                ng-repeat="choice in children | filterChoices:lxSelectChoices.parentCtrl.filter:lxSelectChoices.parentCtrl.filterModel"
                 ng-bind-html="::lxSelectChoices.parentCtrl.displayChoice(choice)"
-                ng-click="lxSelectChoices.toggleChoice(choice, $event)"></li>
+                ng-click="lxSelectChoices.parentCtrl.toggleChoice(choice, $event)"></li>
         </div>
 
-        <li class="lx-select-choices__subheader" ng-if="lxSelectChoices.parentCtrl.helper">
+        <li class="lx-select-choices__subheader" ng-if="lxSelectChoices.parentCtrl.helper || !lxSelectChoices.parentCtrl.getFilteredChoices().length">
             {{ lxSelectChoices.parentCtrl.helperMessage }}
         </li>
 
