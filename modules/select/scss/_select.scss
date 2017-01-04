@@ -257,7 +257,9 @@
                 @include mdi-icon('close-circle');
                 color: $grey-400;
             }
+        }
 
+        .lx-select--default-style:not(.lx-select--is-disabled) & {
             &.lx-select-selected__tag--is-active,
             &:hover {
                 background-color: $grey-600;
@@ -270,6 +272,7 @@
         }
 
         .lx-select--default-style.lx-select--is-disabled & {
+            pointer-events: none;
             color: $black-3;
 
             &:after {
@@ -311,6 +314,10 @@
                 margin-right: 0;
             }
         }
+
+        .lx-select--default-style.lx-select--view-mode-chips.lx-select--is-disabled & {
+            padding-right: $base-spacing-unit * 1.5;
+        }
     }
 
     // Select selected: filter
@@ -331,8 +338,20 @@
             line-height: 40px;
         }
 
-        @include placeholder {
-            color: $black-2;
+        .lx-select--default-style.lx-select--theme-light & {
+            color: $black-1;
+
+            @include placeholder {
+                color: $black-2;
+            }
+        }
+
+        .lx-select--default-style.lx-select--theme-dark & {
+            color: $white-1;
+
+            @include placeholder {
+                color: $white-2;
+            }
         }
     }
 
