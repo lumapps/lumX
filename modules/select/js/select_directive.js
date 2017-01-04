@@ -184,6 +184,7 @@
         lxSelect.activeChoiceIndex = -1;
         lxSelect.activeSelectedIndex = -1;
         lxSelect.uuid = LxUtils.generateUUID();
+        lxSelect.filteredChoices = undefined;
         lxSelect.filterModel = undefined;
         lxSelect.ngModel = angular.isUndefined(lxSelect.ngModel) && lxSelect.multiple ? [] : lxSelect.ngModel;
         lxSelect.unconvertedModel = lxSelect.multiple ? [] : undefined;
