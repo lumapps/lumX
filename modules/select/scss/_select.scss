@@ -257,6 +257,11 @@
                 @include mdi-icon('close-circle');
                 color: $grey-400;
             }
+
+            #{$base-icon-prefix} {
+                margin-right: $base-spacing-unit / 2;
+                color: $black-2;
+            }
         }
 
         .lx-select--default-style:not(.lx-select--is-disabled) & {
