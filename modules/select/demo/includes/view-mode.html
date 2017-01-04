@@ -12,22 +12,4 @@
             {{ $choice.email }}
         </lx-select-choices>
     </lx-select>
-
-    <lx-select ng-model="vm.selectModel.selectedVegetables"
-               lx-choices="vm.selectVegetables"
-               lx-display-filter="true"
-               lx-helper-message="No vegetable found. Type enter key to add a vegetable."
-               lx-label="Lorem Ipsum"
-               lx-multiple="true"
-               lx-view-mode="chips"
-               lx-autocomplete="true"
-               lx-allow-new-value="true">
-        <lx-select-selected>
-            {{ $selected }}
-        </lx-select-selected>
- 
-        <lx-select-choices>
-            {{ $choice }}
-        </lx-select-choices>
-    </lx-select>
 </div>

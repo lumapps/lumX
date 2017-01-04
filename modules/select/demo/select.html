@@ -10,6 +10,7 @@
     <lx-component lx-title="Ajax data" lx-path="/includes/modules/select/includes/ajax.html" lx-js-path="/js/select/demo/demo-select_controller.js"></lx-component>
     <lx-component lx-title="Theme" lx-path="/includes/modules/select/includes/theme.html" lx-js-path="/js/select/demo/demo-select_controller.js"></lx-component>
     <lx-component lx-title="View mode" lx-path="/includes/modules/select/includes/view-mode.html" lx-js-path="/js/select/demo/demo-select_controller.js"></lx-component>
+    <lx-component lx-title="Autocomplete" lx-path="/includes/modules/select/includes/autocomplete.html" lx-js-path="/js/select/demo/demo-select_controller.js"></lx-component>
 
     <lx-component-attributes>
         <table>
@@ -28,6 +29,18 @@
                     <td><code>boolean</code></td>
                     <td><code>false</code></td>
                     <td>Allow user to clear the select model.</td>
+                </tr>
+                <tr>
+                    <td>lx-allow-new-value</td>
+                    <td><code>boolean</code></td>
+                    <td><code>false</code></td>
+                    <td>Allow user to add a new value to the model (if lx-autocomplete).</td>
+                </tr>
+                <tr>
+                    <td>lx-autocomplete</td>
+                    <td><code>boolean</code></td>
+                    <td><code>false</code></td>
+                    <td>Add an input after selected tags to search for matches in choices list (if lx-multiple).</td>
                 </tr>
                 <tr>
                     <td>lx-choices*</td>
@@ -56,7 +69,7 @@
                 <tr>
                     <td>lx-error</td>
                     <td><code>boolean</code></td>
-                    <td></td>
+                    <td><code>false</code></td>
                     <td>Set red error style.</td>
                 </tr>
                 <tr>
@@ -81,7 +94,7 @@
                     <td>lx-helper-message</td>
                     <td><code>string</code></td>
                     <td></td>
-                    <td>The helper message displayed when <code>lx-helper</code> is <code>true</code>.</td>
+                    <td>The helper message displayed when <code>lx-helper</code> is <code>true</code> or when filtered choices list is empty.</td>
                 </tr>
                 <tr>
                     <td>lx-label*</td>
@@ -122,8 +135,14 @@
                 <tr>
                     <td>lx-valid</td>
                     <td><code>boolean</code></td>
-                    <td></td>
+                    <td><code>false</code></td>
                     <td>Set green valid style.</td>
+                </tr>
+                <tr>
+                    <td>lx-view-mode</td>
+                    <td><code>string</code></td>
+                    <td><code>field</code></td>
+                    <td>The select component view mode. Options: field, chips</td>
                 </tr>
                 <tr>
                     <td>ng-change</td>
