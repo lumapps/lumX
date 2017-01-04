@@ -11,7 +11,8 @@
                  'lx-select--custom-style': lxSelect.customStyle,
                  'lx-select--default-style': !lxSelect.customStyle,
                  'lx-select--view-mode-field': !lxSelect.multiple || (lxSelect.multiple && lxSelect.viewMode === 'field'),
-                 'lx-select--view-mode-chips': lxSelect.multiple && lxSelect.viewMode === 'chips' }">
+                 'lx-select--view-mode-chips': lxSelect.multiple && lxSelect.viewMode === 'chips',
+                 'lx-select--autocomplete': lxSelect.autocomplete }">
     <span class="lx-select-label" ng-if="!lxSelect.autocomplete">
         {{ ::lxSelect.label }}
     </span>

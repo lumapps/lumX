@@ -133,7 +133,7 @@
 
 // Select selected
 .lx-select-selected-wrapper {
-    .lx-select--default-style & {
+    .lx-select--default-style:not(.lx-select--autocomplete) & {
         padding-right: $base-spacing-unit * 3;
 
         &:after {
@@ -145,20 +145,20 @@
 
     .lx-select--default-style.lx-select--view-mode-field & {
         min-height: 32px;
+    }
 
-        &:after {
-            @include position(absolute, null $base-spacing-unit $base-spacing-unit null);
-            line-height: 16px;
-        }
+    .lx-select--default-style.lx-select--view-mode-field:not(.lx-select--autocomplete) &:after {
+        @include position(absolute, null $base-spacing-unit $base-spacing-unit null);
+        line-height: 16px;
     }
 
     .lx-select--default-style.lx-select--view-mode-chips & {
         min-height: 40px;
+    }
 
-        &:after {
-            @include position(absolute, 0 0 null null);
-            line-height: 40px;
-        }
+    .lx-select--default-style.lx-select--view-mode-chips:not(.lx-select--autocomplete) &:after {
+        @include position(absolute, 0 0 null null);
+        line-height: 40px;
     }
 
     .lx-select--default-style.lx-select--theme-light &:after {
@@ -169,7 +169,7 @@
         color: $white-3;
     }
 
-    .lx-select--default-style .dropdown--is-open &:after {
+    .lx-select--default-style:not(.lx-select--autocomplete) .dropdown--is-open &:after {
         @include mdi-icon('menu-up');
     }
 }
