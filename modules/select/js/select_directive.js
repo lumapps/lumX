@@ -182,6 +182,7 @@
         lxSelect.updateFilter = updateFilter;
 
         lxSelect.activeChoiceIndex = -1;
+        lxSelect.activeSelectedIndex = -1;
         lxSelect.uuid = LxUtils.generateUUID();
         lxSelect.filterModel = undefined;
         lxSelect.ngModel = angular.isUndefined(lxSelect.ngModel) && lxSelect.multiple ? [] : lxSelect.ngModel;
@@ -287,7 +288,16 @@
 
         function keyEvent(_event)
         {
+            if (_event.keyCode !== 8)
+            {
+                lxSelect.activeSelectedIndex = -1;
+            }
+
             switch (_event.keyCode) {
+                case 8:
+                    keyRemove();
+                    break;
+
                 case 13:
                     keySelect();
                     _event.preventDefault();
@@ -315,6 +325,23 @@
                 {
                     lxSelect.activeChoiceIndex = 0;
                 }
+            }
+        }
+
+        function keyRemove()
+        {
+            if (lxSelect.filterModel || !lxSelect.getSelectedModel().length)
+            {
+                return;
+            }
+
+            if (lxSelect.activeSelectedIndex === -1)
+            {
+                lxSelect.activeSelectedIndex = lxSelect.getSelectedModel().length - 1;
+            }
+            else
+            {
+                unselect(lxSelect.getSelectedModel()[lxSelect.activeSelectedIndex]);
             }
         }
 
@@ -442,6 +469,7 @@
                         if (lxSelect.autocomplete)
                         {
                             $element.find('.lx-select-selected__filter').focus();
+                            lxSelect.activeSelectedIndex = -1;
                         }
                     }
                 });
@@ -455,6 +483,7 @@
                 if (lxSelect.autocomplete)
                 {
                     $element.find('.lx-select-selected__filter').focus();
+                    lxSelect.activeSelectedIndex = -1;
                 }
             }
         }
@@ -471,10 +500,18 @@
                 });
             }
 
-            if (lxSelect.autocomplete && lxSelect.filterModel)
+            if (lxSelect.autocomplete)
             {
                 lxSelect.activeChoiceIndex = -1;
-                LxDropdownService.open('dropdown-' + lxSelect.uuid, '#lx-select-selected-wrapper-' + lxSelect.uuid);
+
+                if (lxSelect.filterModel)
+                {
+                    LxDropdownService.open('dropdown-' + lxSelect.uuid, '#lx-select-selected-wrapper-' + lxSelect.uuid);
+                }
+                else
+                {
+                    LxDropdownService.close('dropdown-' + lxSelect.uuid);
+                }
             }
         }
     }

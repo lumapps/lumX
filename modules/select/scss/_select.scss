@@ -258,6 +258,7 @@
                 color: $grey-400;
             }
 
+            &.lx-select-selected__tag--is-active,
             &:hover {
                 background-color: $grey-600;
                 color: $white-1;

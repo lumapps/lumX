@@ -12,6 +12,7 @@
 
     <div class="lx-select-selected" ng-if="lxSelectSelected.parentCtrl.multiple">
         <span class="lx-select-selected__tag"
+              ng-class="{ 'lx-select-selected__tag--is-active': lxSelectSelected.parentCtrl.activeSelectedIndex === $index }"
               ng-click="lxSelectSelected.removeSelected(selected, $event)"
               ng-repeat="selected in lxSelectSelected.parentCtrl.getSelectedModel()"
               ng-bind-html="lxSelectSelected.parentCtrl.displaySelected(selected)"></span>
