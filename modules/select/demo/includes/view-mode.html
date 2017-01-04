@@ -13,18 +13,22 @@
         </lx-select-choices>
     </lx-select>
 
-    <lx-select ng-model="vm.selectModel.selectedPeople"
-               lx-choices="vm.selectPeople"
+    <lx-select ng-model="vm.selectModel.selectedVegetables"
+               lx-choices="vm.selectVegetables"
+               lx-display-filter="true"
+               lx-helper="!vm.selectVegetables.length"
+               lx-helper-message="No vegetable found. Type enter key to add a vegetable."
                lx-label="Lorem Ipsum"
                lx-multiple="true"
                lx-view-mode="chips"
-               lx-autocomplete="true">
+               lx-autocomplete="true"
+               lx-allow-new-value="true">
         <lx-select-selected>
-            {{ $selected.name }} - {{ $selected.age }}
+            {{ $selected }}
         </lx-select-selected>
  
         <lx-select-choices>
-            {{ $choice.email }}
+            {{ $choice }}
         </lx-select-choices>
     </lx-select>
 </div>

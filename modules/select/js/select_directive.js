@@ -52,6 +52,7 @@
             scope:
             {
                 allowClear: '=?lxAllowClear',
+                allowNewValue: '=?lxAllowNewValue',
                 autocomplete: '=?lxAutocomplete',
                 choices: '=?lxChoices',
                 choicesCustomStyle: '=?lxChoicesCustomStyle',
@@ -323,9 +324,15 @@
         {
             var filteredChoices = $filter('filterChoices')(lxSelect.choices, lxSelect.filter, lxSelect.filterModel);
 
-            if (filteredChoices.length)
+            if (filteredChoices.length && filteredChoices[lxSelect.activeChoiceIndex])
             {
                 toggleChoice(filteredChoices[lxSelect.activeChoiceIndex]);
+            }
+            else if (lxSelect.filterModel && lxSelect.allowNewValue)
+            {
+                getSelectedModel().push(lxSelect.filterModel);
+                lxSelect.filterModel = undefined;
+                LxDropdownService.close('dropdown-' + lxSelect.uuid);
             }
         }
 
@@ -468,8 +475,9 @@
                 });
             }
 
-            if (lxSelect.autocomplete)
+            if (lxSelect.autocomplete && lxSelect.filterModel)
             {
+                lxSelect.activeChoiceIndex = -1;
                 LxDropdownService.open('dropdown-' + lxSelect.uuid, '#lx-select-selected-wrapper-' + lxSelect.uuid);
             }
         }
