@@ -33,7 +33,7 @@
                 ng-click="lxSelectChoices.parentCtrl.toggleChoice(choice, $event)"></li>
         </div>
 
-        <li class="lx-select-choices__subheader" ng-if="lxSelectChoices.parentCtrl.helper">
+        <li class="lx-select-choices__subheader" ng-if="lxSelectChoices.parentCtrl.helper || !lxSelectChoices.parentCtrl.filteredChoices.length">
             {{ lxSelectChoices.parentCtrl.helperMessage }}
         </li>
 

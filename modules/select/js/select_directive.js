@@ -307,13 +307,11 @@
 
         function keyDown()
         {
-            var filteredChoices = $filter('filterChoices')(lxSelect.choices, lxSelect.filter, lxSelect.filterModel);
-
-            if (filteredChoices.length)
+            if (lxSelect.filteredChoices.length)
             {
                 lxSelect.activeChoiceIndex += 1;
 
-                if (lxSelect.activeChoiceIndex >= filteredChoices.length)
+                if (lxSelect.activeChoiceIndex >= lxSelect.filteredChoices.length)
                 {
                     lxSelect.activeChoiceIndex = 0;
                 }
@@ -322,11 +320,9 @@
 
         function keySelect()
         {
-            var filteredChoices = $filter('filterChoices')(lxSelect.choices, lxSelect.filter, lxSelect.filterModel);
-
-            if (filteredChoices.length && filteredChoices[lxSelect.activeChoiceIndex])
+            if (lxSelect.filteredChoices.length && lxSelect.filteredChoices[lxSelect.activeChoiceIndex])
             {
-                toggleChoice(filteredChoices[lxSelect.activeChoiceIndex]);
+                toggleChoice(lxSelect.filteredChoices[lxSelect.activeChoiceIndex]);
             }
             else if (lxSelect.filterModel && lxSelect.allowNewValue)
             {
@@ -338,15 +334,13 @@
 
         function keyUp()
         {
-            var filteredChoices = $filter('filterChoices')(lxSelect.choices, lxSelect.filter, lxSelect.filterModel);
-
-            if (filteredChoices.length)
+            if (lxSelect.filteredChoices.length)
             {
                 lxSelect.activeChoiceIndex -= 1;
 
                 if (lxSelect.activeChoiceIndex < 0)
                 {
-                    lxSelect.activeChoiceIndex = filteredChoices.length - 1;
+                    lxSelect.activeChoiceIndex = lxSelect.filteredChoices.length - 1;
                 }
             }
         }
@@ -467,6 +461,8 @@
 
         function updateFilter()
         {
+            lxSelect.filteredChoices = $filter('filterChoices')(lxSelect.choices, lxSelect.filter, lxSelect.filterModel);
+
             if (angular.isDefined(lxSelect.filter))
             {
                 lxSelect.filter(
