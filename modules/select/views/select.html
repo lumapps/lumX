@@ -17,7 +17,7 @@
         {{ ::lxSelect.label }}
     </span>
 
-    <lx-dropdown id="dropdown-{{ lxSelect.uuid }}" lx-width="100%">
+    <lx-dropdown id="dropdown-{{ lxSelect.uuid }}" lx-width="100%" lx-effect="{{ lxSelect.autocomplete ? 'none' : 'expand' }}">
         <ng-transclude></ng-transclude>
     </lx-dropdown>
 </div>
