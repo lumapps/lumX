@@ -1,5 +1,39 @@
 # Changelog
 
+## v1.4:
+
+#### New features:
+ - select: add none effect to dropdown if autocomplete
+ - dropdown: add none effect
+ - select: enhance tag style
+ - select: allow to remove selected value with backspace key
+ - select: display helper message if no choices
+ - select: add possibility to add new values
+ - select: remove arrow icon if autocomplete
+ - select: bind key events with autocomplete option
+ - select: add autocomplete option
+ - select: add chips view mode
+
+#### Bug fixes:
+ - dropdown: fix dropdown menu position
+ - select: fix subheader icon style in tags
+ - select: fix filtered choice list for ajax mode
+ - select: handle with theme and disabled style
+ - select: fix helper message condition
+
+
+## v1.3.5:
+*No major changes.*
+
+
+## v1.3.4:
+*No major changes.*
+
+
+## v1.3.3:
+*No major changes.*
+
+
 ## v1.3.2:
 
 #### New features:
