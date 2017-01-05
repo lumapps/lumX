@@ -9,9 +9,7 @@
         .directive('lxDropdownMenu', lxDropdownMenu)
         .directive('lxDropdownFilter', lxDropdownFilter);
 
-    lxDropdown.$inject = ['$document', '$timeout'];
-
-    function lxDropdown($document, $timeout)
+    function lxDropdown()
     {
         return {
             restrict: 'E',
@@ -38,7 +36,6 @@
         {
             var backwardOneWay = ['position', 'width'];
             var backwardTwoWay = ['escapeClose', 'overToggle'];
-            var timer;
 
             angular.forEach(backwardOneWay, function(attribute)
             {
@@ -76,24 +73,23 @@
                 {
                     ctrl.closeDropdownMenu();
                 }
-
-                $timeout.cancel(timer);
             });
         }
     }
 
-    LxDropdownController.$inject = ['$element', '$scope', '$timeout', '$window', 'LxDepthService', 'LxDropdownService',
-        'LxEventSchedulerService', 'LxUtils'
+    LxDropdownController.$inject = ['$element', '$interval', '$scope', '$timeout', '$window', 'LxDepthService',
+        'LxDropdownService', 'LxEventSchedulerService', 'LxUtils'
     ];
 
-    function LxDropdownController($element, $scope, $timeout, $window, LxDepthService, LxDropdownService,
-        LxEventSchedulerService, LxUtils)
+    function LxDropdownController($element, $interval, $scope, $timeout, $window, LxDepthService,
+        LxDropdownService, LxEventSchedulerService, LxUtils)
     {
         var lxDropdown = this;
+        var dropdownInterval;
         var dropdownMenu;
         var dropdownToggle;
         var idEventScheduler;
-        var timer;
+        var openTimeout;
 
         lxDropdown.closeDropdownMenu = closeDropdownMenu;
         lxDropdown.openDropdownMenu = openDropdownMenu;
@@ -131,13 +127,15 @@
 
         $scope.$on('$destroy', function()
         {
-            $timeout.cancel(timer);
+            $timeout.cancel(openTimeout);
         });
 
         ////////////
 
         function closeDropdownMenu()
         {
+            $interval.cancel(dropdownInterval);
+
             LxDropdownService.resetActiveDropdownUuid();
 
             var velocityProperties;
@@ -174,8 +172,6 @@
                 easing: velocityEasing,
                 complete: function()
                 {
-                    $element.find('.dropdown').removeClass('dropdown--is-open');
-
                     dropdownMenu
                         .removeAttr('style')
                         .removeClass('dropdown-menu--is-open')
@@ -195,158 +191,53 @@
             });
         }
 
-        function openDropdownMenu()
+        function getAvailableHeight()
         {
-            LxDepthService.register();
-
-            lxDropdown.isOpen = true;
-
-            $element.find('.dropdown').addClass('dropdown--is-open');
-
-            dropdownMenu
-                .addClass('dropdown-menu--is-open')
-                .css('z-index', LxDepthService.getDepth())
-                .appendTo('body');
-
-            if (lxDropdown.escapeClose)
-            {
-                idEventScheduler = LxEventSchedulerService.register('keyup', onKeyUp);
-            }
-
-            timer = $timeout(function()
-            {
-                var enoughtHeight = true;
-                var availableHeight = setDropdownMenuCss();
-                var width = dropdownMenu.outerWidth();
-                var height = dropdownMenu.outerHeight();
-
-                if (availableHeight < height)
-                {
-                    enoughtHeight = false;
-                    height = availableHeight;
-
-                    angular.element('body').addClass('no-scroll-dropdown-' + lxDropdown.uuid);
-                }
-
-                if (lxDropdown.effect === 'expand')
-                {
-                    dropdownMenu.css(
-                    {
-                        width: 0,
-                        height: 0,
-                        opacity: 1,
-                        overflow: 'hidden'
-                    });
-
-                    dropdownMenu.find('.dropdown-menu__content').css(
-                    {
-                        width: width,
-                        height: height
-                    });
-
-                    dropdownMenu.velocity(
-                    {
-                        width: width
-                    },
-                    {
-                        duration: 200,
-                        easing: 'easeOutQuint',
-                        queue: false
-                    });
-
-                    dropdownMenu.velocity(
-                    {
-                        height: height
-                    },
-                    {
-                        duration: 500,
-                        easing: 'easeOutQuint',
-                        queue: false,
-                        complete: function()
-                        {
-                            dropdownMenu.css(
-                            {
-                                overflow: 'auto'
-                            });
-
-                            if (enoughtHeight)
-                            {
-                                dropdownMenu.css(
-                                {
-                                    height: 'auto'
-                                });
-                            }
-
-                            if (angular.isUndefined(lxDropdown.width))
-                            {
-                                dropdownMenu.css(
-                                {
-                                    width: 'auto'
-                                });
-                            }
-
-                            dropdownMenu.find('.dropdown-menu__content').removeAttr('style');
-                        }
-                    });
-                }
-                else if (lxDropdown.effect === 'fade')
-                {
-                    dropdownMenu.velocity(
-                    {
-                        opacity: 1,
-                    },
-                    {
-                        duration: 200,
-                        easing: 'linear',
-                        queue: false
-                    });
-                }
-            });
-        }
-
-        function onKeyUp(_event)
-        {
-            if (_event.keyCode == 27)
-            {
-                closeDropdownMenu();
-            }
-
-            _event.stopPropagation();
-        }
-
-        function registerDropdownMenu(_dropdownMenu)
-        {
-            dropdownMenu = _dropdownMenu;
-        }
-
-        function registerDropdownToggle(_dropdownToggle)
-        {
-            dropdownToggle = _dropdownToggle;
-        }
-
-        function setDropdownMenuCss()
-        {
-            var windowWidth = $window.innerWidth;
-            var windowHeight = $window.innerHeight;
-            var dropdownToggleWidth = dropdownToggle.outerWidth();
+            var availableHeightOnTop;
+            var availableHeightOnBottom;
+            var direction;
             var dropdownToggleHeight = dropdownToggle.outerHeight();
             var dropdownToggleTop = dropdownToggle.offset().top - angular.element($window).scrollTop();
-            var dropdownMenuTopAvailable;
-            var dropdownMenuBottomAvailable;
-            var dropdownMenuWidth;
-            var dropdownMenuLeft;
-            var dropdownMenuRight;
+            var windowHeight = $window.innerHeight;
 
             if (lxDropdown.overToggle)
             {
-                dropdownMenuTopAvailable = dropdownToggleTop + dropdownToggleHeight;
-                dropdownMenuBottomAvailable = windowHeight - dropdownToggleTop;
+                availableHeightOnTop = dropdownToggleTop + dropdownToggleHeight;
+                availableHeightOnBottom = windowHeight - dropdownToggleTop;
             }
             else
             {
-                dropdownMenuTopAvailable = dropdownToggleTop;
-                dropdownMenuBottomAvailable = windowHeight - (dropdownToggleTop + dropdownToggleHeight);
+                availableHeightOnTop = dropdownToggleTop;
+                availableHeightOnBottom = windowHeight - (dropdownToggleTop + dropdownToggleHeight);
             }
+
+            if (availableHeightOnTop > availableHeightOnBottom)
+            {
+                direction = 'top';
+            }
+            else
+            {
+                direction = 'bottom';
+            }
+
+            return {
+                top: availableHeightOnTop,
+                bottom: availableHeightOnBottom,
+                direction: direction
+            };
+        }
+
+        function initDropdownPosition()
+        {
+            var availableHeight = getAvailableHeight();
+            var dropdownMenuWidth;
+            var dropdownMenuLeft;
+            var dropdownMenuRight;
+            var dropdownToggleWidth = dropdownToggle.outerWidth();
+            var dropdownToggleHeight = dropdownToggle.outerHeight();
+            var dropdownToggleTop = dropdownToggle.offset().top - angular.element($window).scrollTop();
+            var windowWidth = $window.innerWidth;
+            var windowHeight = $window.innerHeight;
 
             if (angular.isDefined(lxDropdown.width))
             {
@@ -387,24 +278,159 @@
                 width: dropdownMenuWidth
             });
 
-            if (dropdownMenuTopAvailable > dropdownMenuBottomAvailable)
+            if (availableHeight.direction === 'top')
             {
                 dropdownMenu.css(
                 {
-                    bottom: lxDropdown.overToggle ? (windowHeight - dropdownToggle.offset().top - dropdownToggleHeight) : (windowHeight - dropdownToggle.offset().top + ~~lxDropdown.offset)
+                    bottom: lxDropdown.overToggle ? (windowHeight - dropdownToggleTop - dropdownToggleHeight) : (windowHeight - dropdownToggleTop + ~~lxDropdown.offset)
                 });
 
-                return dropdownMenuTopAvailable;
+                return availableHeight.top;
             }
-            else
+            else if (availableHeight.direction === 'bottom')
             {
                 dropdownMenu.css(
                 {
-                    top: lxDropdown.overToggle ? dropdownToggle.offset().top : (dropdownToggle.offset().top + dropdownToggleHeight + ~~lxDropdown.offset)
+                    top: lxDropdown.overToggle ? dropdownToggleTop : (dropdownToggleTop + dropdownToggleHeight + ~~lxDropdown.offset)
                 });
 
-                return dropdownMenuBottomAvailable;
+                return availableHeight.bottom;
             }
+        }
+
+        function openDropdownMenu()
+        {
+            lxDropdown.isOpen = true;
+
+            LxDepthService.register();
+
+            dropdownMenu
+                .addClass('dropdown-menu--is-open')
+                .css('z-index', LxDepthService.getDepth())
+                .appendTo('body');
+
+            angular.element('body').addClass('no-scroll-dropdown-' + lxDropdown.uuid);
+
+            if (lxDropdown.escapeClose)
+            {
+                idEventScheduler = LxEventSchedulerService.register('keyup', onKeyUp);
+            }
+
+            openTimeout = $timeout(function()
+            {
+                var availableHeight = initDropdownPosition() - ~~lxDropdown.offset;
+                var dropdownMenuHeight = dropdownMenu.outerHeight();
+                var dropdownMenuWidth = dropdownMenu.outerWidth();
+                var enoughHeight = true;
+
+                if (availableHeight < dropdownMenuHeight)
+                {
+                    enoughHeight = false;
+                    dropdownMenuHeight = availableHeight;
+                }
+
+                if (lxDropdown.effect === 'expand')
+                {
+                    dropdownMenu.css(
+                    {
+                        width: 0,
+                        height: 0,
+                        opacity: 1,
+                        overflow: 'hidden'
+                    });
+
+                    dropdownMenu.find('.dropdown-menu__content').css(
+                    {
+                        width: dropdownMenuWidth,
+                        height: dropdownMenuHeight
+                    });
+
+                    dropdownMenu.velocity(
+                    {
+                        width: dropdownMenuWidth
+                    },
+                    {
+                        duration: 200,
+                        easing: 'easeOutQuint',
+                        queue: false
+                    });
+
+                    dropdownMenu.velocity(
+                    {
+                        height: dropdownMenuHeight
+                    },
+                    {
+                        duration: 500,
+                        easing: 'easeOutQuint',
+                        queue: false,
+                        complete: function()
+                        {
+                            dropdownMenu.css(
+                            {
+                                overflow: 'auto'
+                            });
+
+                            if (angular.isUndefined(lxDropdown.width))
+                            {
+                                dropdownMenu.css(
+                                {
+                                    width: 'auto'
+                                });
+                            }
+
+                            $timeout(updateDropdownMenuHeight);
+
+                            dropdownMenu.find('.dropdown-menu__content').removeAttr('style');
+
+                            dropdownInterval = $interval(updateDropdownMenuHeight, 500);
+                        }
+                    });
+                }
+                else if (lxDropdown.effect === 'fade')
+                {
+                    dropdownMenu.css(
+                    {
+                        height: dropdownMenuHeight
+                    });
+
+                    dropdownMenu.velocity(
+                    {
+                        opacity: 1,
+                    },
+                    {
+                        duration: 200,
+                        easing: 'linear',
+                        queue: false,
+                        complete: function()
+                        {
+                            $timeout(updateDropdownMenuHeight);
+
+                            dropdownInterval = $interval(updateDropdownMenuHeight, 500);
+                        }
+                    });
+                }
+            });
+        }
+
+        function onKeyUp(_event)
+        {
+            if (_event.keyCode == 27)
+            {
+                closeDropdownMenu();
+            }
+
+            _event.stopPropagation();
+        }
+
+        function registerDropdownMenu(_dropdownMenu)
+        {
+            dropdownMenu = _dropdownMenu;
+        }
+
+        function registerDropdownToggle(_dropdownToggle)
+        {
+            lxDropdown.hasToggle = true;
+            dropdownToggle = _dropdownToggle;
         }
 
         function toggle()
@@ -416,6 +442,52 @@
             else
             {
                 closeDropdownMenu();
+            }
+        }
+
+        function updateDropdownMenuHeight()
+        {
+            var availableHeight = getAvailableHeight();
+            var dropdownMenuHeight = dropdownMenu.find('.dropdown-menu__content').outerHeight();
+
+            dropdownMenu.css(
+            {
+                height: 'auto'
+            });
+
+            if ((availableHeight[availableHeight.direction] - ~~lxDropdown.offset) < dropdownMenuHeight)
+            {
+                if (availableHeight.direction === 'top')
+                {
+                    dropdownMenu.css(
+                    {
+                        top: 0
+                    });
+                }
+                else if (availableHeight.direction === 'bottom')
+                {
+                    dropdownMenu.css(
+                    {
+                        bottom: 0
+                    });
+                }
+            }
+            else
+            {
+                if (availableHeight.direction === 'top')
+                {
+                    dropdownMenu.css(
+                    {
+                        top: 'auto'
+                    });
+                }
+                else if (availableHeight.direction === 'bottom')
+                {
+                    dropdownMenu.css(
+                    {
+                        bottom: 'auto'
+                    });
+                }
             }
         }
     }
@@ -436,13 +508,12 @@
 
         function link(scope, element, attrs, ctrl)
         {
-            var timer1;
-            var timer2;
+            var hoverTimeout = [];
+            var mouseEvent = ctrl.hover ? 'mouseenter' : 'click';
 
-            ctrl.hasToggle = true;
             ctrl.registerDropdownToggle(element);
 
-            element.on(ctrl.hover ? 'mouseenter' : 'click', function(_event)
+            element.on(mouseEvent, function(_event)
             {
                 if (!ctrl.hover)
                 {
@@ -458,7 +529,7 @@
 
                     if (!ctrl.isOpen)
                     {
-                        timer1 = $timeout(function()
+                        hoverTimeout[0] = $timeout(function()
                         {
                             scope.$apply(function()
                             {
@@ -482,9 +553,9 @@
                 {
                     ctrl.mouseOnToggle = false;
 
-                    $timeout.cancel(timer1);
+                    $timeout.cancel(hoverTimeout[0]);
 
-                    timer2 = $timeout(function()
+                    hoverTimeout[1] = $timeout(function()
                     {
                         if (!ctrl.mouseOnMenu)
                         {
@@ -503,8 +574,8 @@
 
                 if (ctrl.hover)
                 {
-                    $timeout.cancel(timer1);
-                    $timeout.cancel(timer2);
+                    $timeout.cancel(hoverTimeout[0]);
+                    $timeout.cancel(hoverTimeout[1]);
                 }
             });
         }
@@ -529,7 +600,7 @@
 
         function link(scope, element, attrs, ctrls)
         {
-            var timer;
+            var hoverTimeout;
 
             ctrls[1].registerDropdownMenu(element);
             ctrls[0].setParentController(ctrls[1]);
@@ -545,7 +616,7 @@
                 {
                     ctrls[1].mouseOnMenu = false;
 
-                    timer = $timeout(function()
+                    hoverTimeout = $timeout(function()
                     {
                         if (!ctrls[1].mouseOnToggle)
                         {
@@ -563,7 +634,7 @@
                 if (ctrls[1].hover)
                 {
                     element.off();
-                    $timeout.cancel(timer);
+                    $timeout.cancel(hoverTimeout);
                 }
             });
         }
@@ -594,21 +665,21 @@
 
         function link(scope, element)
         {
-            var timer;
+            var focusTimeout;
 
             element.on('click', function(_event)
             {
                 _event.stopPropagation();
             });
 
-            timer = $timeout(function()
+            focusTimeout = $timeout(function()
             {
                 element.find('input').focus();
             }, 200);
 
             scope.$on('$destroy', function()
             {
-                $timeout.cancel(timer);
+                $timeout.cancel(focusTimeout);
                 element.off();
             });
         }

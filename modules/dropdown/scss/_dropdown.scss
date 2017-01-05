@@ -15,7 +15,7 @@
 
 // Dropdown menu
 .dropdown-menu {
-    position: absolute;
+    position: fixed;
     border-radius: $base-round;
     background-color: $white;
     text-align: left;
