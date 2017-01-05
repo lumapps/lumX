@@ -166,29 +166,47 @@
                 velocityEasing = 'linear';
             }
 
-            dropdownMenu.velocity(velocityProperties,
+            if (lxDropdown.effect === 'expand' || lxDropdown.effect === 'fade')
             {
-                duration: 200,
-                easing: velocityEasing,
-                complete: function()
+                dropdownMenu.velocity(velocityProperties,
                 {
-                    dropdownMenu
-                        .removeAttr('style')
-                        .removeClass('dropdown-menu--is-open')
-                        .appendTo($element.find('.dropdown'));
-
-                    $scope.$apply(function()
+                    duration: 200,
+                    easing: velocityEasing,
+                    complete: function()
                     {
-                        lxDropdown.isOpen = false;
+                        dropdownMenu
+                            .removeAttr('style')
+                            .removeClass('dropdown-menu--is-open')
+                            .appendTo($element.find('.dropdown'));
 
-                        if (lxDropdown.escapeClose)
+                        $scope.$apply(function()
                         {
-                            LxEventSchedulerService.unregister(idEventScheduler);
-                            idEventScheduler = undefined;
-                        }
-                    });
+                            lxDropdown.isOpen = false;
+
+                            if (lxDropdown.escapeClose)
+                            {
+                                LxEventSchedulerService.unregister(idEventScheduler);
+                                idEventScheduler = undefined;
+                            }
+                        });
+                    }
+                });
+            }
+            else if (lxDropdown.effect === 'none')
+            {
+                dropdownMenu
+                    .removeAttr('style')
+                    .removeClass('dropdown-menu--is-open')
+                    .appendTo($element.find('.dropdown'));
+
+                lxDropdown.isOpen = false;
+
+                if (lxDropdown.escapeClose)
+                {
+                    LxEventSchedulerService.unregister(idEventScheduler);
+                    idEventScheduler = undefined;
                 }
-            });
+            }
         }
 
         function getAvailableHeight()
@@ -408,6 +426,17 @@
                             dropdownInterval = $interval(updateDropdownMenuHeight, 500);
                         }
                     });
+                }
+                else if (lxDropdown.effect === 'none')
+                {
+                    dropdownMenu.css(
+                    {
+                        opacity: 1
+                    });
+
+                    $timeout(updateDropdownMenuHeight);
+
+                    dropdownInterval = $interval(updateDropdownMenuHeight, 500);
                 }
             });
         }
