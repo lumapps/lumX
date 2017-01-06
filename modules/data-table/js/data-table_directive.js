@@ -109,7 +109,7 @@
 
             lxDataTable.allRowsSelected = true;
 
-            $rootScope.$broadcast('lx-data-table__unselected', lxDataTable.selectedRows);
+            $rootScope.$broadcast('lx-data-table__unselected', lxDataTable.id, lxDataTable.selectedRows);
         }
 
         function _select(row)
@@ -130,7 +130,7 @@
             lxDataTable.allRowsSelected = false;
             lxDataTable.selectedRows.length = 0;
 
-            $rootScope.$broadcast('lx-data-table__selected', lxDataTable.selectedRows);
+            $rootScope.$broadcast('lx-data-table__selected', lxDataTable.id, lxDataTable.selectedRows);
         }
 
         function _unselect(row)
@@ -186,7 +186,7 @@
                 _column.sort = 'desc';
             }
 
-            $rootScope.$broadcast('lx-data-table__sorted', _column);
+            $rootScope.$broadcast('lx-data-table__sorted', lxDataTable.id, _column);
         }
 
         function toggle(_row, _newSelectedStatus)
@@ -206,7 +206,7 @@
                     lxDataTable.selectedRows.push(_row);
                     lxDataTable.areAllRowsSelected();
 
-                    $rootScope.$broadcast('lx-data-table__selected', lxDataTable.selectedRows);
+                    $rootScope.$broadcast('lx-data-table__selected', lxDataTable.id, lxDataTable.selectedRows);
                 }
             }
             else
@@ -216,7 +216,7 @@
                     lxDataTable.selectedRows.splice(lxDataTable.selectedRows.indexOf(_row), 1);
                     lxDataTable.allRowsSelected = false;
 
-                    $rootScope.$broadcast('lx-data-table__unselected', lxDataTable.selectedRows);
+                    $rootScope.$broadcast('lx-data-table__unselected', lxDataTable.id, lxDataTable.selectedRows);
                 }
             }
         }

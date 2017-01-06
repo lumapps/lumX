@@ -77,12 +77,14 @@
 
         ////////////
 
-        function updateActions(_event, _selectedRows)
+        function updateActions(_event, _dataTableId, _selectedRows)
         {
-            vm.selectedRows = _selectedRows;
+            if (_dataTableId === 'lolo') {
+                vm.selectedRows = _selectedRows;
+            }
         }
 
-        function updateSort(_event, _column)
+        function updateSort(_event, _dataTableId, _column)
         {
             vm.dataTableTbody = $filter('orderBy')(vm.dataTableTbody, _column.name, _column.sort === 'desc' ? true : false);
         }
