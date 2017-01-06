@@ -75,6 +75,31 @@
             </table>
         </lx-component-method>
 
+        <lx-component-method lx-name="LxDataTableService.selectRow(dataTableId, row)" lx-description="Select a specific row in a data table.">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Parameter</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td>dataTableId*</td>
+                        <td><code>string</code></td>
+                        <td>The data table id specified in the directive id attribute.</td>
+                    </tr>
+                    <tr>
+                        <td>row*</td>
+                        <td><code>object</code></td>
+                        <td>The row object to be selected in the data table.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </lx-component-method>
+
         <lx-component-method lx-name="LxDataTableService.unselectAll(dataTableId)" lx-description="Unselect all rows of a data table.">
             <table>
                 <thead>
@@ -90,6 +115,31 @@
                         <td>dataTableId*</td>
                         <td><code>string</code></td>
                         <td>The data table id specified in the directive id attribute.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </lx-component-method>
+
+        <lx-component-method lx-name="LxDataTableService.unselectRow(dataTableId, row)" lx-description="Unselect a specific row in a data table.">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Parameter</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td>dataTableId*</td>
+                        <td><code>string</code></td>
+                        <td>The data table id specified in the directive id attribute.</td>
+                    </tr>
+                    <tr>
+                        <td>row*</td>
+                        <td><code>object</code></td>
+                        <td>The row object to be unselected in the data table.</td>
                     </tr>
                 </tbody>
             </table>
