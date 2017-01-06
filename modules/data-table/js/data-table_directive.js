@@ -52,7 +52,7 @@
         lxDataTable.allRowsSelected = false;
         lxDataTable.selectedRows = [];
 
-        $scope.$on('lx-data-table__select-row', function(event, id, row)
+        $scope.$on('lx-data-table__select', function(event, id, row)
         {
             if (id === lxDataTable.id && angular.isDefined(row))
             {
@@ -60,7 +60,7 @@
                 {
                     row = row[0];
                 }
-                _selectRow(row);
+                _select(row);
             }
         });
 
@@ -72,7 +72,7 @@
             }
         });
 
-        $scope.$on('lx-data-table__unselect-row', function(event, id, row)
+        $scope.$on('lx-data-table__unselect', function(event, id, row)
         {
             if (id === lxDataTable.id && angular.isDefined(row))
             {
@@ -80,7 +80,7 @@
                 {
                     row = row[0];
                 }
-                _unselectRow(row);
+                _unselect(row);
             }
         });
 
@@ -109,10 +109,10 @@
 
             lxDataTable.allRowsSelected = true;
 
-            $rootScope.$broadcast('lx-data-table__unselect', lxDataTable.selectedRows);
+            $rootScope.$broadcast('lx-data-table__unselected', lxDataTable.selectedRows);
         }
 
-        function _selectRow(row)
+        function _select(row)
         {
             toggle(row, true);
         }
@@ -130,10 +130,10 @@
             lxDataTable.allRowsSelected = false;
             lxDataTable.selectedRows.length = 0;
 
-            $rootScope.$broadcast('lx-data-table__select', lxDataTable.selectedRows);
+            $rootScope.$broadcast('lx-data-table__selected', lxDataTable.selectedRows);
         }
 
-        function _unselectRow(row)
+        function _unselect(row)
         {
             toggle(row, false);
         }
@@ -186,7 +186,7 @@
                 _column.sort = 'desc';
             }
 
-            $rootScope.$broadcast('lx-data-table__sort', _column);
+            $rootScope.$broadcast('lx-data-table__sorted', _column);
         }
 
         function toggle(_row, _newSelectedStatus)
@@ -206,7 +206,7 @@
                     lxDataTable.selectedRows.push(_row);
                     lxDataTable.areAllRowsSelected();
 
-                    $rootScope.$broadcast('lx-data-table__select', lxDataTable.selectedRows);
+                    $rootScope.$broadcast('lx-data-table__selected', lxDataTable.selectedRows);
                 }
             }
             else
@@ -216,7 +216,7 @@
                     lxDataTable.selectedRows.splice(lxDataTable.selectedRows.indexOf(_row), 1);
                     lxDataTable.allRowsSelected = false;
 
-                    $rootScope.$broadcast('lx-data-table__unselect', lxDataTable.selectedRows);
+                    $rootScope.$broadcast('lx-data-table__unselected', lxDataTable.selectedRows);
                 }
             }
         }

@@ -12,31 +12,31 @@
     {
         var service = this;
 
+        service.select = select;
         service.selectAll = selectAll;
-        service.selectRow = selectRow;
+        service.unselect = unselect;
         service.unselectAll = unselectAll;
-        service.unselectRow = unselectRow;
 
         ////////////
+
+        function select(_dataTableId, row)
+        {
+            $rootScope.$broadcast('lx-data-table__select', _dataTableId, row);
+        }
 
         function selectAll(_dataTableId)
         {
             $rootScope.$broadcast('lx-data-table__select-all', _dataTableId);
         }
 
-        function selectRow(_dataTableId, row)
+        function unselect(_dataTableId, row)
         {
-            $rootScope.$broadcast('lx-data-table__select-row', _dataTableId, row);
+            $rootScope.$broadcast('lx-data-table__unselect', _dataTableId, row);
         }
 
         function unselectAll(_dataTableId)
         {
             $rootScope.$broadcast('lx-data-table__unselect-all', _dataTableId);
-        }
-
-        function unselectRow(_dataTableId, row)
-        {
-            $rootScope.$broadcast('lx-data-table__unselect-row', _dataTableId, row);
         }
     }
 })();

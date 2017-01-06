@@ -71,9 +71,9 @@
             comments: 'Lorem ipsum'
         }];
 
-        $scope.$on('lx-data-table__select', updateActions);
-        $scope.$on('lx-data-table__unselect', updateActions);
-        $scope.$on('lx-data-table__sort', updateSort);
+        $scope.$on('lx-data-table__selected', updateActions);
+        $scope.$on('lx-data-table__unselected', updateActions);
+        $scope.$on('lx-data-table__sorted', updateSort);
 
         ////////////
 
