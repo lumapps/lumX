@@ -52,11 +52,35 @@
         lxDataTable.allRowsSelected = false;
         lxDataTable.selectedRows = [];
 
+        $scope.$on('lx-data-table__select-row', function(event, id, row)
+        {
+            if (id === lxDataTable.id && angular.isDefined(row))
+            {
+                if (angular.isArray(row) && row.length > 0)
+                {
+                    row = row[0];
+                }
+                _selectRow(row);
+            }
+        });
+
         $scope.$on('lx-data-table__select-all', function(event, id)
         {
             if (id === lxDataTable.id)
             {
                 _selectAll();
+            }
+        });
+
+        $scope.$on('lx-data-table__unselect-row', function(event, id, row)
+        {
+            if (id === lxDataTable.id && angular.isDefined(row))
+            {
+                if (angular.isArray(row) && row.length > 0)
+                {
+                    row = row[0];
+                }
+                _unselectRow(row);
             }
         });
 
@@ -88,6 +112,11 @@
             $rootScope.$broadcast('lx-data-table__unselect', lxDataTable.selectedRows);
         }
 
+        function _selectRow(row)
+        {
+            toggle(row, true);
+        }
+
         function _unselectAll()
         {
             for (var i = 0, len = lxDataTable.tbody.length; i < len; i++)
@@ -102,6 +131,11 @@
             lxDataTable.selectedRows.length = 0;
 
             $rootScope.$broadcast('lx-data-table__select', lxDataTable.selectedRows);
+        }
+
+        function _unselectRow(row)
+        {
+            toggle(row, false);
         }
 
         ////////////
@@ -155,32 +189,35 @@
             $rootScope.$broadcast('lx-data-table__sort', _column);
         }
 
-        function toggle(_row)
+        function toggle(_row, _newSelectedStatus)
         {
             if (_row.lxDataTableDisabled || !lxDataTable.selectable)
             {
                 return;
             }
 
-            _row.lxDataTableSelected = !_row.lxDataTableSelected;
+            _row.lxDataTableSelected = angular.isDefined(_newSelectedStatus) ? _newSelectedStatus : !_row.lxDataTableSelected;
 
             if (_row.lxDataTableSelected)
             {
-                lxDataTable.selectedRows.push(_row);
-                lxDataTable.areAllRowsSelected();
+                // Make sure it's not already in.
+                if (lxDataTable.selectedRows.length === 0 || (lxDataTable.selectedRows.length && lxDataTable.selectedRows.indexOf(_row) === -1))
+                {
+                    lxDataTable.selectedRows.push(_row);
+                    lxDataTable.areAllRowsSelected();
 
-                $rootScope.$broadcast('lx-data-table__select', lxDataTable.selectedRows);
+                    $rootScope.$broadcast('lx-data-table__select', lxDataTable.selectedRows);
+                }
             }
             else
             {
-                if (lxDataTable.selectedRows.length)
+                if (lxDataTable.selectedRows.length && lxDataTable.selectedRows.indexOf(_row) > -1)
                 {
                     lxDataTable.selectedRows.splice(lxDataTable.selectedRows.indexOf(_row), 1);
+                    lxDataTable.allRowsSelected = false;
+
+                    $rootScope.$broadcast('lx-data-table__unselect', lxDataTable.selectedRows);
                 }
-
-                lxDataTable.allRowsSelected = false;
-
-                $rootScope.$broadcast('lx-data-table__unselect', lxDataTable.selectedRows);
             }
         }
 
