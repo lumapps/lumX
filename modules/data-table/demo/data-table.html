@@ -75,6 +75,31 @@
             </table>
         </lx-component-method>
 
+        <lx-component-method lx-name="LxDataTableService.select(dataTableId, row)" lx-description="Select a specific row in a data table.">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Parameter</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td>dataTableId*</td>
+                        <td><code>string</code></td>
+                        <td>The data table id specified in the directive id attribute.</td>
+                    </tr>
+                    <tr>
+                        <td>row*</td>
+                        <td><code>object</code></td>
+                        <td>The row object to be selected in the data table.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </lx-component-method>
+
         <lx-component-method lx-name="LxDataTableService.unselectAll(dataTableId)" lx-description="Unselect all rows of a data table.">
             <table>
                 <thead>
@@ -94,10 +119,35 @@
                 </tbody>
             </table>
         </lx-component-method>
+
+        <lx-component-method lx-name="LxDataTableService.unselect(dataTableId, row)" lx-description="Unselect a specific row in a data table.">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Parameter</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td>dataTableId*</td>
+                        <td><code>string</code></td>
+                        <td>The data table id specified in the directive id attribute.</td>
+                    </tr>
+                    <tr>
+                        <td>row*</td>
+                        <td><code>object</code></td>
+                        <td>The row object to be unselected in the data table.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </lx-component-method>
     </lx-component-methods>
 
     <lx-component-methods lx-title="Events">
-        <lx-component-method lx-name="lx-data-table__select" lx-description="A broadcast is sent when a row is selected.">
+        <lx-component-method lx-name="lx-data-table__selected" lx-description="A broadcast is sent when a row is selected.">
             <table>
                 <thead>
                     <tr>
@@ -112,6 +162,11 @@
                         <td>event</td>
                         <td><code>object</code></td>
                         <td>The broadcast original event.</td>
+                    </tr>
+                    <tr>
+                        <td>dataTableId</td>
+                        <td><code>string</code></td>
+                        <td>The data table id the selected rows are part of.</td>
                     </tr>
                     <tr>
                         <td>selectedRows</td>
@@ -122,7 +177,7 @@
             </table>
         </lx-component-method>
 
-        <lx-component-method lx-name="lx-data-table__unselect" lx-description="A broadcast is sent when a row is unselected.">
+        <lx-component-method lx-name="lx-data-table__unselected" lx-description="A broadcast is sent when a row is unselected.">
             <table>
                 <thead>
                     <tr>
@@ -137,6 +192,11 @@
                         <td>event</td>
                         <td><code>object</code></td>
                         <td>The broadcast original event.</td>
+                    </tr>
+                    <tr>
+                        <td>dataTableId</td>
+                        <td><code>string</code></td>
+                        <td>The data table id the selected rows are part of.</td>
                     </tr>
                     <tr>
                         <td>selectedRows</td>
@@ -147,7 +207,7 @@
             </table>
         </lx-component-method>
 
-        <lx-component-method lx-name="lx-data-table__sort" lx-description="A broadcast is sent when a column is sorted.">
+        <lx-component-method lx-name="lx-data-table__sorted" lx-description="A broadcast is sent when a column is sorted.">
             <table>
                 <thead>
                     <tr>
@@ -162,6 +222,11 @@
                         <td>event</td>
                         <td><code>object</code></td>
                         <td>The broadcast original event.</td>
+                    </tr>
+                    <tr>
+                        <td>dataTableId</td>
+                        <td><code>string</code></td>
+                        <td>The data table id the sorted column is part of.</td>
                     </tr>
                     <tr>
                         <td>column</td>
