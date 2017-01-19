@@ -181,6 +181,7 @@
         lxSelect.toggleChoice = toggleChoice;
         lxSelect.unselect = unselect;
         lxSelect.updateFilter = updateFilter;
+        lxSelect.helperDisplayable = helperDisplayable;
 
         lxSelect.activeChoiceIndex = -1;
         lxSelect.activeSelectedIndex = -1;
@@ -523,6 +524,34 @@
                     LxDropdownService.close('dropdown-' + lxSelect.uuid);
                 }
             }
+        }
+
+        function helperDisplayable() {
+            // If helper message is not defined, message is not displayed...
+            if (angular.isUndefined(lxSelect.helperMessage))
+            {
+                return false;
+            }
+
+            // If helper is defined return it's state.
+            if (angular.isDefined(lxSelect.helper))
+            {
+                return lxSelect.helper;
+            }
+            
+            // Else check if there's choices.
+            var choices = lxSelect.getFilteredChoices();
+            
+            if (angular.isArray(choices))
+            {
+                return !choices.length;
+            }
+            else if (angular.isObject(choices))
+            {
+                return !Object.keys(choices).length;
+            }
+
+            return true;
         }
     }
 
