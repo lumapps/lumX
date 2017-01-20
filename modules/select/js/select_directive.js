@@ -54,6 +54,7 @@
                 allowClear: '=?lxAllowClear',
                 allowNewValue: '=?lxAllowNewValue',
                 autocomplete: '=?lxAutocomplete',
+                newValueCallback: '=?lxNewValueCallback',
                 choices: '=?lxChoices',
                 choicesCustomStyle: '=?lxChoicesCustomStyle',
                 customStyle: '=?lxCustomStyle',
@@ -369,7 +370,14 @@
             }
             else if (lxSelect.filterModel && lxSelect.allowNewValue)
             {
-                getSelectedModel().push(lxSelect.filterModel);
+                var callback = lxSelect.newValueCallback || angular.noop;
+                    
+                if (Array.prototype.indexOf.call(getSelectedModel(), lxSelect.filterModel) === -1)
+                {
+                    getSelectedModel().push(lxSelect.filterModel);
+                    callback(lxSelect.filterModel);
+                }
+                
                 lxSelect.filterModel = undefined;
                 
                 LxDropdownService.close('dropdown-' + lxSelect.uuid);
