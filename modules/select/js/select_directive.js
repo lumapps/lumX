@@ -335,6 +335,11 @@
                     lxSelect.activeChoiceIndex = 0;
                 }
             }
+
+            if (lxSelect.autocomplete)
+            {
+                LxDropdownService.open('dropdown-' + lxSelect.uuid, '#lx-select-selected-wrapper-' + lxSelect.uuid);
+            }
         }
 
         function keyRemove()
@@ -366,6 +371,7 @@
             {
                 getSelectedModel().push(lxSelect.filterModel);
                 lxSelect.filterModel = undefined;
+                
                 LxDropdownService.close('dropdown-' + lxSelect.uuid);
             }
         }
