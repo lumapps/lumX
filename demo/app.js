@@ -190,6 +190,17 @@
                         }
                     }
                 })
+                .state('app.components.chip',
+                {
+                    url: '/chip',
+                    views:
+                    {
+                        'main@':
+                        {
+                            templateUrl: '/includes/modules/chip/chip.html'
+                        }
+                    }
+                })
                 .state('app.components.data-table',
                 {
                     url: '/data-table',
