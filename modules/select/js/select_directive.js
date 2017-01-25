@@ -54,7 +54,7 @@
                 allowClear: '=?lxAllowClear',
                 allowNewValue: '=?lxAllowNewValue',
                 autocomplete: '=?lxAutocomplete',
-                newValueCallback: '=?lxNewValueCallback',
+                newValueTransform: '=?lxNewValueTransform',
                 choices: '=?lxChoices',
                 choicesCustomStyle: '=?lxChoicesCustomStyle',
                 customStyle: '=?lxCustomStyle',
@@ -375,12 +375,11 @@
             }
             else if (lxSelect.filterModel && lxSelect.allowNewValue)
             {
-                var callback = lxSelect.newValueCallback || angular.noop;
-                    
                 if (Array.prototype.indexOf.call(getSelectedModel(), lxSelect.filterModel) === -1)
                 {
-                    getSelectedModel().push(lxSelect.filterModel);
-                    callback(lxSelect.filterModel);
+                    var value = angular.isFunction(lxSelect.newValueTransform) ? lxSelect.newValueTransform(lxSelect.filterModel) : lxSelect.filterModel;
+
+                    getSelectedModel().push(value);
                 }
                 
                 lxSelect.filterModel = undefined;
