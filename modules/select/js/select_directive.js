@@ -301,6 +301,11 @@
                 lxSelect.activeSelectedIndex = -1;
             }
 
+            if (!LxDropdownService.isOpen('dropdown-' + lxSelect.uuid))
+            {
+                lxSelect.activeChoiceIndex = -1;
+            }
+
             switch (_event.keyCode) {
                 case 8:
                     keyRemove();
@@ -396,6 +401,11 @@
                 {
                     lxSelect.activeChoiceIndex = filteredChoices.length - 1;
                 }
+            }
+
+            if (lxSelect.autocomplete)
+            {
+                LxDropdownService.open('dropdown-' + lxSelect.uuid, '#lx-select-selected-wrapper-' + lxSelect.uuid);
             }
         }
 
