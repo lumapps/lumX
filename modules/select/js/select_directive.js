@@ -375,11 +375,17 @@
             }
             else if (lxSelect.filterModel && lxSelect.allowNewValue)
             {
-                if (Array.prototype.indexOf.call(getSelectedModel(), lxSelect.filterModel) === -1)
+                if (angular.isArray(getSelectedModel()))
                 {
                     var value = angular.isFunction(lxSelect.newValueTransform) ? lxSelect.newValueTransform(lxSelect.filterModel) : lxSelect.filterModel;
-
-                    getSelectedModel().push(value);
+                    var identical = getSelectedModel().some(function (item) {
+                        return angular.equals(item, value);
+                    });
+                    
+                    if (!identical)
+                    {
+                        getSelectedModel().push(value);
+                    }
                 }
                 
                 lxSelect.filterModel = undefined;
