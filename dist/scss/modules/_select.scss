@@ -1,0 +1,460 @@
+///*------------------------------------*\
+//    #SELECT
+//\*------------------------------------*/
+
+// Select
+.lx-select {
+    &.lx-select--default-style {
+        position: relative;
+
+        .dropdown {
+            display: block;
+        }
+    }
+
+    &.lx-select--default-style.lx-select--view-mode-field {
+        padding-top: $base-spacing-unit * 4;
+        padding-bottom: $base-spacing-unit;
+
+        &:before,
+        &:after {
+            content: '';
+        }
+
+        &:before {
+            @include position(absolute, null 0 $base-spacing-unit - 1 0);
+            height: 1px;
+        }
+
+        &:after {
+            @include position(absolute, null 0 $base-spacing-unit - 2 0);
+            height: 2px;
+            @include transform(scale(0));
+            @include transition-property(transform);
+            @include transition-duration(0.6s);
+            @include transition-timing-function($ease-out-quint);
+        }
+    }
+
+    &.lx-select--default-style.lx-select--view-mode-field.lx-select--theme-light:before  {
+        border-bottom: 1px solid $black-4;
+    }
+
+    &.lx-select--default-style.lx-select--view-mode-field.lx-select--theme-dark:before {
+        border-bottom: 1px solid $white-4;
+    }
+}
+
+.lx-select--default-style.lx-select--view-mode-field.lx-select--is-disabled {
+    pointer-events: none;
+
+    &:before {
+        border-bottom-style: dashed;
+    }
+}
+
+.lx-select--default-style.lx-select--view-mode-field.lx-select--valid {
+    &:after {
+        background-color: $green;
+        @include transform(scale(1));
+    }
+}
+
+.lx-select--default-style.lx-select--view-mode-field.lx-select--error {
+    &:after {
+        background-color: $red;
+        @include transform(scale(1));
+    }
+}
+
+
+
+
+
+// Select label
+.lx-select-label {
+    .lx-select--default-style & {
+        display: block;
+        pointer-events: none;
+    }
+
+    .lx-select--default-style.lx-select--view-mode-field & {
+        @include position(absolute, $base-spacing-unit null null 0);
+        line-height: 32px;
+        @include transform(translateY($base-spacing-unit * 3));
+        @include transform-origin(bottom left);
+        @include transition-property(transform, color);
+        @include transition-duration(0.4s);
+        @include transition-timing-function($ease-out-quint);
+    }
+
+    .lx-select--default-style.lx-select--view-mode-chips & {
+        @include position(absolute, 0 null null 0);
+        line-height: 40px;
+    }
+
+    .lx-select--default-style.lx-select--is-active.lx-select--fixed-label &,
+    .lx-select--default-style.lx-select--is-active.lx-select--view-mode-chips & {
+        display: none;
+    }
+
+    .lx-select--default-style.lx-select--is-active.lx-select--view-mode-field & {
+        @include transform(scale(0.75) translateY(0));
+    }
+
+    .lx-select--default-style.lx-select--theme-light & {
+        color: $black-2;
+    }
+
+    .lx-select--default-style.lx-select--theme-dark & {
+        color: $white-2;
+    }
+
+    .lx-select--default-style.lx-select--theme-light.lx-select--is-disabled & {
+        color: $black-3;
+    }
+
+    .lx-select--default-style.lx-select--theme-dark.lx-select--is-disabled & {
+        color: $white-3;
+    }
+
+    .lx-select--default-style.lx-select--valid & {
+        color: $green;
+    }
+
+    .lx-select--default-style.lx-select--error & {
+        color: $red;
+    }
+}
+
+
+
+
+
+// Select selected
+.lx-select-selected-wrapper {
+    .lx-select--default-style:not(.lx-select--autocomplete) & {
+        padding-right: $base-spacing-unit * 3;
+
+        &:after {
+            @include mdi;
+            @include mdi-icon('menu-down');
+            @include font-size(14px);
+        }
+    }
+
+    .lx-select--default-style.lx-select--view-mode-field & {
+        min-height: 32px;
+    }
+
+    .lx-select--default-style.lx-select--view-mode-field:not(.lx-select--autocomplete) &:after {
+        @include position(absolute, null $base-spacing-unit $base-spacing-unit null);
+        line-height: 16px;
+    }
+
+    .lx-select--default-style.lx-select--view-mode-chips & {
+        min-height: 40px;
+    }
+
+    .lx-select--default-style.lx-select--view-mode-chips:not(.lx-select--autocomplete) &:after {
+        @include position(absolute, 0 0 null null);
+        line-height: 40px;
+    }
+
+    .lx-select--default-style.lx-select--theme-light &:after {
+        color: $black-3;
+    }
+
+    .lx-select--default-style.lx-select--theme-dark &:after {
+        color: $white-3;
+    }
+
+    .lx-select--default-style:not(.lx-select--autocomplete) .dropdown--is-open &:after {
+        @include mdi-icon('menu-up');
+    }
+}
+
+.lx-select-selected {
+    .lx-select--default-style.lx-select--is-unique & {
+        &:hover {
+            .lx-select-selected__clear {
+                opacity: 1;
+            }
+        }
+    }
+
+    .lx-select--default-style.lx-select--is-multiple & {
+        @include display(flex);
+        @include flex-direction(row);
+        @include flex-wrap(wrap);
+    }
+
+    .lx-select--default-style.lx-select--is-multiple.lx-select--view-mode-field & {
+        padding: $base-spacing-unit / 2 0;
+    }
+}
+    
+    // Select selected: value
+    .lx-select-selected__value {
+        .lx-select--default-style & {
+            display: block;
+            line-height: 32px;
+        }
+
+        .lx-select--default-style.lx-select--theme-light & {
+            color: $black-1;
+        }
+
+        .lx-select--default-style.lx-select--theme-dark & {
+            color: $white-1;
+        }
+
+        .lx-select--default-style.lx-select--theme-light.lx-select--is-disabled & {
+            color: $black-3;
+        }
+
+        .lx-select--default-style.lx-select--theme-dark.lx-select--is-disabled & {
+            color: $white-3;
+        }
+    }
+    
+    // Select selected: clear
+    .lx-select-selected__clear {
+        .lx-select--default-style & {
+            display: block;
+            @include position(absolute, 0 $base-spacing-unit * 3 null null);
+            opacity: 0;
+            line-height: 32px;
+            @include transition-property(opacity, color);
+            @include transition-duration(0.2s);
+
+            &:hover {
+                color: $red-500;
+            }
+        }
+
+        .lx-select--default-style.lx-select--theme-light & {
+            color: $black-1;
+        }
+
+        .lx-select--default-style.lx-select--theme-dark & {
+            color: $white-1;
+        }
+    }
+    
+    // Select selected: value
+    .lx-select-selected__tag {
+        .lx-select--default-style & {
+            @include display(flex);
+            @include flex-direction(row);
+            @include align-items(center);
+            background-color: $grey-200;
+            cursor: pointer;
+            @include user-select(none);
+
+            &:after {
+                @include mdi;
+                @include mdi-icon('close-circle');
+                color: $grey-400;
+            }
+
+            #{$base-icon-prefix} {
+                margin-right: $base-spacing-unit / 2;
+                color: $black-2;
+            }
+        }
+
+        .lx-select--default-style:not(.lx-select--is-disabled) & {
+            &.lx-select-selected__tag--is-active,
+            &:hover {
+                background-color: $grey-600;
+                color: $white-1;
+
+                &:after {
+                    color: $white-1;
+                }
+            }
+        }
+
+        .lx-select--default-style.lx-select--is-disabled & {
+            pointer-events: none;
+            color: $black-3;
+
+            &:after {
+                display: none;
+            }
+        }
+
+        .lx-select--default-style.lx-select--view-mode-field & {
+            margin: 2px 4px 2px 0;
+            padding: 0 $base-spacing-unit / 2;
+            border-radius: $base-round;
+            @include font-size(11px);
+            line-height: 20px;
+
+            &:after {
+                margin-left: $base-spacing-unit / 2;
+                @include font-size(14px);
+            }
+
+            &:last-child {
+                margin-right: 0;
+            }
+        }
+
+        .lx-select--default-style.lx-select--view-mode-chips & {
+            height: 32px;
+            margin: $base-spacing-unit / 2 $base-spacing-unit $base-spacing-unit / 2 0;
+            padding: 0 $base-spacing-unit 0 $base-spacing-unit * 1.5;
+            border-radius: 16px;
+            @include font-size(14px);
+            line-height: 32px;
+
+            &:after {
+                margin-left: $base-spacing-unit;
+                @include font-size(20px);
+            }
+
+            &:last-child {
+                margin-right: 0;
+            }
+        }
+
+        .lx-select--default-style.lx-select--view-mode-chips.lx-select--is-disabled & {
+            padding-right: $base-spacing-unit * 1.5;
+        }
+    }
+
+    // Select selected: filter
+    .lx-select-selected__filter {
+        @include text-field-reset();
+
+        .lx-select--default-style.lx-select--view-mode-field & {
+            height: 24px;
+            line-height: 24px;
+
+            @include placeholder {
+                @include font-size(14px);
+            }
+        }
+
+        .lx-select--default-style.lx-select--view-mode-chips & {
+            height: 40px;
+            line-height: 40px;
+        }
+
+        .lx-select--default-style.lx-select--theme-light & {
+            color: $black-1;
+
+            @include placeholder {
+                color: $black-2;
+            }
+        }
+
+        .lx-select--default-style.lx-select--theme-dark & {
+            color: $white-1;
+
+            @include placeholder {
+                color: $white-2;
+            }
+        }
+    }
+
+
+
+
+
+// Select choices
+.lx-select-choices {
+
+}
+    
+    // Select choices: filter
+    .lx-select-choices--default-style .lx-select-choices__filter {
+        padding: $base-spacing-unit / 4 $base-spacing-unit;
+        margin-bottom: $base-spacing-unit;
+        border-bottom: 1px solid $black-4;
+    }
+    
+    // Select choices: choice / subheader
+    .lx-select-choices--default-style .lx-select-choices__choice,
+    .lx-select-choices--default-style .lx-select-choices__subheader {
+        @include display(flex);
+        @include flex-direction(row);
+        @include align-items(center);
+        position: relative;
+        height: 32px;
+        padding: 0 $base-spacing-unit * 4 0 $base-spacing-unit * 2;
+        @include font-size(14px);
+        line-height: 32px;
+        text-decoration: none;
+        white-space: nowrap;
+
+        #{$base-icon-prefix} {
+            @extend %icon;
+            @extend %icon--xs;
+            @extend %icon--flat;
+            margin-right: $base-spacing-unit * 2;
+        }
+    }
+    
+    // Select choices: choice / subheader
+    .lx-select-choices--default-style .lx-select-choices__choice {
+        cursor: pointer;
+        color: $black-1;
+
+        #{$base-icon-prefix} {
+            color: $black-2;
+        }
+
+        &:hover {
+            background-color: $grey-200;
+        }
+    }
+
+    .lx-select-choices--is-unique.lx-select-choices--default-style .lx-select-choices__choice {
+        &.lx-select-choices__choice--is-selected {
+            background-color: $grey-200;
+        }
+    }
+
+    .lx-select-choices--is-multiple.lx-select-choices--default-style .lx-select-choices__choice {
+        padding-left: 46px;
+
+        &:before {
+            @include mdi;
+            @include mdi-icon('checkbox-blank-outline');
+            @include position(absolute, 0 null null $base-spacing-unit * 2);
+            @include size($size-xs 32px);
+            @include font-size(18px);
+            color: $black-2;
+            line-height: 32px;
+            text-align: center;
+        }
+
+        &.lx-select-choices__choice--is-selected {
+            &:before {
+                @include mdi-icon('check');
+            }
+        }
+
+        &.lx-select-choices__choice--is-focus {
+            background-color: $grey-200;
+        }
+    }
+    
+    // Select choices: subheader
+    .lx-select-choices--default-style .lx-select-choices__subheader {
+        color: $black-3;
+
+        #{$base-icon-prefix} {
+            color: $black-3;
+        }
+    }
+    
+    // Select choices: loader
+    .lx-select-choices--default-style .lx-select-choices__loader {
+        @include display(flex);
+        @include flex-direction(row);
+        @include justify-content(center);
+    }
