@@ -7,13 +7,14 @@
                lx-multiple="true"
                lx-view-mode="chips"
                lx-autocomplete="true"
-               lx-allow-new-value="true">
+               lx-allow-new-value="true"
+               lx-new-value-transform="vm.newValueTransformer">
         <lx-select-selected>
-            {{ $selected }}
+            {{ $selected.name }} <em>({{$selected.type}})</em>
         </lx-select-selected>
  
         <lx-select-choices>
-            {{ $choice }}
+            {{ $choice.name }} <em>({{$choice.type}})</em>
         </lx-select-choices>
     </lx-select>
 </div>

@@ -16,6 +16,7 @@
         service.close = close;
         service.closeActiveDropdown = closeActiveDropdown;
         service.open = open;
+        service.isOpen = isOpen;
         service.registerActiveDropdownUuid = registerActiveDropdownUuid;
         service.resetActiveDropdownUuid = resetActiveDropdownUuid;
 
@@ -46,6 +47,11 @@
                 uuid: _uuid,
                 target: _target
             });
+        }
+
+        function isOpen(_uuid)
+        {
+            return activeDropdownUuid === _uuid;
         }
 
         function registerActiveDropdownUuid(_uuid)

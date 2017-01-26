@@ -54,6 +54,7 @@
                 allowClear: '=?lxAllowClear',
                 allowNewValue: '=?lxAllowNewValue',
                 autocomplete: '=?lxAutocomplete',
+                newValueTransform: '=?lxNewValueTransform',
                 choices: '=?lxChoices',
                 choicesCustomStyle: '=?lxChoicesCustomStyle',
                 customStyle: '=?lxCustomStyle',
@@ -181,6 +182,7 @@
         lxSelect.toggleChoice = toggleChoice;
         lxSelect.unselect = unselect;
         lxSelect.updateFilter = updateFilter;
+        lxSelect.helperDisplayable = helperDisplayable;
 
         lxSelect.activeChoiceIndex = -1;
         lxSelect.activeSelectedIndex = -1;
@@ -299,6 +301,11 @@
                 lxSelect.activeSelectedIndex = -1;
             }
 
+            if (!LxDropdownService.isOpen('dropdown-' + lxSelect.uuid))
+            {
+                lxSelect.activeChoiceIndex = -1;
+            }
+
             switch (_event.keyCode) {
                 case 8:
                     keyRemove();
@@ -334,6 +341,11 @@
                     lxSelect.activeChoiceIndex = 0;
                 }
             }
+
+            if (lxSelect.autocomplete)
+            {
+                LxDropdownService.open('dropdown-' + lxSelect.uuid, '#lx-select-selected-wrapper-' + lxSelect.uuid);
+            }
         }
 
         function keyRemove()
@@ -363,8 +375,21 @@
             }
             else if (lxSelect.filterModel && lxSelect.allowNewValue)
             {
-                getSelectedModel().push(lxSelect.filterModel);
+                if (angular.isArray(getSelectedModel()))
+                {
+                    var value = angular.isFunction(lxSelect.newValueTransform) ? lxSelect.newValueTransform(lxSelect.filterModel) : lxSelect.filterModel;
+                    var identical = getSelectedModel().some(function (item) {
+                        return angular.equals(item, value);
+                    });
+                    
+                    if (!identical)
+                    {
+                        getSelectedModel().push(value);
+                    }
+                }
+                
                 lxSelect.filterModel = undefined;
+                
                 LxDropdownService.close('dropdown-' + lxSelect.uuid);
             }
         }
@@ -381,6 +406,11 @@
                 {
                     lxSelect.activeChoiceIndex = filteredChoices.length - 1;
                 }
+            }
+
+            if (lxSelect.autocomplete)
+            {
+                LxDropdownService.open('dropdown-' + lxSelect.uuid, '#lx-select-selected-wrapper-' + lxSelect.uuid);
             }
         }
 
@@ -523,6 +553,34 @@
                     LxDropdownService.close('dropdown-' + lxSelect.uuid);
                 }
             }
+        }
+
+        function helperDisplayable() {
+            // If helper message is not defined, message is not displayed...
+            if (angular.isUndefined(lxSelect.helperMessage))
+            {
+                return false;
+            }
+
+            // If helper is defined return it's state.
+            if (angular.isDefined(lxSelect.helper))
+            {
+                return lxSelect.helper;
+            }
+            
+            // Else check if there's choices.
+            var choices = lxSelect.getFilteredChoices();
+            
+            if (angular.isArray(choices))
+            {
+                return !choices.length;
+            }
+            else if (angular.isObject(choices))
+            {
+                return !Object.keys(choices).length;
+            }
+
+            return true;
         }
     }
 
