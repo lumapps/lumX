@@ -90,6 +90,7 @@
         var dropdownToggle;
         var idEventScheduler;
         var openTimeout;
+        var positionTarget;
 
         lxDropdown.closeDropdownMenu = closeDropdownMenu;
         lxDropdown.openDropdownMenu = openDropdownMenu;
@@ -111,8 +112,9 @@
             {
                 LxDropdownService.closeActiveDropdown();
                 LxDropdownService.registerActiveDropdownUuid(lxDropdown.uuid);
+                positionTarget = _params.target;
 
-                registerDropdownToggle(angular.element(_params.target));
+                registerDropdownToggle(angular.element(positionTarget));
                 openDropdownMenu();
             }
         });
@@ -476,6 +478,11 @@
 
         function updateDropdownMenuHeight()
         {
+            if (positionTarget)
+            {
+                registerDropdownToggle(angular.element(positionTarget));   
+            }
+            
             var availableHeight = getAvailableHeight();
             var dropdownMenuHeight = dropdownMenu.find('.dropdown-menu__content').outerHeight();
 
