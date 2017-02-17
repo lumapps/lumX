@@ -1,5 +1,43 @@
 # Changelog
 
+## 1.4.3:
+
+#### Bug fixes:
+ - dropdown: register target every height update
+
+
+## 1.4.2:
+*No major changes.*
+
+
+## 1.4.1:
+
+#### New features:
+ - select: replace new value callback by transformer
+ - select: handle down key with autocomplete
+ - chip: add chip component
+ - data-table: add dataTableId param to events to allow multiple data tables in same scope
+ - data-table: expose selectRow and unselectRow to the service api
+
+#### Bug fixes:
+ - select: avoid identical object in autocomplete
+ - select: reset active choice index when needed
+ - select: autocomplete new value are unique
+ - select: fix subheader helper message display condition
+
+#### Breaking changes:
+ - lx-data-table__selected event has a new signature with the first param being the dataTableId
+ - lx-data-table__unselected event has a new signature with the first param being the dataTableId
+ - lx-data-table__sorted event has a new signature with the first param being the dataTableId
+ - lx-data-table__select is now lx-data-table__selected
+ - lx-data-table__unselect is now lx-data-table__unselected
+ - lx-data-table__sort is now lx-data-table__sorted
+
+
+## 1.4.0:
+*No major changes.*
+
+
 ## v1.4:
 
 #### New features:
