@@ -460,7 +460,11 @@
 
         function registerDropdownToggle(_dropdownToggle)
         {
-            lxDropdown.hasToggle = true;
+            if (!positionTarget)
+            {
+                lxDropdown.hasToggle = true;
+            }
+
             dropdownToggle = _dropdownToggle;
         }
 
@@ -480,9 +484,9 @@
         {
             if (positionTarget)
             {
-                registerDropdownToggle(angular.element(positionTarget));   
+                registerDropdownToggle(angular.element(positionTarget));
             }
-            
+
             var availableHeight = getAvailableHeight();
             var dropdownMenuHeight = dropdownMenu.find('.dropdown-menu__content').outerHeight();
 
