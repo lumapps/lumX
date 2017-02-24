@@ -18,6 +18,11 @@
     <lx-component lx-title="Main colors" lx-path="/includes/modules/checkbox/includes/color.html" lx-js-path="/js/checkbox/demo/demo-checkbox_controller.js">
         Main colors defined in <code>dist/scss/core/settings/defaults.scss</code> can be used to create colored checkboxes.
     </lx-component>
+    
+    <lx-component lx-title="Theme" lx-path="/includes/modules/checkbox/includes/theme.html" lx-js-path="/js/checkbox/demo/demo-checkbox_controller.js">
+        The checkbox can be used in a dark box.<br/>
+        To specify checkbox theme, use <code>lx-theme</code> with value <code>light</code> or <code>dark</code>.
+    </lx-component>
 
     <lx-component-attributes>
         <table>
@@ -36,6 +41,12 @@
                     <td><code>string</code></td>
                     <td><code>accent</code></td>
                     <td>Define the checkbox color. Options: colors defined in colors and sizes section in <code>dist/scss/core/settings/defaults.scss</code></td>
+                </tr>
+                <tr>
+                    <td>lx-theme</td>
+                    <td><code>string</code></td>
+                    <td><code>light</code></td>
+                    <td>Set this option to dark if checkboxes are displayed into a dark box. Options: <code>light</code>, <code>dark</code></td>
                 </tr>
                 <tr>
                     <td>name</td>
