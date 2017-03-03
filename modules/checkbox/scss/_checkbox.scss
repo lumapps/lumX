@@ -49,8 +49,6 @@
                 &,
                 &:before,
                 &:after {
-                    color: $black-3;
-
                     .checkbox--theme-light & {
                         color: $black-3;
                     }
@@ -62,8 +60,6 @@
             }
 
             & ~ .checkbox__help {
-                color: $black-3;
-
                 .checkbox--theme-light & {
                     color: $black-3;
                 }
@@ -109,7 +105,6 @@
 
         &:before {
             @include mdi-icon('checkbox-blank-outline');
-            color: $black-2;
 
             .checkbox--theme-light & {
                 color: $black-2;
@@ -131,7 +126,6 @@
         display: block;
         padding-left: $base-spacing-unit * 4;
         @include typography('body-1');
-        color: $black-2;
         text-align: left;
 
         .checkbox--theme-light & {
