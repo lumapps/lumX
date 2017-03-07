@@ -49,12 +49,24 @@
                 &,
                 &:before,
                 &:after {
-                    color: $black-3;
+                    .checkbox--theme-light & {
+                        color: $black-3;
+                    }
+
+                    .checkbox--theme-dark & {
+                        color: $white-3;
+                    }
                 }
             }
 
             & ~ .checkbox__help {
-                color: $black-3;
+                .checkbox--theme-light & {
+                    color: $black-3;
+                }
+
+                .checkbox--theme-dark & {
+                    color: $white-3;
+                }
             }
         }
     }
@@ -68,6 +80,14 @@
         line-height: $size-xs;
         cursor: pointer;
         @include user-select(none);
+
+        .checkbox--theme-light & {
+            color: $black-1;
+        }
+
+        .checkbox--theme-dark & {
+            color: $white-1;
+        }
 
         .checkbox--standalone & {
             padding-left: 0;
@@ -85,7 +105,14 @@
 
         &:before {
             @include mdi-icon('checkbox-blank-outline');
-            color: $black-2;
+
+            .checkbox--theme-light & {
+                color: $black-2;
+            }
+
+            .checkbox--theme-dark & {
+                color: $white-2;
+            }
         }
 
         &:after {
@@ -99,6 +126,13 @@
         display: block;
         padding-left: $base-spacing-unit * 4;
         @include typography('body-1');
-        color: $black-2;
         text-align: left;
+
+        .checkbox--theme-light & {
+            color: $black-2;
+        }
+
+        .checkbox--theme-dark & {
+            color: $white-2;
+        }
     }

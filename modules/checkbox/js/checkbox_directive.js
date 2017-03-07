@@ -21,7 +21,8 @@
                 ngDisabled: '=?',
                 ngFalseValue: '@?',
                 ngModel: '=',
-                ngTrueValue: '@?'
+                ngTrueValue: '@?',
+                theme: '@?lxTheme'
             },
             controller: LxCheckboxController,
             controllerAs: 'lxCheckbox',
