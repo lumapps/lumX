@@ -16,6 +16,7 @@
             templateUrl: 'dropdown.html',
             scope:
             {
+                depth: '@?lxDepth',
                 effect: '@?lxEffect',
                 escapeClose: '=?lxEscapeClose',
                 hover: '=?lxHover',
@@ -683,10 +684,28 @@
     function LxDropdownMenuController()
     {
         var lxDropdownMenu = this;
+        var dropdownDepth = [];
 
+        lxDropdownMenu.getDropdownDepth = getDropdownDepth;
         lxDropdownMenu.setParentController = setParentController;
 
         ////////////
+
+        function getDropdownDepth()
+        {
+            dropdownDepth.length = 0;
+
+            if (lxDropdownMenu.parentCtrl.depth)
+            {
+                dropdownDepth.push('dropdown-menu--depth-' + lxDropdownMenu.parentCtrl.depth);
+            }
+            else
+            {
+                dropdownDepth.push('dropdown-menu--depth-1');
+            }
+
+            return dropdownDepth;
+        }
 
         function setParentController(_parentCtrl)
         {

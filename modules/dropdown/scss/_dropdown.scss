@@ -21,7 +21,6 @@
     text-align: left;
     opacity: 0;
     overflow: auto;
-    @include z-depth(1);
 
     ul {
         @extend %bare-list;
@@ -29,6 +28,12 @@
         & > li {
             position: relative;
         }
+    }
+}
+
+@for $i from 1 through 5 {
+    .dropdown-menu--depth-#{$i} {
+        @include z-depth($i);
     }
 }
 
