@@ -731,7 +731,7 @@
         {
             lxDropdownMenu.parentCtrl = _parentCtrl;
 
-            addDropdownDepth()
+            addDropdownDepth();
         }
     }
 
