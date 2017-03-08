@@ -705,35 +705,33 @@
         }
     }
 
-    function LxDropdownMenuController()
+    LxDropdownMenuController.$inject = ['$element'];
+
+    function LxDropdownMenuController($element)
     {
         var lxDropdownMenu = this;
-        var dropdownDepth = [];
 
-        lxDropdownMenu.getDropdownDepth = getDropdownDepth;
         lxDropdownMenu.setParentController = setParentController;
 
         ////////////
 
-        function getDropdownDepth()
+        function addDropdownDepth()
         {
-            dropdownDepth.length = 0;
-
             if (lxDropdownMenu.parentCtrl.depth)
             {
-                dropdownDepth.push('dropdown-menu--depth-' + lxDropdownMenu.parentCtrl.depth);
+                $element.addClass('dropdown-menu--depth-' + lxDropdownMenu.parentCtrl.depth);
             }
             else
             {
-                dropdownDepth.push('dropdown-menu--depth-1');
+                $element.addClass('dropdown-menu--depth-1');
             }
-
-            return dropdownDepth;
         }
 
         function setParentController(_parentCtrl)
         {
             lxDropdownMenu.parentCtrl = _parentCtrl;
+
+            addDropdownDepth()
         }
     }
 
