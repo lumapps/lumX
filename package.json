@@ -41,5 +41,9 @@
   "bugs": {
     "url": "https://github.com/lumapps/lumx/issues"
   },
+  "engines": {
+    "node": "4.0.0",
+    "npm": "3"
+  },
   "homepage": "https://github.com/lumapps/lumx"
 }

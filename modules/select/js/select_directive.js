@@ -506,7 +506,7 @@
                     data: _choice,
                     callback: function(resp)
                     {
-                        lxSelect.ngModel.splice(lxSelect.ngModel.indexOf(resp), 1);
+                        removeElement(lxSelect.ngModel, resp);
 
                         if (lxSelect.autocomplete)
                         {
@@ -516,11 +516,11 @@
                     }
                 });
 
-                lxSelect.unconvertedModel.splice(lxSelect.unconvertedModel.indexOf(_choice), 1);
+                removeElement(lxSelect.unconvertedModel, _choice);
             }
             else
             {
-                lxSelect.ngModel.splice(lxSelect.ngModel.indexOf(_choice), 1);
+                removeElement(lxSelect.ngModel, _choice);
 
                 if (lxSelect.autocomplete)
                 {
@@ -581,6 +581,24 @@
             }
 
             return true;
+        }
+
+        function removeElement(model, element)
+        {
+            var index = -1;
+            for (var i = 0, len = model.length; i < len; i++)
+            {
+                if (angular.equals(element, model[i]))
+                {
+                    index = i;
+                    break;
+                }
+            }
+
+            if (index > -1)
+            {
+                model.splice(index, 1);
+            }
         }
     }
 
