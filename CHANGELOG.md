@@ -1,5 +1,19 @@
 # Changelog
 
+## v1.4.5:
+
+#### New features:
+ - typography: remove useless line height
+ - dropdown: avoid scrollbar disappear
+ - dropdown: add depth parameter
+
+
+## 1.4.4:
+
+#### Bug fixes:
+ - dropdown: add toggle class only if toggle present
+
+
 ## 1.4.3:
 
 #### Bug fixes:
