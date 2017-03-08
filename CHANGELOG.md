@@ -1,5 +1,17 @@
 # Changelog
 
+## v1.4.7:
+
+#### Bug fixes:
+ - dropdown: missing semicolon
+
+
+## v1.4.6:
+
+#### Bug fixes:
+ - dropdown: add depth class at init
+
+
 ## v1.4.5:
 
 #### New features:
