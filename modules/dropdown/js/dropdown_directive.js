@@ -92,6 +92,10 @@
         var idEventScheduler;
         var openTimeout;
         var positionTarget;
+        var scrollMask = angular.element('<div/>',
+        {
+            class: 'scroll-mask'
+        });
 
         lxDropdown.closeDropdownMenu = closeDropdownMenu;
         lxDropdown.openDropdownMenu = openDropdownMenu;
@@ -144,7 +148,8 @@
             var velocityProperties;
             var velocityEasing;
 
-            angular.element('body').removeClass('no-scroll-dropdown-' + lxDropdown.uuid);
+            scrollMask.remove();
+            dropdownMenu.off('wheel');
 
             dropdownMenu.css(
             {
@@ -325,12 +330,31 @@
 
             LxDepthService.register();
 
-            dropdownMenu
-                .addClass('dropdown-menu--is-open')
+            scrollMask
                 .css('z-index', LxDepthService.getDepth())
                 .appendTo('body');
 
-            angular.element('body').addClass('no-scroll-dropdown-' + lxDropdown.uuid);
+            scrollMask.on('wheel', function preventDefault(e) {
+                e.preventDefault();
+            });
+
+            dropdownMenu
+                .addClass('dropdown-menu--is-open')
+                .css('z-index', LxDepthService.getDepth() + 1)
+                .appendTo('body');
+
+            dropdownMenu.on('wheel', function preventDefault(e) {
+                var d = e.originalEvent.deltaY;
+
+                if (d < 0 && dropdownMenu.scrollTop() === 0) {
+                    e.preventDefault();
+                }
+                else {
+                    if (d > 0 && (dropdownMenu.scrollTop() == dropdownMenu.get(0).scrollHeight - dropdownMenu.innerHeight())) {
+                        e.preventDefault();
+                    }
+                }
+            });
 
             if (lxDropdown.escapeClose)
             {
