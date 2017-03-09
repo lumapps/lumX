@@ -149,12 +149,20 @@
             var velocityEasing;
 
             scrollMask.remove();
-            dropdownMenu.off('wheel');
 
-            dropdownMenu.css(
+            if (lxDropdown.hasToggle)
             {
-                overflow: 'hidden'
-            });
+                dropdownToggle
+                    .off('wheel')
+                    .css('z-index', '');
+            }
+
+            dropdownMenu
+                .off('wheel')
+                .css(
+                {
+                    overflow: 'hidden'
+                });
 
             if (lxDropdown.effect === 'expand')
             {
@@ -337,6 +345,15 @@
             scrollMask.on('wheel', function preventDefault(e) {
                 e.preventDefault();
             });
+
+            if (lxDropdown.hasToggle)
+            {
+                dropdownToggle
+                    .css('z-index', LxDepthService.getDepth() + 1)
+                    .on('wheel', function preventDefault(e) {
+                        e.preventDefault();
+                    });
+            }
 
             dropdownMenu
                 .addClass('dropdown-menu--is-open')
