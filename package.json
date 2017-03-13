@@ -2,7 +2,7 @@
   "name": "lumX",
   "version": "1.0.0",
   "description": "lumX",
-  "main": "gulpfile.js",
+  "main": "./dist/lumx.js",
   "dependencies": {},
   "devDependencies": {
     "del": "^1.1.1",
