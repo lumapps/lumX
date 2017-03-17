@@ -56,7 +56,7 @@
             background-color: $color;
         }
 
-        .lx-date-picker__day--is-today a {
+        .lx-date-picker__day--is-today a:not(:hover) {
             color: $color;
         }
 
