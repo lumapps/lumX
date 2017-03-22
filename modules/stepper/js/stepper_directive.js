@@ -68,12 +68,27 @@
 
             _classes.push('lx-stepper--layout-' + lxStepper.layout);
 
+            if (lxStepper.isLinear)
+            {
+                _classes.push('lx-stepper--is-linear');
+            }
+
+            if (lxStepper.steps[lxStepper.activeIndex - 1].feedback)
+            {
+                _classes.push('lx-stepper--step-has-feedback');
+            }
+
+            if (lxStepper.steps[lxStepper.activeIndex - 1].isLoading)
+            {
+                _classes.push('lx-stepper--step-is-loading');
+            }
+
             return _classes;
         }
 
         function goToStep(index, bypass)
         {
-            if (!bypass && lxStepper.isLinear && angular.isDefined(lxStepper.steps[index - 2]) && lxStepper.steps[index - 2].isOptional && lxStepper.steps[index - 3].isValid === true)
+            if (!bypass && lxStepper.isLinear && angular.isDefined(lxStepper.steps[index - 2]) && lxStepper.steps[index - 2].isOptional && ((angular.isDefined(lxStepper.steps[index - 3]) && lxStepper.steps[index - 3].isValid === true) || angular.isUndefined(lxStepper.steps[index - 3])))
             {
                 bypass = true;
             }
@@ -105,7 +120,7 @@
                     }
                 }
 
-                if (countValid === lxStepper.steps.length - countOptional)
+                if (countValid >= lxStepper.steps.length - countOptional)
                 {
                     lxStepper.complete();
                 }
@@ -145,12 +160,18 @@
             controller: LxStepController,
             controllerAs: 'lxStep',
             bindToController: true,
+            replace: true,
             transclude: true
         };
 
         function link(scope, element, attrs, ctrls)
         {
             ctrls[0].init(ctrls[1], element.index());
+
+            attrs.$observe('lxFeedback', function(feedback)
+            {
+                ctrls[0].setFeedback(feedback);
+            });
 
             attrs.$observe('lxLabel', function(label)
             {
@@ -181,16 +202,18 @@
         lxStep.getClasses = getClasses;
         lxStep.init = init;
         lxStep.previousStep = previousStep;
+        lxStep.setFeedback = setFeedback;
         lxStep.setLabel = setLabel;
         lxStep.setIsEditable = setIsEditable;
         lxStep.setIsOptional = setIsOptional;
         lxStep.submitStep = submitStep;
 
-        lxStep.isLoading = false;
         lxStep.step = {
             errorMessage: undefined,
+            feedback: undefined,
             index: undefined,
             isEditable: false,
+            isLoading: false,
             isOptional: false,
             isValid: undefined,
             label: undefined,
@@ -220,6 +243,12 @@
             {
                 lxStep.parent.goToStep(lxStep.step.index - 1);
             }
+        }
+
+        function setFeedback(feedback)
+        {
+            lxStep.step.feedback = feedback;
+            updateParentStep();
         }
 
         function setLabel(label)
@@ -258,13 +287,15 @@
 
             if (validity === true)
             {
-                lxStep.isLoading = true;
+                lxStep.step.isLoading = true;
+                updateParentStep();
 
                 var submitFunction = lxStep.submit;
 
                 if (!angular.isFunction(submitFunction))
                 {
-                    lxStep.isLoading = false;
+                    lxStep.step.isLoading = false;
+                    updateParentStep();
 
                     submitFunction = function()
                     {
@@ -290,7 +321,8 @@
                     LxNotificationService.error(error);
                 }).finally(function()
                 {
-                    lxStep.isLoading = false;
+                    lxStep.step.isLoading = false;
+                    updateParentStep();
                 });
             }
             else
@@ -322,6 +354,7 @@
             controller: LxStepNavController,
             controllerAs: 'lxStepNav',
             bindToController: true,
+            replace: true,
             transclude: false
         };
 
@@ -346,7 +379,7 @@
         {
             _classes.length = 0;
 
-            if (lxStepNav.step.index === lxStepNav.activeIndex)
+            if (parseInt(lxStepNav.step.index) === parseInt(lxStepNav.activeIndex))
             {
                 _classes.push('lx-step-nav--is-active');
             }
