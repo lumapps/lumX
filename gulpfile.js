@@ -31,6 +31,7 @@ var paths = {
         'build/js/templates/button_template.js',
         'build/js/templates/checkbox_template.js',
         'build/js/templates/radio-button_template.js',
+        'build/js/templates/stepper_template.js',
         'build/js/templates/switch_template.js',
         'build/js/templates/fab_template.js',
         'build/js/templates/icon_template.js',
@@ -337,6 +338,19 @@ gulp.task('tpl:radio-button', function()
         .pipe(gulp.dest('build/js/templates'));
 });
 
+gulp.task('tpl:stepper', function()
+{
+    return gulp.src('modules/stepper/views/*.html')
+        .pipe(plugins.plumber())
+        .pipe(plugins.templatecache(
+        {
+            output: 'stepper_template.js',
+            moduleName: 'lumx.stepper',
+            strip: 'views/'
+        }))
+        .pipe(gulp.dest('build/js/templates'));
+});
+
 gulp.task('tpl:switch', function()
 {
     return gulp.src('modules/switch/views/*.html')
@@ -389,7 +403,7 @@ gulp.task('tpl:data-table', function()
         .pipe(gulp.dest('build/js/templates'));
 });
 
-gulp.task('dist:scripts', ['tpl:dropdown', 'tpl:file-input', 'tpl:text-field', 'tpl:search-filter', 'tpl:select', 'tpl:tabs', 'tpl:date-picker', 'tpl:progress', 'tpl:button', 'tpl:checkbox', 'tpl:radio-button', 'tpl:switch', 'tpl:fab', 'tpl:icon', 'tpl:data-table'], function()
+gulp.task('dist:scripts', ['tpl:dropdown', 'tpl:file-input', 'tpl:text-field', 'tpl:search-filter', 'tpl:select', 'tpl:tabs', 'tpl:date-picker', 'tpl:progress', 'tpl:button', 'tpl:checkbox', 'tpl:radio-button', 'tpl:switch', 'tpl:stepper', 'tpl:fab', 'tpl:icon', 'tpl:data-table'], function()
 {
     return gulp.src(paths.distJs.concat(paths.templates))
         .pipe(plugins.plumber())
@@ -428,6 +442,7 @@ gulp.task('watch', ['build'], function()
     watcherWithCache('tpl:button', 'modules/button/views/*.html', ['tpl:button']);
     watcherWithCache('tpl:checkbox', 'modules/checkbox/views/*.html', ['tpl:checkbox']);
     watcherWithCache('tpl:radio-button', 'modules/radio-button/views/*.html', ['tpl:radio-button']);
+    watcherWithCache('tpl:stepper', 'modules/stepper/views/*.html', ['tpl:stepper']);
     watcherWithCache('tpl:switch', 'modules/switch/views/*.html', ['tpl:switch']);
     watcherWithCache('tpl:fab', 'modules/fab/views/*.html', ['tpl:fab']);
     watcherWithCache('tpl:icon', 'modules/icon/views/*.html', ['tpl:icon']);
@@ -436,7 +451,7 @@ gulp.task('watch', ['build'], function()
 
 gulp.task('clean', ['clean:build', 'clean:dist']);
 
-gulp.task('build', ['lint', 'scss', 'fonts', 'demo', 'examples', 'libs', 'tpl:dropdown', 'tpl:file-input', 'tpl:text-field', 'tpl:search-filter', 'tpl:select', 'tpl:tabs', 'tpl:date-picker', 'tpl:progress', 'tpl:button', 'tpl:checkbox', 'tpl:radio-button', 'tpl:switch', 'tpl:fab', 'tpl:icon', 'tpl:data-table']);
+gulp.task('build', ['lint', 'scss', 'fonts', 'demo', 'examples', 'libs', 'tpl:dropdown', 'tpl:file-input', 'tpl:text-field', 'tpl:search-filter', 'tpl:select', 'tpl:tabs', 'tpl:date-picker', 'tpl:progress', 'tpl:button', 'tpl:checkbox', 'tpl:radio-button', 'tpl:switch', 'tpl:stepper', 'tpl:fab', 'tpl:icon', 'tpl:data-table']);
 gulp.task('dist', ['clean:dist'], function()
 {
     gulp.start('dist:css');

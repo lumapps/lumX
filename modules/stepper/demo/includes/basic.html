@@ -1,0 +1,22 @@
+<lx-stepper lx-cancel="vm.cancel()" lx-complete="vm.complete()">
+    <lx-step lx-label="lorem" lx-validate="vm.validate()">
+        blabla
+    </lx-step>
+    <lx-step lx-label="lorem2">
+        blabla
+    </lx-step>
+</lx-stepper>
+
+//////////////////////////////////
+
+<lx-stepper lx-cancel="vm.cancel()" lx-complete="vm.complete()" lx-layout="vertical">
+    <lx-step lx-label="lorem" lx-feedback="feedback" lx-validate="vm.validate(true)" lx-submit="vm.submit(true)">
+        blabla
+    </lx-step>
+    <lx-step lx-label="lorem2" lx-feedback="feedback" lx-validate="vm.validate(true)" lx-submit="vm.submit(true)" lx-is-optional="true">
+        blabla
+    </lx-step>
+    <lx-step lx-label="lorem3" lx-feedback="feedback" lx-validate="vm.validate(true)" lx-submit="vm.submit(true)">
+        blabla
+    </lx-step>
+</lx-stepper>

@@ -29,6 +29,7 @@
     angular.module('lumx.ripple', []);
     angular.module('lumx.search-filter', []);
     angular.module('lumx.select', []);
+    angular.module('lumx.stepper', []);
     angular.module('lumx.switch', []);
     angular.module('lumx.tabs', []);
     angular.module('lumx.text-field', []);
@@ -50,6 +51,7 @@
         'lumx.ripple',
         'lumx.search-filter',
         'lumx.select',
+        'lumx.stepper',
         'lumx.switch',
         'lumx.tabs',
         'lumx.text-field',

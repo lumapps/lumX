@@ -1,0 +1,7 @@
+<div class="lx-stepper" ng-class="lxStepper.getClasses()">
+    <div class="lx-stepper__nav" ng-if="lxStepper.layout === 'horizontal'">
+        <lx-step-nav lx-active-index="{{ lxStepper.activeIndex }}" lx-step="step" ng-repeat="step in lxStepper.steps"></lx-step-nav>
+    </div>
+
+    <div class="lx-stepper__step" ng-transclude></div>
+</div>
