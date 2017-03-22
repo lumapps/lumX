@@ -38,7 +38,8 @@
             labels: {
                 'back': 'Back',
                 'cancel': 'Cancel',
-                'continue': 'Continue'
+                'continue': 'Continue',
+                'optional': 'Optional'
             },
             layout: 'horizontal'
         };
@@ -357,6 +358,16 @@
             else if (lxStepNav.step.isValid === false)
             {
                 _classes.push('lx-step-nav--has-error');
+            }
+
+            if (lxStepNav.step.isEditable)
+            {
+                _classes.push('lx-step-nav--is-editable');
+            }
+
+            if (lxStepNav.step.isOptional)
+            {
+                _classes.push('lx-step-nav--is-optional');
             }
 
             return _classes;

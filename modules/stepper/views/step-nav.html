@@ -1,5 +1,6 @@
 <a class="lx-step-nav" ng-click="lxStepNav.parent.goToStep(lxStepNav.step.index)" ng-class="lxStepNav.getClasses()">
     <span class="lx-step-nav__index">{{ lxStepNav.step.index }}</span>
     <span class="lx-step-nav__label">{{ lxStepNav.step.label }}</span>
-    <span class="lx-step-nav__label" ng-if="lxStepNav.step.isValid === false">{{ lxStepNav.step.errorMessage }}</span>
+    <span class="lx-step-nav__state lx-step-nav__state--optional" ng-if="lxStepNav.step.isOptional">{{ lxStepNav.parent.labels.optional }}</span>
+    <span class="lx-step-nav__state lx-step-nav__state--error" ng-if="lxStepNav.step.isValid === false">{{ lxStepNav.step.errorMessage }}</span>
 </a>
