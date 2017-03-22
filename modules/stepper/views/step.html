@@ -24,7 +24,7 @@
             <lx-button lx-color="black" lx-type="flat" ng-click="lxStep.parent.cancel()" ng-disabled="lxStep.isLoading">{{ lxStep.parent.labels.cancel }}</lx-button>
         </div>
 
-        <div class="lx-step__action lx-step__action--back" ng-if="lxStep.parent.linear">
+        <div class="lx-step__action lx-step__action--back" ng-if="lxStep.parent.isLinear">
             <lx-button lx-color="black" lx-type="flat" ng-click="lxStep.previousStep()" ng-disabled="lxStep.isLoading || lxStep.step.index === 1">{{ lxStep.parent.labels.back }}</lx-button>
         </div>
     </div>

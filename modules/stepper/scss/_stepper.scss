@@ -192,4 +192,8 @@
         .lx-stepper--layout-horizontal &.lx-step__action--cancel {
             margin-right: $base-spacing-unit;
         }
+
+        .lx-stepper--layout-horizontal &.lx-step__action--back {
+            @include flex(1);
+        }
     }
