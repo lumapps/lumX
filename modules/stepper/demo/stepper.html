@@ -5,5 +5,123 @@
         <code>lx-stepper</code>
     </p>
 
-    <lx-component lx-title="Basic usage" lx-path="/includes/modules/stepper/includes/basic.html" lx-js-path="/js/stepper/demo/demo-stepper_controller.js"></lx-component>
+    <lx-component lx-title="Linear stepper" lx-path="/includes/modules/stepper/includes/linear.html" lx-js-path="/js/stepper/demo/demo-stepper_controller.js">
+        Linear steppers require users to complete one step in order to move on to the next.
+    </lx-component>
+
+    <lx-component lx-title="Non-linear stepper" lx-path="/includes/modules/stepper/includes/non-linear.html" lx-js-path="/js/stepper/demo/demo-stepper_controller.js">
+        Non-linear steppers allow users to enter a multi-step flow at any point.
+    </lx-component>
+
+    <lx-component lx-title="Stepper feedback" lx-path="/includes/modules/stepper/includes/feedback.html" lx-js-path="/js/stepper/demo/demo-stepper_controller.js">
+        Steppers may display a transient feedback message after a step is saved. Stepper feedback should only be used if there is a long latency between steps (Only if horizontal stepper).
+    </lx-component>
+
+    <lx-component lx-title="Editable steps" lx-path="/includes/modules/stepper/includes/editable.html" lx-js-path="/js/stepper/demo/demo-stepper_controller.js">
+        Editable steps allow users to return later to edit a step. These are ideal for workflows that involve editing steps within a session.
+    </lx-component>
+
+    <lx-component lx-title="Optional steps" lx-path="/includes/modules/stepper/includes/optional.html" lx-js-path="/js/stepper/demo/demo-stepper_controller.js">
+        Optional steps within a linear flow should be marked as optional (Only if linear stepper).
+    </lx-component>
+
+    <lx-component lx-title="Error state" lx-path="/includes/modules/stepper/includes/error.html" lx-js-path="/js/stepper/demo/demo-stepper_controller.js"></lx-component>
+
+    <lx-component-attributes lx-title="Stepper attributes">
+        <table>
+            <thead>
+                <tr>
+                    <th>Parameter</th>
+                    <th>Type</th>
+                    <th>Default</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td>lx-cancel*</td>
+                    <td><code>function</code></td>
+                    <td></td>
+                    <td>Cancel function called on cancel button click.</td>
+                </tr>
+                <tr>
+                    <td>lx-complete*</td>
+                    <td><code>function</code></td>
+                    <td></td>
+                    <td>Complete function called when stepper is complete.</td>
+                </tr>
+                <tr>
+                    <td>lx-is-linear</td>
+                    <td><code>boolean</code></td>
+                    <td><code>true</code></td>
+                    <td>Define the stepper type.</td>
+                </tr>
+                <tr>
+                    <td>lx-labels</td>
+                    <td><code>object</code></td>
+                    <td><code>{ 'back': 'Back', 'cancel': 'Cancel', 'continue': 'Continue', 'optional': 'Optional' }</code></td>
+                    <td>The buttons and the optionnal step labels.</td>
+                </tr>
+                <tr>
+                    <td>lx-layout</td>
+                    <td><code>string</code></td>
+                    <td><code>horizontal</code></td>
+                    <td>Define the stepper layout. Options: <code>horizontal</code>, <code>veritcal</code></td>
+                </tr>
+            </tbody>
+        </table>
+    </lx-component-attributes>
+
+    <lx-component-attributes lx-title="Step attributes">
+        <table>
+            <thead>
+                <tr>
+                    <th>Parameter</th>
+                    <th>Type</th>
+                    <th>Default</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td>lx-feedback</td>
+                    <td><code>string</code></td>
+                    <td></td>
+                    <td>The feedback string displayed during the next step loading (Only if horizontal layout).</td>
+                </tr>
+                <tr>
+                    <td>lx-is-editable</td>
+                    <td><code>boolean</code></td>
+                    <td><code>false</code></td>
+                    <td>Define if the step is editable. If so, submitting the step after the first time trigger the complete function.</td>
+                </tr>
+                <tr>
+                    <td>lx-is-optional</td>
+                    <td><code>boolean</code></td>
+                    <td><code>false</code></td>
+                    <td>Define if the step is optional. If so, it's possible to jump to the next step without submitting (Only if linear stepper).</td>
+                </tr>
+                <tr>
+                    <td>lx-label*</td>
+                    <td><code>string</code></td>
+                    <td></td>
+                    <td>The step label displayed in the navigation.</td>
+                </tr>
+                <tr>
+                    <td>lx-submit</td>
+                    <td><code>function</code></td>
+                    <td></td>
+                    <td>Submit function called on step submit if valid.</td>
+                </tr>
+                <tr>
+                    <td>lx-validate</td>
+                    <td><code>function</code></td>
+                    <td></td>
+                    <td>Validate function called on step submit. Return true if the step is valid, else, return a string to display an error message in the navigation.</td>
+                </tr>
+            </tbody>
+        </table>
+    </lx-component-attributes>
 </div>

@@ -15,7 +15,10 @@
         vm.cancel = cancel;
         vm.complete = complete;
         vm.submit = submit;
+        vm.toggleLayout = toggleLayout;
         vm.validate = validate;
+
+        vm.layout = 'horizontal';
 
         ////////////
 
@@ -29,7 +32,7 @@
            LxNotificationService.success('Complete');
         }
 
-        function submit(isValid)
+        function submit(isValid, nextStepIndex)
         {
             return $q(function(resolve, reject)
             {
@@ -37,7 +40,7 @@
                 {
                     if (isValid)
                     {
-                        resolve(3);
+                        resolve(nextStepIndex);
                     }
                     else
                     {
@@ -45,6 +48,11 @@
                     }
                 }, 1000);
             });
+        }
+
+        function toggleLayout()
+        {
+            vm.layout = vm.layout === 'horizontal' ? 'vertical' : 'horizontal';
         }
 
         function validate(isValid)
