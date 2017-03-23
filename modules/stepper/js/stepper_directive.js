@@ -45,6 +45,7 @@
         };
 
         lxStepper.addStep = addStep;
+        lxStepper.checkComplete = checkComplete;
         lxStepper.getClasses = getClasses;
         lxStepper.goToStep = goToStep;
         lxStepper.updateStep = updateStep;
@@ -60,6 +61,30 @@
         function addStep(step)
         {
             lxStepper.steps.push(step);
+        }
+
+        function checkComplete()
+        {
+            var countValid = 0;
+            var countOptional = 0;
+
+            for (var i = 0, len = lxStepper.steps.length; i < len; i++)
+            {
+                if (lxStepper.steps[i].isValid === true)
+                {
+                    countValid++;
+                }
+
+                if (lxStepper.steps[i].isOptional)
+                {
+                    countOptional++;
+                }
+            }
+
+            if (countValid >= lxStepper.steps.length - countOptional)
+            {
+                lxStepper.complete();
+            }
         }
 
         function getClasses()
@@ -101,29 +126,6 @@
             if (index <= lxStepper.steps.length)
             {
                 lxStepper.activeIndex = parseInt(index);
-            }
-            else
-            {
-                var countValid = 0;
-                var countOptional = 0;
-
-                for (var i = 0, len = lxStepper.steps.length; i < len; i++)
-                {
-                    if (lxStepper.steps[i].isValid === true)
-                    {
-                        countValid++;
-                    }
-
-                    if (lxStepper.steps[i].isOptional)
-                    {
-                        countOptional++;
-                    }
-                }
-
-                if (countValid >= lxStepper.steps.length - countOptional)
-                {
-                    lxStepper.complete();
-                }
             }
         }
 
@@ -317,6 +319,8 @@
                 {
                     lxStep.step.isValid = true;
                     updateParentStep();
+
+                    lxStep.parent.checkComplete();
 
                     _nextStepIndex = angular.isDefined(nextStepIndex) && nextStepIndex > lxStep.parent.activeIndex && (!lxStep.parent.isLinear || (lxStep.parent.isLinear && lxStep.parent.steps[nextStepIndex - 2].isOptional)) ? nextStepIndex : lxStep.step.index + 1;
 
