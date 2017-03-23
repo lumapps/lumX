@@ -226,6 +226,11 @@
         {
             _classes.length = 0;
 
+            if (lxStep.step.index === lxStep.parent.activeIndex)
+            {
+                _classes.push('lx-step--is-active');
+            }
+
             return _classes;
         }
 

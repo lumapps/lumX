@@ -4,10 +4,12 @@
 
 // Stepper
 .lx-stepper {
-    @include z-depth(1);
+    &.lx-stepper--layout-vertical {
+        padding: $base-spacing-unit * 3 0;
+    }
 }
 
-    // Stepper: header
+    // Stepper: header (horizontal)
     .lx-stepper__header {
         position: relative;
         height: 72px;
@@ -15,7 +17,7 @@
         @include z-depth(1);
     }
 
-    // Stepper: nav
+    // Stepper: nav (horizontal)
     .lx-stepper__nav {
         @include position(absolute, 0 0 0 0);
         z-index: 2;
@@ -40,7 +42,7 @@
         }
     }
 
-    // Stepper: feedback
+    // Stepper: feedback (horizontal)
     .lx-stepper__feedback {
         @include position(absolute, 0 0 0 0);
         z-index: 1;
@@ -49,7 +51,7 @@
         padding: 0 $base-spacing-unit * 3;
         opacity: 0;
         @include font-size(14px);
-        @include transform(translateY(10px));
+        @include transform(translateY(20px));
         @include transition-property(opacity, transform);
         @include transition-duration(0.6s);
         @include transition-timing-function($ease-out-quint);
@@ -67,7 +69,6 @@
 // Step nav
 .lx-step-nav {
     @include display(flex);
-    @include align-items(center);
     cursor: pointer;
 
     .ripple {
@@ -75,6 +76,7 @@
     }
 
     .lx-stepper--layout-horizontal & {
+        @include align-items(center);
         position: relative;
         height: 72px;
         padding: 0 $base-spacing-unit;
@@ -88,6 +90,10 @@
             padding-right: $base-spacing-unit * 3;
         }
     }
+
+    .lx-stepper--layout-vertical & {
+        padding: $base-spacing-unit $base-spacing-unit * 3;
+    }
 }
 
     // Step nav: circle
@@ -96,7 +102,14 @@
         @include align-items(center);
         @include justify-content(center);
         @include size($size-xs);
-        margin-right: $base-spacing-unit;
+
+        .lx-stepper--layout-horizontal & {
+            margin-right: $base-spacing-unit;
+        }
+
+        .lx-stepper--layout-vertical & {
+            margin-right: $base-spacing-unit * 1.5;
+        }
 
         &.lx-step-nav__indicator--index,
         &.lx-step-nav__indicator--icon {
@@ -129,8 +142,9 @@
     // Step nav: label
     .lx-step-nav__label {
         @include font-size(14px);
-        color: $black-2;
         font-weight: 500;
+        color: $black-2;
+        line-height: $size-xs;
 
         .lx-step-nav--is-active &,
         .lx-step-nav--is-valid & {
@@ -158,18 +172,55 @@
 
 // Step
 .lx-step {
+    .lx-stepper--layout-vertical & {
+        position: relative;
+        padding-bottom: $base-spacing-unit * 2;
 
+        &.lx-step--is-active {
+            padding-bottom: $base-spacing-unit * 6;
+        }
+
+        &:last-child {
+            padding-bottom: 0;
+        }
+
+        &:before {
+            content: '';
+            @include position(absolute, 40px null 0 $base-spacing-unit * 4.5);
+            width: 1px;
+            background-color: $black-4;
+        }
+    }
 }
+
+    // Step: nav (vertical)
+    .lx-step__nav {
+        margin-bottom: $base-spacing-unit;
+
+        .lx-step:not(.lx-step--is-active):last-child & {
+            margin-bottom: 0;
+        }
+    }
+
+    // Step: wrapper
+    .lx-step__wrapper {
+        .lx-stepper--layout-horizontal & {
+            padding: $base-spacing-unit * 3;
+        }
+
+        .lx-stepper--layout-vertical & {
+            padding: 0 $base-spacing-unit * 3 0 60px;
+        }
+    }
 
     // Step: content
     .lx-step__content {
         position: relative;
-        padding: $base-spacing-unit * 3;
     }
 
     // Step: progress
     .lx-step__progress {
-        @include position(absolute, $base-spacing-unit * 3 $base-spacing-unit * 3 $base-spacing-unit * 3 $base-spacing-unit * 3);
+        @include position(absolute, 0 0 0 0);
         @include display(flex);
         @include align-items(center);
         @include justify-content(center);
@@ -179,8 +230,7 @@
     // Step: actions
     .lx-step__actions {
         @include display(flex);
-        padding: $base-spacing-unit * 3;
-        padding-top: 0;
+        margin-top: $base-spacing-unit * 3;
 
         .lx-stepper--layout-horizontal & {
             @include flex-direction(row-reverse);
@@ -193,7 +243,16 @@
             margin-right: $base-spacing-unit;
         }
 
+        .lx-stepper--layout-vertical &.lx-step__action--cancel {
+            margin-left: $base-spacing-unit;
+        }
+
         .lx-stepper--layout-horizontal &.lx-step__action--back {
             @include flex(1);
+        }
+
+        .lx-stepper--layout-vertical &.lx-step__action--back {
+            @include flex(1);
+            text-align: right;
         }
     }
