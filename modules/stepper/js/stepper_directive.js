@@ -50,7 +50,7 @@
         lxStepper.goToStep = goToStep;
         lxStepper.updateStep = updateStep;
 
-        lxStepper.activeIndex = 1;
+        lxStepper.activeIndex = 0;
         lxStepper.isLinear = angular.isDefined(lxStepper.isLinear) ? lxStepper.isLinear : _defaultValues.isLinear;
         lxStepper.labels = angular.isDefined(lxStepper.labels) ? lxStepper.labels : _defaultValues.labels;
         lxStepper.layout = angular.isDefined(lxStepper.layout) ? lxStepper.layout : _defaultValues.layout;
@@ -98,12 +98,12 @@
                 _classes.push('lx-stepper--is-linear');
             }
 
-            if (lxStepper.steps[lxStepper.activeIndex - 1].feedback)
+            if (lxStepper.steps[lxStepper.activeIndex].feedback)
             {
                 _classes.push('lx-stepper--step-has-feedback');
             }
 
-            if (lxStepper.steps[lxStepper.activeIndex - 1].isLoading)
+            if (lxStepper.steps[lxStepper.activeIndex].isLoading)
             {
                 _classes.push('lx-stepper--step-is-loading');
             }
@@ -113,17 +113,17 @@
 
         function goToStep(index, bypass)
         {
-            if (!bypass && lxStepper.isLinear && angular.isDefined(lxStepper.steps[index - 2]) && lxStepper.steps[index - 2].isOptional && ((angular.isDefined(lxStepper.steps[index - 3]) && lxStepper.steps[index - 3].isValid === true) || angular.isUndefined(lxStepper.steps[index - 3])))
+            if (!bypass && lxStepper.isLinear && angular.isDefined(lxStepper.steps[index - 1]) && lxStepper.steps[index - 1].isOptional && ((angular.isDefined(lxStepper.steps[index - 2]) && lxStepper.steps[index - 2].isValid === true) || angular.isUndefined(lxStepper.steps[index - 2])))
             {
                 bypass = true;
             }
 
-            if (!bypass && lxStepper.isLinear && angular.isDefined(lxStepper.steps[index - 2]) && (angular.isUndefined(lxStepper.steps[index - 2].isValid) || lxStepper.steps[index - 2].isValid === false))
+            if (!bypass && lxStepper.isLinear && angular.isDefined(lxStepper.steps[index - 1]) && (angular.isUndefined(lxStepper.steps[index - 1].isValid) || lxStepper.steps[index - 1].isValid === false))
             {
                 return;
             }
 
-            if (index <= lxStepper.steps.length)
+            if (index < lxStepper.steps.length)
             {
                 lxStepper.activeIndex = parseInt(index);
             }
@@ -239,14 +239,14 @@
         function init(parent, index)
         {
             lxStep.parent = parent;
-            lxStep.step.index = index + 1;
+            lxStep.step.index = index;
 
             lxStep.parent.addStep(lxStep.step);
         }
 
         function previousStep()
         {
-            if (lxStep.step.index > 1)
+            if (lxStep.step.index > 0)
             {
                 lxStep.parent.goToStep(lxStep.step.index - 1);
             }
@@ -319,7 +319,7 @@
 
                     lxStep.parent.checkComplete();
 
-                    _nextStepIndex = angular.isDefined(nextStepIndex) && nextStepIndex > lxStep.parent.activeIndex && (!lxStep.parent.isLinear || (lxStep.parent.isLinear && lxStep.parent.steps[nextStepIndex - 2].isOptional)) ? nextStepIndex : lxStep.step.index + 1;
+                    _nextStepIndex = angular.isDefined(nextStepIndex) && nextStepIndex > lxStep.parent.activeIndex && (!lxStep.parent.isLinear || (lxStep.parent.isLinear && lxStep.parent.steps[nextStepIndex - 1].isOptional)) ? nextStepIndex : lxStep.step.index + 1;
 
                     lxStep.parent.goToStep(_nextStepIndex, true);
                 }).catch(function(error)

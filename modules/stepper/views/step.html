@@ -22,7 +22,7 @@
             </div>
 
             <div class="lx-step__action lx-step__action--back" ng-if="lxStep.parent.isLinear">
-                <lx-button lx-color="black" lx-type="flat" ng-click="lxStep.previousStep()" ng-disabled="lxStep.isLoading || lxStep.step.index === 1">{{ lxStep.parent.labels.back }}</lx-button>
+                <lx-button lx-color="black" lx-type="flat" ng-click="lxStep.previousStep()" ng-disabled="lxStep.isLoading || lxStep.step.index === 0">{{ lxStep.parent.labels.back }}</lx-button>
             </div>
         </div>
     </div>

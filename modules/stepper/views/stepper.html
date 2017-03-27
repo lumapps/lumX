@@ -4,8 +4,8 @@
             <lx-step-nav lx-active-index="{{ lxStepper.activeIndex }}" lx-step="step" ng-repeat="step in lxStepper.steps"></lx-step-nav>
         </div>
 
-        <div class="lx-stepper__feedback" ng-if="lxStepper.steps[lxStepper.activeIndex - 1].feedback">
-            <span>{{ lxStepper.steps[lxStepper.activeIndex - 1].feedback }}</span>
+        <div class="lx-stepper__feedback" ng-if="lxStepper.steps[lxStepper.activeIndex].feedback">
+            <span>{{ lxStepper.steps[lxStepper.activeIndex].feedback }}</span>
         </div>
     </div>
 
