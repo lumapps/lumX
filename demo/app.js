@@ -364,6 +364,19 @@
                         }
                     }
                 })
+                .state('app.components.stepper',
+                {
+                    url: '/stepper',
+                    views:
+                    {
+                        'main@':
+                        {
+                            templateUrl: '/includes/modules/stepper/stepper.html',
+                            controller: 'DemoStepperController',
+                            controllerAs: 'vm'
+                        }
+                    }
+                })
                 .state('app.components.switch',
                 {
                     url: '/switch',

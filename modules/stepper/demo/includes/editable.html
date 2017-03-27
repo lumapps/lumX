@@ -1,0 +1,23 @@
+<lx-stepper lx-cancel="vm.cancel()" lx-complete="vm.complete()" lx-layout="{{ vm.layout }}">
+    <lx-step lx-label="Step 1" lx-feedback="Step 1 looks great! Step 2 is coming up!" lx-submit="vm.submit(true)" lx-is-editable="true">
+        <div flex-container="row" flex-align="center center" class="bgc-grey-300" style="height: 200px">
+            <span class="fs-title">Step 1</span>
+        </div>
+    </lx-step>
+    <lx-step lx-label="Step 2" lx-feedback="Step 2 looks great! Step 3 is coming up!" lx-submit="vm.submit(true)">
+        <div flex-container="row" flex-align="center center" class="bgc-grey-300" style="height: 200px">
+            <span class="fs-title">Step 2</span>
+        </div>
+    </lx-step>
+    <lx-step lx-label="Step 3" lx-feedback="Step 3 looks great! Thanks." lx-submit="vm.submit(true)">
+        <div flex-container="row" flex-align="center center" class="bgc-grey-300" style="height: 200px">
+            <span class="fs-title">Step 3</span>
+        </div>
+    </lx-step>
+</lx-stepper>
+
+<div class="divider divider--dark"></div>
+
+<div class="p++">
+    <lx-button ng-click="vm.toggleLayout()">Toggle layout</lx-button>
+</div>
