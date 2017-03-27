@@ -45,9 +45,9 @@
         };
 
         lxStepper.addStep = addStep;
-        lxStepper.checkComplete = checkComplete;
         lxStepper.getClasses = getClasses;
         lxStepper.goToStep = goToStep;
+        lxStepper.isComplete = isComplete;
         lxStepper.updateStep = updateStep;
 
         lxStepper.activeIndex = 0;
@@ -61,30 +61,6 @@
         function addStep(step)
         {
             lxStepper.steps.push(step);
-        }
-
-        function checkComplete()
-        {
-            var countValid = 0;
-            var countOptional = 0;
-
-            for (var i = 0, len = lxStepper.steps.length; i < len; i++)
-            {
-                if (lxStepper.steps[i].isValid === true)
-                {
-                    countValid++;
-                }
-
-                if (lxStepper.steps[i].isOptional)
-                {
-                    countOptional++;
-                }
-            }
-
-            if (countValid >= lxStepper.steps.length - countOptional)
-            {
-                lxStepper.complete();
-            }
         }
 
         function getClasses()
@@ -113,11 +89,26 @@
 
         function goToStep(index, bypass)
         {
-            if (!bypass && lxStepper.isLinear && angular.isDefined(lxStepper.steps[index - 1]) && lxStepper.steps[index - 1].isOptional && ((angular.isDefined(lxStepper.steps[index - 2]) && lxStepper.steps[index - 2].isValid === true) || angular.isUndefined(lxStepper.steps[index - 2])))
+            // Check if the the wanted step previous steps are optionals. If so, check if the step before the last optional step is valid to allow going to the wanted step from the nav (only if linear stepper).
+            var stepBeforeLastOptionalStep;
+            if (!bypass && lxStepper.isLinear)
             {
-                bypass = true;
+                for (var i = index - 1; i >= 0; i--)
+                {
+                    if (angular.isDefined(lxStepper.steps[i]) && !lxStepper.steps[i].isOptional)
+                    {
+                        stepBeforeLastOptionalStep = lxStepper.steps[i];
+                        break;
+                    }
+                }
+
+                if (angular.isDefined(stepBeforeLastOptionalStep) && stepBeforeLastOptionalStep.isValid === true)
+                {
+                    bypass = true;
+                }
             }
 
+            // Check if the wanted step previous step is not valid to disallow going to the wanted step from the nav (only if linear stepper).
             if (!bypass && lxStepper.isLinear && angular.isDefined(lxStepper.steps[index - 1]) && (angular.isUndefined(lxStepper.steps[index - 1].isValid) || lxStepper.steps[index - 1].isValid === false))
             {
                 return;
@@ -126,6 +117,30 @@
             if (index < lxStepper.steps.length)
             {
                 lxStepper.activeIndex = parseInt(index);
+            }
+        }
+
+        function isComplete()
+        {
+            var countMandatory = 0;
+            var countValid = 0;
+
+            for (var i = 0, len = lxStepper.steps.length; i < len; i++)
+            {
+                if (!lxStepper.steps[i].isOptional)
+                {
+                    countMandatory++;
+
+                    if (lxStepper.steps[i].isValid === true) {
+                        countValid++;
+                    }
+                }
+            }
+
+            if (countValid === countMandatory)
+            {
+                lxStepper.complete();
+                return true;
             }
         }
 
@@ -317,11 +332,14 @@
                     lxStep.step.isValid = true;
                     updateParentStep();
 
-                    lxStep.parent.checkComplete();
+                    var isComplete = lxStep.parent.isComplete();
 
-                    _nextStepIndex = angular.isDefined(nextStepIndex) && nextStepIndex > lxStep.parent.activeIndex && (!lxStep.parent.isLinear || (lxStep.parent.isLinear && lxStep.parent.steps[nextStepIndex - 1].isOptional)) ? nextStepIndex : lxStep.step.index + 1;
+                    if (!isComplete)
+                    {
+                        _nextStepIndex = angular.isDefined(nextStepIndex) && nextStepIndex > lxStep.parent.activeIndex && (!lxStep.parent.isLinear || (lxStep.parent.isLinear && lxStep.parent.steps[nextStepIndex - 1].isOptional)) ? nextStepIndex : lxStep.step.index + 1;
 
-                    lxStep.parent.goToStep(_nextStepIndex, true);
+                        lxStep.parent.goToStep(_nextStepIndex, true);
+                    }
                 }).catch(function(error)
                 {
                     LxNotificationService.error(error);
