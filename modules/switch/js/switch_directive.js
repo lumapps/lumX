@@ -21,7 +21,8 @@
                 ngFalseValue: '@?',
                 ngChange: '&?',
                 ngDisabled: '=?',
-                lxColor: '@?'
+                lxColor: '@?',
+                lxPosition: '@?'
             },
             controller: LxSwitchController,
             controllerAs: 'lxSwitch',
@@ -73,6 +74,7 @@
             lxSwitch.ngTrueValue = angular.isUndefined(lxSwitch.ngTrueValue) ? true : lxSwitch.ngTrueValue;
             lxSwitch.ngFalseValue = angular.isUndefined(lxSwitch.ngFalseValue) ? false : lxSwitch.ngFalseValue;
             lxSwitch.lxColor = angular.isUndefined(lxSwitch.lxColor) ? 'accent' : lxSwitch.lxColor;
+            lxSwitch.lxPosition = angular.isUndefined(lxSwitch.lxPosition) ? 'left' : lxSwitch.lxPosition;
         }
 
         function setSwitchId(_switchId)

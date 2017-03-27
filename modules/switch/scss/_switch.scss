@@ -44,9 +44,16 @@
 
                 &:after {
                     background-color: $accent;
-                    @include transform(translateX(15px));
                 }
             }
+        }
+
+        .switch--left &:checked + .switch__label:after {
+            @include transform(translateX(15px));
+        }
+
+        .switch--right &:checked + .switch__label:after {
+            @include transform(translateX(0));
         }
 
         &[disabled] {
@@ -73,19 +80,26 @@
     .switch__label {
         display: block;
         position: relative;
-        padding-left: 45px;
         font-weight: 400;
         line-height: 24px;
         cursor: pointer;
         @include user-select(none);
 
+        .switch--left & {
+            padding-left: 45px;
+        }
+
+        .switch--right & {
+            padding-right: 45px;
+        }
+
         .switch--standalone & {
-            padding-left: 0;
+            padding: 0;
         }
 
         &:before {
             content: '';
-            @include position(absolute, 5px null null 0);
+            @include position(absolute, 5px null null null);
             z-index: 1;
             @include size(35px 14px);
             border-radius: 7px;
@@ -93,9 +107,17 @@
             @include transition-duration(0.2s);
         }
 
+        .switch--left &:before {
+            left: 0;
+        }
+
+        .switch--right &:before {
+            right: 0;
+        }
+
         &:after {
             content: '';
-            @include position(absolute, 2px null null 0);
+            @include position(absolute, 2px null null null);
             z-index: 2;
             display: block;
             @include size(20px);
@@ -104,13 +126,29 @@
             @include transition-property(background-color, transform);
             @include transition-duration(0.2s);
         }
+
+        .switch--left &:after {
+            left: 0;
+        }
+
+        .switch--right &:after {
+            right: 0;
+            @include transform(translateX(-15px));
+        }
     }
 
     // Switch help
     .switch__help {
         display: block;
-        padding-left: 45px;
         @include typography('body-1');
         color: $black-2;
         text-align: left;
+
+        .switch--left & {
+            padding-left: 45px;
+        }
+
+        .switch--right & {
+            padding-right: 45px;
+        }
     }
