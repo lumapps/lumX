@@ -67,7 +67,7 @@
                     <td>lx-layout</td>
                     <td><code>string</code></td>
                     <td><code>horizontal</code></td>
-                    <td>Define the stepper layout. Options: <code>horizontal</code>, <code>veritcal</code></td>
+                    <td>Define the stepper layout. Options: <code>horizontal</code>, <code>vertical</code></td>
                 </tr>
             </tbody>
         </table>
@@ -89,13 +89,13 @@
                     <td>lx-feedback</td>
                     <td><code>string</code></td>
                     <td></td>
-                    <td>The feedback string displayed during the next step loading (Only if horizontal layout).</td>
+                    <td>The feedback string displayed while the next step is loading (Only if horizontal layout).</td>
                 </tr>
                 <tr>
                     <td>lx-is-editable</td>
                     <td><code>boolean</code></td>
                     <td><code>false</code></td>
-                    <td>Define if the step is editable. If so, submitting the step after the first time trigger the complete function.</td>
+                    <td>Define if the step is editable. If so, submitting the step will always trigger the submit function, whether it's the first or any other time.</td>
                 </tr>
                 <tr>
                     <td>lx-is-optional</td>
@@ -113,7 +113,7 @@
                     <td>lx-submit</td>
                     <td><code>function</code></td>
                     <td></td>
-                    <td>Submit function called on step submit if valid.</td>
+                    <td>Submit function called on step submit if valid. Returns a Promise object that is resolved with the index of the next step to navigate to or a Promise object that is rejected with the error message.</td>
                 </tr>
                 <tr>
                     <td>lx-validate</td>

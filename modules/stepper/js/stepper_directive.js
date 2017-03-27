@@ -301,9 +301,6 @@
 
                 if (!angular.isFunction(submitFunction))
                 {
-                    lxStep.step.isLoading = false;
-                    updateParentStep();
-
                     submitFunction = function()
                     {
                         return $q(function(resolve)
