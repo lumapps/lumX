@@ -125,3 +125,8 @@
         @include position(absolute, 46px 0 null 0);
         height: 2px;
     }
+
+    .tabs__indicator__bottom {
+        top: initial;
+        bottom: 46px;
+    }

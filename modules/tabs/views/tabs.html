@@ -1,4 +1,5 @@
 <div class="tabs tabs--layout-{{ lxTabs.layout }} tabs--theme-{{ lxTabs.theme }} tabs--color-{{ lxTabs.color }} tabs--indicator-{{ lxTabs.indicator }}">
+    <div class="tabs__panes" ng-if="lxTabs.viewMode === 'gather' && lxTabs.bottomPosition" ng-transclude></div>
     <div class="tabs__links">
         <a class="tabs__link"
            ng-class="{ 'tabs__link--is-active': lxTabs.tabIsActive(tab.index),
@@ -11,6 +12,6 @@
         </a>
     </div>
     
-    <div class="tabs__panes" ng-if="lxTabs.viewMode === 'gather'" ng-transclude></div>
-    <div class="tabs__indicator"></div>
+    <div class="tabs__panes" ng-if="lxTabs.viewMode === 'gather' && !lxTabs.bottomPosition" ng-transclude></div>
+    <div class="tabs__indicator" ng-class="{'tabs__indicator__bottom': lxTabs.bottomPosition}"></div>
 </div>
