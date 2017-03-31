@@ -17,7 +17,7 @@
                 <lx-button ng-click="lxStep.submitStep()" ng-disabled="lxStep.isLoading">{{ lxStep.parent.labels.continue }}</lx-button>
             </div>
 
-            <div class="lx-step__action lx-step__action--cancel">
+            <div class="lx-step__action lx-step__action--cancel" ng-if="lxStep.parent.cancel">
                 <lx-button lx-color="black" lx-type="flat" ng-click="lxStep.parent.cancel()" ng-disabled="lxStep.isLoading">{{ lxStep.parent.labels.cancel }}</lx-button>
             </div>
 
