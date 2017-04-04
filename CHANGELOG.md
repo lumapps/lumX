@@ -1,5 +1,38 @@
 # Changelog
 
+## v1.5.1:
+*No major changes.*
+
+
+## v1.5.0:
+
+#### New features:
+ - stepper: enhance documentation
+ - switch: add input position parameter
+ - stepper: add documentation
+ - stepper: style horizontal layout
+ - stepper: style back button
+ - stepper: style orizontal layout
+ - stepper: support optional and editable states
+ - stepper: add stepper component
+
+#### Bug fixes:
+ - stepper: correctly check optional steps and complete state
+ - stepper: start index from 0
+ - stepper: apply GitHub comments
+ - stepper: check if stepper is complete on step submit
+
+
+## v1.4.9:
+
+#### Bug fixes:
+ - dropdown: set toggle button z-index
+
+
+## v1.4.8:
+*No major changes.*
+
+
 ## v1.4.7:
 
 #### Bug fixes:
