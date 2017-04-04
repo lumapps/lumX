@@ -15,7 +15,7 @@
             restrict: 'E',
             templateUrl: 'stepper.html',
             scope: {
-                cancel: '&lxCancel',
+                cancel: '&?lxCancel',
                 complete: '&lxComplete',
                 isLinear: '=?lxIsLinear',
                 labels: '=?lxLabels',
