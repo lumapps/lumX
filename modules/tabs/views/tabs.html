@@ -13,5 +13,5 @@
     </div>
     
     <div class="tabs__panes" ng-if="lxTabs.viewMode === 'gather' && !lxTabs.bottomPosition" ng-transclude></div>
-    <div class="tabs__indicator" ng-class="{'tabs__indicator__bottom': lxTabs.bottomPosition}"></div>
+    <div class="tabs__indicator" ng-class="{'tabs__indicator--top': !lxTabs.bottomPosition, 'tabs__indicator--bottom': lxTabs.bottomPosition}"></div>
 </div>

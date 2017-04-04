@@ -122,11 +122,13 @@
 
     // Tabs: indicator
     .tabs__indicator {
-        @include position(absolute, 46px 0 null 0);
         height: 2px;
     }
 
-    .tabs__indicator__bottom {
-        top: initial;
-        bottom: 46px;
+    .tabs__indicator--top {
+        @include position(absolute, 46px 0 null 0);
+    }
+
+    .tabs__indicator--bottom {
+        @include position(absolute, null 0 46px 0);
     }
