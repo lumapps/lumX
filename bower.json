@@ -47,7 +47,7 @@
         "velocity": "latest",
         "moment": "latest",
         "bourbon": "~4.2.7",
-        "mdi": "latest"
+        "mdi": "1.8.36"
     },
     "devDependencies":
     {
