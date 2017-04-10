@@ -130,7 +130,7 @@
             {
                 $element.velocity(
                 {
-                    width: angular.isDefined(lxSearchFilter.width) ? lxSearchFilter.width : 240
+                    width: angular.isDefined(lxSearchFilter.width) ? parseInt(lxSearchFilter.width) : 240
                 },
                 {
                     duration: 400,
