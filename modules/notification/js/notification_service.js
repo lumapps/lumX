@@ -85,8 +85,10 @@
             }
         }
 
-        function notify(_text, _icon, _sticky, _color)
+        function notify(_text, _icon, _sticky, _color, _action, _callback)
         {
+            var $compile = $injector.get('$compile');
+
             LxDepthService.register();
 
             var notification = angular.element('<div/>',
@@ -117,8 +119,39 @@
                 notification.addClass('notification--' + _color);
             }
 
+            notification.append(notificationText);
+
+            if (angular.isDefined(_action))
+            {
+                var notificationAction = angular.element('<button/>',
+                {
+                    class: 'notification__action btn btn--m btn--flat',
+                    html: _action
+                });
+
+                if (angular.isDefined(_color))
+                {
+                    notificationAction.addClass('btn--' + _color);
+                }
+                else
+                {
+                    notificationAction.addClass('btn--white');
+                }
+
+                notificationAction.attr('lx-ripple', '');
+                $compile(notificationAction)($rootScope);
+
+                notification
+                    .addClass('notification--has-action')
+                    .append(notificationAction);
+
+                notificationAction.bind('click', function()
+                {
+                    _callback();
+                });
+            }
+
             notification
-                .append(notificationText)
                 .css('z-index', LxDepthService.getDepth())
                 .appendTo('body');
 

@@ -6,7 +6,7 @@
     </p>
 
     <lx-component lx-title="Basic usage" lx-path="/includes/modules/notification/includes/basic.html" lx-js-path="/js/notification/demo/demo-notification_controller.js">
-        The <code>notify</code> method have four parameters that allow user to prepend a colored icon and to handle with sticky notifications.
+        The <code>notify</code> method have six parameters that allow user to prepend a colored icon, to handle with sticky notifications and an action button.
     </lx-component>
 
     <lx-component lx-title="Helpers" lx-path="/includes/modules/notification/includes/helper.html" lx-js-path="/js/notification/demo/demo-notification_controller.js">
@@ -22,7 +22,7 @@
     </lx-component>
 
     <lx-component-methods lx-title="Service api">
-        <lx-component-method lx-name="LxNotificationService.notify(tex, icon, sticky, color)" lx-description="Display a styled notification according to parameters.">
+        <lx-component-method lx-name="LxNotificationService.notify(tex, icon, sticky, color, action, callback)" lx-description="Display a styled notification according to parameters.">
             <table>
                 <thead>
                     <tr>
@@ -56,7 +56,19 @@
                         <td>color</td>
                         <td><code>string</code></td>
                         <td>white</td>
-                        <td>Define the icon color. Options: colors defined in colors and sizes section in <code>dist/scss/core/settings/defaults.scss</code></td>
+                        <td>Define the icon and action colors. Options: colors defined in colors and sizes section in <code>dist/scss/core/settings/defaults.scss</code></td>
+                    </tr>
+                    <tr>
+                        <td>action</td>
+                        <td><code>string</code></td>
+                        <td></td>
+                        <td>The notification action text.</td>
+                    </tr>
+                    <tr>
+                        <td>callback</td>
+                        <td><code>function</code></td>
+                        <td></td>
+                        <td>The notification action callback.</td>
                     </tr>
                 </tbody>
             </table>

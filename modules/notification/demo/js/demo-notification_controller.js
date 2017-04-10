@@ -79,6 +79,13 @@
             {
                 LxNotificationService.error('Lorem Ipsum');
             }
+            else if (_type === 'action')
+            {
+                LxNotificationService.notify('Lorem Ipsum', undefined, undefined, 'yellow', 'Undo', function()
+                {
+                    LxNotificationService.notify('Callback');
+                });
+            }
         }
     }
 })();
