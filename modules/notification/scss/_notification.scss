@@ -5,6 +5,8 @@
 // Notification base styles
 .notification {
     @include position(fixed, null $base-spacing-unit * 3 0 null);
+    @include display(flex);
+    @include align-items(center);
     max-width: 300px;
     padding: $base-spacing-unit * 2 $base-spacing-unit * 3;
     border-radius: $base-round;
@@ -14,6 +16,10 @@
     @include transition-property(margin-bottom transform);
     @include transition-duration(0.4s);
     @include transition-timing-function($ease-out-quint);
+}
+
+.notification--has-action {
+    padding-right: $base-spacing-unit * 2;
 }
 
 .notification--is-shown {
@@ -34,22 +40,22 @@
 
     // Notification content
     .notification__content {
-        display: block;
         @include font-size(14px);
         color: $white-1;
         line-height: 20px;
     }
 
-    .notification--has-icon .notification__content {
-        padding-left: $base-spacing-unit * 4;
-    }
-
     // Notification icon
     .notification__icon {
-        @include position(absolute, $base-spacing-unit * 2 null null $base-spacing-unit * 3);
+        margin-right: $base-spacing-unit * 2;
         @include font-size(14px);
         color: $white-1;
         line-height: 20px !important;
+    }
+
+    // Notification action
+    .notification__action {
+        margin-left: $base-spacing-unit * 2;
     }
 
 
