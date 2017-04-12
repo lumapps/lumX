@@ -42,6 +42,7 @@
                 closed: '=?lxClosed',
                 color: '@?lxColor',
                 icon: '@?lxIcon',
+                searchOnFocus: '=?lxSearchOnFocus',
                 width: '@?lxWidth'
             },
             link: link,
@@ -71,6 +72,7 @@
                 ctrl.setInput(input);
                 ctrl.setModel(input.data('$ngModelController'));
 
+                input.on('focus', ctrl.focusInput);
                 input.on('blur', ctrl.blurInput);
                 input.on('keydown', ctrl.keyEvent);
             });
@@ -88,11 +90,11 @@
     {
         var lxSearchFilter = this;
         var input;
-        var isDropdownOpen = false;
         var itemSelected = false;
 
         lxSearchFilter.blurInput = blurInput;
         lxSearchFilter.clearInput = clearInput;
+        lxSearchFilter.focusInput = focusInput;
         lxSearchFilter.getClass = getClass;
         lxSearchFilter.keyEvent = keyEvent;
         lxSearchFilter.openInput = openInput;
@@ -100,6 +102,7 @@
         lxSearchFilter.setInput = setInput;
         lxSearchFilter.setModel = setModel;
 
+        lxSearchFilter.activeChoiceIndex = -1;
         lxSearchFilter.color = angular.isDefined(lxSearchFilter.color) ? lxSearchFilter.color : 'black';
         lxSearchFilter.dropdownId = LxUtils.generateUUID();
 
@@ -127,6 +130,14 @@
             lxSearchFilter.modelController.$render();
 
             input.focus();
+        }
+
+        function focusInput()
+        {
+            if (lxSearchFilter.searchOnFocus)
+            {
+                updateAucomplete(lxSearchFilter.modelController.$viewValue);
+            }
         }
 
         function getClass()
@@ -158,7 +169,7 @@
                 searchFilterClass.push('search-filter--autocomplete');
             }
 
-            if (isDropdownOpen)
+            if (LxDropdownService.isOpen(lxSearchFilter.dropdownId))
             {
                 searchFilterClass.push('search-filter--is-open');
             }
@@ -284,7 +295,7 @@
 
         function updateAucomplete(_newValue)
         {
-            if (_newValue && !itemSelected)
+            if ((_newValue || (!_newValue && lxSearchFilter.searchOnFocus)) && !itemSelected)
             {
                 lxSearchFilter.isLoading = true;
 
@@ -297,12 +308,10 @@
                     if (lxSearchFilter.autocompleteList.length)
                     {
                         LxDropdownService.open(lxSearchFilter.dropdownId, $element);
-                        isDropdownOpen = true;
                     }
                     else
                     {
                         LxDropdownService.close(lxSearchFilter.dropdownId);
-                        isDropdownOpen = false;
                     }
                 }).catch(function(error)
                 {
@@ -313,7 +322,6 @@
                 });
             } else {
                 LxDropdownService.close(lxSearchFilter.dropdownId);
-                isDropdownOpen = false;
             }
 
             itemSelected = false;

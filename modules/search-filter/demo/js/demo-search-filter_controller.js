@@ -30,25 +30,36 @@
         {
             var deferred = $q.defer();
 
-            $http.get('http://www.omdbapi.com/?s=' + escape(_newValue))
-                .then(function updateSuccess(response)
-                {
-                    $timeout(function()
+            if (_newValue)
+            {
+                vm.autocompleteIcon = undefined;
+
+                $http.get('http://www.omdbapi.com/?s=' + escape(_newValue))
+                    .then(function updateSuccess(response)
                     {
-                        if (response.data && response.data.Search)
+                        $timeout(function()
                         {
-                            deferred.resolve(response.data.Search.map(function(object) { return object.Title; }));
-                        }
-                        else
-                        {
-                            deferred.resolve([]);
-                        }
-                    }, 1000);
-                })
-                .catch(function updateError()
-                {
-                    deferred.reject('Error');
-                });
+                            if (response.data && response.data.Search)
+                            {
+                                deferred.resolve(response.data.Search.map(function(object) { return object.Title; }));
+                            }
+                            else
+                            {
+                                deferred.resolve([]);
+                            }
+                        }, 1000);
+                    })
+                    .catch(function updateError()
+                    {
+                        deferred.reject('Error');
+                    });
+            }
+            else
+            {
+                vm.autocompleteIcon = 'clock';
+
+                deferred.resolve(['History 1', 'History 2',  'History 3']);
+            }
 
             return deferred.promise;
         }
