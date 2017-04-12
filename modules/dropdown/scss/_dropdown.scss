@@ -89,7 +89,8 @@
     white-space: nowrap;
 
     &:not(.dropdown-link--is-header) {
-        &:hover {
+        &:hover,
+        &.dropdown-link--is-active {
             background-color: $grey-200;
         }
 

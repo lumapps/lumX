@@ -4,7 +4,24 @@
 
     angular
         .module('lumx.search-filter')
+        .filter('lxSearchHighlight', lxSearchHighlight)
         .directive('lxSearchFilter', lxSearchFilter);
+
+    lxSearchHighlight.$inject = ['$sce'];
+
+    function lxSearchHighlight($sce)
+    {
+        function escapeRegexp(queryToEscape)
+        {
+            return queryToEscape.replace(/([.?*+^$[\]\\(){}|-])/g, '\\$1');
+        }
+
+        return function (matchItem, query)
+        {
+            var string = query && matchItem ? matchItem.replace(new RegExp(escapeRegexp(query), 'gi'), '<strong>$&</strong>') : matchItem;
+            return $sce.trustAsHtml(string);
+        };
+    }
 
     function lxSearchFilter()
     {
@@ -13,6 +30,7 @@
             templateUrl: 'search-filter.html',
             scope:
             {
+                autocomplete: '&?lxAutocomplete',
                 closed: '=?lxClosed',
                 color: '@?lxColor',
                 width: '@?lxWidth'
@@ -45,6 +63,7 @@
                 ctrl.setModel(input.data('$ngModelController'));
 
                 input.on('blur', ctrl.blurInput);
+                input.on('keydown', ctrl.keyEvent);
             });
 
             scope.$on('$destroy', function()
@@ -54,22 +73,26 @@
         }
     }
 
-    LxSearchFilterController.$inject = ['$element'];
+    LxSearchFilterController.$inject = ['$element', '$scope', 'LxDropdownService', 'LxNotificationService', 'LxUtils'];
 
-    function LxSearchFilterController($element)
+    function LxSearchFilterController($element, $scope, LxDropdownService, LxNotificationService, LxUtils)
     {
         var lxSearchFilter = this;
         var input;
-        var modelController;
+        var isDropdownOpen = false;
+        var itemSelected = false;
 
         lxSearchFilter.blurInput = blurInput;
         lxSearchFilter.clearInput = clearInput;
         lxSearchFilter.getClass = getClass;
+        lxSearchFilter.keyEvent = keyEvent;
         lxSearchFilter.openInput = openInput;
+        lxSearchFilter.selectItem = selectItem;
         lxSearchFilter.setInput = setInput;
         lxSearchFilter.setModel = setModel;
 
         lxSearchFilter.color = angular.isDefined(lxSearchFilter.color) ? lxSearchFilter.color : 'black';
+        lxSearchFilter.dropdownId = LxUtils.generateUUID();
 
         ////////////
 
@@ -91,8 +114,8 @@
 
         function clearInput()
         {
-            modelController.$setViewValue(undefined);
-            modelController.$render();
+            lxSearchFilter.modelController.$setViewValue(undefined);
+            lxSearchFilter.modelController.$render();
 
             input.focus();
         }
@@ -121,7 +144,85 @@
                 searchFilterClass.push('search-filter--' + lxSearchFilter.color);
             }
 
+            if (angular.isFunction(lxSearchFilter.autocomplete))
+            {
+                searchFilterClass.push('search-filter--autocomplete');
+            }
+
+            if (isDropdownOpen)
+            {
+                searchFilterClass.push('search-filter--is-open');
+            }
+
             return searchFilterClass;
+        }
+
+        function keyEvent(_event)
+        {
+            if (!angular.isFunction(lxSearchFilter.autocomplete))
+            {
+                return;
+            }
+
+            if (!LxDropdownService.isOpen(lxSearchFilter.dropdownId))
+            {
+                lxSearchFilter.activeChoiceIndex = -1;
+            }
+
+            switch (_event.keyCode) {
+                case 13:
+                    keySelect();
+                    _event.preventDefault();
+                    break;
+
+                case 38:
+                    keyUp();
+                    _event.preventDefault();
+                    break;
+
+                case 40:
+                    keyDown();
+                    _event.preventDefault();
+                    break;
+            }
+
+            $scope.$apply();
+        }
+
+        function keyDown()
+        {
+            if (lxSearchFilter.autocompleteList.length)
+            {
+                lxSearchFilter.activeChoiceIndex += 1;
+
+                if (lxSearchFilter.activeChoiceIndex >= lxSearchFilter.autocompleteList.length)
+                {
+                    lxSearchFilter.activeChoiceIndex = 0;
+                }
+            }
+        }
+
+        function keySelect()
+        {
+            itemSelected = true;
+
+            LxDropdownService.close(lxSearchFilter.dropdownId);
+
+            lxSearchFilter.modelController.$setViewValue(lxSearchFilter.autocompleteList[lxSearchFilter.activeChoiceIndex]);
+            lxSearchFilter.modelController.$render();
+        }
+
+        function keyUp()
+        {
+            if (lxSearchFilter.autocompleteList.length)
+            {
+                lxSearchFilter.activeChoiceIndex -= 1;
+
+                if (lxSearchFilter.activeChoiceIndex < 0)
+                {
+                    lxSearchFilter.activeChoiceIndex = lxSearchFilter.autocompleteList.length - 1;
+                }
+            }
         }
 
         function openInput()
@@ -148,6 +249,14 @@
             }
         }
 
+        function selectItem(_item)
+        {
+            itemSelected = true;
+
+            lxSearchFilter.modelController.$setViewValue(_item);
+            lxSearchFilter.modelController.$render();
+        }
+
         function setInput(_input)
         {
             input = _input;
@@ -155,7 +264,50 @@
 
         function setModel(_modelControler)
         {
-            modelController = _modelControler;
+            lxSearchFilter.modelController = _modelControler;
+
+            if (angular.isFunction(lxSearchFilter.autocomplete))
+            {
+                lxSearchFilter.modelController.$overrideModelOptions({ debounce: { 'default': 500 } });
+                lxSearchFilter.modelController.$parsers.push(updateAucomplete);
+            }
+        }
+
+        function updateAucomplete(_newValue)
+        {
+            if (_newValue && !itemSelected)
+            {
+                lxSearchFilter.isLoading = true;
+
+                var promise = lxSearchFilter.autocomplete({ newValue: _newValue });
+
+                promise.then(function(autocompleteList)
+                {
+                    lxSearchFilter.autocompleteList = autocompleteList;
+
+                    if (lxSearchFilter.autocompleteList.length)
+                    {
+                        LxDropdownService.open(lxSearchFilter.dropdownId, $element);
+                        isDropdownOpen = true;
+                    }
+                    else
+                    {
+                        LxDropdownService.close(lxSearchFilter.dropdownId);
+                        isDropdownOpen = false;
+                    }
+                }).catch(function(error)
+                {
+                    LxNotificationService.error(error);
+                }).finally(function()
+                {
+                    lxSearchFilter.isLoading = false;
+                });
+            } else {
+                LxDropdownService.close(lxSearchFilter.dropdownId);
+                isDropdownOpen = false;
+            }
+
+            itemSelected = false;
         }
     }
 })();
