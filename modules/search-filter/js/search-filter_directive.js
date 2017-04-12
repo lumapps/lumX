@@ -16,9 +16,17 @@
             return queryToEscape.replace(/([.?*+^$[\]\\(){}|-])/g, '\\$1');
         }
 
-        return function (matchItem, query)
+        return function (matchItem, query, icon)
         {
-            var string = query && matchItem ? matchItem.replace(new RegExp(escapeRegexp(query), 'gi'), '<strong>$&</strong>') : matchItem;
+            var string = '';
+
+            if (icon)
+            {
+                string += '<i class="mdi mdi-' + icon + '"></i>';
+            }
+
+            string += query && matchItem ? matchItem.replace(new RegExp(escapeRegexp(query), 'gi'), '<strong>$&</strong>') : matchItem;
+
             return $sce.trustAsHtml(string);
         };
     }
@@ -33,6 +41,7 @@
                 autocomplete: '&?lxAutocomplete',
                 closed: '=?lxClosed',
                 color: '@?lxColor',
+                icon: '@?lxIcon',
                 width: '@?lxWidth'
             },
             link: link,

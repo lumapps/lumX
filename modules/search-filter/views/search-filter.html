@@ -23,10 +23,10 @@
         <lx-dropdown-menu class="search-filter__autocomplete-list">
             <ul>
                 <li ng-repeat="item in lxSearchFilter.autocompleteList track by $index">
-                    <a class="search-filter__autocomplete-item dropdown-link dropdown-link--is-large"
-                       ng-class="{ 'dropdown-link--is-active': lxSearchFilter.activeChoiceIndex === $index }"
+                    <a class="search-filter__autocomplete-item"
+                       ng-class="{ 'search-filter__autocomplete-item--is-active': lxSearchFilter.activeChoiceIndex === $index }"
                        ng-click="lxSearchFilter.selectItem(item)"
-                       ng-bind-html="item | lxSearchHighlight:lxSearchFilter.modelController.$viewValue"></a>
+                       ng-bind-html="item | lxSearchHighlight:lxSearchFilter.modelController.$viewValue:lxSearchFilter.icon"></a>
                 </li>
             </ul>
         </lx-dropdown-menu>
