@@ -32,13 +32,13 @@
 
             if (_newValue)
             {
-                vm.autocompleteIcon = undefined;
-
                 $http.get('http://www.omdbapi.com/?s=' + escape(_newValue))
                     .then(function updateSuccess(response)
                     {
                         $timeout(function()
                         {
+                            vm.autocompleteIcon = undefined;
+
                             if (response.data && response.data.Search)
                             {
                                 deferred.resolve(response.data.Search.map(function(object) { return object.Title; }));

@@ -288,14 +288,24 @@
 
             if (angular.isFunction(lxSearchFilter.autocomplete))
             {
-                lxSearchFilter.modelController.$overrideModelOptions({ debounce: { 'default': 500 } });
+                if (angular.isDefined(lxSearchFilter.modelController.$overrideModelOptions))
+                {
+                    lxSearchFilter.modelController.$overrideModelOptions({ debounce: { 'default': 500 } });
+                }
+                else
+                {
+                    lxSearchFilter.modelController.$options = lxSearchFilter.modelController.$options || {};
+                    lxSearchFilter.modelController.$options.updateOnDefault = true;
+                    lxSearchFilter.modelController.$options.debounce = { 'default': 500 };
+                }
+
                 lxSearchFilter.modelController.$parsers.push(updateAucomplete);
             }
         }
 
         function updateAucomplete(_newValue)
         {
-            if ((_newValue || (!_newValue && lxSearchFilter.searchOnFocus)) && !itemSelected)
+            if ((_newValue || (!_newValue && lxSearchFilter.searchOnFocus)) && !itemSelected && !lxSearchFilter.isLoading)
             {
                 lxSearchFilter.isLoading = true;
 
