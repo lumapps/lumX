@@ -10,6 +10,7 @@
     </p>
 
     <lx-component lx-title="Basic usage" lx-path="/includes/modules/search-filter/includes/basic.html" lx-js-path="/js/search-filter/demo/demo-search-filter_controller.js"></lx-component>
+    <lx-component lx-title="Autocomplete" lx-path="/includes/modules/search-filter/includes/autocomplete.html" lx-js-path="/js/search-filter/demo/demo-search-filter_controller.js"></lx-component>
 
     <lx-component-attributes>
         <table>
@@ -24,6 +25,12 @@
 
             <tbody>
                 <tr>
+                    <td>lx-autocomplete</td>
+                    <td><code>function</code></td>
+                    <td></td>
+                    <td>Autocomplete function called on model update (debounce 500ms) to display choices.</td>
+                </tr>
+                <tr>
                     <td>lx-closed</td>
                     <td><code>boolean</code></td>
                     <td><code>false</code></td>
@@ -34,6 +41,18 @@
                     <td><code>string</code></td>
                     <td><code>black</code></td>
                     <td>Define the search filter color. Options: colors defined in colors and sizes section in <code>dist/scss/core/settings/defaults.scss</code></td>
+                </tr>
+                <tr>
+                    <td>lx-icon</td>
+                    <td><code>string</code></td>
+                    <td></td>
+                    <td>Define the icon placed to the left of each result.</td>
+                </tr>
+                <tr>
+                    <td>lx-search-on-focus</td>
+                    <td><code>boolean</code></td>
+                    <td><code>false</code></td>
+                    <td>Define if the autocomplete function should be launched on input focus.</td>
                 </tr>
                 <tr>
                     <td>lx-width</td>
