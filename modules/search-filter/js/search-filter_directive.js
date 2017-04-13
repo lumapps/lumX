@@ -134,10 +134,12 @@
 
         function focusInput()
         {
-            if (lxSearchFilter.searchOnFocus)
+            if (!lxSearchFilter.searchOnFocus)
             {
-                updateAucomplete(lxSearchFilter.modelController.$viewValue);
+                return;
             }
+
+            updateAucomplete(lxSearchFilter.modelController.$viewValue);
         }
 
         function getClass()
@@ -282,9 +284,9 @@
             input = _input;
         }
 
-        function setModel(_modelControler)
+        function setModel(_modelController)
         {
-            lxSearchFilter.modelController = _modelControler;
+            lxSearchFilter.modelController = _modelController;
 
             if (angular.isFunction(lxSearchFilter.autocomplete))
             {
