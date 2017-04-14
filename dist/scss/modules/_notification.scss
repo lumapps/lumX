@@ -1,0 +1,66 @@
+///*------------------------------------*\
+//    #OBJECTS-NOTIFICATION
+//\*------------------------------------*/
+
+// Notification base styles
+.notification {
+    @include position(fixed, null $base-spacing-unit * 3 0 null);
+    @include display(flex);
+    @include align-items(center);
+    max-width: 300px;
+    padding: $base-spacing-unit * 2 $base-spacing-unit * 3;
+    border-radius: $base-round;
+    background-color: #323232;
+    cursor: pointer;
+    @include transform(translateY(100%));
+    @include transition-property(margin-bottom transform);
+    @include transition-duration(0.4s);
+    @include transition-timing-function($ease-out-quint);
+}
+
+.notification--has-action {
+    padding-right: $base-spacing-unit * 2;
+}
+
+.notification--is-shown {
+    @include transform(translateY(-24px));
+}
+
+    // Notification content / icon
+    .notification__content,
+    .notification__icon {
+        opacity: 0;
+        @include transition-property(opacity);
+        @include transition-duration(0.4s);
+
+        .notification--is-shown & {
+            opacity: 1;
+        }
+    }
+
+    // Notification content
+    .notification__content {
+        @include font-size(14px);
+        color: $white-1;
+        line-height: 20px;
+    }
+
+    // Notification icon
+    .notification__icon {
+        margin-right: $base-spacing-unit * 2;
+        @include font-size(14px);
+        color: $white-1;
+        line-height: 20px !important;
+    }
+
+    // Notification action
+    .notification__action {
+        margin-left: $base-spacing-unit * 2;
+    }
+
+
+@each $key, $color in $colors {
+    .notification--#{$key} .notification__icon {
+        color: $color;
+    }
+}
