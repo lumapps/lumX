@@ -1,5 +1,20 @@
 # Changelog
 
+## v1.5.2:
+
+#### New features:
+ - search-filter: add search on focus parameter
+ - search filter: add icon parameter
+ - search-filter: add autocomplete attribute
+ - notification: add notification action button
+
+#### Bug fixes:
+ - search filter: apply github comments
+ - search filter: support model options override for angular older versions
+ - dropdown: remove useless css rule
+ - search-filter: parse int width value
+
+
 ## v1.5.1:
 *No major changes.*
 
