@@ -48,7 +48,7 @@
 }
 
 @mixin mdi-icon($icon) {
-    content: char(map-get($mdi-icons, $icon));
+    content: mdi($icon);
 }
 
 
