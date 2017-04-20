@@ -1,0 +1,138 @@
+///*------------------------------------*\
+//    #OBJECTS-CHECKBOX
+//\*------------------------------------*/
+
+// Checkbox base styles
+.checkbox {
+    min-width: $size-xs;
+    min-height: $size-xs;
+}
+
+@each $key, $color in $colors {
+    .checkbox--#{$key} .checkbox__label:after {
+        color: $color;
+    }
+}
+
+    // Checkbox input
+    .checkbox__input {
+        @extend %visuallyhidden;
+
+        &:not(:checked) {
+            & + .checkbox__label {
+                &:before {
+                    opacity: 1;
+                }
+
+                &:after {
+                    opacity: 0;
+                }
+            }
+        }
+
+        &:checked {
+            & + .checkbox__label {
+                &:before {
+                    opacity: 0;
+                }
+
+                &:after {
+                    opacity: 1;
+                }
+            }
+        }
+
+        &[disabled] {
+            & + .checkbox__label {
+                cursor: not-allowed;
+
+                &,
+                &:before,
+                &:after {
+                    .checkbox--theme-light & {
+                        color: $black-3;
+                    }
+
+                    .checkbox--theme-dark & {
+                        color: $white-3;
+                    }
+                }
+            }
+
+            & ~ .checkbox__help {
+                .checkbox--theme-light & {
+                    color: $black-3;
+                }
+
+                .checkbox--theme-dark & {
+                    color: $white-3;
+                }
+            }
+        }
+    }
+
+    // Checkbox label
+    .checkbox__label {
+        display: block;
+        position: relative;
+        padding-left: $base-spacing-unit * 4;
+        font-weight: 400;
+        line-height: $size-xs;
+        cursor: pointer;
+        @include user-select(none);
+
+        .checkbox--theme-light & {
+            color: $black-1;
+        }
+
+        .checkbox--theme-dark & {
+            color: $white-1;
+        }
+
+        .checkbox--standalone & {
+            padding-left: 0;
+        }
+
+        &:before,
+        &:after {
+            @include mdi;
+            @include position(absolute, 0 null null 0);
+            @include font-size($size-xs);
+            line-height: $size-xs;
+            @include transition-property(opacity);
+            @include transition-duration(0.2s);
+        }
+
+        &:before {
+            @include mdi-icon('checkbox-blank-outline');
+
+            .checkbox--theme-light & {
+                color: $black-2;
+            }
+
+            .checkbox--theme-dark & {
+                color: $white-2;
+            }
+        }
+
+        &:after {
+            @include mdi-icon('checkbox-marked');
+            color: $accent;
+        }
+    }
+
+    // Checkbox help
+    .checkbox__help {
+        display: block;
+        padding-left: $base-spacing-unit * 4;
+        @include typography('body-1');
+        text-align: left;
+
+        .checkbox--theme-light & {
+            color: $black-2;
+        }
+
+        .checkbox--theme-dark & {
+            color: $white-2;
+        }
+    }
