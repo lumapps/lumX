@@ -338,6 +338,8 @@
             }
 
             itemSelected = false;
+
+            return _newValue;
         }
     }
 })();
