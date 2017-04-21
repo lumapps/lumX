@@ -139,7 +139,7 @@
                 return;
             }
 
-            updateAucomplete(lxSearchFilter.modelController.$viewValue);
+            updateAutocomplete(lxSearchFilter.modelController.$viewValue);
         }
 
         function getClass()
@@ -301,11 +301,11 @@
                     lxSearchFilter.modelController.$options.debounce = { 'default': 500 };
                 }
 
-                lxSearchFilter.modelController.$parsers.push(updateAucomplete);
+                lxSearchFilter.modelController.$parsers.push(updateAutocomplete);
             }
         }
 
-        function updateAucomplete(_newValue)
+        function updateAutocomplete(_newValue)
         {
             if ((_newValue || (!_newValue && lxSearchFilter.searchOnFocus)) && !itemSelected && !lxSearchFilter.isLoading)
             {
@@ -332,6 +332,7 @@
                 {
                     lxSearchFilter.isLoading = false;
                 });
+
             } else {
                 LxDropdownService.close(lxSearchFilter.dropdownId);
             }
