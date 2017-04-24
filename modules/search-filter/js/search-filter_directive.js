@@ -195,7 +195,10 @@
             switch (_event.keyCode) {
                 case 13:
                     keySelect();
-                    _event.preventDefault();
+                    if (lxSearchFilter.activeChoiceIndex > -1)
+                    {
+                        _event.preventDefault();
+                    }
                     break;
 
                 case 38:
