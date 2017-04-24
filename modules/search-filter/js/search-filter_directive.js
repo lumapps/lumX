@@ -89,6 +89,7 @@
     function LxSearchFilterController($element, $scope, LxDropdownService, LxNotificationService, LxUtils)
     {
         var lxSearchFilter = this;
+        var debouncedAutocomplete;
         var input;
         var itemSelected = false;
 
@@ -226,6 +227,11 @@
 
         function keySelect()
         {
+            if (!lxSearchFilter.autocompleList)
+            {
+                return;
+            }
+
             itemSelected = true;
 
             LxDropdownService.close(lxSearchFilter.dropdownId);
@@ -288,19 +294,9 @@
         {
             lxSearchFilter.modelController = _modelController;
 
-            if (angular.isFunction(lxSearchFilter.autocomplete))
+            if (angular.isFunction(lxSearchFilter.autocomplete) && angular.isFunction(lxSearchFilter.autocomplete()))
             {
-                if (angular.isDefined(lxSearchFilter.modelController.$overrideModelOptions))
-                {
-                    lxSearchFilter.modelController.$overrideModelOptions({ debounce: { 'default': 500 } });
-                }
-                else
-                {
-                    lxSearchFilter.modelController.$options = lxSearchFilter.modelController.$options || {};
-                    lxSearchFilter.modelController.$options.updateOnDefault = true;
-                    lxSearchFilter.modelController.$options.debounce = { 'default': 500 };
-                }
-
+                debouncedAutocomplete = LxUtils.debounce(lxSearchFilter.autocomplete(), 500);
                 lxSearchFilter.modelController.$parsers.push(updateAutocomplete);
             }
         }
@@ -311,27 +307,27 @@
             {
                 lxSearchFilter.isLoading = true;
 
-                var promise = lxSearchFilter.autocomplete({ newValue: _newValue });
-
-                promise.then(function(autocompleteList)
-                {
-                    lxSearchFilter.autocompleteList = autocompleteList;
-
-                    if (lxSearchFilter.autocompleteList.length)
+                debouncedAutocomplete(_newValue,
+                    function onAutocompleteSuccess(autocompleteList)
                     {
-                        LxDropdownService.open(lxSearchFilter.dropdownId, $element);
-                    }
-                    else
+                        lxSearchFilter.autocompleteList = autocompleteList;
+
+                        if (lxSearchFilter.autocompleteList.length)
+                        {
+                            LxDropdownService.open(lxSearchFilter.dropdownId, $element);
+                        }
+                        else
+                        {
+                            LxDropdownService.close(lxSearchFilter.dropdownId);
+                        }
+                        lxSearchFilter.isLoading = false;
+                    },
+                    function onAutocompleteError(error)
                     {
-                        LxDropdownService.close(lxSearchFilter.dropdownId);
+                        LxNotificationService.error(error);
+                        lxSearchFilter.isLoading = false;
                     }
-                }).catch(function(error)
-                {
-                    LxNotificationService.error(error);
-                }).finally(function()
-                {
-                    lxSearchFilter.isLoading = false;
-                });
+                );
 
             } else {
                 LxDropdownService.close(lxSearchFilter.dropdownId);
