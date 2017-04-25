@@ -306,7 +306,7 @@
 
         function updateAutocomplete(_newValue)
         {
-            if ((_newValue || (!_newValue && lxSearchFilter.searchOnFocus)) && !itemSelected && !lxSearchFilter.isLoading)
+            if ((_newValue || (!_newValue && lxSearchFilter.searchOnFocus)) && !itemSelected)
             {
                 lxSearchFilter.isLoading = true;
 
