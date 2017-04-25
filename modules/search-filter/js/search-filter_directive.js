@@ -140,7 +140,7 @@
                 return;
             }
 
-            updateAutocomplete(lxSearchFilter.modelController.$viewValue);
+            updateAutocomplete(lxSearchFilter.modelController.$viewValue, true);
         }
 
         function getClass()
@@ -256,6 +256,27 @@
             }
         }
 
+        function onAutocompleteSuccess(autocompleteList)
+        {
+            lxSearchFilter.autocompleteList = autocompleteList;
+
+            if (lxSearchFilter.autocompleteList.length)
+            {
+                LxDropdownService.open(lxSearchFilter.dropdownId, $element);
+            }
+            else
+            {
+                LxDropdownService.close(lxSearchFilter.dropdownId);
+            }
+            lxSearchFilter.isLoading = false;
+        }
+
+        function onAutocompleteError(error)
+        {
+            LxNotificationService.error(error);
+            lxSearchFilter.isLoading = false;
+        }
+
         function openInput()
         {
             if (angular.isDefined(lxSearchFilter.closed) && lxSearchFilter.closed)
@@ -299,40 +320,31 @@
 
             if (angular.isFunction(lxSearchFilter.autocomplete) && angular.isFunction(lxSearchFilter.autocomplete()))
             {
-                debouncedAutocomplete = LxUtils.debounce(lxSearchFilter.autocomplete(), 500);
+                debouncedAutocomplete = LxUtils.debounce(function()
+                {
+                    lxSearchFilter.isLoading = true;
+                    (lxSearchFilter.autocomplete()).apply(this, arguments);
+                }, 500);
                 lxSearchFilter.modelController.$parsers.push(updateAutocomplete);
             }
         }
 
-        function updateAutocomplete(_newValue)
+        function updateAutocomplete(_newValue, _immediate)
         {
             if ((_newValue || (!_newValue && lxSearchFilter.searchOnFocus)) && !itemSelected)
             {
-                lxSearchFilter.isLoading = true;
+                if (_immediate)
+                {
+                    (lxSearchFilter.autocomplete())(_newValue, onAutocompleteSuccess, onAutocompleteError);
+                }
+                else
+                {
+                    debouncedAutocomplete(_newValue, onAutocompleteSuccess, onAutocompleteError);
+                }
 
-                debouncedAutocomplete(_newValue,
-                    function onAutocompleteSuccess(autocompleteList)
-                    {
-                        lxSearchFilter.autocompleteList = autocompleteList;
-
-                        if (lxSearchFilter.autocompleteList.length)
-                        {
-                            LxDropdownService.open(lxSearchFilter.dropdownId, $element);
-                        }
-                        else
-                        {
-                            LxDropdownService.close(lxSearchFilter.dropdownId);
-                        }
-                        lxSearchFilter.isLoading = false;
-                    },
-                    function onAutocompleteError(error)
-                    {
-                        LxNotificationService.error(error);
-                        lxSearchFilter.isLoading = false;
-                    }
-                );
-
-            } else {
+            }
+            else
+            {
                 LxDropdownService.close(lxSearchFilter.dropdownId);
             }
 
