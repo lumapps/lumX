@@ -56,7 +56,7 @@
             {
                 vm.autocompleteIcon = 'clock';
 
-                _cb(['History 1', 'History 2',  'History 3'])
+                _cb(['History 1', 'History 2',  'History 3']);
             }
         }
     }
