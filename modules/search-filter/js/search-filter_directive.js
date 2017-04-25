@@ -230,7 +230,7 @@
 
         function keySelect()
         {
-            if (!lxSearchFilter.autocompleList)
+            if (!lxSearchFilter.autocompleteList)
             {
                 return;
             }
