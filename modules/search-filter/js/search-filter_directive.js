@@ -195,10 +195,7 @@
             switch (_event.keyCode) {
                 case 13:
                     keySelect();
-                    if (lxSearchFilter.activeChoiceIndex > -1)
-                    {
-                        _event.preventDefault();
-                    }
+                    _event.preventDefault();
                     break;
 
                 case 38:
@@ -230,7 +227,7 @@
 
         function keySelect()
         {
-            if (!lxSearchFilter.autocompleteList)
+            if (!lxSearchFilter.autocompleteList || lxSearchFilter.activeChoiceIndex === -1)
             {
                 return;
             }
