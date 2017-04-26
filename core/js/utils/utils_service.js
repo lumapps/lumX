@@ -15,7 +15,7 @@
 
         ////////////
 
-        // http://underscorejs.org/#debounce
+        // http://underscorejs.org/#debounce (1.8.3)
         function debounce(func, wait, immediate)
         {
             var timeout, args, context, timestamp, result;
@@ -24,7 +24,7 @@
 
             var later = function()
             {
-                var last = Date.now - timestamp;
+                var last = Date.now() - timestamp;
 
                 if (last < wait && last >= 0)
                 {
@@ -44,10 +44,11 @@
                 }
             };
 
-            return function() {
+            return function()
+            {
                 context = this;
                 args = arguments;
-                timestamp = Date.now;
+                timestamp = Date.now();
                 var callNow = immediate && !timeout;
                 if (!timeout)
                 {
