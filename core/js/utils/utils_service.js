@@ -44,7 +44,7 @@
                 }
             };
 
-            return function()
+            var debounced = function()
             {
                 context = this;
                 args = arguments;
@@ -62,6 +62,14 @@
 
                 return result;
             };
+
+            debounced.clear = function()
+            {
+                clearTimeout(timeout);
+                timeout = context = args = null;
+            };
+
+            return debounced;
         }
 
         function generateUUID()

@@ -331,7 +331,7 @@
 
         function updateAutocomplete(_newValue, _immediate)
         {
-            if ((_newValue || (!_newValue && lxSearchFilter.searchOnFocus)) && !itemSelected)
+            if ((_newValue || (angular.isUndefined(_newValue) && lxSearchFilter.searchOnFocus)) && !itemSelected)
             {
                 if (_immediate)
                 {
@@ -341,10 +341,10 @@
                 {
                     debouncedAutocomplete(_newValue, onAutocompleteSuccess, onAutocompleteError);
                 }
-
             }
             else
             {
+                debouncedAutocomplete.clear();
                 LxDropdownService.close(lxSearchFilter.dropdownId);
             }
 
