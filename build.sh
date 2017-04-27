@@ -12,9 +12,6 @@ if [[ ! $release_version == v* ]]; then
     release_version="v${release_version}"
 fi
 
-echo $release_version
-exit -1
-
 npm install
 if [ $? != 0 ]; then
     echo "Error during npm install"
