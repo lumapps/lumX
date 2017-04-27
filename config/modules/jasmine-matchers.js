@@ -1,5 +1,6 @@
-var _ = require('lodash');
+const _ = require('lodash');
 
+/////////////////////////////
 
 module.exports = {
     /**
@@ -11,18 +12,20 @@ module.exports = {
      * @param  {Element}  actual         Element that is expected to be visible. Should be ElementFinder object.
      * @param  {number}   [timeout=3000] Time in milliseconds to wait for element to appear.
      * @param  {string}   [message]      Message that overrides default error message.
-     * @return {function}                Comparator function according to Jasmine matchers specification.
+     * @return {Function} Comparator function according to Jasmine matchers specification.
      */
     toAppear: function toAppear() {
         return {
-            compare: function toAppearCompare(actual) {
-                let message, timeout;
-                if (typeof arguments[1] === 'string') {
+            compare: function toAppearCompare(actual, ...args) {
+                let message;
+                let timeout;
+
+                if (typeof args[2] === 'string') {
                     timeout = 3000;
-                    message = arguments[1];
+                    message = args[0];
                 } else {
-                    timeout = arguments[1] || 3000;
-                    message = arguments[2];
+                    timeout = args[0] || 3000;
+                    message = args[1];
                 }
                 let internalBrowser;
                 if (actual.ptor_ === undefined) {
@@ -37,17 +40,17 @@ module.exports = {
                     internalBrowser = actual.ptor_;
                 }
 
-                let result = {};
+                const result = {};
                 result.pass = internalBrowser.wait(protractor.ExpectedConditions.visibilityOf(actual), timeout).then(
                     () => {
-                        result.message = message || 'Element ' + actual.parentElementArrayFinder.locator_.toString() +
-                            ' was expected not to be shown in ' + timeout + ' milliseconds but is visible';
+                        result.message = message ||
+                            `Element ${actual.parentElementArrayFinder.locator_.toString()} was expected not to be shown in ${timeout} milliseconds but is visible`;
 
                         return true;
                     },
                     () => {
-                        result.message = message || 'Element ' + actual.parentElementArrayFinder.locator_.toString() +
-                            ' was expected to be shown in ' + timeout + ' milliseconds but is NOT visible';
+                        result.message = message ||
+                            `Element ${actual.parentElementArrayFinder.locator_.toString()} was expected to be shown in ${timeout} milliseconds but is NOT visible`;
 
                         return false;
                     });
@@ -62,15 +65,16 @@ module.exports = {
      *
      * @see {@link https://gist.github.com/tepez/145236601eb97384f516|This gist}
      *
-     * @return {function} Comparator function according to Jasmine matchers specification.
+     * @return {Function} Comparator function according to Jasmine matchers specification.
      */
     toBeChecked: function toBeChecked() {
         return {
             compare: function toBeCheckedCompare(elementToTest) {
-                var ret = {
+                // eslint-disable-next-line no-useless-assign/no-useless-assign
+                const ret = {
                     pass: elementToTest.getAttribute('checked').then(function getAttributeThen(checked) {
-                        var pass = (checked === 'true');
-                        ret.message = 'Expected' + ((pass) ? ' not ' : '') + ' to be checked';
+                        const pass = (checked === 'true');
+                        ret.message = `Expected${((pass) ? ' not ' : '')} to be checked`;
 
                         return pass;
                     }),
@@ -86,15 +90,16 @@ module.exports = {
      *
      * @see {@link https://gist.github.com/tepez/145236601eb97384f516|This gist}
      *
-     * @return {function} Comparator function according to Jasmine matchers specification.
+     * @return {Function} Comparator function according to Jasmine matchers specification.
      */
     toBeDisplayed: function toBeDisplayed() {
         return {
             compare: function toBeDisplayedCompare(elementToTest) {
-                var ret = {
+                // eslint-disable-next-line no-useless-assign/no-useless-assign
+                const ret = {
                     pass: elementToTest.isDisplayed().then(function isDisplayedThen(isDisplayed) {
-                        var pass = isDisplayed;
-                        ret.message = 'Expected' + ((pass) ? ' not ' : '') + ' to be displayed';
+                        const pass = isDisplayed;
+                        ret.message = `Expected${((pass) ? ' not ' : '')} to be displayed`;
 
                         return pass;
                     }),
@@ -113,30 +118,27 @@ module.exports = {
      * @param  {{x: number, y: number}} expectedLocation An object representing the expected location.
      * @param  {number}                 maxDistance      The distance max tolerated between the expected location and
      *                                                   the actual location.
-     * @return {function}                                Comparator function according to Jasmine matchers
-     *                                                   specification.
+     * @return {Function}               Comparator function according to Jasmine matchers specification.
      */
     toBeNearLocation: function toBeNearLocation() {
         return {
             compare: function toBeNearLocationCompare(elementToTest, expectedLocation, maxDistance) {
                 maxDistance = (maxDistance === undefined) ? 2 : maxDistance;
-                var ret = {
+                // eslint-disable-next-line no-useless-assign/no-useless-assign
+                const ret = {
                     pass: elementToTest.getLocation().then(function getLocationThen(actualLocation) {
-                        var distance = Math.sqrt(
+                        const distance = Math.sqrt(
                             Math.pow(actualLocation.x - expectedLocation.x, 2) +
                             Math.pow(actualLocation.y - expectedLocation.y, 2)
                         );
 
-                        var pass = (distance <= maxDistance);
+                        const pass = (distance <= maxDistance);
 
-                        // { x: 1, y: 2 } => '(1, 2)'
                         function coordinatesToString(obj) {
-                            return '(' + obj.x + ', ' + obj.y + ')';
+                            return `(${obj.x}, ${obj.y})`;
                         }
 
-                        ret.message = 'Expected ' + ((pass) ? ' not' : '') + ' to be near ' +
-                                      coordinatesToString(expectedLocation) + ' but is at ' +
-                                      coordinatesToString((actualLocation)) + ', ' + distance + ' pixels from it.';
+                        ret.message = `Expected ${((pass) ? ' not' : '')} to be near ${coordinatesToString(expectedLocation)} but is at ${coordinatesToString((actualLocation))}, ${distance} pixels from it.`;
 
                         return pass;
                     }),
@@ -152,15 +154,16 @@ module.exports = {
      *
      * @see {@link https://gist.github.com/tepez/145236601eb97384f516|This gist}
      *
-     * @return {function} Comparator function according to Jasmine matchers specification.
+     * @return {Function} Comparator function according to Jasmine matchers specification.
      */
     toBePresent: function toBePresent() {
         return {
             compare: function toBePresentCompare(elementToTest) {
-                var ret = {
+                // eslint-disable-next-line no-useless-assign/no-useless-assign
+                const ret = {
                     pass: elementToTest.isPresent().then(function isPresentThen(isPresent) {
-                        var pass = isPresent;
-                        ret.message = 'Expected' + ((pass) ? ' not ' : '') + ' to be present';
+                        const pass = isPresent;
+                        ret.message = `Expected ${((pass) ? ' not ' : '')} to be present`;
 
                         return pass;
                     }),
@@ -177,18 +180,19 @@ module.exports = {
      * @see {@link https://gist.github.com/tepez/145236601eb97384f516|This gist}
      *
      * @param  {string}   expectedText The expected text.
-     * @return {function}              Comparator function according to Jasmine matchers specification.
+     * @return {Function} Comparator function according to Jasmine matchers specification.
      */
     toContainText: function toContainText() {
         return {
             compare: function toContainTextCompare(elementToTest, expectedText) {
-                var ret = {
+                // eslint-disable-next-line no-useless-assign/no-useless-assign
+                const ret = {
                     pass: elementToTest.getText().then(function getTextThen(actualText) {
-                        var pass = actualText.indexOf(expectedText) >= 0;
+                        const pass = actualText.indexOf(expectedText) >= 0;
                         if (pass) {
-                            ret.message = 'Expected not to contain text ' + expectedText;
+                            ret.message = `Expected not to contain text ${expectedText}`;
                         } else {
-                            ret.message = 'Expected to contain text ' + expectedText + ' but text is ' + actualText;
+                            ret.message = `Expected to contain text ${expectedText} but text is ${actualText}`;
                         }
 
                         return pass;
@@ -209,18 +213,20 @@ module.exports = {
      * @param  {Element}  actual         Element that is expected to be invisible. Should be ElementFinder object.
      * @param  {number}   [timeout=3000] Time in milliseconds to wait for element to appear.
      * @param  {string}   [message]      Message that overrides default error message.
-     * @return {function}                Comparator function according to Jasmine matchers specification.
+     * @return {Function} Comparator function according to Jasmine matchers specification.
      */
     toDisappear: function toDisappear() {
         return {
-            compare: function toDisappearCompare(actual) {
-                let message, timeout;
-                if (typeof arguments[1] === 'string') {
+            compare: function toDisappearCompare(actual, ...args) {
+                let message;
+                let timeout;
+
+                if (typeof args[0] === 'string') {
                     timeout = 3000;
-                    message = arguments[1];
+                    message = args[0];
                 } else {
-                    timeout = arguments[1] || 3000;
-                    message = arguments[2];
+                    timeout = args[0] || 3000;
+                    message = args[1];
                 }
 
                 let internalBrowser;
@@ -236,17 +242,17 @@ module.exports = {
                     internalBrowser = actual.ptor_;
                 }
 
-                let result = {};
+                const result = {};
                 result.pass = internalBrowser.wait(protractor.ExpectedConditions.invisibilityOf(actual), timeout).then(
                     () => {
-                        result.message = message || 'Element ' + actual.parentElementArrayFinder.locator_.toString() +
-                            ' was expected to be shown in ' + timeout + ' milliseconds but is NOT visible';
+                        result.message = message ||
+                            `Element ${actual.parentElementArrayFinder.locator_.toString()} was expected to be shown in ${timeout} milliseconds but is NOT visible`;
 
                         return true;
                     },
                     () => {
-                        result.message = message || 'Element ' + actual.parentElementArrayFinder.locator_.toString() +
-                            ' was expected not to be shown in ' + timeout + ' milliseconds but is visible';
+                        result.message = message ||
+                            `Element ${actual.parentElementArrayFinder.locator_.toString()} was expected not to be shown in ${timeout} milliseconds but is visible`;
 
                         return false;
                     });
@@ -264,22 +270,22 @@ module.exports = {
      * @see {@link https://gist.github.com/tepez/145236601eb97384f516|This gist}
      *
      * @param  {string}   expectedClasses A string containing the expected classes separated by spaces.
-     * @return {function}                 Comparator function according to Jasmine matchers specification.
+     * @return {Function} Comparator function according to Jasmine matchers specification.
      */
     toHaveClass: function toHaveClass() {
         return {
             compare: function toHaveClassCompare(elementToTest, expectedClasses) {
-                var ret = {
+                // eslint-disable-next-line no-useless-assign/no-useless-assign
+                const ret = {
                     pass: elementToTest.getAttribute('class').then(function getAttributeThen(actualClasses) {
-                        var actualClassesArr = actualClasses.split(/\s/);
-                        var expectedClassesArr = expectedClasses.split(/\s/);
-                        var notSatisfiedClassesArr = _.difference(expectedClassesArr, actualClassesArr);
+                        const actualClassesArr = actualClasses.split(/\s/);
+                        const expectedClassesArr = expectedClasses.split(/\s/);
+                        const notSatisfiedClassesArr = _.difference(expectedClassesArr, actualClassesArr);
 
                         if (expectedClassesArr.length === 1) {
-                            ret.message = 'Expected to have class ' + expectedClassesArr[0];
+                            ret.message = `Expected to have class ${expectedClassesArr[0]}`;
                         } else {
-                            ret.message = 'Expected to have classes ' + expectedClassesArr.join(', ') +
-                                          ' but does not have classes ' + notSatisfiedClassesArr.join(', ');
+                            ret.message = `Expected to have classes ${expectedClassesArr.join(', ')} but does not have classes ${notSatisfiedClassesArr.join(', ')}`;
                         }
 
                         return notSatisfiedClassesArr.length === 0;
@@ -290,17 +296,17 @@ module.exports = {
             },
 
             negativeCompare: function toHaveClassNegativeCompare(elementToTest, forbiddenClasses) {
-                var ret = {
+                // eslint-disable-next-line no-useless-assign/no-useless-assign
+                const ret = {
                     pass: elementToTest.getAttribute('class').then(function getAttributeThen(actualClasses) {
-                        var actualClassesArr = actualClasses.split(/\s/),
-                            forbiddenClassesArr = forbiddenClasses.split(/\s/),
-                            satisfiedClassesArr = _.intersection(forbiddenClassesArr, actualClassesArr);
+                        const actualClassesArr = actualClasses.split(/\s/);
+                        const forbiddenClassesArr = forbiddenClasses.split(/\s/);
+                        const satisfiedClassesArr = _.intersection(forbiddenClassesArr, actualClassesArr);
 
                         if (forbiddenClassesArr.length === 1) {
-                            ret.message = 'Expected to not have class ' + forbiddenClassesArr[0];
+                            ret.message = `Expected to not have class ${forbiddenClassesArr[0]}`;
                         } else {
-                            ret.message = 'Expected to not have classes ' + forbiddenClassesArr.join(', ') +
-                                          ' but does have classes ' + satisfiedClassesArr.join(', ');
+                            ret.message = `Expected to not have classes ${forbiddenClassesArr.join(', ')} but does have classes ${satisfiedClassesArr.join(', ')}`;
                         }
 
                         return satisfiedClassesArr.length === 0;
@@ -318,18 +324,19 @@ module.exports = {
      * @see {@link https://gist.github.com/tepez/145236601eb97384f516|This gist}
      *
      * @param  {string}   expectedText The expected exact text.
-     * @return {function}              Comparator function according to Jasmine matchers specification.
+     * @return {Function} Comparator function according to Jasmine matchers specification.
      */
     toHaveExactText: function toHaveExactText() {
         return {
             compare: function toHaveExactTextCompare(elementToTest, expectedText) {
-                var ret = {
+                // eslint-disable-next-line no-useless-assign/no-useless-assign
+                const ret = {
                     pass: elementToTest.getText().then(function getTextThen(actualText) {
-                        var pass = (actualText === expectedText);
+                        const pass = (actualText === expectedText);
                         if (pass) {
-                            ret.message = 'Expected not to have text ' + expectedText;
+                            ret.message = `Expected not to have text ${expectedText}`;
                         } else {
-                            ret.message = 'Expected to have text ' + expectedText + ' but has text ' + actualText;
+                            ret.message = `Expected to have text ${expectedText} but has text ${actualText}`;
                         }
 
                         return pass;
@@ -347,18 +354,19 @@ module.exports = {
      * @see {@link https://gist.github.com/tepez/145236601eb97384f516|This gist}
      *
      * @param  {any}      expectedValue The expected value.
-     * @return {function}               Comparator function according to Jasmine matchers specification.
+     * @return {Function} Comparator function according to Jasmine matchers specification.
      */
     toHaveValue: function toHaveValue() {
         return {
             compare: function toHaveValueCompare(elementToTest, expectedValue) {
-                var ret = {
+                // eslint-disable-next-line no-useless-assign/no-useless-assign
+                const ret = {
                     pass: elementToTest.getAttribute('value').then(function getAttributeThen(actualValue) {
-                        var pass = (actualValue === expectedValue);
+                        const pass = (actualValue === expectedValue);
                         if (pass) {
-                            ret.message = 'Expected not to have value ' + expectedValue;
+                            ret.message = `Expected not to have value ${expectedValue}`;
                         } else {
-                            ret.message = 'Expected to have value ' + expectedValue + ' but has value ' + actualValue;
+                            ret.message = `Expected to have value ${expectedValue} but has value ${actualValue}`;
                         }
 
                         return pass;
