@@ -2,8 +2,12 @@
 
 set -x
 
-if [ -z "$release_version" ] && [ -n "$1" ]; then
-    release_version="$1"
+if [ -z "$release_version" ]; then
+    if [ -n "$1" ]; then
+        release_version="$1"
+    else
+        exit -1
+    fi
 else
     exit -1
 fi
