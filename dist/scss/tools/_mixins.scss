@@ -1,0 +1,73 @@
+///*------------------------------------*\
+//    #TOOLS-MIXINS
+//\*------------------------------------*/
+
+// Generate a rem-based font-size with its pixel fallback, e.g.:
+//
+// .foo {
+//     @include font-size(12px);
+// }
+
+@mixin font-size($font-size) {
+    font-size: $font-size;
+    font-size: ($font-size / $base-font-size) * 1rem;
+}
+
+
+
+
+
+// Z-depth mixin
+@mixin z-depth($z-depth) {
+    @if $z-depth == 1 {
+        box-shadow: 0 3px 1px -2px rgba(0,0,0,.14), 0 2px 2px 0 rgba(0,0,0,.098), 0 1px 5px 0 rgba(0,0,0,.084);
+    } @elseif $z-depth == 2 {
+        box-shadow: 0 2px 4px -1px rgba(0,0,0,.14), 0 4px 5px 0 rgba(0,0,0,.098), 0 1px 10px 0 rgba(0,0,0,.084);
+    } @elseif $z-depth == 3 {
+        box-shadow: 0 3px 5px -1px rgba(0,0,0,.14), 0 6px 10px 0 rgba(0,0,0,.098), 0 1px 18px 0 rgba(0,0,0,.084);
+    } @elseif $z-depth == 4 {
+        box-shadow: 0 5px 5px -3px rgba(0,0,0,.14), 0 8px 10px 1px rgba(0,0,0,.098), 0 3px 14px 2px rgba(0,0,0,.084);
+    } @elseif $z-depth == 5 {
+        box-shadow: 0 8px 10px -5px rgba(0,0,0,.14), 0 16px 24px 2px rgba(0,0,0,.098), 0 6px 30px 5px rgba(0,0,0,.084);
+    }
+}
+
+
+
+
+
+// Material design icon
+@mixin mdi() {
+    display: inline-block;
+    font: normal normal normal #{$mdi-font-size-base}/1 '#{$mdi-font-name}';
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transform: translate(0, 0);
+}
+
+@mixin mdi-icon($icon) {
+    content: mdi($icon);
+}
+
+
+
+
+
+// Text field reset
+@mixin text-field-reset() {
+    display: block;
+    margin: 0;
+    padding: 0;
+    border: none;
+    background-color: transparent;
+    box-shadow: none;
+    overflow: hidden;
+    cursor: text;
+    @include appearance(none);
+
+    &:focus {
+        outline: none;
+    }
+}

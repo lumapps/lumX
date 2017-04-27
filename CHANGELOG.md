@@ -1,5 +1,26 @@
 # Changelog
 
+## v1.5.4:
+
+#### Bug fixes:
+ - search-filter: empty query should not show history again - only on focus
+ - utils: debounce function was incorrect Date.now is a function doh
+ - search-filter: make component work when used within a form after selection
+ - search-filter: do not select value if dropdown is closed
+ - search-filter: fix variable typo
+ - search-filter: add immediate option for autocomplete to avoid debouncing delay
+ - search-filter: add missing semi-colon
+ - search-filter: no need for isLoading check with debouncing
+ - search-filter: submit search on enter
+ - search-filter: debounce the autcomplete method rather than the model itself
+
+#### Breaking changes:
+ - lx-autocomplete was expecting a promise. It is now expecting a function which will take 3 parameters:
+ - 	- newValue (the new query value typed in the input field)
+ - 	- cb (a callback function to call with the results matching the query)
+ - 	- errCb (a function to call with an error message if an error occurs)
+
+
 ## v1.5.3:
 *No major changes.*
 
