@@ -74,8 +74,7 @@ def buildNewLogs(fromTag, toTag):
 
     return logs
 
-
-if __name__ == "__main__":
+def main():
     tags = getTags()
     lastChangelogTag = checkLastChangelogTag()
 
@@ -92,7 +91,7 @@ if __name__ == "__main__":
         changelog = f.read().replace('# Changelog\n\n', '').rstrip() + '\n'
 
     if not len(tagsToBuild):
-        print "No new changlogs! Last tag (%s) is already in the CHANGELOG.md." % lastChangelogTag
+        print "No new change logs! Last tag (%s) is already in the CHANGELOG.md." % lastChangelogTag
         exit(0)
 
     for tag in tagsToBuild:
@@ -104,3 +103,6 @@ if __name__ == "__main__":
 
     with open('CHANGELOG.md', 'w') as f:
         f.write(changelog)
+
+if __name__ == "__main__":
+    main()
