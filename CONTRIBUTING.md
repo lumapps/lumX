@@ -12,7 +12,7 @@ We'd love for you to contribute to our source code and to make LumBoilerplate ev
 
 ## <a name="code-of-conduct"></a> Code of Conduct
 
-As heavy users of [Angular 2](https://github.com/angular/angular), we encourage you to read and follow the [Angular Code of Conduct](https://github.com/angular/code-of-conduct/blob/master/CODE_OF_CONDUCT.md).
+As heavy users of [Angular](https://github.com/angular/angular), we encourage you to read and follow the [Angular Code of Conduct](https://github.com/angular/code-of-conduct/blob/master/CODE_OF_CONDUCT.md).
 
 ## <a name="got-a-question-or-a-problem-"></a> Got a question or a problem?
 
@@ -22,11 +22,14 @@ If you have questions about how to use LumBoilerplate, please direct these to [S
 
 If you find a bug in the source code or a mistake in the documentation, you can help us by submitting an issue to our [GitHub Repository](https://github.com/lumapps/boilerplate/issues). Even better you can submit a Pull Request with a fix.
 
+If you are feeling cocky, you can even fix it yourself and submit a Pull Request.
 Before opening a Pull Request, please see the Submission Guidelines below.
 
 ## <a name="want-a-feature-"></a> Want a feature?
 
-You can request a new feature by submitting an issue to our GitHub Repository. If you would like to implement a new feature then consider what kind of change it is, discuss it with us before hand in your issue, so that we can better coordinate our efforts, prevent duplication of work, and help you to craft the change so that it is successfully accepted into the project.
+You can request a new feature by submitting an issue to our GitHub Repository.
+
+If you would like to implement a new feature then consider what kind of change it is, discuss it with us before hand in your issue, so that we can better coordinate our efforts, prevent duplication of work, and help you to craft the change so that it is successfully accepted into the project.
 
 ## <a name="submission-guidelines"></a> Submission guidelines
 
@@ -50,7 +53,7 @@ that relates to your submission. You don't want to duplicate effort.
 * Make your changes in a new git branch
 
 ```shell
-git checkout -b &lt;feat|fix&gt;/&lt;descriptive branch name&gt; master
+git checkout -b <feat|fix>/<descriptive branch name> master
 ```
 
 * Create your patch.
@@ -66,7 +69,7 @@ npm run -s lint:all && npm run -s tests
 * Push your branch to GitHub:
 
 ```shell
-git push origin &lt;full branch name&gt;
+git push origin <full branch name>
 ```
 
 * In GitHub, send a pull request to `boilerplate:master`.
@@ -88,7 +91,7 @@ After your pull request is merged, you can safely delete your branch and pull th
 * Delete the remote branch on GitHub either through the GitHub web UI or your local shell as follows:
 
 ```shell
-git push origin --delete &lt;full branch name&gt;
+git push origin --delete <full branch name>
 ```
 
 * Check out the master branch:
@@ -100,7 +103,7 @@ git checkout master -f
 * Delete the local branch:
 
 ```shell
-git branch -D &lt;full branch name&gt;
+git branch -D <full branch name>
 ```
 
 * Update your master with the latest upstream version:
@@ -118,7 +121,8 @@ We're using Javascript and [SCSS](http://sass-lang.com/) to build the framework.
 - `npm run -s tests` will run all unit and E2E tests and produce reports (available in `tests/client/(unit|e2e)/report`)
 - `npm run -s build:prod` will update the dist folder with the last contents and make a production ready package.
 
-Many other NPM command are available. Use `npm run -s help` to get a list of all available tasks
+Many other NPM command are available. Use `npm run -s help` to get a list of all available tasks.
+You can also read [the full description of the toolchain](Reference needed).
 
 Our coding convention is the following:
 
@@ -130,10 +134,16 @@ For Javascript:
 - Use [camelCase](https://en.wikipedia.org/wiki/Camel_case), except for constants in [UPPER_SNAKE_CASE](https://en.wikipedia.org/wiki/Snake_case).
 - Use the [One True Brace Style (1TBS)](https://en.wikipedia.org/wiki/Indent_style#1TBS).
 
+You can read the [full JavaScript code convention](Reference needed) and the [full AngularJS code convention](Reference needed).
+
+All submitted JavaScript code must be properly documented. You *must* at least document all your functions, methods and members using the JSDoc format. More information about the document format is available in the [full JavaScript code convention](Reference needed).
+
 For SCSS:
 
 - Except for the line wrap, please refer to [the Harry Roberts css guidelines](http://cssguidelin.es/).
 - For the CSS properties, we follow the [concentric order](http://rhodesmill.org/brandon/2011/concentric-css/)
+
+You can read the [full SCSS code convention](Reference needed).
 
 For the ease of use and contributing, most of the coding styles are enforced with ESLint and SASS-Lint. So as long as the pre-commit script let you commit, you should be good.
 
@@ -141,7 +151,7 @@ For the ease of use and contributing, most of the coding styles are enforced wit
 
 We have very precise rules over how our git commit messages can be formatted.  This leads to **more readable messages** that are easy to follow when looking through the **project history**.
 
-We recommend you to use [Commitizen](https://github.com/commitizen/cz-cli) with the `npm run -s commit` command to help you construct your commit message and be sure to match these guidelines.
+We recommend you to use [Commitizen](https://github.com/commitizen/cz-cli) with the `git cz` command to help you construct your commit message and be sure to match these guidelines.
 
 For the ease of use and contributing, most of the commit message style is enforced. So as long as the pre-commit script let you commit, you should be good.
 
@@ -150,11 +160,11 @@ For the ease of use and contributing, most of the commit message style is enforc
 Each commit message consists of a **header**, a **body** and a **footer**.  The header has a special format that includes a **type**, a **scope** and a **subject**:
 
 ```
-&lt;type&gt;(&lt;scope&gt;): &lt;subject&gt;
-&lt;BLANK LINE&gt;
-&lt;body&gt;
-&lt;BLANK LINE&gt;
-&lt;footer&gt;
+<type>(<scope>): <subject>
+<BLANK LINE>
+<body>
+<BLANK LINE>
+<footer>
 ```
 
 Any line of the commit message cannot be longer 100 characters! This allows the message to be easier to read on github as well as in various git tools.
@@ -167,7 +177,7 @@ Must be one of the following:
 * **fix**: A bug fix
 * **theme**: A change concerning themes
 * **docs**: Documentation only changes
-* **lint**: Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc)
+* **lint**: Changes that do not affect the meaning of the code (white-space, formatting, missing semicolons, etc)
 * **refactor**: A code change that neither fixes a bug or adds a feature
 * **perf**: A code change that improves performance
 * **test**: Adding missing tests or correcting existing tests
@@ -179,9 +189,9 @@ Must be one of the following:
 ### Scope
 
 The scope could be anything specifying place of the commit change. For example `notification', 'dropdown', etc.
-If the commit reverts a previous commit, it should contains the reverted commit SHA1.
-
 The scope must be written in [kebab-case](https://en.wikipedia.org/wiki/Letter_case#Special_case_styles).
+
+If the commit reverts a previous commit, it should contains the reverted commit SHA1.
 
 ### Subject
 
@@ -197,7 +207,6 @@ If the commit reverts a previous commit, it should contains the title of the rev
 ### Body
 
 The body should include the motivation for the change and contrast this with previous behavior.
-
 If the commit reverts a previous commit, explain why you reverted it.
 
 ### Footer
@@ -230,15 +239,15 @@ When you have to write comments in your code, please follow the guidelines bello
 ### Comment Message Format
 
 ```js
-// &lt;type&gt; [&lt;developer&gt;]: &lt;details&gt;
+// <type> [<developer>]: <details>.
 ```
 
 or
 
-```
-/* &lt;type&gt; [&lt;developer&gt;]
+```js
+/* <type> [<developer>].
  *
- * &lt;details&gt;
+ * <details>.
  */
 ```
 

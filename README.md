@@ -119,7 +119,7 @@ See `npm run -s help` to see a complete list of available clean commands.
 ## How to get help, contribute, or provide feedback
 
 Please refer to our [contributing guidelines](CONTRIBUTING.md).
-The roadmap is available in [this repository](ROADMAP.md).
+The roadmap is available in [the ROADMAP.md file](ROADMAP.md).
 
 ## Copyright and license
 
