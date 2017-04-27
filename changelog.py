@@ -21,9 +21,9 @@ def checkLastChangelogTag():
 def buildNewLogs(fromTag, version):
     stdout = ''
     if fromTag:
-        (stdout, _) = Popen(('git rev-list %s..%s' % (fromTag, 'master')).split(), stdout=PIPE).communicate()
+        (stdout, _) = Popen(('git rev-list %s..origin/master' % fromTag).split(), stdout=PIPE).communicate()
     else:
-        (stdout, _) = Popen(('git rev-list %s' % 'master').split(), stdout=PIPE).communicate()
+        (stdout, _) = Popen(('git rev-list origin/master').split(), stdout=PIPE).communicate()
 
     commits = stdout.splitlines()
     feats = []

@@ -49,7 +49,7 @@ def commit(version):
     print "Adding and committing files..."
     addAndCommitReleaseFiles(version)
 
-    print "Publishing new commit to master"
+    print "Publishing new commit to master..."
     subprocess.call('git push origin master'.split(), stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
 
     print "Publishing new tag..."
