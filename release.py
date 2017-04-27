@@ -1,5 +1,6 @@
 #! /usr/bin/env python
 
+import changelog
 import re
 import subprocess
 import sys
@@ -35,26 +36,25 @@ def updateHomepage(version):
         f.write(file_str)
 
 
-def updateGitignore():
-    file_str = None
-    with open('.gitignore') as f:
-        file_str = f.read()
 
-    file_str = re.sub(r'/dist', '', file_str)
 
-    with open('.gitignore', "w") as f:
-        f.write(file_str)
 
+def addAndCommitReleaseFiles(version):
+    subprocess.call(['git', 'add', '-f', 'demo/includes/home/home.html', 'CHANGELOG.md', 'dist'])
+    subprocess.call(['git', 'commit', '-m', 'chore release: new release %s' % version], stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
 
 def commit(version):
-    untrackedFiles = subprocess.Popen('git ls-files -o --exclude-standard'.split(), stdout=subprocess.PIPE)
-    subprocess.call(('git add %s' % untrackedFiles.stdout.read().replace('\n', ' ')).split())
-    subprocess.call(['git', 'commit', '-am', 'chore release: new release %s' % version], stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
-    subprocess.call(('git tag %s' % version).split())
+    changelog.main(version)
+
+    print "Adding and committing files..."
+    addAndCommitReleaseFiles(version)
     # print "Publishing new commit to master"
     # subprocess.call('git push origin master'.split(), stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
-    print "Publishing new tag"
+
+    print "Publishing new tag..."
+    subprocess.call(('git tag %s' % version).split())
     subprocess.call(('git push origin %s' % version).split(), stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
+
     print "Release %s created!" % version
 
 
@@ -72,7 +72,6 @@ if __name__ == "__main__":
         #     checkout(sys.argv[2])
 
         updateHomepage(version)
-        updateGitignore()
         commit(version)
     except Exception as e:
         exit(-1)

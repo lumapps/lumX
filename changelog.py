@@ -1,13 +1,7 @@
 #! /usr/bin/env python
 from subprocess import Popen, PIPE
 import re
-
-
-def getTags():
-    Popen('git fetch --tags'.split(), stdout=PIPE).communicate()
-    (stdout, _) = Popen('git tag'.split(), stdout=PIPE).communicate()
-
-    return sorted(stdout.split(), key=lambda s: [x for x in s.replace('v', '').split('.')])
+import sys
 
 
 def checkLastChangelogTag():
@@ -24,12 +18,12 @@ def checkLastChangelogTag():
     return last
 
 
-def buildNewLogs(fromTag, toTag):
+def buildNewLogs(fromTag, version):
     stdout = ''
     if fromTag:
-        (stdout, _) = Popen(('git rev-list %s..%s' % (fromTag, toTag)).split(), stdout=PIPE).communicate()
+        (stdout, _) = Popen(('git rev-list %s..%s' % (fromTag, 'master')).split(), stdout=PIPE).communicate()
     else:
-        (stdout, _) = Popen(('git rev-list %s' % toTag).split(), stdout=PIPE).communicate()
+        (stdout, _) = Popen(('git rev-list %s' % 'master').split(), stdout=PIPE).communicate()
 
     commits = stdout.splitlines()
     feats = []
@@ -52,7 +46,7 @@ def buildNewLogs(fromTag, toTag):
         if 'BROKEN:' in body:
             brokens += body.split('BROKEN:')[1].splitlines()
 
-    logs = "## %s:\n" % toTag
+    logs = "## %s:\n" % version
 
     if not len(feats) and not len(fixs) and not len(brokens):
         logs += "*No major changes.*\n\n\n"
@@ -74,30 +68,17 @@ def buildNewLogs(fromTag, toTag):
 
     return logs
 
-def main():
-    tags = getTags()
-    lastChangelogTag = checkLastChangelogTag()
+def main(version):
+    print "Generating changelog for %s..." % version
 
+    lastChangelogTag = checkLastChangelogTag()
     changelog = ''
-    tagsToBuild = tags
-    previousTag = None
-    if lastChangelogTag:
-        previousTag = lastChangelogTag
-        tagsToBuild = tags[tags.index(lastChangelogTag) + 1:]
-    else:
-        tagsToBuild = tags[1:] # ignoring first release which contains only the first commit
 
     with open('CHANGELOG.md', 'r+') as f:
         changelog = f.read().replace('# Changelog\n\n', '').rstrip() + '\n'
 
-    if not len(tagsToBuild):
-        print "No new change logs! Last tag (%s) is already in the CHANGELOG.md." % lastChangelogTag
-        exit(0)
-
-    for tag in tagsToBuild:
-        newLogs = buildNewLogs(previousTag, tag)
-        previousTag = tag
-        changelog = newLogs + changelog
+    newLogs = buildNewLogs(lastChangelogTag, version)
+    changelog = newLogs + changelog
 
     changelog = '# Changelog\n\n' + changelog
 
@@ -105,4 +86,7 @@ def main():
         f.write(changelog)
 
 if __name__ == "__main__":
-    main()
+    if len(sys.argv) == 1:
+        print "Error: The version name is required"
+        exit(-1)
+    main(sys.argv[1])
