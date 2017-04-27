@@ -7,6 +7,11 @@ import { ToDoModule } from 'to-do/to-do.module';
 import { HomeComponent } from './home.component';
 
 
+/**
+ * The Home module.
+ *
+ * Handle the home page
+ */
 @NgModule({
     declarations: [
         HomeComponent,
@@ -26,8 +31,5 @@ import { HomeComponent } from './home.component';
     providers: [
     ],
 })
-/**
- * The Home module.
- */
 export class HomeModule { }
 

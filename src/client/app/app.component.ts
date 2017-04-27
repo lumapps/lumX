@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Response } from '@angular/http';
 
+import 'rxjs/add/operator/map';
+
 import { APP_SELECTOR as SELECTOR } from 'core/settings/selectors.settings';
 import { SELECTOR_PREFIX, SELECTOR_SEPARATOR } from 'core/settings/selectors.settings';
 
@@ -10,30 +12,22 @@ import { TokenService } from 'core/services/token.service';
 
 
 /*
- * Global styles
+ * Global styles.
  */
 import 'core/styles/app.scss';
 
 
-/*
- * Component template
- */
-const template: string = require(`./${SELECTOR}.component.html`);
-
-
-@Component({
-    selector: SELECTOR_PREFIX + SELECTOR_SEPARATOR + SELECTOR,
-    styles: [
-        require(`./${SELECTOR}.component.scss`),
-    ],
-    template: template,
-})
 /**
  * App Component.
  * Top Level Component.
  *
  * At initialization, get the first OAuth token to authentify the connected user.
  */
+@Component({
+    selector: SELECTOR_PREFIX + SELECTOR_SEPARATOR + SELECTOR,
+    styleUrls: ['app.component.scss'],
+    templateUrl: './app.component.html',
+})
 export class AppComponent implements OnInit {
     /**
      * Construct a new App component.
@@ -47,8 +41,10 @@ export class AppComponent implements OnInit {
 
     /**
      * Initialize the App component.
+     *
+     * @public
      */
-    ngOnInit(): void {
+    public ngOnInit(): void {
         this._HttpService.get('/token.json')
             .map((response: Response) => response.json())
             .subscribe((tokenMessage: ITokenMessage) => {

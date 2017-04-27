@@ -3,9 +3,14 @@ import { RouterModule } from '@angular/router';
 
 import { CoreModule } from 'core/modules/core.module';
 
+import { routes } from './about.routes';
+
 import { AboutComponent } from './about.component';
 
 
+/**
+ * The About module.
+ */
 @NgModule({
     declarations: [
         AboutComponent,
@@ -19,19 +24,21 @@ import { AboutComponent } from './about.component';
 
     imports: [
         CoreModule,
-        RouterModule.forChild([
-            {
-                component: AboutComponent,
-                path: '',
-            },
-        ]),
+        RouterModule.forChild(routes),
     ],
 
     providers: [
     ],
 })
-/**
- * The About module.
- */
-export class AboutModule {}
+export class AboutModule {
+    /**
+     * The routes of the module.
+     *
+     * @type {Array[Object]}
+     *
+     * @public
+     * @static
+     */
+    public static routes: {}[] = routes;
+}
 

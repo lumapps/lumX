@@ -12,6 +12,11 @@ import { TokenService } from 'core/services/token.service';
 import { NotFoundComponent } from '../components/not-found/not-found.component';
 
 
+/**
+ * Our application module.
+ *
+ * Handles the bootstrapping and declaration of everything.
+ */
 @NgModule({
     declarations: [
         NotFoundComponent,
@@ -31,18 +36,16 @@ import { NotFoundComponent } from '../components/not-found/not-found.component';
     providers: [
     ],
 })
-/**
- * Our application module.
- *
- * Handles the bootstrapping and declaration of everything.
- */
 export class CoreModule {
     /**
      * Export the module for the app's root module.
      *
      * @return {ModuleWithProviders} The modules with the providers that can be used for the app's root module.
+     *
+     * @public
+     * @static
      */
-    static forRoot(): ModuleWithProviders {
+    public static forRoot(): ModuleWithProviders {
         return {
             ngModule: CoreModule,
 

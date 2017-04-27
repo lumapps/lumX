@@ -6,29 +6,22 @@ import { ABOUT_SELECTOR as SELECTOR } from 'core/settings/selectors.settings';
 import { SELECTOR_PREFIX, SELECTOR_SEPARATOR } from 'core/settings/selectors.settings';
 
 
-/*
- * Component template
- */
- const template: string = require(`./${SELECTOR}.component.html`);
-
-
- @Component({
-     selector: SELECTOR_PREFIX + SELECTOR_SEPARATOR + SELECTOR,
-     styles: [
-         require(`./${SELECTOR}.component.scss`),
-     ],
-     template: template,
- })
 /**
  * About Component.
  *
  * Display some info.
  */
+@Component({
+    selector: SELECTOR_PREFIX + SELECTOR_SEPARATOR + SELECTOR,
+    styleUrls: ['./about.component.scss'],
+    templateUrl: './about.component.html',
+})
 export class AboutComponent implements OnInit {
     /**
-     * The data of the route
+     * The data of the route.
      *
      * @type {string}
+     *
      * @public
      */
     public data: string;
@@ -40,21 +33,22 @@ export class AboutComponent implements OnInit {
      *
      * @param {ActivatedRoute} route The activated route.
      */
-    constructor(public route: ActivatedRoute) {
-        this.route = route;
-    }
+    constructor(public route: ActivatedRoute) {}
 
 
     /**
      * Called when the component is beeing initialized.
+     *
+     * @public
      */
-    ngOnInit(): void {
+    public ngOnInit(): void {
         this.route.data.subscribe((data: { text: string }) => {
             // Your resolved data from route
             this.data = data.text;
-            console.log('`About` component received: ', data);
+
+            console.info('`About` component received: ', data);
         });
 
-        console.log('`About` component initialization');
+        console.info('`About` component initialization');
     }
 }

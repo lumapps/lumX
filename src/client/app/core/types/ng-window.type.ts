@@ -1,13 +1,13 @@
 /**
- * Represent the "ng" object in the window
+ * Represent the "ng" object in the window.
  */
 export interface INgObject {
-    probe: Object;
-    coreTokens: Object;
+    coreTokens: {};
+    probe: {};
 }
 
 /**
- * Represent a special window object to store the "ng" object
+ * Represent a special window object to store the "ng" object.
  */
 export interface INgWindow extends Window {
     ng: INgObject;

@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 import { ToDoItem } from './to-do-item.model';
 
 
@@ -9,6 +11,7 @@ export class ToDoStore {
      * The list of to-do items.
      *
      * @type {ToDoItem[]}
+     *
      * @public
      */
     public items: ToDoItem[];
@@ -17,6 +20,8 @@ export class ToDoStore {
      * The id of the next to-do item.
      *
      * @type {number}
+     * @default 0
+     *
      * @private
      */
     private _nextId: number = 0;
@@ -37,9 +42,11 @@ export class ToDoStore {
      * Add a new to-do item in the store.
      *
      * @param  {ToDoItem} newItem The new item to add.
-     * @return {number}           The id of the newly added to-do item.
+     * @return {number}   The id of the newly added to-do item.
+     *
+     * @public
      */
-    add(newItem: ToDoItem): number {
+    public add(newItem: ToDoItem): number {
         newItem.id = this._nextId++;
         this.items.push(newItem);
 
@@ -50,22 +57,26 @@ export class ToDoStore {
      * Remove a to-do item from the store.
      *
      * @param  {number}   id The id of the to-do item to remove.
-     * @return {ToDoItem}    The removed to-do item.
+     * @return {ToDoItem} The removed to-do item.
+     *
+     * @public
      */
-    remove(id: number): ToDoItem {
+    public remove(id: number): ToDoItem {
         let splice: ToDoItem[] = [];
         if (id >= 0 && id < this.items.length) {
             splice = this.items.splice(id, 1);
         }
 
-        return (splice[0] !== undefined) ? splice[0] : undefined;
+        return _.get(splice, '[0]', undefined);
     }
 
     /**
      * Reset the store.
      * Empty the to-do items and reset the next id to 0.
+     *
+     * @public
      */
-    reset(): void {
+    public reset(): void {
         this.items = [];
         this._nextId = this.items.length;
     }

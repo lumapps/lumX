@@ -6,24 +6,16 @@ import { SELECTOR_PREFIX, SELECTOR_SEPARATOR } from 'core/settings/selectors.set
 import { ToDoStore } from 'to-do/to-do.store';
 
 
-/*
- * Component template
- */
-const template: string = require(`./${SELECTOR}.component.html`);
-
-
-@Component({
-    selector: SELECTOR_PREFIX + SELECTOR_SEPARATOR + SELECTOR,
-    styles: [
-        require(`./${SELECTOR}.component.scss`),
-    ],
-    template: template,
-})
 /**
  * To-do list Component.
  *
  * Display the list of to-do items.
  */
+@Component({
+    selector: SELECTOR_PREFIX + SELECTOR_SEPARATOR + SELECTOR,
+    styleUrls: ['to-do-list.component.scss'],
+    templateUrl: './to-do-list.component.html',
+})
 export class ToDoListComponent {
     /**
      * Construct a new ToDoList component.

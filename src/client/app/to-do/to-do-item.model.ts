@@ -1,3 +1,6 @@
+import { UtilsService } from 'core/services/utils.service';
+
+
 /**
  * Represents a to-do item.
  */
@@ -17,6 +20,7 @@ export class ToDoItem implements IToDoItem {
      * The date the to-do item has been done.
      *
      * @type {Date}
+     *
      * @public
      */
     public done: Date;
@@ -24,6 +28,7 @@ export class ToDoItem implements IToDoItem {
      * The due date of the to-do item.
      *
      * @type {Date}
+     *
      * @public
      */
     public due: Date;
@@ -31,6 +36,7 @@ export class ToDoItem implements IToDoItem {
      * The unique identifier of the to-do item.
      *
      * @type {number}
+     *
      * @public
      */
     public id: number;
@@ -38,6 +44,7 @@ export class ToDoItem implements IToDoItem {
      * The label (or name) of the to-do item.
      *
      * @type {string}
+     *
      * @public
      */
     public label: string;
@@ -63,8 +70,10 @@ export class ToDoItem implements IToDoItem {
      * Mark the to-do item as done.
      *
      * @return {Date} The date the to-do item has been done.
+     *
+     * @public
      */
-    do(): Date {
+    public do(): Date {
         this.done = new Date();
 
         return this.done;
@@ -75,9 +84,11 @@ export class ToDoItem implements IToDoItem {
      *
      * @return {Date} The date the to-do item was done (if toggling to not done) or the date the to-do item has been
      *                done (if toggling to done).
+     *
+     * @public
      */
-    toggle(): Date {
-        if (this.done) {
+    public toggle(): Date {
+        if (UtilsService.isDefinedAndFilled(this.done)) {
             return this.unDo();
         } else {
             return this.do();
@@ -88,14 +99,16 @@ export class ToDoItem implements IToDoItem {
      * Display a string representation of the to-do item.
      *
      * @return {string} The string representation of the to-do item.
+     *
+     * @public
      */
-    toString(): string {
+    public toString(): string {
         let stringRep: string = `[${this.id}] - ${this.label}`;
 
-        if (this.due) {
+        if (UtilsService.isDefinedAndFilled(this.due)) {
             stringRep = `${stringRep} (due ${this.due})`;
         }
-        if (this.done) {
+        if (UtilsService.isDefinedAndFilled(this.done)) {
             stringRep = `${stringRep} - done (${this.done})`;
         }
 
@@ -106,9 +119,11 @@ export class ToDoItem implements IToDoItem {
      * Mark the to-do item as not done.
      *
      * @return {Date} The date the to-do item was done.
+     *
+     * @public
      */
-    unDo(): Date {
-        let wasDone: Date = this.done;
+    public unDo(): Date {
+        const wasDone: Date = this.done;
 
         this.done = undefined;
 

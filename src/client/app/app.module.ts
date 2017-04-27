@@ -1,21 +1,30 @@
 import { APP_BASE_HREF } from '@angular/common';
 import { ApplicationRef, ComponentRef, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { PreloadAllModules, RouterModule } from '@angular/router';
 
 import { createNewHosts, removeNgStyles } from '@angularclass/hmr';
 
 import { BASE_HREF } from 'core/settings/common.settings';
 
-import { AppRouting } from 'app.routing';
+import { UtilsService } from 'core/services/utils.service';
+
 import { CoreModule } from 'core/modules/core.module';
 
 import { IHmrStore } from 'core/types/hmr-store.type';
+
+import { routes } from './app.routes';
 
 import { HomeModule } from 'home/home.module';
 
 import { AppComponent } from './app.component';
 
 
+/**
+ * Our application module.
+ *
+ * Handles the bootstrapping and declaration of everything.
+ */
 @NgModule({
     bootstrap: [
         AppComponent,
@@ -25,11 +34,18 @@ import { AppComponent } from './app.component';
         AppComponent,
     ],
 
+    exports: [
+        RouterModule,
+    ],
+
     imports: [
-        AppRouting,
         BrowserModule,
         CoreModule.forRoot(),
         HomeModule,
+        RouterModule.forRoot(routes, {
+            preloadingStrategy: PreloadAllModules,
+            useHash: false,
+        }),
     ],
 
     providers: [
@@ -39,11 +55,6 @@ import { AppComponent } from './app.component';
         },
     ],
 })
-/**
- * Our application module.
- *
- * Handles the bootstrapping and declaration of everything.
- */
 export class AppModule {
     /**
      * Construct the application module.
@@ -59,27 +70,33 @@ export class AppModule {
      * When Hot Reload has refreshed the app.
      * Delete any reference to old components.
      *
-     * @param {IHmrStore} _HmrStore The hmr store
+     * @param {IHmrStore} HmrStore The HMR store.
+     *
+     * @public
      */
-    hmrAfterDestroy(_HmrStore: IHmrStore): void {
+    public hmrAfterDestroy(HmrStore: IHmrStore): void {
         // Display new elements
-        _HmrStore.disposeOldHosts();
-        delete _HmrStore.disposeOldHosts;
+        HmrStore.disposeOldHosts();
+        delete HmrStore.disposeOldHosts;
     }
 
     /**
      * When the Hot Reload want to refresh the app.
      * Recreate elements and clean styles.
      *
-     * @param {IHmrStore} _HmrStore The HMR store
+     * @param {IHmrStore} HmrStore The HMR store.
+     *
+     * @public
      */
-    hmrOnDestroy(_HmrStore: IHmrStore): void {
-        let cmpLocation: ComponentRef<any>[] = this._appRef.components.map((cmp: ComponentRef<any>) => {
-            return cmp.location.nativeElement;
-        });
+    public hmrOnDestroy(HmrStore: IHmrStore): void {
+        // tslint:disable-next-line:no-any
+        const cmpLocation: ComponentRef<any>[] = this._appRef.components.map(
+            // tslint:disable-next-line:no-any
+            (cmp: ComponentRef<any>) => cmp.location.nativeElement,
+        );
 
         // Recreate elements
-        _HmrStore.disposeOldHosts = createNewHosts(cmpLocation);
+        HmrStore.disposeOldHosts = createNewHosts(cmpLocation);
 
         // Remove styles
         removeNgStyles();
@@ -89,10 +106,12 @@ export class AppModule {
      * On Hot Reload initialization.
      * Execute the next tick.
      *
-     * @param {IHmrStore} _HmrStore The HMR store
+     * @param {IHmrStore} HmrStore The HMR store.
+     *
+     * @public
      */
-    hmrOnInit(_HmrStore: IHmrStore): void {
-        if (!_HmrStore || !_HmrStore.state) {
+    public hmrOnInit(HmrStore: IHmrStore): void {
+        if (UtilsService.isUndefined(HmrStore) || UtilsService.isUndefinedOrEmpty(HmrStore.state)) {
             return;
         }
 

@@ -9,6 +9,9 @@ import { ToDoListComponent } from './to-do-list/to-do-list.component';
 import { ToDoComponent } from './to-do.component';
 
 
+/**
+ * The ToDo module.
+ */
 @NgModule({
     declarations: [
         NewToDoComponent,
@@ -29,8 +32,5 @@ import { ToDoComponent } from './to-do.component';
         ToDoStore,
     ],
 })
-/**
- * The ToDo module.
- */
 export class ToDoModule {}
 

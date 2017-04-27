@@ -1,23 +1,27 @@
+import _ from 'lodash';
+
 import { Injectable } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 
-import 'rxjs/add/operator/take';
 import { Observable } from 'rxjs/Rx';
+import 'rxjs/add/operator/take';
 
 import { TokenActions } from 'core/constants/actions';
 import { ITokenState } from 'core/reducers/token.reducer';
+import { UtilsService } from 'core/services/utils.service';
 
 
-@Injectable()
 /**
  * Responsible of managing the OAuth token of our application through a ReduxStore.
  */
+@Injectable()
 export class TokenService {
     /**
      * The OAuth token (as an observable).
      *
      * @type {Observable<ITokenState>}
+     *
      * @public
      */
     public token: Observable<ITokenState>;
@@ -37,8 +41,10 @@ export class TokenService {
     /**
      * Clear the token.
      * Completely remove the token value and the 'needed' information.
+     *
+     * @public
      */
-    clearToken(): void {
+    public clearToken(): void {
         this._Store.dispatch({
             type: TokenActions.TOKEN_CLEARED,
         });
@@ -48,12 +54,14 @@ export class TokenService {
      * Get the token value.
      *
      * @return {string} The token value.
+     *
+     * @public
      */
-    getToken(): string {
+    public getToken(): string {
         let currentToken: string;
 
         this.token.subscribe((token: ITokenState) => {
-            if (token !== undefined && token.value !== undefined) {
+            if (UtilsService.isDefinedAndFilled(_.get(token, 'value', ''))) {
                 currentToken = token.value;
             }
         }).unsubscribe();
@@ -65,12 +73,14 @@ export class TokenService {
      * Check if the token is still valid or need to be refreshed.
      *
      * @return {boolean} If the token needs to be refreshed or not.
+     *
+     * @public
      */
-    isValid(): boolean {
+    public isValid(): boolean {
         let isValid: boolean = false;
 
         this.token.subscribe((token: ITokenState) => {
-            if (token !== undefined && token.needed !== undefined) {
+            if (UtilsService.isDefined(_.get(token, 'needed', undefined))) {
                 isValid = !token.needed;
             }
         }).unsubscribe();
@@ -81,8 +91,10 @@ export class TokenService {
     /**
      * Set the token has needing refresh.
      * Leave the value as is, but set the 'needed' indicator.
+     *
+     * @public
      */
-    refreshToken(): void {
+    public refreshToken(): void {
         this._Store.dispatch({
             type: TokenActions.TOKEN_NEEDED,
         });
@@ -91,10 +103,12 @@ export class TokenService {
     /**
      * Update the token value.
      *
-     * @param {string} token The token value/
+     * @param {string} token The token value.
+     *
+     * @public
      */
-    setToken(token: string): void {
-        if (token !== undefined && token.length > 0) {
+    public setToken(token: string): void {
+        if (UtilsService.isDefinedAndFilled(token)) {
             this._Store.dispatch({
                 payload: token,
                 type: TokenActions.TOKEN_RECEIVED,

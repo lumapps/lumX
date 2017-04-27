@@ -9,7 +9,24 @@ import { TokenActions } from 'core/constants/actions';
  * @interface
  */
 export interface ITokenState {
+    /**
+     * Indicates if the token is needed.
+     *
+     * @type {boolean}
+     * @default false
+     *
+     * @public
+     */
     needed: boolean;
+
+    /**
+     * The value of the token.
+     *
+     * @type {string}
+     * @default undefined
+     *
+     * @public
+     */
     value: string;
 }
 
@@ -19,20 +36,7 @@ export interface ITokenState {
  * @readonly
  */
 export const initialState: ITokenState = {
-    /**
-     * Indicates if the token is needed.
-     *
-     * @type {boolean}
-     * @default false
-     */
     needed: false,
-
-    /**
-     * The value of the token.
-     *
-     * @type {string}
-     * @default undefined
-     */
     value: undefined,
 };
 
@@ -42,9 +46,9 @@ export const initialState: ITokenState = {
  * @param  {ITokenState} state  The updated state of the token.
  * @param  {Action}      action The action to execute.
  *                              See {@link TokenActions} for allowed value
- * @return {ITokenState}        The new state of the token
+ * @return {ITokenState} The new state of the token
  */
-export const tokenReducer: ActionReducer<ITokenState> = (state: ITokenState, action: Action) => {
+export const tokenReducer: ActionReducer<ITokenState> = (state: ITokenState, action: Action): ITokenState => {
     switch (action.type) {
         case TokenActions.TOKEN_RECEIVED:
             return Object.assign({}, state, {
