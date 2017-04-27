@@ -3,28 +3,26 @@ const helpers = require('./modules/helpers');
 const webpackMerge = require('webpack-merge');
 
 /**
- * Webpack Plugins
+ * Webpack Plugins.
  */
 const Dashboard = require('webpack-dashboard');
 const DashboardPlugin = require('webpack-dashboard/plugin');
 const LoaderOptionsPlugin = require('webpack/lib/LoaderOptionsPlugin');
 const NamedModulesPlugin = require('webpack/lib/NamedModulesPlugin');
-const WebpackBrowserPlugin = require('webpack-browser-plugin');
 const WebpackNotifierPlugin = require('webpack-notifier');
 
 /**
- * Webpack Constants
+ * Webpack Constants.
  */
 const ENV = process.env.ENV = process.env.NODE_ENV = helpers.ENVS.dev;
 const METADATA = helpers.getMetadata(ENV);
-const ENABLE_DEBUG = false;
 
 /**
- * Other constants
+ * Other constants.
  */
 const ENABLE_DASHBOARD = false;
 
-let plugins = [
+const plugins = [
     /**
      * Plugin: LoaderOptionsPlugin.
      * Description: Configure Webpack loaders and context.
@@ -32,7 +30,7 @@ let plugins = [
      * @see {@link https://gist.github.com/sokra/27b24881210b56bbaff7|What's new in Webpack2}
      */
     new LoaderOptionsPlugin(helpers.getOptions({
-        debug: ENABLE_DEBUG,
+        debug: helpers.ENABLE_DEBUG,
         minimize: false,
     })),
 
@@ -43,17 +41,6 @@ let plugins = [
      * @see {@link https://github.com/webpack/webpack/commit/a04ffb928365b19feb75087c63f13cadfc08e1eb|Named Modules Plugin}
      */
     new NamedModulesPlugin(),
-
-    /**
-     * Plugin: WebpackBrowserPlugin.
-     * Description: Open the default browser on successful compilation.
-     *
-     * @see {@link https://www.npmjs.com/package/webpack-browser-plugin|Webpack Browser Plugin}
-     */
-    new WebpackBrowserPlugin({
-        port: METADATA.port,
-        url: 'http://' + METADATA.host,
-    }),
 
     /**
      * Plugin: WebpackNotifierPlugin.
@@ -68,7 +55,7 @@ let plugins = [
     }),
 ];
 
-let devServerConfig = helpers.getDevServerConfig(METADATA);
+const devServerConfig = helpers.getDevServerConfig(METADATA);
 
 if (METADATA.HMR) {
     if (ENABLE_DASHBOARD) {
@@ -77,7 +64,7 @@ if (METADATA.HMR) {
         plugins.unshift(
             /**
              * Plugin: DashboardPlugin.
-             * Description: View progress. 'It's like to work at NASA.'
+             * Description: View progress. 'It's like to work at NASA'.
              *
              * @see {@link https://github.com/FormidableLabs/webpack-dashboard|Dashboard Plugin}
              */
@@ -94,9 +81,11 @@ if (METADATA.HMR) {
 
 
 /**
- * Webpack configuration
+ * Webpack configuration.
  *
  * @see {@link http://webpack.github.io/docs/configuration.html#cli|The Webpack documentation on configuration}
+ *
+ * @return {Object} The webpack development configuration.
  */
 module.exports = function webpackDevConfigExport() {
     return webpackMerge.smart(commonConfig(METADATA), {
@@ -117,57 +106,14 @@ module.exports = function webpackDevConfigExport() {
          */
         devtool: 'inline-source-map',
 
-        /*
-         * Options affecting the normal modules.
-         *
-         * @see {@link http://webpack.github.io/docs/configuration.html#module|The Webpack documentation on modules}
-         */
-        module: {
-            /**
-             * An array of rules containing (pre|post)loaders.
-             *
-             * IMPORTANT: The loaders here are resolved relative to the resource which they are applied to.
-             * This means they are not resolved relative to the configuration file.
-             *
-             * @see {@link http://webpack.github.io/docs/configuration.html#module-loaders|The Webpack documentation on loaders}
-             * @see {@link https://gist.github.com/sokra/27b24881210b56bbaff7|What's new in Webpack2}
-             */
-            rules: [
-                /*
-                 * Compile and load Typescript files.
-                 * Also, generate the right lazy loaded route configuration
-                 * Finally, inline external templates and styles in components
-                 *
-                 * @see {@link https://github.com/AngularClass/angular2-hmr-loader|Angular2 HMR Loader}
-                 * @see {@link https://github.com/s-panferov/awesome-typescript-loader|Awesome Typescript Loader}
-                 * @see {@link https://www.npmjs.com/package/angular2-router-loader|Angular2 Router Loader}
-                 * @see {@link https://github.com/TheLarkInn/angular2-template-loader|Angular2 Template Loader}
-                 */
-                {
-                    exclude: [
-                        /\.(spec|specs|e2e)\.ts$/i,
-                        helpers.root('tests'),
-                        helpers.root('dist'),
-                    ],
-                    loaders: [
-                        '@angularclass/hmr-loader?pretty=true&prod=false',
-                        'awesome-typescript-loader',
-                        'angular2-router-loader?aot=false',
-                        'angular2-template-loader',
-                    ],
-                    test: /\.ts$/i,
-                },
-            ],
-        },
-
         /**
          * Options affecting the output of the compilation.
          *
          * @see {@link http://webpack.github.io/docs/configuration.html#output|The Webpack documentation on output}
          */
         output: {
-            /** The filename of non-entry chunks as relative path.
-             * inside the output.path directory.
+            /**
+             * The filename of non-entry chunks as relative path inside the 'output.path' directory.
              *
              * @see {@link http://webpack.github.io/docs/configuration.html#output-chunkfilename|The Webpack documentation on chunk file name}
              */
@@ -190,7 +136,7 @@ module.exports = function webpackDevConfigExport() {
              *
              * @see {@link http://webpack.github.io/docs/configuration.html#output-sourcemapfilename|The Webpack documentation on sourcemap file name}
              */
-            sourceMapFilename: '[name].map',
+            sourceMapFilename: '[file].map',
         },
 
         /*

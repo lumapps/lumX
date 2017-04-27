@@ -126,22 +126,6 @@ interface ErrorStackTraceLimit {
     stackTraceLimit: number;
 }
 
-declare module jasmine {
-    interface Matchers {
-        toAppear(timeout?: number, message?: string): webdriver.promise.Promise<boolean>;
-        toDisappear(timeout?: number, message?: string): webdriver.promise.Promise<boolean>;
-        toBePresent(): webdriver.promise.Promise<boolean>;
-        toBeDisplayed(): webdriver.promise.Promise<boolean>;
-        toContainText(expected: string): webdriver.promise.Promise<boolean>;
-        toHaveExactText(expected: string): webdriver.promise.Promise<boolean>;
-        toHaveValue(expected: any): webdriver.promise.Promise<boolean>;
-        toBeChecked(): webdriver.promise.Promise<boolean>;
-        toBeNearLocation(expected: any, maxDistance?: number): webdriver.promise.Promise<boolean>;
-        toHaveClass(expected: string): webdriver.promise.Promise<boolean>;
-    }
-}
-
-
 // Extend typings
 interface NodeRequire extends WebpackRequire {}
 interface ErrorConstructor extends ErrorStackTraceLimit {}

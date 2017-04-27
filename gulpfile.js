@@ -3,11 +3,16 @@ const shelter = require('gulp-shelter')(gulp);
 
 const isCI = process.env.CI || require('is-ci') || false;
 
-// ---------------------------------------------------------------------------------------------------------------------
-// Define the project configuration here
-// Attention: Use the bash syntax for variable templating
-// ---------------------------------------------------------------------------------------------------------------------
+// eslint-disable-next-line lumapps/comments-sentences
+/*
+ * ---------------------------------------------------------------------------------------------------------------------
+ * Define the project configuration here.
+ * Attention: Use the bash syntax for variable templating.
+ * ---------------------------------------------------------------------------------------------------------------------
+ */
 const project = 'LumBoilerplate';
+
+const compiledFolder = './compiled';
 
 const configFolder = './config';
 const distFolder = './dist/client';
@@ -31,17 +36,20 @@ const isWebpack2 = true;
 const serverPort = '8881';
 const enableServerProxy = false;
 const serverProxy = 'http://localhost:8888';
-const withProxy = (enableServerProxy) ? '--proxy ' + serverProxy : '';
+const withProxy = (enableServerProxy) ? `--proxy ${serverProxy}` : '';
 
 const checkLintBeforeBuild = true;
 
 const e2eBuildType = 'prod';
 
-// ---------------------------------------------------------------------------------------------------------------------
-// You can define here commands, arguments or fragment to re-use in tasks
-// Attention: Use the bash syntax for variable templating
-// ---------------------------------------------------------------------------------------------------------------------
-// Toggle the "-s" flag to make npm verbose (nothing) or silent (-s)
+// eslint-disable-next-line lumapps/comments-sentences
+/*
+ *---------------------------------------------------------------------------------------------------------------------
+ * You can define here commands, arguments or fragment to re-use in tasks.
+ * Attention: Use the bash syntax for variable templating.
+ * ---------------------------------------------------------------------------------------------------------------------
+ */
+// Toggle the "-s" flag to make npm verbose (nothing) or silent (-s).
 const npmRun = `npm -s run`;
 
 const withDisplayCached = (isWebpack2) ? '' : '--display-cached';
@@ -54,7 +62,7 @@ const linterTask = (checkLintBeforeBuild) ? 'lint:src' : '';
 const webpackBuildParameters = `--profile ${withDisplayCached} --hide-modules ${withProgress}`;
 const webpackDevParameters = ``;
 const webpackDevServerClassicParameters = `${withProgress}`;
-const webpackDevServerCommonParameters = `${withWatch} --content-base ${sourceFolder}`;
+const webpackDevServerCommonParameters = `${withWatch} --content-base ${sourceFolder} --open`;
 let webpackDevServerHotReloadParameters = `--inline --hot`;
 const webpackCommonParameters = `${withDisplayErrorDetail}`;
 const webpackConfig = `--config webpack.config.js`;
@@ -71,36 +79,54 @@ if (!enableDashboard) {
     webpackDevServerHotReloadParameters = `${webpackDevServerHotReloadParameters} ${webpackDevServerClassicParameters}`;
 }
 
-// ---------------------------------------------------------------------------------------------------------------------
-// Define your tasks here
-// Attention: Use the bash syntax for variable templating
-// ---------------------------------------------------------------------------------------------------------------------
+// eslint-disable-next-line lumapps/comments-sentences
+/*
+ * ---------------------------------------------------------------------------------------------------------------------
+ * Define your tasks here
+ * Attention: Use the bash syntax for variable templating
+ * ---------------------------------------------------------------------------------------------------------------------
+ */
 shelter({
+    'build:aot': {
+        cmd: `${npmRun} run-parallel -- clean:aot
+                                        clean:dist
+                                        ${linterTask}
+              && ${envProd} ${npmRun} webpack -- ${webpackConfig} ${webpackCommonParameters}
+                                                 ${webpackBuildParameters} ${webpackProdParameters}`,
+        dsc: `Build the Ahead of Time compiled production bundle of ${project} after linting`,
+    },
+    'build:aot:fast': {
+        cmd: `${npmRun} run-parallel -- clean:aot
+                                        clean:dist
+              && ${envProd} ${npmRun} webpack -- ${webpackConfig} ${webpackCommonParameters}
+                                                 ${webpackBuildParameters} ${webpackProdParameters}`,
+        dsc: `Build the Ahead of Time compiled production bundle of ${project} (without linting)`,
+    },
     'build:dev': {
         cmd: `${npmRun} run-parallel -- clean:dist
                                         ${linterTask}
               && ${envDev} ${npmRun} webpack ${webpackConfig} ${webpackCommonParameters}
                                              ${webpackBuildParameters} ${webpackDevParameters}`,
-        dsc: `Build the development bundle after linting of ${project}`,
+        dsc: `Build the development bundle of ${project} after linting`,
     },
     'build:dev:fast': {
         cmd: `${npmRun} clean:dist
               && ${envDev} ${npmRun} webpack -- ${webpackConfig} ${webpackCommonParameters}
                                                 ${webpackBuildParameters} ${webpackDevParameters}`,
-        dsc: `Build the development bundle (without linting) of ${project}`,
+        dsc: `Build the development bundle of ${project} (without linting)`,
     },
     'build:prod': {
         cmd: `${npmRun} run-parallel -- clean:dist
                                         ${linterTask}
               && ${envProd} ${npmRun} webpack -- ${webpackConfig} ${webpackCommonParameters}
                                                  ${webpackBuildParameters} ${webpackProdParameters}`,
-        dsc: `Build the production bundle after linting of ${project}`,
+        dsc: `Build the production bundle of ${project} after linting`,
     },
     'build:prod:fast': {
         cmd: `${npmRun} clean:dist
               && ${envProd} ${npmRun} webpack -- ${webpackConfig} ${webpackCommonParameters}
                                                  ${webpackBuildParameters} ${webpackProdParameters}`,
-        dsc: `Build the production bundle (without linting) of ${project}`,
+        dsc: `Build the production bundle of ${project} (without linting)`,
     },
 
     'check:prerequisites': {
@@ -113,6 +139,11 @@ shelter({
                                         clean:packages
                                         clean:misc`,
         dsc: `Clean the whole ${project} project (NPM, docs, test and dist)`,
+    },
+
+    'clean:aot': {
+        cmd: `${npmRun} rimraf -- ${compiledFolder}/* && rm -Rf -- ${compiledFolder}`,
+        dsc: `Clean the Ahead of Time compiled ${project} sources`,
     },
     'clean:dist': {
         cmd: `${npmRun} rimraf -- ${distFolder}/* && rm -Rf -- ${distFolder}`,
@@ -149,7 +180,8 @@ shelter({
         dsc: `Clean the installed packages and the Yarn or NPM cache of ${project}`,
     },
     'clean:project': {
-        cmd: `${npmRun} run-parallel -- clean:dist
+        cmd: `${npmRun} run-parallel -- clean:aot
+                                        clean:dist
                                         clean:tests:reports
                                         clean:docs
                                         clean:maps`,
@@ -166,7 +198,7 @@ shelter({
     },
 
     'commit': {
-        cmd: `${npmRun} commitizen`,
+        cmd: `${npmRun} git-cz`,
         dsc: `Commit according to guidelines with Commitizen`,
     },
 
@@ -247,8 +279,12 @@ shelter({
         dsc: `Lint SASS code of ${project}`,
     },
     'lint:src:ts': {
-        cmd: `${npmRun} tsconfig-lint -- --passive`,
+        cmd: `${npmRun} tslint -- --project ./tsconfig.json --type-check`,
         dsc: `Lint TypeScript code of ${project}`,
+    },
+    'lint:tests': {
+        cmd: `${npmRun} tslint -- --project ./tsconfig.tests.json --type-check`,
+        dsc: `Lint TypeScript code of ${project}'s tests`,
     },
 
     'scaffold': {
@@ -285,21 +321,25 @@ shelter({
     },
     'serve:dev': {
         cmd: `${npmRun} build:dev:fast
-              && ${npmRun} http-server -- ${distFolder} -p ${serverPort} -d False -i False --cors -s ${withProxy}`,
+              && ${npmRun} http-server -- ${distFolder} -p ${serverPort} -d False -i False
+                                          --cors -s ${withProxy}`,
         dsc: `Start ${project} development release test server (on port ${serverPort}) after rebuilding`,
     },
     'serve:dev:fast': {
-        cmd: `${npmRun} http-server -- ${distFolder} -p ${serverPort} -d False -i False --cors -s ${withProxy}`,
+        cmd: `${npmRun} http-server -- ${distFolder} -p ${serverPort} -d False -i False
+                                       --cors -s ${withProxy}`,
         dsc: `Start ${project} development release test server (on port ${serverPort}) with an existing build`,
     },
     'serve:dev:fast:open': {
-        cmd: `${npmRun} http-server -- ${distFolder} -p ${serverPort} -d False -i False -o --cors -s ${withProxy}`,
+        cmd: `${npmRun} http-server -- ${distFolder} -p ${serverPort} -d False -i False
+                                       -o --cors -s ${withProxy}`,
         dsc: `Start ${project} development release test server (on port ${serverPort}) with an existing build and open
               it in a browser`,
     },
     'serve:dev:open': {
         cmd: `${npmRun} build:dev:fast
-              && ${npmRun} http-server -- ${distFolder} -p ${serverPort} -d False -i False -o --cors -s ${withProxy}`,
+              && ${npmRun} http-server -- ${distFolder} -p ${serverPort} -d False -i False
+                                          -o --cors -s ${withProxy}`,
         dsc: `Start ${project} development release test server (on port ${serverPort}) after rebuilding and open it in a
               browser`,
     },
@@ -312,21 +352,25 @@ shelter({
     },
     'serve:prod': {
         cmd: `${npmRun} build:prod:fast
-              && ${npmRun} http-server -- ${distFolder} -p ${serverPort} -d False -i False --cors -s ${withProxy}`,
+              && ${npmRun} http-server -- ${distFolder} -p ${serverPort} -d False -i False
+                                          -c-1 --cors -s ${withProxy}`,
         dsc: `Start ${project} production release test server (on port ${serverPort}) after rebuilding`,
     },
     'serve:prod:fast': {
-        cmd: `${npmRun} http-server -- ${distFolder} -p ${serverPort} -d False -i False --cors -s ${withProxy}`,
+        cmd: `${npmRun} http-server -- ${distFolder} -p ${serverPort} -d False -i False
+                                       -c-1 --cors -s ${withProxy}`,
         dsc: `Start ${project} production release test server (on port ${serverPort}) with an existing build`,
     },
     'serve:prod:fast:open': {
-        cmd: `${npmRun} http-server -- ${distFolder} -p ${serverPort} -d False -i False -o --cors -s ${withProxy}`,
+        cmd: `${npmRun} http-server -- ${distFolder} -p ${serverPort} -d False -i False
+                                       -o -c-1 --cors -s ${withProxy}`,
         dsc: `Start ${project} production release test server (on port ${serverPort}) with an existing build and open it
               in a browser`,
     },
     'serve:prod:open': {
         cmd: `${npmRun} build:prod:fast
-              && ${npmRun} http-server -- ${distFolder} -p ${serverPort} -d False -i False -o --cors -s ${withProxy}`,
+              && ${npmRun} http-server -- ${distFolder} -p ${serverPort} -d False -i False
+                                          -o -c-1 --cors -s ${withProxy}`,
         dsc: `Start ${project} production release test server (on port ${serverPort}) after rebuilding and open it in a
               browser`,
     },
@@ -366,7 +410,7 @@ shelter({
 
     'unit': {
         cmd: `${npmRun} clean:unit:report
-              && ${debug} ${envDev} ${npmRun} karma -- start`,
+              && ${envDev} ${npmRun} karma -- start`,
         dsc: `Run unit tests (Karma with Chrome) on ${project}`,
     },
     'unit:debug': {

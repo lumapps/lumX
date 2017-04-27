@@ -1,22 +1,21 @@
 require('ts-node/register');
 
-var helpers = require('./config/modules/helpers');
+const helpers = require('./config/modules/helpers');
 
-var ConsoleReporter = require('jasmine-console-reporter');
-var Jasmine2HtmlReporter = require('protractor-jasmine2-html-reporter');
+// eslint-disable-next-line no-unused-vars
+const isCI = process.env.CI || require('is-ci') || false;
+// eslint-disable-next-line no-unused-vars
+const isDebug = process.env.DEBUG || false;
 
-var isCI = process.env.CI || require('is-ci') || false;
-var isDebug = process.env.DEBUG || false;
+const useWebpack = false;
 
-var useWebpack = false;
-
-var host = 'localhost';
-var port = (useWebpack) ? '8880' : '8881';
+const host = 'localhost';
+const port = (useWebpack) ? '8880' : '8881';
 
 exports.config = {
     allScriptsTimeout: 110000,
 
-    baseUrl: 'http://' + host + ':' + port + '/',
+    baseUrl: `http://${host}:${port}/`,
 
     capabilities: {
         browserName: 'chrome',
@@ -26,15 +25,11 @@ exports.config = {
 
     exclude: [],
 
-    framework: 'jasmine2',
+    framework: 'mocha',
 
-    jasmineNodeOpts: {
-        defaultTimeoutInterval: 400000,
-        includeStackTrace: false,
-        isVerbose: false,
-        showColors: false,
-        showTiming: false,
-        silent: true,
+    mochaOpts: {
+        reporter: 'spec',
+        slow: 5000,
     },
 
     onPrepare: function onPrepare() {
@@ -43,31 +38,6 @@ exports.config = {
             .manage()
             .window()
             .maximize();
-
-        if (jasmine.getEnv().clearReporters) {
-            jasmine.getEnv().clearReporters();
-        }
-
-        jasmine.getEnv().addReporter(new Jasmine2HtmlReporter({
-            consolidate: true,
-            consolidateAll: true,
-            filePrefix: 'index',
-            savePath: './tests/client/e2e/report/',
-            screenshotsFolder: 'screenshots',
-            takeScreenshots: true,
-            takeScreenshotsOnlyOnFailures: true,
-        }));
-        jasmine.getEnv().addReporter(new ConsoleReporter({
-            activity: !isCI && !isDebug,
-            cleanStack: 2,
-            colors: (isCI) ? 0 : 1,
-            listStyle: 'indent',
-            verbosity: 4,
-        }));
-
-        jasmine.getEnv().beforeEach(function beforeEachJasmineGetEnv() {
-            jasmine.addMatchers(require('./config/modules/jasmine-matchers'));
-        });
     },
 
     specs: [
@@ -77,10 +47,10 @@ exports.config = {
     stackTrace: false,
 
     /**
-     * Angular 2 configuration
+     * Angular 2 configuration.
      *
-     * useAllAngular2AppRoots: tells Protractor to wait for any angular2 apps on the page instead of just the one
-     * matching `rootEl`
+     * 'useAllAngular2AppRoots': tells Protractor to wait for any angular2 apps on the page instead of just the one
+     * matching `rootEl`.
      */
     useAllAngular2AppRoots: true,
 };

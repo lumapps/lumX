@@ -59,6 +59,12 @@
             "node_modules/@types"
         ]
     },
+    "include": [
+        "**/*.page.ts",
+        "**/*.spec.ts",
+        "**/*.specs.ts",
+        "**/*.e2e.ts"
+    ],
     "exclude": [
         "compiled",
         "dist",

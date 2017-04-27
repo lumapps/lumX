@@ -2,10 +2,10 @@ const commonConfig = require('./webpack.common');
 const webpackMerge = require('webpack-merge');
 
 /*
- * Webpack Plugins
+ * Webpack Plugins.
  */
 const CommonsChunkPlugin = require('webpack/lib/optimize/CommonsChunkPlugin');
-const ForkCheckerPlugin = require('awesome-typescript-loader').ForkCheckerPlugin;
+const CheckerPlugin = require('awesome-typescript-loader').CheckerPlugin;
 
 /*
  * Webpack configuration.
@@ -33,7 +33,7 @@ module.exports = function webpackCommonBuildConfigExport(metadata) {
              */
             rules: [
                 /*
-                 * Fix an Angular2 performance issue by removing inline sourcemaps
+                 * Fix an Angular performance issue by removing inline sourcemaps.
                  *
                  * @see {@link https://www.npmjs.com/package/string-replace-loader|String-Replace Loader}
                  */
@@ -65,10 +65,20 @@ module.exports = function webpackCommonBuildConfigExport(metadata) {
              * @see {@link https://github.com/webpack/docs/wiki/optimization#multi-page-app|The webpack documentation on optimization}
              */
             new CommonsChunkPlugin({
-                name: [
-                    'polyfills',
-                    'vendors',
-                ].reverse(),
+                chunks: ['polyfills'],
+                name: 'polyfills',
+            }),
+
+            // This enables tree shaking of the vendor modules.
+            new CommonsChunkPlugin({
+                chunks: ['main'],
+                minChunks: (mod) => (/node_modules/).test(mod.resource),
+                name: 'vendor',
+            }),
+
+            // Specify the correct order the scripts will be injected in.
+            new CommonsChunkPlugin({
+                name: ['polyfills', 'vendor'].reverse(),
             }),
 
             /*
@@ -77,7 +87,7 @@ module.exports = function webpackCommonBuildConfigExport(metadata) {
              *
              * @see {@link https://github.com/s-panferov/awesome-typescript-loader#forkchecker-boolean-defaultfalse|Awesome Typescript Loader forkchecker}
              */
-            new ForkCheckerPlugin(),
+            new CheckerPlugin(),
         ],
     });
 };

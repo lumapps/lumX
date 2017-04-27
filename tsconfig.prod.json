@@ -1,4 +1,8 @@
 {
+    "angularCompilerOptions": {
+        "genDir": "./compiled",
+        "skipMetadataEmit": true
+    },
     "atom": {
         "rewriteTsconfig": false
     },
@@ -62,6 +66,10 @@
     "exclude": [
         "compiled",
         "dist",
-        "node_modules"
+        "node_modules",
+        "**/*.page.ts",
+        "**/*.spec.ts",
+        "**/*.specs.ts",
+        "**/*.e2e.ts"
     ]
 }

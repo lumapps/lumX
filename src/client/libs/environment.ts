@@ -1,11 +1,12 @@
 // Angular 2
-import { ApplicationRef, ComponentRef, enableProdMode, NgModuleRef } from '@angular/core';
+import { ApplicationRef, ComponentRef, NgModuleRef, enableProdMode } from '@angular/core';
 import { disableDebugTools, enableDebugTools } from '@angular/platform-browser';
 
 import { INgObject, INgWindow } from 'core/types/ng-window.type';
 
 
 interface IDecorateModuleRef {
+    // tslint:disable-next-line:no-any
     (value: NgModuleRef<any>): NgModuleRef<any>;
 }
 
@@ -19,17 +20,20 @@ if (ENV === 'production') {
     // Production
     enableProdMode();
 
-    _decorateModuleRef = (moduleRef: NgModuleRef<any>) => {
+    // tslint:disable-next-line:no-any
+    _decorateModuleRef = (moduleRef: NgModuleRef<any>): NgModuleRef<any> => {
         disableDebugTools();
 
         return moduleRef;
     };
 } else {
-    _decorateModuleRef = (moduleRef: NgModuleRef<any>) => {
-        let appRef: ApplicationRef = moduleRef.injector.get(ApplicationRef);
-        let cmpRef: ComponentRef<any> = appRef.components[0];
+    // tslint:disable-next-line:no-any
+    _decorateModuleRef = (moduleRef: NgModuleRef<any>): NgModuleRef<any> => {
+        const appRef: ApplicationRef = moduleRef.injector.get(ApplicationRef);
+        // tslint:disable-next-line:no-any
+        const cmpRef: ComponentRef<any> = appRef.components[0];
 
-        let ng: INgObject = (<INgWindow>window).ng;
+        const ng: INgObject = (<INgWindow>window).ng;
 
         enableDebugTools(cmpRef);
 

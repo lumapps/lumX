@@ -1,7 +1,7 @@
 const helpers = require('./modules/helpers');
 
 /*
- * Webpack Plugins
+ * Webpack Plugins.
  */
 const AssetsPlugin = require('assets-webpack-plugin');
 const ContextReplacementPlugin = require('webpack/lib/ContextReplacementPlugin');
@@ -9,9 +9,17 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const DefinePlugin = require('webpack/lib/DefinePlugin');
 const HtmlElementsPlugin = require('./html-elements-plugin');
 const LoaderOptionsPlugin = require('webpack/lib/LoaderOptionsPlugin');
+const NGCWebpack = require('ngc-webpack');
+const NormalModuleReplacementPlugin = require('webpack/lib/NormalModuleReplacementPlugin');
 const SassLintPlugin = require('sasslint-webpack-plugin');
 const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 const TsConfigPathsPlugin = require('awesome-typescript-loader').TsConfigPathsPlugin;
+
+/**
+ * Webpack Constants.
+ */
+const ENABLE_AOT = helpers.hasNpmFlag('aot');
+
 
 /*
  * Webpack configuration.
@@ -21,7 +29,36 @@ const TsConfigPathsPlugin = require('awesome-typescript-loader').TsConfigPathsPl
  * @param {Object} metadata The metadata to generate the config.
  */
 module.exports = function webpackCommonConfigExport(metadata) {
-    let plugins = [
+    if (metadata.env === helpers.ENVS.test) {
+        console.info('');
+        console.info('Starting Webpack bundle compilation.');
+        console.info('This could take some time, please wait...');
+    }
+
+    let tsConfigFile = 'tsconfig.json';
+    const tsExcludes = [];
+    const tsLoaders = [
+        {
+            loader: 'ng-router-loader',
+            options: {
+                aot: ENABLE_AOT,
+                genDir: 'compiled',
+                loader: 'async-import',
+            },
+        },
+        {
+            loader: 'awesome-typescript-loader',
+            options: {
+                configFileName: (metadata.env === helpers.ENVS.prod) ? 'tsconfig.prod.json' : 'tsconfig.json',
+                silent: !helpers.ENABLE_DEBUG,
+                useCache: true,
+                usePrecompiledFiles: true,
+            },
+        },
+        'angular2-template-loader',
+    ];
+
+    const plugins = [
         /*
          * Plugin: AssetsPlugin.
          * Description: Emits a JSON file with assets paths.
@@ -70,6 +107,7 @@ module.exports = function webpackCommonConfigExport(metadata) {
             },
         }),
 
+        // eslint-disable-next-line lumapps/comments-sentences
         /*
          * Plugin: HtmlHeadConfigPlugin.
          * Description: Generate html tags based on javascript maps.
@@ -79,17 +117,16 @@ module.exports = function webpackCommonConfigExport(metadata) {
          * You can also enable it to other attribute by settings "=attName": true.
          *
          * The configuration supplied is map between a location (key) and an element definition object (value).
-         * The location (key) is then exported to the template under then htmlElements property in webpack
-         * configuration.
+         * The location (key) is then exported to the template under then htmlElements property in webpack config.
          *
          * Example:
-         *  Adding this plugin configuration
-         *  new HtmlElementsPlugin({
-         *      headTags: { ... }
-         *  })
+         *     // Adding this plugin configuration.
+         *     new HtmlElementsPlugin({
+         *         headTags: { ... },
+         *     });
          *
          *  Means we can use it in the template like this:
-         *  <%= webpackConfig.htmlElements.headTags %>
+         *      "<%= webpackConfig.htmlElements.headTags %>"
          *
          * @dependencies: HtmlWebpackPlugin
          */
@@ -113,16 +150,69 @@ module.exports = function webpackCommonConfigExport(metadata) {
          */
         new LoaderOptionsPlugin(helpers.getOptions()),
 
+        new NGCWebpack.NgcWebpackPlugin({
+            disabled: !ENABLE_AOT,
+            resourceOverride: helpers.root('config', 'modules', 'resource-override.js'),
+            tsConfig: helpers.root('tsconfig.prod.json'),
+        }),
+
+        // Fix Angular.
+        new NormalModuleReplacementPlugin(
+          /facade(\\|\/)async/,
+          helpers.root('node_modules', '@angular', 'core', 'src', 'facade', 'async.js')
+        ),
+        new NormalModuleReplacementPlugin(
+          /facade(\\|\/)collection/,
+          helpers.root('node_modules', '@angular', 'core', 'src', 'facade', 'collection.js')
+        ),
+        new NormalModuleReplacementPlugin(
+          /facade(\\|\/)errors/,
+          helpers.root('node_modules', '@angular', 'core', 'src', 'facade', 'errors.js')
+        ),
+        new NormalModuleReplacementPlugin(
+          /facade(\\|\/)lang/,
+          helpers.root('node_modules', '@angular', 'core', 'src', 'facade', 'lang.js')
+        ),
+        new NormalModuleReplacementPlugin(
+          /facade(\\|\/)math/,
+          helpers.root('node_modules', '@angular', 'core', 'src', 'facade', 'math.js')
+        ),
+
         /*
          * Plugin: TsConfigPathsPlugin.
          * Description: Add the support of 'tsconfig.json' 'path' property.
          *
          * @see {@link https://github.com/s-panferov/awesome-typescript-loader|Awesome Typescript Loader}
          */
-        new TsConfigPathsPlugin(),
+        new TsConfigPathsPlugin({
+            configFileName: tsConfigFile,
+        }),
     ];
 
-    if (metadata.env !== helpers.ENVS.test) {
+    if (metadata.env === helpers.ENVS.test) {
+        tsConfigFile = 'tsconfig.tests.json';
+        tsExcludes.push(/\.e2e\.ts$/i);
+    } else {
+        if (metadata.env === helpers.ENVS.dev) {
+            tsLoaders.unshift({
+                loader: '@angularclass/hmr-loader',
+                options: {
+                    pretty: true,
+                    prod: false,
+                },
+            });
+        }
+
+        if (metadata.env === helpers.ENVS.prod) {
+            tsConfigFile = 'tsconfig.prod.json';
+        }
+
+        Array.prototype.push.apply(tsExcludes, [
+            /\.(spec|specs|e2e)\.ts$/i,
+            helpers.root('tests'),
+            helpers.root('dist'),
+        ]);
+
         plugins.push(
             /**
              * Plugin: ContextReplacementPlugin.
@@ -132,9 +222,14 @@ module.exports = function webpackCommonConfigExport(metadata) {
              * @see {@link https://github.com/angular/angular/issues/11580|Why using this?}
              */
             new ContextReplacementPlugin(
-                // The (\\|\/) piece accounts for path separators in *nix and Windows
-                /angular(\\|\/)core(\\|\/)(esm(\\|\/)src|src)(\\|\/)linker/i,
-                helpers.root('src', 'client')
+                // The (\\|\/) piece accounts for path separators in *nix and Windows.
+                /angular(\\|\/)core(\\|\/)@angular/i,
+                helpers.root('src', 'client'),
+                /* eslint-disable object-curly-newline */
+                {
+                    // Your Angular Async Route paths relative to this root directory.
+                }
+                /* eslint-enable object-curly-newline */
             ),
 
             /**
@@ -150,8 +245,10 @@ module.exports = function webpackCommonConfigExport(metadata) {
                 failOnError: true,
                 failOnWarning: false,
                 glob: './src/client/**/*.s?(a|c)ss',
-                // NOTE: we need to use the ignoreFiles array here and have the same files as in the .sass-lint.yml
-                // because the plugin doesn't parse the config file for ignored files... *lame*
+                /*
+                 * NOTE: we need to use the ignoreFiles array here and have the same files as in the .sass-lint.yml
+                 * because the plugin doesn't parse the config file for ignored files... *lame*!
+                 */
                 ignoreFiles: [],
                 quiet: false,
                 testing: false,
@@ -176,10 +273,9 @@ module.exports = function webpackCommonConfigExport(metadata) {
          *
          * @see {@link http://webpack.github.io/docs/configuration.html#entry|The webpack documentation on entries}
          */
-        entry: (metadata.env === helpers.ENVS.test) ? {} : {
-            main: './src/client/main.ts',
+        entry: (metadata.env === helpers.ENVS.test) ? undefined : {
+            main: (helpers.hasNpmFlag('aot')) ? './src/client/main.aot.ts' : './src/client/main.ts',
             polyfills: './src/client/polyfills.ts',
-            vendors: './src/client/vendors.ts',
         },
 
         /*
@@ -209,7 +305,11 @@ module.exports = function webpackCommonConfigExport(metadata) {
                         helpers.root('node_modules'),
                     ],
                     loader: 'tslint-loader',
-                    test: /\.ts$/i,
+                    options: {
+                        tsConfigFile: tsConfigFile,
+                        typeCheck: true,
+                    },
+                    test: (metadata.env === helpers.ENVS.test) ? /\.(page|spec|specs|e2e)\.ts$/i : /\.ts$/i,
                 },
 
                 /*
@@ -221,7 +321,7 @@ module.exports = function webpackCommonConfigExport(metadata) {
                 {
                     enforce: 'pre',
                     exclude: [
-                        // These packages have problems with their sourcemaps, so ignore them
+                        // These packages have problems with their sourcemaps, so ignore them.
                         helpers.root('node_modules', 'rxjs'),
                         helpers.root('node_modules', '@angular'),
                         helpers.root('node_modules', '@ngrx'),
@@ -254,8 +354,20 @@ module.exports = function webpackCommonConfigExport(metadata) {
                     test: /\.(png|jpe?g|gif|svg|woff|woff2|ttf|eot|ico)$/i,
                 },
 
+                /* Load HTML files and templates.
+                 *
+                 * @see {@link https://github.com/webpack/html-loader|HTML Loader}
+                 */
+                {
+                    exclude: [
+                        helpers.root('src', 'client', 'index.html'),
+                    ],
+                    test: /\.html$/i,
+                    use: 'html-loader',
+                },
+
                 /*
-                 * Load CSS after having resolved URL and post-processed them through PostCSS
+                 * Load CSS after having resolved URL and post-processed them through PostCSS.
                  *
                  * @see {@link https://www.npmjs.com/package/to-string-loader|To-String Loader}
                  * @see {@link https://github.com/webpack/css-loader|CSS Loader}
@@ -265,14 +377,34 @@ module.exports = function webpackCommonConfigExport(metadata) {
                 {
                     exclude: [
                         helpers.root('src', 'client', 'index.html'),
+                        helpers.root('src', 'client', 'app', 'core', 'styles'),
                     ],
-                    loaders: [
+                    test: /\.css$/i,
+                    use: [
                         'to-string-loader',
                         'css-loader?sourceMap',
                         'postcss-loader',
                         'resolve-url-loader',
                     ],
+                },
+
+                /*
+                 * Load CSS after having resolved URL and post-processed them through PostCSS.
+                 *
+                 * @see {@link https://www.npmjs.com/package/to-string-loader|To-String Loader}
+                 * @see {@link https://github.com/webpack/css-loader|CSS Loader}
+                 * @see {@link https://github.com/postcss/postcss-loader|Post-CSS Loader}
+                 * @see {@link https://www.npmjs.com/package/resolve-url-loader|Resolve-URL Loader}
+                 */
+                {
+                    include: helpers.root('src', 'client', 'app', 'core', 'styles'),
                     test: /\.css$/i,
+                    use: [
+                        'style-loader',
+                        'css-loader?sourceMap',
+                        'postcss-loader',
+                        'resolve-url-loader',
+                    ],
                 },
 
                 /*
@@ -287,13 +419,13 @@ module.exports = function webpackCommonConfigExport(metadata) {
                 {
                     exclude: helpers.root('src', 'client', 'app', 'core', 'styles'),
                     include: helpers.root('src', 'client'),
-                    loaders: [
+                    test: /\.scss$/i,
+                    use: [
                         'raw-loader',
                         'postcss-loader',
                         'resolve-url-loader',
                         'sass-loader?sourceMap',
                     ],
-                    test: /\.scss$/i,
                 },
 
                 /*
@@ -308,26 +440,30 @@ module.exports = function webpackCommonConfigExport(metadata) {
                  */
                 {
                     include: helpers.root('src', 'client', 'app', 'core', 'styles'),
-                    loaders: [
+                    test: /\.scss$/i,
+                    use: [
                         'style-loader',
                         'css-loader?sourceMap',
                         'postcss-loader',
                         'resolve-url-loader',
                         'sass-loader?sourceMap',
                     ],
-                    test: /\.scss$/i,
                 },
 
-                /* Load HTML files and templates.
+                /*
+                 * Compile and load Typescript files.
+                 * Also, generate the right lazy loaded route configuration.
+                 * Finally, inline external templates and styles in components.
                  *
-                 * @see {@link https://github.com/webpack/html-loader|HTML Loader}
+                 * @see {@link https://github.com/AngularClass/angular2-hmr-loader|Angular2 HMR Loader}
+                 * @see {@link https://github.com/s-panferov/awesome-typescript-loader|Awesome Typescript Loader}
+                 * @see {@link https://www.npmjs.com/package/angular2-router-loader|Angular2 Router Loader}
+                 * @see {@link https://github.com/TheLarkInn/angular2-template-loader|Angular2 Template Loader}
                  */
                 {
-                    exclude: [
-                        helpers.root('src', 'client', 'index.html'),
-                    ],
-                    loader: 'html-loader',
-                    test: /\.html$/i,
+                    exclude: tsExcludes,
+                    test: /\.ts$/i,
+                    use: tsLoaders,
                 },
             ],
         },
@@ -348,7 +484,7 @@ module.exports = function webpackCommonConfigExport(metadata) {
         },
 
         /*
-         * Configure the output
+         * Configure the output.
          */
         output: {
             /**
@@ -359,7 +495,7 @@ module.exports = function webpackCommonConfigExport(metadata) {
             path: helpers.root('dist', 'client'),
 
             /**
-             * Make the file path relative to the root
+             * Make the file path relative to the root.
              */
             publicPath: '/',
         },
@@ -398,7 +534,7 @@ module.exports = function webpackCommonConfigExport(metadata) {
                 helpers.root('src', 'client'),
                 helpers.root('src', 'client', 'app'),
                 helpers.root('src', 'client', 'assets'),
-                'node_modules',
+                helpers.root('node_modules'),
             ],
         },
     };

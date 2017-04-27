@@ -3,26 +3,27 @@ const helpers = require('./modules/helpers');
 const webpackMerge = require('webpack-merge');
 
 /**
- * Webpack Plugins
+ * Webpack Plugins.
  */
 
+
 /**
- * Webpack Constants
+ * Webpack Constants.
  */
 const ENV = process.env.ENV = process.env.NODE_ENV = helpers.ENVS.test;
 const METADATA = helpers.getMetadata(ENV);
 
-let devServerConfig = helpers.getDevServerConfig(METADATA);
+const devServerConfig = helpers.getDevServerConfig(METADATA);
 
 /**
- * Webpack configuration
+ * Webpack configuration.
  *
  * @see {@link http://webpack.github.io/docs/configuration.html#cli|The Webpack documentation on configuration}
+ *
+ * @return {Object} The webpack test configuration.
  */
 module.exports = function webpackTestConfigExport() {
-    const realCommonConfig = commonConfig(METADATA);
-
-    return webpackMerge.smart(realCommonConfig, {
+    return webpackMerge.smart(commonConfig(METADATA), {
         /**
          * Webpack Development Server configuration.
          * Description: The webpack-dev-server is a little node.js Express server.
@@ -56,28 +57,6 @@ module.exports = function webpackTestConfigExport() {
              * @see {@link https://gist.github.com/sokra/27b24881210b56bbaff7|What's new in Webpack2}
              */
             rules: [
-                /*
-                 * Compile and load Typescript files.
-                 * Also, generate the right lazy loaded route configuration
-                 * Finally, inline external templates and styles in components
-                 *
-                 * @see {@link https://github.com/s-panferov/awesome-typescript-loader|Awesome Typescript Loader}
-                 * @see {@link https://www.npmjs.com/package/angular2-router-loader|Angular2 Router Loader}
-                 * @see {@link https://github.com/TheLarkInn/angular2-template-loader|Angular2 Template Loader}
-                 */
-                {
-                    exclude: [
-                        /\.e2e\.ts$/i,
-                    ],
-                    loaders: [
-                        'awesome-typescript-loader?inlineSourceMap=true&sourceMap=false&removeComments=false',
-                        'angular2-router-loader?aot=false',
-                        'angular2-template-loader',
-                    ],
-                    test: /\.ts$/i,
-                },
-
-
                 /**
                  * Instruments testing files with Istanbul for subsequent code coverage reporting.
                  *
@@ -91,9 +70,21 @@ module.exports = function webpackTestConfigExport() {
                     ],
                     include: helpers.root('src', 'client', 'app'),
                     loader: 'istanbul-instrumenter-loader',
+                    options: {
+                        esModules: true,
+                    },
                     test: /\.(js|ts)$/i,
                 },
             ],
+        },
+
+        /**
+         * Disable performance hints.
+         *
+         * @see {@link https://github.com/a-tarasyuk/rr-boilerplate/blob/master/webpack/dev.config.babel.js#L41}
+         */
+        performance: {
+            hints: false,
         },
     });
 };

@@ -2,18 +2,24 @@ const autoprefixer = require('autoprefixer');
 const merge = require('merge');
 const path = require('path');
 
+/////////////////////////////
+
 /*
- * Webpack Plugins
+ * Webpack Plugins.
  */
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
+/////////////////////////////
+
 /*
- * Useful constants
+ * Useful constants.
  */
 const APPENGINE_DEV_SERVER = {
     host: 'localhost',
     port: 8888,
 };
+
+const ENABLE_DEBUG = process.env.DEBUG;
 
 const ENVS = {
     dev: 'development',
@@ -24,9 +30,13 @@ const ENVS = {
     tests: 'test',
 };
 
+const EVENT = process.env.npm_lifecycle_event || '';
 
-// Helper functions
-var ROOT = path.resolve(__dirname, '../..');
+/////////////////////////////
+
+function hasNpmFlag(flag) {
+    return EVENT.includes(flag);
+}
 
 function hasProcessFlag(flag) {
     return process.argv.join('').indexOf(flag) > -1;
@@ -36,26 +46,25 @@ function isWebpackDevServer() {
     return process.argv[1] && !!(/webpack-dev-server/.exec(process.argv[1])); // eslint-disable-line
 }
 
-function rootFunction(args) {
-    args = Array.prototype.slice.call(arguments, 0);
+/////////////////////////////
 
-    return path.join.apply(path, [ROOT].concat(args));
-}
+const ROOT = path.resolve(__dirname, '../..');
+const rootFunction = path.join.bind(path, ROOT);
+
+/////////////////////////////
 
 /**
- * Get the default metadata
+ * Get the default metadata.
  *
- * @param  {string} env     The runtime environment: 'development', 'production' or 'test'
- * @return {Object}         The default metadata.
+ * @param  {string} env The runtime environment.
+ *                      Possible values are 'development', 'production' or 'test'.
+ * @return {Object} The default metadata.
  */
 function getMetadata(env) {
     env = (env === undefined || typeof env !== 'string' || env.length === 0) ? ENVS.dev : env;
 
     const HMR = (env === ENVS.dev) ? hasProcessFlag('hot') : false;
 
-    /*
-     * Webpack Constants
-     */
     return {
         HMR: HMR,
         env: env,
@@ -64,6 +73,8 @@ function getMetadata(env) {
         port: process.env.PORT || 8880,
     };
 }
+
+/////////////////////////////
 
 const DEV_SERVER_CONFIG = {
     historyApiFallback: true,
@@ -74,55 +85,76 @@ const DEV_SERVER_CONFIG = {
     proxy: {
         '/_ah/*': {
             changeOrigin: true,
-            target: 'http://' + APPENGINE_DEV_SERVER.host + ':' + APPENGINE_DEV_SERVER.port,
+            target: `http://${APPENGINE_DEV_SERVER.host}:${APPENGINE_DEV_SERVER.port}`,
         },
         '/services/*': {
             changeOrigin: true,
-            target: 'http://' + APPENGINE_DEV_SERVER.host + ':' + APPENGINE_DEV_SERVER.port,
+            target: `http://${APPENGINE_DEV_SERVER.host}:${APPENGINE_DEV_SERVER.port}`,
         },
     },
 
     quiet: false,
     stats: {
         assets: false,
+        cached: false,
+        cachedAssets: false,
         children: false,
+        chunkModules: false,
+        chunkOrigins: false,
         chunks: false,
         colors: true,
+        context: './src/client/',
+        depth: false,
+        entrypoints: false,
         errorDetails: true,
         errors: true,
+        exclude: [],
         hash: false,
         modules: false,
+        performance: true,
+        providedExports: false,
         publicPath: false,
         reasons: false,
         source: false,
-        timings: false,
-        version: false,
+        timings: true,
+        usedExports: false,
+        version: true,
         warnings: true,
+        /*
+         * Filter warnings to be shown (since webpack 2.4.0).
+         * Can be a String, Regexp, a function getting the warning and returning a boolean  or an Array of a
+         * combination of the above. First match wins.
+         *
+         * "filter" | /filter/ | ["filter", /filter/] | (warning) => ... return true|false;
+         */
+        warningsFilter: [],
     },
 };
 
 /**
- * Get the development server configuration
+ * Get the development server configuration.
  *
- * @param  {Object} metadata The metadata
- * @return {Object}          The development server configuration.
+ * @param  {Object} metadata The metadata.
+ * @return {Object} The development server configuration.
  */
 function getDevServerConfig(metadata) {
     metadata = (metadata === undefined || typeof metadata !== 'object') ? getMetadata() : metadata;
 
-    var devServerConfig = Object.assign({}, DEV_SERVER_CONFIG);
+    const devServerConfig = Object.assign({}, DEV_SERVER_CONFIG);
     devServerConfig.host = metadata.host || devServerConfig.host;
     devServerConfig.port = metadata.port || devServerConfig.port;
 
     return devServerConfig;
 }
 
+/////////////////////////////
+
 /**
- * Generate an HTML Webpack Plugin with correct metadata
+ * Generate an HTML Webpack Plugin with correct metadata.
  *
- * @param  {Object}            metadata The metadata
- * @param  {string}            title    The title
- * @return {HtmlWebpackPlugin}          The html webpack plugin.
+ * @param  {Object}            metadata The metadata.
+ * @param  {string}            title    The title.
+ * @return {HtmlWebpackPlugin} The html webpack plugin.
  */
 function getHtmlWebpackPlugin(metadata, title) {
     metadata = (metadata === undefined || typeof metadata !== 'object') ? getMetadata() : metadata;
@@ -144,8 +176,9 @@ function getHtmlWebpackPlugin(metadata, title) {
         title: title,
     });
 }
-
+/////////////////////////////
 const DEFAULT_OPTIONS = {
+    debug: false,
     options: {
         context: rootFunction(''),
 
@@ -218,35 +251,40 @@ const DEFAULT_OPTIONS = {
          * @see {@link https://github.com/wbuchwalter/tslint-loader|TSLint Loader}
          */
         tslint: {
-            // TSLint errors are displayed by default as warnings.
-            // Set emitErrors to true to display them as errors.
+            /*
+             * TSLint errors are displayed by default as warnings.
+             * Set emitErrors to true to display them as errors.
+             */
             emitErrors: false,
 
-            // TSLint does not interrupt the compilation by default.
-            // If you want any file with tslint errors to fail set failOnHint to true.
+            /*
+             * TSLint does not interrupt the compilation by default.
+             * If you want any file with tslint errors to fail set failOnHint to true.
+             */
             failOnHint: false,
         },
     },
 };
 
 /**
- * Get the webpack loaders options
+ * Get the webpack loaders options.
  *
- * @param  {Object} metadata The metadata
  * @param  {Object} options  Options to add to the default options
  * @return {Object} The development server configuration.
  */
 function getOptions(options) {
-    var defaultOptions = merge.recursive(true, DEFAULT_OPTIONS, options);
-
-    return defaultOptions;
+    return merge.recursive(true, DEFAULT_OPTIONS, options);
 }
 
+/////////////////////////////
+
+exports.ENABLE_DEBUG = ENABLE_DEBUG;
 exports.ENVS = ENVS;
 exports.getDevServerConfig = getDevServerConfig;
 exports.getHtmlWebpackPlugin = getHtmlWebpackPlugin;
 exports.getMetadata = getMetadata;
 exports.getOptions = getOptions;
+exports.hasNpmFlag = hasNpmFlag;
 exports.hasProcessFlag = hasProcessFlag;
 exports.isWebpackDevServer = isWebpackDevServer;
 exports.root = rootFunction;

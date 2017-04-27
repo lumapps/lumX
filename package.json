@@ -4,7 +4,7 @@
     "description": "Default boilerplate for new project generation",
     "keywords": [
         "lumapps",
-        "angular2",
+        "angular",
         "boilerplate",
         "typescript",
         "sass",
@@ -13,23 +13,36 @@
     "homepage": "https://github.com/lumapps/boilerplate/",
     "config": {
         "commitizen": {
-            "path": "./node_modules/cz-conventional-changelog"
+            "path": "./node_modules/lumapps-conventional-changelog"
         },
         "husky": {
             "flags": "--silent"
         },
         "validate-commit-msg": {
-            "types": "conventional-commit-types",
+            "types": "lumapps-conventional-commit-types",
             "warnOnFail": false,
             "maxSubjectLength": 100,
-            "subjectPattern": ".+",
-            "subjectPatternErrorMsg": "Commit subject is not valid. It must be at least one character long.",
-            "helpMessage": "\nHere is the format for valid commit messages: \n<type>(<scope>): <subject>\n<BLANK LINE>\n<body>\n<BLANK LINE>\n<footer>\n\nIf your commit message starts with 'WIP', then no commit validation will be enforced."
+            "subjectPattern": "^[a-z0-9].+[^.]$",
+            "subjectPatternErrorMsg": "Commit subject is not valid. It must start with a lowercase letter or a number, be at least one word long and not end with a dot.",
+            "helpMessage": "\nHere is the format for valid commit messages: \n<type>(<scope>): <subject>\n<BLANK LINE>\n<body>\n<BLANK LINE>\n<footer>\n\n\nThe scope must be in kebab-case\n\nIf your commit message starts with 'WIP', then no commit validation will be enforced."
         }
     },
     "scripts": {
+        "co": "npm -s run commit",
+        "commit": "git-cz",
+        "cz": "npm -s run commit",
+
+        "precommit": "./.pre-commit",
+        "commitmsg": "npm -s run validate-commit",
+        "prepush": "./.pre-push",
+
+        "help": "npm -s run tasks",
+        "task": "gulp",
+        "tasks": "npm -s run task -- --tasks",
+
         "clean": "npm -s run clean:dist",
         "clean:all": "npm -s run task -- clean:all",
+        "clean:aot": "npm -s run task -- clean:aot",
         "clean:dist": "npm -s run task -- clean:dist",
         "clean:docs": "npm -s run task -- clean:docs",
         "clean:docs:client": "npm -s run task -- clean:docs:client",
@@ -39,17 +52,13 @@
         "clean:misc": "npm -s run task clean:misc",
         "clean:npm": "npm -s run clean:packages",
         "clean:packages": "bash -c \"(gulp --version &> /dev/null) && npm -s run task -- clean:packages || npm -s run clean:packages:core\"",
-        "clean:packages:core": "rm -Rf -- node_modules",
-        "clean:packages:yarn:npm": "bash -c \"(yarn --version &> /dev/null) && yarn cache clean || npm -s cache clean\"",
+        "clean:packages:core": "rm -Rf -- node_modules; rm -Rf -- yarn.lock",
+        "clean:packages:yarn:npm": "bash -c \"(yarn --version &> /dev/null) && ((rm -Rf yarn.lock; yarn cache clean) || npm -s cache clean)\"",
         "clean:project": "npm -s run task -- clean:project",
         "clean:reports": "npm -s run clean:tests:reports",
         "clean:tests": "npm -s run clean:tests:reports",
         "clean:tests:reports": "npm -s run task -- clean:tests:reports",
         "clean:unit:report": "npm -s run task -- clean:unit:report",
-
-        "co": "npm -s run commit",
-        "commit": "npm -s run task -- commit",
-        "cz": "npm -s run commit",
 
         "build": "npm -s run build:prod",
         "build:fast": "npm -s run build:prod:fast",
@@ -59,6 +68,8 @@
         "build:prod:fast": "npm -s run task -- build:prod:fast",
         "build:dist": "npm -s run task -- build:prod",
         "build:dist:fast": "npm -s run task -- build:prod:fast",
+        "build:aot": "npm -s run task -- build:aot",
+        "build:aot:fast": "npm -s run task -- build:aot:fast",
         "dev": "npm -s run build:dev",
         "dev:fast": "npm -s run build:dev:fast",
         "dist": "npm -s run build:prod",
@@ -81,19 +92,13 @@
         "e2e:headless:fast": "npm -s run task -- e2e:headless:fast",
 
         "lint": "npm -s run lint:src",
-        "lint:all": "npm -s run lint:config && npm -s run lint:src",
+        "lint:all": "npm -s run lint:config; npm -s run lint:src",
         "lint:config": "npm -s run task -- lint:config",
         "lint:src": "npm -s run task -- lint:src",
         "lint:src:ts": "npm -s run task -- lint:src:ts",
         "lint:src:js": "npm -s run task -- lint:src:js",
         "lint:src:scss": "npm -s run task -- lint:src:scss",
-
-        "precommit": "./.pre-commit",
-        "preparecommitmsg": "npm -s run validate-commit",
-
-        "help": "npm -s run tasks",
-        "task": "gulp",
-        "tasks": "npm -s run task -- --tasks",
+        "lint:tests": "npm -s run task -- lint:tests",
 
         "test": "npm -s run unit",
         "test:headless": "npm -s run unit:headless",
@@ -115,6 +120,7 @@
 
         "check:prerequisites": "bash -c \"(gulp --version &> /dev/null) && npm -s run task -- check:prerequisites || npm -s run check:prerequisites:core\"",
         "check:prerequisites:core": "bash -c \"./pre-requisites.sh\"",
+
         "preinit": "npm -s run check:prerequisites:core",
         "init": "bash ./init.sh",
 
@@ -139,7 +145,14 @@
         "update:npm": "npm -s run setup:update:npm",
         "update:yarn": "npm -s run setup:update:yarn",
 
+        "default": "npm -s run start",
         "start": "npm -s run serve:live",
+
+        "release:help": "./release.sh -h",
+        "release:fix": "./release.sh",
+        "release:candidate": "./release.sh -c",
+        "release:golden": "./release.sh -g",
+        "release:final": "./release.sh -f",
 
         "live": "npm -s run start",
         "run": "npm -s run serve:live",
@@ -166,33 +179,36 @@
         "scaffold:module:core": "npm -s run task -- scaffold:module:core",
 
 
-        "commitizen": "git-cz",
         "eslint": "eslint",
+        "git-cz": "git-cz",
         "gulp": "gulp",
         "http-server": "http-server",
         "istanbul": "istanbul",
+        "js-beautify": "js-beautify",
+        "jsbeautify": "js-beautify",
         "jsdoc": "jsdoc",
-        "karma": "karma",
-        "karma:headless": "xvfb-run --auto-servernum karma",
+        "ngc": "./node_modules/.bin/ngc-w -p tsconfig.prod.json",
         "npm-run-all": "npm-run-all",
-        "protractor": "protractor",
-        "protractor:debug": "protractor --elementExplorer",
-        "protractor:headless": "xvfb-run --auto-servernum protractor",
         "rimraf": "rimraf",
         "run-parallel": "run-p",
         "run-serie": "run-s",
         "sass-lint": "sass-lint",
         "tsc": "tsc",
-        "tsconfig-lint": "tsconfig-lint",
         "tslint": "tslint",
         "typedoc": "typedoc",
         "validate-commit": "validate-commit-msg",
-        "webdriver-manager": "webdriver-manager",
-        "webdriver:start": "npm -s run webdriver-manager -- start 2>&1",
-        "webdriver:update": "npm -s run webdriver-manager -- update --standalone 2>&1",
         "webpack": "webpack",
         "webpack-dashboard": "webpack-dashboard",
-        "webpack-dev-server": "webpack-dev-server"
+        "webpack-dev-server": "webpack-dev-server",
+
+        "karma": "karma",
+        "karma:headless": "xvfb-run --auto-servernum karma",
+        "protractor": "protractor",
+        "protractor:debug": "protractor --elementExplorer",
+        "protractor:headless": "xvfb-run --auto-servernum protractor",
+        "webdriver-manager": "webdriver-manager",
+        "webdriver:start": "npm -s run webdriver-manager -- start 2>&1",
+        "webdriver:update": "npm -s run webdriver-manager -- update --standalone 2>&1"
     },
     "engines": {
         "node": ">= 6.0.0 < 7.0.0",
@@ -213,6 +229,7 @@
         "url": "https://github.com/lumapps/lumboilerplate/issues"
     },
     "dependencies": {
+        "@angular/animations": "latest",
         "@angular/common": "latest",
         "@angular/compiler": "latest",
         "@angular/core": "latest",
@@ -228,12 +245,17 @@
 
         "core-js": "latest",
         "ie-shim": "latest",
+        "reflect-metadata": "latest",
         "rxjs": "latest",
-        "zone.js": "latest",
+        "zone.js": "0.8.5",
 
         "dedent": "latest"
     },
     "devDependencies": {
+        "@angular/compiler-cli": "latest",
+        "ngc-webpack": "latest",
+
+        "cloc": "latest",
         "http-server": "latest",
         "is-ci": "latest",
         "lodash": "latest",
@@ -242,9 +264,9 @@
         "rimraf": "latest",
 
         "commitizen": "latest",
-        "conventional-commit-types": "latest",
-        "cz-conventional-changelog": "latest",
-        "husky": "github:clementprevot/husky",
+        "husky": "git+ssh://git@github.com/clementprevot/husky#master",
+        "lumapps-conventional-changelog": "git+ssh://git@github.com/lumapps/lumapps-conventional-changelog#master",
+        "lumapps-conventional-commit-types": "git+ssh://git@github.com/lumapps/lumapps-conventional-commit-types#master",
         "validate-commit-msg": "latest",
 
         "gulp": "latest",
@@ -260,51 +282,75 @@
 
         "karma": "latest",
         "karma-chrome-launcher": "latest",
+        "karma-cli": "latest",
         "karma-coverage": "latest",
-        "karma-jasmine": "latest",
-        "karma-jasmine-matchers": "latest",
+        "karma-mocha": "latest",
         "karma-mocha-reporter": "latest",
-        "karma-phantomjs-launcher": "latest",
         "karma-remap-coverage": "latest",
+        "karma-sinon-chai": "latest",
         "karma-sourcemap-loader": "latest",
+        "karma-spec-reporter": "latest",
         "karma-webpack": "latest",
 
-        "jasmine-console-reporter": "latest",
-        "jasmine-expect": "latest",
+        "chai": "latest",
+        "chai-arrays": "latest",
+        "chai-as-promised": "latest",
+        "chai-asserttype": "latest",
+        "chai-change": "latest",
+        "chai-counting": "latest",
+        "chai-date-string": "latest",
+        "chai-datetime": "latest",
+        "chai-interface": "latest",
+        "chai-jquery": "latest",
+        "chai-json-schema": "latest",
+        "chai-sorted": "latest",
+        "chai-string": "latest",
+
+        "istanbul": "latest",
+        "mocha": "latest",
+
+        "sinon": "latest",
+        "sinon-chai": "latest",
+
         "protractor": "latest",
-        "protractor-jasmine2-html-reporter": "latest",
 
         "codelyzer": "latest",
         "eslint": "latest",
+        "eslint-friendly-formatter": "latest",
+        "eslint-plugin-no-useless-assign": "latest",
+        "eslint-plugin-unicorn": "git+ssh://git@github.com/sindresorhus/eslint-plugin-unicorn#master",
+        "eslint-plugin-you-dont-need-lodash-underscore": "latest",
+        "eslint-plugin-lumapps": "git+ssh://git@github.com/lumapps/eslint-plugin-lumapps#master",
+        "js-beautify": "latest",
         "jsdoc": "latest",
         "sass-lint": "latest",
-        "tsconfig-lint": "latest",
-        "tslint": "next",
+        "tslib": "latest",
+        "tslint": "latest",
         "tslint-eslint-rules": "latest",
-        "ts-helpers": "latest",
         "ts-node": "latest",
         "typedoc": "latest",
         "typescript": "latest",
 
         "@types/chai": "latest",
+        "@types/chai-as-promised": "latest",
         "@types/hammerjs": "latest",
-        "@types/jasmine": "latest",
-        "@types/jasmine-expect": "latest",
+        "@types/mocha": "latest",
         "@types/node": "latest",
-        "@types/selenium-webdriver": "latest",
+        "@types/sinon": "latest",
+        "@types/sinon-chai": "latest",
         "@types/source-map": "latest",
         "@types/uglify-js": "latest",
         "@types/webpack": "latest",
 
         "@angularclass/hmr-loader": "latest",
-        "angular2-router-loader": "latest",
         "angular2-template-loader": "latest",
         "awesome-typescript-loader": "latest",
         "css-loader": "latest",
         "file-loader": "latest",
         "html-loader": "latest",
-        "istanbul-instrumenter-loader": "^0.2.0",
+        "istanbul-instrumenter-loader": "latest",
         "json-loader": "latest",
+        "ng-router-loader": "latest",
         "postcss-loader": "latest",
         "raw-loader": "latest",
         "resolve-url-loader": "latest",
@@ -312,20 +358,18 @@
         "source-map-loader": "latest",
         "string-replace-loader": "latest",
         "style-loader": "latest",
-        "to-string-loader": "latest",
         "tslint-loader": "latest",
 
         "assets-webpack-plugin": "latest",
         "copy-webpack-plugin": "latest",
         "html-webpack-plugin": "latest",
-        "webpack-browser-plugin": "latest",
+        "optimize-js-plugin": "latest",
         "sasslint-webpack-plugin": "latest",
         "script-ext-html-webpack-plugin": "latest",
-        "webpack": "beta",
+        "webpack": "latest",
         "webpack-dashboard": "latest",
         "webpack-dev-middleware": "latest",
-        "webpack-dev-server": "beta",
-        "webpack-md5-hash": "latest",
+        "webpack-dev-server": "latest",
         "webpack-merge": "latest",
         "webpack-notifier": "latest"
     }
