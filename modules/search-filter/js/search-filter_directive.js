@@ -89,6 +89,7 @@
     function LxSearchFilterController($element, $scope, LxDropdownService, LxNotificationService, LxUtils)
     {
         var lxSearchFilter = this;
+        var debouncedAutocomplete;
         var input;
         var itemSelected = false;
 
@@ -139,7 +140,7 @@
                 return;
             }
 
-            updateAucomplete(lxSearchFilter.modelController.$viewValue);
+            updateAutocomplete(lxSearchFilter.modelController.$viewValue, true);
         }
 
         function getClass()
@@ -194,7 +195,10 @@
             switch (_event.keyCode) {
                 case 13:
                     keySelect();
-                    _event.preventDefault();
+                    if (lxSearchFilter.activeChoiceIndex > -1)
+                    {
+                        _event.preventDefault();
+                    }
                     break;
 
                 case 38:
@@ -226,6 +230,11 @@
 
         function keySelect()
         {
+            if (!lxSearchFilter.autocompleteList || lxSearchFilter.activeChoiceIndex === -1)
+            {
+                return;
+            }
+
             itemSelected = true;
 
             LxDropdownService.close(lxSearchFilter.dropdownId);
@@ -245,6 +254,27 @@
                     lxSearchFilter.activeChoiceIndex = lxSearchFilter.autocompleteList.length - 1;
                 }
             }
+        }
+
+        function onAutocompleteSuccess(autocompleteList)
+        {
+            lxSearchFilter.autocompleteList = autocompleteList;
+
+            if (lxSearchFilter.autocompleteList.length)
+            {
+                LxDropdownService.open(lxSearchFilter.dropdownId, $element);
+            }
+            else
+            {
+                LxDropdownService.close(lxSearchFilter.dropdownId);
+            }
+            lxSearchFilter.isLoading = false;
+        }
+
+        function onAutocompleteError(error)
+        {
+            LxNotificationService.error(error);
+            lxSearchFilter.isLoading = false;
         }
 
         function openInput()
@@ -288,55 +318,39 @@
         {
             lxSearchFilter.modelController = _modelController;
 
-            if (angular.isFunction(lxSearchFilter.autocomplete))
+            if (angular.isFunction(lxSearchFilter.autocomplete) && angular.isFunction(lxSearchFilter.autocomplete()))
             {
-                if (angular.isDefined(lxSearchFilter.modelController.$overrideModelOptions))
+                debouncedAutocomplete = LxUtils.debounce(function()
                 {
-                    lxSearchFilter.modelController.$overrideModelOptions({ debounce: { 'default': 500 } });
-                }
-                else
-                {
-                    lxSearchFilter.modelController.$options = lxSearchFilter.modelController.$options || {};
-                    lxSearchFilter.modelController.$options.updateOnDefault = true;
-                    lxSearchFilter.modelController.$options.debounce = { 'default': 500 };
-                }
-
-                lxSearchFilter.modelController.$parsers.push(updateAucomplete);
+                    lxSearchFilter.isLoading = true;
+                    (lxSearchFilter.autocomplete()).apply(this, arguments);
+                }, 500);
+                lxSearchFilter.modelController.$parsers.push(updateAutocomplete);
             }
         }
 
-        function updateAucomplete(_newValue)
+        function updateAutocomplete(_newValue, _immediate)
         {
-            if ((_newValue || (!_newValue && lxSearchFilter.searchOnFocus)) && !itemSelected && !lxSearchFilter.isLoading)
+            if ((_newValue || (angular.isUndefined(_newValue) && lxSearchFilter.searchOnFocus)) && !itemSelected)
             {
-                lxSearchFilter.isLoading = true;
-
-                var promise = lxSearchFilter.autocomplete({ newValue: _newValue });
-
-                promise.then(function(autocompleteList)
+                if (_immediate)
                 {
-                    lxSearchFilter.autocompleteList = autocompleteList;
-
-                    if (lxSearchFilter.autocompleteList.length)
-                    {
-                        LxDropdownService.open(lxSearchFilter.dropdownId, $element);
-                    }
-                    else
-                    {
-                        LxDropdownService.close(lxSearchFilter.dropdownId);
-                    }
-                }).catch(function(error)
+                    (lxSearchFilter.autocomplete())(_newValue, onAutocompleteSuccess, onAutocompleteError);
+                }
+                else
                 {
-                    LxNotificationService.error(error);
-                }).finally(function()
-                {
-                    lxSearchFilter.isLoading = false;
-                });
-            } else {
+                    debouncedAutocomplete(_newValue, onAutocompleteSuccess, onAutocompleteError);
+                }
+            }
+            else
+            {
+                debouncedAutocomplete.clear();
                 LxDropdownService.close(lxSearchFilter.dropdownId);
             }
 
             itemSelected = false;
+
+            return _newValue;
         }
     }
 })();
