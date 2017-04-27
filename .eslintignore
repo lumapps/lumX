@@ -1,4 +1,5 @@
 dist/**
+compiled/**
 **/*.min.js
 node_modules/**
 tests/client/unit/report

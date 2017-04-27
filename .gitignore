@@ -1,6 +1,6 @@
 # IDEs files
 *.sublime-*
-/.vscode/settings.json
+.vscode/*
 *.iml
 *.idea
 *.ropeproject
@@ -16,10 +16,13 @@
 *.cache
 Icon?
 *.swp
+tmp/
+/tmp*
 
-# SASS & CSS
+# SASS & CSS & Styles
 .sass-cache
 *.css.map
+config.codekit
 
 # Source files
 *.src
@@ -50,14 +53,15 @@ ehthumbs.db
 
 # GAE Specific files
 *datastore*
+!*datastore*.py
 *blobstore*
 *.search_index*
 
-# NPM/Yarn files
+# NPM/Yarn/Bower files
 **/node_modules/
 **/bower_components/
-**/npm-debug.log
-**/yarn-error.log
+npm-debug.log*
+yarn-*.log
 
 # Test files
 tests/**/report
@@ -67,8 +71,13 @@ tests/**/*Report.tar.gz
 # Logs files
 **/logs
 *.log
+logs
+logs-empty
+logs-journal
+logs-test
 
 # Typescript & Typings
+.awcache
 /src/client/typings/tsd/
 **/tsd_typings/
 
@@ -79,6 +88,14 @@ tests/**/*Report.tar.gz
 lang.csv
 lang.js
 
+# Misc
+/support/
+remote/password*
+marketplace/*.zip
+scripts/import/
+app/server/import_dump/
+progress.csv
+
 # Dist
 /dist
 
@@ -88,3 +105,11 @@ build.properties
 
 # Docs
 /docs
+
+# Compiled files
+compiled/
+dll/
+*.ngfactory.ts
+*.css.shim.ts
+*.ngsummary.json
+*.shim.ngstyle.ts
