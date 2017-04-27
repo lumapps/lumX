@@ -2,13 +2,11 @@
 
 set -x
 
-if [[ -z "$release_version" ]]; then
-    if [[ -n "$1" ]]; then
-        release_version="$1"
-    else
-        exit -1
-    fi
-else
+if [ -z "$release_version" ] && [ -n "$1" ]; then
+    release_version="$1"
+fi
+
+if [ -z "$release_version" ]; then
     exit -1
 fi
 
@@ -43,7 +41,7 @@ if [ $? != 0 ]; then
     exit -5
 fi
 
-if [ ! -z "$release_version" ]; then
+if [ -n "$release_version" ]; then
     chmod +x release.py
     ./release.py "$release_version"
 
