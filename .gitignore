@@ -18,6 +18,7 @@ Icon?
 *.swp
 tmp/
 /tmp*
+.tmp/
 
 # SASS & CSS & Styles
 .sass-cache
