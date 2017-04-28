@@ -149,7 +149,7 @@
         "no-empty-interface": true,
         "no-eval": true,
         "no-floating-promises": [
-            true
+            false
         ],
         "no-for-in-array": true,
         "no-import-side-effect": [
