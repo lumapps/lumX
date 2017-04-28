@@ -281,6 +281,8 @@
         "node-sass": "latest",
 
         "karma": "latest",
+        "karma-chai-datetime": "latest",
+        "karma-chai-string": "latest",
         "karma-chrome-launcher": "latest",
         "karma-cli": "latest",
         "karma-coverage": "latest",
@@ -293,20 +295,20 @@
         "karma-webpack": "latest",
 
         "chai": "latest",
-        "chai-arrays": "latest",
         "chai-as-promised": "latest",
+        "chai-arrays": "latest",
         "chai-asserttype": "latest",
         "chai-change": "latest",
         "chai-counting": "latest",
         "chai-date-string": "latest",
         "chai-datetime": "latest",
         "chai-interface": "latest",
-        "chai-jquery": "latest",
         "chai-json-schema": "latest",
         "chai-sorted": "latest",
         "chai-string": "latest",
 
         "istanbul": "latest",
+
         "mocha": "latest",
 
         "sinon": "latest",
@@ -333,9 +335,12 @@
 
         "@types/chai": "latest",
         "@types/chai-as-promised": "latest",
+        "@types/chai-datetime": "latest",
+        "@types/chai-json-schema": "latest",
+        "@types/chai-string": "latest",
         "@types/hammerjs": "latest",
-        "@types/mocha": "latest",
         "@types/node": "latest",
+        "@types/mocha": "latest",
         "@types/sinon": "latest",
         "@types/sinon-chai": "latest",
         "@types/source-map": "latest",

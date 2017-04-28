@@ -48,13 +48,8 @@
         "strictNullChecks": false,
         "target": "es5",
         "types": [
-            "chai",
-            "chai-as-promised",
             "hammerjs",
-            "mocha",
             "node",
-            "sinon",
-            "sinon-chai",
             "source-map",
             "uglify-js",
             "webpack"

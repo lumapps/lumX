@@ -1,3 +1,4 @@
+const _ = require('lodash');
 const helpers = require('./modules/helpers');
 
 /*
@@ -35,8 +36,12 @@ module.exports = function webpackCommonConfigExport(metadata) {
         console.info('This could take some time, please wait...');
     }
 
+    let lintInclude;
+    let lintTest = /\.ts$/i;
     let tsConfigFile = 'tsconfig.json';
-    const tsExcludes = [];
+    const tsExcludes = [
+        helpers.root('dist'),
+    ];
     const tsLoaders = [
         {
             loader: 'ng-router-loader',
@@ -49,7 +54,7 @@ module.exports = function webpackCommonConfigExport(metadata) {
         {
             loader: 'awesome-typescript-loader',
             options: {
-                configFileName: (metadata.env === helpers.ENVS.prod) ? 'tsconfig.prod.json' : 'tsconfig.json',
+                configFileName: undefined,
                 silent: !helpers.ENABLE_DEBUG,
                 useCache: true,
                 usePrecompiledFiles: true,
@@ -70,6 +75,24 @@ module.exports = function webpackCommonConfigExport(metadata) {
             path: helpers.root('dist', 'client'),
             prettyPrint: true,
         }),
+
+        /**
+         * Plugin: ContextReplacementPlugin.
+         * Description: Provides context to Angular's use of System.import.
+         *
+         * @see {@link https://webpack.github.io/docs/list-of-plugins.html#contextreplacementplugin|Context Replacement Plugin}
+         * @see {@link https://github.com/angular/angular/issues/11580|Why using this?}
+         */
+        new ContextReplacementPlugin(
+            // The (\\|\/) piece accounts for path separators in *nix and Windows.
+            /angular(\\|\/)core(\\|\/)@angular/i,
+            helpers.root('src', 'client'),
+            /* eslint-disable object-curly-newline */
+            {
+                // Your Angular Async Route paths relative to this root directory.
+            }
+            /* eslint-enable object-curly-newline */
+        ),
 
         /*
          * Plugin: CopyWebpackPlugin.
@@ -191,7 +214,18 @@ module.exports = function webpackCommonConfigExport(metadata) {
 
     if (metadata.env === helpers.ENVS.test) {
         tsConfigFile = 'tsconfig.tests.json';
-        tsExcludes.push(/\.e2e\.ts$/i);
+
+        if (helpers.TESTS_TYPE === helpers.TESTS_TYPES.unit) {
+            lintInclude = helpers.root('src', 'client', 'app');
+            lintTest = /\.(spec|specs)\.ts$/i;
+            tsExcludes.push(
+                /\.(e2e|page)\.ts$/i,
+                helpers.root('tests', 'client', 'e2e')
+            );
+        } else {
+            lintInclude = helpers.root('tests', 'client', 'e2e');
+            lintTest = /\.(e2e|page|spec|specs)\.ts$/i;
+        }
     } else {
         if (metadata.env === helpers.ENVS.dev) {
             tsLoaders.unshift({
@@ -207,31 +241,12 @@ module.exports = function webpackCommonConfigExport(metadata) {
             tsConfigFile = 'tsconfig.prod.json';
         }
 
-        Array.prototype.push.apply(tsExcludes, [
-            /\.(spec|specs|e2e)\.ts$/i,
-            helpers.root('tests'),
-            helpers.root('dist'),
-        ]);
+        tsExcludes.push(
+            /\.(e2e|page|spec|specs)\.ts$/i,
+            helpers.root('tests')
+        );
 
         plugins.push(
-            /**
-             * Plugin: ContextReplacementPlugin.
-             * Description: Provides context to Angular's use of System.import.
-             *
-             * @see {@link https://webpack.github.io/docs/list-of-plugins.html#contextreplacementplugin|Context Replacement Plugin}
-             * @see {@link https://github.com/angular/angular/issues/11580|Why using this?}
-             */
-            new ContextReplacementPlugin(
-                // The (\\|\/) piece accounts for path separators in *nix and Windows.
-                /angular(\\|\/)core(\\|\/)@angular/i,
-                helpers.root('src', 'client'),
-                /* eslint-disable object-curly-newline */
-                {
-                    // Your Angular Async Route paths relative to this root directory.
-                }
-                /* eslint-enable object-curly-newline */
-            ),
-
             /**
              * Plugin: SASSLintPlugin.
              * Description: Lint the SASS files.
@@ -266,6 +281,7 @@ module.exports = function webpackCommonConfigExport(metadata) {
             })
         );
     }
+    _.set(tsLoaders, '[1].options.configFileName', tsConfigFile);
 
     return {
         /*
@@ -274,7 +290,7 @@ module.exports = function webpackCommonConfigExport(metadata) {
          * @see {@link http://webpack.github.io/docs/configuration.html#entry|The webpack documentation on entries}
          */
         entry: (metadata.env === helpers.ENVS.test) ? undefined : {
-            main: (helpers.hasNpmFlag('aot')) ? './src/client/main.aot.ts' : './src/client/main.ts',
+            main: (ENABLE_AOT) ? './src/client/main.aot.ts' : './src/client/main.ts',
             polyfills: './src/client/polyfills.ts',
         },
 
@@ -295,24 +311,6 @@ module.exports = function webpackCommonConfigExport(metadata) {
              */
             rules: [
                 /*
-                 * Lint Typescript files.
-                 *
-                 * @see {@link https://github.com/wbuchwalter/tslint-loader|TS-Lint Loader}
-                 */
-                {
-                    enforce: 'pre',
-                    exclude: [
-                        helpers.root('node_modules'),
-                    ],
-                    loader: 'tslint-loader',
-                    options: {
-                        tsConfigFile: tsConfigFile,
-                        typeCheck: true,
-                    },
-                    test: (metadata.env === helpers.ENVS.test) ? /\.(page|spec|specs|e2e)\.ts$/i : /\.ts$/i,
-                },
-
-                /*
                  * Generate and load source map for JS files.
                  * Extracts SourceMaps for source files that as added as sourceMappingURL comment.
                  *
@@ -326,10 +324,35 @@ module.exports = function webpackCommonConfigExport(metadata) {
                         helpers.root('node_modules', '@angular'),
                         helpers.root('node_modules', '@ngrx'),
                     ],
-                    loader: 'source-map-loader',
                     test: /\.(js|css)$/i,
+                    use: 'source-map-loader',
                 },
 
+                /*
+                 * Lint Typescript files.
+                 *
+                 * @see {@link https://github.com/wbuchwalter/tslint-loader|TS-Lint Loader}
+                 */
+                {
+                    enforce: 'pre',
+                    exclude: [
+                        helpers.root('dist'),
+                        helpers.root('node_modules'),
+                    ],
+                    include: lintInclude,
+                    test: lintTest,
+                    use: [
+                        {
+                            loader: 'tslint-loader',
+                            options: {
+                                failOnHint: metadata.ENV === helpers.ENVS.prod,
+                                fix: metadata.ENV === helpers.ENVS.dev,
+                                tsConfigFile: tsConfigFile,
+                                typeCheck: true,
+                            },
+                        },
+                    ],
+                },
 
                 /*
                  * Load JSON files.
@@ -340,8 +363,8 @@ module.exports = function webpackCommonConfigExport(metadata) {
                     exclude: [
                         helpers.root('src', 'client', 'index.html'),
                     ],
-                    loader: 'json-loader',
                     test: /\.json$/i,
+                    use: 'json-loader',
                 },
 
                 /*
@@ -350,8 +373,8 @@ module.exports = function webpackCommonConfigExport(metadata) {
                  * @see {@link https://github.com/webpack/file-loader|File Loader}
                  */
                 {
-                    loader: 'file-loader?name=assets/[name].[hash].[ext]',
                     test: /\.(png|jpe?g|gif|svg|woff|woff2|ttf|eot|ico)$/i,
+                    use: 'file-loader?name=assets/[name].[hash].[ext]',
                 },
 
                 /* Load HTML files and templates.

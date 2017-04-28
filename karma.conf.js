@@ -84,6 +84,8 @@ module.exports = function karmaConfig(config) {
          */
         frameworks: [
             'mocha',
+            'chai-datetime',
+            'chai-string',
             'sinon-chai',
         ],
 

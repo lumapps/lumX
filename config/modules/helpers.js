@@ -20,6 +20,7 @@ const APPENGINE_DEV_SERVER = {
 };
 
 const ENABLE_DEBUG = process.env.DEBUG;
+const TESTS_TYPE = process.env.TESTS;
 
 const ENVS = {
     dev: 'development',
@@ -28,6 +29,11 @@ const ENVS = {
     production: 'production',
     test: 'test',
     tests: 'test',
+};
+
+const TESTS_TYPES = {
+    e2e: 'e2e',
+    unit: 'unit',
 };
 
 const EVENT = process.env.npm_lifecycle_event || '';
@@ -280,6 +286,9 @@ function getOptions(options) {
 
 exports.ENABLE_DEBUG = ENABLE_DEBUG;
 exports.ENVS = ENVS;
+exports.TESTS_TYPE = TESTS_TYPE;
+exports.TESTS_TYPES = TESTS_TYPES;
+
 exports.getDevServerConfig = getDevServerConfig;
 exports.getHtmlWebpackPlugin = getHtmlWebpackPlugin;
 exports.getMetadata = getMetadata;

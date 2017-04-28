@@ -69,11 +69,15 @@ module.exports = function webpackTestConfigExport() {
                         /node_modules/,
                     ],
                     include: helpers.root('src', 'client', 'app'),
-                    loader: 'istanbul-instrumenter-loader',
-                    options: {
-                        esModules: true,
-                    },
                     test: /\.(js|ts)$/i,
+                    use: [
+                        {
+                            loader: 'istanbul-instrumenter-loader',
+                            options: {
+                                esModules: true,
+                            },
+                        },
+                    ],
                 },
             ],
         },

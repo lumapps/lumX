@@ -99,25 +99,25 @@
             {
                 "alphabetize": true,
                 "order": [
-                    "public-static-field",
-                    "protected-static-field",
                     "private-static-field",
+                    "protected-static-field",
+                    "public-static-field",
 
-                    "public-instance-field",
-                    "protected-instance-field",
                     "private-instance-field",
+                    "protected-instance-field",
+                    "public-instance-field",
 
-                    "public-constructor",
-                    "protected-constructor",
                     "private-constructor",
+                    "protected-constructor",
+                    "public-constructor",
 
-                    "public-static-method",
-                    "protected-static-method",
                     "private-static-method",
+                    "protected-static-method",
+                    "public-static-method",
 
-                    "public-instance-method",
+                    "private-instance-method",
                     "protected-instance-method",
-                    "private-instance-method"
+                    "public-instance-method"
                 ]
             }
         ],

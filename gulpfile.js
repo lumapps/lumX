@@ -74,6 +74,8 @@ const envProd = `NODE_ENV='prod'`;
 const envTest = `NODE_ENV='test'`;
 const hidden = `HIDDEN=true`;
 const live = `LIVE=true`;
+const unitTests = `TESTS='unit'`;
+const e2eTests = `TESTS='e2e'`;
 
 if (!enableDashboard) {
     webpackDevServerHotReloadParameters = `${webpackDevServerHotReloadParameters} ${webpackDevServerClassicParameters}`;
@@ -221,7 +223,7 @@ shelter({
         cmd: `${npmRun} run-parallel -- build:${e2eBuildType}:fast
                                         clean:e2e:report
                                         webdriver:update
-              && ${npmRun} run-parallel -- -r serve:${e2eBuildType}:fast:silent
+              && ${envTest} ${e2eTests} ${npmRun} run-parallel -- -r serve:${e2eBuildType}:fast:silent
                                               protractor`,
         dsc: `Run End to End test (Protractor with Chrome) after rebuilding on ${project}`,
     },
@@ -229,19 +231,19 @@ shelter({
         cmd: `${npmRun} run-parallel -- build:${e2eBuildType}:fast
                                         clean:e2e:report
                                         webdriver:update
-              && ${debug} ${npmRun} run-parallel -- -r serve:${e2eBuildType}:fast:silent
+              && ${envTest} ${e2eTests} ${debug} ${npmRun} run-parallel -- -r serve:${e2eBuildType}:fast:silent
                                                        protractor:debug`,
         dsc: `Debug End to End test (Protractor with Chrome) after rebuilding on ${project}`,
     },
     'e2e:debug:fast': {
         cmd: `${npmRun} clean:e2e:report
-              && ${debug} ${npmRun} run-parallel -- -r serve:${e2eBuildType}:fast:silent
+              && ${envTest} ${e2eTests} ${debug} ${npmRun} run-parallel -- -r serve:${e2eBuildType}:fast:silent
                                                        protractor:debug`,
         dsc: `Debug End to End test (Protractor with Chrome) with existing build on ${project}`,
     },
     'e2e:fast': {
         cmd: `${npmRun} clean:e2e:report
-              && ${npmRun} run-parallel -- -r serve:${e2eBuildType}:fast:silent
+              && ${envTest} ${e2eTests} ${npmRun} run-parallel -- -r serve:${e2eBuildType}:fast:silent
                                               protractor`,
         dsc: `Run End to End test (Protractor with Chrome) with existing build on ${project}`,
     },
@@ -249,13 +251,13 @@ shelter({
         cmd: `${npmRun} run-parallel -- build:${e2eBuildType}:fast
                                         clean:e2e:report
                                         webdriver:update
-              && ${hidden} ${npmRun} run-parallel -- -r serve:${e2eBuildType}:fast:silent
+              && ${envTest} ${e2eTests} ${hidden} ${npmRun} run-parallel -- -r serve:${e2eBuildType}:fast:silent
                                                         protractor:headless`,
         dsc: `Run End to End test (Protractor with Headless Chrome, XVFB needed) after rebuilding on ${project}`,
     },
     'e2e:headless:fast': {
         cmd: `${npmRun} clean:e2e:report
-              && ${hidden} ${npmRun} run-parallel -- -r serve:${e2eBuildType}:fast:silent
+              && ${envTest} ${e2eTests} ${hidden} ${npmRun} run-parallel -- -r serve:${e2eBuildType}:fast:silent
                                                         protractor:headless`,
         dsc: `Run End to End test (Protractor with Headless Chome, XVFB needed) with existing build on ${project}`,
     },
@@ -410,29 +412,29 @@ shelter({
 
     'unit': {
         cmd: `${npmRun} clean:unit:report
-              && ${envDev} ${npmRun} karma -- start`,
+              && ${envTest} ${unitTests} ${npmRun} karma -- start`,
         dsc: `Run unit tests (Karma with Chrome) on ${project}`,
     },
     'unit:debug': {
         cmd: `${npmRun} clean:unit:report
-              && ${debug} ${envDev} ${npmRun} karma -- start --no-single-run`,
+              && ${debug} ${envTest} ${unitTests} ${npmRun} karma -- start --no-single-run`,
         dsc: `Debug unit tests (Karma with Chrome) on ${project}`,
     },
     'unit:headless': {
         cmd: `${npmRun} clean:unit:report
-              && ${envTest} ${npmRun} karma:headless -- start`,
+              && ${envTest} ${unitTests} ${npmRun} karma:headless -- start`,
         dsc: `Run unit tests (Karma with Headless Chrome, XVFB needed) on ${project}`,
     },
     'unit:live': {
-        cmd: `${live} ${envDev} ${npmRun} karma -- start --auto-watch --no-single-run`,
+        cmd: `${live} ${envTest} ${unitTests} ${npmRun} karma -- start --auto-watch --no-single-run`,
         dsc: `Run unit tests (Karma with Chrome) in watch mode on ${project}`,
     },
     'unit:live:debug': {
-        cmd: `${live} ${debug} ${envDev} ${npmRun} karma -- start --auto-watch --no-single-run`,
+        cmd: `${live} ${debug} ${envTest} ${unitTests} ${npmRun} karma -- start --auto-watch --no-single-run`,
         dsc: `Debug unit tests (Karma with Chrome) in watch mode on ${project}`,
     },
     'unit:live:headless': {
-        cmd: `${live} ${envDev} ${npmRun} karma:headless -- start --auto-watch --no-single-run`,
+        cmd: `${live} ${envTest} ${unitTests} ${npmRun} karma:headless -- start --auto-watch --no-single-run`,
         dsc: `Run unit tests (Karma with Headless Chrome, XVFB needed) in watch mode on ${project}`,
     },
 });
