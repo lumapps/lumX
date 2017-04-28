@@ -1,5 +1,5 @@
 /*
- LumX v1.5.5
+ LumX v1.5.4
  (c) 2014-2017 LumApps http://ui.lumapps.com
  License: MIT
 */
@@ -1406,7 +1406,7 @@
             {
                 return;
             }
-            
+
             LxDepthService.register();
 
             angular.element('body').addClass('no-scroll-dialog-' + lxDialog.uuid);
@@ -1475,7 +1475,7 @@
             {
                 return;
             }
-            
+
             if (angular.isDefined(idEventScheduler))
             {
                 LxEventSchedulerService.unregister(idEventScheduler);
@@ -3959,7 +3959,7 @@
         lxSelect.viewMode = angular.isUndefined(lxSelect.viewMode) ? 'field' : 'chips';
 
         ////////////
-        
+
         function arrayObjectIndexOf(arr, obj)
         {
             for (var i = 0; i < arr.length; i++)
@@ -4147,15 +4147,15 @@
                     var identical = getSelectedModel().some(function (item) {
                         return angular.equals(item, value);
                     });
-                    
+
                     if (!identical)
                     {
                         getSelectedModel().push(value);
                     }
                 }
-                
+
                 lxSelect.filterModel = undefined;
-                
+
                 LxDropdownService.close('dropdown-' + lxSelect.uuid);
             }
         }
@@ -4333,10 +4333,10 @@
             {
                 return lxSelect.helper;
             }
-            
+
             // Else check if there's choices.
             var choices = lxSelect.getFilteredChoices();
-            
+
             if (angular.isArray(choices))
             {
                 return !choices.length;
@@ -5212,7 +5212,7 @@
         }, function(_newLinks)
         {
             lxTabs.viewMode = angular.isDefined(_newLinks) ? 'separate' : 'gather';
-            
+
             angular.forEach(_newLinks, function(link, index)
             {
                 var tab = {
