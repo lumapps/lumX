@@ -137,7 +137,7 @@ export class HttpInterceptorService {
             return Observable.throw(new Response(
                 new ResponseOptions({
                     status: 404,
-                    statusText: 'Not found',
+                    statusText: 'Not Found',
                     url,
                 }),
             ));

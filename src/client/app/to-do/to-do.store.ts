@@ -8,15 +8,6 @@ import { ToDoItem } from './to-do-item.model';
  */
 export class ToDoStore {
     /**
-     * The list of to-do items.
-     *
-     * @type {ToDoItem[]}
-     *
-     * @public
-     */
-    public items: ToDoItem[];
-
-    /**
      * The id of the next to-do item.
      *
      * @type {number}
@@ -25,6 +16,15 @@ export class ToDoStore {
      * @private
      */
     private _nextId: number = 0;
+
+    /**
+     * The list of to-do items.
+     *
+     * @type {ToDoItem[]}
+     *
+     * @public
+     */
+    public items: ToDoItem[];
 
 
     /**

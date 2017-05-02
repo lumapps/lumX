@@ -40,6 +40,14 @@ module.exports = function karmaConfig(config) {
 
         client: {
             captureConsole: false,
+
+            config: {
+                browserConsoleLogOptions: false,
+            },
+
+            mocha: {
+                bail: false,
+            },
         },
 
         // Enable/disable colors in the output (reporters and logs).
@@ -84,9 +92,9 @@ module.exports = function karmaConfig(config) {
          */
         frameworks: [
             'mocha',
-            'chai-datetime',
             'chai-string',
-            'sinon-chai',
+            'chai-datetime',
+            'chai-sinon',
         ],
 
         /*

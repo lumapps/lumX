@@ -42,6 +42,19 @@ export class UtilsService {
     }
 
     /**
+     * Check if a method name is allowed.
+     *
+     * @param  {string}  methodName The method name to check.
+     * @return {boolean} If the method is allowed or not.
+     *
+     * @public
+     * @static
+     */
+    public static isAllowedMethod(methodName: string): boolean {
+        return _.includes(UtilsService.ALLOWED_METHOD_NAMES, methodName);
+    }
+
+    /**
      * Determines if value(s) is(are) defined (and not null).
      *
      * @param  {*}       value             The value(s) to check if defined (and not null).
@@ -135,8 +148,17 @@ export class UtilsService {
                 UtilsService.isUndefinedOrEmpty(item, methodName, trimStrings, allowNull));
         }
 
-        return UtilsService.isUndefined(value, methodName, allowNull) ||
-            ((_.isArrayLike(value) || _.isMap(value) || _.isWeakMap(value) || _.isSet(value) || _.isWeakSet(value) ||
+        const isUndefined: boolean = UtilsService.isUndefined(value, methodName, allowNull);
+
+        if (!isUndefined && _.isWeakSet(value)) {
+            throw new Error('Unable to check emptyness of a WeakSet');
+        }
+        if (!isUndefined && _.isWeakMap(value)) {
+            throw new Error('Unable to check emptyness of a WeakMap');
+        }
+
+        return isUndefined ||
+            ((_.isArrayLike(value) || _.isMap(value) || _.isWeakMap(value) || _.isSet(value) ||
               (_.isObjectLike(value) && !_.isDate(value) && !_.isRegExp(value))) && _.isEmpty(value)) ||
             (_.isDate(value) && _.isEmpty(value.toString())) ||
             (_.isRegExp(value) && (value.toString.length - 2) === 0) ||

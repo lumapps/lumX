@@ -1,26 +1,41 @@
-import { ComponentFixtureAutoDetect, TestBed } from '@angular/core/testing';
+/* tslint:disable:no-unused-expression */
+
+import { ComponentFixture, ComponentFixtureAutoDetect, TestBed } from '@angular/core/testing';
+import { expect } from 'core/testing/chai.module';
 
 import { FormsModule } from '@angular/forms';
 
 import { ToDoStore } from 'to-do/to-do.store';
 
-import { NewToDoComponent } from './new-to-do.component';
 import { AppModule } from 'app.module';
+import { NewToDoComponent } from './new-to-do.component';
 
 
 describe('New To-Do', () => {
-    const component: NewToDoComponent;
-    const fixture: ComponentFixture<NewToDoComponent>;
+    /**
+     * The To-Do Store.
+     *
+     * @type {ToDoStore}
+     */
+    let _ToDoStore: ToDoStore;
 
-    const _ToDoStore: ToDoStore;
+    /**
+     * The New To-Do component
+     *
+     * @type {NewToDoComponent}
+     */
+    let component: NewToDoComponent;
+    /**
+     * The New To-Do component test fixture.
+     *
+     * @type {ComponentFixture<NewToDoComponent>}
+     */
+    let fixture: ComponentFixture<NewToDoComponent>;
 
 
     beforeEach(() => {
         TestBed.configureTestingModule({
             declarations: [
-            ],
-
-            exports: [
             ],
 
             imports: [
@@ -43,10 +58,16 @@ describe('New To-Do', () => {
 
     it('can add an new to-do item', () => {
         _ToDoStore.reset();
-        expect(_ToDoStore.items.length).toBe(0);
+        expect(_ToDoStore.items).to.be.array();
+        expect(_ToDoStore.items).to.be.ofSize(0);
 
-        let newItemId: number = component.addItem();
-        expect(newItemId).toBe(0);
-        expect(_ToDoStore.items.length).toBe(1);
+        const newItemId: number = component.addItem();
+        expect(newItemId).to.equal(0);
+        expect(_ToDoStore.items).to.be.ofSize(1);
+    });
+
+
+    afterEach(() => {
+        // Nothing to do here.
     });
 });

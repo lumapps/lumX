@@ -16,7 +16,7 @@
         "experimentalDecorators": true,
         "forceConsistentCasingInFileNames": true,
         "importHelpers": true,
-        "inlineSourceMap": false,
+        "inlineSourceMap": true,
         "lib": [
             "dom",
             "es2015"
@@ -39,24 +39,25 @@
             ]
         },
         "pretty": true,
-        "sourceMap": true,
-        "removeComments": true,
+        "sourceMap": false,
+        "removeComments": false,
         "strictNullChecks": false,
         "target": "es5",
         "types": [
+            "hammerjs",
+            "node",
+            "source-map",
+            "uglify-js",
+            "webpack",
+
             "chai",
             "chai-as-promised",
             "chai-datetime",
             "chai-json-schema",
             "chai-string",
-            "hammerjs",
             "mocha",
-            "node",
             "sinon",
-            "sinon-chai",
-            "source-map",
-            "uglify-js",
-            "webpack"
+            "sinon-chai"
         ],
         "typeRoots": [
             "node_modules/@types"

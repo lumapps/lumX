@@ -48,7 +48,16 @@
             "node",
             "source-map",
             "uglify-js",
-            "webpack"
+            "webpack",
+
+            "chai",
+            "chai-as-promised",
+            "chai-datetime",
+            "chai-json-schema",
+            "chai-string",
+            "mocha",
+            "sinon",
+            "sinon-chai"
         ],
         "typeRoots": [
             "node_modules/@types"

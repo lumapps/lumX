@@ -3,28 +3,26 @@
 import { TestBed, inject } from '@angular/core/testing';
 import { expect } from 'core/testing/chai.module';
 
-import { HomeModule } from './home.module';
-
-import { HomeComponent } from './home.component';
+import { NotFoundComponent } from './not-found.component';
 
 
-describe('Home', () => {
+describe('Not Found', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
-            imports: [
-                HomeModule,
+            declarations: [
+                NotFoundComponent,
             ],
 
             providers: [
-                HomeComponent,
+                NotFoundComponent,
             ],
         });
 
         TestBed.compileComponents().catch(console.error);
     });
 
-    it('should be instanciated', inject([HomeComponent], (home: HomeComponent) => {
-        expect(home).to.exist;
+    it('should be instanciated', inject([NotFoundComponent], (notFound: NotFoundComponent) => {
+        expect(notFound).to.exist;
     }));
 
 

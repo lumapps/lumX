@@ -13,6 +13,7 @@ export const routes: Routes = [
 
 
     {
+        /* istanbul ignore next */
         loadChildren: 'about/about.module#AboutModule',
         path: 'about',
     },

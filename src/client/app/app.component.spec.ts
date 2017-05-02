@@ -1,6 +1,9 @@
-import { ComponentFixtureAutoDetect, fakeAsync, inject, TestBed, tick } from '@angular/core/testing';
-import { Response, ResponseOptions, XHRBackend } from '@angular/http';
-import { MockBackend, MockConnection } from '@angular/http/testing';
+/* tslint:disable:no-unused-expression */
+
+import { ComponentFixture, ComponentFixtureAutoDetect, TestBed, fakeAsync } from '@angular/core/testing';
+import { expect } from 'core/testing/chai.module';
+import { SinonSandbox, sandbox } from 'sinon';
+
 
 import { HttpInterceptorService } from 'core/services/http-interceptor.service';
 import { TokenService } from 'core/services/token.service';
@@ -9,21 +12,70 @@ import { FAKE_TOKEN } from 'core/settings/common.settings';
 import { AppComponent } from './app.component';
 import { AppModule } from './app.module';
 
+import { routes } from './app.routes';
 
-describe('Application', () => {
-    const component: AppComponent;
-    const fixture: ComponentFixture<AppComponent>;
 
-    const _HttpService: HttpInterceptorService;
-    const _TokenService: TokenService;
+describe('Application startup', () => {
+    /**
+     * The sandbox environment.
+     *
+     * @type {SinonSandbox}
+     */
+    let sandboxEnv: SinonSandbox;
+
+
+    /**
+     * The HTTP Interceptor service.
+     *
+     * @type {HttpInterceptorService}
+     */
+    let _HttpInterceptorService: HttpInterceptorService;
+    /**
+     * The Token service.
+     *
+     * @type {TokenService}
+     */
+    let _TokenService: TokenService;
+
+
+    /**
+     * The App component
+     *
+     * @type {AppComponent}
+     */
+    let component: AppComponent;
+    /**
+     * The App component test fixture.
+     *
+     * @type {ComponentFixture<AppComponent>}
+     */
+    let fixture: ComponentFixture<AppComponent>;
+
+
+    /**
+     * Setup the Sinon fake backend.
+     */
+    function setupFakeBackend(): void {
+        sandboxEnv.useFakeServer();
+        sandboxEnv.server.respondWith('GET', /token.json/, [
+            200, {
+                'Content-Type': 'application/json',
+            }, JSON.stringify({
+                token: FAKE_TOKEN,
+            }),
+        ]);
+        sandboxEnv.server.autoRespond = true;
+        sandboxEnv.server.respondImmediately = true;
+    }
 
 
     beforeEach(() => {
+        // Setup the sandbox environment and the fake backend.
+        sandboxEnv = sandbox.create();
+        setupFakeBackend();
+
         TestBed.configureTestingModule({
             declarations: [
-            ],
-
-            exports: [
             ],
 
             imports: [
@@ -34,7 +86,6 @@ describe('Application', () => {
                 { provide: ComponentFixtureAutoDetect, useValue: true },
                 HttpInterceptorService,
                 TokenService,
-                { provide: XHRBackend, useClass: MockBackend },
             ],
         });
 
@@ -42,35 +93,41 @@ describe('Application', () => {
         component = fixture.componentInstance;
 
         _TokenService = fixture.debugElement.injector.get(TokenService);
-        _HttpService = fixture.debugElement.injector.get(HttpInterceptorService);
+        _HttpInterceptorService = fixture.debugElement.injector.get(HttpInterceptorService);
+
+        fixture.detectChanges();
     });
 
 
+    it('should be initialized', () => {
+        expect(fixture).to.exist;
+        expect(component).to.exist;
+    });
+
     it('should request a token at startup', fakeAsync(() => {
-        inject([XHRBackend], (backend: MockBackend) => {
-            backend.connections.subscribe((connection: MockConnection) => {
-                if (connection.request.url === '/token.json') {
-                    connection.mockRespond(new Response(new ResponseOptions({
-                        body: {
-                            token: FAKE_TOKEN,
-                        },
-                        status: 200,
-                        statusText: 'OK',
-                        url: connection.request.url,
-                    })));
-                }
-            });
+        // Setup the spies
+        sandboxEnv.spy(_HttpInterceptorService, 'get');
 
-            spyOn(_HttpService, 'get').and.callThrough();
 
-            expect(_HttpService.get.calls.count()).toEqual(0);
+        expect(_HttpInterceptorService.get).to.not.have.been.called;
 
-            component.ngOnInit();
-            tick();
+        // Init the component
+        component.ngOnInit();
 
-            expect(_HttpService.get.calls.count()).toEqual(1);
-            expect(_TokenService.getToken()).toBe(FAKE_TOKEN);
-            expect(_TokenService.isValid()).toBeTrue();
-        })();
+        // Check that the component correctly initialized.
+        expect(_HttpInterceptorService.get).to.have.been.calledOnce;
+        expect(_TokenService.getToken()).to.equals(FAKE_TOKEN);
+        expect(_TokenService.isValid()).to.be.true;
     }));
+
+    it('should have routes', () => {
+        expect(routes).to.be.an('array');
+        expect(routes).to.be.ofSize(3);
+    });
+
+
+    afterEach(() => {
+        // Remove all spies, stubs, mocks and fake servers.
+        sandboxEnv.restore();
+    });
 });

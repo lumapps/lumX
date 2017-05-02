@@ -30,12 +30,6 @@ const ENABLE_AOT = helpers.hasNpmFlag('aot');
  * @param {Object} metadata The metadata to generate the config.
  */
 module.exports = function webpackCommonConfigExport(metadata) {
-    if (metadata.env === helpers.ENVS.test) {
-        console.info('');
-        console.info('Starting Webpack bundle compilation.');
-        console.info('This could take some time, please wait...');
-    }
-
     let lintInclude;
     let lintTest = /\.ts$/i;
     let tsConfigFile = 'tsconfig.json';
@@ -47,6 +41,7 @@ module.exports = function webpackCommonConfigExport(metadata) {
             loader: 'ng-router-loader',
             options: {
                 aot: ENABLE_AOT,
+                debug: helpers.ENABLE_DEBUG,
                 genDir: 'compiled',
                 loader: 'async-import',
             },

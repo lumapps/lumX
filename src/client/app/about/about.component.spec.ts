@@ -1,19 +1,42 @@
-import { inject, TestBed } from '@angular/core/testing';
+/* tslint:disable:no-unused-expression */
+
+import { TestBed, inject } from '@angular/core/testing';
+import { expect } from 'core/testing/chai.module';
+import { SinonSandbox, sandbox } from 'sinon';
+
 import { ActivatedRoute, Data } from '@angular/router';
+
+import { AboutModule } from './about.module';
 
 import { AboutComponent } from './about.component';
 
 
 describe('About', () => {
+    /**
+     * The sandbox environment.
+     *
+     * @type {SinonSandbox}
+     */
+    let sandboxEnv: SinonSandbox;
+
+
     beforeEach(() => {
+        // Setup the sandbox environment.
+        sandboxEnv = sandbox.create();
+
+
         TestBed.configureTestingModule({
+            imports: [
+                AboutModule,
+            ],
+
             providers: [
                 {
                     provide: ActivatedRoute,
                     useValue: {
                         data: {
-                            subscribe: (fn: (value: Data) => void) => fn({
-                                yourData: 'yolo',
+                            subscribe: (fn: (value: Data) => void): void => fn({
+                                yourData: 'Hi there!',
                             }),
                         },
                     },
@@ -22,15 +45,25 @@ describe('About', () => {
             ],
         });
 
-        TestBed.compileComponents().catch((error: string) => console.error(error));
+        TestBed.compileComponents().catch(console.error);
     });
 
-    it('should log on init', inject([AboutComponent], (about: AboutComponent) => {
-        spyOn(console, 'log');
-        expect(console.log).not.toHaveBeenCalled();
+
+    it('should log an information on init', inject([AboutComponent], (about: AboutComponent) => {
+        sandboxEnv.spy(console, 'info');
+
+
+        expect(about).to.exist;
+        expect(console.info).to.not.have.been.called;
 
         about.ngOnInit();
 
-        expect(console.log).toHaveBeenCalled();
+        expect(console.info).to.have.been.calledTwice;
     }));
+
+
+    afterEach(() => {
+        // Remove all spies, stubs, mocks and fake servers.
+        sandboxEnv.restore();
+    });
 });

@@ -282,6 +282,7 @@
 
         "karma": "latest",
         "karma-chai-datetime": "latest",
+        "karma-chai-sinon": "latest",
         "karma-chai-string": "latest",
         "karma-chrome-launcher": "latest",
         "karma-cli": "latest",
@@ -289,7 +290,6 @@
         "karma-mocha": "latest",
         "karma-mocha-reporter": "latest",
         "karma-remap-coverage": "latest",
-        "karma-sinon-chai": "latest",
         "karma-sourcemap-loader": "latest",
         "karma-spec-reporter": "latest",
         "karma-webpack": "latest",
