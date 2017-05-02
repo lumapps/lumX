@@ -1,2 +1,6 @@
 reporting:
     dir: ./tests/client/unit/report
+
+instrumentation:
+    default-excludes: true
+    excludes: ['*.e2e.*', '*.page.*', '*.spec.*', '*.specs.*', '*.routes.*', '*.routing.*', '*.d.*']
