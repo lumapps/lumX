@@ -61,7 +61,7 @@ function exitIfError() {
     if [ $? -ne 0 ]; then
         printf "${BOLD}${RED}Error with code $?"
         if [ -n "$1" ]; then
-            printf "${DEFAULT} ${RED}while ${1}"
+            printf "${DEFAULT} ${RED}while ${1,,}"
         fi
         printf "${DEFAULT}\n"
         exit $?
