@@ -123,6 +123,11 @@
                     queue: false
                 });
             }
+
+            if (!input.val())
+            {
+                lxSearchFilter.modelController.$setViewValue(undefined);
+            }
         }
 
         function clearInput()
