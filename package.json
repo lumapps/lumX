@@ -304,6 +304,7 @@
         "chai-datetime": "latest",
         "chai-interface": "latest",
         "chai-json-schema": "latest",
+        "chai-smoothie": "latest",
         "chai-sorted": "latest",
         "chai-string": "latest",
 

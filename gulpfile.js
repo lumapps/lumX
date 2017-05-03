@@ -224,7 +224,7 @@ shelter({
                                         clean:e2e:report
                                         webdriver:update
               && ${envTest} ${e2eTests} ${npmRun} run-parallel -- -r serve:${e2eBuildType}:fast:silent
-                                              protractor`,
+                                                                  protractor`,
         dsc: `Run End to End test (Protractor with Chrome) after rebuilding on ${project}`,
     },
     'e2e:debug': {
@@ -232,19 +232,19 @@ shelter({
                                         clean:e2e:report
                                         webdriver:update
               && ${envTest} ${e2eTests} ${debug} ${npmRun} run-parallel -- -r serve:${e2eBuildType}:fast:silent
-                                                       protractor:debug`,
+                                                                           protractor:debug`,
         dsc: `Debug End to End test (Protractor with Chrome) after rebuilding on ${project}`,
     },
     'e2e:debug:fast': {
         cmd: `${npmRun} clean:e2e:report
               && ${envTest} ${e2eTests} ${debug} ${npmRun} run-parallel -- -r serve:${e2eBuildType}:fast:silent
-                                                       protractor:debug`,
+                                                                           protractor:debug`,
         dsc: `Debug End to End test (Protractor with Chrome) with existing build on ${project}`,
     },
     'e2e:fast': {
         cmd: `${npmRun} clean:e2e:report
               && ${envTest} ${e2eTests} ${npmRun} run-parallel -- -r serve:${e2eBuildType}:fast:silent
-                                              protractor`,
+                                                                  protractor`,
         dsc: `Run End to End test (Protractor with Chrome) with existing build on ${project}`,
     },
     'e2e:headless': {
@@ -252,13 +252,13 @@ shelter({
                                         clean:e2e:report
                                         webdriver:update
               && ${envTest} ${e2eTests} ${hidden} ${npmRun} run-parallel -- -r serve:${e2eBuildType}:fast:silent
-                                                        protractor:headless`,
+                                                                            protractor:headless`,
         dsc: `Run End to End test (Protractor with Headless Chrome, XVFB needed) after rebuilding on ${project}`,
     },
     'e2e:headless:fast': {
         cmd: `${npmRun} clean:e2e:report
               && ${envTest} ${e2eTests} ${hidden} ${npmRun} run-parallel -- -r serve:${e2eBuildType}:fast:silent
-                                                        protractor:headless`,
+                                                                            protractor:headless`,
         dsc: `Run End to End test (Protractor with Headless Chome, XVFB needed) with existing build on ${project}`,
     },
 
@@ -285,7 +285,7 @@ shelter({
         dsc: `Lint TypeScript code of ${project}`,
     },
     'lint:tests': {
-        cmd: `${npmRun} tslint -- --project ./tsconfig.tests.json --type-check`,
+        cmd: `${npmRun} tslint -- --project ./tsconfig.unit.json --type-check`,
         dsc: `Lint TypeScript code of ${project}'s tests`,
     },
 

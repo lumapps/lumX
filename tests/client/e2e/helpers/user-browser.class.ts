@@ -1,47 +1,11 @@
 import { ElementArrayFinder, ElementFinder, ElementHelper, ExpectedConditions, ProtractorBrowser } from 'protractor';
-import { promise as WebdriverPromise, WebDriver } from 'selenium-webdriver';
-
-
-interface Array<T> { // tslint:disable-line
-    except(o: T): T[];
-    intersect(o: T): T[];
-}
-
-Array.prototype['except'] = function(o) { // tslint:disable-line
-    return this.filter(<T>(i: T) => o.indexOf(i) < 0);
-};
-Array.prototype['intersect'] = function(o) { // tslint:disable-line
-    return this.filter(<T>(i: T) => o.indexOf(i) !== -1);
-};
+import { WebDriver, promise as WebdriverPromise } from 'selenium-webdriver';
 
 
 /**
  * User browser object to facilitate login and DOM manipulation.
  */
 export class UserBrowser {
-    /**
-     * The name of the user.
-     *
-     * @type {string}
-     * @public
-     */
-    public name: string;
-    /**
-     * The Selenium webdriver browser object attached to the user.
-     *
-     * @type {ProtractorBrowser}
-     * @public
-     */
-    public browser: ProtractorBrowser;
-
-    /**
-     * A unique text prefix for this user.
-     *
-     * @type {string}
-     * @public
-     */
-    public prefix: string;
-
     /**
      * Alias for the "browser.$" CSS selector helper.
      *
@@ -58,12 +22,12 @@ export class UserBrowser {
     public $$: (query: string) => ElementArrayFinder;
 
     /**
-     * Alias for the "browser.element" root element.
+     * The Selenium webdriver browser object attached to the user.
      *
-     * @type {ElementHelper}
+     * @type {ProtractorBrowser}
      * @public
      */
-    public element: ElementHelper;
+    public browser: ProtractorBrowser;
 
     /**
      * Alias for the "browser.driver" webdriver property.
@@ -72,6 +36,30 @@ export class UserBrowser {
      * @public
      */
     public driver: WebDriver;
+
+    /**
+     * Alias for the "browser.element" root element.
+     *
+     * @type {ElementHelper}
+     * @public
+     */
+    public element: ElementHelper;
+
+    /**
+     * The name of the user.
+     *
+     * @type {string}
+     * @public
+     */
+    public name: string;
+
+    /**
+     * A unique text prefix for this user.
+     *
+     * @type {string}
+     * @public
+     */
+    public prefix: string;
 
     /**
      * Alias for the "browser.sleep" function.
@@ -98,7 +86,8 @@ export class UserBrowser {
         this.element = browser.element;
         this.driver = browser.driver;
         this.sleep = browser.sleep;
-        this.prefix = 'PTOR_' + this.name.toUpperCase() + '_'; // Prefix for faster deletion of test data
+        // Prefix for faster deletion of test data.
+        this.prefix = `PTOR_${this.name.toUpperCase()}_`;
     }
 
 
@@ -109,19 +98,9 @@ export class UserBrowser {
      * @param  {ElementFinder}                           destination The element which will contain the element.
      * @return {WebdriverPromise.Promise<ElementFinder>}             The promise.
      */
-    appendChild(element: ElementFinder, destination: ElementFinder): WebdriverPromise.Promise<ElementFinder> {
+    public appendChild(element: ElementFinder, destination: ElementFinder): WebdriverPromise.Promise<ElementFinder> {
         return this.browser.executeScript('arguments[1].appendChild(arguments[0]);', element.getWebElement(),
                                           destination.getWebElement());
-    }
-
-    /**
-     * Evaluate boolean promises.
-     *
-     * @param  {boolean} bool The boolean to evaluate.
-     * @return {boolean}      The boolean.
-     */
-    evaluateBoolean(bool: boolean): boolean {
-        return bool;
     }
 
     /**
@@ -131,7 +110,7 @@ export class UserBrowser {
      * @param {boolean}       [isWebElement=false] If the element is already in the webElement format.
      * @param {number}        [timeout=1000]       Max waiting time.
      */
-    clickOn(element: ElementFinder, isWebElement: boolean = false, timeout: number = 1000): void {
+    public clickOn(element: ElementFinder, isWebElement: boolean = false, timeout: number = 1000): void {
         isWebElement = isWebElement || false;
 
         this.driver.wait(() => {
@@ -154,10 +133,20 @@ export class UserBrowser {
      *
      * @return {UserBrowser} The connected user browser.
      */
-    connect(): UserBrowser {
+    public connect(): UserBrowser {
         this.driver.get(this.browser.baseUrl);
 
         return this;
+    }
+
+    /**
+     * Evaluate boolean promises.
+     *
+     * @param  {boolean} bool The boolean to evaluate.
+     * @return {boolean}      The boolean.
+     */
+    public evaluateBoolean(bool: boolean): boolean {
+        return bool;
     }
 
     /**
@@ -167,7 +156,7 @@ export class UserBrowser {
      * @param  {ElementFinder}                           destination The element we use as destination point.
      * @return {WebdriverPromise.Promise<ElementFinder>}             The promise.
      */
-    insertAfter(element: ElementFinder, destination: ElementFinder): WebdriverPromise.Promise<ElementFinder> {
+    public insertAfter(element: ElementFinder, destination: ElementFinder): WebdriverPromise.Promise<ElementFinder> {
         return this.browser.executeScript('arguments[0].parentNode.insertAfter(arguments[0], arguments[1]);',
                                           element.getWebElement(), destination.getWebElement());
     }
@@ -179,7 +168,7 @@ export class UserBrowser {
      * @param  {ElementFinder}                            destination The element we use as destination point.
      * @return {!WebdriverPromise.Promise<ElementFinder>}             The promise.
      */
-    insertBefore(element: ElementFinder, destination: ElementFinder): WebdriverPromise.Promise<ElementFinder> {
+    public insertBefore(element: ElementFinder, destination: ElementFinder): WebdriverPromise.Promise<ElementFinder> {
         return this.browser.executeScript('arguments[0].parentNode.insertBefore(arguments[0], arguments[1]);',
                                           element.getWebElement(), destination.getWebElement());
     }
@@ -196,8 +185,8 @@ export class UserBrowser {
      * @param {boolean}       [isWebElement=false] Indicates if it's a web element.
      * @param {number}        [timeout=1000]       Max waiting time.
      */
-    scrollAndInput(element: ElementFinder, keys: string, clear: boolean = true, prefix: boolean = false,
-                   isWebElement: boolean = false, timeout: number = 1000): void {
+    public scrollAndInput(element: ElementFinder, keys: string, clear: boolean = true, prefix: boolean = false,
+                          isWebElement: boolean = false, timeout: number = 1000): void {
         isWebElement = isWebElement || false;
 
         this.driver.wait(() => {
@@ -216,10 +205,10 @@ export class UserBrowser {
 
                 element.getText().then((text: string) => {
                     // Add prefix if first input
-                    let input: string = (text === '' && prefix) ? this.prefix + keys : keys;
+                    const input: string = (text === '' && prefix) ? this.prefix + keys : keys;
 
                     element.sendKeys(input).then(() => {
-                      this.browser.waitForAngular();
+                        this.browser.waitForAngular();
                     });
                 });
             });

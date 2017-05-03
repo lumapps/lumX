@@ -1,5 +1,8 @@
+/* tslint:disable:no-unused-expression */
+
+import { expect } from '../../../../src/client/app/core/testing/chai.module';
+
 import { browser } from 'protractor';
-import { promise as WebDriverPromise } from 'selenium-webdriver';
 
 import { UserBrowser } from '../helpers/user-browser.class';
 
@@ -7,15 +10,21 @@ import { SimplePage } from '../pages/simple.page';
 
 
 describe('Application', () => {
-    let simplePage: SimplePage = new SimplePage(new UserBrowser('Jack', browser).connect());
+    /**
+     * The page describe the test.
+     *
+     * @type {SimplePage}
+     * @readonly
+     */
+    const simplePage: SimplePage = new SimplePage(new UserBrowser('Jack', browser).connect());
+
 
     it('should have a title', () => {
-        let title: WebDriverPromise.Promise<string> = browser.getTitle();
-
-        expect(title).toEqual('LumBoilerplate');
+        browser.get('/');
+        expect(browser.getTitle()).to.eventually.equal('LumBoilerplate');
     });
 
-    it('should have an "app" element', () => {
-        expect(simplePage.app).toBePresent();
+    it('should have an "lb-app" element', () => {
+        expect(simplePage.app).to.eventually.be.present;
     });
 });

@@ -1,10 +1,10 @@
-import { by, ElementArrayFinder, ElementFinder } from 'protractor';
+import { ElementArrayFinder, ElementFinder, by } from 'protractor';
 import { By } from 'selenium-webdriver';
 
 import { UserBrowser } from '../helpers/user-browser.class';
 
-import { APP_SELECTOR, NEW_TO_DO_SELECTOR, SELECTOR_PREFIX, SELECTOR_SEPARATOR, TO_DO_LIST_SELECTOR, TO_DO_SELECTOR }
-    from '../../../../src/client/app/core/settings/selectors.settings';
+import { APP_SELECTOR, NEW_TO_DO_SELECTOR, SELECTOR_PREFIX, SELECTOR_SEPARATOR, TO_DO_LIST_SELECTOR,
+         TO_DO_SELECTOR } from '../../../../src/client/app/core/settings/selectors.settings';
 
 
 /**
@@ -12,17 +12,26 @@ import { APP_SELECTOR, NEW_TO_DO_SELECTOR, SELECTOR_PREFIX, SELECTOR_SEPARATOR, 
  */
 export class HomePage {
     /**
+     * References all accessors needed for this page.
+     *
+     * @type {By}
+     * @private
+     */
+    private _toDoItemDoneDateAccessor: By;
+    private _toDoItemLabelAccessor: By;
+
+    /**
      * References all classes needed for this page.
      *
      * @type {string}
      * @public
      */
-    public addNewItemButtonClass: string = 'add-item__btn';
-    public newItemInputClass: string = 'new-item__input';
-    public toDoItemDoneClass: string = 'to-do__item-label--is-done';
-    public toDoItemDoneDateClass: string = 'to-do__item-done-date';
-    public toDoItemLabelClass: string = 'to-do__item-label';
-    public toDoListClass: string = 'to-do__list';
+    protected addNewItemButtonClass: string = 'add-item__btn';
+    protected newItemInputClass: string = 'new-item__input';
+    protected toDoItemDoneDateClass: string = 'to-do__item-done-date';
+    protected toDoItemLabelClass: string = 'to-do__item-label';
+    protected toDoListClass: string = 'to-do__list';
+
 
     /**
      * References all elements needed for this page.
@@ -36,21 +45,27 @@ export class HomePage {
     public newItemInput: ElementFinder;
     public newToDo: ElementFinder;
     public newToDoDiv: ElementFinder;
+    public section: ElementFinder;
     public title: ElementFinder;
     public toDo: ElementFinder;
+
+    /**
+     * References all classes needed for this page.
+     *
+     * @type {string}
+     * @public
+     */
+    public toDoItemDoneClass: string = 'to-do__item-label--is-done';
+
+    /**
+     * References all elements needed for this page.
+     *
+     * @type {ElementFinder|ElementArrayFinder}
+     * @public
+     */
     public toDoList: ElementFinder;
     public toDoListContainer: ElementFinder;
     public toDoListElements: ElementArrayFinder;
-    public section: ElementFinder;
-
-    /**
-     * References all accessors needed for this page.
-     *
-     * @type {By}
-     * @private
-     */
-    private _toDoItemDoneDateAccessor: By;
-    private _toDoItemLabelAccessor: By;
 
 
     /**
@@ -61,8 +76,8 @@ export class HomePage {
      * @param {UserBrowser} userBrowser The user helper object that will interact with the page.
      */
     constructor(public userBrowser: UserBrowser) {
-        this._toDoItemDoneDateAccessor = by.css('.' + this.toDoItemDoneDateClass);
-        this._toDoItemLabelAccessor = by.css('.' + this.toDoItemLabelClass);
+        this._toDoItemDoneDateAccessor = by.css(`.${this.toDoItemDoneDateClass}`);
+        this._toDoItemLabelAccessor = by.css(`.${this.toDoItemLabelClass}`);
 
         this.app = this.userBrowser.element(by.tagName(SELECTOR_PREFIX + SELECTOR_SEPARATOR + APP_SELECTOR));
         this.toDo = this.app.element(by.tagName(SELECTOR_PREFIX + SELECTOR_SEPARATOR + TO_DO_SELECTOR));
@@ -71,12 +86,12 @@ export class HomePage {
         this.section = this.toDo.element(by.tagName('section'));
 
         this.newToDo = this.section.element(by.tagName(SELECTOR_PREFIX + SELECTOR_SEPARATOR + NEW_TO_DO_SELECTOR));
-        this.addNewItemButton = this.newToDo.element(by.css('.' + this.addNewItemButtonClass));
-        this.newItemInput = this.newToDo.element(by.css('.' + this.newItemInputClass));
+        this.addNewItemButton = this.newToDo.element(by.css(`.${this.addNewItemButtonClass}`));
+        this.newItemInput = this.newToDo.element(by.css(`.${this.newItemInputClass}`));
         this.newToDoDiv = this.newToDo.element(by.tagName('div'));
 
         this.toDoList = this.section.element(by.tagName(SELECTOR_PREFIX + SELECTOR_SEPARATOR + TO_DO_LIST_SELECTOR));
-        this.toDoListContainer = this.toDoList.element(by.css('.' + this.toDoListClass));
+        this.toDoListContainer = this.toDoList.element(by.css(`.${this.toDoListClass}`));
         this.toDoListElements = this.toDoListContainer.all(by.tagName('li'));
     }
 
@@ -86,7 +101,7 @@ export class HomePage {
      *
      * @param {string} label The label of the new to-do item to add
      */
-    addToDoItem(label: string): void {
+    public addToDoItem(label: string): void {
         this.newItemInput.sendKeys(label);
         this.addNewItemButton.click();
     }
@@ -97,7 +112,7 @@ export class HomePage {
      * @param  {ElementFinder} item The item in wich retrieve the done date.
      * @return {ElementFinder}      The done date of the to-do item (if any).
      */
-    getDoneDate(item: ElementFinder): ElementFinder {
+    public getDoneDate(item: ElementFinder): ElementFinder {
         return item.element(this._toDoItemDoneDateAccessor);
     }
 
@@ -107,7 +122,7 @@ export class HomePage {
      * @param  {ElementFinder} item The item in wich retrieve the label.
      * @return {ElementFinder}      The label of the to-do item.
      */
-    getLabel(item: ElementFinder): ElementFinder {
+    public getLabel(item: ElementFinder): ElementFinder {
         return item.element(this._toDoItemLabelAccessor);
     }
 
@@ -116,7 +131,7 @@ export class HomePage {
      *
      * @return {ElementFinder} The last to-do item of the to-do list (if any).
      */
-    getLastItem(): ElementFinder {
+    public getLastItem(): ElementFinder {
         return this.toDoListElements && this.toDoListElements.last();
     }
 
@@ -125,7 +140,7 @@ export class HomePage {
      *
      * @param  {ElementFinder} item The item to toggle
      */
-    toggleItem(item: ElementFinder): void {
+    public toggleItem(item: ElementFinder): void {
         item.click();
     }
 }

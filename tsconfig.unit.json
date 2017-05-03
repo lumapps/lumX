@@ -64,10 +64,10 @@
         ]
     },
     "include": [
-        "**/*.page.ts",
-        "**/*.spec.ts",
-        "**/*.specs.ts",
-        "**/*.e2e.ts"
+        "src/client/app/**/*.spec.ts",
+        "src/client/app/**/*.specs.ts",
+        "tests/client/unit/**/*.spec.ts",
+        "tests/client/unit/**/*.specs.ts",
     ],
     "exclude": [
         "compiled",

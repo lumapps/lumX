@@ -1,10 +1,10 @@
-import { by, ElementArrayFinder, ElementFinder } from 'protractor';
+import { ElementFinder, by } from 'protractor';
 import { By } from 'selenium-webdriver';
 
 import { UserBrowser } from '../helpers/user-browser.class';
 
-import { APP_SELECTOR, SELECTOR_PREFIX, SELECTOR_SEPARATOR }
-    from '../../../../src/client/app/core/settings/selectors.settings';
+import { APP_SELECTOR, SELECTOR_PREFIX,
+         SELECTOR_SEPARATOR } from '../../../../src/client/app/core/settings/selectors.settings';
 
 
 /**
@@ -12,12 +12,12 @@ import { APP_SELECTOR, SELECTOR_PREFIX, SELECTOR_SEPARATOR }
  */
 export class SimplePage {
     /**
-     * References all classes needed for this page.
+     * References all accessors needed for this page.
      *
-     * @type {string}
-     * @public
+     * @type {By}
+     * @private
      */
-    public appSelector: string = SELECTOR_PREFIX + SELECTOR_SEPARATOR + APP_SELECTOR;
+    private _appAccessor: By;
 
     /**
      * References all elements needed for this page.
@@ -28,12 +28,12 @@ export class SimplePage {
     public app: ElementFinder;
 
     /**
-     * References all accessors needed for this page.
+     * References all classes needed for this page.
      *
-     * @type {By}
-     * @private
+     * @type {string}
+     * @public
      */
-    private _appAccessor: By;
+    public appSelector: string = SELECTOR_PREFIX + SELECTOR_SEPARATOR + APP_SELECTOR;
 
 
     /**

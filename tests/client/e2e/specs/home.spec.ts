@@ -1,5 +1,8 @@
-import { browser, ElementFinder } from 'protractor';
-import { promise as WebDriverPromise } from 'selenium-webdriver';
+/* tslint:disable:no-unused-expression */
+
+import { expect } from '../../../../src/client/app/core/testing/chai.module';
+
+import { ElementFinder, browser } from 'protractor';
 
 import { UserBrowser } from '../helpers/user-browser.class';
 
@@ -7,121 +10,151 @@ import { HomePage } from '../pages/home.page';
 
 
 describe('Application', () => {
-    let homePage: HomePage = new HomePage(new UserBrowser('Jack', browser).connect());
+    /**
+     * The page describe the test.
+     *
+     * @type {HomePage}
+     * @readonly
+     */
+    const homePage: HomePage = new HomePage(new UserBrowser('Jack', browser).connect());
+
 
     it('should have a title', () => {
-        let title: WebDriverPromise.Promise<string> = browser.getTitle();
-
-        expect(title).toEqual('LumBoilerplate');
+        browser.get('/');
+        expect(browser.getTitle()).to.eventually.equal('LumBoilerplate');
     });
 
-    it('should have an "app" element', () => {
-        expect(homePage.app).toBePresent();
+    it('should have an "lb-app" element', () => {
+        expect(homePage.app).to.eventually.be.present;
     });
 
-    it('should have a "to-do" element', () => {
-        expect(homePage.toDo).toBePresent();
+    it('should have a "lb-to-do" element', () => {
+        expect(homePage.toDo).to.eventually.be.present;
     });
 
     describe('To-Do Component', () => {
-        beforeEach(() => {
-            this.newItemLabel = 'Test New Item';
-        });
+        /**
+         * The label of the new item to add to the To-Do List.
+         *
+         * @type {string}
+         * @readonly
+         */
+        const newItemLabel: string = 'Test New Item';
 
 
         it('should have an "header" element', () => {
-            expect(homePage.header).toBePresent();
+            expect(homePage.header).to.eventually.be.present;
         });
 
         it('should have a title', () => {
-            expect(homePage.title).toBePresent();
-            expect(homePage.title).toHaveExactText('To-do');
+            expect(homePage.title).to.eventually.be.present;
+            expect(homePage.title.getText()).to.eventually.equal('To-do');
         });
 
         it('should have a section', () => {
-            expect(homePage.section).toBePresent();
+            expect(homePage.section).to.eventually.be.present;
         });
 
         it('should have a "new-to-do" element', () => {
-            expect(homePage.newToDo).toBePresent();
+            expect(homePage.newToDo).to.eventually.be.present;
         });
 
         it('should have a "to-do-list" element', () => {
-            expect(homePage.toDoList).toBePresent();
+            expect(homePage.toDoList).to.eventually.be.present;
         });
 
         describe('New To-Do Component', () => {
             it('should have a "div" element', () => {
-                expect(homePage.newToDoDiv).toBePresent();
+                expect(homePage.newToDoDiv).to.eventually.be.present;
             });
 
             it('should have a valid "New to-do item" input', () => {
-                let inputType: WebDriverPromise.Promise<string> = homePage.newItemInput.getAttribute('type');
-
-                expect(homePage.newItemInput).toBePresent();
-                expect(inputType).toEqual('text');
+                expect(homePage.newItemInput).to.eventually.be.present;
+                expect(homePage.newItemInput.getAttribute('type')).to.eventually.equal('text');
             });
 
             it('should have a valid "Add" button', () => {
-                expect(homePage.addNewItemButton).toBePresent();
-                expect(homePage.addNewItemButton).toHaveExactText('Add');
+                expect(homePage.addNewItemButton).to.eventually.be.present;
+                expect(homePage.addNewItemButton.getText()).to.eventually.equal('Add');
             });
 
             it('add a new item', () => {
-                homePage.addToDoItem(this.newItemLabel);
+                homePage.addToDoItem(newItemLabel);
 
-                expect(homePage.toDoListElements.count()).toBeGreaterThan(0);
+                expect(homePage.toDoListElements.count()).to.be.eventually.above(0);
 
-                let lastItemLabel: ElementFinder = homePage.getLabel(homePage.getLastItem());
-                expect(lastItemLabel).toContainText(this.newItemLabel);
+                const lastItemLabel: ElementFinder = homePage.getLabel(homePage.getLastItem());
+                expect(lastItemLabel.getText()).to.eventually.contain(newItemLabel);
             });
         });
 
         describe('To-Do List Component', () => {
+            /**
+             * The last item of the To-Do List.
+             *
+             * @type {ElementFinder}
+             */
+            let lastItem: ElementFinder;
+
+            /**
+             * The label of the last item of the To-Do List.
+             *
+             * @type {ElementFinder}
+             */
+            let lastItemLabel: ElementFinder;
+
+            /**
+             * The done date of the last item of the To-Do List.
+             *
+             * @type {ElementFinder}
+             */
+            let lastItemDoneDate: ElementFinder;
+
+
             beforeEach(() => {
-                expect(homePage.toDoListContainer).toBePresent();
-                expect(homePage.toDoListElements.count()).toBeGreaterThan(0);
+                expect(homePage.toDoListContainer).to.eventually.be.present;
+                expect(homePage.toDoListElements.count()).to.be.eventually.above(0);
 
-                this.lastItem = homePage.getLastItem();
-                expect(this.lastItem).toHaveClass('to-do__item');
+                lastItem = homePage.getLastItem();
+                expect(lastItem.getAttribute('class')).to.eventually.contain('to-do__item');
 
-                this.lastItemLabel = homePage.getLabel(this.lastItem);
-                this.lastItemDoneDate = homePage.getLabel(this.lastItem);
+                lastItemLabel = homePage.getLabel(lastItem);
+                lastItemDoneDate = homePage.getDoneDate(lastItem);
             });
 
 
             it('should have one undone "Test New Item" item', () => {
-                expect(this.lastItemLabel).toContainText(this.newItemLabel);
+                expect(lastItemLabel.getText()).to.eventually.contain(newItemLabel);
 
-                checkIsNotDone(this.lastItem);
+                checkIsNotDone(lastItem);
             });
 
             it('can toggle an item', () => {
-                checkIsNotDone(this.lastItem);
+                checkIsNotDone(lastItem);
 
-                homePage.toggleItem(this.lastItem);
-                checkIsDone(this.lastItem);
+                homePage.toggleItem(lastItem);
+                checkIsDone(lastItem);
 
-                homePage.toggleItem(this.lastItem);
-                checkIsNotDone(this.lastItem);
+                homePage.toggleItem(lastItem);
+                checkIsNotDone(lastItem);
             });
 
             /**
              * Check if a to-do item is done or not.
              *
-             * @param {ElementFinder} item        The item to check.
-             * @param {boolean}                  [not=false] Indicates if we want to check that the item is not done.
+             * @param {ElementFinder} item  The item to check.
+             * @param {boolean}       [not=false] Indicates if we want to check that the item is not done.
              */
-            function checkIsDone(item: ElementFinder, not: boolean = false): void { // tslint:disable-line
-                let itemLabel: ElementFinder = homePage.getLabel(item);
-                let itemDoneDate: ElementFinder = homePage.getDoneDate(item);
+            function checkIsDone(item: ElementFinder, not: boolean = false): void {
+                const itemLabel: ElementFinder = homePage.getLabel(item);
+                const itemDoneDate: ElementFinder = homePage.getDoneDate(item);
 
                 if (not) {
-                    expect(itemLabel).not.toHaveClass(homePage.toDoItemDoneClass);
-                    expect(itemDoneDate).not.toBePresent();
+                    expect(itemLabel.getAttribute('class')).to.eventually.not.contain(homePage.toDoItemDoneClass);
+                    expect(itemDoneDate).to.eventually.not.be.present;
                 } else {
-                    expect(itemLabel).toHaveClass(homePage.toDoItemDoneClass);
-                    expect(itemDoneDate).toBePresent();
+                    expect(itemLabel.getAttribute('class')).to.eventually.contain(homePage.toDoItemDoneClass);
+                    expect(itemDoneDate).to.eventually.be.present;
                 }
             }
 
@@ -130,9 +163,14 @@ describe('Application', () => {
              *
              * @param {ElementFinder} item The item to check.
              */
-            function checkIsNotDone(item: ElementFinder): void { // tslint:disable-line
+            function checkIsNotDone(item: ElementFinder): void {
                 checkIsDone(item, true);
             }
         });
+    });
+
+
+    afterEach(() => {
+        // Nothing to do here.
     });
 });

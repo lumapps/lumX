@@ -1,5 +1,3 @@
-require('ts-node/register');
-
 const helpers = require('./config/modules/helpers');
 
 // eslint-disable-next-line no-unused-vars
@@ -17,8 +15,19 @@ exports.config = {
 
     baseUrl: `http://${host}:${port}/`,
 
+    beforeLaunch: () => {
+        require('ts-node').register({
+            project: 'tsconfig.e2e.json',
+        });
+    },
+
     capabilities: {
         browserName: 'chrome',
+        chromeOptions: {
+            args: [
+                'show-fps-counter=true',
+            ],
+        },
     },
 
     directConnect: true,
@@ -28,19 +37,19 @@ exports.config = {
     framework: 'mocha',
 
     mochaOpts: {
+        compilers: 'ts:ts-node/register',
         reporter: 'spec',
         slow: 5000,
+        timeout: 50000,
     },
 
-    onPrepare: function onPrepare() {
+    onPrepare: () => {
         browser.ignoreSynchronization = true;
-        browser.driver
-            .manage()
-            .window()
-            .maximize();
+        browser.driver.manage().window().maximize();
     },
 
     specs: [
+        helpers.root('src', 'client', 'app', '**', '*.e2e.ts'),
         helpers.root('tests', 'client', 'e2e', 'specs', '**', '*.ts'),
     ],
 

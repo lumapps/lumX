@@ -208,7 +208,7 @@ module.exports = function webpackCommonConfigExport(metadata) {
     ];
 
     if (metadata.env === helpers.ENVS.test) {
-        tsConfigFile = 'tsconfig.tests.json';
+        tsConfigFile = 'tsconfig.unit.json';
 
         if (helpers.TESTS_TYPE === helpers.TESTS_TYPES.unit) {
             lintInclude = helpers.root('src', 'client', 'app');
