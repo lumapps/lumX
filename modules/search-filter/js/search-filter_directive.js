@@ -123,6 +123,11 @@
                     queue: false
                 });
             }
+
+            if (!input.val())
+            {
+                lxSearchFilter.modelController.$setViewValue(undefined);
+            }
         }
 
         function clearInput()
@@ -335,6 +340,7 @@
             {
                 if (_immediate)
                 {
+                    lxSearchFilter.isLoading = true;
                     (lxSearchFilter.autocomplete())(_newValue, onAutocompleteSuccess, onAutocompleteError);
                 }
                 else
