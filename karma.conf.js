@@ -39,10 +39,10 @@ module.exports = function karmaConfig(config) {
         browsers: ['Chrome'],
 
         client: {
-            captureConsole: false,
+            captureConsole: true,
 
             config: {
-                browserConsoleLogOptions: false,
+                browserConsoleLogOptions: true,
             },
 
             mocha: {
@@ -55,6 +55,11 @@ module.exports = function karmaConfig(config) {
 
         coverageReporter: {
             dir: coverageReportDirectory,
+            instrumenterOptions: {
+                istanbul: {
+                    noCompact: true,
+                },
+            },
             reporters: [
                 {
                     type: 'in-memory',
