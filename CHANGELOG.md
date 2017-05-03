@@ -1,5 +1,19 @@
 # Changelog
 
+## v1.5.5:
+
+#### New features:
+ - search-filter: add theme option to handle input text color
+
+#### Bug fixes:
+ - search-filter: show loader on focus search as well
+ - search-filter: set input as undefined when doing blur with empty string
+
+#### Breaking changes:
+ - Input text color was concerned by the color option. Now, input text
+ - color is only concerned by the new theme option.
+
+
 ## v1.5.4:
 
 #### Bug fixes:

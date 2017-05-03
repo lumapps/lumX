@@ -1,5 +1,5 @@
 /*
- LumX v1.5.4
+ LumX v1.5.5
  (c) 2014-2017 LumApps http://ui.lumapps.com
  License: MIT
 */
@@ -1406,7 +1406,7 @@
             {
                 return;
             }
-
+            
             LxDepthService.register();
 
             angular.element('body').addClass('no-scroll-dialog-' + lxDialog.uuid);
@@ -1475,7 +1475,7 @@
             {
                 return;
             }
-
+            
             if (angular.isDefined(idEventScheduler))
             {
                 LxEventSchedulerService.unregister(idEventScheduler);
@@ -3453,6 +3453,7 @@
                 color: '@?lxColor',
                 icon: '@?lxIcon',
                 searchOnFocus: '=?lxSearchOnFocus',
+                theme: '@?lxTheme',
                 width: '@?lxWidth'
             },
             link: link,
@@ -3516,6 +3517,7 @@
         lxSearchFilter.activeChoiceIndex = -1;
         lxSearchFilter.color = angular.isDefined(lxSearchFilter.color) ? lxSearchFilter.color : 'black';
         lxSearchFilter.dropdownId = LxUtils.generateUUID();
+        lxSearchFilter.theme = angular.isDefined(lxSearchFilter.theme) ? lxSearchFilter.theme : 'light';
 
         ////////////
 
@@ -3532,6 +3534,11 @@
                     easing: 'easeOutQuint',
                     queue: false
                 });
+            }
+
+            if (!input.val())
+            {
+                lxSearchFilter.modelController.$setViewValue(undefined);
             }
         }
 
@@ -3575,6 +3582,11 @@
             if (angular.isDefined(lxSearchFilter.color))
             {
                 searchFilterClass.push('search-filter--' + lxSearchFilter.color);
+            }
+
+            if (angular.isDefined(lxSearchFilter.theme))
+            {
+                searchFilterClass.push('search-filter--theme-' + lxSearchFilter.theme);
             }
 
             if (angular.isFunction(lxSearchFilter.autocomplete))
@@ -3745,6 +3757,7 @@
             {
                 if (_immediate)
                 {
+                    lxSearchFilter.isLoading = true;
                     (lxSearchFilter.autocomplete())(_newValue, onAutocompleteSuccess, onAutocompleteError);
                 }
                 else
@@ -3959,7 +3972,7 @@
         lxSelect.viewMode = angular.isUndefined(lxSelect.viewMode) ? 'field' : 'chips';
 
         ////////////
-
+        
         function arrayObjectIndexOf(arr, obj)
         {
             for (var i = 0; i < arr.length; i++)
@@ -4147,15 +4160,15 @@
                     var identical = getSelectedModel().some(function (item) {
                         return angular.equals(item, value);
                     });
-
+                    
                     if (!identical)
                     {
                         getSelectedModel().push(value);
                     }
                 }
-
+                
                 lxSelect.filterModel = undefined;
-
+                
                 LxDropdownService.close('dropdown-' + lxSelect.uuid);
             }
         }
@@ -4333,10 +4346,10 @@
             {
                 return lxSelect.helper;
             }
-
+            
             // Else check if there's choices.
             var choices = lxSelect.getFilteredChoices();
-
+            
             if (angular.isArray(choices))
             {
                 return !choices.length;
@@ -5212,7 +5225,7 @@
         }, function(_newLinks)
         {
             lxTabs.viewMode = angular.isDefined(_newLinks) ? 'separate' : 'gather';
-
+            
             angular.forEach(_newLinks, function(link, index)
             {
                 var tab = {

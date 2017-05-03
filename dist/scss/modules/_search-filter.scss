@@ -20,21 +20,6 @@
     padding: $base-spacing-unit / 2;
 }
 
-@each $key, $color in $colors {
-    .search-filter--#{$key} {
-        .search-filter__input input,
-        .search-filter__clear {
-            color: $color;
-        }
-
-        .search-filter__input input {
-            @include placeholder {
-                color: rgba($color, 0.5);
-            }
-        }
-    }
-}
-
     // Search filter: container
     .search-filter__container {
         position: relative;
@@ -59,6 +44,22 @@
         @include size(100% $size-l);
         @include font-size(16px);
         line-height: $size-l;
+
+        .search-filter--theme-light & {
+            color: $black-1;
+
+            @include placeholder {
+                color: $black-3;
+            }
+        }
+
+        .search-filter--theme-dark & {
+            color: $white-1;
+
+            @include placeholder {
+                color: $white-3;
+            }
+        }
     }
 
     // Search filter: clear
