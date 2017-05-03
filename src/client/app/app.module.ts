@@ -21,8 +21,7 @@ import { AppComponent } from './app.component';
 
 
 /**
- * Our application module.
- *
+ * Application module.
  * Handles the bootstrapping and declaration of everything.
  */
 @NgModule({
@@ -59,8 +58,6 @@ export class AppModule {
     /**
      * Construct the application module.
      *
-     * @constructs AppModule
-     *
      * @param {ApplicationRef} appRef The application reference.
      */
     constructor(public appRef: ApplicationRef) {}
@@ -71,7 +68,6 @@ export class AppModule {
      * Delete any reference to old components.
      *
      * @param {IHmrStore} HmrStore The HMR store.
-     *
      * @public
      */
     public hmrAfterDestroy(HmrStore: IHmrStore): void {
@@ -85,7 +81,6 @@ export class AppModule {
      * Recreate elements and clean styles.
      *
      * @param {IHmrStore} HmrStore The HMR store.
-     *
      * @public
      */
     public hmrOnDestroy(HmrStore: IHmrStore): void {
@@ -107,7 +102,6 @@ export class AppModule {
      * Execute the next tick.
      *
      * @param {IHmrStore} HmrStore The HMR store.
-     *
      * @public
      */
     public hmrOnInit(HmrStore: IHmrStore): void {

@@ -1,8 +1,11 @@
 import { ElementArrayFinder, ElementFinder, ElementHelper, ExpectedConditions, ProtractorBrowser } from 'protractor';
 import { WebDriver, promise as WebdriverPromise } from 'selenium-webdriver';
 
+import { UtilsService } from '../../../../src/client/app/core/services/utils.service';
+
 
 /**
+ * User Browser.
  * User browser object to facilitate login and DOM manipulation.
  */
 export class UserBrowser {
@@ -73,8 +76,6 @@ export class UserBrowser {
     /**
      * Construct a new user object.
      *
-     * @constructs UserBrowser
-     *
      * @param {string}            name    The name of the user.
      * @param {ProtractorBrowser} browser The browser to attach to the user.
      */
@@ -94,11 +95,13 @@ export class UserBrowser {
     /**
      * Move an element inside another element.
      *
-     * @param  {ElementFinder}                           element     The element we want to move.
-     * @param  {ElementFinder}                           destination The element which will contain the element.
-     * @return {WebdriverPromise.Promise<ElementFinder>}             The promise.
+     * @param  {ElementFinder}                element     The element we want to move.
+     * @param  {ElementFinder}                destination The element which will contain the element.
+     * @return {WebdriverPromise.Promise<{}>} The promise.
+     * @public
+     * @async
      */
-    public appendChild(element: ElementFinder, destination: ElementFinder): WebdriverPromise.Promise<ElementFinder> {
+    public async appendChild(element: ElementFinder, destination: ElementFinder): WebdriverPromise.Promise<{}> {
         return this.browser.executeScript('arguments[1].appendChild(arguments[0]);', element.getWebElement(),
                                           destination.getWebElement());
     }
@@ -109,29 +112,28 @@ export class UserBrowser {
      * @param {ElementFinder} element              The element we want to click.
      * @param {boolean}       [isWebElement=false] If the element is already in the webElement format.
      * @param {number}        [timeout=1000]       Max waiting time.
+     * @public
      */
     public clickOn(element: ElementFinder, isWebElement: boolean = false, timeout: number = 1000): void {
-        isWebElement = isWebElement || false;
+        isWebElement = (UtilsService.isDefined(isWebElement)) ? isWebElement : false;
 
         this.driver.wait(() => {
-            return element.isPresent().then(this.evaluateBoolean)
-                   && element.isDisplayed().then(this.evaluateBoolean)
-                   && ExpectedConditions.elementToBeClickable(element);
-        },
-                         timeout);
+            /* tslint:disable:strict-boolean-expressions */
+            return element.isPresent().then(this.evaluateBoolean) && element.isDisplayed().then(this.evaluateBoolean) &&
+                ExpectedConditions.elementToBeClickable(element);
+            /* tslint:enable:strict-boolean-expressions */
+        }, timeout);
         this.browser.sleep(timeout / 10);
 
-        this.browser
-            .executeScript('arguments[0].click();', (isWebElement) ? element : element.getWebElement())
-            .then(() => {
-                this.browser.waitForAngular();
-            });
+        this.browser.executeScript('arguments[0].click();', (isWebElement) ? element : element.getWebElement())
+            .then(async () => this.browser.waitForAngular());
     }
 
     /**
      * Load home page in order to be redirected to google auth and then connect to it.
      *
      * @return {UserBrowser} The connected user browser.
+     * @public
      */
     public connect(): UserBrowser {
         this.driver.get(this.browser.baseUrl);
@@ -144,6 +146,7 @@ export class UserBrowser {
      *
      * @param  {boolean} bool The boolean to evaluate.
      * @return {boolean}      The boolean.
+     * @public
      */
     public evaluateBoolean(bool: boolean): boolean {
         return bool;
@@ -152,11 +155,13 @@ export class UserBrowser {
     /**
      * Move an element right after another element.
      *
-     * @param  {ElementFinder}                           element     The element we want to move.
-     * @param  {ElementFinder}                           destination The element we use as destination point.
-     * @return {WebdriverPromise.Promise<ElementFinder>}             The promise.
+     * @param  {ElementFinder}                element     The element we want to move.
+     * @param  {ElementFinder}                destination The element we use as destination point.
+     * @return {WebdriverPromise.Promise<{}>} The promise.
+     * @public
+     * @async
      */
-    public insertAfter(element: ElementFinder, destination: ElementFinder): WebdriverPromise.Promise<ElementFinder> {
+    public async insertAfter(element: ElementFinder, destination: ElementFinder): WebdriverPromise.Promise<{}> {
         return this.browser.executeScript('arguments[0].parentNode.insertAfter(arguments[0], arguments[1]);',
                                           element.getWebElement(), destination.getWebElement());
     }
@@ -164,11 +169,13 @@ export class UserBrowser {
     /**
      * Move an element right before another element.
      *
-     * @param  {ElementFinder}                            element     The element we want to move.
-     * @param  {ElementFinder}                            destination The element we use as destination point.
-     * @return {!WebdriverPromise.Promise<ElementFinder>}             The promise.
+     * @param  {ElementFinder}                 element     The element we want to move.
+     * @param  {ElementFinder}                 destination The element we use as destination point.
+     * @return {!WebdriverPromise.Promise<{}>} The promise.
+     * @public
+     * @async
      */
-    public insertBefore(element: ElementFinder, destination: ElementFinder): WebdriverPromise.Promise<ElementFinder> {
+    public async insertBefore(element: ElementFinder, destination: ElementFinder): WebdriverPromise.Promise<{}> {
         return this.browser.executeScript('arguments[0].parentNode.insertBefore(arguments[0], arguments[1]);',
                                           element.getWebElement(), destination.getWebElement());
     }
@@ -184,20 +191,21 @@ export class UserBrowser {
      *                                             password or search e.g. ...).
      * @param {boolean}       [isWebElement=false] Indicates if it's a web element.
      * @param {number}        [timeout=1000]       Max waiting time.
+     * @public
      */
     public scrollAndInput(element: ElementFinder, keys: string, clear: boolean = true, prefix: boolean = false,
                           isWebElement: boolean = false, timeout: number = 1000): void {
-        isWebElement = isWebElement || false;
+        isWebElement = (UtilsService.isDefined(isWebElement)) ? isWebElement : false;
 
         this.driver.wait(() => {
-            return element.isPresent().then(this.evaluateBoolean) && element.isDisplayed().then(this.evaluateBoolean)
-                   && ExpectedConditions.elementToBeClickable(element);
-        },
-                         timeout);
+            /* tslint:disable:strict-boolean-expressions */
+            return element.isPresent().then(this.evaluateBoolean) && element.isDisplayed().then(this.evaluateBoolean) &&
+                ExpectedConditions.elementToBeClickable(element);
+            /* tslint:enable:strict-boolean-expressions */
+        }, timeout);
         this.browser.sleep(timeout / 10);
 
-        this.browser
-            .executeScript('arguments[0].scrollIntoView();', isWebElement ? element : element.getWebElement())
+        this.browser.executeScript('arguments[0].scrollIntoView();', isWebElement ? element : element.getWebElement())
             .then(() => {
                 if (clear) {
                     element.clear();
@@ -207,9 +215,7 @@ export class UserBrowser {
                     // Add prefix if first input
                     const input: string = (text === '' && prefix) ? this.prefix + keys : keys;
 
-                    element.sendKeys(input).then(() => {
-                        this.browser.waitForAngular();
-                    });
+                    element.sendKeys(input).then(async () => this.browser.waitForAngular());
                 });
             });
     }

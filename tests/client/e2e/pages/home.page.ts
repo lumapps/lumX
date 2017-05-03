@@ -6,11 +6,15 @@ import { UserBrowser } from '../helpers/user-browser.class';
 import { APP_SELECTOR, NEW_TO_DO_SELECTOR, SELECTOR_PREFIX, SELECTOR_SEPARATOR, TO_DO_LIST_SELECTOR,
          TO_DO_SELECTOR } from '../../../../src/client/app/core/settings/selectors.settings';
 
+import { UtilsService } from '../../../../src/client/app/core/services/utils.service';
+
 
 /**
+ * Home Page.
  * Home page descriptor to separate selectors from specs.
  */
 export class HomePage {
+    /* tslint:disable:completed-docs */
     /**
      * References all accessors needed for this page.
      *
@@ -24,7 +28,10 @@ export class HomePage {
      * References all classes needed for this page.
      *
      * @type {string}
-     * @public
+     * @protected
+     * @readonly
+     * @constant
+     * @default
      */
     protected addNewItemButtonClass: string = 'add-item__btn';
     protected newItemInputClass: string = 'new-item__input';
@@ -50,10 +57,13 @@ export class HomePage {
     public toDo: ElementFinder;
 
     /**
-     * References all classes needed for this page.
+     * References the class for an done To-Do Item.
      *
      * @type {string}
      * @public
+     * @readonly
+     * @constant
+     * @default
      */
     public toDoItemDoneClass: string = 'to-do__item-label--is-done';
 
@@ -66,12 +76,11 @@ export class HomePage {
     public toDoList: ElementFinder;
     public toDoListContainer: ElementFinder;
     public toDoListElements: ElementArrayFinder;
+    /* tslint:enable:completed-docs */
 
 
     /**
      * Construct a new home page descriptor.
-     *
-     * @constructs HomePage
      *
      * @param {UserBrowser} userBrowser The user helper object that will interact with the page.
      */
@@ -100,6 +109,7 @@ export class HomePage {
      * Add a new to-do item to the to-do list.
      *
      * @param {string} label The label of the new to-do item to add
+     * @public
      */
     public addToDoItem(label: string): void {
         this.newItemInput.sendKeys(label);
@@ -111,6 +121,7 @@ export class HomePage {
      *
      * @param  {ElementFinder} item The item in wich retrieve the done date.
      * @return {ElementFinder}      The done date of the to-do item (if any).
+     * @public
      */
     public getDoneDate(item: ElementFinder): ElementFinder {
         return item.element(this._toDoItemDoneDateAccessor);
@@ -121,6 +132,7 @@ export class HomePage {
      *
      * @param  {ElementFinder} item The item in wich retrieve the label.
      * @return {ElementFinder}      The label of the to-do item.
+     * @public
      */
     public getLabel(item: ElementFinder): ElementFinder {
         return item.element(this._toDoItemLabelAccessor);
@@ -130,15 +142,17 @@ export class HomePage {
      * Get the element corresponding to the last to-do item of the to-do list.
      *
      * @return {ElementFinder} The last to-do item of the to-do list (if any).
+     * @public
      */
     public getLastItem(): ElementFinder {
-        return this.toDoListElements && this.toDoListElements.last();
+        return (UtilsService.isDefinedAndFilled(this.toDoListElements)) ? this.toDoListElements.last() : undefined;
     }
 
     /**
      * Toggle a to-do item state.
      *
      * @param  {ElementFinder} item The item to toggle
+     * @public
      */
     public toggleItem(item: ElementFinder): void {
         item.click();

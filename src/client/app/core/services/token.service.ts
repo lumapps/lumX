@@ -13,6 +13,7 @@ import { UtilsService } from 'core/services/utils.service';
 
 
 /**
+ * Token Service.
  * Responsible of managing the OAuth token of our application through a ReduxStore.
  */
 @Injectable()
@@ -21,7 +22,6 @@ export class TokenService {
      * The OAuth token (as an observable).
      *
      * @type {Observable<ITokenState>}
-     *
      * @public
      */
     public token: Observable<ITokenState>;
@@ -29,8 +29,6 @@ export class TokenService {
 
     /**
      * Construct a new Token service and initialize the token store.
-     *
-     * @constructs TokenService
      *
      * @param {Store<ITokenState>} _Store The ReduxStore that will store our token state.
      */
@@ -54,7 +52,6 @@ export class TokenService {
      * Get the token value.
      *
      * @return {string} The token value.
-     *
      * @public
      */
     public getToken(): string {
@@ -73,7 +70,6 @@ export class TokenService {
      * Check if the token is still valid or need to be refreshed.
      *
      * @return {boolean} If the token needs to be refreshed or not.
-     *
      * @public
      */
     public isValid(): boolean {
@@ -104,7 +100,6 @@ export class TokenService {
      * Update the token value.
      *
      * @param {string} token The token value.
-     *
      * @public
      */
     public setToken(token: string): void {

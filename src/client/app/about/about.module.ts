@@ -35,7 +35,6 @@ export class AboutModule {
      * The routes of the module.
      *
      * @type {Array[Object]}
-     *
      * @public
      * @static
      */

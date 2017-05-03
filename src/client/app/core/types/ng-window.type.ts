@@ -1,5 +1,7 @@
 /**
- * Represent the "ng" object in the window.
+ * Describes the "ng" object in the window.
+ *
+ * @interface
  */
 export interface INgObject {
     coreTokens: {};
@@ -7,7 +9,9 @@ export interface INgObject {
 }
 
 /**
- * Represent a special window object to store the "ng" object.
+ * Describes a special window object to store the "ng" object.
+ *
+ * @interface
  */
 export interface INgWindow extends Window {
     ng: INgObject;

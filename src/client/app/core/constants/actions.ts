@@ -9,7 +9,7 @@ export class TokenActions {
      * The action for clearing the token.
      *
      * @type {string}
-     *
+     * @default
      * @public
      * @static
      */
@@ -19,7 +19,7 @@ export class TokenActions {
      * The action for marking the token as needed.
      *
      * @type {string}
-     *
+     * @default
      * @public
      * @static
      */
@@ -29,7 +29,7 @@ export class TokenActions {
      * The action for marking the token as received.
      *
      * @type {string}
-     *
+     * @default
      * @public
      * @static
      */

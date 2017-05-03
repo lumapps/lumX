@@ -8,8 +8,7 @@ import { SELECTOR_PREFIX, SELECTOR_SEPARATOR } from 'core/settings/selectors.set
 
 /**
  * About Component.
- *
- * Display some info.
+ * Display some info about the application.
  */
 @Component({
     selector: SELECTOR_PREFIX + SELECTOR_SEPARATOR + SELECTOR,
@@ -21,15 +20,12 @@ export class AboutComponent implements OnInit {
      * The data of the route.
      *
      * @type {string}
-     *
      * @public
      */
     public data: string;
 
     /**
-     * Construct a new About component.
-     *
-     * @constructs AboutComponent
+     * Create a new About component.
      *
      * @param {ActivatedRoute} route The activated route.
      */

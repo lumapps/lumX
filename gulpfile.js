@@ -225,7 +225,7 @@ shelter({
                                         webdriver:update
               && ${envTest} ${e2eTests} ${npmRun} run-parallel -- -r serve:${e2eBuildType}:fast:silent
                                                                   protractor`,
-        dsc: `Run End to End test (Protractor with Chrome) after rebuilding on ${project}`,
+        dsc: `Run End to End (E2E) tests (Protractor with Chrome) after rebuilding on ${project}`,
     },
     'e2e:debug': {
         cmd: `${npmRun} run-parallel -- build:${e2eBuildType}:fast
@@ -233,19 +233,19 @@ shelter({
                                         webdriver:update
               && ${envTest} ${e2eTests} ${debug} ${npmRun} run-parallel -- -r serve:${e2eBuildType}:fast:silent
                                                                            protractor:debug`,
-        dsc: `Debug End to End test (Protractor with Chrome) after rebuilding on ${project}`,
+        dsc: `Debug End to End (E2E) tests (Protractor with Chrome) after rebuilding on ${project}`,
     },
     'e2e:debug:fast': {
         cmd: `${npmRun} clean:e2e:report
               && ${envTest} ${e2eTests} ${debug} ${npmRun} run-parallel -- -r serve:${e2eBuildType}:fast:silent
                                                                            protractor:debug`,
-        dsc: `Debug End to End test (Protractor with Chrome) with existing build on ${project}`,
+        dsc: `Debug End to End (E2E) tests (Protractor with Chrome) with existing build on ${project}`,
     },
     'e2e:fast': {
         cmd: `${npmRun} clean:e2e:report
               && ${envTest} ${e2eTests} ${npmRun} run-parallel -- -r serve:${e2eBuildType}:fast:silent
                                                                   protractor`,
-        dsc: `Run End to End test (Protractor with Chrome) with existing build on ${project}`,
+        dsc: `Run End to End (E2E) tests (Protractor with Chrome) with existing build on ${project}`,
     },
     'e2e:headless': {
         cmd: `${npmRun} run-parallel -- build:${e2eBuildType}:fast
@@ -253,18 +253,27 @@ shelter({
                                         webdriver:update
               && ${envTest} ${e2eTests} ${hidden} ${npmRun} run-parallel -- -r serve:${e2eBuildType}:fast:silent
                                                                             protractor:headless`,
-        dsc: `Run End to End test (Protractor with Headless Chrome, XVFB needed) after rebuilding on ${project}`,
+        dsc: `Run End to End (E2E) tests (Protractor with Headless Chrome, XVFB needed) after rebuilding on ${project}`,
     },
     'e2e:headless:fast': {
         cmd: `${npmRun} clean:e2e:report
               && ${envTest} ${e2eTests} ${hidden} ${npmRun} run-parallel -- -r serve:${e2eBuildType}:fast:silent
                                                                             protractor:headless`,
-        dsc: `Run End to End test (Protractor with Headless Chome, XVFB needed) with existing build on ${project}`,
+        dsc: `Run End to End (E2E) tests (Protractor with Headless Chome, XVFB needed) with existing build on ${project}`,
     },
 
     'lint:config': {
+        cmd: `${npmRun} run-parallel -- lint:config:js
+                                        lint:config:json`,
+        dsc: `Lint all config files of ${project}`,
+    },
+    'lint:config:js': {
         cmd: `${npmRun} eslint -- "./*.js" "${configFolder}/**/*.js"`,
-        dsc: `Lint config of ${project}`,
+        dsc: `Lint JS config files of ${project}`,
+    },
+    'lint:config:json': {
+        cmd: `${npmRun} jsonlint -- **/*.json`,
+        dsc: `Lint JSON config files of ${project}`,
     },
     'lint:src': {
         cmd: `${npmRun} run-parallel -- lint:src:ts
@@ -281,12 +290,23 @@ shelter({
         dsc: `Lint SASS code of ${project}`,
     },
     'lint:src:ts': {
-        cmd: `${npmRun} tslint -- --project ./tsconfig.json --type-check`,
+        cmd: `${npmRun} tslint -- --project ./tsconfig.json --type-check
+                                  --exclude tests/**/* --exclude *.e2e.ts --exclude *.page.ts --exclude *.spec.ts
+                                  --exclude *.specs.ts`,
         dsc: `Lint TypeScript code of ${project}`,
     },
     'lint:tests': {
-        cmd: `${npmRun} tslint -- --project ./tsconfig.unit.json --type-check`,
+        cmd: `${npmRun} run-parallel -- lint:tests:e2e
+                                        lint:tests:unit`,
         dsc: `Lint TypeScript code of ${project}'s tests`,
+    },
+    'lint:tests:e2e': {
+        cmd: `${npmRun} tslint -- --project ./tsconfig.e2e.json --type-check`,
+        dsc: `Lint TypeScript code of ${project}'s End to End (E2E) tests`,
+    },
+    'lint:tests:unit': {
+        cmd: `${npmRun} tslint -- --project ./tsconfig.unit.json --type-check`,
+        dsc: `Lint TypeScript code of ${project}'s unit tests`,
     },
 
     'scaffold': {

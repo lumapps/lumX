@@ -14,6 +14,7 @@ import { UtilsService } from 'core/services/utils.service';
 
 
 /**
+ * Http Interceptor Service.
  * Responsible to intercept all HTTP request and add the OAuth token to the headers.
  * If the token is not valid (or inexistant), updates it.
  * Only try to auth 5 times then give up.
@@ -25,7 +26,6 @@ export class HttpInterceptorService {
      * When 5 attemps have been made, give up.
      *
      * @type {number}
-     *
      * @private
      */
     private _loginAttempts: number = 0;
@@ -34,8 +34,6 @@ export class HttpInterceptorService {
     /**
      * Construct a new HTTP Interceptor service.
      * Initialize the login attemps number.
-     *
-     * @constructs HttpInterceptorService
      *
      * @param {Http}         _HttpService  The angular's regular HTTP Service.
      * @param {TokenService} _TokenService The application's token service.
@@ -49,7 +47,6 @@ export class HttpInterceptorService {
      * @param  {string}               url       The URL to call with "DELETE" verb.
      * @param  {RequestOptions}       [options] The options of the request.
      * @return {Observable<Response>} The response of the request.
-     *
      * @public
      */
     public delete(url: string, options?: RequestOptions): Observable<Response> {
@@ -63,7 +60,6 @@ export class HttpInterceptorService {
      * @param  {string}               url       The URL to call with "GET" verb.
      * @param  {RequestOptions}       [options] The options of the request.
      * @return {Observable<Response>} The response of the request.
-     *
      * @public
      */
     public get(url: string, options?: RequestOptions): Observable<Response> {
@@ -78,7 +74,6 @@ export class HttpInterceptorService {
      * @param  {boolean}        [isGet=false] Indicates if it's a get request. FOr a get request, generate a fake
      *                                        empty body to avoid any error with Angular2 RC5 framework.
      * @return {RequestOptions} The new request options.
-     *
      * @public
      */
     public getRequestOptionArgs(options?: RequestOptions, isGet: boolean = false): RequestOptions {
@@ -110,7 +105,6 @@ export class HttpInterceptorService {
      * @param  {string}               url       The URL to call with "HEAD" verb.
      * @param  {RequestOptions}       [options] The options of the request.
      * @return {Observable<Response>} The response of the request.
-     *
      * @public
      */
     public head(url: string, options?: RequestOptions): Observable<Response> {
@@ -128,7 +122,6 @@ export class HttpInterceptorService {
      * @param  {string}               [body]     The body of the request.
      * @param  {RequestOptions}       [options]  The options of the request.
      * @return {Observable<Response>} The new observable for the future response to the request.
-     *
      * @public
      */
     public intercept(observable: Observable<Response>, method: string, url: string, request: string | Request,
@@ -182,7 +175,6 @@ export class HttpInterceptorService {
      * @param  {string}               url       The URL to call with "OPTIONS" verb.
      * @param  {RequestOptions}       [options] The options of the request.
      * @return {Observable<Response>} The response of the request.
-     *
      * @public
      */
     public options(url: string, options?: RequestOptions): Observable<Response> {
@@ -197,7 +189,6 @@ export class HttpInterceptorService {
      * @param  {string}               body      The body of the request
      * @param  {RequestOptions}       [options] The options of the request.
      * @return {Observable<Response>} The response of the request.
-     *
      * @public
      */
     public patch(url: string, body: string, options?: RequestOptions): Observable<Response> {
@@ -212,7 +203,6 @@ export class HttpInterceptorService {
      * @param  {string}               body      The body of the request
      * @param  {RequestOptions}       [options] The options of the request.
      * @return {Observable<Response>} The response of the request.
-     *
      * @public
      */
     public post(url: string, body: string, options?: RequestOptions): Observable<Response> {
@@ -227,7 +217,6 @@ export class HttpInterceptorService {
      * @param  {string}               body      The body of the request
      * @param  {RequestOptions}       [options] The options of the request.
      * @return {Observable<Response>} The response of the request.
-     *
      * @public
      */
     public put(url: string, body: string, options?: RequestOptions): Observable<Response> {
@@ -241,7 +230,6 @@ export class HttpInterceptorService {
      * @param  {string|Request}       url       The URL to call with "REQUEST" verb.
      * @param  {RequestOptions}       [options] The options of the request.
      * @return {Observable<Response>} The response of the request.
-     *
      * @public
      */
     public request(url: string | Request, options?: RequestOptions): Observable<Response> {

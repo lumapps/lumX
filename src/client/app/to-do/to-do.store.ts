@@ -4,6 +4,7 @@ import { ToDoItem } from './to-do-item.model';
 
 
 /**
+ * To-do Store
  * Stores the to-do items of our list.
  */
 export class ToDoStore {
@@ -11,8 +12,7 @@ export class ToDoStore {
      * The id of the next to-do item.
      *
      * @type {number}
-     * @default 0
-     *
+     * @default
      * @private
      */
     private _nextId: number = 0;
@@ -21,7 +21,6 @@ export class ToDoStore {
      * The list of to-do items.
      *
      * @type {ToDoItem[]}
-     *
      * @public
      */
     public items: ToDoItem[];
@@ -30,8 +29,6 @@ export class ToDoStore {
     /**
      * Construct a new to-do items store.
      * Initialize the items array and set the next id to 0.
-     *
-     * @constructs ToDoStore
      */
     constructor() {
         this.reset();
@@ -43,7 +40,6 @@ export class ToDoStore {
      *
      * @param  {ToDoItem} newItem The new item to add.
      * @return {number}   The id of the newly added to-do item.
-     *
      * @public
      */
     public add(newItem: ToDoItem): number {
@@ -58,7 +54,6 @@ export class ToDoStore {
      *
      * @param  {number}   id The id of the to-do item to remove.
      * @return {ToDoItem} The removed to-do item.
-     *
      * @public
      */
     public remove(id: number): ToDoItem {

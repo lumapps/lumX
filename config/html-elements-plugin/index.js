@@ -2,7 +2,9 @@
  * The regexp to find strings ending with slashes "/".
  *
  * @type {RegExp}
- * @readOnly
+ * @readonly
+ * @constant
+ * @default
  */
 const RE_ENDS_WITH_BS = /\/$/;
 

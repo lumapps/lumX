@@ -52,6 +52,8 @@ describe('HTTP Interceptor Service', () => {
      *
      * @type {string}
      * @readonly
+     * @constant
+     * @default
      */
     const urlToTest: string = '/';
     /**
@@ -59,6 +61,8 @@ describe('HTTP Interceptor Service', () => {
      *
      * @type {string}
      * @readonly
+     * @constant
+     * @default
      */
     const body: string = 'My test body';
     /**
@@ -73,14 +77,18 @@ describe('HTTP Interceptor Service', () => {
      *
      * @type {string}
      * @readonly
+     * @constant
+     * @default
      */
-
     const errorMessage: string = 'Unauthorized';
+
     /**
      * The URL that triggers the "401/Unauthorized" response.
      *
      * @type {string}
      * @readonly
+     * @constant
+     * @default
      */
     const errorUrl: string = '401';
 
@@ -89,6 +97,8 @@ describe('HTTP Interceptor Service', () => {
      *
      * @type {RequestOptions}
      * @readonly
+     * @constant
+     * @default Get request with 'My test body' body
      */
     const baseRequestOptions: RequestOptions = new RequestOptions({
         method: 'GET',
@@ -100,6 +110,8 @@ describe('HTTP Interceptor Service', () => {
      *
      * @type {Array[string]}
      * @readonly
+     * @constant
+     * @default
      */
     const methods: string[] = ['delete', 'get', 'head', 'patch', 'options', 'post', 'put', 'request'];
 

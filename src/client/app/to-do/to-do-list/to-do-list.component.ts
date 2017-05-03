@@ -8,7 +8,6 @@ import { ToDoStore } from 'to-do/to-do.store';
 
 /**
  * To-do list Component.
- *
  * Display the list of to-do items.
  */
 @Component({
@@ -19,8 +18,6 @@ import { ToDoStore } from 'to-do/to-do.store';
 export class ToDoListComponent {
     /**
      * Construct a new ToDoList component.
-     *
-     * @constructs ToDoListComponent
      *
      * @param {ToDoStore} ToDoStore The store that stores all of our to-do items.
      */

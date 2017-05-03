@@ -9,7 +9,7 @@ export class UtilsService {
      * The function we can use in `isDefined` and `isUndefined` over each values.
      *
      * @type Array[string]
-     *
+     * @default
      * @private
      * @static
      */
@@ -23,7 +23,6 @@ export class UtilsService {
      *                               Possible values are: 'some' or 'every'.
      * @return {string} The opposite method name.
      *                  Respective possible values are: 'every' or 'some'.
-     *
      * @public
      * @static
      */
@@ -46,7 +45,6 @@ export class UtilsService {
      *
      * @param  {string}  methodName The method name to check.
      * @return {boolean} If the method is allowed or not.
-     *
      * @public
      * @static
      */
@@ -63,7 +61,6 @@ export class UtilsService {
      *                                     Possible values are 'some' or 'every'.
      * @param  {boolean} [allowNull=false] Indicates if we want to consider `null` as defined.
      * @return {boolean} If the value(s) is(are) defined (and not null).
-     *
      * @public
      * @static
      */
@@ -84,7 +81,6 @@ export class UtilsService {
      * @param  {boolean} [trimStrings]     Indicates if we want strings to be trimed before checking their emptyness.
      * @param  {boolean} [allowNull=false] Indicates if we want to consider `null` as defined.
      * @return {boolean} If the value(s) is(are) defined (and not null) and filled.
-     *
      * @public
      * @static
      */
@@ -105,7 +101,6 @@ export class UtilsService {
      *                                     Possible values are 'some' or 'every'.
      * @param  {boolean} [allowNull=false] Indicates if we want to consider `null` as defined.
      * @return {boolean} If the value(s) is(are) undefined (or null).
-     *
      * @public
      * @static
      */
@@ -132,7 +127,6 @@ export class UtilsService {
      * @param  {boolean} [trimStrings]     Indicates if we want strings to be trimed before checking their emptyness.
      * @param  {boolean} [allowNull=false] Indicates if we want to consider `null` as defined.
      * @return {boolean} If the value(s) is(are) undefined (or null) or empty.
-     *
      * @public
      * @static
      */

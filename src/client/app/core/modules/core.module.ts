@@ -41,7 +41,6 @@ export class CoreModule {
      * Export the module for the app's root module.
      *
      * @return {ModuleWithProviders} The modules with the providers that can be used for the app's root module.
-     *
      * @public
      * @static
      */

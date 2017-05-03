@@ -11,10 +11,12 @@ import { HomePage } from '../pages/home.page';
 
 describe('Application', () => {
     /**
-     * The page describe the test.
+     * The page that describes the test.
      *
      * @type {HomePage}
      * @readonly
+     * @constant
+     * @default
      */
     const homePage: HomePage = new HomePage(new UserBrowser('Jack', browser).connect());
 
@@ -38,6 +40,8 @@ describe('Application', () => {
          *
          * @type {string}
          * @readonly
+         * @constant
+         * @default
          */
         const newItemLabel: string = 'Test New Item';
 

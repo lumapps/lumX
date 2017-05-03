@@ -32,12 +32,10 @@ export class AppComponent implements OnInit {
     /**
      * Construct a new App component.
      *
-     * @constructs AppComponent
-     *
-     * @param {HttpInterceptorService} _HttpService  The HTTP service
-     * @param {TokenService}           _TokenService The token service
+     * @param {HttpInterceptorService} _HttpService The HTTP service
+     * @param {TokenService}           TokenService The token service
      */
-    constructor(private _HttpService: HttpInterceptorService, private _TokenService: TokenService) {}
+    constructor(private _HttpService: HttpInterceptorService, public TokenService: TokenService) {}
 
     /**
      * Initialize the App component.
@@ -48,7 +46,7 @@ export class AppComponent implements OnInit {
         this._HttpService.get('/token.json')
             .map((response: Response) => response.json())
             .subscribe((tokenMessage: ITokenMessage) => {
-                this._TokenService.setToken(tokenMessage.token);
+                this.TokenService.setToken(tokenMessage.token);
             });
     }
 }

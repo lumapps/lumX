@@ -488,6 +488,37 @@
                 "requireReturnDescription": true,
                 "requireReturnType": true
             }
-        ]
+        ],
+
+        "component-class-suffix": [true, "Component"],
+        "component-selector": [
+            true,
+            "element",
+            [
+                "lb"
+            ],
+            "camelCase"
+        ],
+        "directive-class-suffix": [true, "Directive"],
+        "directive-selector": [
+            true,
+            "attribute",
+            [
+                "lb"
+            ],
+            "camelCase"
+        ],
+        "invoke-injectable": true,
+        "no-access-missing-member": true,
+        "no-attribute-parameter-decorator": true,
+        "no-forward-ref": true,
+        "no-input-rename": true,
+        "no-output-rename": true,
+        "templates-use-public": true,
+        "use-host-property-decorator": true,
+        "use-input-property-decorator": true,
+        "use-life-cycle-interface": true,
+        "use-output-property-decorator": true,
+        "use-pipe-transform-interface": true
     }
 }

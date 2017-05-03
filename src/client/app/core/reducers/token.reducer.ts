@@ -4,7 +4,7 @@ import { TokenActions } from 'core/constants/actions';
 
 
 /**
- * Represent the state of the token in the reducer.
+ * Describes the state of the token in the reducer.
  *
  * @interface
  */
@@ -13,8 +13,6 @@ export interface ITokenState {
      * Indicates if the token is needed.
      *
      * @type {boolean}
-     * @default false
-     *
      * @public
      */
     needed: boolean;
@@ -23,8 +21,6 @@ export interface ITokenState {
      * The value of the token.
      *
      * @type {string}
-     * @default undefined
-     *
      * @public
      */
     value: string;
@@ -34,6 +30,8 @@ export interface ITokenState {
  * Initial state of the token ReduxStore.
  *
  * @readonly
+ * @constant
+ * @default
  */
 export const initialState: ITokenState = {
     needed: false,

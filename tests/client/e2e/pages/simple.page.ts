@@ -8,9 +8,11 @@ import { APP_SELECTOR, SELECTOR_PREFIX,
 
 
 /**
+ * Simple Page.
  * Simple page descriptor to separate selectors from specs.
  */
 export class SimplePage {
+    /* tslint:disable:completed-docs */
     /**
      * References all accessors needed for this page.
      *
@@ -31,15 +33,15 @@ export class SimplePage {
      * References all classes needed for this page.
      *
      * @type {string}
+     * @default 'lb-app'
      * @public
      */
     public appSelector: string = SELECTOR_PREFIX + SELECTOR_SEPARATOR + APP_SELECTOR;
+    /* tslint:enable:completed-docs */
 
 
     /**
      * Construct a new home page descriptor.
-     *
-     * @constructs HomePage
      *
      * @param {UserBrowser} userBrowser The user helper object that will interact with the page.
      */

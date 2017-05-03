@@ -11,10 +11,12 @@ import { SimplePage } from '../pages/simple.page';
 
 describe('Application', () => {
     /**
-     * The page describe the test.
+     * The page that describe the test.
      *
      * @type {SimplePage}
      * @readonly
+     * @constant
+     * @default
      */
     const simplePage: SimplePage = new SimplePage(new UserBrowser('Jack', browser).connect());
 

@@ -9,7 +9,6 @@ import { ToDoStore } from 'to-do/to-do.store';
 
 /**
  * To-do list Component.
- *
  * Display the list of to-dos.
  */
 @Component({
@@ -20,8 +19,6 @@ import { ToDoStore } from 'to-do/to-do.store';
 export class ToDoComponent implements OnInit {
     /**
      * Construct a new ToDo component.
-     *
-     * @constructs ToDoComponent
      *
      * @param {ToDoStore} _ToDoStore The store that stores all of our to-do items.
      */

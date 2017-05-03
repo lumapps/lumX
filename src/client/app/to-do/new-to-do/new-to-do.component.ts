@@ -9,7 +9,6 @@ import { ToDoStore } from 'to-do/to-do.store';
 
 /**
  * New To-do Component.
- *
  * Allow to add a new to-do item.
  */
 @Component({
@@ -22,8 +21,7 @@ export class NewToDoComponent {
      * The label of the new to-do item to add.
      *
      * @type {string}
-     * @default ''
-     *
+     * @default
      * @public
      */
     public newItem: string = '';
@@ -31,8 +29,6 @@ export class NewToDoComponent {
 
     /**
      * Construct a new NewToDo component.
-     *
-     * @constructs NewToDoComponent
      *
      * @param {ToDoStore} _ToDoStore The store that stores all of our to-do items.
      */
@@ -43,7 +39,6 @@ export class NewToDoComponent {
      * Add a new to-do item in the store and empty the new to-do item input.
      *
      * @return {number} The id of the newly added item.
-     *
      * @public
      */
     public addItem(): number {

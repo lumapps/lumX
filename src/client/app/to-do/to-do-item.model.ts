@@ -2,7 +2,9 @@ import { UtilsService } from 'core/services/utils.service';
 
 
 /**
- * Represents a to-do item.
+ * Describes a to-do item.
+ *
+ * @interface
  */
 export interface IToDoItem {
     done?: Date;
@@ -13,6 +15,7 @@ export interface IToDoItem {
 
 
 /**
+ * To-Do Item.
  * Implements a to-do item.
  */
 export class ToDoItem implements IToDoItem {
@@ -20,7 +23,6 @@ export class ToDoItem implements IToDoItem {
      * The date the to-do item has been done.
      *
      * @type {Date}
-     *
      * @public
      */
     public done: Date;
@@ -28,7 +30,6 @@ export class ToDoItem implements IToDoItem {
      * The due date of the to-do item.
      *
      * @type {Date}
-     *
      * @public
      */
     public due: Date;
@@ -36,7 +37,6 @@ export class ToDoItem implements IToDoItem {
      * The unique identifier of the to-do item.
      *
      * @type {number}
-     *
      * @public
      */
     public id: number;
@@ -44,7 +44,6 @@ export class ToDoItem implements IToDoItem {
      * The label (or name) of the to-do item.
      *
      * @type {string}
-     *
      * @public
      */
     public label: string;
@@ -52,8 +51,6 @@ export class ToDoItem implements IToDoItem {
 
     /**
      * Construct a new to-do item.
-     *
-     * @constructs ToDoItem
      *
      * @param {string} label   The label of the to-do item.
      * @param {Date}   [done]  The date the to-do item has been done.
@@ -70,7 +67,6 @@ export class ToDoItem implements IToDoItem {
      * Mark the to-do item as done.
      *
      * @return {Date} The date the to-do item has been done.
-     *
      * @public
      */
     public do(): Date {
@@ -84,7 +80,6 @@ export class ToDoItem implements IToDoItem {
      *
      * @return {Date} The date the to-do item was done (if toggling to not done) or the date the to-do item has been
      *                done (if toggling to done).
-     *
      * @public
      */
     public toggle(): Date {
@@ -99,7 +94,6 @@ export class ToDoItem implements IToDoItem {
      * Display a string representation of the to-do item.
      *
      * @return {string} The string representation of the to-do item.
-     *
      * @public
      */
     public toString(): string {
@@ -119,7 +113,6 @@ export class ToDoItem implements IToDoItem {
      * Mark the to-do item as not done.
      *
      * @return {Date} The date the to-do item was done.
-     *
      * @public
      */
     public unDo(): Date {
