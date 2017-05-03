@@ -13,7 +13,6 @@ const webpackMerge = require('webpack-merge');
 const ENV = process.env.ENV = process.env.NODE_ENV = helpers.ENVS.test;
 const METADATA = helpers.getMetadata(ENV);
 
-const devServerConfig = helpers.getDevServerConfig(METADATA);
 const isLive = process.env.LIVE;
 
 /**
@@ -32,15 +31,6 @@ module.exports = function webpackTestConfigExport() {
     }
 
     return webpackMerge.smart(commonConfig(METADATA), {
-        /**
-         * Webpack Development Server configuration.
-         * Description: The webpack-dev-server is a little node.js Express server.
-         * The server emits information about the compilation state to the client, which reacts to those events.
-         *
-         * @see {@link https://webpack.github.io/docs/webpack-dev-server.html|The Webpack documentation on dev server}
-         */
-        devServer: devServerConfig,
-
         /**
          * Developer tool to enhance debugging.
          *

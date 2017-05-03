@@ -1,9 +1,8 @@
 /* tslint:disable:no-unused-expression */
 
 import { ComponentFixture, ComponentFixtureAutoDetect, TestBed, fakeAsync } from '@angular/core/testing';
-import { expect } from 'core/testing/chai.module';
+import { expect } from 'core/testing/chai-unit.module';
 import { SinonSandbox, sandbox } from 'sinon';
-
 
 import { HttpInterceptorService } from 'core/services/http-interceptor.service';
 import { TokenService } from 'core/services/token.service';

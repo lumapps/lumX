@@ -82,6 +82,31 @@ function getMetadata(env) {
 
 /////////////////////////////
 
+const COMMON_DEBUG_INFO = {
+    assets: false,
+    cached: false,
+    children: false,
+    chunkModules: false,
+    chunkOrigins: false,
+    chunks: false,
+    context: '/src/client/',
+    errorDetails: true,
+    hash: false,
+    modules: false,
+    reasons: false,
+    source: false,
+    timings: true,
+    version: true,
+    /*
+     * Filter warnings to be shown (since webpack 2.4.0).
+     * Can be a String, Regexp, a function getting the warning and returning a boolean  or an Array of a
+     * combination of the above. First match wins.
+     *
+     * "filter" | /filter/ | ["filter", /filter/] | (warning) => ... return true|false;
+     */
+    warningsFilter: (message) => message.indexOf('DeprecationWarning:') === -1,
+};
+
 const DEV_SERVER_CONFIG = {
     historyApiFallback: true,
     host: 'localhost',
@@ -99,42 +124,20 @@ const DEV_SERVER_CONFIG = {
         },
     },
 
-    quiet: false,
-    stats: {
-        assets: false,
-        cached: false,
+    quiet: true,
+    stats: Object.assign({}, COMMON_DEBUG_INFO, {
         cachedAssets: false,
-        children: false,
-        chunkModules: false,
-        chunkOrigins: false,
-        chunks: false,
         colors: true,
-        context: './src/client/',
         depth: false,
         entrypoints: false,
-        errorDetails: true,
         errors: true,
         exclude: [],
-        hash: false,
-        modules: false,
         performance: true,
         providedExports: false,
         publicPath: false,
-        reasons: false,
-        source: false,
-        timings: true,
         usedExports: false,
-        version: true,
         warnings: true,
-        /*
-         * Filter warnings to be shown (since webpack 2.4.0).
-         * Can be a String, Regexp, a function getting the warning and returning a boolean  or an Array of a
-         * combination of the above. First match wins.
-         *
-         * "filter" | /filter/ | ["filter", /filter/] | (warning) => ... return true|false;
-         */
-        warningsFilter: [],
-    },
+    }),
 };
 
 /**
@@ -182,7 +185,9 @@ function getHtmlWebpackPlugin(metadata, title) {
         title: title,
     });
 }
+
 /////////////////////////////
+
 const DEFAULT_OPTIONS = {
     debug: false,
     options: {
@@ -284,6 +289,7 @@ function getOptions(options) {
 
 /////////////////////////////
 
+exports.COMMON_DEBUG_INFO = COMMON_DEBUG_INFO;
 exports.ENABLE_DEBUG = ENABLE_DEBUG;
 exports.ENVS = ENVS;
 exports.TESTS_TYPE = TESTS_TYPE;

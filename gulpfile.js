@@ -31,7 +31,7 @@ const e2eFolder = `${testsFolder}/e2e`;
 const e2eReportFolder = `${e2eFolder}/report`;
 
 const enableDashboard = false;
-const isWebpack2 = true;
+const enableProgress = true;
 
 const serverPort = '8881';
 const enableServerProxy = false;
@@ -52,19 +52,16 @@ const e2eBuildType = 'prod';
 // Toggle the "-s" flag to make npm verbose (nothing) or silent (-s).
 const npmRun = `npm -s run`;
 
-const withDisplayCached = (isWebpack2) ? '' : '--display-cached';
-const withDisplayErrorDetail = (isWebpack2) ? '' : '--display-error-details';
-const withWatch = (isWebpack2) ? '' : '--watch';
-const withProgress = (isCI) ? '' : '--progress';
-
 const linterTask = (checkLintBeforeBuild) ? 'lint:src' : '';
 
-const webpackBuildParameters = `--profile ${withDisplayCached} --hide-modules ${withProgress}`;
+const withProgress = (isCI || !enableProgress) ? '' : '--progress';
+
+const webpackBuildParameters = `--hide-modules`;
 const webpackDevParameters = ``;
-const webpackDevServerClassicParameters = `${withProgress}`;
-const webpackDevServerCommonParameters = `${withWatch} --content-base ${sourceFolder} --open`;
+const webpackDevServerClassicParameters = ``;
+const webpackDevServerCommonParameters = `--watch --content-base ${sourceFolder} --open`;
 let webpackDevServerHotReloadParameters = `--inline --hot`;
-const webpackCommonParameters = `${withDisplayErrorDetail}`;
+const webpackCommonParameters = `${withProgress}`;
 const webpackConfig = `--config webpack.config.js`;
 const webpackProdParameters = `--bail`;
 
@@ -138,8 +135,8 @@ shelter({
 
     'clean:all': {
         cmd: `${npmRun} run-parallel -- clean:project
-                                        clean:packages
-                                        clean:misc`,
+                                        clean:misc
+              && ${npmRun} clean:packages`,
         dsc: `Clean the whole ${project} project (NPM, docs, test and dist)`,
     },
 
@@ -148,7 +145,7 @@ shelter({
         dsc: `Clean the Ahead of Time compiled ${project} sources`,
     },
     'clean:dist': {
-        cmd: `${npmRun} rimraf -- ${distFolder}/* && rm -Rf -- ${distFolder}`,
+        cmd: `${npmRun} rimraf -- ${distFolder}/* && rm -Rf -- ${distFolder} && rm -Rf -- dist`,
         dsc: `Clean the "dist" folder of ${project}`,
     },
     'clean:docs': {
@@ -174,7 +171,10 @@ shelter({
         dsc: `Clean maps files of ${project}`,
     },
     'clean:misc': {
-        cmd: `${npmRun} rimraf -- ./build.*`,
+        cmd: `${npmRun} run-parallel -- "rimraf -- ./build.*"
+                                        "rimraf -- .tmp/*"
+                                        "rimraf -- .awcache/*"
+              ; rm -Rf -- .tmp; rm -Rf -- .awcache`,
         dsc: `Clean misceallenous files of ${project}`,
     },
     'clean:packages': {
@@ -401,7 +401,7 @@ shelter({
         cmd: `${npmRun} setup:core
               && ${npmRun} task -- clean:project`,
         dsc: `Clean setup ${project}: cleanup already installed packages, empty cache, install packages (using Yarn if
-                                available, NPM else) and prepare for running`,
+              available, NPM else) and prepare for running`,
     },
     'setup:fast': {
         cmd: `${npmRun} check:prerequisites
@@ -417,17 +417,33 @@ shelter({
     'tests': {
         cmd: `${npmRun} unit
               && ${npmRun} e2e`,
-        dsc: `Run all the tests (Karma and Protractor) on ${project}`,
+        dsc: `Run all the tests (Karma and Protractor) on ${project} after building`,
     },
     'tests:debug': {
         cmd: `${npmRun} unit:debug
               && ${npmRun} e2e:debug`,
-        dsc: `Debug all the tests (Karma and Protractor with Chrome) on ${project}`,
+        dsc: `Debug all the tests (Karma and Protractor with Chrome) on ${project} after building`,
+    },
+    'tests:debug:fast': {
+        cmd: `${npmRun} unit:debug
+              && ${npmRun} e2e:debug:fast`,
+        dsc: `Debug all the tests (Karma and Protractor with Chrome) on ${project} with an existing build`,
+    },
+    'tests:fast': {
+        cmd: `${npmRun} unit
+              && ${npmRun} e2e:fast`,
+        dsc: `Run all the tests (Karma and Protractor) on ${project} with an existing build`,
     },
     'tests:headless': {
         cmd: `${npmRun} unit:headless
               && ${npmRun} e2e:headless`,
-        dsc: `Run all the tests (Karma and Protractor with Headless Chrome, XVFB needed) on ${project}`,
+        dsc: `Run all the tests (Karma and Protractor with Headless Chrome, XVFB needed) on ${project} after building`,
+    },
+    'tests:headless:fast': {
+        cmd: `${npmRun} unit:headless
+              && ${npmRun} e2e:headless:fast`,
+        dsc: `Run all the tests (Karma and Protractor with Headless Chrome, XVFB needed) on ${project} with an existing
+              build`,
     },
 
     'unit': {

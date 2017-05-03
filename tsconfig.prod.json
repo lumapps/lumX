@@ -49,6 +49,7 @@
         "target": "es5",
         "types": [
             "hammerjs",
+            "lodash",
             "node",
             "source-map",
             "uglify-js",

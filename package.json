@@ -112,8 +112,11 @@
         "test:live:debug": "npm -s run unit:live:debug",
 
         "tests": "npm -s run task -- tests",
+        "tests:fast": "npm -s run task -- tests:fast",
         "tests:debug": "npm -s run task -- tests:debug",
+        "tests:debug:fast": "npm -s run task -- tests:debug:fast",
         "tests:headless": "npm -s run task -- tests:headless",
+        "tests:headless:fast": "npm -s run task -- tests:headless:fast",
 
         "unit": "npm -s run task -- unit",
         "unit:headless": "npm -s run task -- unit:headless",
@@ -158,7 +161,7 @@
         "release:golden": "./release.sh -g",
         "release:final": "./release.sh -f",
 
-        "live": "npm -s run start",
+        "live": "npm -s run serve:live",
         "run": "npm -s run serve:live",
         "serve": "npm -s run task -- serve",
         "serve:live": "npm -s run task -- serve:live",
@@ -347,6 +350,7 @@
         "@types/chai-json-schema": "latest",
         "@types/chai-string": "latest",
         "@types/hammerjs": "latest",
+        "@types/lodash": "latest",
         "@types/node": "latest",
         "@types/mocha": "latest",
         "@types/sinon": "latest",

@@ -7,13 +7,6 @@
 
 declare global {
     namespace Chai {
-        interface Assertion extends LanguageChains, NumericComparison, TypeComparison {
-            displayed: Assertion;
-            enabled: Assertion;
-            present: Assertion;
-            selected: Assertion;
-        }
-
         interface PromisedAssertion {
             displayed: PromisedAssertion;
             enabled: PromisedAssertion;

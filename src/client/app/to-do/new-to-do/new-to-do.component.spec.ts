@@ -1,7 +1,7 @@
 /* tslint:disable:no-unused-expression */
 
 import { ComponentFixture, ComponentFixtureAutoDetect, TestBed } from '@angular/core/testing';
-import { expect } from 'core/testing/chai.module';
+import { expect } from 'core/testing/chai-unit.module';
 
 import { FormsModule } from '@angular/forms';
 

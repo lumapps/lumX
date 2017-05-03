@@ -1,9 +1,9 @@
 /* tslint:disable:no-unused-expression max-file-line-count */
 
-import _ from 'lodash';
+import * as _ from 'lodash';
 
 import { TestBed } from '@angular/core/testing';
-import { expect } from 'core/testing/chai.module';
+import { expect } from 'core/testing/chai-unit.module';
 
 import { CoreModule } from 'core/modules/core.module';
 

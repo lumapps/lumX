@@ -1,7 +1,7 @@
 /* tslint:disable:no-unused-expression */
 
 import { ComponentFixture, TestBed, inject } from '@angular/core/testing';
-import { expect } from 'core/testing/chai.module';
+import { expect } from 'core/testing/chai-unit.module';
 import { SinonSandbox, SinonSpy, sandbox } from 'sinon';
 
 import { IHmrStore } from 'core/types/hmr-store.type';

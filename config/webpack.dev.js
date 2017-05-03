@@ -55,28 +55,18 @@ const plugins = [
     }),
 ];
 
-const devServerConfig = helpers.getDevServerConfig(METADATA);
+if (METADATA.HMR && ENABLE_DASHBOARD) {
+    const dashboard = new Dashboard();
 
-if (METADATA.HMR) {
-    if (ENABLE_DASHBOARD) {
-        const dashboard = new Dashboard();
-
-        plugins.unshift(
-            /**
-             * Plugin: DashboardPlugin.
-             * Description: View progress. 'It's like to work at NASA'.
-             *
-             * @see {@link https://github.com/FormidableLabs/webpack-dashboard|Dashboard Plugin}
-             */
-            new DashboardPlugin(dashboard.setData)
-        );
-    }
-
-    devServerConfig.hot = true;
-    devServerConfig.watchOptions = {
-        aggregateTimeout: 300,
-        poll: 1000,
-    };
+    plugins.unshift(
+        /**
+         * Plugin: DashboardPlugin.
+         * Description: View progress. 'It's like to work at NASA'.
+         *
+         * @see {@link https://github.com/FormidableLabs/webpack-dashboard|Dashboard Plugin}
+         */
+        new DashboardPlugin(dashboard.setData)
+    );
 }
 
 
@@ -89,15 +79,6 @@ if (METADATA.HMR) {
  */
 module.exports = function webpackDevConfigExport() {
     return webpackMerge.smart(commonConfig(METADATA), {
-        /**
-         * Webpack Development Server configuration.
-         * Description: The webpack-dev-server is a little node.js Express server.
-         * The server emits information about the compilation state to the client, which reacts to those events.
-         *
-         * @see {@link https://webpack.github.io/docs/webpack-dev-server.html|The Webpack documentation on dev server}
-         */
-        devServer: devServerConfig,
-
         /**
          * Developer tool to enhance debugging.
          *

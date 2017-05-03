@@ -21,7 +21,6 @@ const TsConfigPathsPlugin = require('awesome-typescript-loader').TsConfigPathsPl
  */
 const ENABLE_AOT = helpers.hasNpmFlag('aot');
 
-
 /*
  * Webpack configuration.
  *
@@ -207,6 +206,15 @@ module.exports = function webpackCommonConfigExport(metadata) {
         }),
     ];
 
+    const devServerConfig = helpers.getDevServerConfig(metadata);
+    if (metadata.HMR) {
+        devServerConfig.hot = true;
+        devServerConfig.watchOptions = {
+            aggregateTimeout: 300,
+            poll: 1000,
+        };
+    }
+
     if (metadata.env === helpers.ENVS.test) {
         tsConfigFile = 'tsconfig.unit.json';
 
@@ -279,6 +287,15 @@ module.exports = function webpackCommonConfigExport(metadata) {
     _.set(tsLoaders, '[1].options.configFileName', tsConfigFile);
 
     return {
+        /**
+         * Webpack Development Server configuration.
+         * Description: The webpack-dev-server is a little node.js Express server.
+         * The server emits information about the compilation state to the client, which reacts to those events.
+         *
+         * @see {@link https://webpack.github.io/docs/webpack-dev-server.html|The Webpack documentation on dev server}
+         */
+        devServer: devServerConfig,
+
         /*
          * The entry point for the bundle.
          *
@@ -555,5 +572,7 @@ module.exports = function webpackCommonConfigExport(metadata) {
                 helpers.root('node_modules'),
             ],
         },
+
+        stats: helpers.COMMON_DEBUG_INFO,
     };
 };

@@ -292,6 +292,8 @@ printf "Removing useless files... "
 
     rm -Rf "./src/client/token.json"
     exitIfError "Deleting 'token.json'"
+    rm -Rf "./last-seed-commit.txt"
+    exitIfError "Deleting 'last-seed-commit.txt'"
 
     rm -Rf "./src/client/app/home"
     exitIfError "Deleting 'home'"
@@ -299,17 +301,6 @@ printf "Removing useless files... "
     exitIfError "Deleting 'to-do'"
     rm -Rf "./src/client/app/about"
     exitIfError "Deleting 'about'"
-
-    rm -Rf "./src/client/app/core/constants/actions.ts"
-    exitIfError "Deleting core constant 'action'"
-    rm -Rf "./src/client/app/core/messages/token.message.ts"
-    exitIfError "Deleting core message 'token'"
-    rm -Rf "./src/client/app/core/reducers/token.reducer.ts"
-    exitIfError "Deleting core reducer 'token'"
-    rm -Rf "./src/client/app/core/services/http-interceptor.service.ts"
-    exitIfError "Deleting core service 'HTTP-Interceptor'"
-    rm -Rf "./src/client/app/core/services/token.service.ts"
-    exitIfError "Deleting core service 'Token'"
 
     rm -Rf "./tests/client/e2e/pages/home.page.ts"
     exitIfError "Deleting E2E 'Home' page"
@@ -325,6 +316,8 @@ printf "Removing useless files... "
 
     rm -Rf "build.*"
     exitIfError "Deleting build files"
+    rm -Rf ".awcache .tmp"
+    exitIfError "Deleting cache and temporary files"
 printf "${BLUE}Done${DEFAULT}\n"
 
 
@@ -340,24 +333,21 @@ printf "${BLUE}Done${DEFAULT}\n"
 
 
 printf "Removing useless code... "
-    grep -v "ToDoModule" ./src/client/app/app.module.ts > temp && mv temp ./src/client/app/app.module.ts
-    exitIfError "Removing ToDo module in 'app' module"
+    grep -v "HomeModule" ./src/client/app/app.module.ts > temp && mv temp ./src/client/app/app.module.ts
+    exitIfError "Removing Home module in 'app' module"
 
     rm -Rf "./src/client/app/app.component.*"
     exitIfError "Removing original 'app' component files"
 
-    ./scaffold.sh -- --force -n "App" -p "default" --at-root -t "Component" --not-core -s 'default' --without-module --on-init --no-on-destroy --no-on-change --no-activated-route --no-constructor &> /dev/null
+    rm -Rf "./src/client/app/app.routes.ts"
+    exitIfError "Removing original 'app' routes files"
+
+    ./scaffold.sh -- --force -n "App" -p "default" --at-root -t "Component" --not-core -s 'default' --without-module --on-init --no-on-destroy --no-on-change --no-activated-route --no-constructor --routes &> /dev/null
     exitIfError "Scaffolding new 'app' component"
     sed -i "7i/*\n* Global styles\n */\nimport 'core/styles/app.scss';\n\n" ./src/client/app/app.component.ts
 
-    grep -v "HttpInterceptorService" ./src/client/app/core/modules/core.module.ts > temp && mv temp ./src/client/app/core/modules/core.module.ts
-    exitIfError "Removing HTTP-Interceptor service in core 'core' module"
-    grep -v "TokenService" ./src/client/app/core/modules/core.module.ts > temp && mv temp ./src/client/app/core/modules/core.module.ts
-    exitIfError "Removing Token service in core 'core' module"
-    grep -v "tokenReducer" ./src/client/app/core/modules/core.module.ts > temp && mv temp ./src/client/app/core/modules/core.module.ts
-    exitIfError "Removing 'tokenReducer' in core 'core' module"
-    grep -v "StoreModule" ./src/client/app/core/modules/core.module.ts > temp && mv temp ./src/client/app/core/modules/core.module.ts
-    exitIfError "Removing Store module in core 'core' module"
+    grep -v "DoItem" ./src/client/app/core/services/utils.service.spec.ts > temp && mv temp ./src/client/app/core/services/utils.service.spec.ts
+    exitIfError "Removing ToDoItem from the Utils Service specifications"
 printf "${BLUE}Done${DEFAULT}\n"
 
 
@@ -380,7 +370,7 @@ fi
 
 printf "Customizing GitHub and StackOverflow... "
     if [ -n "${githubUsername}" ]; then
-        sed -i "s/${originalGithubUsername}\//${githubUsername}\//g" $CONTRIBUTING_FILE
+        sed -i "s#${originalGithubUsername}/#${githubUsername}/#g" $CONTRIBUTING_FILE
         exitIfError "Replacing original github username in contributing file"
     fi
 
@@ -401,7 +391,7 @@ printf "Customizing NPM... "
         exitIfError "Replacing original description in package file"
     fi
     if [ -n "${githubUsername}" ]; then
-        sed -i "s/${originalGithubUsername}\//${githubUsername}\//g" $PACKAGE_FILE
+        sed -i "s#https://github.com/${originalGithubUsername}/#https://github.com/${githubUsername}/#g" $PACKAGE_FILE
         exitIfError "Replacing original github username in package file"
     fi
     if [ -n "${repository}" ]; then
@@ -410,7 +400,7 @@ printf "Customizing NPM... "
     fi
     gitUserName=$(git config user.name)
     gitUserEmail=$(git config user.email)
-    sed -i "s/\"author\".*/\"author\": \"${gitUserName} <${gitUserEmail}> (https:\/\/github.com\/${githubUsername})\",/g" $PACKAGE_FILE
+    sed -i "s#\"author\".*#\"author\": \"${gitUserName} <${gitUserEmail}> (https://github.com/${githubUsername})\",#g" $PACKAGE_FILE
     exitIfError "Replacing original authors in package file"
 printf "${BLUE}Done${DEFAULT}\n"
 
@@ -425,16 +415,73 @@ printf "${BLUE}Done${DEFAULT}\n"
 
 
 printf "Customizing app settings... "
-    printf "export const BASE_HREF: string = '${baseUrl}';\n" > $SETTINGS_FILE
+    printf "/**\n" > $SETTINGS_FILE
+    printf " * The default base href of the application.\n" >> $SETTINGS_FILE
+    printf " *\n" >> $SETTINGS_FILE
+    printf " * @type {string}\n" >> $SETTINGS_FILE
+    printf " * @readonly\n" >> $SETTINGS_FILE
+    printf " * @constant\n" >> $SETTINGS_FILE
+    printf " * @default\n" >> $SETTINGS_FILE
+    printf " */\n" >> $SETTINGS_FILE
+    printf "export const BASE_HREF: string = '${baseUrl}';\n\n" >> $SETTINGS_FILE
     exitIfError "Customizing base href in app settings"
+
+    printf "/**\n" > $SETTINGS_FILE
+    printf " * A fake token used for the tests.\n" >> $SETTINGS_FILE
+    printf " *\n" >> $SETTINGS_FILE
+    printf " * @type {string}\n" >> $SETTINGS_FILE
+    printf " * @readonly\n" >> $SETTINGS_FILE
+    printf " * @constant\n" >> $SETTINGS_FILE
+    printf " * @default\n" >> $SETTINGS_FILE
+    printf " */\n" >> $SETTINGS_FILE
+    printf "export const FAKE_TOKEN: string = '123456789';\n" >> $SETTINGS_FILE
+    exitIfError "Adding fake token"
 printf "${BLUE}Done${DEFAULT}\n"
 
 
 printf "Customizing selectors... "
-    printf "export const SELECTOR_PREFIX: string = '${componentsNamePrefix}';\n" > $SELECTORS_FILE
+    printf "/**\n" > $SELECTORS_FILE
+    printf " * The default prefix for all (directives and components) selector.\n" >> $SELECTORS_FILE
+    printf " *\n" >> $SELECTORS_FILE
+    printf " * @type {string}\n" >> $SELECTORS_FILE
+    printf " * @readonly\n" >> $SELECTORS_FILE
+    printf " * @constant\n" >> $SELECTORS_FILE
+    printf " * @default\n" >> $SELECTORS_FILE
+    printf " */\n" >> $SELECTORS_FILE
+    printf "export const SELECTOR_PREFIX: string = '${componentsNamePrefix}';\n" >> $SELECTORS_FILE
     exitIfError "Customizing selector prefix in app settings"
+
+    printf "/**\n" >> $SELECTORS_FILE
+    printf " * The separator to use between the default prefix and the component name.\n" >> $SELECTORS_FILE
+    printf " * Note that directives don't use the separator as their names are written in camelCase.\n" >> $SELECTORS_FILE
+    printf " *\n" >> $SELECTORS_FILE
+    printf " * @type {string}\n" >> $SELECTORS_FILE
+    printf " * @readonly\n" >> $SELECTORS_FILE
+    printf " * @constant\n" >> $SELECTORS_FILE
+    printf " * @default\n" >> $SELECTORS_FILE
+    printf " */\n" >> $SELECTORS_FILE
     printf "export const SELECTOR_SEPARATOR: string = '${componentsNameSeparator}';\n\n" >> $SELECTORS_FILE
     exitIfError "Customizing selector separator in app settings"
+
+    printf "/**\n" >> $SELECTORS_FILE
+    printf " * The selector name of the NotFound component.\n" >> $SELECTORS_FILE
+    printf " *\n" >> $SELECTORS_FILE
+    printf " * @type {string}\n" >> $SELECTORS_FILE
+    printf " * @readonly\n" >> $SELECTORS_FILE
+    printf " * @constant\n" >> $SELECTORS_FILE
+    printf " * @default\n" >> $SELECTORS_FILE
+    printf " */\n" >> $SELECTORS_FILE
+    printf "export const NOT_FOUND_SELECTOR: string = 'not-found';\n" >> $SELECTORS_FILE
+    exitIfError "Customizing app component selector in app settings"
+
+    printf "/**\n" >> $SELECTORS_FILE
+    printf " * The selector name of the main App component.\n" >> $SELECTORS_FILE
+    printf " *\n" >> $SELECTORS_FILE
+    printf " * @type {string}\n" >> $SELECTORS_FILE
+    printf " * @readonly\n" >> $SELECTORS_FILE
+    printf " * @constant\n" >> $SELECTORS_FILE
+    printf " * @default\n" >> $SELECTORS_FILE
+    printf " */\n" >> $SELECTORS_FILE
     printf "export const APP_SELECTOR: string = 'app';\n" >> $SELECTORS_FILE
     exitIfError "Customizing app component selector in app settings"
 
@@ -457,19 +504,19 @@ if [ "$skipGit" = false ]; then
     printf "Creating the first git commit...\n"
         git add .
         exitIfError "Adding project in git repository"
-        git commit -q -m "feat(${repository}): initialization of the repository with boilerplate"
+        git commit -q -m "chore(${repository}): initialization of the repository with boilerplate"
     printf "${BLUE}Done${DEFAULT}\n"
 fi
 
 
 printf "\n"
 printf "${GREEN}Your project has been successfully initialized!${DEFAULT}\n\n"
-printf "You can now start coding. Run ${BOLD}npm run -s start${DEFAULT} to start the server with all coding stuff you need.\n"
-printf "Then go to ${BOLD}http://localhost:8880/${DEFAULT} to access your project.\n"
+printf "You can now start coding. Run ${BOLD}npm start${DEFAULT} to start the server with all coding stuff you need.\n"
+printf "A browser will automatically open. If no, you can go to ${BOLD}http://localhost:8880/${DEFAULT} to access your project.\n"
 printf "You can also run ${BOLD}npm run help${DEFAULT} to have a list of all commands available.\n\n"
 
-printf "You can now delete this initialization script: ${BOLD}rm -f ./init.sh${DEFAULT}.\n\n"
+printf "You can now safely delete this initialization script: ${BOLD}rm -f ./init.sh${DEFAULT}.\n\n"
 
-printf "${BOLD}${MAGENTA}Have fun coding with this boilerplate!${DEFAULT}\n"
+printf "${BOLD}${MAGENTA}Have fun coding with the LumBoilerplate!${DEFAULT}\n"
 
 exit 0

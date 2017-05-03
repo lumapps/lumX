@@ -1,6 +1,5 @@
 /* tslint:disable:no-reference */
 ///<reference path="./chai-arrays-typings.d.ts" />
-///<reference path="./chai-smoothie-typings.d.ts" />
 /* tslint:enable:no-reference */
 
 export { assert, expect, should } from 'chai';
@@ -18,8 +17,6 @@ const chaiDatetime = require('chai-datetime');
 import * as chaiDateString from 'chai-date-string';
 import * as chaiInterface from 'chai-interface';
 import * as chaiJSONSchema from 'chai-json-schema';
-// tslint:disable-next-line:no-var-requires typedef no-require-imports
-const chaiSmoothie = require('chai-smoothie');
 import * as chaiSorted from 'chai-sorted';
 // tslint:disable-next-line:no-var-requires typedef no-require-imports
 const chaiString = require('chai-string');
@@ -37,7 +34,6 @@ chai.use(chaiDatetime);
 chai.use(chaiDateString);
 chai.use(chaiInterface);
 chai.use(chaiJSONSchema);
-chai.use(chaiSmoothie);
 chai.use(chaiSorted);
 chai.use(chaiString);
 

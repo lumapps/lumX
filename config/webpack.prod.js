@@ -17,7 +17,6 @@ const UglifyJsPlugin = require('webpack/lib/optimize/UglifyJsPlugin');
 const ENV = process.env.ENV = process.env.NODE_ENV = helpers.ENVS.prod;
 const METADATA = helpers.getMetadata(ENV);
 
-
 /**
  * Webpack configuration.
  *

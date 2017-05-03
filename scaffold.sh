@@ -683,8 +683,6 @@ function initComponent() {
             params=""
             printf "\t/**\n" >> $componentFile
             printf "\t * Constructs a new \"${_componentName}\" component.\n" >> $componentFile
-            printf "\t *\n" >> $componentFile
-            printf "\t * @constructs ${className}Component\n" >> $componentFile
             if [ "$_hasActivatedRoute" = true ]; then
                 params="public route: ActivatedRoute"
                 printf "\t *\n" >> $componentFile
@@ -743,36 +741,57 @@ function initComponent() {
     printf "${BLUE}Done${DEFAULT}\n"
 
     printf "Creating Unit tests component... "
-        printf "import { ComponentFixtureAutoDetect, TestBed } from '@angular/core/testing';\n" > $componentSpecFile
-        printf "// You can also import for exemple: 'async', 'fakeAsync', 'tick', ...\n" >> $componentSpecFile
+        printf "/* tslint:disable:no-unused-expression */\n" > $componentSpecFile
+        printf "\n" >> $componentSpecFile
+        printf "import { ComponentFixture, ComponentFixtureAutoDetect, TestBed } from '@angular/core/testing';\n" >> $componentSpecFile
+        printf "// You can also import for exemple: async', 'fakeAsync', 'tick', ...\n" >> $componentSpecFile
+        printf "import { expect } from 'core/testing/chai-unit.module';\n" >> $componentSpecFile
+        printf "// If you need anything from Sinon, import it here. For example:\n" >> $componentSpecFile
+        printf "// import { SinonSandbox, sandbox } from 'sinon';\n" >> $componentSpecFile
         printf "\n" >> $componentSpecFile
 
-        printf "// If you need to import any service or other, import it here\n" >> $componentSpecFile
+        printf "// If you need to import any service or other, import it here.\n" >> $componentSpecFile
+        printf "\n" >> $componentSpecFile
+
+        printf "// If you need another specific module (core module, ...), import it here.\n" >> $componentSpecFile
         printf "\n" >> $componentSpecFile
 
         printf "import { ${className}Component } from './${_selector}.component';\n" >> $componentSpecFile
         if [ "$_hasGeneratedModule" = true ]; then
             printf "import { ${className}Module } from './${_selector}.module';\n" >> $componentSpecFile
         fi
+
         printf "\n" >> $componentSpecFile
 
-        printf "// If you need another specific module (core module, ...), import it here\n" >> $componentSpecFile
+        printf "// If you need anything else, import it here.\n" >> $componentSpecFile
         printf "\n\n" >> $componentSpecFile
 
         printf "describe('${_componentName}', () => {\n" >> $componentSpecFile
-            printf "\tconst component: ${className}Component;\n" >> $componentSpecFile
-            printf "\tconst fixture: ComponentFixture<${className}Component>;\n" >> $componentSpecFile
+            printf "\t// If you want to have Sinon's spies, stubs, mocks or fake servers, use a sandbox.\n" >> $componentSpecFile
+            printf "\t// let sandboxEnv: SinonSandbox;\n" >> $componentSpecFile
             printf "\n" >> $componentSpecFile
 
-            printf "\t// If you want to get any service\n" >> $componentSpecFile
-            printf "\t// const myService: MyService;\n" >> $componentSpecFile
+            printf "\t// If you want to get any service.\n" >> $componentSpecFile
+            printf "\t// let myService: MyService;\n" >> $componentSpecFile
             printf "\n" >> $componentSpecFile
 
-            printf "\t// If you want to declare spies (see http://tobyho.com/2011/12/15/jasmine-spy-cheatsheet/)\n" >> $componentSpecFile
-            printf "\t// const spy: jasmine.Spy;\n" >> $componentSpecFile
-            printf "\n" >> $componentSpecFile
+            printf "\tlet component: ${className}Component;\n" >> $componentSpecFile
+            printf "\tlet fixture: ComponentFixture<${className}Component>;\n" >> $componentSpecFile
+            printf "\n\n" >> $componentSpecFile
+
+            printf "\t// If you want to setup a fake server.\n" >> $componentSpecFile
+                printf "\t// function setupFakeBackend(): void {\n" >> $componentSpecFile
+                printf "\t//\t sandboxEnv.useFakeServer();\n" >> $componentSpecFile
+                printf "\t//\t sandboxEnv.server.respondWith(...);\n" >> $componentSpecFile
+                printf "\t//\t sandboxEnv.server.autoRespond = true;\n" >> $componentSpecFile
+                printf "\t//\t sandboxEnv.server.respondImmediately = true;\n" >> $componentSpecFile
+            printf "\t// }\n\n" >> $componentSpecFile
 
             printf "\tbeforeEach(() => {\n" >> $componentSpecFile
+                printf "\t\t// Setup the sandbox environment and the fake backend.\n" >> $componentSpecFile
+                printf "\t\t// sandboxEnv = sandbox.create();\n" >> $componentSpecFile
+                printf "\t\t// setupFakeBackend();\n\n" >> $componentSpecFile
+
                 printf "\t\tTestBed.configureTestingModule({\n" >> $componentSpecFile
                     if [ "$_hasGeneratedModule" = true ]; then
                         printf "\t\t\tdeclarations: [\n" >> $componentSpecFile
@@ -783,22 +802,19 @@ function initComponent() {
                         printf "\t\t\t],\n\n" >> $componentSpecFile
                     fi
 
-                    printf "\t\t\texports: [\n" >> $componentSpecFile
-                    printf "\t\t\t],\n\n" >> $componentSpecFile
-
                     printf "\t\t\timports: [\n" >> $componentSpecFile
                         if [ "$_hasGeneratedModule" = true ]; then
                             printf "\t\t\t\t${className}Module,\n" >> $componentSpecFile
                         else
-                            printf "\t\t\t\t// Add any module you want to import here\n" >> $componentSpecFile
+                            printf "\t\t\t\t// Add any module you want to import here.\n" >> $componentSpecFile
                         fi
                     printf "\t\t\t],\n\n" >> $componentSpecFile
 
                     printf "\t\t\tproviders: [\n" >> $componentSpecFile
                         printf "\t\t\t\t{ provide: ComponentFixtureAutoDetect, useValue: true },\n" >> $componentSpecFile
-                        printf "\t\t\t\t// If you have any other provider to declare, add it here\n" >> $componentSpecFile
+                        printf "\t\t\t\t// If you have any other provider to declare, add it here.\n" >> $componentSpecFile
                         printf "\t\t\t\t// You can also declare services doubles (stub, mockup, ...) here:\n" >> $componentSpecFile
-                        printf "\t\t\t\t// { provide: MyService, useValue: myServiceStub }\n" >> $componentSpecFile
+                        printf "\t\t\t\t// { provide: MyService, useValue: myServiceStub },\n" >> $componentSpecFile
                     printf "\t\t\t],\n" >> $componentSpecFile
                 printf "\t\t});\n" >> $componentSpecFile
                 printf "\n" >> $componentSpecFile
@@ -814,25 +830,36 @@ function initComponent() {
                 printf "\t\t// myService = fixture.debugElement.injector.get(MyService);\n" >> $componentSpecFile
                 printf "\n" >> $componentSpecFile
 
-                printf "\t\t// You can also declare spies on method here (see http://tobyho.com/2011/12/15/jasmine-spy-cheatsheet/):\n" >> $componentSpecFile
-                printf "\t\t// spy = spyOn(myService, 'myMethod').and.returnValue('myValue');\n" >> $componentSpecFile
+                printf "\t\t// You can also declare spies here:\n" >> $componentSpecFile
+                printf "\t\t// sandboxEnv.spy(myService, 'myMethod');\n\n" >> $componentSpecFile
+
+                printf "\t\t// This is not required here as 'ComponentFixtureAutoDetect' is enabled.\n" >> $componentSpecFile
+                printf "\t\t// However, it's always good to be explicit.\n" >> $componentSpecFile
+                printf "\t\t// Also, remember to call 'fixture.detectChanges();' anytime you want to update the component state.\n" >> $componentSpecFile
+                printf "\t\tfixture.detectChanges();\n" >> $componentSpecFile
+                printf "\n" >> $componentSpecFile
             printf "\t});\n" >> $componentSpecFile
             printf "\n" >> $componentSpecFile
 
-            printf "\t// For more info on how to test in Angular2, see https://angular.io/docs/ts/latest/guide/testing.html\n" >> $componentSpecFile
+            printf "\t// For more info on how to test in Angular2, see https://angular.io/docs/ts/latest/guide/testing.html.\n" >> $componentSpecFile
             printf "\tit('should have a test written here', () => {\n" >> $componentSpecFile
-                printf "\t\t// This is not required here as 'ComponentFixtureAutoDetect' is enabled\n" >> $componentSpecFile
-                printf "\t\t// However, it's always good to be explicit\n" >> $componentSpecFile
-                printf "\t\t// Also, remember to call 'fixture.detectChanges();' anytime you want to update the component state\n" >> $componentSpecFile
-                printf "\t\tfixture.detectChanges();\n" >> $componentSpecFile
-                printf "\n" >> $componentSpecFile
-
                 printf "\t\t// If you have defined spies, you can check them:;\n" >> $componentSpecFile
-                printf "\t\t// expect(spy.calls.any()).toBe(false);\n" >> $componentSpecFile
+                printf "\t\t// expect(myService.myMethod).to.not.have.been.called;\n\n" >> $componentSpecFile
+
+                printf "\t\t// You can simulate the passage of time.\n" >> $componentSpecFile
+                printf "\t\t// tick();\n\n" >> $componentSpecFile
+
+                printf "\t\t// If you have defined spies, you can check them again:;\n" >> $componentSpecFile
+                printf "\t\t// expect(myService.myMethod).to.have.been.calledOnce;\n" >> $componentSpecFile
                 printf "\n" >> $componentSpecFile
 
-                printf "\t\texpect(component).toBeDefined();\n" >> $componentSpecFile
-                printf "\t\texpect(false).toBe(true);\n" >> $componentSpecFile
+                printf "\t\texpect(component).to.exist;\n" >> $componentSpecFile
+                printf "\t\texpect(false).to.be.true;\n" >> $componentSpecFile
+            printf "\t});\n\n\n" >> $componentSpecFile
+
+            printf "\tafterEach(() => {\n" >> $componentSpecFile
+                printf "\t\t// Remove all spies, stubs, mocks and fake servers.\n" >> $componentSpecFile
+                printf "\t\t// sandboxEnv.restore();\n" >> $componentSpecFile
             printf "\t});\n" >> $componentSpecFile
         printf "});\n" >> $componentSpecFile
 

@@ -3,7 +3,7 @@
 import * as dedent from 'dedent';
 
 import { ComponentFixture, ComponentFixtureAutoDetect, TestBed } from '@angular/core/testing';
-import { expect } from 'core/testing/chai.module';
+import { expect } from 'core/testing/chai-unit.module';
 
 import { ToDoItem } from 'to-do/to-do-item.model';
 import { ToDoStore } from 'to-do/to-do.store';
