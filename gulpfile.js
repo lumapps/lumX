@@ -426,15 +426,18 @@ shelter({
         dsc: `Run unit tests (Karma with Headless Chrome, XVFB needed) on ${project}`,
     },
     'unit:live': {
-        cmd: `${live} ${envTest} ${unitTests} ${npmRun} karma -- start --auto-watch --no-single-run`,
+        cmd: `${npmRun} clean:unit:report
+              && ${live} ${envTest} ${unitTests} ${npmRun} karma -- start --auto-watch --no-single-run`,
         dsc: `Run unit tests (Karma with Chrome) in watch mode on ${project}`,
     },
     'unit:live:debug': {
-        cmd: `${live} ${debug} ${envTest} ${unitTests} ${npmRun} karma -- start --auto-watch --no-single-run`,
+        cmd: `${npmRun} clean:unit:report
+              && ${live} ${debug} ${envTest} ${unitTests} ${npmRun} karma -- start --auto-watch --no-single-run`,
         dsc: `Debug unit tests (Karma with Chrome) in watch mode on ${project}`,
     },
     'unit:live:headless': {
-        cmd: `${live} ${envTest} ${unitTests} ${npmRun} karma:headless -- start --auto-watch --no-single-run`,
+        cmd: `${npmRun} clean:unit:report
+              && ${live} ${envTest} ${unitTests} ${npmRun} karma:headless -- start --auto-watch --no-single-run`,
         dsc: `Run unit tests (Karma with Headless Chrome, XVFB needed) in watch mode on ${project}`,
     },
 });
