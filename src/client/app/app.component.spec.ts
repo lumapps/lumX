@@ -12,8 +12,6 @@ import { FAKE_TOKEN } from 'core/settings/common.settings';
 import { AppComponent } from './app.component';
 import { AppModule } from './app.module';
 
-import { routes } from './app.routes';
-
 
 describe('Application startup', () => {
     /**
@@ -119,11 +117,6 @@ describe('Application startup', () => {
         expect(_TokenService.getToken()).to.equals(FAKE_TOKEN);
         expect(_TokenService.isValid()).to.be.true;
     }));
-
-    it('should have routes', () => {
-        expect(routes).to.be.an('array');
-        expect(routes).to.be.ofSize(3);
-    });
 
 
     afterEach(() => {

@@ -61,9 +61,9 @@ export class AppModule {
      *
      * @constructs AppModule
      *
-     * @param {ApplicationRef} _appRef The application reference.
+     * @param {ApplicationRef} appRef The application reference.
      */
-    constructor(private _appRef: ApplicationRef) {}
+    constructor(public appRef: ApplicationRef) {}
 
 
     /**
@@ -90,7 +90,7 @@ export class AppModule {
      */
     public hmrOnDestroy(HmrStore: IHmrStore): void {
         // tslint:disable-next-line:no-any
-        const cmpLocation: ComponentRef<any>[] = this._appRef.components.map(
+        const cmpLocation: ComponentRef<any>[] = this.appRef.components.map(
             // tslint:disable-next-line:no-any
             (cmp: ComponentRef<any>) => cmp.location.nativeElement,
         );
@@ -115,6 +115,6 @@ export class AppModule {
             return;
         }
 
-        this._appRef.tick();
+        this.appRef.tick();
     }
 }
