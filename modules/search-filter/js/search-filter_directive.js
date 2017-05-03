@@ -341,7 +341,7 @@
                 if (_immediate)
                 {
                     lxSearchFilter.isLoading = true;
-                    (lxSearchFilter.autocomplete()).apply(this, [_newValue, onAutocompleteSuccess, onAutocompleteError]);
+                    (lxSearchFilter.autocomplete())(_newValue, onAutocompleteSuccess, onAutocompleteError);
                 }
                 else
                 {
