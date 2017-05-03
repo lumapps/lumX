@@ -340,7 +340,8 @@
             {
                 if (_immediate)
                 {
-                    (lxSearchFilter.autocomplete())(_newValue, onAutocompleteSuccess, onAutocompleteError);
+                    lxSearchFilter.isLoading = true;
+                    (lxSearchFilter.autocomplete()).apply(this, [_newValue, onAutocompleteSuccess, onAutocompleteError]);
                 }
                 else
                 {
