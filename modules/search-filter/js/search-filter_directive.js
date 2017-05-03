@@ -43,6 +43,7 @@
                 color: '@?lxColor',
                 icon: '@?lxIcon',
                 searchOnFocus: '=?lxSearchOnFocus',
+                theme: '@?lxTheme',
                 width: '@?lxWidth'
             },
             link: link,
@@ -106,6 +107,7 @@
         lxSearchFilter.activeChoiceIndex = -1;
         lxSearchFilter.color = angular.isDefined(lxSearchFilter.color) ? lxSearchFilter.color : 'black';
         lxSearchFilter.dropdownId = LxUtils.generateUUID();
+        lxSearchFilter.theme = angular.isDefined(lxSearchFilter.theme) ? lxSearchFilter.theme : 'light';
 
         ////////////
 
@@ -170,6 +172,11 @@
             if (angular.isDefined(lxSearchFilter.color))
             {
                 searchFilterClass.push('search-filter--' + lxSearchFilter.color);
+            }
+
+            if (angular.isDefined(lxSearchFilter.theme))
+            {
+                searchFilterClass.push('search-filter--theme-' + lxSearchFilter.theme);
             }
 
             if (angular.isFunction(lxSearchFilter.autocomplete))
