@@ -29,10 +29,16 @@ if [ $? != 0 ]; then
     exit -3
 fi
 
+gulp build
+if [ $? != 0 ]; then
+    echo "Error during gulp build"
+    exit -4
+fi
+
 gulp dist --version "$release_version"
 if [ $? != 0 ]; then
     echo "Error during gulp dist"
-    exit -4
+    exit -5
 fi
 
 if [ -n "$release_version" ]; then
@@ -40,12 +46,12 @@ if [ -n "$release_version" ]; then
     ./release.py "$release_version"
 
     if [ $? != 0 ]; then
-        exit -5
+        exit -6
     fi
 fi
 
-gulp build
+gulp demo
 if [ $? != 0 ]; then
-    echo "Error during gulp build"
-    exit -6
+    echo "Error during gulp demo"
+    exit -7
 fi
