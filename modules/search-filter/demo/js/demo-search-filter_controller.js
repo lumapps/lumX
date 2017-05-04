@@ -6,9 +6,9 @@
         .module('Controllers')
         .controller('DemoSearchFilterController', DemoSearchFilterController);
 
-    DemoSearchFilterController.$inject = ['$http', '$q', '$timeout'];
+    DemoSearchFilterController.$inject = ['$http', '$timeout'];
 
-    function DemoSearchFilterController($http, $q, $timeout)
+    function DemoSearchFilterController($http, $timeout)
     {
         var vm = this;
 
