@@ -13,7 +13,7 @@ import { ToDoStore } from 'to-do/to-do.store';
  */
 @Component({
     selector: SELECTOR_PREFIX + SELECTOR_SEPARATOR + SELECTOR,
-    styleUrls: ['to-do.component.scss'],
+    styleUrls: ['./to-do.component.scss'],
     templateUrl: './to-do.component.html',
 })
 export class ToDoComponent implements OnInit {

@@ -52,6 +52,7 @@
             "webpack",
 
             "chai",
+            "chai-arrays",
             "chai-as-promised",
             "chai-datetime",
             "chai-json-schema",

@@ -84,7 +84,8 @@
         "doc:client": "npm -s run docs:client",
         "doc:config": "npm -s run docs:config",
 
-        "e2e": "npm -s run task -- e2e",
+        "e2e": "npm -s run task -- e2e:headless",
+        "e2e:visible": "npm -s run task -- e2e",
         "e2e:debug": "npm -s run task -- e2e:debug",
         "e2e:debug:fast": "npm -s run task -- e2e:debug:fast",
         "e2e:fast": "npm -s run task -- e2e:fast",
@@ -104,14 +105,16 @@
         "lint:tests:e2e": "npm -s run task -- lint:tests:e2e",
         "lint:tests:unit": "npm -s run task -- lint:tests:unit",
 
-        "test": "npm -s run unit",
+        "test": "npm -s run unit:headless",
+        "test:visible": "npm -s run unit",
         "test:headless": "npm -s run unit:headless",
         "test:debug": "npm -s run unit:debug",
         "test:live": "npm -s run unit:live",
         "test:live:headless": "npm -s run unit:live:headless",
         "test:live:debug": "npm -s run unit:live:debug",
 
-        "tests": "npm -s run task -- tests",
+        "tests": "npm -s run task -- tests:headless",
+        "tests:visible": "npm -s run task -- tests",
         "tests:fast": "npm -s run task -- tests:fast",
         "tests:debug": "npm -s run task -- tests:debug",
         "tests:debug:fast": "npm -s run task -- tests:debug:fast",
@@ -134,12 +137,15 @@
         "setup:git-hooks": "node node_modules/husky/bin/uninstall.js && node node_modules/husky/bin/install.js",
 
         "setup": "bash -c \"(gulp --version &> /dev/null) && npm run -s task -- setup || npm -s run setup:core\"",
+        "setup:no-check": "bash -c \"(gulp --version &> /dev/null) && npm run -s task -- setup:no-check || npm -s run setup:core:no-check\"",
         "setup:core": "npm -s run clean:packages && bash -c \"./pre-requisites.sh\" && npm -s run setup:yarn:npm && npm -s run task -- clean:project",
+        "setup:core:no-check": "npm -s run clean:packages && npm -s run setup:yarn:npm && npm -s run task -- clean:project",
         "setup:yarn:npm": "bash -c \"(yarn --version &> /dev/null) && npm -s run setup:yarn || npm -s run setup:npm\"",
         "setup:npm": "npm -s install",
         "setup:yarn": "yarn install",
 
         "setup:fast": "bash -c \"(gulp --version &> /dev/null) && npm -s run task -- setup:fast || npm -s run setup:core\"",
+        "setup:fast:no-check": "bash -c \"(gulp --version &> /dev/null) && npm -s run task -- setup:fast:no-check || npm -s run setup:core:no-check\"",
         "setup:fast:yarn:npm": "bash -c \"(yarn --version &> /dev/null) && npm -s run setup:fast:yarn || npm -s run setup:fast:npm\"",
         "setup:fast:npm": "npm -s run setup:update:npm",
         "setup:fast:yarn": "npm -s run setup:update:yarn",
@@ -345,6 +351,7 @@
         "typescript": "latest",
 
         "@types/chai": "latest",
+        "@types/chai-arrays": "latest",
         "@types/chai-as-promised": "latest",
         "@types/chai-datetime": "latest",
         "@types/chai-json-schema": "latest",

@@ -82,10 +82,11 @@ if [ -x $TSLINT ]; then
     if [ -n "$TSFILES" ]; then
         touch $TSLINT_LOG
 
-        $(${TSLINT} -t stylish --type-check --project ./tsconfig.json -o ${TSLINT_LOG} ${TSFILES})
+        $(${TSLINT} -t stylish --type-check --project ./tsconfig.json --config ./tslint.json ${TSFILES} &> ${TSLINT_LOG})
         cleanTSLintLog=$(cat $TSLINT_LOG | sed -r "s/\x1B\[(([0-9]+)(;[0-9]+)*)?[m,K,H,f,J]//g")
 
-        TSLINT_FAILS=$(echo $cleanTSLintLog | grep -e "Error:")
+        TSLINT_FAILS=$(echo $cleanTSLintLog | grep -e "Error at ")
+        TSLINT_FAILS="${TSLINT_FAILS}$(echo $cleanTSLintLog | grep -e 'ERROR: ')"
         if [ -n "$TSLINT_FAILS" ]; then
             printf "${RED}❌ FAILED${DEFAULT}\n"
             printf "===== TSLint logs =====\n"
@@ -94,10 +95,10 @@ if [ -x $TSLINT ]; then
 
             exit_code=1
         else
-            TSLINT_WARNINGS=$(echo "$cleanTSLintLog" | grep -e "Warning:")
+            TSLINT_WARNINGS=$(echo "$cleanTSLintLog" | grep -e "Warning: ")
             if [ -n "$TSLINT_WARNINGS" ]; then
                 printf "${YELLOW}✔ SUCCESS (with warnings)${DEFAULT}\n"
-                printf "===== TSLint logs ====="
+                printf "===== TSLint logs =====\n"
                 cat $TSLINT_LOG
                 printf "\n"
             else

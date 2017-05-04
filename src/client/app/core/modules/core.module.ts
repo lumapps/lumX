@@ -13,9 +13,8 @@ import { NotFoundComponent } from '../components/not-found/not-found.component';
 
 
 /**
- * Our application module.
- *
- * Handles the bootstrapping and declaration of everything.
+ * Main core module.
+ * Import, initialize and exports miscellaneous utilities to be used througout the application.
  */
 @NgModule({
     declarations: [

@@ -11,7 +11,7 @@ import { SELECTOR_PREFIX, SELECTOR_SEPARATOR } from 'core/settings/selectors.set
  */
 @Component({
     selector: SELECTOR_PREFIX + SELECTOR_SEPARATOR + SELECTOR,
-    styleUrls: ['home.component.scss'],
+    styleUrls: ['./home.component.scss'],
     templateUrl: './home.component.html',
 })
 export class HomeComponent {}

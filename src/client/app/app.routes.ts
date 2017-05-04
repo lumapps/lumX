@@ -6,9 +6,9 @@ import { NotFoundComponent } from 'core/components/not-found/not-found.component
 
 
 /**
- * The routes for the application.
+ * The main routes for the application.
  *
- * @type {Array[Object]}
+ * @type {Routes}
  * @readonly
  * @constant
  * @default

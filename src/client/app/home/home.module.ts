@@ -8,7 +8,7 @@ import { HomeComponent } from './home.component';
 
 
 /**
- * The Home module.
+ * The "Home" module.
  *
  * Handle the home page
  */

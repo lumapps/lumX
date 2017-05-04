@@ -136,7 +136,7 @@ shelter({
     'clean:all': {
         cmd: `${npmRun} run-parallel -- clean:project
                                         clean:misc
-              && ${npmRun} clean:packages`,
+              ; ${npmRun} clean:packages`,
         dsc: `Clean the whole ${project} project (NPM, docs, test and dist)`,
     },
 
@@ -174,7 +174,7 @@ shelter({
         cmd: `${npmRun} run-parallel -- "rimraf -- ./build.*"
                                         "rimraf -- .tmp/*"
                                         "rimraf -- .awcache/*"
-              ; rm -Rf -- .tmp; rm -Rf -- .awcache`,
+              && (rm -Rf -- .tmp; rm -Rf -- .awcache)`,
         dsc: `Clean misceallenous files of ${project}`,
     },
     'clean:packages': {
@@ -222,7 +222,7 @@ shelter({
     'e2e': {
         cmd: `${npmRun} run-parallel -- build:${e2eBuildType}:fast
                                         clean:e2e:report
-                                        webdriver:update
+              && ${npmRun} webdriver:update
               && ${envTest} ${e2eTests} ${npmRun} run-parallel -- -r serve:${e2eBuildType}:fast:silent
                                                                   protractor`,
         dsc: `Run End to End (E2E) tests (Protractor with Chrome) after rebuilding on ${project}`,
@@ -230,7 +230,7 @@ shelter({
     'e2e:debug': {
         cmd: `${npmRun} run-parallel -- build:${e2eBuildType}:fast
                                         clean:e2e:report
-                                        webdriver:update
+              && ${npmRun} webdriver:update
               && ${envTest} ${e2eTests} ${debug} ${npmRun} run-parallel -- -r serve:${e2eBuildType}:fast:silent
                                                                            protractor:debug`,
         dsc: `Debug End to End (E2E) tests (Protractor with Chrome) after rebuilding on ${project}`,
@@ -250,7 +250,7 @@ shelter({
     'e2e:headless': {
         cmd: `${npmRun} run-parallel -- build:${e2eBuildType}:fast
                                         clean:e2e:report
-                                        webdriver:update
+              && ${npmRun} webdriver:update
               && ${envTest} ${e2eTests} ${hidden} ${npmRun} run-parallel -- -r serve:${e2eBuildType}:fast:silent
                                                                             protractor:headless`,
         dsc: `Run End to End (E2E) tests (Protractor with Headless Chrome, XVFB needed) after rebuilding on ${project}`,
@@ -409,6 +409,18 @@ shelter({
               && ${npmRun} task -- clean:project`,
         dsc: `Quick setup ${project}: install packages (using Yarn if available, NPM else) and prepare for running`,
     },
+    'setup:fast:no-check': {
+        cmd: `${npmRun} setup:fast:yarn:npm
+              && ${npmRun} task -- clean:project`,
+        dsc: `Quick setup ${project} (without pre-requisites check): install packages (using Yarn if available, NPM
+              else) and prepare for running`,
+    },
+    'setup:no-check': {
+        cmd: `${npmRun} setup:core:no-check
+              && ${npmRun} task -- clean:project`,
+        dsc: `Clean setup ${project} (without pre-requisites check): cleanup already installed packages, empty cache,
+              install packages (using Yarn if available, NPM else) and prepare for running`,
+    },
     'setup:update': {
         cmd: `${npmRun} setup:update:yarn:npm`,
         dsc: `Update ${project}: upgrade packages (using Yarn if available, NPM else)`,
@@ -416,32 +428,32 @@ shelter({
 
     'tests': {
         cmd: `${npmRun} unit
-              && ${npmRun} e2e`,
+              ; ${npmRun} e2e`,
         dsc: `Run all the tests (Karma and Protractor) on ${project} after building`,
     },
     'tests:debug': {
         cmd: `${npmRun} unit:debug
-              && ${npmRun} e2e:debug`,
+              ; ${npmRun} e2e:debug`,
         dsc: `Debug all the tests (Karma and Protractor with Chrome) on ${project} after building`,
     },
     'tests:debug:fast': {
         cmd: `${npmRun} unit:debug
-              && ${npmRun} e2e:debug:fast`,
+              ; ${npmRun} e2e:debug:fast`,
         dsc: `Debug all the tests (Karma and Protractor with Chrome) on ${project} with an existing build`,
     },
     'tests:fast': {
         cmd: `${npmRun} unit
-              && ${npmRun} e2e:fast`,
+              ; ${npmRun} e2e:fast`,
         dsc: `Run all the tests (Karma and Protractor) on ${project} with an existing build`,
     },
     'tests:headless': {
         cmd: `${npmRun} unit:headless
-              && ${npmRun} e2e:headless`,
+              ; ${npmRun} e2e:headless`,
         dsc: `Run all the tests (Karma and Protractor with Headless Chrome, XVFB needed) on ${project} after building`,
     },
     'tests:headless:fast': {
         cmd: `${npmRun} unit:headless
-              && ${npmRun} e2e:headless:fast`,
+              ; ${npmRun} e2e:headless:fast`,
         dsc: `Run all the tests (Karma and Protractor with Headless Chrome, XVFB needed) on ${project} with an existing
               build`,
     },

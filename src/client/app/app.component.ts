@@ -25,7 +25,7 @@ import 'core/styles/app.scss';
  */
 @Component({
     selector: SELECTOR_PREFIX + SELECTOR_SEPARATOR + SELECTOR,
-    styleUrls: ['app.component.scss'],
+    styleUrls: ['./app.component.scss'],
     templateUrl: './app.component.html',
 })
 export class AppComponent implements OnInit {

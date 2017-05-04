@@ -1,6 +1,6 @@
 /* tslint:disable:no-unused-expression */
 
-import { expect } from '../../../../src/client/app/core/testing/chai-e2e.module';
+import { expect } from '../../../../src/client/app/core/testing/chai-e2e.utils';
 
 import { browser } from 'protractor';
 

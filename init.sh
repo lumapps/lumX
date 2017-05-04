@@ -40,11 +40,11 @@ function usage {
     printf """${BOLD}${GREEN}LumBoilerplate initialization${DEFAULT}
 
 ${UNDERLINE}${MAGENTA}${BOLD}Usage${DEFAULT}:
-npm run -s init -- [--debug] [--help] [--skip-setup] [-n|--name <name>|\"default\"] [-d|--description <description>|\"default\"] [-u|--github-username <github username>|\"default\"] [-r|--repository <repository>|\"default\"] [-p|--prefix <prefix>|\"default\"] [-s|--separator <separator>|\"default\"] [-b|--base-url <base url>|\"default\"]
+npm run -s init -- [--debug] [-h|--help] [--skip-setup] [-n|--name <name>|\"default\"] [-d|--description <description>|\"default\"] [-u|--github-username <github username>|\"default\"] [-r|--repository <repository>|\"default\"] [-p|--prefix <prefix>|\"default\"] [-s|--separator <separator>|\"default\"] [-b|--base-url <base url>|\"default\"]
 
 ${UNDERLINE}${BLUE}Options${DEFAULT}:
 \t${CYAN}--debug${DEFAULT}\t\t\t\t\t\t\tDebug this initialization script
-\t${CYAN}--help${DEFAULT}\t\t\t\t\t\t\tPrint this help message.
+\t${CYAN}-h, --help${DEFAULT}\t\t\t\t\t\tPrint this help message.
 \t${CYAN}-n, --name ${YELLOW}<name>|\"default\"${DEFAULT}\t\t\t\tThe name of the project (if \"default\", will be the name of the current directory).
 \t${CYAN}-d, --description ${YELLOW}<description>|\"default\"${DEFAULT}\t\tThe description of the project (if \"default\", will be 'This is the description of <Project's name>).
 \t${CYAN}-u, --github-username ${YELLOW}<github username>|\"default\"${DEFAULT}\tThe Github username of the repository of the project (if \"default\", will be your current username).
@@ -161,7 +161,7 @@ while [[ $# -ge 1 ]]; do
             set -x
             ;;
 
-        --help)
+        -h|--help)
             usage
             exit 0
             ;;
@@ -238,8 +238,10 @@ while [[ $# -ge 1 ]]; do
 done
 
 
-printf "${BOLD}Welcome to the initialization of the ${BLUE}boilerplate${WHITE}!${DEFAULT}\n"
-printf "We will ask you some question to help you setup your new project. Ready?\n\n"
+printf """${BOLD}Welcome to the initialization of the ${BLUE}boilerplate${WHITE}!${DEFAULT}
+We will ask you some question to help you setup your new project. Ready?
+
+"""
 
 
 readWithDefault "What is the plain human readable name of your project" "name"
@@ -262,23 +264,25 @@ defaultComponentsNamePrefix="${defaultComponentsNamePrefix,,}"
 if [ "$componentsNamePrefix" == "default" ]; then
     componentsNamePrefix="${defaultComponentsNamePrefix}"
 fi
-readWithDefault "What prefix do you want to use for the components name" "componentsNamePrefix"
+readWithDefault "What prefix do you want to use for the components and directives name" "componentsNamePrefix"
 componentsNamePrefix="${componentsNamePrefix,,}"
 
-readWithDefault "What prefix do you want to use for the components name" "componentsNameSeparator"
+readWithDefault "What separator do you want to use for the components name" "componentsNameSeparator"
 componentsNameSeparator="${componentsNameSeparator,,}"
 
 readWithDefault "What will your base URL be" "baseUrl"
 baseUrl="${baseUrl,,}"
 
 
-printf "\n"
-printf "We are now ready to initialize the boilerplate for your project \"${BOLD}${name}${DEFAULT}\". Please wait...\n\n"
+printf """
+We are now ready to initialize the boilerplate for your project \"${BOLD}${name}${DEFAULT}\". Please wait...
+
+"""
 
 
 if [ "$skipGit" = false ]; then
     printf "Preparing git... "
-        rm -Rf ".git"
+        rm -Rf .git
         exitIfError "Deleting git"
         git init -q
         exitIfError "Initializing git"
@@ -287,48 +291,54 @@ fi
 
 
 printf "Removing useless files... "
-    rm -Rf "./dist"
+    rm -Rf ./dist
     exitIfError "Deleting 'dist'"
 
-    rm -Rf "./src/client/token.json"
+    rm -Rf ./src/client/token.json
     exitIfError "Deleting 'token.json'"
-    rm -Rf "./last-seed-commit.txt"
+    rm -Rf ./last-seed-commit.txt
     exitIfError "Deleting 'last-seed-commit.txt'"
 
-    rm -Rf "./src/client/app/home"
+    rm -Rf ./src/client/app/home
     exitIfError "Deleting 'home'"
-    rm -Rf "./src/client/app/to-do"
+    rm -Rf ./src/client/app/to-do
     exitIfError "Deleting 'to-do'"
-    rm -Rf "./src/client/app/about"
+    rm -Rf ./src/client/app/about
     exitIfError "Deleting 'about'"
 
-    rm -Rf "./tests/client/e2e/pages/home.page.ts"
+    rm -Rf ./tests/client/e2e/pages/home.page.ts
     exitIfError "Deleting E2E 'Home' page"
-    rm -Rf "./tests/client/e2e/specs/home.spec.ts"
+    rm -Rf ./tests/client/e2e/specs/home.spec.ts
     exitIfError "Deleting E2E 'Home' specs"
 
-    rm -Rf "./tests/client/e2e/report"
+    rm -Rf ./tests/client/e2e/report
     exitIfError "Deleting E2E report"
-    rm -Rf "./tests/client/unit/report"
+    rm -Rf ./tests/client/unit/report
     exitIfError "Deleting Unit report"
-    rm -Rf "./tests/client/*Report.tar.gz"
+    rm -Rf ./tests/client/*Report.tar.gz
     exitIfError "Deleting tests reports archives"
 
-    rm -Rf "build.*"
+    rm -Rf build.*
     exitIfError "Deleting build files"
-    rm -Rf ".awcache .tmp"
+    rm -Rf .awcache .tmp
     exitIfError "Deleting cache and temporary files"
 printf "${BLUE}Done${DEFAULT}\n"
 
 
 printf "Emptying some files... "
-    printf "# humanstxt.org\n# The humans responsible & technology colophon\n\n# TEAM\n\n\n# THANKS\n\n    AngularClass -- @AngularClass\n    Lumapps -- @lumapps\n    PatrickJS -- @gdi2290\n\n# TECHNOLOGY COLOPHON\n\n    HTML5, CSS3, SASS\n    Angular2, TypeScript, Webpack\n" > $HUMANS_FILE
+    printf "# humanstxt.org\n# The humans responsible & technology colophon\n\n# TEAM\n\n\n# THANKS\n\n    AngularClass -- @AngularClass\n    Lumapps -- @lumapps\n    PatrickJS -- @gdi2290\n\n# TECHNOLOGY COLOPHON\n\n    HTML5, CSS3, SASS\n    Angular, TypeScript, JavaScript, Webpack, NPM\n" > $HUMANS_FILE
     exitIfError "Emptying humans file"
 
     mv $README_FILE README.boilerplate.md
     exitIfError "Copying readme file"
     touch $README_FILE
     exitIfError "Creating new readme file"
+
+    printf """# Roadmap
+
+### ${name}
+""" > $ROADMAP_FILE
+    exitIfError "Emptying roddmap file"
 printf "${BLUE}Done${DEFAULT}\n"
 
 
@@ -336,15 +346,66 @@ printf "Removing useless code... "
     grep -v "HomeModule" ./src/client/app/app.module.ts > temp && mv temp ./src/client/app/app.module.ts
     exitIfError "Removing Home module in 'app' module"
 
-    rm -Rf "./src/client/app/app.component.*"
+    rm -Rf ./src/client/app/app.component.*
     exitIfError "Removing original 'app' component files"
 
-    rm -Rf "./src/client/app/app.routes.ts"
-    exitIfError "Removing original 'app' routes files"
-
-    ./scaffold.sh -- --force -n "App" -p "default" --at-root -t "Component" --not-core -s 'default' --without-module --on-init --no-on-destroy --no-on-change --no-activated-route --no-constructor --routes &> /dev/null
+    ./scaffold.sh -- --force -n "App" -p "default" --at-root -t "Component" --not-core -s 'default' --without-module --on-init --no-on-destroy --no-on-change --no-activated-route --no-constructor --router --routes &> /dev/null
     exitIfError "Scaffolding new 'app' component"
-    sed -i "7i/*\n* Global styles\n */\nimport 'core/styles/app.scss';\n\n" ./src/client/app/app.component.ts
+    printf """<h1 class=\"title\">
+    Congratulations!
+</h1>
+
+<p>You have successfully setup the boilerplate!</p>
+""" > ./src/client/app/app.component.html
+    exitIfError "Updating the \"App\" component"
+
+    printf """
+p {
+    text-align: center;
+}
+""" >> ./src/client/app/app.component.scss
+    exitIfError "Updating the \"App\" style"
+
+    sed -i "s#// import 'core/styles/example.scss';#import 'core/styles/app.scss';#g" ./src/client/app/app.component.ts
+
+    rm -Rf ./src/client/app/app.routes.ts
+    exitIfError "Removing original 'app' routes files"
+    touch ./src/client/app/app.routes.ts
+    printf """import { Routes } from '@angular/router';
+
+// If you need any other component, import it here. For example:
+// import { MyComponent } from 'my-component/my.component';
+// import { MyModule } from 'my-component/my.module';
+
+import { NotFoundComponent } from 'core/components/not-found/not-found.component';
+
+
+/**
+ * The main routes for the application.
+ *
+ * @type {Routes}
+ * @readonly
+ * @constant
+ * @default
+ */
+export const routes: Routes = [
+    /*
+     * If you need any route global to the application, add it here.
+     * Be sure to leave the \"NotFoundComponent\" route at the last position (as it will be the fallback route when no
+     * other route will match.
+     */
+    // For example:
+    // { component: MyComponent, path: 'my-component' },
+
+    // You can also lazy-load some routes. For example:
+    // { loadChildren: 'my-component/my.module#MyModule', path: 'lazy' };
+
+    {
+        component: NotFoundComponent,
+        path: '**',
+    },
+];
+""" > ./src/client/app/app.routes.ts
 
     grep -v "DoItem" ./src/client/app/core/services/utils.service.spec.ts > temp && mv temp ./src/client/app/core/services/utils.service.spec.ts
     exitIfError "Removing ToDoItem from the Utils Service specifications"
@@ -375,6 +436,8 @@ printf "Customizing GitHub and StackOverflow... "
     fi
 
     if [ -n "${repository}" ]; then
+        sed -i "s/lum${originalRepository}/${repository}/g" $CONTRIBUTING_FILE
+        exitIfError "Replacing original 'lum'repository in contributing file"
         sed -i "s/${originalRepository}/${repository}/g" $CONTRIBUTING_FILE
         exitIfError "Replacing original repository in contributing file"
     fi
@@ -395,6 +458,8 @@ printf "Customizing NPM... "
         exitIfError "Replacing original github username in package file"
     fi
     if [ -n "${repository}" ]; then
+        sed -i "s/lum${originalRepository}/${repository}/g" $PACKAGE_FILE
+        exitIfError "Replacing original 'lum'repository in package file"
         sed -i "s/${originalRepository}/${repository}/g" $PACKAGE_FILE
         exitIfError "Replacing original repository in package file"
     fi
@@ -415,74 +480,85 @@ printf "${BLUE}Done${DEFAULT}\n"
 
 
 printf "Customizing app settings... "
-    printf "/**\n" > $SETTINGS_FILE
-    printf " * The default base href of the application.\n" >> $SETTINGS_FILE
-    printf " *\n" >> $SETTINGS_FILE
-    printf " * @type {string}\n" >> $SETTINGS_FILE
-    printf " * @readonly\n" >> $SETTINGS_FILE
-    printf " * @constant\n" >> $SETTINGS_FILE
-    printf " * @default\n" >> $SETTINGS_FILE
-    printf " */\n" >> $SETTINGS_FILE
-    printf "export const BASE_HREF: string = '${baseUrl}';\n\n" >> $SETTINGS_FILE
+    printf """/**
+ * The default base href of the application.
+ *
+ * @type {string}
+ * @readonly
+ * @constant
+ * @default
+ */
+export const BASE_HREF: string = '${baseUrl}';
+""" > $SETTINGS_FILE
     exitIfError "Customizing base href in app settings"
 
-    printf "/**\n" > $SETTINGS_FILE
-    printf " * A fake token used for the tests.\n" >> $SETTINGS_FILE
-    printf " *\n" >> $SETTINGS_FILE
-    printf " * @type {string}\n" >> $SETTINGS_FILE
-    printf " * @readonly\n" >> $SETTINGS_FILE
-    printf " * @constant\n" >> $SETTINGS_FILE
-    printf " * @default\n" >> $SETTINGS_FILE
-    printf " */\n" >> $SETTINGS_FILE
-    printf "export const FAKE_TOKEN: string = '123456789';\n" >> $SETTINGS_FILE
+    printf """
+/**
+ * A fake token used for the tests.
+ *
+ * @type {string}
+ * @readonly
+ * @constant
+ * @default
+ */
+export const FAKE_TOKEN: string = '123456789';
+""" >> $SETTINGS_FILE
     exitIfError "Adding fake token"
 printf "${BLUE}Done${DEFAULT}\n"
 
 
 printf "Customizing selectors... "
-    printf "/**\n" > $SELECTORS_FILE
-    printf " * The default prefix for all (directives and components) selector.\n" >> $SELECTORS_FILE
-    printf " *\n" >> $SELECTORS_FILE
-    printf " * @type {string}\n" >> $SELECTORS_FILE
-    printf " * @readonly\n" >> $SELECTORS_FILE
-    printf " * @constant\n" >> $SELECTORS_FILE
-    printf " * @default\n" >> $SELECTORS_FILE
-    printf " */\n" >> $SELECTORS_FILE
-    printf "export const SELECTOR_PREFIX: string = '${componentsNamePrefix}';\n" >> $SELECTORS_FILE
+    printf """/**
+ * The default prefix for all (directives and components) selector.
+ *
+ * @type {string}
+ * @readonly
+ * @constant
+ * @default
+ */
+export const SELECTOR_PREFIX: string = '${componentsNamePrefix}';
+""" > $SELECTORS_FILE
     exitIfError "Customizing selector prefix in app settings"
 
-    printf "/**\n" >> $SELECTORS_FILE
-    printf " * The separator to use between the default prefix and the component name.\n" >> $SELECTORS_FILE
-    printf " * Note that directives don't use the separator as their names are written in camelCase.\n" >> $SELECTORS_FILE
-    printf " *\n" >> $SELECTORS_FILE
-    printf " * @type {string}\n" >> $SELECTORS_FILE
-    printf " * @readonly\n" >> $SELECTORS_FILE
-    printf " * @constant\n" >> $SELECTORS_FILE
-    printf " * @default\n" >> $SELECTORS_FILE
-    printf " */\n" >> $SELECTORS_FILE
-    printf "export const SELECTOR_SEPARATOR: string = '${componentsNameSeparator}';\n\n" >> $SELECTORS_FILE
+    printf """
+/**
+ * The separator to use between the default prefix and the component name.
+ * Note that directives don't use the separator as their names are written in camelCase.
+ *
+ * @type {string}
+ * @readonly
+ * @constant
+ * @default
+ */
+export const SELECTOR_SEPARATOR: string = '${componentsNameSeparator}';
+
+""" >> $SELECTORS_FILE
     exitIfError "Customizing selector separator in app settings"
 
-    printf "/**\n" >> $SELECTORS_FILE
-    printf " * The selector name of the NotFound component.\n" >> $SELECTORS_FILE
-    printf " *\n" >> $SELECTORS_FILE
-    printf " * @type {string}\n" >> $SELECTORS_FILE
-    printf " * @readonly\n" >> $SELECTORS_FILE
-    printf " * @constant\n" >> $SELECTORS_FILE
-    printf " * @default\n" >> $SELECTORS_FILE
-    printf " */\n" >> $SELECTORS_FILE
-    printf "export const NOT_FOUND_SELECTOR: string = 'not-found';\n" >> $SELECTORS_FILE
+    printf """
+/**
+ * The selector name of the \"NotFound\" component.
+ *
+ * @type {string}
+ * @readonly
+ * @constant
+ * @default
+ */
+export const NOT_FOUND_SELECTOR: string = 'not-found';
+""" >> $SELECTORS_FILE
     exitIfError "Customizing app component selector in app settings"
 
-    printf "/**\n" >> $SELECTORS_FILE
-    printf " * The selector name of the main App component.\n" >> $SELECTORS_FILE
-    printf " *\n" >> $SELECTORS_FILE
-    printf " * @type {string}\n" >> $SELECTORS_FILE
-    printf " * @readonly\n" >> $SELECTORS_FILE
-    printf " * @constant\n" >> $SELECTORS_FILE
-    printf " * @default\n" >> $SELECTORS_FILE
-    printf " */\n" >> $SELECTORS_FILE
-    printf "export const APP_SELECTOR: string = 'app';\n" >> $SELECTORS_FILE
+    printf """
+/**
+ * The selector name of the main \"App\" component.
+ *
+ * @type {string}
+ * @readonly
+ * @constant
+ * @default
+ */
+export const APP_SELECTOR: string = 'app';
+""" >> $SELECTORS_FILE
     exitIfError "Customizing app component selector in app settings"
 
     sed -i "s/${originalComponentsNamePrefix}${originalComponentsNameSeparator}app/${componentsNamePrefix}${componentsNameSeparator}app/g" $INDEX_FILE
@@ -495,7 +571,7 @@ printf "${BLUE}Done${DEFAULT}\n"
 
 if [ "$skipSetup" = false ]; then
     printf "Cleaning and setting up the boilerplate\n"
-        npm run -s setup
+        npm run -s setup:no-check
         exitIfError "Setting up NPM"
     printf "${BLUE}Done${DEFAULT}\n"
 fi
@@ -504,19 +580,26 @@ if [ "$skipGit" = false ]; then
     printf "Creating the first git commit...\n"
         git add .
         exitIfError "Adding project in git repository"
-        git commit -q -m "chore(${repository}): initialization of the repository with boilerplate"
+
+        noVerify=""
+        if [ "$skipSetup" = false ]; then
+            noVerify=" --no-verify"
+        fi
+        git commit${noVerify} -q -m "chore(${repository}): initialization of the repository with boilerplate"
     printf "${BLUE}Done${DEFAULT}\n"
 fi
 
 
-printf "\n"
-printf "${GREEN}Your project has been successfully initialized!${DEFAULT}\n\n"
-printf "You can now start coding. Run ${BOLD}npm start${DEFAULT} to start the server with all coding stuff you need.\n"
-printf "A browser will automatically open. If no, you can go to ${BOLD}http://localhost:8880/${DEFAULT} to access your project.\n"
-printf "You can also run ${BOLD}npm run help${DEFAULT} to have a list of all commands available.\n\n"
+printf """
+${GREEN}Your project has been successfully initialized!${DEFAULT}
 
-printf "You can now safely delete this initialization script: ${BOLD}rm -f ./init.sh${DEFAULT}.\n\n"
+You can now start coding. Run ${BOLD}npm start${DEFAULT} to start the server with all coding stuff you need.
+A browser will automatically open. If not, you can go to ${BOLD}http://localhost:8880/${DEFAULT} to access your project.
+You can also run ${BOLD}npm run help${DEFAULT} to have a list of all commands available.
 
-printf "${BOLD}${MAGENTA}Have fun coding with the LumBoilerplate!${DEFAULT}\n"
+You can now safely delete this initialization script: ${BOLD}rm -f ./init.sh${DEFAULT}.
+
+${BOLD}${MAGENTA}Have fun coding with the LumBoilerplate!${DEFAULT}
+"""
 
 exit 0

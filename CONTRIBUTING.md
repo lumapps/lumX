@@ -22,7 +22,7 @@ If you have questions about how to use LumBoilerplate, please direct these to [S
 
 If you find a bug in the source code or a mistake in the documentation, you can help us by submitting an issue to our [GitHub Repository](https://github.com/lumapps/boilerplate/issues). Even better you can submit a Pull Request with a fix.
 
-If you are feeling cocky, you can even fix it yourself and submit a Pull Request.
+If you are feeling lucky, you can even fix it yourself and submit a Pull Request.
 Before opening a Pull Request, please see the Submission Guidelines below.
 
 ## <a name="want-a-feature-"></a> Want a feature?
@@ -37,7 +37,7 @@ If you would like to implement a new feature then consider what kind of change i
 
 Before you submit your issue search the archive, maybe your question was already answered.
 
-If your issue appears to be a bug, and hasn't been reported, open a new issue. Help us to maximize the effort by not reporting duplicate issues. Providing the following information will increase the chances of your issue being dealt with quickly:
+If your issue appears to be a bug, and hasn't been reported, open a new issue. Help us to minimize the effort by not reporting duplicate issues. Providing the following information will increase the chances of your issue being dealt with quickly:
 
 - **Motivation for or Use Case** - explain why this is a bug for you
 - **LumBoilerplate Version(s)** - is it a regression?
@@ -73,12 +73,12 @@ git push origin <full branch name>
 ```
 
 * In GitHub, send a pull request to `boilerplate:master`.
-* If we suggest changes then
-* Make the required updates.
-* Rebase your branch and force push to your GitHub repository (this will update your Pull Request):
+* If we suggest changes then:
+    * Make the required updates.
+    * Rebase your branch and force push to your GitHub repository (this will update your Pull Request):
 
 ```shell
-git rebase master -i
+git rebase upstream master -i
 git push -f
 ```
 
@@ -114,7 +114,7 @@ git pull --ff upstream master
 
 ## <a name="coding-rules"></a> Coding rules
 
-We're using Javascript and [SCSS](http://sass-lang.com/) to build the framework. We're also using NPM and Wepack to help you contribute:
+We're using TypeScript, Javascript and [SCSS](http://sass-lang.com/) to build the framework. We're also using NPM and Wepack to help you contribute:
 
 - `npm start` will build the project, watch for modifications (with hot-reload) and serve an example application.
 - `npm run -s lint:all` will check the coding style and lint all your configs and source files
@@ -122,30 +122,30 @@ We're using Javascript and [SCSS](http://sass-lang.com/) to build the framework.
 - `npm run -s build:prod` will update the dist folder with the last contents and make a production ready package.
 
 Many other NPM command are available. Use `npm run -s help` to get a list of all available tasks.
-You can also read [the full description of the toolchain](Reference needed).
+You can also read [the full description of the toolchain](To be done).
 
 Our coding convention is the following:
 
-- 4 spaces for indentation, for Javascript and SCSS.
+- 4 spaces for indentation, for TypeScript, Javascript and SCSS.
 - Wrap all codes at 120 characters.
 
-For Javascript:
+For TypeScript and Javascript:
 
 - Use [camelCase](https://en.wikipedia.org/wiki/Camel_case), except for constants in [UPPER_SNAKE_CASE](https://en.wikipedia.org/wiki/Snake_case).
 - Use the [One True Brace Style (1TBS)](https://en.wikipedia.org/wiki/Indent_style#1TBS).
 
-You can read the [full JavaScript code convention](Reference needed) and the [full AngularJS code convention](Reference needed).
+You can read the [full JavaScript code convention](To be done), the [full TypeScript code convention](To be done) and the [full Angular code convention](To be done).
 
-All submitted JavaScript code must be properly documented. You *must* at least document all your functions, methods and members using the JSDoc format. More information about the document format is available in the [full JavaScript code convention](Reference needed).
+All submitted TypeScript/JavaScript code must be properly documented. You *must* at least document all your functions, methods and members using the JSDoc format. More information about the documentation format is available in the [full JavaScript code convention](To be done) and the [full TypeScript code convention](To be done).
 
 For SCSS:
 
 - Except for the line wrap, please refer to [the Harry Roberts css guidelines](http://cssguidelin.es/).
 - For the CSS properties, we follow the [concentric order](http://rhodesmill.org/brandon/2011/concentric-css/)
 
-You can read the [full SCSS code convention](Reference needed).
+You can read the [full SCSS code convention](To be done).
 
-For the ease of use and contributing, most of the coding styles are enforced with ESLint and SASS-Lint. So as long as the pre-commit script let you commit, you should be good.
+For the ease of use and contributing, most of the coding styles are enforced with TSLint, ESLint and SASS-Lint. So as long as the pre-commit script let you commit, you should be good.
 
 ## <a name="git-commit-guidelines"></a> Git commit guidelines
 
@@ -173,25 +173,25 @@ Any line of the commit message cannot be longer 100 characters! This allows the 
 
 Must be one of the following:
 
-* **feat**: A new feature
-* **fix**: A bug fix
-* **theme**: A change concerning themes
-* **docs**: Documentation only changes
-* **lint**: Changes that do not affect the meaning of the code (white-space, formatting, missing semicolons, etc)
-* **refactor**: A code change that neither fixes a bug or adds a feature
-* **perf**: A code change that improves performance
-* **test**: Adding missing tests or correcting existing tests
-* **build**: Changes that affect the build system or external dependencies (gulp, npm, webpack, ...)
-* **ci**: Changes to our CI configuration files and scripts
-* **chore**: Changes to the build process or auxiliary tools and libraries such as distribution generation
-* **revert**: Reverts a previous commit
+* **feat**: a new feature
+* **fix**: a bug fix
+* **theme**: a change concerning (S)CSS themes/styles
+* **docs**: documentation only changes
+* **lint**: changes that do not affect the meaning of the code (white-space, formatting, missing semicolons, etc)
+* **refactor**: a code change that neither fixes a bug or adds a feature
+* **perf**: a code change that improves performance
+* **test**: adding missing tests or correcting existing tests
+* **build**: changes that affect the build system or external dependencies (gulp, npm, webpack, ...)
+* **ci**: changes to the CI configuration files and scripts
+* **chore**: miscellaneous changes
+* **revert**: reverts a previous commit
 
 ### Scope
 
 The scope could be anything specifying place of the commit change. For example `notification', 'dropdown', etc.
 The scope must be written in [kebab-case](https://en.wikipedia.org/wiki/Letter_case#Special_case_styles).
 
-If the commit reverts a previous commit, it should contains the reverted commit SHA1.
+If the commit reverts a previous commit, it should contains the (short) reverted commit SHA1.
 
 ### Subject
 
@@ -223,7 +223,7 @@ Before we had to do another thing. There was this and this problem.
 Now, by using "toto", it's simpler and the problems are managed.
 
 Closes PR #25
-Fix #15
+Fixes #15
 BROKEN:
 first thing broken
 second thing broken
@@ -255,11 +255,11 @@ or
 
 Must be one of the following:
 
-* **FIXME**: Should be corrected
-* **HACK**: A dirty workaround
-* **TODO**: Something to be done
-* **XXX**: Warn other programmers of problematic or misguiding code
-* **UX**: User experience, notice about non-trivial code
+* **FIXME**: should be corrected
+* **HACK**: a dirty workaround
+* **TODO**: something to be done
+* **XXX**: warn other programmers of problematic or misguiding code
+* **UX**: user experience, notice about non-trivial code
 
 ### Developer
 

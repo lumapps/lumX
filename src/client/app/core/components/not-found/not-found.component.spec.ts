@@ -1,7 +1,7 @@
 /* tslint:disable:no-unused-expression */
 
 import { TestBed, inject } from '@angular/core/testing';
-import { expect } from 'core/testing/chai-unit.module';
+import { expect } from 'core/testing/chai-unit.utils';
 
 import { NotFoundComponent } from './not-found.component';
 

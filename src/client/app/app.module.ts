@@ -21,7 +21,7 @@ import { AppComponent } from './app.component';
 
 
 /**
- * Application module.
+ * The main application module.
  * Handles the bootstrapping and declaration of everything.
  */
 @NgModule({

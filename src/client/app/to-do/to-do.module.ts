@@ -10,7 +10,7 @@ import { ToDoComponent } from './to-do.component';
 
 
 /**
- * The ToDo module.
+ * The "ToDo" module.
  */
 @NgModule({
     declarations: [

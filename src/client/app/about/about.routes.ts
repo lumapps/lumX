@@ -1,15 +1,17 @@
+import { Routes } from '@angular/router';
+
 import { AboutComponent } from './about.component';
 
 
 /**
- * The routes for the about module.
+ * The routes for the "About" module.
  *
- * @type {Array[Object]}
+ * @type {Routes}
  * @readonly
  * @constant
  * @default
  */
-export const routes: {}[] = [
+export const routes: Routes = [
     {
         component: AboutComponent,
         path: '',

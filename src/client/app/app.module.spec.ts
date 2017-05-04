@@ -1,7 +1,7 @@
 /* tslint:disable:no-unused-expression */
 
 import { ComponentFixture, TestBed, inject } from '@angular/core/testing';
-import { expect } from 'core/testing/chai-unit.module';
+import { expect } from 'core/testing/chai-unit.utils';
 import { SinonSandbox, SinonSpy, sandbox } from 'sinon';
 
 import { IHmrStore } from 'core/types/hmr-store.type';
@@ -59,9 +59,9 @@ describe('Application startup', () => {
     });
 
 
-    it('should have routes', () => {
+    it('should have at least one route', () => {
         expect(routes).to.be.an('array');
-        expect(routes).to.be.ofSize(3);
+        expect(routes).to.have.length.above(0);
     });
 
     describe('Hot Module Reload', () => {

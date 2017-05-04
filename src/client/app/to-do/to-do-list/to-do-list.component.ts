@@ -12,7 +12,7 @@ import { ToDoStore } from 'to-do/to-do.store';
  */
 @Component({
     selector: SELECTOR_PREFIX + SELECTOR_SEPARATOR + SELECTOR,
-    styleUrls: ['to-do-list.component.scss'],
+    styleUrls: ['./to-do-list.component.scss'],
     templateUrl: './to-do-list.component.html',
 })
 export class ToDoListComponent {

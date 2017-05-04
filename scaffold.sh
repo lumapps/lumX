@@ -40,11 +40,11 @@ function usage {
     printf """${BOLD}${GREEN}LumBoilerplate scaffolder${DEFAULT}
 
 ${UNDERLINE}${MAGENTA}${BOLD}Usage${DEFAULT}:
-npm run -s scaffold -- [--debug] [--help] [--force] [-n|--name <name>] [-p|--path <path>|\"default\"] [--at-root|--not-at-root] [-t|--type <type>] [--core|--not-core] [--router|--no-router] [--import-core|--not-import-core]  [-s|--selector <selector>|\"default\"] [--with-module|--without-module] [--on-init|--no-on-init] [--on-destroy|--no-on-destroy] [--on-change|--no-on-change] [--activated-route|--no-activated-route] [--constructor|--no-constructor]
+npm run -s scaffold -- [--debug] [-h|--help] [--force] [-n|--name <name>] [-p|--path <path>|\"default\"] [--at-root|--not-at-root] [-t|--type <type>] [--core|--not-core] [--router|--no-router] [--external-routes|--inline-routes] [--import-core|--not-import-core]  [-s|--selector <selector>|\"default\"] [--with-module|--without-module] [--on-init|--no-on-init] [--on-destroy|--no-on-destroy] [--on-change|--no-on-change] [--activated-route|--no-activated-route] [--constructor|--no-constructor]
 
 ${UNDERLINE}${BLUE}Common options${DEFAULT}:
 \t${CYAN}--debug${DEFAULT}\t\t\t\t\tDebug this scaffold script
-\t${CYAN}--help${DEFAULT}\t\t\t\t\tPrint this help message.
+\t${CYAN}-h, --help${DEFAULT}\t\t\t\tPrint this help message.
 \t${CYAN}--force${DEFAULT}\t\t\t\t\tDon't ask confirmation for overwritting directory or files.
 \t${CYAN}-n, --name ${YELLOW}<name>${DEFAULT}\t\t\tThe name of the element you want to scaffold.
 \t${CYAN}-p, --path ${YELLOW}<path>|\"default\"${DEFAULT}\t\tThe path (from 'src/client/app/') for the scaffolded element (if \"default\", will be at the root of 'src/client/app/').
@@ -54,6 +54,7 @@ ${UNDERLINE}${BLUE}Common options${DEFAULT}:
 
 ${UNDERLINE}${BLUE}Modules options${DEFAULT}:
 \t${CYAN}--[no-]router${DEFAULT}\t\t\t\tIndicates if we want to import the Router module in the scaffolded module or not.
+\t${CYAN}--<external|inline>-routes${DEFAULT}\t\t\t\tIndicates if we want to scaffold a routes files beside of the scaffolded module or not or inline routes in the scaffolded module.
 \t${CYAN}--[not-]import-core${DEFAULT}\t\t\tIndicates if we want to import the Core module in the scaffolded module or not.
 
 ${UNDERLINE}${BLUE}Components options${DEFAULT}:
@@ -168,6 +169,7 @@ defaultName=""
 defaultModulePath="."
 defaultAtRoot="n"
 defaultRouter="n"
+defaultRoutes="n"
 defaultImportCore="y"
 defaultSelector=""
 defaultCreateModule="y"
@@ -186,7 +188,7 @@ while [[ $# -ge 1 ]]; do
             set -x
             ;;
 
-        --help)
+        -h|--help)
             usage
             exit 0
             ;;
@@ -238,6 +240,14 @@ while [[ $# -ge 1 ]]; do
 
         --no-router)
             router="n"
+            ;;
+
+        --external-routes)
+            routes="y"
+            ;;
+
+        --inline-routes)
+            routes="n"
             ;;
 
         --import-core)
@@ -340,10 +350,13 @@ if [ "$scaffoldType" == "module" ]; then
         if [ "$displayedModulePath" == "." ]; then
             displayedModulePath=""
         fi
-        readBooleanWithDefault "Do you want to add the \"${name}\" ${coreMessage}${scaffoldType} at the root of 'src/client/app/${displayedModulePath}' or in a '${selector}' subdirectory" "atRoot"
+        readBooleanWithDefault "Do you want to add the \"${name}\" ${coreMessage}${scaffoldType} at the root of 'src/client/app/${displayedModulePath}' (if not, it will be added in a '${selector}' subdirectory)" "atRoot"
     fi
 
     readBooleanWithDefault "Do you want to declare routes in the \"${name}\" ${coreMessage}${scaffoldType}" "router"
+    if [ "$router" == "y" ] && [ "$core" == "n" ]; then
+        readBooleanWithDefault "Do you want to scaffold a routes file with \"${name}\" ${coreMessage}${scaffoldType} (if not, routes will be inlined)" "routes"
+    fi
     readBooleanWithDefault "Do you want to import the core module in the \"${name}\" ${coreMessage}${scaffoldType}" "importCore"
 elif [ "$scaffoldType" == "component" ]; then
     readWithDefault "Enter the selector of the \"${name}\" ${coreMessage}${scaffoldType}" "selector"
@@ -366,6 +379,9 @@ elif [ "$scaffoldType" == "component" ]; then
 
     if [ "$createModule" == "y" ]; then
         readBooleanWithDefault "Do you want to declare routes in the ${thing}" "router"
+        if [ "$router" == "y" ] && [ "$core" == 'n' ]; then
+            readBooleanWithDefault "Do you want to scaffold a routes file with ${thing} (if not, routes will be inlined)" "routes"
+        fi
         readBooleanWithDefault "Do you want to import the core module in the ${thing}" "importCore"
     fi
 
@@ -378,7 +394,9 @@ elif [ "$scaffoldType" == "component" ]; then
     fi
     readBooleanWithDefault "Do you want to access route params in \"${name}\" ${coreMessage}${scaffoldType}" "activatedRoute"
 
-    constructor="$activatedRoute"
+    if [ "$activatedRoute" == "y" ]; then
+        constructor="y"
+    fi
     readBooleanWithDefault "Do you want a constructor in \"${name}\" ${coreMessage}${scaffoldType}" "constructor"
 fi
 
@@ -388,17 +406,24 @@ fi
 modulePath="${modulePath%/}"
 
 
-printf "\n"
-printf "We are now ready to scaffold your ${BOLD}${coreMessage}${scaffoldType}${DEFAULT}. Please wait...\n\n"
+printf """
+We are now ready to scaffold your ${BOLD}${coreMessage}${scaffoldType}${DEFAULT}. Please wait...
+
+"""
 
 function initModule() {
-    _moduleName="$1"
+    _moduleName="${1^}"
     _selector="${2,,}"
     _modulePath="${3%/}"
     [[ "$4" == "y" ]] && _isCoreModule=true || _isCoreModule=false
     [[ "$5" == "y" ]] && _useRouter=true || _useRouter=false
-    [[ "$6" == "y" ]] && _importCore=true || _importCore=false
-    [[ "$7" == "y" ]] && _forComponent=true || _forComponent=false
+    [[ "$6" == "y" ]] && _generateRoutes=true || _generateRoutes=false
+    [[ "$7" == "y" ]] && _importCore=true || _importCore=false
+    [[ "$8" == "y" ]] && _forComponent=true || _forComponent=false
+
+    if [ "$_useRouter" = false ]; then
+        _generateRoutes=false
+    fi
 
     directory="src/client/app/core/modules/"
 
@@ -444,6 +469,7 @@ function initModule() {
 
     cd $directory
     moduleFile="${_selector}.module.ts"
+    routesFile="${_selector}.routes.ts"
 
     defaultCreateModuleFile="y"
     createModuleFile="y"
@@ -458,6 +484,21 @@ function initModule() {
         return 0
     fi
 
+    if [ "$_generateRoutes" == "y" ]; then
+        defaultCreateRoutesFile="y"
+        createRoutesFile="y"
+        if [ -f $routesFile ] && [ "$force" == "n" ]; then
+            readBooleanWithDefault "The routes file \"${directory}${routesFile}\" already exists. Are you sure you want to continue (the file will be overwritten)" "createRoutesFile"
+        fi
+
+        if [ "$createRoutesFile" == "y" ]; then
+            rm -Rf $routesFile
+            exitIfError "Deleting existing \"${directory}/${routesFile}\" file"
+        else
+            return 0
+        fi
+    fi
+
     printf "Creating files and directories... "
         if [ "$_isCoreModule" = false ] && [ "$_forComponent" = false ] && [ ! -d "components" ]; then
             mkdir -p "components"
@@ -465,86 +506,237 @@ function initModule() {
         fi
 
         touch $moduleFile
+        if [ "$_generateRoutes" == "y" ]; then
+            touch $routesFile
+        fi
         exitIfError "Creating \"${directory}/${moduleFile}\" file"
     printf "${BLUE}Done${DEFAULT}\n"
 
-    printf "Creating TypeScript module... "
-        className=$(echo -e "${_moduleName}" | sed -r 's/(^| )([A-Za-z0-9])/\U\2/g' | tr -d '[[:space:]]\n\r-' | tr -dc '[:alnum:]\n\r')
-        componentClassName=""
-
-        printf "import { NgModule } from '@angular/core';\n" > $moduleFile
-        if [ "$_useRouter" = true ]; then
-            printf "import { RouterModule } from '@angular/router';\n" >> $moduleFile
+    root="."
+    subPath=""
+    if [ "$_forComponent" = true ]; then
+        if [ "$_isCoreModule" = true ]; then
+            root=".."
+            subPath="components/${_selector}/"
         fi
+    fi
+    className=$(echo -e "${_moduleName}" | sed -r 's/(^| )([A-Za-z0-9])/\U\2/g' | tr -d '[[:space:]]\n\r-' | tr -dc '[:alnum:]\n\r')
+
+    routes="""/**
+ * The routes for the \"${_moduleName}\" module.
+ *
+ * @type {Routes}
+ * @readonly
+ * @constant
+ * @default
+ */
+const routes: Routes = ["""
+    if [ "$_forComponent" = true ]; then
+        routes="""${routes}
+    {
+        component: ${className}Component,
+        path: '${_selector}',
+    }
+    // Add any other routes you will need for this module.
+"""
+    else
+        routes="""${routes}
+    // Add any routes you will need for this module. For example:
+    // { component: MyComponent, path: 'my-component' };
+"""
+    fi
+    routes="""${routes}
+    // You can also lazy-load some routes. For example:
+    // { loadChildren: 'my-component/my.module#MyModule', path: 'lazy' };
+];
+"""
+
+    printf "Creating TypeScript module... "
+        moduleWithProvidersImport=""
+        if [ "$_isCoreModule" = true ]; then
+            moduleWithProvidersImport="ModuleWithProviders, "
+        fi
+        printf "import { ${moduleWithProvidersImport}NgModule } from '@angular/core';" > $moduleFile
+
+        if [ "$_useRouter" = true ]; then
+            routesImport=""
+            if [ "$_generateRoutes" = false ]; then
+                routesImport=", Routes"
+            fi
+            printf "\nimport { RouterModule${routesImport} } from '@angular/router';" >> $moduleFile
+        fi
+        printf """
+// If you need anything else from Angular, import it here. For example:
+// import { Response } from '@angular/http';
+
+// If you need any other lib, import it here. For example:
+// import 'rxjs/add/operator/map';
+""" >> $moduleFile
 
         if [ "$_importCore" = true ]; then
-            printf "\nimport { CoreModule } from 'core/modules/core.module';\n" >> $moduleFile
+            printf """
+import { CoreModule } from 'core/modules/core.module';
+// If you need anything else from the core, import it here. For example:""" >> $moduleFile
+        else
+            printf """
+// If you need anything from the core, import it here. For example:""" >> $moduleFile
+        fi
+
+        printf """
+// import { MyService } from 'core/services/my.service';
+""" >> $moduleFile
+
+        if [ "$_generateRoutes" = true ]; then
+            printf "import { routes } from './${_selector}.routes';\n" >> $moduleFile
         fi
 
         if [ "$_forComponent" = true ]; then
-            root="."
-            subPath=""
-            if [ "$_isCoreModule" = true ]; then
-                root=".."
-                subPath="components/${_selector}/"
-            fi
-            printf "\nimport { ${className}Component } from '${root}/${subPath}${_selector}.component';\n" >> $moduleFile
+            printf "import { ${className}Component } from '${root}/${subPath}${_selector}.component';\n" >> $moduleFile
         fi
 
-        printf "\n" >> $moduleFile
-        printf "\n" >> $moduleFile
+        printf """
+// If you need anything else, import it here. For example:
+// import { MyModule } from 'my-component/my.module';
+// import { MyComponent } from 'my-component/my.component';
 
-        printf "@NgModule({\n" >> $moduleFile
-            printf "\tdeclarations: [\n" >> $moduleFile
+""" >> $moduleFile
+
+        if [ "$_useRouter" = true ] && [ "$_generateRoutes" = false ]; then
+            printf "$routes" >> $moduleFile
+        fi
+
+        printf """
+/**
+ * The \"${_moduleName}\" module.
+ * [Module description].
+ */
+@NgModule({
+    declarations: [""" >> $moduleFile
                 if [ "$_forComponent" = true ]; then
-                    printf "\t\t${className}Component,\n" >> $moduleFile
+                    printf """
+        ${className}Component,
+        // If this module has anything else to declare, add it here.""" >> $moduleFile
+                else
+                    printf """
+        // If this module has anything to declare, add it here. For example:
+        // MyComponent,""" >> $moduleFile
                 fi
-            printf "\t],\n\n" >> $moduleFile
-            printf "\texports: [\n" >> $moduleFile
+            printf """
+    ],
+
+    exports: [""" >> $moduleFile
+                elseString=""
                 if [ "$_importCore" = true ]; then
-                    printf "\t\tCoreModule,\n" >> $moduleFile
+                    elseString=" else"
+                    printf """
+        CoreModule,""" >> $moduleFile
                 fi
                 if [ "$_forComponent" = true ]; then
-                    printf "\t\t${className}Component,\n" >> $moduleFile
+                    elseString=" else"
+                    printf """
+        ${className}Component,""" >> $moduleFile
                 fi
                 if [ "$_useRouter" = true ]; then
-                    printf "\t\tRouterModule,\n" >> $moduleFile
+                    elseString=" else"
+                    printf """
+        RouterModule,""" >> $moduleFile
                 fi
-            printf "\t],\n\n" >> $moduleFile
-            printf "\timports: [\n" >> $moduleFile
+            printf """
+        // If you need to export anything${elseString}, add it here. For example:
+        // MyModule,
+    ],
+
+    imports: [""" >> $moduleFile
+                elseString=""
                 if [ "$_importCore" = true ]; then
-                    printf "\t\tCoreModule,\n" >> $moduleFile
+                    elseString=" else"
+                    printf """
+        CoreModule,""" >> $moduleFile
                 fi
                 if [ "$_useRouter" = true ]; then
-                    printf "\t\tRouterModule.forChild([\n" >> $moduleFile
-                        printf "\t\t\t{\n" >> $moduleFile
-                            if [ "$_forComponent" = true ]; then
-                                printf "\t\t\t\tcomponent: ${className}Component,\n" >> $moduleFile
-                            fi
-                            printf "\t\t\t\tpath: '',\n" >> $moduleFile
-                        printf "\t\t\t},\n" >> $moduleFile
-                    printf "\t\t]),\n" >> $moduleFile
+                    elseString=" else"
+                    printf """
+        RouterModule.forChild(routes),""" >> $moduleFile
                 fi
-            printf "\t],\n\n" >> $moduleFile
-            printf "\tproviders: [\n" >> $moduleFile
-            printf "\t],\n\n" >> $moduleFile
-        printf "})\n" >> $moduleFile
+            printf """
+        // If you need to import anything${elseString}, add it here. For example:
+        // MyModule,
+    ],
 
-        printf "/**\n" >> $moduleFile
-        printf " * The \"${_moduleName}\" module\n" >> $moduleFile
-        printf " */\n" >> $moduleFile
+    providers: [
+        // If this module has any provider, add it here. For example:
+        // MyService,
+    ],
+})
+export class ${className}Module {""" >> $moduleFile
+        if [ "$_useRouter" = true ]; then
+            printf """
+    /**
+     * The routes of the \"${_moduleName}\" module.
+     *
+     * @type {Array[Object]}
+     * @public
+     * @static
+     */
+    public static routes: Routes = routes;
+""" >> $moduleFile
+        fi
 
-        printf "export class ${className}Module {}\n" >> $moduleFile
+        if [ "$_isCoreModule" = true ]; then
+            printf """
+    /**
+     * Export the module for the app's root module.
+     *
+     * @return {ModuleWithProviders} The modules with the providers that can be used for the app's root module.
+     * @public
+     * @static
+     * @todo If you don't need to export any providers to the root module, you can delete this.
+     */
+    public static forRoot(): ModuleWithProviders {
+        return {
+            ngModule: ${className}Module,
+
+            providers: [
+                // Add any providers you need to export to the root module. For example:
+                // MyService,
+            ],
+        };
+    }""" >> $moduleFile
+        fi
+
+        printf """
+}
+""" >> $moduleFile
 
         convertTabToSpace $moduleFile
 
     printf "${BLUE}Done${DEFAULT}\n"
 
+    if [ "$_generateRoutes" = true ]; then
+        printf "Creating TypeScript routes... "
+            printf "import { Routes } from '@angular/router';\n" > $routesFile
+
+            if [ "$_forComponent" = true ]; then
+                printf "import { ${className}Component } from '${root}/${subPath}${_selector}.component';\n" >> $routesFile
+            fi
+
+            printf """
+// If you need any other component, import it here. For example:
+// import { MyComponent } from 'my-component/my.component';
+
+
+${routes}
+    """ >> $routesFile
+
+            convertTabToSpace $routesFile
+        printf "${BLUE}Done${DEFAULT}\n"
+    fi
+
     cd - > /dev/null
 }
 
 function initComponent() {
-    _componentName="$1"
+    _componentName="${1^}"
     _selector="${2,,}"
     _modulePath="${3%/}"
     [[ "$4" == "y" ]] && _isCoreComponent=true || _isCoreComponent=false
@@ -639,100 +831,151 @@ function initComponent() {
             imports="${imports}, OnInit"
             implements="${implements}OnInit"
         fi
-        printf "import { ${imports} } from '@angular/core';\n" > $componentFile
+        printf "import { ${imports} } from '@angular/core';" > $componentFile
         if [ "$_hasActivatedRoute" = true ]; then
-            printf "import { ActivatedRoute } from '@angular/router';\n" >> $componentFile
+            printf "\nimport { ActivatedRoute } from '@angular/router';" >> $componentFile
         fi
+        printf """
+// If you need anything else from Angular, import it here. For example:
+// import { Response } from '@angular/http';
 
-        printf "\n" >> $componentFile
+// If you need any other lib, import it here. For example:
+// import 'rxjs/add/operator/map';
 
-        printf "import { ${className^^}_SELECTOR as SELECTOR } from 'core/settings/selectors.settings';\n" >> $componentFile
-        printf "import { SELECTOR_PREFIX, SELECTOR_SEPARATOR } from 'core/settings/selectors.settings';\n" >> $componentFile
+import { ${className^^}_SELECTOR as SELECTOR } from 'core/settings/selectors.settings';
+import { SELECTOR_PREFIX, SELECTOR_SEPARATOR } from 'core/settings/selectors.settings';
 
-        printf "\n" >> $componentFile
-        printf "\n" >> $componentFile
+// If you need anything else from the core, import it here. For example:
+// import { MyService } from 'core/services/my.service';
 
-        printf "/*\n" >> $componentFile
-        printf " * Component template\n" >> $componentFile
-        printf " */\n" >> $componentFile
-        printf "const template: string = require(\`./\${SELECTOR}.component.html\`);\n" >> $componentFile
+// If you need anything else, import it here. For example:
+// import { MyModule } from 'my-component/my.module';
+// import { MyComponent } from 'my-component/my.component';
 
-        printf "\n" >> $componentFile
-        printf "\n" >> $componentFile
 
-        printf "@Component({\n" >> $componentFile
-            printf "\tselector: SELECTOR_PREFIX + SELECTOR_SEPARATOR + SELECTOR,\n" >> $componentFile
-            printf "\tstyles: [\n" >> $componentFile
-                printf "\t\trequire(\`./\${SELECTOR}.component.scss\`),\n" >> $componentFile
-            printf "\t],\n" >> $componentFile
-            printf "\ttemplate: template,\n" >> $componentFile
-        printf "})\n" >> $componentFile
+/*
+ * Global styles.
+ */
+// import 'core/styles/example.scss';
 
-        printf "/**\n" >> $componentFile
-        printf " * \"${_componentName}\" component\n" >> $componentFile
-        printf " *\n" >> $componentFile
-        printf " * [Component description]\n" >> $componentFile
-        printf " */\n" >> $componentFile
+
+/**
+ * \"${_componentName}\" component.
+ * [Component description].
+ */
+@Component({
+    selector: SELECTOR_PREFIX + SELECTOR_SEPARATOR + SELECTOR,
+    styleUrls: ['./${_selector}.component.scss'],
+    templateUrl: './${_selector}.component.html',
+})
+""" >> $componentFile
 
         if [ -n "$implements" ]; then
             implements="implements ${implements} "
         fi
-        printf "export class ${className}Component ${implements}{\n" >> $componentFile
+        printf "export class ${className}Component ${implements}{" >> $componentFile
+
+        printf """
+    /**
+     * Add any attributes you need here.
+     * First private ones, then protected and finally public.
+     * In each visibility declare statics first, then constants and finally variables.
+     * Remember to use alphabetical order.
+     * Don't forget to add complete JSDocs for each attributes.
+     */
+
+""" >> $componentFile
 
         if [ "$_generateConstructor" = true ]; then
             params=""
-            printf "\t/**\n" >> $componentFile
-            printf "\t * Constructs a new \"${_componentName}\" component.\n" >> $componentFile
+            printf """
+    /**
+     * Constructs a new \"${_componentName}\" component.""" >> $componentFile
             if [ "$_hasActivatedRoute" = true ]; then
                 params="public route: ActivatedRoute"
-                printf "\t *\n" >> $componentFile
-                printf "\t * @param {ActivatedRoute} route The activated route.\n" >> $componentFile
+                printf """
+     *
+     * @param {ActivatedRoute} route The activated route.""" >> $componentFile
             fi
-            printf "\t */\n" >> $componentFile
-            printf "\tconstructor(${params}) {\n" >> $componentFile
-            printf "\t\t// TODO: write \"${_componentName}\" component constructor\n" >> $componentFile
-            printf "\t}\n\n" >> $componentFile
+            printf """
+
+     * @todo You can add any parameter you need for this constructor.
+     * @todo You can even declare components attributes directly from the constructor by adding visibility before the
+     *       parameter name.
+     * @todo Write \"${_componentName}\" component constructor.
+     */
+    constructor(${params}) {
+        // TODO: write constructor's code here.
+    }
+""" >> $componentFile
         fi
 
-        if [ "$_generateOnChange" = true ]; then
-            if [ "$_generateConstructor" = true ]; then
-                printf "\n" >> $componentFile
-            fi
+        printf """
+    /**
+     * Add any method you will need.""" >> $componentFile
+        if [ "$_generateOnChange" = true ] || [ "$_generateOnDestroy" = true ] || [ "$_generateOnInit" = true ]; then
+            printf """
+     * First private ones, then protected.""" >> $componentFile
+        else
+            printf """
+     * First private ones, then protected and finally public.""" >> $componentFile
+        fi
+        printf """
+     * In each visibility declare statics first.
+     * Remember to use alphabetical order.
+     * Don't forget to add complete JSDocs for each method.
+     */
+""" >> $componentFile
 
-            printf "\t/**\n" >> $componentFile
-            printf "\t * Called when any InputProperty of the component has changed.\n" >> $componentFile
-            printf "\t *\n" >> $componentFile
-            printf "\t * @param {Object} changes The changes that occured.\n" >> $componentFile
-            printf "\t */\n" >> $componentFile
-            printf "\tngOnChange(changes: { [propertyName: string]: SimpleChange }): void {\n" >> $componentFile
-            printf "\t\t// TODO: write \"${_componentName}\" component 'ngOnChange' lifecycle hook\n" >> $componentFile
-            printf "\t}\n" >> $componentFile
+        if [ "$_generateOnChange" = true ]; then
+            printf """
+    /**
+     * Called when any InputProperty of the component has changed.
+     *
+     * @param {Object} changes The changes that occured.
+     * @todo Write \"${_componentName}\" component 'ngOnChange' lifecycle hook.
+     */
+    public ngOnChange(changes: { [propertyName: string]: SimpleChange }): void {
+        // TODO: write ngOnChange's code here.
+    }
+""" >> $componentFile
         fi
 
         if [ "$_generateOnDestroy" = true ]; then
-            if [ "$_generateConstructor" = true ] || [ "$_generateOnChange" = true ]; then
-                printf "\n" >> $componentFile
-            fi
-
-            printf "\t/**\n" >> $componentFile
-            printf "\t * Called when the component is destroyed.\n" >> $componentFile
-            printf "\t */\n" >> $componentFile
-            printf "\tngOnDestroy(): void {\n" >> $componentFile
-            printf "\t\t// TODO: write \"${_componentName}\" component 'ngOnDestroy' lifecycle hook\n" >> $componentFile
-            printf "\t}\n" >> $componentFile
+            printf """
+    /**
+     * Called when the component is destroyed.
+     *
+     * @todo Write \"${_componentName}\" component 'ngOnDestroy' lifecycle hook.
+     */
+    public ngOnDestroy(): void {
+        // TODO: write ngOnDestroy's code here.
+    }
+""" >> $componentFile
         fi
 
         if [ "$_generateOnInit" = true ]; then
-            if [ "$_generateConstructor" = true ] || [ "$_generateOnChange" = true ] || [ "$_generateOnDestroy" = true ]; then
-                printf "\n" >> $componentFile
-            fi
+            printf """
+    /**
+     * Called when the component is initialized.
+     *
+     * @todo Write \"${_componentName}\" component 'ngOnInit' lifecycle hook.
+     */
+    public ngOnInit(): void {
+    \t// TODO: write ngOnInit's code here.
+    }
+""" >> $componentFile
+        fi
 
-            printf "\t/**\n" >> $componentFile
-            printf "\t * Called when the component is initialized.\n" >> $componentFile
-            printf "\t */\n" >> $componentFile
-            printf "\tngOnInit(): void {\n" >> $componentFile
-            printf "\t\t// TODO: write \"${_componentName}\" component 'ngOnInit' lifecycle hook\n" >> $componentFile
-            printf "\t}\n" >> $componentFile
+        if [ "$_generateOnChange" = true ] || [ "$_generateOnDestroy" = true ] || [ "$_generateOnInit" = true ]; then
+            printf """
+    /**
+     * Add any public method you will need.
+     * Declare statics first.
+     * Remember to use alphabetical order.
+     * Don't forget to add complete JSDocs for each method.
+     */
+""" >> $componentFile
         fi
 
         printf "}\n" >> $componentFile
@@ -740,141 +983,175 @@ function initComponent() {
         convertTabToSpace $componentFile
     printf "${BLUE}Done${DEFAULT}\n"
 
-    printf "Creating Unit tests component... "
-        printf "/* tslint:disable:no-unused-expression */\n" > $componentSpecFile
-        printf "\n" >> $componentSpecFile
-        printf "import { ComponentFixture, ComponentFixtureAutoDetect, TestBed } from '@angular/core/testing';\n" >> $componentSpecFile
-        printf "// You can also import for exemple: async', 'fakeAsync', 'tick', ...\n" >> $componentSpecFile
-        printf "import { expect } from 'core/testing/chai-unit.module';\n" >> $componentSpecFile
-        printf "// If you need anything from Sinon, import it here. For example:\n" >> $componentSpecFile
-        printf "// import { SinonSandbox, sandbox } from 'sinon';\n" >> $componentSpecFile
-        printf "\n" >> $componentSpecFile
+    printf "Creating component's unit tests... "
+        printf """/* tslint:disable:no-unused-expression */
 
-        printf "// If you need to import any service or other, import it here.\n" >> $componentSpecFile
-        printf "\n" >> $componentSpecFile
+// You can also import for exemple: async', 'fakeAsync', 'tick', ...
+import { ComponentFixture, ComponentFixtureAutoDetect, TestBed } from '@angular/core/testing';
+import { expect } from 'core/testing/chai-unit.utils';
+// If you need anything from Sinon, import it here. For example:
+// import { SinonSandbox, sandbox } from 'sinon';
 
-        printf "// If you need another specific module (core module, ...), import it here.\n" >> $componentSpecFile
-        printf "\n" >> $componentSpecFile
+// If you need to import any service or other, import it here.
 
-        printf "import { ${className}Component } from './${_selector}.component';\n" >> $componentSpecFile
+// If you need another specific module (core module, ...), import it here.
+
+import { ${className}Component } from './${_selector}.component';""" > $componentSpecFile
         if [ "$_hasGeneratedModule" = true ]; then
-            printf "import { ${className}Module } from './${_selector}.module';\n" >> $componentSpecFile
+            printf "\nimport { ${className}Module } from './${_selector}.module';" >> $componentSpecFile
         fi
 
-        printf "\n" >> $componentSpecFile
+        printf """
 
-        printf "// If you need anything else, import it here.\n" >> $componentSpecFile
-        printf "\n\n" >> $componentSpecFile
+// If you need anything else, import it here.
 
-        printf "describe('${_componentName}', () => {\n" >> $componentSpecFile
-            printf "\t// If you want to have Sinon's spies, stubs, mocks or fake servers, use a sandbox.\n" >> $componentSpecFile
-            printf "\t// let sandboxEnv: SinonSandbox;\n" >> $componentSpecFile
-            printf "\n" >> $componentSpecFile
+describe('${_componentName}', () => {
+    // If you want to have Sinon's spies, stubs, mocks or fake servers, use a sandbox.
+    // let sandboxEnv: SinonSandbox;
 
-            printf "\t// If you want to get any service.\n" >> $componentSpecFile
-            printf "\t// let myService: MyService;\n" >> $componentSpecFile
-            printf "\n" >> $componentSpecFile
+    // If you want to get any service.
+    // let myService: MyService;
 
-            printf "\tlet component: ${className}Component;\n" >> $componentSpecFile
-            printf "\tlet fixture: ComponentFixture<${className}Component>;\n" >> $componentSpecFile
-            printf "\n\n" >> $componentSpecFile
+    let component: ${className}Component;
+    let fixture: ComponentFixture<${className}Component>;
 
-            printf "\t// If you want to setup a fake server.\n" >> $componentSpecFile
-                printf "\t// function setupFakeBackend(): void {\n" >> $componentSpecFile
-                printf "\t//\t sandboxEnv.useFakeServer();\n" >> $componentSpecFile
-                printf "\t//\t sandboxEnv.server.respondWith(...);\n" >> $componentSpecFile
-                printf "\t//\t sandboxEnv.server.autoRespond = true;\n" >> $componentSpecFile
-                printf "\t//\t sandboxEnv.server.respondImmediately = true;\n" >> $componentSpecFile
-            printf "\t// }\n\n" >> $componentSpecFile
 
-            printf "\tbeforeEach(() => {\n" >> $componentSpecFile
-                printf "\t\t// Setup the sandbox environment and the fake backend.\n" >> $componentSpecFile
-                printf "\t\t// sandboxEnv = sandbox.create();\n" >> $componentSpecFile
-                printf "\t\t// setupFakeBackend();\n\n" >> $componentSpecFile
+    // If you want to setup a fake server.
+    /*
+    function setupFakeBackend(): void {
+        sandboxEnv.useFakeServer();
+        sandboxEnv.server.respondWith(...);
+        sandboxEnv.server.autoRespond = true;
+        sandboxEnv.server.respondImmediately = true;
+    }
+    */
 
-                printf "\t\tTestBed.configureTestingModule({\n" >> $componentSpecFile
-                    if [ "$_hasGeneratedModule" = true ]; then
-                        printf "\t\t\tdeclarations: [\n" >> $componentSpecFile
-                        printf "\t\t\t],\n\n" >> $componentSpecFile
-                    else
-                        printf "\t\t\tdeclarations: [\n" >> $componentSpecFile
-                            printf "\t\t\t\t${className}Component,\n" >> $componentSpecFile
-                        printf "\t\t\t],\n\n" >> $componentSpecFile
-                    fi
 
-                    printf "\t\t\timports: [\n" >> $componentSpecFile
-                        if [ "$_hasGeneratedModule" = true ]; then
-                            printf "\t\t\t\t${className}Module,\n" >> $componentSpecFile
-                        else
-                            printf "\t\t\t\t// Add any module you want to import here.\n" >> $componentSpecFile
-                        fi
-                    printf "\t\t\t],\n\n" >> $componentSpecFile
+    beforeEach(() => {
+        // Setup the sandbox environment and the fake backend if you need.
+        // sandboxEnv = sandbox.create();
+        // setupFakeBackend();
 
-                    printf "\t\t\tproviders: [\n" >> $componentSpecFile
-                        printf "\t\t\t\t{ provide: ComponentFixtureAutoDetect, useValue: true },\n" >> $componentSpecFile
-                        printf "\t\t\t\t// If you have any other provider to declare, add it here.\n" >> $componentSpecFile
-                        printf "\t\t\t\t// You can also declare services doubles (stub, mockup, ...) here:\n" >> $componentSpecFile
-                        printf "\t\t\t\t// { provide: MyService, useValue: myServiceStub },\n" >> $componentSpecFile
-                    printf "\t\t\t],\n" >> $componentSpecFile
-                printf "\t\t});\n" >> $componentSpecFile
-                printf "\n" >> $componentSpecFile
+        TestBed.configureTestingModule({""" >> $componentSpecFile
+        if [ "$_hasGeneratedModule" = true ]; then
+            printf """
+            declarations: [
+                // If you want to test a component, add it here. For example:
+                // MyComponent,
+            ],
+""" >> $componentSpecFile
+        else
+            printf """
+            declarations: [
+                ${className}Component,
+                // If your module have anything else to declare, add it here.
+            ],
+""" >> $componentSpecFile
+        fi
 
-                printf "\t\tfixture = TestBed.createComponent(${className}Component);\n" >> $componentSpecFile
-                printf "\t\tcomponent = fixture.componentInstance;\n" >> $componentSpecFile
-                printf "\n" >> $componentSpecFile
+            printf """
+            imports: [""" >> $componentSpecFile
 
-                printf "\t\t// If you want to use any service, remember to get it from either:\n" >> $componentSpecFile
-                printf "\t\t//     The root injector:\n" >> $componentSpecFile
-                printf "\t\t// myService = TestBed.get(MyService);\n" >> $componentSpecFile
-                printf "\t\t//     The component injector:\n" >> $componentSpecFile
-                printf "\t\t// myService = fixture.debugElement.injector.get(MyService);\n" >> $componentSpecFile
-                printf "\n" >> $componentSpecFile
+            if [ "$_hasGeneratedModule" = true ]; then
+                printf """
+                ${className}Module,""" >> $componentSpecFile
+            else
+                printf """
+                // If you need to import anything for your tests, add it here. For example:
+                // MyModule,""" >> $componentSpecFile
+            fi
 
-                printf "\t\t// You can also declare spies here:\n" >> $componentSpecFile
-                printf "\t\t// sandboxEnv.spy(myService, 'myMethod');\n\n" >> $componentSpecFile
+            printf """
+            ],
 
-                printf "\t\t// This is not required here as 'ComponentFixtureAutoDetect' is enabled.\n" >> $componentSpecFile
-                printf "\t\t// However, it's always good to be explicit.\n" >> $componentSpecFile
-                printf "\t\t// Also, remember to call 'fixture.detectChanges();' anytime you want to update the component state.\n" >> $componentSpecFile
-                printf "\t\tfixture.detectChanges();\n" >> $componentSpecFile
-                printf "\n" >> $componentSpecFile
-            printf "\t});\n" >> $componentSpecFile
-            printf "\n" >> $componentSpecFile
+            providers: [
+                { provide: ComponentFixtureAutoDetect, useValue: true },
+                // If you need any other provider for your tests, add it here. For example:
+                // MyService,
+                // You can also declare services doubles (stub, mockup, ...) here:
+                // { provide: MyService, useValue: myServiceStub },
+                // You can even add component so that they can be injected in your test functions.
+            ],
+        });
 
-            printf "\t// For more info on how to test in Angular2, see https://angular.io/docs/ts/latest/guide/testing.html.\n" >> $componentSpecFile
-            printf "\tit('should have a test written here', () => {\n" >> $componentSpecFile
-                printf "\t\t// If you have defined spies, you can check them:;\n" >> $componentSpecFile
-                printf "\t\t// expect(myService.myMethod).to.not.have.been.called;\n\n" >> $componentSpecFile
 
-                printf "\t\t// You can simulate the passage of time.\n" >> $componentSpecFile
-                printf "\t\t// tick();\n\n" >> $componentSpecFile
+        fixture = TestBed.createComponent(${className}Component);
+        component = fixture.componentInstance;
 
-                printf "\t\t// If you have defined spies, you can check them again:;\n" >> $componentSpecFile
-                printf "\t\t// expect(myService.myMethod).to.have.been.calledOnce;\n" >> $componentSpecFile
-                printf "\n" >> $componentSpecFile
+        // If you want to use any service, remember to get it from either the root injector:
+        // myService = TestBed.get(MyService);
+        // Or the component injector:
+        // myService = fixture.debugElement.injector.get(MyService);
 
-                printf "\t\texpect(component).to.exist;\n" >> $componentSpecFile
-                printf "\t\texpect(false).to.be.true;\n" >> $componentSpecFile
-            printf "\t});\n\n\n" >> $componentSpecFile
+        // You can also declare spies here:
+        // sandboxEnv.spy(myService, 'myMethod');
 
-            printf "\tafterEach(() => {\n" >> $componentSpecFile
-                printf "\t\t// Remove all spies, stubs, mocks and fake servers.\n" >> $componentSpecFile
-                printf "\t\t// sandboxEnv.restore();\n" >> $componentSpecFile
-            printf "\t});\n" >> $componentSpecFile
-        printf "});\n" >> $componentSpecFile
+        // This is not required here as 'ComponentFixtureAutoDetect' is enabled.
+        // However, it's always good to be explicit.
+        // Also, remember to call 'fixture.detectChanges();' anytime you want to update the component state.
+        fixture.detectChanges();
+    });
+
+    // For more info on how to test in Angular2, see https://angular.io/docs/ts/latest/guide/testing.html.
+    it('should have a test written here', () => {
+        // If you have defined spies, you can check them:;
+        // expect(myService.myMethod).to.not.have.been.called;
+
+        // You can simulate the passage of time:
+        // tick();
+
+        // If you have defined spies, you can check them again:;
+        // expect(myService.myMethod).to.have.been.calledOnce;
+
+        expect(component).to.exist;
+    });
+
+
+    afterEach(() => {
+        // Remove all spies, stubs, mocks and fake servers.
+        // sandboxEnv.restore();
+    });
+});
+""" >> $componentSpecFile
 
         convertTabToSpace $componentSpecFile
     printf "${BLUE}Done${DEFAULT}\n"
 
     printf "Creating component's template... "
-        printf "<h1>Template of \"${_componentName}\"</h1>\n" > $componentTemplateFile
+        printf """<h1 class=\"title\">
+    Template of \"${_componentName}\" component.
+</h1>
+""" > $componentTemplateFile
+
         convertTabToSpace $componentSpecFile
     printf "${BLUE}Done${DEFAULT}\n"
 
+    printf "Creating component's styles... "
+        printf """.title {
+    font-size: 40px;
+}
+""" > $componentStyleFile
+
+        convertTabToSpace $componentStyleFile
+    printf "${BLUE}Done${DEFAULT}\n"
+
     cd - > /dev/null
-    if [ -w $SELECTORS_FILE ]; then
+
+    selectorDefinition="export const ${className^^}_SELECTOR: string = '${_selector}';"
+    isAlreadyInSelector=$(cat $SELECTORS_FILE | grep "${selectorDefinition}" | wc -l)
+    if [ -w $SELECTORS_FILE ] && [ $isAlreadyInSelector -eq 0 ]; then
         printf "Adding selector... "
-            printf "export const ${className^^}_SELECTOR: string = '${_selector}';\n" >> $SELECTORS_FILE
+            printf """
+/**
+ * The selector name of the \"${_componentName}\" component.
+ *
+ * @type {string}
+ * @readonly
+ * @constant
+ * @default
+ */
+${selectorDefinition}
+""" >> $SELECTORS_FILE
             exitIfError "Adding selector to the selectors file"
         printf "${BLUE}Done${DEFAULT}\n"
     fi
@@ -882,13 +1159,13 @@ function initComponent() {
 
 case "${scaffoldType}" in
     "module")
-        initModule "$name" "$selector" "$modulePath" "$core" "$router" "$importCore"
+        initModule "$name" "$selector" "$modulePath" "$core" "$router" "$routes" "$importCore"
         exitIfError "Scaffolding the module"
         ;;
 
     "component")
         if [ "$createModule" == "y" ]; then
-            initModule "$name" "$selector" "$modulePath" "$core" "$router" "$importCore" "y"
+            initModule "$name" "$selector" "$modulePath" "$core" "$router" "$routes" "$importCore" "y"
             exitIfError "Scaffolding the component's module"
         fi
         initComponent "$name" "$selector" "$modulePath" "$core" "$onInit" "$onDestroy" "$onChange" "$activatedRoute" "$constructor" "$createModule"

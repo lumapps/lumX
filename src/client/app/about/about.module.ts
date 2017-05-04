@@ -9,7 +9,7 @@ import { AboutComponent } from './about.component';
 
 
 /**
- * The About module.
+ * The "About" module.
  */
 @NgModule({
     declarations: [

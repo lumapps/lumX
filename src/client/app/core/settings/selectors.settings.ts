@@ -18,8 +18,9 @@ export const SELECTOR_PREFIX: string = 'lb';
  */
 export const SELECTOR_SEPARATOR: string = '-';
 
+
 /**
- * The selector name of the NotFound component.
+ * The selector name of the "NotFound" component.
  *
  * @type {string}
  * @readonly
@@ -28,8 +29,9 @@ export const SELECTOR_SEPARATOR: string = '-';
  */
 export const NOT_FOUND_SELECTOR: string = 'not-found';
 
+
 /**
- * The selector name of the main App component.
+ * The selector name of the main "App" component.
  *
  * @type {string}
  * @readonly
@@ -39,7 +41,7 @@ export const NOT_FOUND_SELECTOR: string = 'not-found';
 export const APP_SELECTOR: string = 'app';
 
 /**
- * The selector name of the Home component.
+ * The selector name of the "Home" component.
  *
  * @type {string}
  * @readonly
@@ -49,7 +51,7 @@ export const APP_SELECTOR: string = 'app';
 export const HOME_SELECTOR: string = 'home';
 
 /**
- * The selector name of the ToDo component.
+ * The selector name of the "ToDo" component.
  *
  * @type {string}
  * @readonly
@@ -59,7 +61,7 @@ export const HOME_SELECTOR: string = 'home';
 export const TO_DO_SELECTOR: string = 'to-do';
 
 /**
- * The selector name of the ToDoList component.
+ * The selector name of the "ToDoList" component.
  *
  * @type {string}
  * @readonly
@@ -69,7 +71,7 @@ export const TO_DO_SELECTOR: string = 'to-do';
 export const TO_DO_LIST_SELECTOR: string = 'to-do-list';
 
 /**
- * The selector name of the NewToDo component.
+ * The selector name of the "NewToDo" component.
  *
  * @type {string}
  * @readonly
@@ -79,7 +81,7 @@ export const TO_DO_LIST_SELECTOR: string = 'to-do-list';
 export const NEW_TO_DO_SELECTOR: string = 'new-to-do';
 
 /**
- * The selector name of the About component.
+ * The selector name of the "About" component.
  *
  * @type {string}
  * @readonly
@@ -87,3 +89,13 @@ export const NEW_TO_DO_SELECTOR: string = 'new-to-do';
  * @default
  */
 export const ABOUT_SELECTOR: string = 'about';
+
+/**
+ * The selector name of the "Toto" component.
+ *
+ * @type {string}
+ * @readonly
+ * @constant
+ * @default
+ */
+export const TOTO_SELECTOR: string = 'toto';

@@ -15,4 +15,4 @@
 # TECHNOLOGY COLOPHON
 
     HTML5, CSS3, SASS
-    Angular2, TypeScript, Webpack
+    Angular, TypeScript, JavaScript, Webpack, NPM

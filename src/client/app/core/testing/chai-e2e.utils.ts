@@ -3,7 +3,7 @@
 ///<reference path="./chai-smoothie-typings.d.ts" />
 /* tslint:enable:no-reference */
 
-export { assert, expect, should } from './chai-common.module';
+export { assert, expect, should } from './chai-common.utils';
 
 import * as chai from 'chai';
 

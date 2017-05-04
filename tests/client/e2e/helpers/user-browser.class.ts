@@ -117,12 +117,16 @@ export class UserBrowser {
     public clickOn(element: ElementFinder, isWebElement: boolean = false, timeout: number = 1000): void {
         isWebElement = (UtilsService.isDefined(isWebElement)) ? isWebElement : false;
 
-        this.driver.wait(() => {
-            /* tslint:disable:strict-boolean-expressions */
-            return element.isPresent().then(this.evaluateBoolean) && element.isDisplayed().then(this.evaluateBoolean) &&
-                ExpectedConditions.elementToBeClickable(element);
-            /* tslint:enable:strict-boolean-expressions */
-        }, timeout);
+        this.driver.wait(
+            () => {
+                /* tslint:disable:strict-boolean-expressions */
+                return element.isPresent().then(this.evaluateBoolean) &&
+                    element.isDisplayed().then(this.evaluateBoolean) &&
+                    ExpectedConditions.elementToBeClickable(element);
+                /* tslint:enable:strict-boolean-expressions */
+            },
+            timeout,
+        );
         this.browser.sleep(timeout / 10);
 
         this.browser.executeScript('arguments[0].click();', (isWebElement) ? element : element.getWebElement())
@@ -197,12 +201,16 @@ export class UserBrowser {
                           isWebElement: boolean = false, timeout: number = 1000): void {
         isWebElement = (UtilsService.isDefined(isWebElement)) ? isWebElement : false;
 
-        this.driver.wait(() => {
-            /* tslint:disable:strict-boolean-expressions */
-            return element.isPresent().then(this.evaluateBoolean) && element.isDisplayed().then(this.evaluateBoolean) &&
-                ExpectedConditions.elementToBeClickable(element);
-            /* tslint:enable:strict-boolean-expressions */
-        }, timeout);
+        this.driver.wait(
+            () => {
+                /* tslint:disable:strict-boolean-expressions */
+                return element.isPresent().then(this.evaluateBoolean) &&
+                    element.isDisplayed().then(this.evaluateBoolean) &&
+                    ExpectedConditions.elementToBeClickable(element);
+                /* tslint:enable:strict-boolean-expressions */
+            },
+            timeout,
+        );
         this.browser.sleep(timeout / 10);
 
         this.browser.executeScript('arguments[0].scrollIntoView();', isWebElement ? element : element.getWebElement())

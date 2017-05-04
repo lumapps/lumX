@@ -1,3 +1,5 @@
+/* tslint:disable */
+
 // Type definitions for chai-smoothie 0.2
 // Project: https://github.com/jan-molak/chai-smoothie
 // Definitions by: Clément Prévot <https://github.com/clementprevot/>

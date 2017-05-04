@@ -3,7 +3,7 @@
 import * as _ from 'lodash';
 
 import { TestBed } from '@angular/core/testing';
-import { expect } from 'core/testing/chai-unit.module';
+import { expect } from 'core/testing/chai-unit.utils';
 import { SinonFakeXMLHttpRequest, SinonSandbox, sandbox } from 'sinon';
 
 import { Http, RequestOptions, Response } from '@angular/http';
@@ -155,11 +155,14 @@ describe('HTTP Interceptor Service', () => {
                     failedToken++;
                 }
 
-                request.respond(status, {
-                    'Content-Type': 'application/json',
-                }, JSON.stringify({
-                    token,
-                }));
+                request.respond(
+                    status, {
+                        'Content-Type': 'application/json',
+                    },
+                    JSON.stringify({
+                        token,
+                    }),
+                  );
             } else if (request.url === String(parseInt(request.url, 10))) {
                 request.respond(parseInt(request.url, 10), {}, undefined);
             }

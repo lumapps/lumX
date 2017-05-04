@@ -41,11 +41,11 @@ function usage {
     printf """${BOLD}${GREEN}Jenkins Continuous Integration (CI)${DEFAULT}
 
 ${UNDERLINE}${MAGENTA}${BOLD}Usage${DEFAULT}:
-./jenkins.sh -- [--debug] [--help] [--verbose] [--fast-setup|--skip-setup] [--lint-config] [--lint-source] [--units-tests] [--e2e-tests] [--fail <setup|lint:config|lint:src|tests:units|tests:e2e>] [--quit-on-fail]
+./jenkins.sh -- [--debug] [-h|--help] [--verbose] [--fast-setup|--skip-setup] [--lint-config] [--lint-source] [--units-tests] [--e2e-tests] [--fail <setup|lint:config|lint:src|tests:units|tests:e2e>] [--quit-on-fail]
 
 ${UNDERLINE}${BLUE}Options${DEFAULT}:
 \t${CYAN}--debug${DEFAULT}\t\t\t\t\t\t\t\tDebug this CI script
-\t${CYAN}--help${DEFAULT}\t\t\t\t\t\t\t\tPrint this help message.
+\t${CYAN}-h, --help${DEFAULT}\t\t\t\t\t\t\tPrint this help message.
 \t${CYAN}--fast-setup${DEFAULT}\t\t\t\t\t\t\tRun a fast setup (don't cleanup already installed packages and cache clean) instead of a regular one. This can't be used with \"--skip-setup\".
 \t${CYAN}--skip-setup${DEFAULT}\t\t\t\t\t\t\tSkip the NPM setup (package installation, cleanup, ...). This will take precedence over \"--fast-setup\".
 \t${CYAN}--lint-config${DEFAULT}\t\t\t\t\t\t\tLint the configuration files.
@@ -126,7 +126,7 @@ while [[ $# -ge 1 ]]; do
             set -x
             ;;
 
-        --help)
+        -h|--help)
             usage
             exitWithCode 0 true
             ;;
