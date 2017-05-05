@@ -22,7 +22,7 @@
     </lx-component>
 
     <lx-component-methods lx-title="Service api">
-        <lx-component-method lx-name="LxNotificationService.notify(text, icon, sticky, color, action, callback)" lx-description="Display a styled notification according to parameters.">
+        <lx-component-method lx-name="LxNotificationService.notify(text, icon, sticky, color, action, callback, delay)" lx-description="Display a styled notification according to parameters.">
             <table>
                 <thead>
                     <tr>
@@ -69,6 +69,12 @@
                         <td><code>function</code></td>
                         <td></td>
                         <td>The notification action callback.</td>
+                    </tr>
+                    <tr>
+                        <td>delay</td>
+                        <td><code>number</code></td>
+                        <td></td>
+                        <td>The delay after which the notification will be hidden (in ms). Defaults to 6000.</td>
                     </tr>
                 </tbody>
             </table>
