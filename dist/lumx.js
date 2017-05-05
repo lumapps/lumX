@@ -1,5 +1,5 @@
 /*
- LumX v1.5.5
+ LumX v1.5.6
  (c) 2014-2017 LumApps http://ui.lumapps.com
  License: MIT
 */
@@ -2685,9 +2685,9 @@
         .module('lumx.notification')
         .service('LxNotificationService', LxNotificationService);
 
-    LxNotificationService.$inject = ['$injector', '$interval', '$rootScope', '$timeout', 'LxDepthService', 'LxEventSchedulerService'];
+    LxNotificationService.$inject = ['$injector', '$rootScope', '$timeout', 'LxDepthService', 'LxEventSchedulerService'];
 
-    function LxNotificationService($injector, $interval, $rootScope, $timeout, LxDepthService, LxEventSchedulerService)
+    function LxNotificationService($injector, $rootScope, $timeout, LxDepthService, LxEventSchedulerService)
     {
         var service = this;
         var dialogFilter;
@@ -2764,7 +2764,7 @@
             }
         }
 
-        function notify(_text, _icon, _sticky, _color, _action, _callback)
+        function notify(_text, _icon, _sticky, _color, _action, _callback, _delay)
         {
             var $compile = $injector.get('$compile');
 
@@ -2780,6 +2780,7 @@
                 html: _text
             });
             var notificationTimeout;
+            var notificationDelay = _delay || 6000;
 
             if (angular.isDefined(_icon))
             {
@@ -2858,10 +2859,10 @@
 
             if (angular.isUndefined(_sticky) || !_sticky)
             {
-                notificationTimeout = $interval(function()
+                notificationTimeout = $timeout(function()
                 {
                     deleteNotification(data);
-                }, 6000, 1);
+                }, notificationDelay);
             }
         }
 
@@ -3452,6 +3453,7 @@
                 closed: '=?lxClosed',
                 color: '@?lxColor',
                 icon: '@?lxIcon',
+                onSelect: '=?lxOnSelect',
                 searchOnFocus: '=?lxSearchOnFocus',
                 theme: '@?lxTheme',
                 width: '@?lxWidth'
@@ -3657,12 +3659,7 @@
                 return;
             }
 
-            itemSelected = true;
-
-            LxDropdownService.close(lxSearchFilter.dropdownId);
-
-            lxSearchFilter.modelController.$setViewValue(lxSearchFilter.autocompleteList[lxSearchFilter.activeChoiceIndex]);
-            lxSearchFilter.modelController.$render();
+            selectItem(lxSearchFilter.autocompleteList[lxSearchFilter.activeChoiceIndex]);
         }
 
         function keyUp()
@@ -3727,8 +3724,15 @@
         {
             itemSelected = true;
 
+            LxDropdownService.close(lxSearchFilter.dropdownId);
+
             lxSearchFilter.modelController.$setViewValue(_item);
             lxSearchFilter.modelController.$render();
+
+            if (angular.isFunction(lxSearchFilter.onSelect))
+            {
+                lxSearchFilter.onSelect(_item);
+            }
         }
 
         function setInput(_input)
@@ -5961,7 +5965,7 @@ angular.module("lumx.text-field").run(['$templateCache', function(a) { a.put('te
 angular.module("lumx.search-filter").run(['$templateCache', function(a) { a.put('search-filter.html', '<div class="search-filter" ng-class="lxSearchFilter.getClass()">\n' +
     '    <div class="search-filter__container">\n' +
     '        <div class="search-filter__button">\n' +
-    '            <lx-button lx-size="l" lx-color="{{ lxSearchFilter.color }}" lx-type="icon" ng-click="lxSearchFilter.openInput()">\n' +
+    '            <lx-button type="submit" lx-size="l" lx-color="{{ lxSearchFilter.color }}" lx-type="icon" ng-click="lxSearchFilter.openInput()">\n' +
     '                <i class="mdi mdi-magnify"></i>\n' +
     '            </lx-button>\n' +
     '        </div>\n' +
@@ -5969,7 +5973,7 @@ angular.module("lumx.search-filter").run(['$templateCache', function(a) { a.put(
     '        <div class="search-filter__input" ng-transclude></div>\n' +
     '\n' +
     '        <div class="search-filter__clear">\n' +
-    '            <lx-button lx-size="l" lx-color="{{ lxSearchFilter.color }}" lx-type="icon" ng-click="lxSearchFilter.clearInput()">\n' +
+    '            <lx-button type="button" lx-size="l" lx-color="{{ lxSearchFilter.color }}" lx-type="icon" ng-click="lxSearchFilter.clearInput()">\n' +
     '                <i class="mdi mdi-close"></i>\n' +
     '            </lx-button>\n' +
     '        </div>\n' +
