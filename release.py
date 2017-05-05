@@ -16,7 +16,7 @@ def checkExistingTag(version):
 
 def updateHomepage(version):
     file_str = None
-    with open('demo/includes/home/home.html') as f:
+    with open('build/includes/home/home.html') as f:
         file_str = f.read()
 
     file_str = re.sub(r'href="[^"]*"',
