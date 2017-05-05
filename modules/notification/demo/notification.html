@@ -80,12 +80,13 @@
             </table>
         </lx-component-method>
 
-        <lx-component-method lx-name="LxNotificationService.info(text)" lx-description="A helper method that displays a notification with a blue information icon.">
+        <lx-component-method lx-name="LxNotificationService.info(text, sticky)" lx-description="A helper method that displays a notification with a blue information icon.">
             <table>
                 <thead>
                     <tr>
                         <th>Parameter</th>
                         <th>Type</th>
+                        <th>Default</th>
                         <th>Description</th>
                     </tr>
                 </thead>
@@ -94,18 +95,26 @@
                     <tr>
                         <td>text*</td>
                         <td><code>string</code></td>
+                        <td></td>
                         <td>The notification text.</td>
+                    </tr>
+                    <tr>
+                        <td>sticky</td>
+                        <td><code>boolean</code></td>
+                        <td>false</td>
+                        <td>Specify if the notification is sticky.</td>
                     </tr>
                 </tbody>
             </table>
         </lx-component-method>
 
-        <lx-component-method lx-name="LxNotificationService.success(text)" lx-description="A helper method that displays a notification with a green check icon.">
+        <lx-component-method lx-name="LxNotificationService.success(text, sticky)" lx-description="A helper method that displays a notification with a green check icon.">
             <table>
                 <thead>
                     <tr>
                         <th>Parameter</th>
                         <th>Type</th>
+                        <th>Default</th>
                         <th>Description</th>
                     </tr>
                 </thead>
@@ -114,18 +123,26 @@
                     <tr>
                         <td>text*</td>
                         <td><code>string</code></td>
+                        <td></td>
                         <td>The notification text.</td>
+                    </tr>
+                    <tr>
+                        <td>sticky</td>
+                        <td><code>boolean</code></td>
+                        <td>false</td>
+                        <td>Specify if the notification is sticky.</td>
                     </tr>
                 </tbody>
             </table>
         </lx-component-method>
 
-        <lx-component-method lx-name="LxNotificationService.warning(text)" lx-description="A helper method that displays a notification with an orange warning icon.">
+        <lx-component-method lx-name="LxNotificationService.warning(text, sticky)" lx-description="A helper method that displays a notification with an orange warning icon.">
             <table>
                 <thead>
                     <tr>
                         <th>Parameter</th>
                         <th>Type</th>
+                        <th>Default</th>
                         <th>Description</th>
                     </tr>
                 </thead>
@@ -134,18 +151,26 @@
                     <tr>
                         <td>text*</td>
                         <td><code>string</code></td>
+                        <td></td>
                         <td>The notification text.</td>
+                    </tr>
+                    <tr>
+                        <td>sticky</td>
+                        <td><code>boolean</code></td>
+                        <td>false</td>
+                        <td>Specify if the notification is sticky.</td>
                     </tr>
                 </tbody>
             </table>
         </lx-component-method>
 
-        <lx-component-method lx-name="LxNotificationService.error(text)" lx-description="A helper method that displays a notification with a red error icon.">
+        <lx-component-method lx-name="LxNotificationService.error(text, sticky)" lx-description="A helper method that displays a notification with a red error icon.">
             <table>
                 <thead>
                     <tr>
                         <th>Parameter</th>
                         <th>Type</th>
+                        <th>Default</th>
                         <th>Description</th>
                     </tr>
                 </thead>
@@ -154,7 +179,14 @@
                     <tr>
                         <td>text*</td>
                         <td><code>string</code></td>
+                        <td></td>
                         <td>The notification text.</td>
+                    </tr>
+                    <tr>
+                        <td>sticky</td>
+                        <td><code>boolean</code></td>
+                        <td>false</td>
+                        <td>Specify if the notification is sticky.</td>
                     </tr>
                 </tbody>
             </table>
