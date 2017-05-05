@@ -42,6 +42,7 @@
                 closed: '=?lxClosed',
                 color: '@?lxColor',
                 icon: '@?lxIcon',
+                onSelect: '=?lxOnSelect',
                 searchOnFocus: '=?lxSearchOnFocus',
                 theme: '@?lxTheme',
                 width: '@?lxWidth'
@@ -247,12 +248,7 @@
                 return;
             }
 
-            itemSelected = true;
-
-            LxDropdownService.close(lxSearchFilter.dropdownId);
-
-            lxSearchFilter.modelController.$setViewValue(lxSearchFilter.autocompleteList[lxSearchFilter.activeChoiceIndex]);
-            lxSearchFilter.modelController.$render();
+            selectItem(lxSearchFilter.autocompleteList[lxSearchFilter.activeChoiceIndex]);
         }
 
         function keyUp()
@@ -317,8 +313,15 @@
         {
             itemSelected = true;
 
+            LxDropdownService.close(lxSearchFilter.dropdownId);
+
             lxSearchFilter.modelController.$setViewValue(_item);
             lxSearchFilter.modelController.$render();
+
+            if (angular.isFunction(lxSearchFilter.onSelect))
+            {
+                lxSearchFilter.onSelect(_item);
+            }
         }
 
         function setInput(_input)

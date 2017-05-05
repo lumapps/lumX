@@ -1,6 +1,9 @@
 <div class="p+">
     <div class="card">
-        <lx-search-filter lx-autocomplete="vm.autocomplete" lx-icon="{{ vm.autocompleteIcon }}" lx-search-on-focus="true">
+        <lx-search-filter lx-autocomplete="vm.autocomplete"
+                          lx-icon="{{ vm.autocompleteIcon }}"
+                          lx-on-select="vm.displaySelectedValue"
+                          lx-search-on-focus="true">
             <input type="text" ng-model="vm.searchFilter.autocomplete" placeholder="Search">
         </lx-search-filter>
     </div>

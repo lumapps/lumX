@@ -6,13 +6,14 @@
         .module('Controllers')
         .controller('DemoSearchFilterController', DemoSearchFilterController);
 
-    DemoSearchFilterController.$inject = ['$http', '$q', '$timeout'];
+    DemoSearchFilterController.$inject = ['$http', '$timeout', 'LxNotificationService'];
 
-    function DemoSearchFilterController($http, $q, $timeout)
+    function DemoSearchFilterController($http, $timeout, LxNotificationService)
     {
         var vm = this;
 
         vm.autocomplete = autocomplete;
+        vm.displaySelectedValue = displaySelectedValue;
 
         vm.searchFilter = {
             first: undefined,
@@ -58,6 +59,11 @@
 
                 _cb(['History 1', 'History 2',  'History 3']);
             }
+        }
+
+        function displaySelectedValue(_value)
+        {
+            LxNotificationService.info('You selected: ' + _value);
         }
     }
 })();
