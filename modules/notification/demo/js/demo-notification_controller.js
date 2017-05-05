@@ -86,6 +86,10 @@
                     LxNotificationService.notify('Callback');
                 });
             }
+            else if (_type === 'delay')
+            {
+                LxNotificationService.notify('Lorem Ipsum', undefined, undefined, undefined, undefined, undefined, 2 * 1000);
+            }
         }
     }
 })();
