@@ -50,6 +50,15 @@ export class ToDoStore {
     }
 
     /**
+     * Check if the list of to-do items is empty.
+     *
+     * @return {boolean} If the list of to-do items is empty or not.
+     */
+    public isEmpty(): boolean {
+        return this.items.length === 0;
+    }
+
+    /**
      * Remove a to-do item from the store.
      *
      * @param  {number}   id The id of the to-do item to remove.
