@@ -46,7 +46,7 @@ export const initialState: ITokenState = {
  *                              See {@link TokenActions} for allowed value
  * @return {ITokenState} The new state of the token
  */
-export const tokenReducer: ActionReducer<ITokenState> = (state: ITokenState, action: Action): ITokenState => {
+export function tokenReducerFunction(state: ITokenState, action: Action): ITokenState {
     switch (action.type) {
         case TokenActions.TOKEN_RECEIVED:
             return Object.assign({}, state, {
@@ -65,4 +65,5 @@ export const tokenReducer: ActionReducer<ITokenState> = (state: ITokenState, act
         default:
             return state;
     }
-};
+}
+export const tokenReducer: ActionReducer<ITokenState> = tokenReducerFunction;

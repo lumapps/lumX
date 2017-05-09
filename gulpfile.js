@@ -65,6 +65,7 @@ const webpackCommonParameters = `${withProgress}`;
 const webpackConfig = `--config webpack.config.js`;
 const webpackProdParameters = `--bail`;
 
+const aot = `AOT=true`;
 const debug = `DEBUG=true`;
 const envDev = `NODE_ENV='dev'`;
 const envProd = `NODE_ENV='prod'`;
@@ -90,15 +91,15 @@ shelter({
         cmd: `${npmRun} run-parallel -- clean:aot
                                         clean:dist
                                         ${linterTask}
-              && ${envProd} ${npmRun} webpack -- ${webpackConfig} ${webpackCommonParameters}
-                                                 ${webpackBuildParameters} ${webpackProdParameters}`,
+              && ${envProd} ${aot} ${npmRun} webpack -- ${webpackConfig} ${webpackCommonParameters}
+                                                        ${webpackBuildParameters} ${webpackProdParameters}`,
         dsc: `Build the Ahead of Time compiled production bundle of ${project} after linting`,
     },
     'build:aot:fast': {
         cmd: `${npmRun} run-parallel -- clean:aot
                                         clean:dist
-              && ${envProd} ${npmRun} webpack -- ${webpackConfig} ${webpackCommonParameters}
-                                                 ${webpackBuildParameters} ${webpackProdParameters}`,
+              && ${envProd} ${aot} ${npmRun} webpack -- ${webpackConfig} ${webpackCommonParameters}
+                                                        ${webpackBuildParameters} ${webpackProdParameters}`,
         dsc: `Build the Ahead of Time compiled production bundle of ${project} (without linting)`,
     },
     'build:dev': {

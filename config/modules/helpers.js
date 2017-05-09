@@ -20,6 +20,7 @@ const APPENGINE_DEV_SERVER = {
 };
 
 const ENABLE_DASHBOARD = false;
+const ENABLE_AOT = process.env.AOT;
 const ENABLE_DEBUG = process.env.DEBUG;
 const IS_LIVE = process.env.LIVE;
 const SILENT = process.env.SILENT;
@@ -39,13 +40,7 @@ const TESTS_TYPES = {
     unit: 'unit',
 };
 
-const EVENT = process.env.npm_lifecycle_event || '';
-
 /////////////////////////////
-
-function hasNpmFlag(flag) {
-    return EVENT.includes(flag);
-}
 
 function hasProcessFlag(flag) {
     return process.argv.join('').indexOf(flag) > -1;
@@ -292,6 +287,7 @@ function getOptions(options) {
 
 /////////////////////////////
 
+exports.ENABLE_AOT = ENABLE_AOT;
 exports.ENABLE_DASHBOARD = ENABLE_DASHBOARD;
 exports.ENABLE_DEBUG = ENABLE_DEBUG;
 exports.ENVS = ENVS;
@@ -306,7 +302,6 @@ exports.getDevServerConfig = getDevServerConfig;
 exports.getHtmlWebpackPlugin = getHtmlWebpackPlugin;
 exports.getMetadata = getMetadata;
 exports.getOptions = getOptions;
-exports.hasNpmFlag = hasNpmFlag;
 exports.hasProcessFlag = hasProcessFlag;
 exports.isWebpackDevServer = isWebpackDevServer;
 exports.root = rootFunction;

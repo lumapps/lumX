@@ -30,7 +30,7 @@
         "noEmit": true,
         "noEmitHelpers": true,
         "noUnusedLocals": true,
-        "noUnusedParameters": true,
+        "noUnusedParameters": false,
         "paths": {
             "app/*": [
                 "../app/*"

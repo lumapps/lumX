@@ -16,10 +16,6 @@ const SassLintPlugin = require('sasslint-webpack-plugin');
 const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 const TsConfigPathsPlugin = require('awesome-typescript-loader').TsConfigPathsPlugin;
 
-/**
- * Webpack Constants.
- */
-const ENABLE_AOT = helpers.hasNpmFlag('aot');
 
 /*
  * Webpack configuration.
@@ -35,12 +31,11 @@ module.exports = function webpackCommonConfigExport(metadata) {
     const tsExcludes = [
         helpers.root('dist'),
     ];
-    let tsInclude;
     const tsLoaders = [
         {
             loader: 'ng-router-loader',
             options: {
-                aot: ENABLE_AOT,
+                aot: helpers.ENABLE_AOT,
                 debug: helpers.ENABLE_DEBUG,
                 genDir: 'compiled',
                 loader: 'async-import',
@@ -169,7 +164,7 @@ module.exports = function webpackCommonConfigExport(metadata) {
         new LoaderOptionsPlugin(helpers.getOptions()),
 
         new NGCWebpack.NgcWebpackPlugin({
-            disabled: !ENABLE_AOT,
+            disabled: !helpers.ENABLE_AOT,
             resourceOverride: helpers.root('config', 'modules', 'resource-override.js'),
             tsConfig: helpers.root('tsconfig.prod.json'),
         }),
@@ -231,7 +226,6 @@ module.exports = function webpackCommonConfigExport(metadata) {
             lintTest = /\.(e2e|page|spec|specs)\.ts$/i;
         }
     } else {
-        tsInclude = helpers.root('src', 'client');
         if (metadata.env === helpers.ENVS.dev) {
             tsLoaders.unshift({
                 loader: '@angularclass/hmr-loader',
@@ -304,7 +298,7 @@ module.exports = function webpackCommonConfigExport(metadata) {
          * @see {@link http://webpack.github.io/docs/configuration.html#entry|The webpack documentation on entries}
          */
         entry: (metadata.env === helpers.ENVS.test) ? undefined : {
-            main: (ENABLE_AOT) ? './src/client/main.aot.ts' : './src/client/main.ts',
+            main: (helpers.ENABLE_AOT) ? './src/client/main.aot.ts' : './src/client/main.ts',
             polyfills: './src/client/polyfills.ts',
         },
 
@@ -350,6 +344,7 @@ module.exports = function webpackCommonConfigExport(metadata) {
                 {
                     enforce: 'pre',
                     exclude: [
+                        helpers.root('compiled'),
                         helpers.root('dist'),
                         helpers.root('node_modules'),
                     ],
@@ -499,7 +494,6 @@ module.exports = function webpackCommonConfigExport(metadata) {
                  */
                 {
                     exclude: tsExcludes,
-                    include: tsInclude,
                     test: /\.ts$/i,
                     use: tsLoaders,
                 },

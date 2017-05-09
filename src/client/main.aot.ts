@@ -1,8 +1,8 @@
 import { platformBrowser } from '@angular/platform-browser';
 
-import { decorateModuleRef } from './libs/environment';
+import { decorateModuleRef } from 'libs/environment';
 
-import { AppModuleNgFactory } from '../compiled/src/app/app.module.ngfactory';
+import { AppModuleNgFactory } from 'compiled/src/client/app/app.module.ngfactory';
 
 
 /*
