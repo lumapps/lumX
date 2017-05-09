@@ -294,8 +294,8 @@ printf "Removing useless files... "
     rm -Rf ./dist
     exitIfError "Deleting 'dist'"
 
-    rm -Rf ./src/client/token.json
-    exitIfError "Deleting 'token.json'"
+    rm -Rf ./src/client/assets/token.json
+    exitIfError "Deleting 'assets/token.json'"
     rm -Rf ./last-seed-commit.txt
     exitIfError "Deleting 'last-seed-commit.txt'"
 

@@ -143,7 +143,7 @@ export class HttpInterceptorService {
 
                     this._TokenService.refreshToken();
 
-                    return this.get('/token.json')
+                    return this.get('/assets/token.json')
                         .map((response: Response) => response.json())
                         .flatMap((tokenMessage: ITokenMessage) => {
                             this._TokenService.setToken(tokenMessage.token);

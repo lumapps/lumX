@@ -43,7 +43,7 @@ export class AppComponent implements OnInit {
      * @public
      */
     public ngOnInit(): void {
-        this._HttpService.get('/token.json')
+        this._HttpService.get('/assets/token.json')
             .map((response: Response) => response.json())
             .subscribe((tokenMessage: ITokenMessage) => {
                 this.TokenService.setToken(tokenMessage.token);
