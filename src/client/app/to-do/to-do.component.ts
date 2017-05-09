@@ -30,8 +30,10 @@ export class ToDoComponent implements OnInit {
      * @public
      */
     public ngOnInit(): void {
-        this._ToDoStore.add(new ToDoItem('Install Boilerplate', new Date()));
-        this._ToDoStore.add(new ToDoItem('Run a play with default Boilerplate', new Date()));
-        this._ToDoStore.add(new ToDoItem('Run Unit and E2E test on Boilerplate'));
+        if (this._ToDoStore.isEmpty()) {
+            this._ToDoStore.add(new ToDoItem('Install Boilerplate', new Date()));
+            this._ToDoStore.add(new ToDoItem('Run a play with default Boilerplate', new Date()));
+            this._ToDoStore.add(new ToDoItem('Run Unit and E2E test on Boilerplate'));
+        }
     }
 }
