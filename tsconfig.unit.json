@@ -1,0 +1,82 @@
+{
+    "atom": {
+        "rewriteTsconfig": false
+    },
+    "awesomeTypescriptLoaderOptions": {
+        "forkChecker": true,
+        "resolveGlobs": true,
+        "useWebpackText": true
+    },
+    "buildOnSave": false,
+    "compileOnSave": false,
+    "compilerOptions": {
+        "allowSyntheticDefaultImports": true,
+        "baseUrl": "./src/client/app",
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "forceConsistentCasingInFileNames": true,
+        "importHelpers": true,
+        "inlineSourceMap": true,
+        "lib": [
+            "dom",
+            "es2015"
+        ],
+        "module": "es2015",
+        "moduleResolution": "node",
+        "noEmit": true,
+        "noEmitHelpers": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "paths": {
+            "app/*": [
+                "../app/*"
+            ],
+            "compiled/*": [
+                "../../../compiled/*"
+            ],
+            "libs/*": [
+                "../libs/*"
+            ],
+            "unit/*": [
+                "../../../tests/client/unit/*"
+            ]
+        },
+        "pretty": true,
+        "sourceMap": false,
+        "removeComments": false,
+        "strictNullChecks": false,
+        "target": "es5",
+        "types": [
+            "hammerjs",
+            "lodash",
+            "node",
+            "source-map",
+            "uglify-js",
+            "webpack",
+
+            "chai",
+            "chai-arrays",
+            "chai-as-promised",
+            "chai-datetime",
+            "chai-json-schema",
+            "chai-string",
+            "mocha",
+            "sinon",
+            "sinon-chai"
+        ],
+        "typeRoots": [
+            "node_modules/@types"
+        ]
+    },
+    "include": [
+        "src/client/app/**/*.spec.ts",
+        "src/client/app/**/*.specs.ts",
+        "tests/client/unit/**/*.spec.ts",
+        "tests/client/unit/**/*.specs.ts"
+    ],
+    "exclude": [
+        "compiled",
+        "dist",
+        "node_modules"
+    ]
+}

@@ -1,0 +1,84 @@
+{
+    "atom": {
+        "rewriteTsconfig": false
+    },
+    "awesomeTypescriptLoaderOptions": {
+        "forkChecker": true,
+        "resolveGlobs": true,
+        "useWebpackText": true
+    },
+    "buildOnSave": false,
+    "compileOnSave": false,
+    "compilerOptions": {
+        "allowSyntheticDefaultImports": true,
+        "baseUrl": "./src/client/app",
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "forceConsistentCasingInFileNames": true,
+        "importHelpers": true,
+        "inlineSourceMap": true,
+        "lib": [
+            "dom",
+            "es2015"
+        ],
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "noEmit": true,
+        "noEmitHelpers": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "paths": {
+            "app/*": [
+                "../app/*"
+            ],
+            "compiled/*": [
+                "../../../compiled/*"
+            ],
+            "libs/*": [
+                "../libs/*"
+            ],
+            "e2e/*": [
+                "../../../tests/client/e2e/*"
+            ]
+        },
+        "pretty": true,
+        "sourceMap": false,
+        "removeComments": false,
+        "strictNullChecks": false,
+        "target": "es5",
+        "types": [
+            "hammerjs",
+            "lodash",
+            "node",
+            "source-map",
+            "uglify-js",
+            "webpack",
+
+            "chai",
+            "chai-arrays",
+            "chai-as-promised",
+            "chai-datetime",
+            "chai-json-schema",
+            "chai-string",
+            "mocha",
+            "sinon",
+            "sinon-chai"
+        ],
+        "typeRoots": [
+            "node_modules/@types"
+        ]
+    },
+    "include": [
+        "src/client/app/**/*.e2e.ts",
+        "src/client/app/**/*.e2e.spec.ts",
+        "src/client/app/**/*.e2e.specs.ts",
+        "tests/client/e2e/**/*.page.ts",
+        "tests/client/e2e/**/*.spec.ts",
+        "tests/client/e2e/**/*.specs.ts"
+    ],
+    "exclude": [
+        "compiled",
+        "dist",
+        "node_modules"
+    ]
+}

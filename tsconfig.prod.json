@@ -1,0 +1,74 @@
+{
+    "angularCompilerOptions": {
+        "genDir": "./compiled",
+        "skipMetadataEmit": true
+    },
+    "atom": {
+        "rewriteTsconfig": false
+    },
+    "awesomeTypescriptLoaderOptions": {
+        "forkChecker": true,
+        "resolveGlobs": true,
+        "useWebpackText": true
+    },
+    "buildOnSave": false,
+    "compileOnSave": false,
+    "compilerOptions": {
+        "allowSyntheticDefaultImports": true,
+        "baseUrl": "./src/client/app",
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "forceConsistentCasingInFileNames": true,
+        "importHelpers": true,
+        "inlineSourceMap": false,
+        "lib": [
+            "dom",
+            "es2015"
+        ],
+        "module": "es2015",
+        "moduleResolution": "node",
+        "noEmit": true,
+        "noEmitHelpers": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": false,
+        "paths": {
+            "app/*": [
+                "../app/*"
+            ],
+            "compiled/*": [
+                "../../../compiled/*"
+            ],
+            "e2e/*": [
+                "../../../tests/client/e2e/*"
+            ],
+            "libs/*": [
+                "../libs/*"
+            ]
+        },
+        "pretty": true,
+        "sourceMap": true,
+        "removeComments": true,
+        "strictNullChecks": false,
+        "target": "es5",
+        "types": [
+            "hammerjs",
+            "lodash",
+            "node",
+            "source-map",
+            "uglify-js",
+            "webpack"
+        ],
+        "typeRoots": [
+            "node_modules/@types"
+        ]
+    },
+    "exclude": [
+        "compiled",
+        "dist",
+        "node_modules",
+        "**/*.page.ts",
+        "**/*.spec.ts",
+        "**/*.specs.ts",
+        "**/*.e2e.ts"
+    ]
+}

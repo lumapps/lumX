@@ -1,0 +1,75 @@
+#!/usr/bin/env bash
+
+BOLD=""
+UNDERLINE=""
+STANDOUT=""
+DEFAULT=""
+BLACK=""
+RED=""
+GREEN=""
+YELLOW=""
+BLUE=""
+MAGENTA=""
+CYAN=""
+WHITE=""
+
+# Check if stdout is a terminal...
+if [ -t 1 ]; then
+    # See if it supports colors...
+    ncolors=$(tput colors)
+
+    if [ -n "$ncolors" ] && [ $ncolors -ge 8 ]; then
+        BOLD="$(tput bold)"
+        UNDERLINE="$(tput smul)"
+        STANDOUT="$(tput smso)"
+        DEFAULT="$(tput sgr0)"
+        BLACK="$(tput setaf 0)"
+        RED="$(tput setaf 1)"
+        GREEN="$(tput setaf 2)"
+        YELLOW="$(tput setaf 3)"
+        BLUE="$(tput setaf 4)"
+        MAGENTA="$(tput setaf 5)"
+        CYAN="$(tput setaf 6)"
+        WHITE="$(tput setaf 7)"
+    fi
+fi
+
+branch=`git branch | grep "\*" | cut -d" " -f2`
+localSha=`git rev-parse HEAD`
+
+remoteBranch=`git rev-parse --abbrev-ref --symbolic-full-name @{u}`
+if [[ $? -eq 0 ]]; then
+    remoteSha=`git rev-parse ${remoteBranch}`
+else
+    remoteSha=`git reflog show --no-abbrev ${branch} | grep "Created from" | cut -d" " -f1`
+fi
+
+exit_code=0
+
+printf "Checking for ${BOLD}unmerged conflicts${DEFAULT}........... "
+ALL_PUSHED_FILES=$(git diff --name-only --diff-filter=ACM $localSha $remoteSha)
+if [ -n "$ALL_PUSHED_FILES" ]; then
+    for file in $ALL_PUSHED_FILES; do
+        unmerged=$(cat $file &> /dev/null | grep "<<<<<<<")
+        if [[ -z "$unmerged" ]]; then
+            unmerged=$(cat $file &> /dev/null | grep "=======")
+        fi
+        if [[ -z "$unmerged" ]]; then
+            unmerged=$(cat $file &> /dev/null | grep ">>>>>>>")
+        fi
+
+        if [[ -n "$unmerged" ]]; then
+            printf "${RED}❌ FAILED${DEFAULT}\n"
+            printf "  You have unmerged conflicts in \"$file\".\n"
+
+            printf "\n${RED}❌ Pre-push failed, you cannot push${DEFAULT}\n"
+            exit 1
+        fi
+    done
+else
+    printf "${CYAN}DONE${DEFAULT}\n"
+fi
+
+printf "\n${GREEN}✔ Pre-push successful, you are allowed to push${DEFAULT}\n"
+
+exit 0

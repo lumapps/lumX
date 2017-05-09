@@ -1,7 +1,15 @@
 #! /usr/bin/env python
-from subprocess import Popen, PIPE
+
+from collections import defaultdict
 import re
-import sys
+from subprocess import Popen, PIPE
+
+
+def getTags():
+    Popen('git fetch --tags'.split(), stdout=PIPE).communicate()
+    (stdout, _) = Popen('git tag'.split(), stdout=PIPE).communicate()
+
+    return sorted(stdout.split(), key=lambda s: [x for x in s.replace('v', '').split('.')])
 
 
 def checkLastChangelogTag():
@@ -18,17 +26,27 @@ def checkLastChangelogTag():
     return last
 
 
-def buildNewLogs(fromTag, version):
+def buildNewLogs(fromTag, toTag):
     stdout = ''
     if fromTag:
-        (stdout, _) = Popen(('git rev-list %s..origin/master' % fromTag).split(), stdout=PIPE).communicate()
+        (stdout, _) = Popen(('git rev-list %s..%s' % (fromTag, toTag)).split(), stdout=PIPE).communicate()
     else:
-        (stdout, _) = Popen(('git rev-list origin/master').split(), stdout=PIPE).communicate()
+        (stdout, _) = Popen(('git rev-list %s' % toTag).split(), stdout=PIPE).communicate()
 
     commits = stdout.splitlines()
-    feats = []
-    fixs = []
-    brokens = []
+
+    kinds = defaultdict(list)
+    kindTitles = {
+        'feat': 'Features',
+        'fix': 'Bug fixes',
+        'docs': 'Documentation',
+        'style': 'Style changes',
+        'perf': 'Performance improvements',
+        'test': 'Tests',
+        'build': 'Build management improvements',
+        'ci': 'Continuous Integration improvements',
+        'misc': 'Miscellaneous'
+    }
 
     for commit in commits:
         (title, _) = Popen(('git show -s --format=%%s %s' % commit).split(), stdout=PIPE).communicate()
@@ -36,57 +54,67 @@ def buildNewLogs(fromTag, version):
         if not title:
             continue
 
-        data = title.split(' ', 1)
+        data = title.split(':', 1)
+        kind = data[0].split('(', 1)
+        scope = kind[1][:-1].rstrip()
+        title = data[1].strip()
 
-        if data[0] == 'feat':
-            feats.append(data[1].rstrip())
-        elif data[0] == 'fix':
-            fixs.append(data[1].rstrip())
+        if not kind[0] in kindTitles and scope != 'release':
+            kind[0] = 'misc'
+
+        kinds[kind[0]].append(scope + ': ' + title)
 
         if 'BROKEN:' in body:
-            brokens += body.split('BROKEN:')[1].splitlines()
+            broken = body.split('BROKEN:')[1].splitlines().strip()
+            kinds['broken'].append(broken)
 
-    logs = "## %s:\n" % version
+    logs = "## %s:\n" % toTag
 
-    if not len(feats) and not len(fixs) and not len(brokens):
+    if not len(kinds):
         logs += "*No major changes.*\n\n\n"
     else:
-        if len(feats):
-            logs += "\n#### New features:\n"
-            for feat in feats:
-                logs += " - %s\n" % feat
-        if len(fixs):
-            logs += "\n#### Bug fixes:\n"
-            for fix in fixs:
-                logs += " - %s\n" % fix
-        if len(brokens):
+        for kind, kindTitle in kindTitles.iteritems():
+            if len(kinds[kind]):
+                logs += "\n#### " + kindTitle + ":\n"
+                for thing in kinds[kind]:
+                    logs += " - %s\n" % thing
+
+        if len(kinds.get('brokens', [])):
             logs += "\n#### Breaking changes:\n"
-            for broken in brokens:
-                if broken.rstrip() != '':
-                    logs += " - %s\n" % broken
+            for broken in kinds['brokens']:
+                logs += " - %s\n" % broken
+
         logs += "\n\n"
 
     return logs
 
-def main(version):
-    print "Generating changelog for %s..." % version
 
+if __name__ == "__main__":
+    tags = getTags()
     lastChangelogTag = checkLastChangelogTag()
+
     changelog = ''
+    tagsToBuild = tags
+    previousTag = None
+    if lastChangelogTag:
+        previousTag = lastChangelogTag
+        tagsToBuild = tags[tags.index(lastChangelogTag) + 1:]
+    else:
+        tagsToBuild = tags[1:]  # ignoring first release which contains only the first commit
 
     with open('CHANGELOG.md', 'r+') as f:
         changelog = f.read().replace('# Changelog\n\n', '').rstrip() + '\n'
 
-    newLogs = buildNewLogs(lastChangelogTag, version)
-    changelog = newLogs + changelog
+    if not len(tagsToBuild):
+        print "No new changelogs! Last tag (%s) is already in the CHANGELOG.md." % lastChangelogTag
+        exit(0)
+
+    for tag in tagsToBuild:
+        newLogs = buildNewLogs(previousTag, tag)
+        previousTag = tag
+        changelog = newLogs + changelog
 
     changelog = '# Changelog\n\n' + changelog
 
     with open('CHANGELOG.md', 'w') as f:
         f.write(changelog)
-
-if __name__ == "__main__":
-    if len(sys.argv) == 1:
-        print "Error: The version name is required"
-        exit(-1)
-    main(sys.argv[1])

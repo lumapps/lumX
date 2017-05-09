@@ -1,0 +1,16 @@
+# humanstxt.org
+# The humans responsible & technology colophon
+
+# TEAM
+
+
+# THANKS
+
+    AngularClass -- @AngularClass
+    Lumapps -- @lumapps
+    PatrickJS -- @gdi2290
+
+# TECHNOLOGY COLOPHON
+
+    HTML5, CSS3, SASS
+    Angular, TypeScript, JavaScript, Webpack, NPM

@@ -1,462 +1,492 @@
-var gulp = require('gulp'),
-    path = require('path'),
-    minimist = require('minimist'),
-    summary = require('jshint-summary'),
-    del = require('del'),
-    plugins = require('gulp-load-plugins')();
+const gulp = require('gulp');
+const shelter = require('gulp-shelter')(gulp);
 
-var paths = {
-    js: [
-        'core/js/**/*.js',
-        'modules/**/*.js'
-    ],
-    distJs: [
-        'core/js/**/*.js',
-        'modules/**/*.js',
-        '!modules/**/demo/**/*.js',
-    ],
-    scss: [
-        'core/scss/**/*.scss',
-        'modules/**/*.scss'
-    ],
-    templates: [
-        'build/js/templates/dropdown_template.js',
-        'build/js/templates/file-input_template.js',
-        'build/js/templates/text-field_template.js',
-        'build/js/templates/search-filter_template.js',
-        'build/js/templates/select_template.js',
-        'build/js/templates/tabs_template.js',
-        'build/js/templates/date-picker_template.js',
-        'build/js/templates/progress_template.js',
-        'build/js/templates/button_template.js',
-        'build/js/templates/checkbox_template.js',
-        'build/js/templates/radio-button_template.js',
-        'build/js/templates/stepper_template.js',
-        'build/js/templates/switch_template.js',
-        'build/js/templates/fab_template.js',
-        'build/js/templates/icon_template.js',
-        'build/js/templates/data-table_template.js',
-    ],
-    demo: [
-        'demo/**/*',
-        '!demo/scss/**/*',
-        '!demo/scss'
-    ],
-    examples: [
-        'modules/**/demo/**/*.html'
-    ],
-    libs: [
-        'libs/**/*'
-    ]
-};
+const isCI = process.env.CI || require('is-ci') || false;
 
-function watcherWithCache(name, src, tasks)
-{
-    var watcher = gulp.watch(src, tasks);
+// eslint-disable-next-line lumapps/comments-sentences
+/*
+ * ---------------------------------------------------------------------------------------------------------------------
+ * Define the project configuration here.
+ * Attention: Use the bash syntax for variable templating.
+ * ---------------------------------------------------------------------------------------------------------------------
+ */
+const project = 'LumX²';
 
-    watcher.on('change', function(event)
-    {
-        if (event.type === 'deleted')
-        {
-            delete plugins.cached.caches.scripts[event.path];
-            plugins.remember.forget(name, event.path);
-        }
-    });
+const compiledFolder = './compiled';
+
+const configFolder = './config';
+const distFolder = './dist/client';
+const docsFolder = './docs';
+const sourceFolder = './src/client';
+const testsFolder = './tests/client';
+
+const appFolder = `${sourceFolder}/app`;
+
+const clientDocsFolder = `${docsFolder}/client`;
+const configDocsFolder = `${docsFolder}/config`;
+
+const unitFolder = `${testsFolder}/unit`;
+const unitReportFolder = `${unitFolder}/report`;
+const e2eFolder = `${testsFolder}/e2e`;
+const e2eReportFolder = `${e2eFolder}/report`;
+
+const enableDashboard = false;
+const enableProgress = true;
+
+const serverPort = '8881';
+const enableServerProxy = false;
+const serverProxy = 'http://localhost:8888';
+const withProxy = (enableServerProxy) ? `--proxy ${serverProxy}` : '';
+
+const checkLintBeforeBuild = true;
+
+const e2eBuildType = 'prod';
+
+// eslint-disable-next-line lumapps/comments-sentences
+/*
+ *---------------------------------------------------------------------------------------------------------------------
+ * You can define here commands, arguments or fragment to re-use in tasks.
+ * Attention: Use the bash syntax for variable templating.
+ * ---------------------------------------------------------------------------------------------------------------------
+ */
+// Toggle the "-s" flag to make npm verbose (nothing) or silent (-s).
+const npmRun = `npm -s run`;
+
+const linterTask = (checkLintBeforeBuild) ? 'lint:src' : '';
+
+const withProgress = (isCI || !enableProgress) ? '' : '--progress';
+
+const webpackBuildParameters = `--hide-modules`;
+const webpackDevParameters = ``;
+const webpackDevServerClassicParameters = ``;
+const webpackDevServerCommonParameters = `--watch --content-base ${sourceFolder} --open`;
+let webpackDevServerHotReloadParameters = `--inline --hot`;
+const webpackCommonParameters = `${withProgress}`;
+const webpackConfig = `--config webpack.config.js`;
+const webpackProdParameters = `--bail`;
+
+const aot = `AOT=true`;
+const debug = `DEBUG=true`;
+const envDev = `NODE_ENV='dev'`;
+const envProd = `NODE_ENV='prod'`;
+const envTest = `NODE_ENV='test'`;
+const hidden = `HIDDEN=true`;
+const live = `LIVE=true`;
+const unitTests = `TESTS='unit'`;
+const e2eTests = `TESTS='e2e'`;
+
+if (!enableDashboard) {
+    webpackDevServerHotReloadParameters = `${webpackDevServerHotReloadParameters} ${webpackDevServerClassicParameters}`;
 }
 
-var knownOptions = {
-    string: 'version',
-    default:
-    {
-        version: ''
-    }
-};
+// eslint-disable-next-line lumapps/comments-sentences
+/*
+ * ---------------------------------------------------------------------------------------------------------------------
+ * Define your tasks here
+ * Attention: Use the bash syntax for variable templating
+ * ---------------------------------------------------------------------------------------------------------------------
+ */
+shelter({
+    'build:aot': {
+        cmd: `${npmRun} run-parallel -- clean:aot
+                                        clean:dist
+                                        ${linterTask}
+              && ${envProd} ${aot} ${npmRun} webpack -- ${webpackConfig} ${webpackCommonParameters}
+                                                        ${webpackBuildParameters} ${webpackProdParameters}`,
+        dsc: `Build the Ahead of Time compiled production bundle of ${project} after linting`,
+    },
+    'build:aot:fast': {
+        cmd: `${npmRun} run-parallel -- clean:aot
+                                        clean:dist
+              && ${envProd} ${aot} ${npmRun} webpack -- ${webpackConfig} ${webpackCommonParameters}
+                                                        ${webpackBuildParameters} ${webpackProdParameters}`,
+        dsc: `Build the Ahead of Time compiled production bundle of ${project} (without linting)`,
+    },
+    'build:dev': {
+        cmd: `${npmRun} run-parallel -- clean:dist
+                                        ${linterTask}
+              && ${envDev} ${npmRun} webpack ${webpackConfig} ${webpackCommonParameters}
+                                             ${webpackBuildParameters} ${webpackDevParameters}`,
+        dsc: `Build the development bundle of ${project} after linting`,
+    },
+    'build:dev:fast': {
+        cmd: `${npmRun} clean:dist
+              && ${envDev} ${npmRun} webpack -- ${webpackConfig} ${webpackCommonParameters}
+                                                ${webpackBuildParameters} ${webpackDevParameters}`,
+        dsc: `Build the development bundle of ${project} (without linting)`,
+    },
+    'build:prod': {
+        cmd: `${npmRun} run-parallel -- clean:dist
+                                        ${linterTask}
+              && ${envProd} ${npmRun} webpack -- ${webpackConfig} ${webpackCommonParameters}
+                                                 ${webpackBuildParameters} ${webpackProdParameters}`,
+        dsc: `Build the production bundle of ${project} after linting`,
+    },
+    'build:prod:fast': {
+        cmd: `${npmRun} clean:dist
+              && ${envProd} ${npmRun} webpack -- ${webpackConfig} ${webpackCommonParameters}
+                                                 ${webpackBuildParameters} ${webpackProdParameters}`,
+        dsc: `Build the production bundle of ${project} (without linting)`,
+    },
 
-var options = minimist(process.argv.slice(2), knownOptions);
+    'check:prerequisites': {
+        cmd: `${npmRun} check:prerequisites:core`,
+        dsc: `Check that you meet the pre-requisites needed for using ${project}`,
+    },
 
-// Clean
-gulp.task('clean:build', function(cb)
-{
-    del(['build/*'], cb);
+    'clean:all': {
+        cmd: `${npmRun} run-parallel -- clean:project
+                                        clean:misc
+              ; ${npmRun} clean:packages`,
+        dsc: `Clean the whole ${project} project (NPM, docs, test and dist)`,
+    },
+
+    'clean:aot': {
+        cmd: `${npmRun} rimraf -- ${compiledFolder}/* && rm -Rf -- ${compiledFolder}`,
+        dsc: `Clean the Ahead of Time compiled ${project} sources`,
+    },
+    'clean:dist': {
+        cmd: `${npmRun} rimraf -- ${distFolder}/* && rm -Rf -- ${distFolder} && rm -Rf -- dist`,
+        dsc: `Clean the "dist" folder of ${project}`,
+    },
+    'clean:docs': {
+        cmd: `${npmRun} rimraf -- ${docsFolder}/* && rm -Rf -- ${docsFolder}`,
+        dsc: `Clean the "docs" folder of ${project}`,
+    },
+    'clean:docs:client': {
+        cmd: `${npmRun} rimraf -- ${clientDocsFolder}/* && rm -Rf -- ${clientDocsFolder}`,
+        dsc: `Clean the "docs/client" folder of ${project}`,
+    },
+    'clean:docs:config': {
+        cmd: `${npmRun} rimraf -- ${configDocsFolder}/* && rm -Rf -- ${configDocsFolder}`,
+        dsc: `Clean the "docs/config" folder of ${project}`,
+    },
+    'clean:e2e:report': {
+        cmd: `${npmRun} run-parallel -- "rimraf -- ${e2eReportFolder}/* && rm -Rf -- ${e2eReportFolder}"
+                                        "rimraf -- ${testsFolder}/e2e*.tar.gz"`,
+        dsc: `Clean the "e2e/report" folder of ${project}`,
+    },
+    'clean:maps': {
+        cmd: `${npmRun} run-parallel -- "rimraf -- ${sourceFolder}/**/*.map"
+                                        "rimraf -- ${testsFolder}/**/*.map"`,
+        dsc: `Clean maps files of ${project}`,
+    },
+    'clean:misc': {
+        cmd: `${npmRun} run-parallel -- "rimraf -- ./build.*"
+                                        "rimraf -- .tmp/*"
+                                        "rimraf -- .awcache/*"
+              && (rm -Rf -- .tmp; rm -Rf -- .awcache)`,
+        dsc: `Clean misceallenous files of ${project}`,
+    },
+    'clean:packages': {
+        cmd: `${npmRun} clean:packages:core`,
+        dsc: `Clean the installed packages and the Yarn or NPM cache of ${project}`,
+    },
+    'clean:project': {
+        cmd: `${npmRun} run-parallel -- clean:aot
+                                        clean:dist
+                                        clean:tests:reports
+                                        clean:docs
+                                        clean:maps`,
+        dsc: `Clean the ${project} project, but leave the NPM dependancies installed`,
+    },
+    'clean:tests:reports': {
+        cmd: `${npmRun} run-parallel -- clean:unit:report clean:e2e:report`,
+        dsc: `Clean the tests reports folder of ${project}`,
+    },
+    'clean:unit:report': {
+        cmd: `${npmRun} run-parallel -- "rimraf -- ${unitReportFolder} && rm -Rf -- ${unitReportFolder}"
+                                        "rimraf -- ${testsFolder}/unit*.tar.gz"`,
+        dsc: `Clean the "unit/report" folder of ${project}`,
+    },
+
+    'commit': {
+        cmd: `${npmRun} git-cz`,
+        dsc: `Commit according to guidelines with Commitizen`,
+    },
+
+    'docs': {
+        cmd: `${npmRun} run-parallel -- docs:client
+                                        docs:config`,
+        dsc: `Generate the whole (client and config) documentation of ${project}`,
+    },
+    'docs:client': {
+        cmd: `${npmRun} typedoc -- --options typedoc.json --out ${clientDocsFolder} --name "${project}" --hideGenerator
+                                   --target ES5 --readme ./README.md --excludeExternals ${appFolder}`,
+        dsc: `Generate the TypeScript documentation for ${project}`,
+    },
+    'docs:config': {
+        cmd: `${npmRun} jsdoc -- --configure jsdoc.json --package ./package.json --readme ./README.md ${configFolder}`,
+        dsc: `Generate the JavaScript documentation of the config of ${project}`,
+    },
+
+    'e2e': {
+        cmd: `${npmRun} run-parallel -- build:${e2eBuildType}:fast
+                                        clean:e2e:report
+              && ${npmRun} webdriver:update
+              && ${envTest} ${e2eTests} ${npmRun} run-parallel -- -r serve:${e2eBuildType}:fast:silent
+                                                                  protractor`,
+        dsc: `Run End to End (E2E) tests (Protractor with Chrome) after rebuilding on ${project}`,
+    },
+    'e2e:debug': {
+        cmd: `${npmRun} run-parallel -- build:${e2eBuildType}:fast
+                                        clean:e2e:report
+              && ${npmRun} webdriver:update
+              && ${envTest} ${e2eTests} ${debug} ${npmRun} run-parallel -- -r serve:${e2eBuildType}:fast:silent
+                                                                           protractor:debug`,
+        dsc: `Debug End to End (E2E) tests (Protractor with Chrome) after rebuilding on ${project}`,
+    },
+    'e2e:debug:fast': {
+        cmd: `${npmRun} clean:e2e:report
+              && ${envTest} ${e2eTests} ${debug} ${npmRun} run-parallel -- -r serve:${e2eBuildType}:fast:silent
+                                                                           protractor:debug`,
+        dsc: `Debug End to End (E2E) tests (Protractor with Chrome) with existing build on ${project}`,
+    },
+    'e2e:fast': {
+        cmd: `${npmRun} clean:e2e:report
+              && ${envTest} ${e2eTests} ${npmRun} run-parallel -- -r serve:${e2eBuildType}:fast:silent
+                                                                  protractor`,
+        dsc: `Run End to End (E2E) tests (Protractor with Chrome) with existing build on ${project}`,
+    },
+    'e2e:headless': {
+        cmd: `${npmRun} run-parallel -- build:${e2eBuildType}:fast
+                                        clean:e2e:report
+              && ${npmRun} webdriver:update
+              && ${envTest} ${e2eTests} ${hidden} ${npmRun} run-parallel -- -r serve:${e2eBuildType}:fast:silent
+                                                                            protractor:headless`,
+        dsc: `Run End to End (E2E) tests (Protractor with Headless Chrome, XVFB needed) after rebuilding on ${project}`,
+    },
+    'e2e:headless:fast': {
+        cmd: `${npmRun} clean:e2e:report
+              && ${envTest} ${e2eTests} ${hidden} ${npmRun} run-parallel -- -r serve:${e2eBuildType}:fast:silent
+                                                                            protractor:headless`,
+        dsc: `Run End to End (E2E) tests (Protractor with Headless Chome, XVFB needed) with existing build on ${project}`,
+    },
+
+    'lint:config': {
+        cmd: `${npmRun} run-parallel -- lint:config:js
+                                        lint:config:json`,
+        dsc: `Lint all config files of ${project}`,
+    },
+    'lint:config:js': {
+        cmd: `${npmRun} eslint -- "./*.js" "${configFolder}/**/*.js"`,
+        dsc: `Lint JS config files of ${project}`,
+    },
+    'lint:config:json': {
+        cmd: `${npmRun} jsonlint -- **/*.json`,
+        dsc: `Lint JSON config files of ${project}`,
+    },
+    'lint:src': {
+        cmd: `${npmRun} run-parallel -- lint:src:ts
+                                        lint:src:js
+                                        lint:src:scss`,
+        dsc: `Lint source code of ${project}`,
+    },
+    'lint:src:js': {
+        cmd: `${npmRun} eslint -- "${sourceFolder}/**/*.js" "${testsFolder}/**/*.js"`,
+        dsc: `Lint Javascript code of ${project}`,
+    },
+    'lint:src:scss': {
+        cmd: `${npmRun} sass-lint -- "${sourceFolder}/**/*.s+(a|c)ss" --verbose`,
+        dsc: `Lint SASS code of ${project}`,
+    },
+    'lint:src:ts': {
+        cmd: `${npmRun} tslint -- --project ./tsconfig.json --type-check
+                                  --exclude tests/**/* --exclude *.e2e.ts --exclude *.page.ts --exclude *.spec.ts
+                                  --exclude *.specs.ts`,
+        dsc: `Lint TypeScript code of ${project}`,
+    },
+    'lint:tests': {
+        cmd: `${npmRun} run-parallel -- lint:tests:e2e
+                                        lint:tests:unit`,
+        dsc: `Lint TypeScript code of ${project}'s tests`,
+    },
+    'lint:tests:e2e': {
+        cmd: `${npmRun} tslint -- --project ./tsconfig.e2e.json --type-check`,
+        dsc: `Lint TypeScript code of ${project}'s End to End (E2E) tests`,
+    },
+    'lint:tests:unit': {
+        cmd: `${npmRun} tslint -- --project ./tsconfig.unit.json --type-check`,
+        dsc: `Lint TypeScript code of ${project}'s unit tests`,
+    },
+
+    'scaffold': {
+        cmd: `bash ./scaffold.sh`,
+        dsc: `Scaffold a new stub element in ${project}`,
+    },
+    'scaffold:component': {
+        cmd: `bash ./scaffold.sh -t Component --not-core`,
+        dsc: `Scaffold a new stub component in ${project}`,
+    },
+    'scaffold:component:core': {
+        cmd: `bash ./scaffold.sh -t Component --core`,
+        dsc: `Scaffold a new stub core component in ${project}`,
+    },
+    'scaffold:help': {
+        cmd: `bash ./scaffold.sh --help`,
+        dsc: `Show the help page for the scaffolding in ${project}`,
+    },
+    'scaffold:module': {
+        cmd: `bash ./scaffold.sh -t Module --not-core`,
+        dsc: `Scaffold a new stub module in ${project}`,
+    },
+    'scaffold:module:core': {
+        cmd: `bash ./scaffold.sh -t Module --core`,
+        dsc: `Scaffold a new stub core module in ${project}`,
+    },
+
+    'serve': {
+        cmd: `${envDev} ${npmRun} webpack-dev-server -- ${webpackConfig} ${webpackCommonParameters}
+                                                        ${webpackDevParameters}
+                                                        ${webpackDevServerCommonParameters}
+                                                        ${webpackDevServerClassicParameters}`,
+        dsc: `Start ${project} development with watcher (compile, lint, build)`,
+    },
+    'serve:dev': {
+        cmd: `${npmRun} build:dev:fast
+              && ${npmRun} http-server -- ${distFolder} -p ${serverPort} -d False -i False
+                                          --cors -s ${withProxy}`,
+        dsc: `Start ${project} development release test server (on port ${serverPort}) after rebuilding`,
+    },
+    'serve:dev:fast': {
+        cmd: `${npmRun} http-server -- ${distFolder} -p ${serverPort} -d False -i False
+                                       --cors -s ${withProxy}`,
+        dsc: `Start ${project} development release test server (on port ${serverPort}) with an existing build`,
+    },
+    'serve:dev:fast:open': {
+        cmd: `${npmRun} http-server -- ${distFolder} -p ${serverPort} -d False -i False
+                                       -o --cors -s ${withProxy}`,
+        dsc: `Start ${project} development release test server (on port ${serverPort}) with an existing build and open
+              it in a browser`,
+    },
+    'serve:dev:open': {
+        cmd: `${npmRun} build:dev:fast
+              && ${npmRun} http-server -- ${distFolder} -p ${serverPort} -d False -i False
+                                          -o --cors -s ${withProxy}`,
+        dsc: `Start ${project} development release test server (on port ${serverPort}) after rebuilding and open it in a
+              browser`,
+    },
+    'serve:live': {
+        cmd: `${envDev} ${npmRun} webpack-dev-server -- ${webpackConfig} ${webpackCommonParameters}
+                                                        ${webpackDevParameters}
+                                                        ${webpackDevServerCommonParameters}
+                                                        ${webpackDevServerHotReloadParameters}`,
+        dsc: `Start ${project} development with watcher (compile, lint, build) and hot reload`,
+    },
+    'serve:prod': {
+        cmd: `${npmRun} build:prod:fast
+              && ${npmRun} http-server -- ${distFolder} -p ${serverPort} -d False -i False
+                                          -c-1 --cors -s ${withProxy}`,
+        dsc: `Start ${project} production release test server (on port ${serverPort}) after rebuilding`,
+    },
+    'serve:prod:fast': {
+        cmd: `${npmRun} http-server -- ${distFolder} -p ${serverPort} -d False -i False
+                                       -c-1 --cors -s ${withProxy}`,
+        dsc: `Start ${project} production release test server (on port ${serverPort}) with an existing build`,
+    },
+    'serve:prod:fast:open': {
+        cmd: `${npmRun} http-server -- ${distFolder} -p ${serverPort} -d False -i False
+                                       -o -c-1 --cors -s ${withProxy}`,
+        dsc: `Start ${project} production release test server (on port ${serverPort}) with an existing build and open it
+              in a browser`,
+    },
+    'serve:prod:open': {
+        cmd: `${npmRun} build:prod:fast
+              && ${npmRun} http-server -- ${distFolder} -p ${serverPort} -d False -i False
+                                          -o -c-1 --cors -s ${withProxy}`,
+        dsc: `Start ${project} production release test server (on port ${serverPort}) after rebuilding and open it in a
+              browser`,
+    },
+
+    'setup': {
+        cmd: `${npmRun} setup:core
+              && ${npmRun} task -- clean:project`,
+        dsc: `Clean setup ${project}: cleanup already installed packages, empty cache, install packages (using Yarn if
+              available, NPM else) and prepare for running`,
+    },
+    'setup:fast': {
+        cmd: `${npmRun} check:prerequisites
+              && ${npmRun} setup:fast:yarn:npm
+              && ${npmRun} task -- clean:project`,
+        dsc: `Quick setup ${project}: install packages (using Yarn if available, NPM else) and prepare for running`,
+    },
+    'setup:fast:no-check': {
+        cmd: `${npmRun} setup:fast:yarn:npm
+              && ${npmRun} task -- clean:project`,
+        dsc: `Quick setup ${project} (without pre-requisites check): install packages (using Yarn if available, NPM
+              else) and prepare for running`,
+    },
+    'setup:no-check': {
+        cmd: `${npmRun} setup:core:no-check
+              && ${npmRun} task -- clean:project`,
+        dsc: `Clean setup ${project} (without pre-requisites check): cleanup already installed packages, empty cache,
+              install packages (using Yarn if available, NPM else) and prepare for running`,
+    },
+    'setup:update': {
+        cmd: `${npmRun} setup:update:yarn:npm`,
+        dsc: `Update ${project}: upgrade packages (using Yarn if available, NPM else)`,
+    },
+
+    'tests': {
+        cmd: `${npmRun} unit
+              ; ${npmRun} e2e`,
+        dsc: `Run all the tests (Karma and Protractor) on ${project} after building`,
+    },
+    'tests:debug': {
+        cmd: `${npmRun} unit:debug
+              ; ${npmRun} e2e:debug`,
+        dsc: `Debug all the tests (Karma and Protractor with Chrome) on ${project} after building`,
+    },
+    'tests:debug:fast': {
+        cmd: `${npmRun} unit:debug
+              ; ${npmRun} e2e:debug:fast`,
+        dsc: `Debug all the tests (Karma and Protractor with Chrome) on ${project} with an existing build`,
+    },
+    'tests:fast': {
+        cmd: `${npmRun} unit
+              ; ${npmRun} e2e:fast`,
+        dsc: `Run all the tests (Karma and Protractor) on ${project} with an existing build`,
+    },
+    'tests:headless': {
+        cmd: `${npmRun} unit:headless
+              ; ${npmRun} e2e:headless`,
+        dsc: `Run all the tests (Karma and Protractor with Headless Chrome, XVFB needed) on ${project} after building`,
+    },
+    'tests:headless:fast': {
+        cmd: `${npmRun} unit:headless
+              ; ${npmRun} e2e:headless:fast`,
+        dsc: `Run all the tests (Karma and Protractor with Headless Chrome, XVFB needed) on ${project} with an existing
+              build`,
+    },
+
+    'unit': {
+        cmd: `${npmRun} clean:unit:report
+              && ${envTest} ${unitTests} ${npmRun} karma -- start`,
+        dsc: `Run unit tests (Karma with Chrome) on ${project}`,
+    },
+    'unit:debug': {
+        cmd: `${npmRun} clean:unit:report
+              && ${debug} ${envTest} ${unitTests} ${npmRun} karma -- start --no-single-run`,
+        dsc: `Debug unit tests (Karma with Chrome) on ${project}`,
+    },
+    'unit:headless': {
+        cmd: `${npmRun} clean:unit:report
+              && ${envTest} ${unitTests} ${npmRun} karma:headless -- start`,
+        dsc: `Run unit tests (Karma with Headless Chrome, XVFB needed) on ${project}`,
+    },
+    'unit:live': {
+        cmd: `${npmRun} clean:unit:report
+              && ${live} ${envTest} ${unitTests} ${npmRun} karma -- start --auto-watch --no-single-run`,
+        dsc: `Run unit tests (Karma with Chrome) in watch mode on ${project}`,
+    },
+    'unit:live:debug': {
+        cmd: `${npmRun} clean:unit:report
+              && ${live} ${debug} ${envTest} ${unitTests} ${npmRun} karma -- start --auto-watch --no-single-run`,
+        dsc: `Debug unit tests (Karma with Chrome) in watch mode on ${project}`,
+    },
+    'unit:live:headless': {
+        cmd: `${npmRun} clean:unit:report
+              && ${live} ${envTest} ${unitTests} ${npmRun} karma:headless -- start --auto-watch --no-single-run`,
+        dsc: `Run unit tests (Karma with Headless Chrome, XVFB needed) in watch mode on ${project}`,
+    },
 });
-
-gulp.task('clean:dist', function(cb)
-{
-    del(['dist/*'], cb);
-});
-
-
-// Develop
-gulp.task('lint', function()
-{
-    return gulp.src(paths.js)
-        .pipe(plugins.plumber())
-        .pipe(plugins.cached('lint'))
-        .pipe(plugins.jshint())
-        .pipe(plugins.jshint.reporter('jshint-summary'))
-        .pipe(plugins.jshint.reporter('fail'))
-        .pipe(plugins.remember('lint'))
-        .pipe(plugins.rename(function(p)
-        {
-            p.dirname = p.dirname.replace(path.normalize('/js'), '');
-        }))
-        .pipe(gulp.dest('build/js'));
-});
-
-gulp.task('scss', function()
-{
-    return gulp.src('demo/scss/lumx.scss')
-        .pipe(plugins.plumber())
-        .pipe(plugins.sass(
-        {
-            includePaths: ['libs/bourbon/app/assets/stylesheets/', 'libs/mdi/scss/']
-        }))
-        .pipe(gulp.dest('build'));
-});
-
-gulp.task('fonts', function()
-{
-    return gulp.src('libs/mdi/fonts/**')
-        .pipe(gulp.dest('build/fonts'));
-});
-
-gulp.task('demo', function()
-{
-    return gulp.src(paths.demo)
-        .pipe(plugins.plumber())
-        .pipe(gulp.dest('build'));
-});
-
-gulp.task('examples', function()
-{
-    return gulp.src(paths.examples)
-        .pipe(plugins.plumber())
-        .pipe(plugins.rename(function(p)
-        {
-            p.dirname = p.dirname.replace(path.normalize('/demo'), '');
-        }))
-        .pipe(gulp.dest('build/includes/modules'));
-});
-
-gulp.task('libs', function()
-{
-    return gulp.src(paths.libs)
-        .pipe(plugins.plumber())
-        .pipe(gulp.dest('build/libs'));
-});
-
-
-// Dist
-gulp.task('scss:move-core', function()
-{
-    return gulp.src(paths.scss[0])
-        .pipe(gulp.dest('dist/scss'));
-});
-
-gulp.task('scss:move-modules', function()
-{
-    return gulp.src(paths.scss[1])
-        .pipe(plugins.rename(function(path)
-        {
-            path.dirname = '/';
-        }))
-        .pipe(gulp.dest('dist/scss/modules'));
-});
-
-gulp.task('scss:paths', ['scss:move-core', 'scss:move-modules'], function()
-{
-    return gulp.src(['dist/scss/_lumx.scss'])
-        .pipe(plugins.plumber())
-        .pipe(plugins.replace(/..\/..\/modules\/[^\/]*\/scss/g, 'modules'))
-        .pipe(gulp.dest('dist/scss'));
-});
-
-gulp.task('dist:css', ['scss:paths'], function()
-{
-    return gulp.src(['core/scss/_lumx.scss'])
-        .pipe(plugins.plumber())
-        .pipe(plugins.rename('lumx.scss'))
-        .pipe(plugins.sass(
-        {
-            includePaths: ['libs/bourbon/app/assets/stylesheets/', 'libs/mdi/scss/']
-        }))
-        .pipe(plugins.replace(/\.\.\/fonts/g, './fonts'))
-        .pipe(plugins.minifyCss(
-        {
-            keepSpecialComments: 0
-        }))
-        .pipe(plugins.insert.prepend('/*\n LumX ' + options.version + '\n (c) 2014-' + new Date().getFullYear() + ' LumApps http://ui.lumapps.com\n License: MIT\n*/\n'))
-        .pipe(gulp.dest('dist'));
-});
-
-gulp.task('dist:fonts', function()
-{
-    return gulp.src('libs/mdi/fonts/**')
-        .pipe(gulp.dest('dist/fonts'));
-});
-
-gulp.task('tpl:dropdown', function()
-{
-    return gulp.src('modules/dropdown/views/*.html')
-        .pipe(plugins.plumber())
-        .pipe(plugins.templatecache(
-        {
-            output: 'dropdown_template.js',
-            moduleName: 'lumx.dropdown',
-            strip: path.normalize('views/')
-        }))
-        .pipe(gulp.dest('build/js/templates'));
-});
-
-gulp.task('tpl:file-input', function()
-{
-    return gulp.src('modules/file-input/views/*.html')
-        .pipe(plugins.plumber())
-        .pipe(plugins.templatecache(
-        {
-            output: 'file-input_template.js',
-            moduleName: 'lumx.file-input',
-            strip: path.normalize('views/')
-        }))
-        .pipe(gulp.dest('build/js/templates'));
-});
-
-gulp.task('tpl:text-field', function()
-{
-    return gulp.src('modules/text-field/views/*.html')
-        .pipe(plugins.plumber())
-        .pipe(plugins.templatecache(
-        {
-            output: 'text-field_template.js',
-            moduleName: 'lumx.text-field',
-            strip: path.normalize('views/')
-        }))
-        .pipe(gulp.dest('build/js/templates'));
-});
-
-gulp.task('tpl:search-filter', function()
-{
-    return gulp.src('modules/search-filter/views/*.html')
-        .pipe(plugins.plumber())
-        .pipe(plugins.templatecache(
-        {
-            output: 'search-filter_template.js',
-            moduleName: 'lumx.search-filter',
-            strip: path.normalize('views/')
-        }))
-        .pipe(gulp.dest('build/js/templates'));
-});
-
-gulp.task('tpl:select', function()
-{
-    return gulp.src('modules/select/views/*.html')
-        .pipe(plugins.plumber())
-        .pipe(plugins.templatecache(
-        {
-            output: 'select_template.js',
-            moduleName: 'lumx.select',
-            strip: path.normalize('views/')
-        }))
-        .pipe(gulp.dest('build/js/templates'));
-});
-
-gulp.task('tpl:tabs', function()
-{
-    return gulp.src('modules/tabs/views/*.html')
-        .pipe(plugins.plumber())
-        .pipe(plugins.templatecache(
-        {
-            output: 'tabs_template.js',
-            moduleName: 'lumx.tabs',
-            strip: path.normalize('views/')
-        }))
-        .pipe(gulp.dest('build/js/templates'));
-});
-
-gulp.task('tpl:date-picker', function()
-{
-    return gulp.src('modules/date-picker/views/*.html')
-        .pipe(plugins.plumber())
-        .pipe(plugins.templatecache(
-        {
-            output: 'date-picker_template.js',
-            moduleName: 'lumx.date-picker',
-            strip: path.normalize('views/')
-        }))
-        .pipe(gulp.dest('build/js/templates'));
-});
-
-gulp.task('tpl:progress', function()
-{
-    return gulp.src('modules/progress/views/*.html')
-        .pipe(plugins.plumber())
-        .pipe(plugins.templatecache(
-        {
-            output: 'progress_template.js',
-            moduleName: 'lumx.progress',
-            strip: path.normalize('views/')
-        }))
-        .pipe(gulp.dest('build/js/templates'));
-});
-
-gulp.task('tpl:button', function()
-{
-    return gulp.src('modules/button/views/*.html')
-        .pipe(plugins.plumber())
-        .pipe(plugins.templatecache(
-        {
-            output: 'button_template.js',
-            moduleName: 'lumx.button',
-            strip: 'views/'
-        }))
-        .pipe(gulp.dest('build/js/templates'));
-});
-
-gulp.task('tpl:checkbox', function()
-{
-    return gulp.src('modules/checkbox/views/*.html')
-        .pipe(plugins.plumber())
-        .pipe(plugins.templatecache(
-        {
-            output: 'checkbox_template.js',
-            moduleName: 'lumx.checkbox',
-            strip: 'views/'
-        }))
-        .pipe(gulp.dest('build/js/templates'));
-});
-
-gulp.task('tpl:radio-button', function()
-{
-    return gulp.src('modules/radio-button/views/*.html')
-        .pipe(plugins.plumber())
-        .pipe(plugins.templatecache(
-        {
-            output: 'radio-button_template.js',
-            moduleName: 'lumx.radio-button',
-            strip: 'views/'
-        }))
-        .pipe(gulp.dest('build/js/templates'));
-});
-
-gulp.task('tpl:stepper', function()
-{
-    return gulp.src('modules/stepper/views/*.html')
-        .pipe(plugins.plumber())
-        .pipe(plugins.templatecache(
-        {
-            output: 'stepper_template.js',
-            moduleName: 'lumx.stepper',
-            strip: 'views/'
-        }))
-        .pipe(gulp.dest('build/js/templates'));
-});
-
-gulp.task('tpl:switch', function()
-{
-    return gulp.src('modules/switch/views/*.html')
-        .pipe(plugins.plumber())
-        .pipe(plugins.templatecache(
-        {
-            output: 'switch_template.js',
-            moduleName: 'lumx.switch',
-            strip: 'views/'
-        }))
-        .pipe(gulp.dest('build/js/templates'));
-});
-
-gulp.task('tpl:fab', function()
-{
-    return gulp.src('modules/fab/views/*.html')
-        .pipe(plugins.plumber())
-        .pipe(plugins.templatecache(
-        {
-            output: 'fab_template.js',
-            moduleName: 'lumx.fab',
-            strip: 'views/'
-        }))
-        .pipe(gulp.dest('build/js/templates'));
-});
-
-gulp.task('tpl:icon', function()
-{
-    return gulp.src('modules/icon/views/*.html')
-        .pipe(plugins.plumber())
-        .pipe(plugins.templatecache(
-        {
-            output: 'icon_template.js',
-            moduleName: 'lumx.icon',
-            strip: 'views/'
-        }))
-        .pipe(gulp.dest('build/js/templates'));
-});
-
-gulp.task('tpl:data-table', function()
-{
-    return gulp.src('modules/data-table/views/*.html')
-        .pipe(plugins.plumber())
-        .pipe(plugins.templatecache(
-        {
-            output: 'data-table_template.js',
-            moduleName: 'lumx.data-table',
-            strip: 'views/'
-        }))
-        .pipe(gulp.dest('build/js/templates'));
-});
-
-gulp.task('dist:scripts', ['tpl:dropdown', 'tpl:file-input', 'tpl:text-field', 'tpl:search-filter', 'tpl:select', 'tpl:tabs', 'tpl:date-picker', 'tpl:progress', 'tpl:button', 'tpl:checkbox', 'tpl:radio-button', 'tpl:switch', 'tpl:stepper', 'tpl:fab', 'tpl:icon', 'tpl:data-table'], function()
-{
-    return gulp.src(paths.distJs.concat(paths.templates))
-        .pipe(plugins.plumber())
-        .pipe(plugins.concat('lumx.js'))
-        .pipe(plugins.insert.prepend('/*\n LumX ' + options.version + '\n (c) 2014-' + new Date().getFullYear() + ' LumApps http://ui.lumapps.com\n License: MIT\n*/\n'))
-        .pipe(gulp.dest('dist'))
-        .pipe(plugins.uglify())
-        .pipe(plugins.insert.prepend('/*\n LumX ' + options.version + '\n (c) 2014-' + new Date().getFullYear() + ' LumApps http://ui.lumapps.com\n License: MIT\n*/\n'))
-        .pipe(plugins.rename('lumx.min.js'))
-        .pipe(gulp.dest('dist'));
-});
-
-gulp.task('serve', ['watch'], function()
-{
-    return plugins.connect.server(
-    {
-        root: 'build'
-    });
-});
-
-gulp.task('watch', ['build'], function()
-{
-    watcherWithCache('lint', paths.js, ['lint']);
-    watcherWithCache('scss', [paths.scss, 'demo/scss/**/*.scss'], ['scss']);
-    watcherWithCache('demo', paths.demo, ['demo']);
-    watcherWithCache('examples', paths.examples, ['examples']);
-    watcherWithCache('libs', paths.libs, ['libs']);
-    watcherWithCache('tpl:dropdown', 'modules/dropdown/views/*.html', ['tpl:dropdown']);
-    watcherWithCache('tpl:file-input', 'modules/file-input/views/*.html', ['tpl:file-input']);
-    watcherWithCache('tpl:text-field', 'modules/text-field/views/*.html', ['tpl:text-field']);
-    watcherWithCache('tpl:search-filter', 'modules/search-filter/views/*.html', ['tpl:search-filter']);
-    watcherWithCache('tpl:select', 'modules/select/views/*.html', ['tpl:select']);
-    watcherWithCache('tpl:tabs', 'modules/tabs/views/*.html', ['tpl:tabs']);
-    watcherWithCache('tpl:date-picker', 'modules/date-picker/views/*.html', ['tpl:date-picker']);
-    watcherWithCache('tpl:progress', 'modules/progress/views/*.html', ['tpl:progress']);
-    watcherWithCache('tpl:button', 'modules/button/views/*.html', ['tpl:button']);
-    watcherWithCache('tpl:checkbox', 'modules/checkbox/views/*.html', ['tpl:checkbox']);
-    watcherWithCache('tpl:radio-button', 'modules/radio-button/views/*.html', ['tpl:radio-button']);
-    watcherWithCache('tpl:stepper', 'modules/stepper/views/*.html', ['tpl:stepper']);
-    watcherWithCache('tpl:switch', 'modules/switch/views/*.html', ['tpl:switch']);
-    watcherWithCache('tpl:fab', 'modules/fab/views/*.html', ['tpl:fab']);
-    watcherWithCache('tpl:icon', 'modules/icon/views/*.html', ['tpl:icon']);
-    watcherWithCache('tpl:data-table', 'modules/data-table/views/*.html', ['tpl:data-table']);
-});
-
-gulp.task('clean', ['clean:build', 'clean:dist']);
-
-gulp.task('build', ['lint', 'scss', 'fonts', 'demo', 'examples', 'libs', 'tpl:dropdown', 'tpl:file-input', 'tpl:text-field', 'tpl:search-filter', 'tpl:select', 'tpl:tabs', 'tpl:date-picker', 'tpl:progress', 'tpl:button', 'tpl:checkbox', 'tpl:radio-button', 'tpl:switch', 'tpl:stepper', 'tpl:fab', 'tpl:icon', 'tpl:data-table']);
-gulp.task('dist', ['clean:dist'], function()
-{
-    gulp.start('dist:css');
-    gulp.start('dist:scripts');
-    gulp.start('dist:fonts');
-});
-
-gulp.task('default', ['watch']);

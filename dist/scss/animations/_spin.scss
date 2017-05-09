@@ -1,9 +1,0 @@
-///*------------------------------------*\
-//    #ANIMATIONS-SPIN
-//\*------------------------------------*/
-
-// Spin animation
-@include keyframes(spin) {
-    0% { @include transform(rotate(0deg)); }
-    100% { @include transform(rotate(359deg)); }
-}

@@ -1,0 +1,18 @@
+{
+    "ecmaVersion": 5,
+    "libs": [
+        "browser",
+        "ecmascript",
+        "jquery",
+        "underscore"
+    ],
+    "loadEagerly": [
+    ],
+    "plugins": {
+        "angular": {},
+        "complete_strings": {
+          "maxLength": 15
+        },
+        "doc_comment": {}
+    }
+}

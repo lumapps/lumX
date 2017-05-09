@@ -1,0 +1,15 @@
+{
+    "emitDecoratorMetadata": "true",
+    "exclude": "**/*.+(spec|specs|e2e).ts",
+    "experimentalDecorators": "true",
+    "ignoreCompilerErrors": "true",
+    "mode": "file",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "preserveConstEnums": "true",
+    "stripInternal": "true",
+    "suppressExcessPropertyErrors": "true",
+    "suppressImplicitAnyIndexErrors": "true",
+    "target": "ES5",
+    "theme": "default"
+}

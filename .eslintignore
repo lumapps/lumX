@@ -1,0 +1,6 @@
+dist/**
+compiled/**
+**/*.min.js
+node_modules/**
+tests/client/unit/report
+tests/client/e2e/report

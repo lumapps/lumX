@@ -1,43 +1,116 @@
-# Workspace files are user-specific
-*.sublime-workspace
+# IDEs files
+*.sublime-*
+.vscode/*
+*.iml
+*.idea
+*.ropeproject
+/nbproject/private/
+/nbproject/project.properties
+/nbproject/project.xml
 
-# Windows image file caches
+# Misc temp files
+*.tmp
+*.*~*
+*.\#*
+\#*\#
+*.cache
+Icon?
+*.swp
+tmp/
+/tmp*
+.tmp/
+
+# SASS & CSS & Styles
+.sass-cache
+*.css.map
+config.codekit
+
+# Source files
+*.src
+*.js.map
+
+# Linux files
+**/pids/
+*.pid
+*.seed
+
+# Windows files
+Desktop.ini
+$RECYCLE.BIN/
+*._*
 Thumbs.db
 ehthumbs.db
 
-# Folder config file
-Desktop.ini
-
-# Recycle Bin used on file shares
-$RECYCLE.BIN/
-
-# Various temp files
-.tmp
-.sass-cache
-.idea
-.ropeproject
-*.*~*
-
-# MacOS Files
+# MacOS files
 .DS_Store
 .AppleDouble
 .LSOverride
 .Spotlight-V100
 .Trashes
 
-# Thumbnails
-._*
+# Python files
+*.pip_cache
+*.pyc
 
-# Libs and builded files
-/node_modules/*
-/libs
-/build
+# GAE Specific files
+*datastore*
+!*datastore*.py
+*blobstore*
+*.search_index*
+
+# NPM/Yarn/Bower files
+**/node_modules/
+**/bower_components/
+npm-debug.log*
+yarn-*.log
+
+# Test files
+tests/**/report
+coverage.json
+tests/**/*Report.tar.gz
+
+# Logs files
+**/logs
+*.log
+logs
+logs-empty
+logs-journal
+logs-test
+
+# Typescript & Typings
+.awcache
+/src/client/typings/tsd/
+**/tsd_typings/
+
+# Webpack
+.webpack.json
+
+# Langs
+lang.csv
+lang.js
+
+# Misc
+/support/
+remote/password*
+marketplace/*.zip
+scripts/import/
+app/server/import_dump/
+progress.csv
+
+# Dist
 /dist
 
-*.css.map
+# CI
+build.status
+build.properties
 
-# Codekit
-config.codekit
+# Docs
+/docs
 
-# Python
-*.pyc
+# Compiled files
+compiled/
+dll/
+*.ngfactory.ts
+*.css.shim.ts
+*.ngsummary.json
+*.shim.ngstyle.ts
