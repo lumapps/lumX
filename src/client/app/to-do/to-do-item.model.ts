@@ -26,6 +26,7 @@ export class ToDoItem implements IToDoItem {
      * @public
      */
     public done: Date;
+
     /**
      * The due date of the to-do item.
      *
@@ -33,6 +34,7 @@ export class ToDoItem implements IToDoItem {
      * @public
      */
     public due: Date;
+
     /**
      * The unique identifier of the to-do item.
      *
@@ -40,6 +42,7 @@ export class ToDoItem implements IToDoItem {
      * @public
      */
     public id: number;
+
     /**
      * The label (or name) of the to-do item.
      *
@@ -60,6 +63,8 @@ export class ToDoItem implements IToDoItem {
         this.label = label;
         this.done = done;
         this.due = due;
+
+        this.id = undefined;
     }
 
 
@@ -70,7 +75,9 @@ export class ToDoItem implements IToDoItem {
      * @public
      */
     public do(): Date {
-        this.done = new Date();
+        if (UtilsService.isUndefinedOrEmpty(this.done)) {
+            this.done = new Date();
+        }
 
         return this.done;
     }
