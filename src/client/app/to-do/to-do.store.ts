@@ -67,8 +67,12 @@ export class ToDoStore {
      */
     public remove(id: number): ToDoItem {
         let splice: ToDoItem[] = [];
-        if (id >= 0 && id < this.items.length) {
-            splice = this.items.splice(id, 1);
+
+        const index: number = _.findIndex(this.items, {
+            id,
+        });
+        if (index > -1) {
+            splice = this.items.splice(index, 1);
         }
 
         return _.get(splice, '[0]', undefined);
