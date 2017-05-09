@@ -56,26 +56,9 @@ describe('To-Do List', () => {
     });
 
 
-    it('can toggle the state of a to-do item', () => {
-        _ToDoStore.reset();
-
-        const notDone: number = _ToDoStore.add(new ToDoItem('Not done'));
-        expect(_ToDoStore.items[notDone]).to.exist;
-
-        expect(_ToDoStore.items[notDone].done).to.be.undefined;
-
-        const doneDate: Date = new Date();
-        const done: number = _ToDoStore.add(new ToDoItem('Done', doneDate));
-        expect(_ToDoStore.items[done]).to.exist;
-
-        expect(_ToDoStore.items[done].done).to.equalDate(doneDate);
-
-        const doneOn: Date = _ToDoStore.items[notDone].toggle();
-        expect(_ToDoStore.items[notDone].done).to.equalDate(doneOn);
-
-        const wasDone: Date = _ToDoStore.items[done].toggle();
-        expect(_ToDoStore.items[done].done).to.be.undefined;
-        expect(wasDone).equalDate(doneDate);
+    it('should be initialized', () => {
+        expect(fixture).to.exist;
+        expect(component).to.exist;
     });
 
     it('can display an item with a due date', () => {
