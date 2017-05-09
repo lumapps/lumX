@@ -1,7 +1,7 @@
 import { ElementArrayFinder, ElementFinder, ElementHelper, ExpectedConditions, ProtractorBrowser } from 'protractor';
 import { WebDriver, promise as WebdriverPromise } from 'selenium-webdriver';
 
-import { UtilsService } from '../../../../src/client/app/core/services/utils.service';
+import { UtilsService } from 'app/core/services/utils.service';
 
 
 /**

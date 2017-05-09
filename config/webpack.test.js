@@ -13,7 +13,6 @@ const webpackMerge = require('webpack-merge');
 const ENV = process.env.ENV = process.env.NODE_ENV = helpers.ENVS.test;
 const METADATA = helpers.getMetadata(ENV);
 
-const isLive = process.env.LIVE;
 
 /**
  * Webpack configuration.
@@ -26,7 +25,7 @@ module.exports = function webpackTestConfigExport() {
     console.info('');
     console.info('Starting Webpack bundle compilation.');
     console.info('This could take some time, please wait...');
-    if (isLive) {
+    if (helpers.IS_LIVE) {
         console.info('');
     }
 

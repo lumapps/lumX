@@ -1,5 +1,8 @@
 const helpers = require('./config/modules/helpers');
 
+const tsConfigFileName = './tsconfig.e2e.json';
+const tsConfig = require(tsConfigFileName);
+
 // eslint-disable-next-line no-unused-vars
 const isCI = process.env.CI || require('is-ci') || false;
 // eslint-disable-next-line no-unused-vars
@@ -17,7 +20,11 @@ exports.config = {
 
     beforeLaunch: () => {
         require('ts-node').register({
-            project: 'tsconfig.e2e.json',
+            project: tsConfigFileName,
+        });
+        require('tsconfig-paths').register({
+            baseUrl: tsConfig.compilerOptions.baseUrl,
+            paths: tsConfig.compilerOptions.paths,
         });
     },
 
@@ -39,6 +46,7 @@ exports.config = {
     mochaOpts: {
         compilers: 'ts:ts-node/register',
         reporter: 'spec',
+        require: ['tsconfig-paths/register'],
         slow: 5000,
         timeout: 50000,
     },

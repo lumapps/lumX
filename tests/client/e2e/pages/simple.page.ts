@@ -1,10 +1,10 @@
 import { ElementFinder, by } from 'protractor';
 import { By } from 'selenium-webdriver';
 
-import { UserBrowser } from '../helpers/user-browser.class';
+import { UserBrowser } from 'e2e/helpers/user-browser.class';
 
 import { APP_SELECTOR, SELECTOR_PREFIX,
-         SELECTOR_SEPARATOR } from '../../../../src/client/app/core/settings/selectors.settings';
+         SELECTOR_SEPARATOR } from 'app/core/settings/selectors.settings';
 
 
 /**

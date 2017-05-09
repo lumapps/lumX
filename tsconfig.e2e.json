@@ -28,13 +28,16 @@
         "noUnusedLocals": true,
         "noUnusedParameters": true,
         "paths": {
+            "app/*": [
+                "../app/*"
+            ],
             "compiled/*": [
                 "../../../compiled/*"
             ],
             "libs/*": [
                 "../libs/*"
             ],
-            "tests/e2e/*": [
+            "e2e/*": [
                 "../../../tests/client/e2e/*"
             ]
         },

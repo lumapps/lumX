@@ -1,12 +1,12 @@
 import { ElementArrayFinder, ElementFinder, by } from 'protractor';
 import { By } from 'selenium-webdriver';
 
-import { UserBrowser } from '../helpers/user-browser.class';
+import { UserBrowser } from 'e2e/helpers/user-browser.class';
 
 import { APP_SELECTOR, NEW_TO_DO_SELECTOR, SELECTOR_PREFIX, SELECTOR_SEPARATOR, TO_DO_LIST_SELECTOR,
-         TO_DO_SELECTOR } from '../../../../src/client/app/core/settings/selectors.settings';
+         TO_DO_SELECTOR } from 'app/core/settings/selectors.settings';
 
-import { UtilsService } from '../../../../src/client/app/core/services/utils.service';
+import { UtilsService } from 'app/core/services/utils.service';
 
 
 /**

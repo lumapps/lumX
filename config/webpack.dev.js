@@ -17,11 +17,10 @@ const WebpackNotifierPlugin = require('webpack-notifier');
 const ENV = process.env.ENV = process.env.NODE_ENV = helpers.ENVS.dev;
 const METADATA = helpers.getMetadata(ENV);
 
-/**
- * Other constants.
- */
-const ENABLE_DASHBOARD = false;
 
+/**
+ * Configure the list of Webpack plugins to use.
+ */
 const plugins = [
     /**
      * Plugin: LoaderOptionsPlugin.
@@ -51,11 +50,12 @@ const plugins = [
     new WebpackNotifierPlugin({
         alwaysNotify: true,
         excludeWarnings: false,
+        skipFirstNotification: false,
         title: 'Webpack compilation',
     }),
 ];
 
-if (METADATA.HMR && ENABLE_DASHBOARD) {
+if (METADATA.HMR && helpers.ENABLE_DASHBOARD) {
     const dashboard = new Dashboard();
 
     plugins.unshift(

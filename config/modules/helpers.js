@@ -19,7 +19,10 @@ const APPENGINE_DEV_SERVER = {
     port: 8888,
 };
 
+const ENABLE_DASHBOARD = false;
 const ENABLE_DEBUG = process.env.DEBUG;
+const IS_LIVE = process.env.LIVE;
+const SILENT = process.env.SILENT;
 const TESTS_TYPE = process.env.TESTS;
 
 const ENVS = {
@@ -289,9 +292,13 @@ function getOptions(options) {
 
 /////////////////////////////
 
-exports.COMMON_DEBUG_INFO = COMMON_DEBUG_INFO;
+exports.ENABLE_DASHBOARD = ENABLE_DASHBOARD;
 exports.ENABLE_DEBUG = ENABLE_DEBUG;
 exports.ENVS = ENVS;
+exports.IS_LIVE = IS_LIVE;
+exports.SILENT = SILENT;
+
+exports.COMMON_DEBUG_INFO = COMMON_DEBUG_INFO;
 exports.TESTS_TYPE = TESTS_TYPE;
 exports.TESTS_TYPES = TESTS_TYPES;
 

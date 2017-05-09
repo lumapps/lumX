@@ -1,12 +1,12 @@
 /* tslint:disable:no-unused-expression */
 
-import { expect } from '../../../../src/client/app/core/testing/chai-e2e.utils';
+import { expect } from 'app/core/testing/chai-e2e.utils';
 
 import { ElementFinder, browser } from 'protractor';
 
-import { UserBrowser } from '../helpers/user-browser.class';
+import { UserBrowser } from 'e2e/helpers/user-browser.class';
 
-import { HomePage } from '../pages/home.page';
+import { HomePage } from 'e2e/pages/home.page';
 
 
 describe('Application', () => {

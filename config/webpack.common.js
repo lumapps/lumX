@@ -35,6 +35,7 @@ module.exports = function webpackCommonConfigExport(metadata) {
     const tsExcludes = [
         helpers.root('dist'),
     ];
+    let tsInclude;
     const tsLoaders = [
         {
             loader: 'ng-router-loader',
@@ -49,7 +50,7 @@ module.exports = function webpackCommonConfigExport(metadata) {
             loader: 'awesome-typescript-loader',
             options: {
                 configFileName: undefined,
-                silent: !helpers.ENABLE_DEBUG,
+                silent: helpers.SILENT,
                 useCache: true,
                 usePrecompiledFiles: true,
             },
@@ -230,6 +231,7 @@ module.exports = function webpackCommonConfigExport(metadata) {
             lintTest = /\.(e2e|page|spec|specs)\.ts$/i;
         }
     } else {
+        tsInclude = helpers.root('src', 'client');
         if (metadata.env === helpers.ENVS.dev) {
             tsLoaders.unshift({
                 loader: '@angularclass/hmr-loader',
@@ -492,11 +494,12 @@ module.exports = function webpackCommonConfigExport(metadata) {
                  *
                  * @see {@link https://github.com/AngularClass/angular2-hmr-loader|Angular2 HMR Loader}
                  * @see {@link https://github.com/s-panferov/awesome-typescript-loader|Awesome Typescript Loader}
-                 * @see {@link https://www.npmjs.com/package/angular2-router-loader|Angular2 Router Loader}
+                 * @see {@link https://www.npmjs.com/package/ng-router-loader|NG Router Loader}
                  * @see {@link https://github.com/TheLarkInn/angular2-template-loader|Angular2 Template Loader}
                  */
                 {
                     exclude: tsExcludes,
+                    include: tsInclude,
                     test: /\.ts$/i,
                     use: tsLoaders,
                 },

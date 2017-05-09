@@ -343,6 +343,7 @@
         "js-beautify": "latest",
         "jsdoc": "latest",
         "sass-lint": "latest",
+        "tsconfig-paths": "latest",
         "tslib": "latest",
         "tslint": "latest",
         "tslint-eslint-rules": "latest",

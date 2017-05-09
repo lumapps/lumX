@@ -32,14 +32,17 @@
         "noUnusedLocals": true,
         "noUnusedParameters": true,
         "paths": {
+            "app/*": [
+                "../app/*"
+            ],
             "compiled/*": [
                 "../../../compiled/*"
             ],
+            "e2e/*": [
+                "../../../tests/client/e2e/*"
+            ],
             "libs/*": [
                 "../libs/*"
-            ],
-            "tests/e2e/*": [
-                "../../../tests/client/e2e/*"
             ]
         },
         "pretty": true,
