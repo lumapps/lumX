@@ -195,7 +195,6 @@ const LOADERS_OPTIONS = {
         },
         'css': {
             importLoaders: 1,
-            sourceMap: true,
         },
         'file': {
             name: 'assets/[name].[hash].[ext]',
@@ -297,7 +296,7 @@ function getLoaderOptions(loaderName, env) {
         {
             debug: ENABLE_DEBUG,
             minimize: ((env === ENVS.prod) || MINIMIZE) && !ENABLE_DEBUG,
-            sourceMap: true,
+            sourceMap: (loaderName !== 'awesome-typescript'),
         }
     );
 }
