@@ -158,6 +158,8 @@
         "update:npm": "npm -s run setup:update:npm",
         "update:yarn": "npm -s run setup:update:yarn",
 
+        "update:boilerplate": "npm -s run update:boilerplate",
+
         "default": "npm -s run start",
         "start": "npm -s run serve:live",
 
