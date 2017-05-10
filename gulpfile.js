@@ -518,7 +518,7 @@ shelter({
 
     'update:boilerplate': {
         cmd: `git fetch upstream
-              && git merge --no-ff upstream/master -m "chore: update Boilerplate`,
+              && git merge --no-ff upstream/master -m "chore: update Boilerplate"`,
         dsc: `Update ${project} with the latest Boilerplate updates (may need some manual conflict resolution)`,
     },
 });
