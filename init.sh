@@ -286,6 +286,10 @@ if [ "$skipGit" = false ]; then
         exitIfError "Deleting git"
         git init -q
         exitIfError "Initializing git"
+        git remote add upstream https://github.com/lumapps/boilerplate.git
+        exitIfError "Adding Boilerplate upstream"
+        git config remote.upstream.pushurl "push-to-boilerplate-disabled-from-here"
+        exitIfError "Disabling push to Boilerplate"
     printf "${BLUE}Done${DEFAULT}\n"
 fi
 
