@@ -16,7 +16,7 @@ As heavy users of [Angular](https://github.com/angular/angular), we encourage yo
 
 ## <a name="got-a-question-or-a-problem-"></a> Got a question or a problem?
 
-If you have questions about how to use LumX², please direct these to [StackOverflow](http://stackoverflow.com/questions/tagged/lumx).
+If you have questions about how to use LumX², please direct these to [StackOverflow](http://stackoverflow.com/questions/tagged/lumx2).
 
 ## <a name="found-an-issue-"></a> Found an issue?
 
