@@ -1,5 +1,5 @@
 {
-    "name": "lumx",
+    "name": "lumx2",
     "version": "1.0.0",
     "description": "The first responsive front-end framework based on Angular and Google Material Design specifications",
     "keywords": [
@@ -272,6 +272,7 @@
         "dedent": "latest"
     },
     "devDependencies": {
+        "@angular/cli": "latest",
         "@angular/compiler-cli": "latest",
         "ngc-webpack": "latest",
 

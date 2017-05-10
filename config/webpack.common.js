@@ -475,7 +475,7 @@ module.exports = function webpackCommonConfigExport(metadata) {
                 inject: 'head',
                 metadata: metadata,
                 template: 'src/client/index.html',
-                title: 'LumBoilerplate',
+                title: 'LumX²',
             }),
 
             new NGCWebpack.NgcWebpackPlugin({

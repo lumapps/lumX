@@ -1,0 +1,55 @@
+{
+    "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+    "project": {
+        "name": "lumx2",
+        "ejected": false
+    },
+    "apps": [{
+        "name": "lumx2",
+        "root": "src/client",
+        "outDir": "dist/client",
+        "assets": [
+            "assets",
+            "favicon.ico"
+        ],
+        "deployUrl": "",
+        "index": "index.html",
+        "main": "main.ts",
+        "polyfills": "polyfills.ts",
+        "test": "../../tests/client/unit/spec-bundle.js",
+        "tsconfig": "../../tsconfig.json",
+        "testTsconfig": "../../tsconfig.unit.json",
+        "prefix": "lx",
+        "serviceWorker": false,
+        "styles": [],
+        "scripts": [],
+        "environmentSource": "libs/environment.ts",
+        "environments": {
+            "dev": "libs/env.dev.ts",
+            "prod": "libs/env.prod.ts"
+        }
+    }],
+    "e2e": {
+        "protractor": {
+            "config": "./protractor.conf.js"
+        }
+    },
+    "lint": [{
+        "project": "./tsconfig.prod.json"
+    },
+    {
+        "project": "./tsconfig.unit.json"
+    },
+    {
+        "project": "./tsconfig.e2e.json"
+    }],
+    "test": {
+        "karma": {
+            "config": "./karma.conf.js"
+        }
+    },
+    "defaults": {
+        "styleExt": "scss",
+        "component": {}
+    }
+}
