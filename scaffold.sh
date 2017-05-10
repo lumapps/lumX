@@ -1,6 +1,10 @@
 #!/bin/bash
 # This script is used to scaffold new modules, components, services, ...
 
+LOG="./scaffold.log"
+echo "" > $LOG
+
+
 BOLD=""
 UNDERLINE=""
 STANDOUT=""
@@ -68,13 +72,25 @@ ${UNDERLINE}${BLUE}Components options${DEFAULT}:
 """
 }
 
+function printfl() {
+    printf -- "${1}" | tee -a $LOG
+}
+
+function log() {
+    printf -- "${1}" &>> $LOG
+
+    if [ -z "$2" ] || [ "$2" == true ]; then
+        printf -- "\n" &>> $LOG
+    fi
+}
+
 function exitIfError() {
     if [ $? -ne 0 ]; then
-        printf "${BOLD}${RED}Error with code $?"
+        printfl "${BOLD}${RED}Error with code $?"
         if [ -n "$1" ]; then
-            printf "${DEFAULT} ${RED}while ${1}"
+            printfl "${DEFAULT} ${RED}while ${1}"
         fi
-        printf "${DEFAULT}\n"
+        printfl "${DEFAULT}\n"
         exit $?
     fi
 }
@@ -87,9 +103,9 @@ function readWithDefault() {
     if [ -n "$1" ] && [ -n "$2" ]; then
         defaultVarName="default${2^}"
 
-        printf "${YELLOW}${1}?${DEFAULT} "
+        printfl "${YELLOW}${1}?${DEFAULT} "
         if [ -n "${!defaultVarName}" ]; then
-            printf "(${BOLD}${CYAN}${!defaultVarName}${DEFAULT}) "
+            printfl "(${BOLD}${CYAN}${!defaultVarName}${DEFAULT}) "
         fi
 
         IFS= read -r inputValue
@@ -98,6 +114,8 @@ function readWithDefault() {
         else
             eval $2=`echo -ne \""${!defaultVarName}"\"`
         fi
+
+        log "${!2}"
     fi
 }
 
@@ -112,7 +130,8 @@ function menuWithDefault() {
         optionsName="$3[@]"
         options=("${!optionsName}")
 
-        printf "${YELLOW}${1}?${DEFAULT}\n"
+        printfl "${YELLOW}${1}?${DEFAULT}\n"
+        log "Pick an option -> " false
         PS3="Pick an option -> "
 
         select inputValue in "${options[@]}"; do
@@ -124,6 +143,8 @@ function menuWithDefault() {
 
             break
         done
+
+        log "${!2}"
     fi
 }
 
@@ -140,6 +161,8 @@ function readBooleanWithDefault() {
             choices="(y/${BOLD}${CYAN}${!defaultVarName^^}${DEFAULT})"
         fi
 
+        log "${YELLOW}${1}?${DEFAULT} ${choices} " false
+
         IFS= read -r -p "${YELLOW}${1}?${DEFAULT} ${choices} " inputValue
         if [ -n "$inputValue" ]; then
             if [ "${inputValue,,}" != 'y' ] && [ "${inputValue,,}" != 'n' ]; then
@@ -151,6 +174,8 @@ function readBooleanWithDefault() {
         else
             eval $2=`echo -ne \""${!defaultVarName,,}"\"`
         fi
+
+        log "${!2}"
     fi
 }
 
@@ -318,9 +343,9 @@ done
 printf "${BOLD}Welcome to the ${BLUE}LumX²${DEFAULT}${BOLD} scaffolder!${DEFAULT}\n"
 
 if [ -z "$scaffoldType" ]; then
-    printf "We will ask you some question to help you scaffold a new element in the project. Ready?\n\n"
+    printfl "We will ask you some question to help you scaffold a new element in the project. Ready?\n\n"
 else
-    printf "We will ask you some question to help you scaffold a new ${scaffoldType} in the project. Ready?\n\n"
+    printfl "We will ask you some question to help you scaffold a new ${scaffoldType} in the project. Ready?\n\n"
 fi
 menuWithDefault "What sort of element do you wish to scaffold" "scaffoldType" "SCAFFOLD_TYPES"
 scaffoldType=${scaffoldType,,}
@@ -406,7 +431,7 @@ fi
 modulePath="${modulePath%/}"
 
 
-printf """
+printfl """
 We are now ready to scaffold your ${BOLD}${coreMessage}${scaffoldType}${DEFAULT}. Please wait...
 
 """
@@ -459,12 +484,12 @@ function initModule() {
             return 0
         fi
 
-        printf "Creating module directory \"${directory}\"... "
+        printfl "Creating module directory \"${directory}\"... "
         if [ ! -d $directory ]; then
             mkdir -p $directory
             exitIfError "Creating module \"${directory}\" directory"
         fi
-        printf "${BLUE}Done${DEFAULT}\n"
+        printfl "${BLUE}Done${DEFAULT}\n"
     fi
 
     cd $directory
@@ -499,7 +524,7 @@ function initModule() {
         fi
     fi
 
-    printf "Creating files and directories... "
+    printfl "Creating files and directories... "
         if [ "$_isCoreModule" = false ] && [ "$_forComponent" = false ] && [ ! -d "components" ]; then
             mkdir -p "components"
             exitIfError "Creating \"${directory}/components\" directory"
@@ -510,7 +535,7 @@ function initModule() {
             touch $routesFile
         fi
         exitIfError "Creating \"${directory}/${moduleFile}\" file"
-    printf "${BLUE}Done${DEFAULT}\n"
+    printfl "${BLUE}Done${DEFAULT}\n"
 
     root="."
     subPath=""
@@ -551,21 +576,21 @@ const routes: Routes = ["""
 ];
 """
 
-    printf "Creating TypeScript module... "
+    printfl "Creating TypeScript module... "
         moduleWithProvidersImport=""
         if [ "$_isCoreModule" = true ]; then
             moduleWithProvidersImport="ModuleWithProviders, "
         fi
-        printf "import { ${moduleWithProvidersImport}NgModule } from '@angular/core';" > $moduleFile
+        printf -- "import { ${moduleWithProvidersImport}NgModule } from '@angular/core';" > $moduleFile
 
         if [ "$_useRouter" = true ]; then
             routesImport=""
             if [ "$_generateRoutes" = false ]; then
                 routesImport=", Routes"
             fi
-            printf "\nimport { RouterModule${routesImport} } from '@angular/router';" >> $moduleFile
+            printf -- "\nimport { RouterModule${routesImport} } from '@angular/router';" >> $moduleFile
         fi
-        printf """
+        printf -- """
 // If you need anything else from Angular, import it here. For example:
 // import { Response } from '@angular/http';
 
@@ -574,27 +599,27 @@ const routes: Routes = ["""
 """ >> $moduleFile
 
         if [ "$_importCore" = true ]; then
-            printf """
+            printf -- """
 import { CoreModule } from 'core/modules/core.module';
 // If you need anything else from the core, import it here. For example:""" >> $moduleFile
         else
-            printf """
+            printf -- """
 // If you need anything from the core, import it here. For example:""" >> $moduleFile
         fi
 
-        printf """
+        printf -- """
 // import { MyService } from 'core/services/my.service';
 """ >> $moduleFile
 
         if [ "$_generateRoutes" = true ]; then
-            printf "import { routes } from './${_selector}.routes';\n" >> $moduleFile
+            printf -- "import { routes } from './${_selector}.routes';\n" >> $moduleFile
         fi
 
         if [ "$_forComponent" = true ]; then
-            printf "import { ${className}Component } from '${root}/${subPath}${_selector}.component';\n" >> $moduleFile
+            printf -- "import { ${className}Component } from '${root}/${subPath}${_selector}.component';\n" >> $moduleFile
         fi
 
-        printf """
+        printf -- """
 // If you need anything else, import it here. For example:
 // import { MyModule } from 'my-component/my.module';
 // import { MyComponent } from 'my-component/my.component';
@@ -602,10 +627,10 @@ import { CoreModule } from 'core/modules/core.module';
 """ >> $moduleFile
 
         if [ "$_useRouter" = true ] && [ "$_generateRoutes" = false ]; then
-            printf "$routes" >> $moduleFile
+            printf -- "$routes" >> $moduleFile
         fi
 
-        printf """
+        printf -- """
 /**
  * The \"${_moduleName}\" module.
  * [Module description].
@@ -613,35 +638,35 @@ import { CoreModule } from 'core/modules/core.module';
 @NgModule({
     declarations: [""" >> $moduleFile
                 if [ "$_forComponent" = true ]; then
-                    printf """
+                    printf -- """
         ${className}Component,
         // If this module has anything else to declare, add it here.""" >> $moduleFile
                 else
-                    printf """
+                    printf -- """
         // If this module has anything to declare, add it here. For example:
         // MyComponent,""" >> $moduleFile
                 fi
-            printf """
+            printf -- """
     ],
 
     exports: [""" >> $moduleFile
                 elseString=""
                 if [ "$_importCore" = true ]; then
                     elseString=" else"
-                    printf """
+                    printf -- """
         CoreModule,""" >> $moduleFile
                 fi
                 if [ "$_forComponent" = true ]; then
                     elseString=" else"
-                    printf """
+                    printf -- """
         ${className}Component,""" >> $moduleFile
                 fi
                 if [ "$_useRouter" = true ]; then
                     elseString=" else"
-                    printf """
+                    printf -- """
         RouterModule,""" >> $moduleFile
                 fi
-            printf """
+            printf -- """
         // If you need to export anything${elseString}, add it here. For example:
         // MyModule,
     ],
@@ -650,15 +675,15 @@ import { CoreModule } from 'core/modules/core.module';
                 elseString=""
                 if [ "$_importCore" = true ]; then
                     elseString=" else"
-                    printf """
+                    printf -- """
         CoreModule,""" >> $moduleFile
                 fi
                 if [ "$_useRouter" = true ]; then
                     elseString=" else"
-                    printf """
+                    printf -- """
         RouterModule.forChild(routes),""" >> $moduleFile
                 fi
-            printf """
+            printf -- """
         // If you need to import anything${elseString}, add it here. For example:
         // MyModule,
     ],
@@ -670,7 +695,7 @@ import { CoreModule } from 'core/modules/core.module';
 })
 export class ${className}Module {""" >> $moduleFile
         if [ "$_useRouter" = true ]; then
-            printf """
+            printf -- """
     /**
      * The routes of the \"${_moduleName}\" module.
      *
@@ -683,7 +708,7 @@ export class ${className}Module {""" >> $moduleFile
         fi
 
         if [ "$_isCoreModule" = true ]; then
-            printf """
+            printf -- """
     /**
      * Export the module for the app's root module.
      *
@@ -704,23 +729,23 @@ export class ${className}Module {""" >> $moduleFile
     }""" >> $moduleFile
         fi
 
-        printf """
+        printf -- """
 }
 """ >> $moduleFile
 
         convertTabToSpace $moduleFile
 
-    printf "${BLUE}Done${DEFAULT}\n"
+    printfl "${BLUE}Done${DEFAULT}\n"
 
     if [ "$_generateRoutes" = true ]; then
-        printf "Creating TypeScript routes... "
-            printf "import { Routes } from '@angular/router';\n" > $routesFile
+        printfl "Creating TypeScript routes... "
+            printf -- "import { Routes } from '@angular/router';\n" > $routesFile
 
             if [ "$_forComponent" = true ]; then
-                printf "import { ${className}Component } from '${root}/${subPath}${_selector}.component';\n" >> $routesFile
+                printf -- "import { ${className}Component } from '${root}/${subPath}${_selector}.component';\n" >> $routesFile
             fi
 
-            printf """
+            printf -- """
 // If you need any other component, import it here. For example:
 // import { MyComponent } from 'my-component/my.component';
 
@@ -729,10 +754,10 @@ ${routes}
     """ >> $routesFile
 
             convertTabToSpace $routesFile
-        printf "${BLUE}Done${DEFAULT}\n"
+        printfl "${BLUE}Done${DEFAULT}\n"
     fi
 
-    cd - > /dev/null
+    cd - &>> $LOG
 }
 
 function initComponent() {
@@ -782,19 +807,19 @@ function initComponent() {
         return 0
     fi
 
-    printf "Creating component directory '${directory}'... "
+    printfl "Creating component directory '${directory}'... "
     if [ ! -d $directory ]; then
         mkdir -p $directory
         exitIfError "Creating \"${directory}\" directory"
     fi
-    printf "${BLUE}Done${DEFAULT}\n"
+    printfl "${BLUE}Done${DEFAULT}\n"
 
     cd $directory
     componentFile="${_selector}.component.ts"
     componentSpecFile="${_selector}.component.spec.ts"
     componentTemplateFile="${_selector}.component.html"
     componentStyleFile="${_selector}.component.scss"
-    printf "Creating files... "
+    printfl "Creating files... "
         touch $componentFile
         exitIfError "Creating \"${directory}/${componentFile}\" file"
         touch $componentSpecFile
@@ -803,9 +828,9 @@ function initComponent() {
         exitIfError "Creating \"${directory}/${componentTemplateFile}\" file"
         touch $componentStyleFile
         exitIfError "Creating \"${directory}/${componentStyleFile}\" file"
-    printf "${BLUE}Done${DEFAULT}\n"
+    printfl "${BLUE}Done${DEFAULT}\n"
 
-    printf "Creating TypeScript component... "
+    printfl "Creating TypeScript component... "
         className=$(echo -e "${_componentName}" | sed -r 's/(^| )([A-Za-z0-9])/\U\2/g' | tr -d '[[:space:]]\n\r-' | tr -dc '[:alnum:]\n\r')
 
         imports="Component"
@@ -831,11 +856,11 @@ function initComponent() {
             imports="${imports}, OnInit"
             implements="${implements}OnInit"
         fi
-        printf "import { ${imports} } from '@angular/core';" > $componentFile
+        printf -- "import { ${imports} } from '@angular/core';" > $componentFile
         if [ "$_hasActivatedRoute" = true ]; then
-            printf "\nimport { ActivatedRoute } from '@angular/router';" >> $componentFile
+            printf -- "\nimport { ActivatedRoute } from '@angular/router';" >> $componentFile
         fi
-        printf """
+        printf -- """
 // If you need anything else from Angular, import it here. For example:
 // import { Response } from '@angular/http';
 
@@ -873,9 +898,9 @@ import { SELECTOR_PREFIX, SELECTOR_SEPARATOR } from 'core/settings/selectors.set
         if [ -n "$implements" ]; then
             implements="implements ${implements} "
         fi
-        printf "export class ${className}Component ${implements}{" >> $componentFile
+        printf -- "export class ${className}Component ${implements}{" >> $componentFile
 
-        printf """
+        printf -- """
     /**
      * Add any attributes you need here.
      * First private ones, then protected and finally public.
@@ -888,16 +913,16 @@ import { SELECTOR_PREFIX, SELECTOR_SEPARATOR } from 'core/settings/selectors.set
 
         if [ "$_generateConstructor" = true ]; then
             params=""
-            printf """
+            printf -- """
     /**
      * Constructs a new \"${_componentName}\" component.""" >> $componentFile
             if [ "$_hasActivatedRoute" = true ]; then
                 params="public route: ActivatedRoute"
-                printf """
+                printf -- """
      *
      * @param {ActivatedRoute} route The activated route.""" >> $componentFile
             fi
-            printf """
+            printf -- """
 
      * @todo You can add any parameter you need for this constructor.
      * @todo You can even declare components attributes directly from the constructor by adding visibility before the
@@ -910,17 +935,17 @@ import { SELECTOR_PREFIX, SELECTOR_SEPARATOR } from 'core/settings/selectors.set
 """ >> $componentFile
         fi
 
-        printf """
+        printf -- """
     /**
      * Add any method you will need.""" >> $componentFile
         if [ "$_generateOnChange" = true ] || [ "$_generateOnDestroy" = true ] || [ "$_generateOnInit" = true ]; then
-            printf """
+            printf -- """
      * First private ones, then protected.""" >> $componentFile
         else
-            printf """
+            printf -- """
      * First private ones, then protected and finally public.""" >> $componentFile
         fi
-        printf """
+        printf -- """
      * In each visibility declare statics first.
      * Remember to use alphabetical order.
      * Don't forget to add complete JSDocs for each method.
@@ -928,7 +953,7 @@ import { SELECTOR_PREFIX, SELECTOR_SEPARATOR } from 'core/settings/selectors.set
 """ >> $componentFile
 
         if [ "$_generateOnChange" = true ]; then
-            printf """
+            printf -- """
     /**
      * Called when any InputProperty of the component has changed.
      *
@@ -942,7 +967,7 @@ import { SELECTOR_PREFIX, SELECTOR_SEPARATOR } from 'core/settings/selectors.set
         fi
 
         if [ "$_generateOnDestroy" = true ]; then
-            printf """
+            printf -- """
     /**
      * Called when the component is destroyed.
      *
@@ -955,7 +980,7 @@ import { SELECTOR_PREFIX, SELECTOR_SEPARATOR } from 'core/settings/selectors.set
         fi
 
         if [ "$_generateOnInit" = true ]; then
-            printf """
+            printf -- """
     /**
      * Called when the component is initialized.
      *
@@ -968,7 +993,7 @@ import { SELECTOR_PREFIX, SELECTOR_SEPARATOR } from 'core/settings/selectors.set
         fi
 
         if [ "$_generateOnChange" = true ] || [ "$_generateOnDestroy" = true ] || [ "$_generateOnInit" = true ]; then
-            printf """
+            printf -- """
     /**
      * Add any public method you will need.
      * Declare statics first.
@@ -978,13 +1003,13 @@ import { SELECTOR_PREFIX, SELECTOR_SEPARATOR } from 'core/settings/selectors.set
 """ >> $componentFile
         fi
 
-        printf "}\n" >> $componentFile
+        printf -- "}\n" >> $componentFile
 
         convertTabToSpace $componentFile
-    printf "${BLUE}Done${DEFAULT}\n"
+    printfl "${BLUE}Done${DEFAULT}\n"
 
-    printf "Creating component's unit tests... "
-        printf """/* tslint:disable:no-unused-expression */
+    printfl "Creating component's unit tests... "
+        printf -- """/* tslint:disable:no-unused-expression */
 
 // You can also import for exemple: async', 'fakeAsync', 'tick', ...
 import { ComponentFixture, ComponentFixtureAutoDetect, TestBed } from '@angular/core/testing';
@@ -998,10 +1023,10 @@ import { expect } from 'core/testing/chai-unit.utils';
 
 import { ${className}Component } from './${_selector}.component';""" > $componentSpecFile
         if [ "$_hasGeneratedModule" = true ]; then
-            printf "\nimport { ${className}Module } from './${_selector}.module';" >> $componentSpecFile
+            printf -- "\nimport { ${className}Module } from './${_selector}.module';" >> $componentSpecFile
         fi
 
-        printf """
+        printf -- """
 
 // If you need anything else, import it here.
 
@@ -1034,14 +1059,14 @@ describe('${_componentName}', () => {
 
         TestBed.configureTestingModule({""" >> $componentSpecFile
         if [ "$_hasGeneratedModule" = true ]; then
-            printf """
+            printf -- """
             declarations: [
                 // If you want to test a component, add it here. For example:
                 // MyComponent,
             ],
 """ >> $componentSpecFile
         else
-            printf """
+            printf -- """
             declarations: [
                 ${className}Component,
                 // If your module have anything else to declare, add it here.
@@ -1049,19 +1074,19 @@ describe('${_componentName}', () => {
 """ >> $componentSpecFile
         fi
 
-            printf """
+            printf -- """
             imports: [""" >> $componentSpecFile
 
             if [ "$_hasGeneratedModule" = true ]; then
-                printf """
+                printf -- """
                 ${className}Module,""" >> $componentSpecFile
             else
-                printf """
+                printf -- """
                 // If you need to import anything for your tests, add it here. For example:
                 // MyModule,""" >> $componentSpecFile
             fi
 
-            printf """
+            printf -- """
             ],
 
             providers: [
@@ -1115,33 +1140,33 @@ describe('${_componentName}', () => {
 """ >> $componentSpecFile
 
         convertTabToSpace $componentSpecFile
-    printf "${BLUE}Done${DEFAULT}\n"
+    printfl "${BLUE}Done${DEFAULT}\n"
 
-    printf "Creating component's template... "
-        printf """<h1 class=\"title\">
+    printfl "Creating component's template... "
+        printf -- """<h1 class=\"title\">
     Template of \"${_componentName}\" component.
 </h1>
 """ > $componentTemplateFile
 
         convertTabToSpace $componentSpecFile
-    printf "${BLUE}Done${DEFAULT}\n"
+    printfl "${BLUE}Done${DEFAULT}\n"
 
-    printf "Creating component's styles... "
-        printf """.title {
+    printfl "Creating component's styles... "
+        printf -- """.title {
     font-size: 40px;
 }
 """ > $componentStyleFile
 
         convertTabToSpace $componentStyleFile
-    printf "${BLUE}Done${DEFAULT}\n"
+    printfl "${BLUE}Done${DEFAULT}\n"
 
-    cd - > /dev/null
+    cd - &>> $LOG
 
     selectorDefinition="export const ${className^^}_SELECTOR: string = '${_selector}';"
     isAlreadyInSelector=$(cat $SELECTORS_FILE | grep "${selectorDefinition}" | wc -l)
     if [ -w $SELECTORS_FILE ] && [ $isAlreadyInSelector -eq 0 ]; then
-        printf "Adding selector... "
-            printf """
+        printfl "Adding selector... "
+            printf -- """
 /**
  * The selector name of the \"${_componentName}\" component.
  *
@@ -1153,7 +1178,7 @@ describe('${_componentName}', () => {
 ${selectorDefinition}
 """ >> $SELECTORS_FILE
             exitIfError "Adding selector to the selectors file"
-        printf "${BLUE}Done${DEFAULT}\n"
+        printfl "${BLUE}Done${DEFAULT}\n"
     fi
 }
 
@@ -1198,9 +1223,9 @@ case "${scaffoldType}" in
 esac
 
 
-printf "\n"
-printf "${GREEN}Your ${scaffoldType} has been successfully initialized!${DEFAULT}\n\n"
+printfl "\n"
+printfl "${GREEN}Your ${scaffoldType} has been successfully initialized!${DEFAULT}\n\n"
 
-printf "${BOLD}${MAGENTA}Have a good one!${DEFAULT}\n"
+printfl "${BOLD}${MAGENTA}Have a good one!${DEFAULT}\n"
 
 exit 0
