@@ -515,4 +515,10 @@ shelter({
               && ${live} ${envTest} ${unitTests} ${npmRun} karma:headless -- start --auto-watch --no-single-run`,
         dsc: `Run unit tests (Karma with Headless Chrome, XVFB needed) in watch mode on ${project}`,
     },
+
+    'update:boilerplate': {
+        cmd: `git fetch upstream
+              && git merge --no-ff upstream/master -m "chore: update Boilerplate"`,
+        dsc: `Update ${project} with the latest Boilerplate updates (may need some manual conflict resolution)`,
+    },
 });
