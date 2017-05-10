@@ -1,3 +1,4 @@
+const enableColorsInCI = true;
 const isCI = process.env.CI || require('is-ci') || false;
 
 const isDebug = process.env.DEBUG || false;
@@ -27,7 +28,7 @@ if (!isLive) {
 
 module.exports = function karmaConfig(config) {
     const configuration = {
-        autoWatch: isLive,
+        autoWatch: !isCI && isLive,
 
         // Base path that will be used to resolve all patterns (e.g. files, exclude).
         basePath: '',
@@ -51,7 +52,7 @@ module.exports = function karmaConfig(config) {
         },
 
         // Enable/disable colors in the output (reporters and logs).
-        colors: !isCI,
+        colors: enableColorsInCI || !isCI,
 
         coverageReporter: {
             dir: coverageReportDirectory,
@@ -151,7 +152,7 @@ module.exports = function karmaConfig(config) {
             env: 'test',
         }),
         webpackMiddleware: {
-            colors: !isCI,
+            colors: enableColorsInCI || !isCI,
             noInfo: true,
             quiet: false,
             stats: {
@@ -162,7 +163,7 @@ module.exports = function karmaConfig(config) {
                 chunkModules: false,
                 chunkOrigins: false,
                 chunks: false,
-                colors: !isCI,
+                colors: enableColorsInCI || !isCI,
                 context: './src/client/',
                 depth: false,
                 entrypoints: false,

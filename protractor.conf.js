@@ -3,9 +3,7 @@ const helpers = require('./config/modules/helpers');
 const tsConfigFileName = './tsconfig.e2e.json';
 const tsConfig = require(tsConfigFileName);
 
-// eslint-disable-next-line no-unused-vars
 const isCI = process.env.CI || require('is-ci') || false;
-// eslint-disable-next-line no-unused-vars
 const isDebug = process.env.DEBUG || false;
 
 const useWebpack = false;
@@ -61,7 +59,7 @@ exports.config = {
         helpers.root('tests', 'client', 'e2e', 'specs', '**', '*.ts'),
     ],
 
-    stackTrace: false,
+    stackTrace: isDebug && !isCI,
 
     /**
      * Angular 2 configuration.
