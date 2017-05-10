@@ -1,6 +1,10 @@
 #!/bin/bash
 # This script will initialize the boilerplate
 
+LOG="./init.log"
+echo "" > $LOG
+
+
 BOLD=""
 UNDERLINE=""
 STANDOUT=""
@@ -37,7 +41,7 @@ fi
 
 
 function usage {
-    printf """${BOLD}${GREEN}LumBoilerplate initialization${DEFAULT}
+    printf -- """${BOLD}${GREEN}LumBoilerplate initialization${DEFAULT}
 
 ${UNDERLINE}${MAGENTA}${BOLD}Usage${DEFAULT}:
 npm run -s init -- [--debug] [-h|--help] [--skip-setup] [-n|--name <name>|\"default\"] [-d|--description <description>|\"default\"] [-u|--github-username <github username>|\"default\"] [-r|--repository <repository>|\"default\"] [-p|--prefix <prefix>|\"default\"] [-s|--separator <separator>|\"default\"] [-b|--base-url <base url>|\"default\"]
@@ -57,13 +61,25 @@ ${UNDERLINE}${BLUE}Options${DEFAULT}:
 """
 }
 
+function printfl() {
+    printf -- "${1}" | tee -a $LOG
+}
+
+function log() {
+    printf -- "${1}" &>> $LOG
+
+    if [ -z "$2" ] || [ "$2" == true ]; then
+        printf -- "\n" &>> $LOG
+    fi
+}
+
 function exitIfError() {
     if [ $? -ne 0 ]; then
-        printf "${BOLD}${RED}Error with code $?"
+        printfl "${BOLD}${RED}Error with code $?"
         if [ -n "$1" ]; then
-            printf "${DEFAULT} ${RED}while ${1,,}"
+            printfl "${DEFAULT} ${RED}while ${1,,}"
         fi
-        printf "${DEFAULT}\n"
+        printfl "${DEFAULT}\n"
         exit $?
     fi
 }
@@ -76,9 +92,9 @@ function readWithDefault() {
     if [ -n "$1" ] && [ -n "$2" ]; then
         defaultVarName="default${2^}"
 
-        printf "${YELLOW}${1}?${DEFAULT} "
+        printfl "${YELLOW}${1}?${DEFAULT} "
         if [ -n "${!defaultVarName}" ]; then
-            printf "(${BOLD}${CYAN}${!defaultVarName}${DEFAULT}) "
+            printfl "(${BOLD}${CYAN}${!defaultVarName}${DEFAULT}) "
         fi
 
         IFS= read -r inputValue
@@ -87,6 +103,8 @@ function readWithDefault() {
         else
             eval $2=`echo -ne \""${!defaultVarName}"\"`
         fi
+
+        log "${!2}"
     fi
 }
 
@@ -114,16 +132,20 @@ function readBooleanWithDefault() {
         else
             eval $2=`echo -ne \""${!defaultVarName,,}"\"`
         fi
+
+        log "${!2}"
     fi
 }
 
 
+ANGULARCLI_FILE="./.angular-cli.json"
 CONTRIBUTING_FILE="./CONTRIBUTING.md"
 HUMANS_FILE="./src/client/meta/humans.txt"
 INDEX_FILE="./src/client/index.html"
 PACKAGE_FILE="./package.json"
 README_FILE="./README.md"
 ROADMAP_FILE="./ROADMAP.md"
+CHANGELOG_FILE="./CHANGELOG.md"
 SELECTORS_FILE="./src/client/app/core/settings/selectors.settings.ts"
 SETTINGS_FILE="./src/client/app/core/settings/common.settings.ts"
 TSLINT_FILE="./tslint.json"
@@ -152,6 +174,8 @@ defaultComponentsNamePrefix="${defaultComponentsNamePrefix,,}"
 defaultComponentsNameSeparator="${originalComponentsNameSeparator,,}"
 defaultBaseUrl="${originalBaseUrl,,}"
 
+questionsNumber=7
+givenParameters=0
 
 while [[ $# -ge 1 ]]; do
     key="$1"
@@ -168,11 +192,13 @@ while [[ $# -ge 1 ]]; do
 
         -n|--name)
             name="$2"
+            givenParameters=$((givenParameters+1))
             shift
             ;;
 
         -d|--description)
             description="$2"
+            givenParameters=$((givenParameters+1))
             shift
             ;;
 
@@ -182,6 +208,7 @@ while [[ $# -ge 1 ]]; do
             else
                 githubUsername="$2"
             fi
+            givenParameters=$((givenParameters+1))
 
             shift
             ;;
@@ -192,12 +219,14 @@ while [[ $# -ge 1 ]]; do
             else
                 repository="$2"
             fi
+            givenParameters=$((givenParameters+1))
 
             shift
             ;;
 
         -p|--prefix)
             componentsNamePrefix="$2"
+            givenParameters=$((givenParameters+1))
             shift
             ;;
 
@@ -207,6 +236,7 @@ while [[ $# -ge 1 ]]; do
             else
                 componentsNameSeparator="$2"
             fi
+            givenParameters=$((givenParameters+1))
 
             shift
             ;;
@@ -217,6 +247,7 @@ while [[ $# -ge 1 ]]; do
             else
                 baseUrl="$2"
             fi
+            givenParameters=$((givenParameters+1))
 
             shift
             ;;
@@ -238,14 +269,18 @@ while [[ $# -ge 1 ]]; do
 done
 
 
-printf """${BOLD}Welcome to the initialization of the ${BLUE}boilerplate${WHITE}!${DEFAULT}
+printfl "${BOLD}Welcome to the initialization of the ${BLUE}boilerplate${WHITE}!${DEFAULT}"
+
+if [ $questionsNumber -gt $givenParameters ]; then
+    printfl """
 We will ask you some question to help you setup your new project. Ready?
-
 """
+fi
 
+printfl "\n"
 
 readWithDefault "What is the plain human readable name of your project" "name"
-cleanName=$(echo -e "${name}" | tr -d '[[:space:]]' | tr -dc '[:alnum:]\n\r-_' | tr '[:upper:]' '[:lower:]')
+cleanName=$(echo -e "${name}" | sed -r s/²/2/g | sed -r s/³/3/g | iconv -f UTF-8 -t ascii//TRANSLIT | tr -c '[:alnum:]\n\r-_' '-' | tr '[:upper:]' '[:lower:]')
 
 defaultDescription="This is the description of ${name}"
 if [ "$description" == "default" ]; then
@@ -256,6 +291,7 @@ readWithDefault "How would you describe your project" "description"
 readWithDefault "What is your GitHub username or organisation" "githubUsername"
 githubUsername="${githubUsername,,}"
 
+defaultRepository="${cleanName,,}"
 readWithDefault "What is your GitHub repository name" "repository"
 repository="${repository,,}"
 
@@ -274,14 +310,14 @@ readWithDefault "What will your base URL be" "baseUrl"
 baseUrl="${baseUrl,,}"
 
 
-printf """
+printfl """
 We are now ready to initialize the boilerplate for your project \"${BOLD}${name}${DEFAULT}\". Please wait...
 
 """
 
 
 if [ "$skipGit" = false ]; then
-    printf "Preparing git... "
+    printfl "Preparing git...\t\t\t\t\t\t\t"
         rm -Rf .git
         exitIfError "Deleting git"
         git init -q
@@ -290,11 +326,11 @@ if [ "$skipGit" = false ]; then
         exitIfError "Adding Boilerplate upstream"
         git config remote.upstream.pushurl "push-to-boilerplate-disabled-from-here"
         exitIfError "Disabling push to Boilerplate"
-    printf "${BLUE}Done${DEFAULT}\n"
+    printfl "${BLUE}Done${DEFAULT}\n"
 fi
 
 
-printf "Removing useless files... "
+printfl "Cleaning boilerplate files...\t\t\t\t\t\t"
     rm -Rf ./dist
     exitIfError "Deleting 'dist'"
 
@@ -326,36 +362,26 @@ printf "Removing useless files... "
     exitIfError "Deleting build files"
     rm -Rf .awcache .tmp
     exitIfError "Deleting cache and temporary files"
-printf "${BLUE}Done${DEFAULT}\n"
+printfl "${BLUE}Done${DEFAULT}\n"
 
 
-printf "Emptying some files... "
-    printf "# humanstxt.org\n# The humans responsible & technology colophon\n\n# TEAM\n\n\n# THANKS\n\n    AngularClass -- @AngularClass\n    Lumapps -- @lumapps\n    PatrickJS -- @gdi2290\n\n# TECHNOLOGY COLOPHON\n\n    HTML5, CSS3, SASS\n    Angular, TypeScript, JavaScript, Webpack, NPM\n" > $HUMANS_FILE
-    exitIfError "Emptying humans file"
-
-    mv $README_FILE README.boilerplate.md
-    exitIfError "Copying readme file"
-    touch $README_FILE
-    exitIfError "Creating new readme file"
-
-    printf """# Roadmap
-
-### ${name}
-""" > $ROADMAP_FILE
-    exitIfError "Emptying roddmap file"
-printf "${BLUE}Done${DEFAULT}\n"
-
-
-printf "Removing useless code... "
+printfl "Initializing code base and setting up application...\t\t\t"
     grep -v "HomeModule" ./src/client/app/app.module.ts > temp && mv temp ./src/client/app/app.module.ts
     exitIfError "Removing Home module in 'app' module"
+    sed -i '18d' ./src/client/app/app.module.ts
+    exitIfError "Removing empty line from 'app' module"
 
     rm -Rf ./src/client/app/app.component.*
     exitIfError "Removing original 'app' component files"
 
-    ./scaffold.sh -- --force -n "App" -p "default" --at-root -t "Component" --not-core -s 'default' --without-module --on-init --no-on-destroy --no-on-change --no-activated-route --no-constructor --router --routes &> /dev/null
+    printf -- "\n" &>> $LOG
+
+    ./scaffold.sh -- --force -n "App" -p "default" --at-root -t "Component" --not-core -s 'default' --without-module --on-init --no-on-destroy --no-on-change --no-activated-route --no-constructor --router --routes &>> $LOG
     exitIfError "Scaffolding new 'app' component"
-    printf """<h1 class=\"title\">
+    sed -i "s/\[Component description\]/Top Level Component/g" ./src/client/app/app.component.ts
+    exitIfError "Cleaning new 'app' component"
+
+    printf -- """<h1 class=\"title\">
     Congratulations!
 </h1>
 
@@ -363,7 +389,7 @@ printf "Removing useless code... "
 """ > ./src/client/app/app.component.html
     exitIfError "Updating the \"App\" component"
 
-    printf """
+    printf -- """
 p {
     text-align: center;
 }
@@ -371,11 +397,12 @@ p {
     exitIfError "Updating the \"App\" style"
 
     sed -i "s#// import 'core/styles/example.scss';#import 'core/styles/app.scss';#g" ./src/client/app/app.component.ts
+    exitIfError "Customizing styles in 'app' component"
 
     rm -Rf ./src/client/app/app.routes.ts
     exitIfError "Removing original 'app' routes files"
     touch ./src/client/app/app.routes.ts
-    printf """import { Routes } from '@angular/router';
+    printf -- """import { Routes } from '@angular/router';
 
 // If you need any other component, import it here. For example:
 // import { MyComponent } from 'my-component/my.component';
@@ -413,78 +440,8 @@ export const routes: Routes = [
 
     grep -v "DoItem" ./src/client/app/core/services/utils.service.spec.ts > temp && mv temp ./src/client/app/core/services/utils.service.spec.ts
     exitIfError "Removing ToDoItem from the Utils Service specifications"
-printf "${BLUE}Done${DEFAULT}\n"
 
-
-if [ -n "$name" ]; then
-    printf "Customizing project name... "
-
-    printf "# ${name}\n\n" > $README_FILE
-    exitIfError "Writing project name in readme file"
-
-    FILES_WITH_NAME=$(grep -rl "${originalName}" .)
-    for fileName in $FILES_WITH_NAME; do
-        if [ "$fileName" != "./init.sh" ] && [ "$fileName" != "./README.boilerplate.md" ]; then
-            sed -i "s/${originalName}/${name}/g" $fileName
-            exitIfError "Replacing original name in ${fileName}"
-        fi
-    done
-    printf "${BLUE}Done${DEFAULT}\n"
-fi
-
-
-printf "Customizing GitHub and StackOverflow... "
-    if [ -n "${githubUsername}" ]; then
-        sed -i "s#${originalGithubUsername}/#${githubUsername}/#g" $CONTRIBUTING_FILE
-        exitIfError "Replacing original github username in contributing file"
-    fi
-
-    if [ -n "${repository}" ]; then
-        sed -i "s/lum${originalRepository}/${repository}/g" $CONTRIBUTING_FILE
-        exitIfError "Replacing original 'lum'repository in contributing file"
-        sed -i "s/${originalRepository}/${repository}/g" $CONTRIBUTING_FILE
-        exitIfError "Replacing original repository in contributing file"
-    fi
-printf "${BLUE}Done${DEFAULT}\n"
-
-
-printf "Customizing NPM... "
-    if [ -n "$name" ]; then
-        sed -i "s/${originalName,,}/${cleanName,,}/g" $PACKAGE_FILE
-        exitIfError "Replacing original name in package file"
-    fi
-    if [ -n "${description}" ]; then
-        sed -i "s/\"description\".*/\"description\": \"${description}\",/g" $PACKAGE_FILE
-        exitIfError "Replacing original description in package file"
-    fi
-    if [ -n "${githubUsername}" ]; then
-        sed -i "s#https://github.com/${originalGithubUsername}/#https://github.com/${githubUsername}/#g" $PACKAGE_FILE
-        exitIfError "Replacing original github username in package file"
-    fi
-    if [ -n "${repository}" ]; then
-        sed -i "s/lum${originalRepository}/${repository}/g" $PACKAGE_FILE
-        exitIfError "Replacing original 'lum'repository in package file"
-        sed -i "s/${originalRepository}/${repository}/g" $PACKAGE_FILE
-        exitIfError "Replacing original repository in package file"
-    fi
-    gitUserName=$(git config user.name)
-    gitUserEmail=$(git config user.email)
-    sed -i "s#\"author\".*#\"author\": \"${gitUserName} <${gitUserEmail}> (https://github.com/${githubUsername})\",#g" $PACKAGE_FILE
-    exitIfError "Replacing original authors in package file"
-printf "${BLUE}Done${DEFAULT}\n"
-
-
-printf "Customizing Readme... "
-    printf "[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg?style=flat-square)](http://commitizen.github.io/cz-cli/)\n" >> $README_FILE
-    if [ -n "$description" ]; then
-        printf "\n${description}\n" >> $README_FILE
-        exitIfError "Writing description in readme file"
-    fi
-printf "${BLUE}Done${DEFAULT}\n"
-
-
-printf "Customizing app settings... "
-    printf """/**
+    printf -- """/**
  * The default base href of the application.
  *
  * @type {string}
@@ -496,7 +453,7 @@ export const BASE_HREF: string = '${baseUrl}';
 """ > $SETTINGS_FILE
     exitIfError "Customizing base href in app settings"
 
-    printf """
+    printf -- """
 /**
  * A fake token used for the tests.
  *
@@ -508,11 +465,8 @@ export const BASE_HREF: string = '${baseUrl}';
 export const FAKE_TOKEN: string = '123456789';
 """ >> $SETTINGS_FILE
     exitIfError "Adding fake token"
-printf "${BLUE}Done${DEFAULT}\n"
 
-
-printf "Customizing selectors... "
-    printf """/**
+    printf -- """/**
  * The default prefix for all (directives and components) selector.
  *
  * @type {string}
@@ -524,7 +478,7 @@ export const SELECTOR_PREFIX: string = '${componentsNamePrefix}';
 """ > $SELECTORS_FILE
     exitIfError "Customizing selector prefix in app settings"
 
-    printf """
+    printf -- """
 /**
  * The separator to use between the default prefix and the component name.
  * Note that directives don't use the separator as their names are written in camelCase.
@@ -539,7 +493,7 @@ export const SELECTOR_SEPARATOR: string = '${componentsNameSeparator}';
 """ >> $SELECTORS_FILE
     exitIfError "Customizing selector separator in app settings"
 
-    printf """
+    printf -- """
 /**
  * The selector name of the \"NotFound\" component.
  *
@@ -552,7 +506,7 @@ export const NOT_FOUND_SELECTOR: string = 'not-found';
 """ >> $SELECTORS_FILE
     exitIfError "Customizing app component selector in app settings"
 
-    printf """
+    printf -- """
 /**
  * The selector name of the main \"App\" component.
  *
@@ -570,18 +524,114 @@ export const APP_SELECTOR: string = 'app';
 
     sed -i "s/\"${originalComponentsNamePrefix}\"/\"${componentsNamePrefix}\"/g" $TSLINT_FILE
     exitIfError "Customizing selector prefix in TSLint configuration"
-printf "${BLUE}Done${DEFAULT}\n"
+printfl "${BLUE}Done${DEFAULT}\n"
+
+
+printfl "Customizing documentation...\t\t\t\t\t\t"
+    printf -- "# humanstxt.org\n# The humans responsible & technology colophon\n\n# TEAM\n\n\n# THANKS\n\n    AngularClass -- @AngularClass\n    Lumapps -- @lumapps\n    PatrickJS -- @gdi2290\n\n# TECHNOLOGY COLOPHON\n\n    HTML5, CSS3, SASS\n    Angular, TypeScript, JavaScript, Webpack, NPM\n" > $HUMANS_FILE
+    exitIfError "Emptying humans file"
+
+    mv $README_FILE README.boilerplate.md
+    exitIfError "Copying readme file"
+    touch $README_FILE
+    exitIfError "Creating new readme file"
+    if [ -n "$name" ]; then
+        printf -- "# ${name}\n\n" > $README_FILE
+        exitIfError "Writing project name in readme file"
+    fi
+    printf -- """# Roadmap
+""" > $ROADMAP_FILE
+    exitIfError "Emptying roadmap file"
+    if [ -n "$name" ]; then
+        printf """
+### ${name}
+""" >> $ROADMAP_FILE
+        exitIfError "Adding project name in roadmap file"
+    fi
+
+    printf -- """# Changelog
+""" > $CHANGELOG_FILE
+    exitIfError "Emptying changelog file"
+
+    if [ -n "${githubUsername}" ]; then
+        sed -i "s#${originalGithubUsername}/#${githubUsername}/#g" $CONTRIBUTING_FILE
+        exitIfError "Replacing original github username in contributing file"
+    fi
+
+    if [ -n "${repository}" ]; then
+        sed -i "s#/${originalRepository}#/${repository}#g" $CONTRIBUTING_FILE
+        exitIfError "Replacing original repository in contributing file"
+
+        sed -i "s/${originalRepository}:/${repository}:/g" $CONTRIBUTING_FILE
+        exitIfError "Replacing original repository in command of contributing file"
+    fi
+
+    printf -- "[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg?style=flat-square)](http://commitizen.github.io/cz-cli/)\n" >> $README_FILE
+    if [ -n "$description" ]; then
+        printf -- "\n${description}\n" >> $README_FILE
+        exitIfError "Writing description in readme file"
+    fi
+printfl "${BLUE}Done${DEFAULT}\n"
+
+
+printfl "Customizing AngularCLI...\t\t\t\t\t\t"
+printfl "${BLUE}Done${DEFAULT}\n"
+
+
+printfl "Customizing NPM...\t\t\t\t\t\t\t"
+    if [ -n "${description}" ]; then
+        sed -i "s/\"description\".*/\"description\": \"${description}\",/g" $PACKAGE_FILE
+        exitIfError "Replacing original description in package file"
+    fi
+    if [ -n "${githubUsername}" ]; then
+        sed -i "s#https://github.com/${originalGithubUsername}/#https://github.com/${githubUsername}/#g" $PACKAGE_FILE
+        exitIfError "Replacing original github username in package file"
+    fi
+
+    if [ -n "${repository}" ]; then
+        sed -i "s#/${originalRepository}#/${repository}#g" $PACKAGE_FILE
+        exitIfError "Replacing original repository in package file"
+    fi
+
+    gitUserName=$(git config user.name)
+    gitUserEmail=$(git config user.email)
+    sed -i "s#\"author\".*#\"author\": \"${gitUserName} <${gitUserEmail}> (https://github.com/${githubUsername})\",#g" $PACKAGE_FILE
+    exitIfError "Replacing original authors in package file"
+printfl "${BLUE}Done${DEFAULT}\n"
+
+
+if [ -n "$name" ] && [ -n "$cleanName" ]; then
+    printfl "Customizing project name...\t\t\t\t\t\t"
+
+    FILES_WITH_NAME=$(grep -rl "${originalName}" .)
+    for fileName in $FILES_WITH_NAME; do
+        if [ "$fileName" != "./init.sh" ] && [ "$fileName" != "./README.boilerplate.md" ]; then
+            sed -i "s/${originalName}/${name}/g" $fileName
+            exitIfError "Replacing original name in ${fileName}"
+        fi
+    done
+
+    FILES_WITH_CLEAN_NAME=$(grep -rl "${originalName,,}" .)
+    for fileName in $FILES_WITH_CLEAN_NAME; do
+        if [ "$fileName" != "./init.sh" ] && [ "$fileName" != "./README.boilerplate.md" ]; then
+            sed -i "s/${originalName,,}/${cleanName,,}/g" $fileName
+            exitIfError "Replacing original clean name in ${fileName}"
+        fi
+    done
+    printfl "${BLUE}Done${DEFAULT}\n"
+fi
 
 
 if [ "$skipSetup" = false ]; then
-    printf "Cleaning and setting up the boilerplate\n"
-        npm run -s setup:no-check
+    printfl "Setting-up dependencies (this may take a long time, please wait)...\t"
+        printf -- "\n" &>> $LOG
+        npm run -s setup:no-check &>> $LOG
         exitIfError "Setting up NPM"
-    printf "${BLUE}Done${DEFAULT}\n"
+    printfl "${BLUE}Done${DEFAULT}\n"
 fi
 
 if [ "$skipGit" = false ]; then
-    printf "Creating the first git commit...\n"
+    printfl "Creating the first git commit...\t\t\t\t\t"
         git add .
         exitIfError "Adding project in git repository"
 
@@ -590,11 +640,11 @@ if [ "$skipGit" = false ]; then
             noVerify=" --no-verify"
         fi
         git commit${noVerify} -q -m "chore(${repository}): initialization of the repository with boilerplate"
-    printf "${BLUE}Done${DEFAULT}\n"
+    printfl "${BLUE}Done${DEFAULT}\n"
 fi
 
 
-printf """
+printfl """
 ${GREEN}Your project has been successfully initialized!${DEFAULT}
 
 You can now start coding. Run ${BOLD}npm start${DEFAULT} to start the server with all coding stuff you need.
