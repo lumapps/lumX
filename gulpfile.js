@@ -92,14 +92,16 @@ shelter({
                                         clean:dist
                                         ${linterTask}
               && ${envProd} ${aot} ${npmRun} webpack -- ${webpackConfig} ${webpackCommonParameters}
-                                                        ${webpackBuildParameters} ${webpackProdParameters}`,
+                                                        ${webpackBuildParameters} ${webpackProdParameters}
+              && ${npmRun} clean:aot`,
         dsc: `Build the Ahead of Time compiled production bundle of ${project} after linting`,
     },
     'build:aot:fast': {
         cmd: `${npmRun} run-parallel -- clean:aot
                                         clean:dist
               && ${envProd} ${aot} ${npmRun} webpack -- ${webpackConfig} ${webpackCommonParameters}
-                                                        ${webpackBuildParameters} ${webpackProdParameters}`,
+                                                        ${webpackBuildParameters} ${webpackProdParameters}
+              && ${npmRun} clean:aot`,
         dsc: `Build the Ahead of Time compiled production bundle of ${project} (without linting)`,
     },
     'build:dev': {
@@ -341,6 +343,30 @@ shelter({
                                                         ${webpackDevServerCommonParameters}
                                                         ${webpackDevServerClassicParameters}`,
         dsc: `Start ${project} development with watcher (compile, lint, build)`,
+    },
+    'serve:aot': {
+        cmd: `${npmRun} build:aot:fast
+              && ${npmRun} http-server -- ${distFolder} -p ${serverPort} -d False -i False
+                                          -c-1 --cors -s ${withProxy}`,
+        dsc: `Start ${project} AoT release test server (on port ${serverPort}) after rebuilding`,
+    },
+    'serve:aot:fast': {
+        cmd: `${npmRun} http-server -- ${distFolder} -p ${serverPort} -d False -i False
+                                       -c-1 --cors -s ${withProxy}`,
+        dsc: `Start ${project} AoT release test server (on port ${serverPort}) with an existing build`,
+    },
+    'serve:aot:fast:open': {
+        cmd: `${npmRun} http-server -- ${distFolder} -p ${serverPort} -d False -i False
+                                       -o -c-1 --cors -s ${withProxy}`,
+        dsc: `Start ${project} AoT release test server (on port ${serverPort}) with an existing build and open it
+              in a browser`,
+    },
+    'serve:aot:open': {
+        cmd: `${npmRun} build:aot:fast
+              && ${npmRun} http-server -- ${distFolder} -p ${serverPort} -d False -i False
+                                          -o -c-1 --cors -s ${withProxy}`,
+        dsc: `Start ${project} AoT release test server (on port ${serverPort}) after rebuilding and open it in a
+              browser`,
     },
     'serve:dev': {
         cmd: `${npmRun} build:dev:fast

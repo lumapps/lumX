@@ -2,7 +2,7 @@ import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
 import { bootloader } from '@angularclass/hmr';
 
-import { decorateModuleRef } from './libs/environment';
+import { decorateModuleRef } from 'libs/environment';
 
 import { AppModule } from 'app.module';
 

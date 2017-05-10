@@ -48,12 +48,14 @@ import 'core-js/es7/reflect';
 import 'zone.js/dist/zone';
 
 
-if (ENV === 'production') {
-    // Production.
-} else {
+if (ENV === 'development') {
     // Development.
     Error.stackTraceLimit = Infinity;
 
     // tslint:disable-next-line:no-require-imports no-var-requires
     require('zone.js/dist/long-stack-trace-zone');
+} else {
+    // Production.
+
+    // Nothing to do here.
 }

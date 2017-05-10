@@ -1,13 +1,6 @@
-const autoprefixer = require('autoprefixer');
+const _ = require('lodash');
 const merge = require('merge');
 const path = require('path');
-
-/////////////////////////////
-
-/*
- * Webpack Plugins.
- */
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 /////////////////////////////
 
@@ -23,6 +16,7 @@ const ENABLE_DASHBOARD = false;
 const ENABLE_AOT = process.env.AOT;
 const ENABLE_DEBUG = process.env.DEBUG;
 const IS_LIVE = process.env.LIVE;
+const MINIMIZE = process.env.MINIMIZE;
 const SILENT = process.env.SILENT;
 const TESTS_TYPE = process.env.TESTS;
 
@@ -42,17 +36,40 @@ const TESTS_TYPES = {
 
 /////////////////////////////
 
+/**
+ * Check if the running NPM process has the given flag.
+ *
+ * @param  {string}  flag The flag to check in the running NPM process.
+ * @return {boolean} If the running NPM process has the given flag or not.
+ */
 function hasProcessFlag(flag) {
     return process.argv.join('').indexOf(flag) > -1;
 }
 
+/**
+ * Check if we are running the Webpack Dev Server.
+ *
+ * @return {boolean} If we are running the Webpack Dev Server or not.
+ */
 function isWebpackDevServer() {
     return process.argv[1] && !!(/webpack-dev-server/.exec(process.argv[1])); // eslint-disable-line
 }
 
 /////////////////////////////
 
+/**
+ * The root path of the project.
+ *
+ * @type {string}
+ */
 const ROOT = path.resolve(__dirname, '../..');
+
+/**
+ * Get the full path from the root of the project.
+ *
+ * @param  {string} ...paths The part of the path we want to join.
+ * @return {string} The joined path from the root of the project.
+ */
 const rootFunction = path.join.bind(path, ROOT);
 
 /////////////////////////////
@@ -65,12 +82,12 @@ const rootFunction = path.join.bind(path, ROOT);
  * @return {Object} The default metadata.
  */
 function getMetadata(env) {
-    env = (env === undefined || typeof env !== 'string' || env.length === 0) ? ENVS.dev : env;
+    env = (env === undefined || env === null || typeof env !== 'string' || env.length === 0) ? ENVS.dev : env;
 
-    const HMR = (env === ENVS.dev) ? hasProcessFlag('hot') : false;
+    const hmr = (env === ENVS.dev) ? hasProcessFlag('hot') : false;
 
     return {
-        HMR: HMR,
+        HMR: hmr,
         env: env,
         host: process.env.HOST || 'localhost',
         isDevServer: isWebpackDevServer(),
@@ -123,7 +140,7 @@ const DEV_SERVER_CONFIG = {
     },
 
     quiet: true,
-    stats: Object.assign({}, COMMON_DEBUG_INFO, {
+    stats: merge.recursive(true, COMMON_DEBUG_INFO, {
         cachedAssets: false,
         colors: true,
         depth: false,
@@ -151,52 +168,39 @@ function getDevServerConfig(metadata) {
     devServerConfig.host = metadata.host || devServerConfig.host;
     devServerConfig.port = metadata.port || devServerConfig.port;
 
+    if (metadata.HMR) {
+        devServerConfig.hot = true;
+        devServerConfig.watchOptions = {
+            aggregateTimeout: 300,
+            poll: 1000,
+        };
+    }
+
     return devServerConfig;
 }
 
 /////////////////////////////
 
-/**
- * Generate an HTML Webpack Plugin with correct metadata.
- *
- * @param  {Object}            metadata The metadata.
- * @param  {string}            title    The title.
- * @return {HtmlWebpackPlugin} The html webpack plugin.
- */
-function getHtmlWebpackPlugin(metadata, title) {
-    metadata = (metadata === undefined || typeof metadata !== 'object') ? getMetadata() : metadata;
-    title = (title === undefined || typeof title !== 'string' || title.length === 0) ? 'LumX²' : title;
-
-    /*
-     * HtmlWebpackPlugin.
-     * Simplifies creation of HTML files to serve your webpack bundles.
-     * This is especially useful for webpack bundles that include a hash in the filename which changes every
-     * compilation.
-     *
-     * @see {@link https://github.com/ampedandwired/html-webpack-plugin|HTML Webpack Plugin}
-     */
-    return new HtmlWebpackPlugin({
-        chunksSortMode: 'dependency',
-        inject: 'head',
-        metadata: metadata,
-        template: 'src/client/index.html',
-        title: title,
-    });
-}
-
-/////////////////////////////
-
-const DEFAULT_OPTIONS = {
-    debug: false,
-    options: {
-        context: rootFunction(''),
-
-        /*
-         * Configure the HTML Loader.
-         *
-         * @see {@link https://github.com/webpack/html-loader|HTML Loader}
-         */
-        htmlLoader: {
+const LOADERS_OPTIONS = {
+    common: {
+        '@angularclass/hmr': {
+            pretty: true,
+            prod: false,
+        },
+        'awesome-typescript': {
+            configFileName: 'tsconfig.json',
+            silent: SILENT,
+            useCache: true,
+            usePrecompiledFiles: true,
+        },
+        'css': {
+            importLoaders: 1,
+            sourceMap: true,
+        },
+        'file': {
+            name: 'assets/[name].[hash].[ext]',
+        },
+        'html': {
             caseSensitive: true,
             customAttrAssign: [
                 /\)?]?=/,
@@ -215,34 +219,29 @@ const DEFAULT_OPTIONS = {
                     /(?:)/,
                 ],
             ],
-            minimize: false,
             removeAttributeQuotes: false,
         },
-
-        output: {
-            path: rootFunction('dist', 'client'),
+        'istanbul-instrumenter': {
+            esModules: true,
         },
-
-        /*
-         * Configure The Post-CSS Loader.
-         *
-         * @see {@link https://github.com/postcss/postcss-loader|Post-CSS Loader}
-         * @see {@link https://github.com/postcss/autoprefixer#webpack|AutoPrefixer for Webpack}
-         */
-        postcss: [
-            autoprefixer({
-                browsers: [
-                    'last 2 versions',
-                ],
-            }),
-        ],
-
-        /*
-         * Configure Sass.
-         *
-         * @see {@link https://github.com/jtangelder/sass-loader|SASS Loader}
-         */
-        sassLoader: {
+        'ng-router': {
+            aot: ENABLE_AOT,
+            genDir: 'compiled',
+            loader: 'async-import',
+        },
+        'postcss': {
+            config: {
+                path: './config/postcss.config.js',
+            },
+            plugins: [
+                require('autoprefixer')({
+                    browsers: [
+                        'last 2 versions',
+                    ],
+                }),
+            ],
+        },
+        'sass': {
             includePaths: [
                 rootFunction('src', 'client', 'app'),
                 rootFunction('src', 'client', 'app', 'core', 'styles'),
@@ -252,37 +251,73 @@ const DEFAULT_OPTIONS = {
             indentWidth: 4,
             outputStyle: 'expanded',
         },
-
-        /**
-         * Static analysis linter for TypeScript advanced options configuration.
-         * An extensible linter for the TypeScript language.
-         *
-         * @see {@link https://github.com/wbuchwalter/tslint-loader|TSLint Loader}
-         */
-        tslint: {
-            /*
-             * TSLint errors are displayed by default as warnings.
-             * Set emitErrors to true to display them as errors.
-             */
+        'string-replace': {
+            flags: 'g',
+            replace: 'var sourceMappingUrl = "";',
+            search: 'var sourceMappingUrl = extractSourceMappingUrl\\(cssText\\);',
+        },
+        'tslint': {
             emitErrors: false,
-
-            /*
-             * TSLint does not interrupt the compilation by default.
-             * If you want any file with tslint errors to fail set failOnHint to true.
-             */
             failOnHint: false,
+            tsConfigFile: 'tsconfig.json',
+            typeCheck: true,
         },
     },
+    dev: {
+        tslint: {
+            fix: true,
+        },
+    },
+    prod: {
+        postcss: {
+            plugins: [
+                require('cssnano')(),
+            ],
+        },
+    },
+    test: {},
 };
 
 /**
- * Get the webpack loaders options.
+ * Get the options of the loader according to the target (dev/prod/test.
  *
- * @param  {Object} options  Options to add to the default options
- * @return {Object} The development server configuration.
+ * @param  {string} loaderName The loader name
+ *                             Note that you can (you should) omit the '-loader' part from the name of the loader.
+ * @param  {string} env        The environment we want the loader for.
+ *                             Possible values are: 'development', 'production', 'test'.
+ * @return {Object} The options of the requested loader.
  */
-function getOptions(options) {
-    return merge.recursive(true, DEFAULT_OPTIONS, options);
+function getLoaderOptions(loaderName, env) {
+    loaderName = (_.endsWith(loaderName, '-loader')) ? loaderName.replace('-loader', '') : loaderName;
+
+    return merge.recursive(
+        true,
+        _.get(LOADERS_OPTIONS, `common.${loaderName}`, {}),
+        _.get(LOADERS_OPTIONS, `${env}.${loaderName}`, {}),
+        {
+            debug: ENABLE_DEBUG,
+            minimize: ((env === ENVS.prod) || MINIMIZE) && !ENABLE_DEBUG,
+            sourceMap: true,
+        }
+    );
+}
+
+/**
+ * Get the loader object to use in webpack rules configuration.
+ *
+ * @param  {string} loaderName The loader name.
+ *                             Note that you can (you should) omit the '-loader' part from the name of the loader.
+ * @param  {string} env        The environment we want the loader for.
+ *                             Possible values are: 'development', 'production', 'test'.
+ * @return {Object} The loader object to be used in a Webpack rule configuration.
+ */
+function getLoader(loaderName, env) {
+    loaderName = (_.endsWith(loaderName, '-loader')) ? loaderName.replace('-loader', '') : loaderName;
+
+    return {
+        loader: `${loaderName}-loader`,
+        options: getLoaderOptions(loaderName, env),
+    };
 }
 
 /////////////////////////////
@@ -292,16 +327,16 @@ exports.ENABLE_DASHBOARD = ENABLE_DASHBOARD;
 exports.ENABLE_DEBUG = ENABLE_DEBUG;
 exports.ENVS = ENVS;
 exports.IS_LIVE = IS_LIVE;
+exports.MINIMIZE = MINIMIZE;
 exports.SILENT = SILENT;
 
 exports.COMMON_DEBUG_INFO = COMMON_DEBUG_INFO;
 exports.TESTS_TYPE = TESTS_TYPE;
 exports.TESTS_TYPES = TESTS_TYPES;
 
+exports.getLoader = getLoader;
+exports.getLoaderOptions = getLoaderOptions;
+
 exports.getDevServerConfig = getDevServerConfig;
-exports.getHtmlWebpackPlugin = getHtmlWebpackPlugin;
 exports.getMetadata = getMetadata;
-exports.getOptions = getOptions;
-exports.hasProcessFlag = hasProcessFlag;
-exports.isWebpackDevServer = isWebpackDevServer;
 exports.root = rootFunction;

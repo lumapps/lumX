@@ -24,7 +24,9 @@ import 'core/styles/app.scss';
 
 /**
  * "App" component.
- * [Component description].
+ * Top Level Component.
+ *
+ * At initialization, get the first OAuth token to authentify the connected user.
  */
 @Component({
     selector: SELECTOR_PREFIX + SELECTOR_SEPARATOR + SELECTOR,

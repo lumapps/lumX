@@ -15,7 +15,6 @@ import { IHmrStore } from 'core/types/hmr-store.type';
 
 import { routes } from './app.routes';
 
-
 import { AppComponent } from './app.component';
 
 

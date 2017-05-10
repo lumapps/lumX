@@ -1,4 +1,5 @@
 const commonConfig = require('./webpack.common');
+const helpers = require('./modules/helpers');
 const webpackMerge = require('webpack-merge');
 
 /*
@@ -6,6 +7,8 @@ const webpackMerge = require('webpack-merge');
  */
 const CommonsChunkPlugin = require('webpack/lib/optimize/CommonsChunkPlugin');
 const CheckerPlugin = require('awesome-typescript-loader').CheckerPlugin;
+const SassLintPlugin = require('sasslint-webpack-plugin');
+const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 
 /*
  * Webpack configuration.
@@ -41,14 +44,7 @@ module.exports = function webpackCommonBuildConfigExport(metadata) {
                     enforce: 'post',
                     test: /\.js$/i,
                     use: [
-                        {
-                            loader: 'string-replace-loader',
-                            options: {
-                                flags: 'g',
-                                replace: 'var sourceMappingUrl = "";',
-                                search: 'var sourceMappingUrl = extractSourceMappingUrl\\(cssText\\);',
-                            },
-                        },
+                        helpers.getLoader('string-replace', metadata.env),
                     ],
                 },
             ],
@@ -92,6 +88,39 @@ module.exports = function webpackCommonBuildConfigExport(metadata) {
              * @see {@link https://github.com/s-panferov/awesome-typescript-loader#forkchecker-boolean-defaultfalse|Awesome Typescript Loader forkchecker}
              */
             new CheckerPlugin(),
+
+            /**
+             * Plugin: SASSLintPlugin.
+             * Description: Lint the SASS files.
+             *
+             * @see {@link https://github.com/alleyinteractive/sasslint-webpack-plugin|SASS Lint Webpack Plugin}
+             */
+            new SassLintPlugin({
+                context: [
+                    './src/client',
+                ],
+                failOnError: true,
+                failOnWarning: false,
+                glob: './src/client/**/*.s?(a|c)ss',
+                /*
+                 * NOTE: we need to use the ignoreFiles array here and have the same files as in the .sass-lint.yml
+                 * because the plugin doesn't parse the config file for ignored files... *lame*!
+                 */
+                ignoreFiles: [],
+                quiet: false,
+                testing: false,
+            }),
+
+            /*
+             * Plugin: ScriptExtHtmlWebpackPlugin.
+             * Description: Enhances html-webpack-plugin functionality with different deployment options for your
+             *              scripts.
+             *
+             * @see {@link https://github.com/numical/script-ext-html-webpack-plugin|Script Ext HTML Webpack Plugin}
+             */
+            new ScriptExtHtmlWebpackPlugin({
+                defaultAttribute: 'defer',
+            }),
         ],
     });
 };
