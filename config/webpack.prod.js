@@ -23,6 +23,40 @@ const METADATA = helpers.getMetadata(ENV);
  * @return {Object} The webpack production configuration.
  */
 module.exports = function webpackProdConfigExport() {
+    const aotPlugins = [];
+    if (helpers.ENABLE_AOT) {
+        aotPlugins.push(
+            new NormalModuleReplacementPlugin(
+              /@angular(\\|\/)upgrade/,
+              helpers.root('config', 'empty.js')
+            ),
+            new NormalModuleReplacementPlugin(
+              /@angular(\\|\/)compiler/,
+              helpers.root('config', 'empty.js')
+            ),
+            new NormalModuleReplacementPlugin(
+              /@angular(\\|\/)platform-browser-dynamic/,
+              helpers.root('config', 'empty.js')
+            ),
+            new NormalModuleReplacementPlugin(
+              /dom(\\|\/)debug(\\|\/)ng_probe/,
+              helpers.root('config', 'empty.js')
+            ),
+            new NormalModuleReplacementPlugin(
+              /dom(\\|\/)debug(\\|\/)by/,
+              helpers.root('config', 'empty.js')
+            ),
+            new NormalModuleReplacementPlugin(
+              /src(\\|\/)debug(\\|\/)debug_node/,
+              helpers.root('config', 'empty.js')
+            ),
+            new NormalModuleReplacementPlugin(
+              /src(\\|\/)debug(\\|\/)debug_renderer/,
+              helpers.root('config', 'empty.js')
+            )
+        );
+    }
+
     return webpackMerge.smart(commonConfig(METADATA), {
         /**
          * Developer tool to enhance debugging.
@@ -92,38 +126,6 @@ module.exports = function webpackProdConfigExport() {
                 helpers.root('config', 'empty.js')
             ),
 
-            // Ahead of Time Compilation.
-            /* eslint-disable lumapps/comments-sentences */
-            // new NormalModuleReplacementPlugin(
-            //   /@angular(\\|\/)upgrade/,
-            //   helpers.root('config', 'empty.js')
-            // ),
-            // new NormalModuleReplacementPlugin(
-            //   /@angular(\\|\/)compiler/,
-            //   helpers.root('config', 'empty.js')
-            // ),
-            // new NormalModuleReplacementPlugin(
-            //   /@angular(\\|\/)platform-browser-dynamic/,
-            //   helpers.root('config', 'empty.js')
-            // ),
-            // new NormalModuleReplacementPlugin(
-            //   /dom(\\|\/)debug(\\|\/)ng_probe/,
-            //   helpers.root('config', 'empty.js')
-            // ),
-            // new NormalModuleReplacementPlugin(
-            //   /dom(\\|\/)debug(\\|\/)by/,
-            //   helpers.root('config', 'empty.js')
-            // ),
-            // new NormalModuleReplacementPlugin(
-            //   /src(\\|\/)debug(\\|\/)debug_node/,
-            //   helpers.root('config', 'empty.js')
-            // ),
-            // new NormalModuleReplacementPlugin(
-            //   /src(\\|\/)debug(\\|\/)debug_renderer/,
-            //   helpers.root('config', 'empty.js')
-            // ),
-            /* eslint-enable lumapps/comments-sentences */
-
             /**
              * Webpack plugin to optimize a JavaScript file for faster initial load by wrapping eagerly-invoked
              * functions.
@@ -179,6 +181,6 @@ module.exports = function webpackProdConfigExport() {
                 },
                 /* eslint-enable camelcase */
             }),
-        ],
+        ].concat(aotPlugins),
     });
 };
