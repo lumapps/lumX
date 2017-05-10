@@ -7,7 +7,6 @@ const webpackMerge = require('webpack-merge');
  */
 const Dashboard = require('webpack-dashboard');
 const DashboardPlugin = require('webpack-dashboard/plugin');
-const LoaderOptionsPlugin = require('webpack/lib/LoaderOptionsPlugin');
 const NamedModulesPlugin = require('webpack/lib/NamedModulesPlugin');
 const WebpackNotifierPlugin = require('webpack-notifier');
 
@@ -22,17 +21,6 @@ const METADATA = helpers.getMetadata(ENV);
  * Configure the list of Webpack plugins to use.
  */
 const plugins = [
-    /**
-     * Plugin: LoaderOptionsPlugin.
-     * Description: Configure Webpack loaders and context.
-     *
-     * @see {@link https://gist.github.com/sokra/27b24881210b56bbaff7|What's new in Webpack2}
-     */
-    new LoaderOptionsPlugin(helpers.getOptions({
-        debug: helpers.ENABLE_DEBUG,
-        minimize: false,
-    })),
-
     /**
      * Plugin: NamedModulesPlugin (experimental).
      * Description: Uses file names as module name.

@@ -16,17 +16,7 @@ interface IDecorateModuleRef {
  */
 let _decorateModuleRef: IDecorateModuleRef = <T>(value: T): T => value;
 
-if (ENV === 'production') {
-    // Production
-    enableProdMode();
-
-    // tslint:disable-next-line:no-any
-    _decorateModuleRef = (moduleRef: NgModuleRef<any>): NgModuleRef<any> => {
-        disableDebugTools();
-
-        return moduleRef;
-    };
-} else {
+if (ENV === 'development') {
     // tslint:disable-next-line:no-any
     _decorateModuleRef = (moduleRef: NgModuleRef<any>): NgModuleRef<any> => {
         const appRef: ApplicationRef = moduleRef.injector.get(ApplicationRef);
@@ -39,6 +29,16 @@ if (ENV === 'production') {
 
         (<INgWindow>window).ng.probe = ng.probe;
         (<INgWindow>window).ng.coreTokens = ng.coreTokens;
+
+        return moduleRef;
+    };
+} else {
+    // Production
+    enableProdMode();
+
+    // tslint:disable-next-line:no-any
+    _decorateModuleRef = (moduleRef: NgModuleRef<any>): NgModuleRef<any> => {
+        disableDebugTools();
 
         return moduleRef;
     };

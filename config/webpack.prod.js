@@ -1,12 +1,10 @@
 const commonConfig = require('./webpack.common.build.js');
-const cssNano = require('cssnano');
 const helpers = require('./modules/helpers');
 const webpackMerge = require('webpack-merge');
 
 /**
  * Webpack Plugins.
  */
-const LoaderOptionsPlugin = require('webpack/lib/LoaderOptionsPlugin');
 const NormalModuleReplacementPlugin = require('webpack/lib/NormalModuleReplacementPlugin');
 const OptimizeJsPlugin = require('optimize-js-plugin');
 const UglifyJsPlugin = require('webpack/lib/optimize/UglifyJsPlugin');
@@ -63,62 +61,21 @@ module.exports = function webpackProdConfigExport() {
             sourceMapFilename: '[file].[chunkhash].bundle.map',
         },
 
+        /**
+         * Disable performance hints.
+         *
+         * @see {@link https://github.com/a-tarasyuk/rr-boilerplate/blob/master/webpack/dev.config.babel.js#L41}
+         */
+        performance: {
+            hints: false,
+        },
+
         /*
          * Add additional plugins to the compiler.
          *
          * @see {@link http://webpack.github.io/docs/configuration.html#plugins|The webpack documentation on plugins}
          */
         plugins: [
-            /**
-             * Plugin: HtmlWebpackPlugin.
-             * Description: Configure html tags based on javascript maps.
-             *
-             * @see {@link https://github.com/ampedandwired/html-webpack-plugin|HTML Webpack Plugin}
-             */
-            helpers.getHtmlWebpackPlugin(METADATA),
-
-            /**
-             * Plugin LoaderOptionsPlugin.
-             * Description: Configure Webpack loaders and context.
-             *
-             * @see {@link https://gist.github.com/sokra/27b24881210b56bbaff7|What's new in Webpack2}
-             */
-            new LoaderOptionsPlugin(helpers.getOptions({
-                debug: helpers.ENABLE_DEBUG,
-                minimize: !helpers.ENABLE_DEBUG,
-
-                options: {
-                    /*
-                     * Configure the HTML Loader.
-                     *
-                     * @see {@link @see https://github.com/webpack/html-loader|HTML Loader}
-                     */
-                    htmlLoader: {
-                        minimize: true,
-                    },
-
-                    /*
-                     * Configure the Post-CSS Loader.
-                     *
-                     * @see {@link https://github.com/postcss/postcss-loader|Post-CSS Loader}
-                     * @see {@link https://github.com/ben-eb/cssnano|CSS-Nano for Post-CSS}
-                     */
-                    postcss: [
-                        cssNano(),
-                    ],
-
-                    /**
-                     * Static analysis linter for TypeScript advanced options configuration.
-                     * An extensible linter for the TypeScript language.
-                     *
-                     * @see {@link https://github.com/wbuchwalter/tslint-loader|TSLint Loader}
-                     */
-                    tslint: {
-                        failOnHint: true,
-                    },
-                },
-            })),
-
             /**
              * Plugin: NormalModuleReplacementPlugin.
              * Description: Replace resources that matches resourceRegExp with newResource.
