@@ -5,7 +5,7 @@
     "keywords": [
         "lumapps",
         "angular",
-        "boilerplate",
+        "lumboilerplate",
         "typescript",
         "sass",
         "webpack"
@@ -243,10 +243,10 @@
     "license": "MIT",
     "repository": {
         "type": "git",
-        "url": "https://github.com/lumapps/lumboilerplate.git"
+        "url": "https://github.com/lumapps/boilerplate.git"
     },
     "bugs": {
-        "url": "https://github.com/lumapps/lumboilerplate/issues"
+        "url": "https://github.com/lumapps/boilerplate/issues"
     },
     "dependencies": {
         "@angular/animations": "latest",
