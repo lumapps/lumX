@@ -52,7 +52,7 @@ describe('Application', () => {
 
         it('should have a title', () => {
             expect(homePage.title).to.eventually.be.present;
-            expect(homePage.title.getText()).to.eventually.equal('To-do');
+            expect(homePage.title.getText()).to.eventually.equal('To-do list');
         });
 
         it('should have a section', () => {
