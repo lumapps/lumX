@@ -272,6 +272,7 @@
         "dedent": "latest"
     },
     "devDependencies": {
+        "@angular/cli": "latest",
         "@angular/compiler-cli": "latest",
         "ngc-webpack": "latest",
 
