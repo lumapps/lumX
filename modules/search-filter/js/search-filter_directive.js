@@ -138,7 +138,13 @@
             lxSearchFilter.modelController.$setViewValue(undefined);
             lxSearchFilter.modelController.$render();
 
+            // Temporarily disabling search on focus since we never want to trigger it when clearing the input.
+            var searchOnFocus = lxSearchFilter.searchOnFocus;
+            lxSearchFilter.searchOnFocus = false;
+
             input.focus();
+
+            lxSearchFilter.searchOnFocus = searchOnFocus;
         }
 
         function focusInput()
