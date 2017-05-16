@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.5.7:
+
+#### Bug fixes:
+ - search-filter: clearing input should not trigger a search again
+
+
 ## v1.5.6:
 *No major changes.*
 
