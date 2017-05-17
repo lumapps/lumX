@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.5.9:
+*No major changes.*
+
+
 ## v1.5.8:
 
 #### Bug fixes:

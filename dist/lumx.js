@@ -1,5 +1,5 @@
 /*
- LumX v1.5.8
+ LumX v1.5.9
  (c) 2014-2017 LumApps http://ui.lumapps.com
  License: MIT
 */
@@ -243,6 +243,7 @@
 
         service.debounce = debounce;
         service.generateUUID = generateUUID;
+        service.disableBodyScroll = disableBodyScroll;
 
         ////////////
 
@@ -317,8 +318,54 @@
 
             return uuid.toUpperCase();
         }
+
+        function disableBodyScroll()
+        {
+            var body = document.body;
+            var documentElement = document.documentElement;
+
+            var prevDocumentStyle = documentElement.style.cssText || '';
+            var prevBodyStyle = body.style.cssText || '';
+
+            var viewportTop = window.scrollY || window.pageYOffset || 0;
+            var clientWidth = body.clientWidth;
+            var hasVerticalScrollbar = body.scrollHeight > window.innerHeight + 1;
+
+            if (hasVerticalScrollbar)
+            {
+              angular.element('body').css({
+                position: 'fixed',
+                width: '100%',
+                top: -viewportTop + 'px'
+              });
+            }
+
+            if (body.clientWidth < clientWidth)
+            {
+              body.style.overflow = 'hidden';
+            }
+
+            // This should be applied after the manipulation to the body, because
+            // adding a scrollbar can potentially resize it, causing the measurement
+            // to change.
+            if (hasVerticalScrollbar)
+            {
+              documentElement.style.overflowY = 'scroll';
+            }
+
+            return function restoreScroll()
+            {
+              // Reset the inline style CSS to the previous.
+              body.style.cssText = prevBodyStyle;
+              documentElement.style.cssText = prevDocumentStyle;
+
+              // The body loses its scroll position while being fixed.
+              body.scrollTop = viewportTop;
+            };
+        }
     }
 })();
+
 (function()
 {
     'use strict';
@@ -1695,6 +1742,7 @@
         {
             class: 'scroll-mask'
         });
+        var enableBodyScroll;
 
         lxDropdown.closeDropdownMenu = closeDropdownMenu;
         lxDropdown.openDropdownMenu = openDropdownMenu;
@@ -1748,6 +1796,8 @@
             var velocityEasing;
 
             scrollMask.remove();
+            enableBodyScroll();
+            enableBodyScroll = undefined;
 
             if (lxDropdown.hasToggle)
             {
@@ -1944,6 +1994,8 @@
             scrollMask.on('wheel', function preventDefault(e) {
                 e.preventDefault();
             });
+
+            enableBodyScroll = LxUtils.disableBodyScroll();
 
             if (lxDropdown.hasToggle)
             {
@@ -2382,6 +2434,7 @@
         }
     }
 })();
+
 (function()
 {
     'use strict';
