@@ -1,5 +1,5 @@
 /*
- LumX v1.5.6
+ LumX v1.5.8
  (c) 2014-2017 LumApps http://ui.lumapps.com
  License: MIT
 */
@@ -3549,7 +3549,13 @@
             lxSearchFilter.modelController.$setViewValue(undefined);
             lxSearchFilter.modelController.$render();
 
+            // Temporarily disabling search on focus since we never want to trigger it when clearing the input.
+            var searchOnFocus = lxSearchFilter.searchOnFocus;
+            lxSearchFilter.searchOnFocus = false;
+
             input.focus();
+
+            lxSearchFilter.searchOnFocus = searchOnFocus;
         }
 
         function focusInput()
@@ -5229,11 +5235,11 @@
         }, function(_newLinks)
         {
             lxTabs.viewMode = angular.isDefined(_newLinks) ? 'separate' : 'gather';
-            
+
             angular.forEach(_newLinks, function(link, index)
             {
                 var tab = {
-                    uuid: LxUtils.generateUUID(),
+                    uuid: (angular.isUndefined(link.uuid) || link.uuid.length === 0) ? LxUtils.generateUUID() : link.uuid,
                     index: index,
                     label: link.label,
                     icon: link.icon,
@@ -5355,11 +5361,11 @@
 
             angular.forEach(lxTabs.tabs, function(tab)
             {
-                if (tab.uuid === _tab.uuid)
+                if (tab.index === _tab.index)
                 {
                     newTab = false;
 
-                    tab.index = _tab.index;
+                    tab.uuid = _tab.uuid;
                     tab.icon = _tab.icon;
                     tab.label = _tab.label;
                 }
