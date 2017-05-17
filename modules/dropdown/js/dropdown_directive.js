@@ -96,6 +96,7 @@
         {
             class: 'scroll-mask'
         });
+        var enableBodyScroll;
 
         lxDropdown.closeDropdownMenu = closeDropdownMenu;
         lxDropdown.openDropdownMenu = openDropdownMenu;
@@ -149,6 +150,8 @@
             var velocityEasing;
 
             scrollMask.remove();
+            enableBodyScroll();
+            enableBodyScroll = undefined;
 
             if (lxDropdown.hasToggle)
             {
@@ -345,6 +348,8 @@
             scrollMask.on('wheel', function preventDefault(e) {
                 e.preventDefault();
             });
+
+            enableBodyScroll = LxUtils.disableBodyScroll();
 
             if (lxDropdown.hasToggle)
             {
