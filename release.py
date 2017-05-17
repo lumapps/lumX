@@ -33,7 +33,7 @@ def updateHomepage(version):
 
 
 def addAndCommitReleaseFiles(version):
-    subprocess.call(['git', 'add', '-f', 'demo/includes/home/home.html', 'CHANGELOG.md', 'dist'])
+    subprocess.call(['git', 'add', '-f', 'demo/includes/home/home.html', 'CHANGELOG.md', 'dist'], stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
     subprocess.call(['git', 'commit', '-m', 'chore release: new release %s' % version], stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
 
 
