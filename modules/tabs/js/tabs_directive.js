@@ -80,11 +80,11 @@
         }, function(_newLinks)
         {
             lxTabs.viewMode = angular.isDefined(_newLinks) ? 'separate' : 'gather';
-            
+
             angular.forEach(_newLinks, function(link, index)
             {
                 var tab = {
-                    uuid: LxUtils.generateUUID(),
+                    uuid: (angular.isUndefined(link.uuid) || link.uuid.length === 0) ? LxUtils.generateUUID() : link.uuid,
                     index: index,
                     label: link.label,
                     icon: link.icon,
@@ -206,11 +206,11 @@
 
             angular.forEach(lxTabs.tabs, function(tab)
             {
-                if (tab.uuid === _tab.uuid)
+                if (tab.index === _tab.index)
                 {
                     newTab = false;
 
-                    tab.index = _tab.index;
+                    tab.uuid = _tab.uuid;
                     tab.icon = _tab.icon;
                     tab.label = _tab.label;
                 }
