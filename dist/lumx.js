@@ -1,5 +1,5 @@
 /*
- LumX v1.5.9
+ LumX v1.5.10
  (c) 2014-2017 LumApps http://ui.lumapps.com
  License: MIT
 */
@@ -1796,7 +1796,10 @@
             var velocityEasing;
 
             scrollMask.remove();
-            enableBodyScroll();
+
+            if (angular.isFunction(enableBodyScroll)) {
+                enableBodyScroll();
+            }
             enableBodyScroll = undefined;
 
             if (lxDropdown.hasToggle)
