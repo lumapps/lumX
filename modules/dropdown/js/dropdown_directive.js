@@ -150,7 +150,10 @@
             var velocityEasing;
 
             scrollMask.remove();
-            enableBodyScroll();
+
+            if (angular.isFunction(enableBodyScroll)) {
+                enableBodyScroll();
+            }
             enableBodyScroll = undefined;
 
             if (lxDropdown.hasToggle)
