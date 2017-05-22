@@ -15,6 +15,7 @@
         var dialog;
         var idEventScheduler;
         var notificationList = [];
+        var actionClicked = false;
 
         service.alert = showAlertDialog;
         service.confirm = showConfirmDialog;
@@ -61,7 +62,7 @@
                     notificationList.splice(notifIndex, 1);
                 }
 
-                _callback();
+                _callback(actionClicked);
             }, 400);
         }
 
@@ -145,6 +146,11 @@
 
                 notificationAction.attr('lx-ripple', '');
                 $compile(notificationAction)($rootScope);
+
+                notificationAction.bind('click', function()
+                {
+                    actionClicked = true;
+                });
 
                 notification
                     .addClass('notification--has-action')
