@@ -2750,6 +2750,7 @@
         var dialog;
         var idEventScheduler;
         var notificationList = [];
+        var actionClicked = false;
 
         service.alert = showAlertDialog;
         service.confirm = showConfirmDialog;
@@ -2765,8 +2766,10 @@
         // NOTIFICATION
         //
 
-        function deleteNotification(_notification)
+        function deleteNotification(_notification, _callback)
         {
+            _callback = (!angular.isFunction(_callback)) ? angular.noop : _callback;
+
             var notifIndex = notificationList.indexOf(_notification);
 
             var dnOffset = angular.isDefined(notificationList[notifIndex]) ? 24 + notificationList[notifIndex].height : 24;
@@ -2793,6 +2796,9 @@
                 {
                     notificationList.splice(notifIndex, 1);
                 }
+
+                _callback(actionClicked);
+                actionClicked = false
             }, 400);
         }
 
@@ -2877,14 +2883,14 @@
                 notificationAction.attr('lx-ripple', '');
                 $compile(notificationAction)($rootScope);
 
+                notificationAction.bind('click', function()
+                {
+                    actionClicked = true;
+                });
+
                 notification
                     .addClass('notification--has-action')
                     .append(notificationAction);
-
-                notificationAction.bind('click', function()
-                {
-                    _callback();
-                });
             }
 
             notification
@@ -2905,7 +2911,7 @@
 
             notification.bind('click', function()
             {
-                deleteNotification(data);
+                deleteNotification(data, _callback);
 
                 if (angular.isDefined(notificationTimeout))
                 {
@@ -2917,7 +2923,7 @@
             {
                 notificationTimeout = $timeout(function()
                 {
-                    deleteNotification(data);
+                    deleteNotification(data, _callback);
                 }, notificationDelay);
             }
         }
@@ -3141,6 +3147,7 @@
         }
     }
 })();
+
 (function()
 {
     'use strict';
