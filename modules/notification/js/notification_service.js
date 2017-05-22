@@ -63,6 +63,7 @@
                 }
 
                 _callback(actionClicked);
+                actionClicked = false
             }, 400);
         }
 
