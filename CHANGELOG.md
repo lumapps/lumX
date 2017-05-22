@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.5.11:
+*No major changes.*
+
+
 ## v1.5.10:
 *No major changes.*
 
