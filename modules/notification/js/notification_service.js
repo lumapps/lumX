@@ -26,6 +26,7 @@
         service.warning = notifyWarning;
         service.getNotificationList = getNotificationList;
         service.reComputeElementsPosition = reComputeElementsPosition;
+        service.deleteNotification = deleteNotification;
 
         ////////////
 
