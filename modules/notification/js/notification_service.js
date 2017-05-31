@@ -24,6 +24,8 @@
         service.notify = notify;
         service.success = notifySuccess;
         service.warning = notifyWarning;
+        service.getNotificationList = getNotificationList;
+        service.setNotificationList = setNotificationList;
 
         ////////////
 
@@ -409,6 +411,19 @@
                 dialogFilter.addClass('dialog-filter--is-shown');
                 dialog.addClass('dialog--is-shown');
             }, 100);
+        }
+
+        function getNotificationList()
+        {
+            // Return a copy of the notification list.
+            return notificationList.slice();
+        }
+
+        function setNotificationList(newList)
+        {
+            // Reset and extend list.
+            notificationList.length = 0;
+            angular.extend(notificationList, newList);
         }
     }
 })();
