@@ -25,13 +25,37 @@
         service.success = notifySuccess;
         service.warning = notifyWarning;
         service.getNotificationList = getNotificationList;
-        service.setNotificationList = setNotificationList;
+        service.reComputeElementsPosition = reComputeElementsPosition;
 
         ////////////
 
         //
         // NOTIFICATION
         //
+
+        function getElementHeight(_elem)
+        {
+            return parseFloat(window.getComputedStyle(_elem, null).height);
+        }
+
+        function moveNotificationUp()
+        {
+            var newNotifIndex = notificationList.length - 1;
+            notificationList[newNotifIndex].height = getElementHeight(notificationList[newNotifIndex].elem[0]);
+
+            var upOffset = 0;
+
+            for (var idx = newNotifIndex; idx >= 0; idx--)
+            {
+                if (notificationList.length > 1 && idx !== newNotifIndex)
+                {
+                    upOffset = 24 + notificationList[newNotifIndex].height;
+
+                    notificationList[idx].margin += upOffset;
+                    notificationList[idx].elem.css('marginBottom', notificationList[idx].margin + 'px');
+                }
+            }
+        }
 
         function deleteNotification(_notification, _callback)
         {
@@ -69,27 +93,22 @@
             }, 400);
         }
 
-        function getElementHeight(_elem)
+        /**
+         * Compute the notification list element new position.
+         * Usefull when the height change programmatically and you need other notifications to fit.
+         */
+        function reComputeElementsPosition()
         {
-            return parseFloat(window.getComputedStyle(_elem, null).height);
-        }
+            var baseOffset = 0;
 
-        function moveNotificationUp()
-        {
-            var newNotifIndex = notificationList.length - 1;
-            notificationList[newNotifIndex].height = getElementHeight(notificationList[newNotifIndex].elem[0]);
-
-            var upOffset = 0;
-
-            for (var idx = newNotifIndex; idx >= 0; idx--)
+            for (var idx = notificationList.length -1; idx >= 0; idx--)
             {
-                if (notificationList.length > 1 && idx !== newNotifIndex)
-                {
-                    upOffset = 24 + notificationList[newNotifIndex].height;
+                notificationList[idx].height = getElementHeight(notificationList[idx].elem[0]);
+                notificationList[idx].margin = baseOffset;
 
-                    notificationList[idx].margin += upOffset;
-                    notificationList[idx].elem.css('marginBottom', notificationList[idx].margin + 'px');
-                }
+                notificationList[idx].elem.css('marginBottom', notificationList[idx].margin + 'px');
+
+                baseOffset += notificationList[idx].height + 24;
             }
         }
 
@@ -419,11 +438,5 @@
             return notificationList.slice();
         }
 
-        function setNotificationList(newList)
-        {
-            // Reset and extend list.
-            notificationList.length = 0;
-            angular.extend(notificationList, newList);
-        }
     }
 })();
