@@ -150,10 +150,10 @@
         {
             if (angular.isDefined(newValue) && newValue)
             {
-                input.focus();
-
-                // Reset the value so we can re-focus the field later on if we want to.
-                $timeout(function() {
+                $timeout(function()
+                {
+                    input.focus();
+                    // Reset the value so we can re-focus the field later on if we want to.
                     lxTextField.focus = false;
                 });
             }
