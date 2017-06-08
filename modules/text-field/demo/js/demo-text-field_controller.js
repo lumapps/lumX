@@ -38,6 +38,7 @@
             {
                 company: 'LumApps',
                 email: 'hello@lumapps.com',
+                firstName: 'Matthias',
                 invalidEmail: 'invalid-email',
                 repeatedEmail: 'hello@lumapps.com'
             },
