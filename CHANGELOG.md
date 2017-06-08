@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.5.13:
+
+#### Bug fixes:
+ - textfield: focus field within timeout
+
+
 ## v1.5.12:
 
 #### New features:

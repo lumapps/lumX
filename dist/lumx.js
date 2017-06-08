@@ -1,5 +1,5 @@
 /*
- LumX v1.5.12
+ LumX v1.5.13
  (c) 2014-2017 LumApps http://ui.lumapps.com
  License: MIT
 */
@@ -5729,10 +5729,10 @@
         {
             if (angular.isDefined(newValue) && newValue)
             {
-                input.focus();
-
-                // Reset the value so we can re-focus the field later on if we want to.
-                $timeout(function() {
+                $timeout(function()
+                {
+                    input.focus();
+                    // Reset the value so we can re-focus the field later on if we want to.
                     lxTextField.focus = false;
                 });
             }
