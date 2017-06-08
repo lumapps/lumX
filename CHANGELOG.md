@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.5.12:
+
+#### New features:
+ - textfield: add new lx-focus attribute
+
+
 ## v1.5.11:
 *No major changes.*
 

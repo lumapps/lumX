@@ -1,5 +1,5 @@
 /*
- LumX v1.5.11
+ LumX v1.5.12
  (c) 2014-2017 LumApps http://ui.lumapps.com
  License: MIT
 */
@@ -5597,6 +5597,7 @@
                 allowClear: '=?lxAllowClear',
                 error: '=?lxError',
                 fixedLabel: '=?lxFixedLabel',
+                focus: '=?lxFocus',
                 icon: '@?lxIcon',
                 label: '@lxLabel',
                 ngDisabled: '=?',
@@ -5664,7 +5665,19 @@
                 ctrl.setInput(input);
                 ctrl.setModel(input.data('$ngModelController'));
 
-                input.on('focus', ctrl.focusInput);
+                input.on('focus', function()
+                {
+                    var phase = scope.$root.$$phase;
+
+                    if (phase === '$apply' || phase === '$digest')
+                    {
+                        ctrl.focusInput();
+                    }
+                    else
+                    {
+                        scope.$apply(ctrl.focusInput);
+                    }
+                });
                 input.on('blur', ctrl.blurInput);
             });
 
@@ -5709,6 +5722,22 @@
             }
         });
 
+        $scope.$watch(function()
+        {
+            return lxTextField.focus;
+        }, function(newValue, oldValue)
+        {
+            if (angular.isDefined(newValue) && newValue)
+            {
+                input.focus();
+
+                // Reset the value so we can re-focus the field later on if we want to.
+                $timeout(function() {
+                    lxTextField.focus = false;
+                });
+            }
+        });
+
         $scope.$on('$destroy', function()
         {
             $timeout.cancel(timer1);
@@ -5743,22 +5772,20 @@
 
         function focusInput()
         {
-            $scope.$apply(function()
-            {
-                lxTextField.isActive = true;
-                lxTextField.isFocus = true;
-            });
+            lxTextField.isActive = true;
+            lxTextField.isFocus = true;
         }
 
         function hasValue()
         {
-            return input.val();
+            return angular.isDefined(input.val()) && input.val().length > 0;
         }
 
         function init()
         {
             lxTextField.isActive = hasValue();
-            lxTextField.isFocus = false;
+            lxTextField.focus = angular.isDefined(lxTextField.focus) ? lxTextField.focus : false;
+            lxTextField.isFocus = lxTextField.focus;
         }
 
         function setInput(_input)
