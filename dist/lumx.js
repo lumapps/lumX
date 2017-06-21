@@ -1,5 +1,5 @@
 /*
- LumX v1.5.13
+ LumX v1.5.14
  (c) 2014-2017 LumApps http://ui.lumapps.com
  License: MIT
 */
@@ -2251,6 +2251,10 @@
 
             element.on(mouseEvent, function(_event)
             {
+                if (mouseEvent === 'mouseenter' && 'ontouchstart' in window) {
+                    return;
+                }
+
                 if (!ctrl.hover)
                 {
                     _event.stopPropagation();

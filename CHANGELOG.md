@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.5.14:
+
+#### Bug fixes:
+ - dropdown: fix the behaviour of hover in mobile
+
+
 ## v1.5.13:
 
 #### Bug fixes:
