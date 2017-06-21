@@ -605,6 +605,10 @@
 
             element.on(mouseEvent, function(_event)
             {
+                if (mouseEvent === 'mouseenter' && 'ontouchstart' in window) {
+                    return;
+                }
+
                 if (!ctrl.hover)
                 {
                     _event.stopPropagation();
