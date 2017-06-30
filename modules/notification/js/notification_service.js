@@ -206,6 +206,7 @@
 
             notification.bind('click', function()
             {
+                actionClicked = true;
                 deleteNotification(data, _callback);
 
                 if (angular.isDefined(notificationTimeout))
