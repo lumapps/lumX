@@ -226,22 +226,22 @@
 
         function notifyError(_text, _sticky)
         {
-            notify(_text, 'alert-circle', _sticky, 'red');
+            service.notify(_text, 'alert-circle', _sticky, 'red');
         }
 
         function notifyInfo(_text, _sticky)
         {
-            notify(_text, 'information-outline', _sticky, 'blue');
+            service.notify(_text, 'information-outline', _sticky, 'blue');
         }
 
         function notifySuccess(_text, _sticky)
         {
-            notify(_text, 'check', _sticky, 'green');
+            service.notify(_text, 'check', _sticky, 'green');
         }
 
         function notifyWarning(_text, _sticky)
         {
-            notify(_text, 'alert', _sticky, 'orange');
+            service.notify(_text, 'alert', _sticky, 'orange');
         }
 
         //
