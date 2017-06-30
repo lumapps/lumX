@@ -27,6 +27,7 @@
         service.getNotificationList = getNotificationList;
         service.reComputeElementsPosition = reComputeElementsPosition;
         service.deleteNotification = deleteNotification;
+        service.buildNotification = buildNotification;
 
         ////////////
 
@@ -113,12 +114,8 @@
             }
         }
 
-        function notify(_text, _icon, _sticky, _color, _action, _callback, _delay)
+        function buildNotification(_text, _icon, _color, _action)
         {
-            var $compile = $injector.get('$compile');
-
-            LxDepthService.register();
-
             var notification = angular.element('<div/>',
             {
                 class: 'notification'
@@ -128,8 +125,6 @@
                 class: 'notification__content',
                 html: _text
             });
-            var notificationTimeout;
-            var notificationDelay = _delay || 6000;
 
             if (angular.isDefined(_icon))
             {
@@ -179,6 +174,19 @@
                     .addClass('notification--has-action')
                     .append(notificationAction);
             }
+
+            return notification;
+        }
+
+        function notify(_text, _icon, _sticky, _color, _action, _callback, _delay)
+        {
+            var $compile = $injector.get('$compile');
+            // Use of `this` for override purpose.
+            var notification = this.buildNotification(_text, _icon, _color, _action);
+            var notificationTimeout;
+            var notificationDelay = _delay || 6000;
+
+            LxDepthService.register();
 
             notification
                 .css('z-index', LxDepthService.getDepth())
