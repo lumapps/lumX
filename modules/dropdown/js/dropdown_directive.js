@@ -587,9 +587,9 @@
         }
     }
 
-    lxDropdownToggle.$inject = ['$timeout', 'LxDropdownService'];
+    lxDropdownToggle.$inject = ['$timeout', '$window', 'LxDropdownService'];
 
-    function lxDropdownToggle($timeout, LxDropdownService)
+    function lxDropdownToggle($timeout, $window, LxDropdownService)
     {
         return {
             restrict: 'AE',
@@ -610,7 +610,8 @@
 
             element.on(mouseEvent, function(_event)
             {
-                if (mouseEvent === 'mouseenter' && 'ontouchstart' in window) {
+                // If we are in mobile, ignore the mouseenter event for hovering detection
+                if (mouseEvent === 'mouseenter' && ('ontouchstart' in window && angular.element($window).outerWidth() <= 480)) {
                     return;
                 }
 
