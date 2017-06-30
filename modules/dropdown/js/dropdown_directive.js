@@ -21,6 +21,7 @@
                 escapeClose: '=?lxEscapeClose',
                 hover: '=?lxHover',
                 hoverDelay: '=?lxHoverDelay',
+                minOffset: '=?lxMinOffset',
                 offset: '@?lxOffset',
                 overToggle: '=?lxOverToggle',
                 position: '@?lxPosition',
@@ -111,6 +112,7 @@
         lxDropdown.isOpen = false;
         lxDropdown.overToggle = angular.isDefined(lxDropdown.overToggle) ? lxDropdown.overToggle : false;
         lxDropdown.position = angular.isDefined(lxDropdown.position) ? lxDropdown.position : 'left';
+        lxDropdown.minOffset = (angular.isUndefined(lxDropdown.minOffset) || lxDropdown.minOffset < 0) ? 8 : lxDropdown.minOffset;
 
         $scope.$on('lx-dropdown__open', function(_event, _params)
         {
@@ -298,16 +300,19 @@
             if (lxDropdown.position === 'left')
             {
                 dropdownMenuLeft = dropdownToggle.offset().left;
+                dropdownMenuLeft = (dropdownMenuLeft <= lxDropdown.minOffset) ? lxDropdown.minOffset : dropdownMenuLeft;
                 dropdownMenuRight = 'auto';
             }
             else if (lxDropdown.position === 'right')
             {
                 dropdownMenuLeft = 'auto';
                 dropdownMenuRight = windowWidth - dropdownToggle.offset().left - dropdownToggleWidth;
+                dropdownMenuRight = (dropdownMenuRight > (windowWidth - lxDropdown.minOffset)) ? (windowWidth - lxDropdown.minOffset) : dropdownMenuRight;
             }
             else if (lxDropdown.position === 'center')
             {
                 dropdownMenuLeft = (dropdownToggle.offset().left + (dropdownToggleWidth / 2)) - (dropdownMenuWidth / 2);
+                dropdownMenuLeft = (dropdownMenuLeft <= lxDropdown.minOffset) ? lxDropdown.minOffset : dropdownMenuLeft;
                 dropdownMenuRight = 'auto';
             }
 
