@@ -120,9 +120,8 @@
             {
                 LxDropdownService.closeActiveDropdown();
                 LxDropdownService.registerActiveDropdownUuid(lxDropdown.uuid);
-                positionTarget = _params.target;
 
-                registerDropdownToggle(angular.element(positionTarget));
+                registerDropdownToggle(_params.target);
                 openDropdownMenu();
             }
         });
@@ -158,9 +157,12 @@
             }
             enableBodyScroll = undefined;
 
+            var dropdownToggleElement;
             if (lxDropdown.hasToggle)
             {
-                dropdownToggle
+                dropdownToggleElement = (angular.isString(dropdownToggle)) ? angular.element(dropdownToggle) : dropdownToggle;
+
+                dropdownToggleElement
                     .off('wheel')
                     .css('z-index', '');
             }
@@ -238,8 +240,9 @@
             var availableHeightOnTop;
             var availableHeightOnBottom;
             var direction;
-            var dropdownToggleHeight = dropdownToggle.outerHeight();
-            var dropdownToggleTop = dropdownToggle.offset().top - angular.element($window).scrollTop();
+            var dropdownToggleElement = (angular.isString(dropdownToggle)) ? angular.element(dropdownToggle) : dropdownToggle;
+            var dropdownToggleHeight = dropdownToggleElement.outerHeight();
+            var dropdownToggleTop = dropdownToggleElement.offset().top - angular.element($window).scrollTop();
             var windowHeight = $window.innerHeight;
 
             if (lxDropdown.overToggle)
@@ -275,9 +278,10 @@
             var dropdownMenuWidth;
             var dropdownMenuLeft;
             var dropdownMenuRight;
-            var dropdownToggleWidth = dropdownToggle.outerWidth();
-            var dropdownToggleHeight = dropdownToggle.outerHeight();
-            var dropdownToggleTop = dropdownToggle.offset().top - angular.element($window).scrollTop();
+            var dropdownToggleElement = (angular.isString(dropdownToggle)) ? angular.element(dropdownToggle) : dropdownToggle;
+            var dropdownToggleWidth = dropdownToggleElement.outerWidth();
+            var dropdownToggleHeight = dropdownToggleElement.outerHeight();
+            var dropdownToggleTop = dropdownToggleElement.offset().top - angular.element($window).scrollTop();
             var windowWidth = $window.innerWidth;
             var windowHeight = $window.innerHeight;
 
@@ -299,19 +303,19 @@
 
             if (lxDropdown.position === 'left')
             {
-                dropdownMenuLeft = dropdownToggle.offset().left;
+                dropdownMenuLeft = dropdownToggleElement.offset().left;
                 dropdownMenuLeft = (dropdownMenuLeft <= lxDropdown.minOffset) ? lxDropdown.minOffset : dropdownMenuLeft;
                 dropdownMenuRight = 'auto';
             }
             else if (lxDropdown.position === 'right')
             {
                 dropdownMenuLeft = 'auto';
-                dropdownMenuRight = windowWidth - dropdownToggle.offset().left - dropdownToggleWidth;
+                dropdownMenuRight = windowWidth - dropdownToggleElement.offset().left - dropdownToggleWidth;
                 dropdownMenuRight = (dropdownMenuRight > (windowWidth - lxDropdown.minOffset)) ? (windowWidth - lxDropdown.minOffset) : dropdownMenuRight;
             }
             else if (lxDropdown.position === 'center')
             {
-                dropdownMenuLeft = (dropdownToggle.offset().left + (dropdownToggleWidth / 2)) - (dropdownMenuWidth / 2);
+                dropdownMenuLeft = (dropdownToggleElement.offset().left + (dropdownToggleWidth / 2)) - (dropdownMenuWidth / 2);
                 dropdownMenuLeft = (dropdownMenuLeft <= lxDropdown.minOffset) ? lxDropdown.minOffset : dropdownMenuLeft;
                 dropdownMenuRight = 'auto';
             }
@@ -359,9 +363,11 @@
 
             enableBodyScroll = LxUtils.disableBodyScroll();
 
+            var dropdownToggleElement;
             if (lxDropdown.hasToggle)
             {
-                dropdownToggle
+                dropdownToggleElement = (angular.isString(dropdownToggle)) ? angular.element(dropdownToggle) : dropdownToggle;
+                dropdownToggleElement
                     .css('z-index', LxDepthService.getDepth() + 1)
                     .on('wheel', function preventDefault(e) {
                         e.preventDefault();
