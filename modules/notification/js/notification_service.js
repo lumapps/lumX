@@ -91,7 +91,7 @@
                 }
 
                 _callback(actionClicked);
-                actionClicked = false
+                actionClicked = false;
             }, 400);
         }
 
@@ -147,6 +147,7 @@
 
             if (angular.isDefined(_action))
             {
+                var $compile = $injector.get('$compile');
                 var notificationAction = angular.element('<button/>',
                 {
                     class: 'notification__action btn btn--m btn--flat',
@@ -180,9 +181,11 @@
 
         function notify(_text, _icon, _sticky, _color, _action, _callback, _delay)
         {
-            var $compile = $injector.get('$compile');
+            /*jshint ignore:start*/
             // Use of `this` for override purpose.
             var notification = this.buildNotification(_text, _icon, _color, _action);
+            /*jshint ignore:end*/
+            
             var notificationTimeout;
             var notificationDelay = _delay || 6000;
 
