@@ -24,12 +24,40 @@
         service.notify = notify;
         service.success = notifySuccess;
         service.warning = notifyWarning;
+        service.getNotificationList = getNotificationList;
+        service.reComputeElementsPosition = reComputeElementsPosition;
+        service.deleteNotification = deleteNotification;
+        service.buildNotification = buildNotification;
 
         ////////////
 
         //
         // NOTIFICATION
         //
+
+        function getElementHeight(_elem)
+        {
+            return parseFloat(window.getComputedStyle(_elem, null).height);
+        }
+
+        function moveNotificationUp()
+        {
+            var newNotifIndex = notificationList.length - 1;
+            notificationList[newNotifIndex].height = getElementHeight(notificationList[newNotifIndex].elem[0]);
+
+            var upOffset = 0;
+
+            for (var idx = newNotifIndex; idx >= 0; idx--)
+            {
+                if (notificationList.length > 1 && idx !== newNotifIndex)
+                {
+                    upOffset = 24 + notificationList[newNotifIndex].height;
+
+                    notificationList[idx].margin += upOffset;
+                    notificationList[idx].elem.css('marginBottom', notificationList[idx].margin + 'px');
+                }
+            }
+        }
 
         function deleteNotification(_notification, _callback)
         {
@@ -63,40 +91,31 @@
                 }
 
                 _callback(actionClicked);
-                actionClicked = false
+                actionClicked = false;
             }, 400);
         }
 
-        function getElementHeight(_elem)
+        /**
+         * Compute the notification list element new position.
+         * Usefull when the height change programmatically and you need other notifications to fit.
+         */
+        function reComputeElementsPosition()
         {
-            return parseFloat(window.getComputedStyle(_elem, null).height);
-        }
+            var baseOffset = 0;
 
-        function moveNotificationUp()
-        {
-            var newNotifIndex = notificationList.length - 1;
-            notificationList[newNotifIndex].height = getElementHeight(notificationList[newNotifIndex].elem[0]);
-
-            var upOffset = 0;
-
-            for (var idx = newNotifIndex; idx >= 0; idx--)
+            for (var idx = notificationList.length -1; idx >= 0; idx--)
             {
-                if (notificationList.length > 1 && idx !== newNotifIndex)
-                {
-                    upOffset = 24 + notificationList[newNotifIndex].height;
+                notificationList[idx].height = getElementHeight(notificationList[idx].elem[0]);
+                notificationList[idx].margin = baseOffset;
 
-                    notificationList[idx].margin += upOffset;
-                    notificationList[idx].elem.css('marginBottom', notificationList[idx].margin + 'px');
-                }
+                notificationList[idx].elem.css('marginBottom', notificationList[idx].margin + 'px');
+
+                baseOffset += notificationList[idx].height + 24;
             }
         }
 
-        function notify(_text, _icon, _sticky, _color, _action, _callback, _delay)
+        function buildNotification(_text, _icon, _color, _action)
         {
-            var $compile = $injector.get('$compile');
-
-            LxDepthService.register();
-
             var notification = angular.element('<div/>',
             {
                 class: 'notification'
@@ -106,8 +125,6 @@
                 class: 'notification__content',
                 html: _text
             });
-            var notificationTimeout;
-            var notificationDelay = _delay || 6000;
 
             if (angular.isDefined(_icon))
             {
@@ -130,6 +147,7 @@
 
             if (angular.isDefined(_action))
             {
+                var $compile = $injector.get('$compile');
                 var notificationAction = angular.element('<button/>',
                 {
                     class: 'notification__action btn btn--m btn--flat',
@@ -158,6 +176,21 @@
                     .append(notificationAction);
             }
 
+            return notification;
+        }
+
+        function notify(_text, _icon, _sticky, _color, _action, _callback, _delay)
+        {
+            /*jshint ignore:start*/
+            // Use of `this` for override purpose.
+            var notification = this.buildNotification(_text, _icon, _color, _action);
+            /*jshint ignore:end*/
+            
+            var notificationTimeout;
+            var notificationDelay = _delay || 6000;
+
+            LxDepthService.register();
+
             notification
                 .css('z-index', LxDepthService.getDepth())
                 .appendTo('body');
@@ -176,6 +209,7 @@
 
             notification.bind('click', function()
             {
+                actionClicked = true;
                 deleteNotification(data, _callback);
 
                 if (angular.isDefined(notificationTimeout))
@@ -195,22 +229,22 @@
 
         function notifyError(_text, _sticky)
         {
-            notify(_text, 'alert-circle', _sticky, 'red');
+            service.notify(_text, 'alert-circle', _sticky, 'red');
         }
 
         function notifyInfo(_text, _sticky)
         {
-            notify(_text, 'information-outline', _sticky, 'blue');
+            service.notify(_text, 'information-outline', _sticky, 'blue');
         }
 
         function notifySuccess(_text, _sticky)
         {
-            notify(_text, 'check', _sticky, 'green');
+            service.notify(_text, 'check', _sticky, 'green');
         }
 
         function notifyWarning(_text, _sticky)
         {
-            notify(_text, 'alert', _sticky, 'orange');
+            service.notify(_text, 'alert', _sticky, 'orange');
         }
 
         //
@@ -410,5 +444,12 @@
                 dialog.addClass('dialog--is-shown');
             }, 100);
         }
+
+        function getNotificationList()
+        {
+            // Return a copy of the notification list.
+            return notificationList.slice();
+        }
+
     }
 })();
