@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.5.16:
+
+#### Bug fixes:
+ - dropdown: make it possible to have only a selector as toggle target
+
+
 ## v1.5.15:
 *No major changes.*
 

@@ -1,5 +1,5 @@
 /*
- LumX v1.5.15
+ LumX v1.5.16
  (c) 2014-2017 LumApps http://ui.lumapps.com
  License: MIT
 */
@@ -1766,9 +1766,8 @@
             {
                 LxDropdownService.closeActiveDropdown();
                 LxDropdownService.registerActiveDropdownUuid(lxDropdown.uuid);
-                positionTarget = _params.target;
 
-                registerDropdownToggle(angular.element(positionTarget));
+                registerDropdownToggle(_params.target);
                 openDropdownMenu();
             }
         });
@@ -1804,9 +1803,12 @@
             }
             enableBodyScroll = undefined;
 
+            var dropdownToggleElement;
             if (lxDropdown.hasToggle)
             {
-                dropdownToggle
+                dropdownToggleElement = (angular.isString(dropdownToggle)) ? angular.element(dropdownToggle) : dropdownToggle;
+
+                dropdownToggleElement
                     .off('wheel')
                     .css('z-index', '');
             }
@@ -1884,8 +1886,9 @@
             var availableHeightOnTop;
             var availableHeightOnBottom;
             var direction;
-            var dropdownToggleHeight = dropdownToggle.outerHeight();
-            var dropdownToggleTop = dropdownToggle.offset().top - angular.element($window).scrollTop();
+            var dropdownToggleElement = (angular.isString(dropdownToggle)) ? angular.element(dropdownToggle) : dropdownToggle;
+            var dropdownToggleHeight = dropdownToggleElement.outerHeight();
+            var dropdownToggleTop = dropdownToggleElement.offset().top - angular.element($window).scrollTop();
             var windowHeight = $window.innerHeight;
 
             if (lxDropdown.overToggle)
@@ -1921,9 +1924,10 @@
             var dropdownMenuWidth;
             var dropdownMenuLeft;
             var dropdownMenuRight;
-            var dropdownToggleWidth = dropdownToggle.outerWidth();
-            var dropdownToggleHeight = dropdownToggle.outerHeight();
-            var dropdownToggleTop = dropdownToggle.offset().top - angular.element($window).scrollTop();
+            var dropdownToggleElement = (angular.isString(dropdownToggle)) ? angular.element(dropdownToggle) : dropdownToggle;
+            var dropdownToggleWidth = dropdownToggleElement.outerWidth();
+            var dropdownToggleHeight = dropdownToggleElement.outerHeight();
+            var dropdownToggleTop = dropdownToggleElement.offset().top - angular.element($window).scrollTop();
             var windowWidth = $window.innerWidth;
             var windowHeight = $window.innerHeight;
 
@@ -1945,19 +1949,19 @@
 
             if (lxDropdown.position === 'left')
             {
-                dropdownMenuLeft = dropdownToggle.offset().left;
+                dropdownMenuLeft = dropdownToggleElement.offset().left;
                 dropdownMenuLeft = (dropdownMenuLeft <= lxDropdown.minOffset) ? lxDropdown.minOffset : dropdownMenuLeft;
                 dropdownMenuRight = 'auto';
             }
             else if (lxDropdown.position === 'right')
             {
                 dropdownMenuLeft = 'auto';
-                dropdownMenuRight = windowWidth - dropdownToggle.offset().left - dropdownToggleWidth;
+                dropdownMenuRight = windowWidth - dropdownToggleElement.offset().left - dropdownToggleWidth;
                 dropdownMenuRight = (dropdownMenuRight > (windowWidth - lxDropdown.minOffset)) ? (windowWidth - lxDropdown.minOffset) : dropdownMenuRight;
             }
             else if (lxDropdown.position === 'center')
             {
-                dropdownMenuLeft = (dropdownToggle.offset().left + (dropdownToggleWidth / 2)) - (dropdownMenuWidth / 2);
+                dropdownMenuLeft = (dropdownToggleElement.offset().left + (dropdownToggleWidth / 2)) - (dropdownMenuWidth / 2);
                 dropdownMenuLeft = (dropdownMenuLeft <= lxDropdown.minOffset) ? lxDropdown.minOffset : dropdownMenuLeft;
                 dropdownMenuRight = 'auto';
             }
@@ -2005,9 +2009,11 @@
 
             enableBodyScroll = LxUtils.disableBodyScroll();
 
+            var dropdownToggleElement;
             if (lxDropdown.hasToggle)
             {
-                dropdownToggle
+                dropdownToggleElement = (angular.isString(dropdownToggle)) ? angular.element(dropdownToggle) : dropdownToggle;
+                dropdownToggleElement
                     .css('z-index', LxDepthService.getDepth() + 1)
                     .on('wheel', function preventDefault(e) {
                         e.preventDefault();
@@ -2769,12 +2775,40 @@
         service.notify = notify;
         service.success = notifySuccess;
         service.warning = notifyWarning;
+        service.getNotificationList = getNotificationList;
+        service.reComputeElementsPosition = reComputeElementsPosition;
+        service.deleteNotification = deleteNotification;
+        service.buildNotification = buildNotification;
 
         ////////////
 
         //
         // NOTIFICATION
         //
+
+        function getElementHeight(_elem)
+        {
+            return parseFloat(window.getComputedStyle(_elem, null).height);
+        }
+
+        function moveNotificationUp()
+        {
+            var newNotifIndex = notificationList.length - 1;
+            notificationList[newNotifIndex].height = getElementHeight(notificationList[newNotifIndex].elem[0]);
+
+            var upOffset = 0;
+
+            for (var idx = newNotifIndex; idx >= 0; idx--)
+            {
+                if (notificationList.length > 1 && idx !== newNotifIndex)
+                {
+                    upOffset = 24 + notificationList[newNotifIndex].height;
+
+                    notificationList[idx].margin += upOffset;
+                    notificationList[idx].elem.css('marginBottom', notificationList[idx].margin + 'px');
+                }
+            }
+        }
 
         function deleteNotification(_notification, _callback)
         {
@@ -2808,40 +2842,31 @@
                 }
 
                 _callback(actionClicked);
-                actionClicked = false
+                actionClicked = false;
             }, 400);
         }
 
-        function getElementHeight(_elem)
+        /**
+         * Compute the notification list element new position.
+         * Usefull when the height change programmatically and you need other notifications to fit.
+         */
+        function reComputeElementsPosition()
         {
-            return parseFloat(window.getComputedStyle(_elem, null).height);
-        }
+            var baseOffset = 0;
 
-        function moveNotificationUp()
-        {
-            var newNotifIndex = notificationList.length - 1;
-            notificationList[newNotifIndex].height = getElementHeight(notificationList[newNotifIndex].elem[0]);
-
-            var upOffset = 0;
-
-            for (var idx = newNotifIndex; idx >= 0; idx--)
+            for (var idx = notificationList.length -1; idx >= 0; idx--)
             {
-                if (notificationList.length > 1 && idx !== newNotifIndex)
-                {
-                    upOffset = 24 + notificationList[newNotifIndex].height;
+                notificationList[idx].height = getElementHeight(notificationList[idx].elem[0]);
+                notificationList[idx].margin = baseOffset;
 
-                    notificationList[idx].margin += upOffset;
-                    notificationList[idx].elem.css('marginBottom', notificationList[idx].margin + 'px');
-                }
+                notificationList[idx].elem.css('marginBottom', notificationList[idx].margin + 'px');
+
+                baseOffset += notificationList[idx].height + 24;
             }
         }
 
-        function notify(_text, _icon, _sticky, _color, _action, _callback, _delay)
+        function buildNotification(_text, _icon, _color, _action)
         {
-            var $compile = $injector.get('$compile');
-
-            LxDepthService.register();
-
             var notification = angular.element('<div/>',
             {
                 class: 'notification'
@@ -2851,8 +2876,6 @@
                 class: 'notification__content',
                 html: _text
             });
-            var notificationTimeout;
-            var notificationDelay = _delay || 6000;
 
             if (angular.isDefined(_icon))
             {
@@ -2875,6 +2898,7 @@
 
             if (angular.isDefined(_action))
             {
+                var $compile = $injector.get('$compile');
                 var notificationAction = angular.element('<button/>',
                 {
                     class: 'notification__action btn btn--m btn--flat',
@@ -2903,6 +2927,21 @@
                     .append(notificationAction);
             }
 
+            return notification;
+        }
+
+        function notify(_text, _icon, _sticky, _color, _action, _callback, _delay)
+        {
+            /*jshint ignore:start*/
+            // Use of `this` for override purpose.
+            var notification = this.buildNotification(_text, _icon, _color, _action);
+            /*jshint ignore:end*/
+            
+            var notificationTimeout;
+            var notificationDelay = _delay || 6000;
+
+            LxDepthService.register();
+
             notification
                 .css('z-index', LxDepthService.getDepth())
                 .appendTo('body');
@@ -2921,6 +2960,7 @@
 
             notification.bind('click', function()
             {
+                actionClicked = true;
                 deleteNotification(data, _callback);
 
                 if (angular.isDefined(notificationTimeout))
@@ -2940,22 +2980,22 @@
 
         function notifyError(_text, _sticky)
         {
-            notify(_text, 'alert-circle', _sticky, 'red');
+            service.notify(_text, 'alert-circle', _sticky, 'red');
         }
 
         function notifyInfo(_text, _sticky)
         {
-            notify(_text, 'information-outline', _sticky, 'blue');
+            service.notify(_text, 'information-outline', _sticky, 'blue');
         }
 
         function notifySuccess(_text, _sticky)
         {
-            notify(_text, 'check', _sticky, 'green');
+            service.notify(_text, 'check', _sticky, 'green');
         }
 
         function notifyWarning(_text, _sticky)
         {
-            notify(_text, 'alert', _sticky, 'orange');
+            service.notify(_text, 'alert', _sticky, 'orange');
         }
 
         //
@@ -3155,6 +3195,13 @@
                 dialog.addClass('dialog--is-shown');
             }, 100);
         }
+
+        function getNotificationList()
+        {
+            // Return a copy of the notification list.
+            return notificationList.slice();
+        }
+
     }
 })();
 
