@@ -17,7 +17,7 @@
             scope: {
                 cancel: '&?lxCancel',
                 complete: '&lxComplete',
-                controls: '=?lxControls',
+                controls: '=?lxShowControls',
                 isLinear: '=?lxIsLinear',
                 labels: '=?lxLabels',
                 layout: '@?lxLayout'
