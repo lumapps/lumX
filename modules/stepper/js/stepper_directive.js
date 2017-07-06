@@ -18,6 +18,7 @@
                 cancel: '&?lxCancel',
                 complete: '&lxComplete',
                 controls: '=?lxShowControls',
+                id: '@?lxId',
                 isLinear: '=?lxIsLinear',
                 labels: '=?lxLabels',
                 layout: '@?lxLayout'
@@ -53,7 +54,7 @@
         lxStepper.isComplete = isComplete;
         lxStepper.updateStep = updateStep;
 
-        lxStepper.controls = angular.isDefined(lxStepper.controls) ? lxStepper.controls : true,
+        lxStepper.controls = angular.isDefined(lxStepper.controls) ? lxStepper.controls : true;
         lxStepper.activeIndex = 0;
         lxStepper.isLinear = angular.isDefined(lxStepper.isLinear) ? lxStepper.isLinear : _defaultValues.isLinear;
         lxStepper.labels = angular.isDefined(lxStepper.labels) ? lxStepper.labels : _defaultValues.labels;
@@ -125,9 +126,8 @@
             if (index < lxStepper.steps.length)
             {
                 lxStepper.activeIndex = parseInt(index);
+                $scope.$emit('lx-stepper__step', lxStepper.id, index, index === 0, index === (lxStepper.steps.length - 1));
             }
-
-            $scope.$emit('lx-stepper__step', index, index === 0, index === (lxStepper.steps.length - 1))
         }
 
         function isComplete()
@@ -167,11 +167,24 @@
             }
         }
 
-        $scope.$on('lx-stepper__go-to-step', function(event, stepIndex, bypass) {
-            goToStep(stepIndex, bypass)
+        $scope.$on('lx-stepper__go-to-step', function(event, id, stepIndex, bypass)
+        {
+            if (angular.isDefined(id) && id !== lxStepper.id)
+            {
+                return;
+            }
+
+            goToStep(stepIndex, bypass);
         });
-        $scope.$on('lx-stepper__complete', isComplete);
-        $scope.$on('lx-stepper__cancel', (lxStepper.cancel || angular.noop));
+        $scope.$on('lx-stepper__cancel', function(event, id)
+        {
+            if ((angular.isDefined(id) && id !== lxStepper.id) || !angular.isFunction(lxStepper.cancel))
+            {
+                return;
+            }
+
+            lxStepper.cancel();
+        });
     }
 
     /* Step */
@@ -325,7 +338,7 @@
 
             if (validity === true)
             {
-                $scope.$emit('lx-stepper__step-loading', lxStep.step.index);
+                $scope.$emit('lx-stepper__step-loading', lxStep.parent.id, lxStep.step.index);
 
                 lxStep.step.isLoading = true;
                 updateParentStep();
@@ -358,12 +371,16 @@
 
                         lxStep.parent.goToStep(_nextStepIndex, true);
                     }
+                    else
+                    {
+                        $scope.$emit('lx-stepper__completed', lxStepper.id);
+                    }
                 }).catch(function(error)
                 {
                     LxNotificationService.error(error);
                 }).finally(function()
                 {
-                    $scope.$emit('lx-stepper__step-loaded', lxStep.step.index);
+                    $scope.$emit('lx-stepper__step-loaded', lxStep.parent.id, lxStep.step.index);
                     lxStep.step.isLoading = false;
                     updateParentStep();
                 });
@@ -381,15 +398,23 @@
             lxStep.parent.updateStep(lxStep.step);
         }
 
-        $scope.$on('lx-stepper__submit-step', function(event, index) {
-            if (index === lxStep.step.index) {
-                submitStep();
+        $scope.$on('lx-stepper__submit-step', function(event, id, index)
+        {
+            if ((angular.isDefined(id) && id !== lxStep.parent.id) || index !== lxStep.step.index)
+            {
+                return;
             }
+
+            submitStep();
         });
-        $scope.$on('lx-stepper__previous-step', function(event, index) {
-            if (index === lxStep.step.index) {
-                previousStep();
+        $scope.$on('lx-stepper__previous-step', function(event, id, index)
+        {
+            if ((angular.isDefined(id) && id !== lxStep.parent.id) || index !== lxStep.step.index)
+            {
+                return;
             }
+
+            previousStep();
         });
     }
 
