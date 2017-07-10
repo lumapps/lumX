@@ -22,7 +22,8 @@
                 indicator: '@?lxIndicator',
                 activeTab: '=?lxActiveTab',
                 panesId: '@?lxPanesId',
-                links: '=?lxLinks'
+                links: '=?lxLinks',
+                position: '@?lxPosition'
             },
             controller: LxTabsController,
             controllerAs: 'lxTabs',
@@ -72,6 +73,13 @@
                     angular.element('#' + lxTabs.panesId).find('.tabs__pane').eq(lxTabs.activeTab).show();
                 }
             });
+        });
+
+        $scope.$watch(function()
+        {
+            return lxTabs.position;
+        }, function(_newPosition) {
+            lxTabs.bottomPosition = angular.isDefined(_newPosition) && (_newPosition === 'bottom');
         });
 
         $scope.$watch(function()
