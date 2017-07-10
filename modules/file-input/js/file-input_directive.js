@@ -14,6 +14,7 @@
             scope:
             {
                 label: '@lxLabel',
+                accept: '@lxAccept',
                 callback: '&?lxCallback'
             },
             link: link,
