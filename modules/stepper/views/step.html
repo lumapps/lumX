@@ -12,7 +12,7 @@
             </div>
         </div>
 
-        <div class="lx-step__actions" ng-if="lxStep.parent.activeIndex === lxStep.step.index">
+        <div class="lx-step__actions" ng-if="lxStep.parent.activeIndex === lxStep.step.index && lxStep.parent.controls">
             <div class="lx-step__action lx-step__action--continue">
                 <lx-button ng-click="lxStep.submitStep()" ng-disabled="lxStep.isLoading">{{ lxStep.parent.labels.continue }}</lx-button>
             </div>
