@@ -1,5 +1,5 @@
 /*
- LumX v1.5.16
+ LumX v1.5.17
  (c) 2014-2017 LumApps http://ui.lumapps.com
  License: MIT
 */
@@ -2612,6 +2612,7 @@
             scope:
             {
                 label: '@lxLabel',
+                accept: '@lxAccept',
                 callback: '&?lxCallback'
             },
             link: link,
@@ -4706,6 +4707,8 @@
             scope: {
                 cancel: '&?lxCancel',
                 complete: '&lxComplete',
+                controls: '=?lxShowControls',
+                id: '@?lxId',
                 isLinear: '=?lxIsLinear',
                 labels: '=?lxLabels',
                 layout: '@?lxLayout'
@@ -4717,7 +4720,9 @@
         };
     }
 
-    function LxStepperController()
+    LxStepperController.$inject = ['$scope'];
+
+    function LxStepperController($scope)
     {
         var lxStepper = this;
 
@@ -4739,6 +4744,7 @@
         lxStepper.isComplete = isComplete;
         lxStepper.updateStep = updateStep;
 
+        lxStepper.controls = angular.isDefined(lxStepper.controls) ? lxStepper.controls : true;
         lxStepper.activeIndex = 0;
         lxStepper.isLinear = angular.isDefined(lxStepper.isLinear) ? lxStepper.isLinear : _defaultValues.isLinear;
         lxStepper.labels = angular.isDefined(lxStepper.labels) ? lxStepper.labels : _defaultValues.labels;
@@ -4763,14 +4769,18 @@
                 _classes.push('lx-stepper--is-linear');
             }
 
-            if (lxStepper.steps[lxStepper.activeIndex].feedback)
+            var step = lxStepper.steps[lxStepper.activeIndex];
+            if (angular.isDefined(step))
             {
-                _classes.push('lx-stepper--step-has-feedback');
-            }
+                if (step.feedback)
+                {
+                    _classes.push('lx-stepper--step-has-feedback');
+                }
 
-            if (lxStepper.steps[lxStepper.activeIndex].isLoading)
-            {
-                _classes.push('lx-stepper--step-is-loading');
+                if (step.isLoading)
+                {
+                    _classes.push('lx-stepper--step-is-loading');
+                }
             }
 
             return _classes;
@@ -4806,6 +4816,7 @@
             if (index < lxStepper.steps.length)
             {
                 lxStepper.activeIndex = parseInt(index);
+                $scope.$emit('lx-stepper__step', lxStepper.id, index, index === 0, index === (lxStepper.steps.length - 1));
             }
         }
 
@@ -4845,6 +4856,25 @@
                 }
             }
         }
+
+        $scope.$on('lx-stepper__go-to-step', function(event, id, stepIndex, bypass)
+        {
+            if (angular.isDefined(id) && id !== lxStepper.id)
+            {
+                return;
+            }
+
+            goToStep(stepIndex, bypass);
+        });
+        $scope.$on('lx-stepper__cancel', function(event, id)
+        {
+            if ((angular.isDefined(id) && id !== lxStepper.id) || !angular.isFunction(lxStepper.cancel))
+            {
+                return;
+            }
+
+            lxStepper.cancel();
+        });
     }
 
     /* Step */
@@ -4896,9 +4926,9 @@
         }
     }
 
-    LxStepController.$inject = ['$q', 'LxNotificationService', 'LxUtils'];
+    LxStepController.$inject = ['$q', '$scope', 'LxNotificationService', 'LxUtils'];
 
-    function LxStepController($q, LxNotificationService, LxUtils)
+    function LxStepController($q, $scope, LxNotificationService, LxUtils)
     {
         var lxStep = this;
 
@@ -4998,6 +5028,8 @@
 
             if (validity === true)
             {
+                $scope.$emit('lx-stepper__step-loading', lxStep.parent.id, lxStep.step.index);
+
                 lxStep.step.isLoading = true;
                 updateParentStep();
 
@@ -5029,11 +5061,16 @@
 
                         lxStep.parent.goToStep(_nextStepIndex, true);
                     }
+                    else
+                    {
+                        $scope.$emit('lx-stepper__completed', lxStepper.id);
+                    }
                 }).catch(function(error)
                 {
                     LxNotificationService.error(error);
                 }).finally(function()
                 {
+                    $scope.$emit('lx-stepper__step-loaded', lxStep.parent.id, lxStep.step.index);
                     lxStep.step.isLoading = false;
                     updateParentStep();
                 });
@@ -5050,6 +5087,25 @@
         {
             lxStep.parent.updateStep(lxStep.step);
         }
+
+        $scope.$on('lx-stepper__submit-step', function(event, id, index)
+        {
+            if ((angular.isDefined(id) && id !== lxStep.parent.id) || index !== lxStep.step.index)
+            {
+                return;
+            }
+
+            submitStep();
+        });
+        $scope.$on('lx-stepper__previous-step', function(event, id, index)
+        {
+            if ((angular.isDefined(id) && id !== lxStep.parent.id) || index !== lxStep.step.index)
+            {
+                return;
+            }
+
+            previousStep();
+        });
     }
 
     /* Step nav */
@@ -5125,6 +5181,7 @@
         }
     }
 })();
+
 (function()
 {
     'use strict';
@@ -5297,7 +5354,8 @@
                 indicator: '@?lxIndicator',
                 activeTab: '=?lxActiveTab',
                 panesId: '@?lxPanesId',
-                links: '=?lxLinks'
+                links: '=?lxLinks',
+                position: '@?lxPosition'
             },
             controller: LxTabsController,
             controllerAs: 'lxTabs',
@@ -5347,6 +5405,13 @@
                     angular.element('#' + lxTabs.panesId).find('.tabs__pane').eq(lxTabs.activeTab).show();
                 }
             });
+        });
+
+        $scope.$watch(function()
+        {
+            return lxTabs.position;
+        }, function(_newPosition) {
+            lxTabs.bottomPosition = angular.isDefined(_newPosition) && (_newPosition === 'bottom');
         });
 
         $scope.$watch(function()
@@ -6084,7 +6149,7 @@ angular.module("lumx.dropdown").run(['$templateCache', function(a) { a.put('drop
 angular.module("lumx.file-input").run(['$templateCache', function(a) { a.put('file-input.html', '<div class="input-file">\n' +
     '    <span class="input-file__label">{{ lxFileInput.label }}</span>\n' +
     '    <span class="input-file__filename">{{ lxFileInput.fileName }}</span>\n' +
-    '    <input type="file" class="input-file__input">\n' +
+    '    <input type="file" class="input-file__input" accept="{{ lxFileInput.accept }}">\n' +
     '</div>\n' +
     '');
 	 }]);
@@ -6257,6 +6322,7 @@ angular.module("lumx.select").run(['$templateCache', function(a) { a.put('select
     '');
 	 }]);
 angular.module("lumx.tabs").run(['$templateCache', function(a) { a.put('tabs.html', '<div class="tabs tabs--layout-{{ lxTabs.layout }} tabs--theme-{{ lxTabs.theme }} tabs--color-{{ lxTabs.color }} tabs--indicator-{{ lxTabs.indicator }}">\n' +
+    '    <div class="tabs__panes" ng-if="lxTabs.viewMode === \'gather\' && lxTabs.bottomPosition" ng-transclude></div>\n' +
     '    <div class="tabs__links">\n' +
     '        <a class="tabs__link"\n' +
     '           ng-class="{ \'tabs__link--is-active\': lxTabs.tabIsActive(tab.index),\n' +
@@ -6269,8 +6335,8 @@ angular.module("lumx.tabs").run(['$templateCache', function(a) { a.put('tabs.htm
     '        </a>\n' +
     '    </div>\n' +
     '    \n' +
-    '    <div class="tabs__panes" ng-if="lxTabs.viewMode === \'gather\'" ng-transclude></div>\n' +
-    '    <div class="tabs__indicator"></div>\n' +
+    '    <div class="tabs__panes" ng-if="lxTabs.viewMode === \'gather\' && !lxTabs.bottomPosition" ng-transclude></div>\n' +
+    '    <div class="tabs__indicator" ng-class="{\'tabs__indicator--top\': !lxTabs.bottomPosition, \'tabs__indicator--bottom\': lxTabs.bottomPosition}"></div>\n' +
     '</div>\n' +
     '');
 	a.put('tabs-panes.html', '<div class="tabs">\n' +
@@ -6460,7 +6526,7 @@ angular.module("lumx.stepper").run(['$templateCache', function(a) { a.put('stepp
     '            </div>\n' +
     '        </div>\n' +
     '\n' +
-    '        <div class="lx-step__actions" ng-if="lxStep.parent.activeIndex === lxStep.step.index">\n' +
+    '        <div class="lx-step__actions" ng-if="lxStep.parent.activeIndex === lxStep.step.index && lxStep.parent.controls">\n' +
     '            <div class="lx-step__action lx-step__action--continue">\n' +
     '                <lx-button ng-click="lxStep.submitStep()" ng-disabled="lxStep.isLoading">{{ lxStep.parent.labels.continue }}</lx-button>\n' +
     '            </div>\n' +
@@ -6474,7 +6540,8 @@ angular.module("lumx.stepper").run(['$templateCache', function(a) { a.put('stepp
     '            </div>\n' +
     '        </div>\n' +
     '    </div>\n' +
-    '</div>');
+    '</div>\n' +
+    '');
 	a.put('step-nav.html', '<div class="lx-step-nav" ng-click="lxStepNav.parent.goToStep(lxStepNav.step.index)" ng-class="lxStepNav.getClasses()" lx-ripple>\n' +
     '    <div class="lx-step-nav__indicator lx-step-nav__indicator--index" ng-if="lxStepNav.step.isValid === undefined">\n' +
     '        <span>{{ lxStepNav.step.index + 1 }}</span>\n' +

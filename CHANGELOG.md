@@ -1,5 +1,18 @@
 # Changelog
 
+## v1.5.17:
+
+#### New features:
+ - file-input: add accept attribute to limit accepted file types
+ - stepper: make it possible to externalize controls of the stepper
+ - tabs: Add tabs position
+ - tabs: Add tabs position
+
+#### Bug fixes:
+ - stepper: allow to use multiple stepper
+ - stepper-dialog: change the name of the parameter
+
+
 ## v1.5.16:
 
 #### Bug fixes:
