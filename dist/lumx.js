@@ -1,5 +1,5 @@
 /*
- LumX v1.5.17
+ LumX v1.5.18
  (c) 2014-2017 LumApps http://ui.lumapps.com
  License: MIT
 */
@@ -1766,8 +1766,9 @@
             {
                 LxDropdownService.closeActiveDropdown();
                 LxDropdownService.registerActiveDropdownUuid(lxDropdown.uuid);
+                positionTarget = _params.target;
 
-                registerDropdownToggle(_params.target);
+                registerDropdownToggle(positionTarget);
                 openDropdownMenu();
             }
         });

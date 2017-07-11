@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.5.18:
+
+#### Bug fixes:
+ - dropdown: fix the style of dropdown with target and toggles
+
+
 ## v1.5.17:
 
 #### New features:
