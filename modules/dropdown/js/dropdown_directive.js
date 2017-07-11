@@ -120,8 +120,9 @@
             {
                 LxDropdownService.closeActiveDropdown();
                 LxDropdownService.registerActiveDropdownUuid(lxDropdown.uuid);
+                positionTarget = _params.target;
 
-                registerDropdownToggle(_params.target);
+                registerDropdownToggle(positionTarget);
                 openDropdownMenu();
             }
         });
