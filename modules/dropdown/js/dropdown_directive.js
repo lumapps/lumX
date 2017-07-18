@@ -144,7 +144,7 @@
 
         function closeDropdownMenu()
         {
-            angular.element(window).off('resize', onBrowserResize);
+            angular.element(window).off('resize', initDropdownPosition);
 
             $interval.cancel(dropdownInterval);
 
@@ -350,20 +350,6 @@
             }
         }
 
-        function onBrowserResize()
-        {
-            var availableHeight = initDropdownPosition() - ~~lxDropdown.offset;
-            var dropdownMenuHeight = dropdownMenu.outerHeight();
-            var dropdownMenuWidth = dropdownMenu.outerWidth();
-            var enoughHeight = true;
-
-            if (availableHeight < dropdownMenuHeight)
-            {
-                enoughHeight = false;
-                dropdownMenuHeight = availableHeight;
-            }
-        }
-
         function openDropdownMenu()
         {
             lxDropdown.isOpen = true;
@@ -378,7 +364,7 @@
                 e.preventDefault();
             });
 
-            angular.element(window).on('resize', onBrowserResize);
+            angular.element(window).on('resize', initDropdownPosition);
 
             enableBodyScroll = LxUtils.disableBodyScroll();
 
