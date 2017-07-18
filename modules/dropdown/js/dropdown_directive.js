@@ -144,6 +144,8 @@
 
         function closeDropdownMenu()
         {
+            angular.element(window).off('resize', initDropdownPosition);
+
             $interval.cancel(dropdownInterval);
 
             LxDropdownService.resetActiveDropdownUuid();
@@ -325,7 +327,7 @@
             {
                 left: dropdownMenuLeft,
                 right: dropdownMenuRight,
-                width: dropdownMenuWidth
+                minWidth: dropdownMenuWidth
             });
 
             if (availableHeight.direction === 'top')
@@ -361,6 +363,8 @@
             scrollMask.on('wheel', function preventDefault(e) {
                 e.preventDefault();
             });
+
+            angular.element(window).on('resize', initDropdownPosition);
 
             enableBodyScroll = LxUtils.disableBodyScroll();
 
