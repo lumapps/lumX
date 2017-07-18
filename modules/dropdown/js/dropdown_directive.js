@@ -327,7 +327,7 @@
             {
                 left: dropdownMenuLeft,
                 right: dropdownMenuRight,
-                width: dropdownMenuWidth
+                minWidth: dropdownMenuWidth
             });
 
             if (availableHeight.direction === 'top')
