@@ -1,5 +1,13 @@
 # Changelog
 
+## v1.5.19:
+
+#### Bug fixes:
+ - dropdown: fix the on browser resize action
+ - select: fix the size of the dropdown menu
+ - dropdown: move the dropdown menu when browser is resized
+
+
 ## v1.5.18:
 
 #### Bug fixes:
