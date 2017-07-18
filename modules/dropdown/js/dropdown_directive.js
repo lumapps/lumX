@@ -144,6 +144,8 @@
 
         function closeDropdownMenu()
         {
+            angular.element(window).off('resize', onBrowserResize);
+
             $interval.cancel(dropdownInterval);
 
             LxDropdownService.resetActiveDropdownUuid();
@@ -348,6 +350,20 @@
             }
         }
 
+        function onBrowserResize()
+        {
+            var availableHeight = initDropdownPosition() - ~~lxDropdown.offset;
+            var dropdownMenuHeight = dropdownMenu.outerHeight();
+            var dropdownMenuWidth = dropdownMenu.outerWidth();
+            var enoughHeight = true;
+
+            if (availableHeight < dropdownMenuHeight)
+            {
+                enoughHeight = false;
+                dropdownMenuHeight = availableHeight;
+            }
+        }
+
         function openDropdownMenu()
         {
             lxDropdown.isOpen = true;
@@ -361,6 +377,8 @@
             scrollMask.on('wheel', function preventDefault(e) {
                 e.preventDefault();
             });
+
+            angular.element(window).on('resize', onBrowserResize);
 
             enableBodyScroll = LxUtils.disableBodyScroll();
 
