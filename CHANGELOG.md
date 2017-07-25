@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.5.20:
+
+#### New features:
+ - stepper: allow to pass a step validity status
+
+
 ## v1.5.19:
 
 #### Bug fixes:
