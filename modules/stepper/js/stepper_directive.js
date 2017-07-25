@@ -198,6 +198,7 @@
                 feedback: '@?lxFeedback',
                 isEditable: '=?lxIsEditable',
                 isOptional: '=?lxIsOptional',
+                isValid: '=?lxIsValid',
                 label: '@lxLabel',
                 submit: '&?lxSubmit',
                 validate: '&?lxValidate'
@@ -261,7 +262,7 @@
             isEditable: false,
             isLoading: false,
             isOptional: false,
-            isValid: undefined,
+            isValid: lxStep.isValid,
             label: undefined,
             uuid: LxUtils.generateUUID()
         };
