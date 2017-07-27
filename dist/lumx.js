@@ -1,5 +1,5 @@
 /*
- LumX v1.5.20
+ LumX v1.5.21
  (c) 2014-2017 LumApps http://ui.lumapps.com
  License: MIT
 */
@@ -1344,17 +1344,17 @@
             }
         });
 
-        $scope.$on('lx-dialog__close', function(event, id)
+        $scope.$on('lx-dialog__close', function(event, id, canceled)
         {
             if (id === lxDialog.id)
             {
-                close();
+                close(canceled);
             }
         });
 
         $scope.$on('$destroy', function()
         {
-            close();
+            close(true);
         });
 
         ////////////
@@ -1441,7 +1441,7 @@
         {
             if (_event.keyCode == 27)
             {
-                close();
+                close(true);
             }
 
             _event.stopPropagation();
@@ -1453,7 +1453,7 @@
             {
                 return;
             }
-            
+
             LxDepthService.register();
 
             angular.element('body').addClass('no-scroll-dialog-' + lxDialog.uuid);
@@ -1466,7 +1466,7 @@
             {
                 dialogFilter.on('click', function()
                 {
-                    close();
+                    close(true);
                 });
             }
 
@@ -1516,13 +1516,13 @@
             angular.element($window).on('resize', checkDialogHeightOnResize);
         }
 
-        function close()
+        function close(canceled)
         {
             if (!lxDialog.isOpen)
             {
                 return;
             }
-            
+
             if (angular.isDefined(idEventScheduler))
             {
                 LxEventSchedulerService.unregister(idEventScheduler);
@@ -1532,7 +1532,7 @@
             angular.element($window).off('resize', checkDialogHeightOnResize);
             $element.find('.dialog__scrollable').off('scroll', checkScrollEnd);
 
-            $rootScope.$broadcast('lx-dialog__close-start', lxDialog.id);
+            $rootScope.$broadcast('lx-dialog__close-start', lxDialog.id, canceled);
 
             if (resizeDebounce)
             {
@@ -1557,7 +1557,7 @@
 
                 lxDialog.isOpen = false;
                 dialogHeight = undefined;
-                $rootScope.$broadcast('lx-dialog__close-end', lxDialog.id);
+                $rootScope.$broadcast('lx-dialog__close-end', lxDialog.id, canceled);
             }, 600);
         }
     }
@@ -1602,7 +1602,7 @@
             {
                 element.on('click', function()
                 {
-                    LxDialogService.close(element.parents('.dialog').attr('id'));
+                    LxDialogService.close(element.parents('.dialog').attr('id'), true);
                 });
 
                 scope.$on('$destroy', function()
@@ -1638,12 +1638,13 @@
             $rootScope.$broadcast('lx-dialog__open', _dialogId);
         }
 
-        function close(_dialogId)
+        function close(_dialogId, canceled)
         {
-            $rootScope.$broadcast('lx-dialog__close', _dialogId);
+            $rootScope.$broadcast('lx-dialog__close', _dialogId, canceled);
         }
     }
 })();
+
 (function()
 {
     'use strict';
@@ -1933,22 +1934,36 @@
             var dropdownToggleTop = dropdownToggleElement.offset().top - angular.element($window).scrollTop();
             var windowWidth = $window.innerWidth;
             var windowHeight = $window.innerHeight;
+            var cssProperties = {};
 
             if (angular.isDefined(lxDropdown.width))
             {
                 if (lxDropdown.width.indexOf('%') > -1)
                 {
                     dropdownMenuWidth = dropdownToggleWidth * (lxDropdown.width.slice(0, -1) / 100);
+                    angular.extend(cssProperties,
+                    {
+                        minWidth: dropdownMenuWidth,
+                    });
                 }
                 else
                 {
                     dropdownMenuWidth = lxDropdown.width;
+                    angular.extend(cssProperties,
+                    {
+                        width: dropdownMenuWidth,
+                    });
                 }
             }
             else
             {
                 dropdownMenuWidth = 'auto';
+                angular.extend(cssProperties,
+                {
+                    width: dropdownMenuWidth,
+                });
             }
+
 
             if (lxDropdown.position === 'left')
             {
@@ -1969,12 +1984,13 @@
                 dropdownMenuRight = 'auto';
             }
 
-            dropdownMenu.css(
+            angular.extend(cssProperties,
             {
                 left: dropdownMenuLeft,
                 right: dropdownMenuRight,
-                minWidth: dropdownMenuWidth
             });
+
+            dropdownMenu.css(cssProperties);
 
             if (availableHeight.direction === 'top')
             {

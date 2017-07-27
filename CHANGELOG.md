@@ -1,5 +1,14 @@
 # Changelog
 
+## v1.5.21:
+
+#### New features:
+ - dialog: send if dialog has been canceled in the close events
+
+#### Bug fixes:
+ - dropdown: set dropdown width for px value and minWidth for percentage
+
+
 ## v1.5.20:
 
 #### New features:
