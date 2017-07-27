@@ -22,9 +22,9 @@
             $rootScope.$broadcast('lx-dialog__open', _dialogId);
         }
 
-        function close(_dialogId)
+        function close(_dialogId, canceled)
         {
-            $rootScope.$broadcast('lx-dialog__close', _dialogId);
+            $rootScope.$broadcast('lx-dialog__close', _dialogId, canceled);
         }
     }
 })();
