@@ -287,22 +287,36 @@
             var dropdownToggleTop = dropdownToggleElement.offset().top - angular.element($window).scrollTop();
             var windowWidth = $window.innerWidth;
             var windowHeight = $window.innerHeight;
+            var cssProperties = {};
 
             if (angular.isDefined(lxDropdown.width))
             {
                 if (lxDropdown.width.indexOf('%') > -1)
                 {
                     dropdownMenuWidth = dropdownToggleWidth * (lxDropdown.width.slice(0, -1) / 100);
+                    angular.extend(cssProperties,
+                    {
+                        minWidth: dropdownMenuWidth,
+                    });
                 }
                 else
                 {
                     dropdownMenuWidth = lxDropdown.width;
+                    angular.extend(cssProperties,
+                    {
+                        width: dropdownMenuWidth,
+                    });
                 }
             }
             else
             {
                 dropdownMenuWidth = 'auto';
+                angular.extend(cssProperties,
+                {
+                    width: dropdownMenuWidth,
+                });
             }
+
 
             if (lxDropdown.position === 'left')
             {
@@ -323,12 +337,13 @@
                 dropdownMenuRight = 'auto';
             }
 
-            dropdownMenu.css(
+            angular.extend(cssProperties,
             {
                 left: dropdownMenuLeft,
                 right: dropdownMenuRight,
-                minWidth: dropdownMenuWidth
             });
+
+            dropdownMenu.css(cssProperties);
 
             if (availableHeight.direction === 'top')
             {
