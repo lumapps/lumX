@@ -568,6 +568,10 @@
                 registerDropdownToggle(angular.element(positionTarget));
             }
 
+            if (!angular.element(dropdownToggle).is(':visible')) {
+                return;
+            }
+
             var availableHeight = getAvailableHeight();
             var dropdownMenuHeight = dropdownMenu.find('.dropdown-menu__content').outerHeight();
 
