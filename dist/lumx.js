@@ -1,5 +1,5 @@
 /*
- LumX v1.5.21
+ LumX v1.5.22
  (c) 2014-2017 LumApps http://ui.lumapps.com
  License: MIT
 */
@@ -2213,6 +2213,10 @@
             if (positionTarget)
             {
                 registerDropdownToggle(angular.element(positionTarget));
+            }
+
+            if (!angular.element(dropdownToggle).is(':visible')) {
+                return;
             }
 
             var availableHeight = getAvailableHeight();

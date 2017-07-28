@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.5.22:
+
+#### New features:
+ - dropdown: don't update dropdown height if toggle is not visible
+
+
 ## v1.5.21:
 
 #### New features:
