@@ -45,7 +45,7 @@
     </lx-component-attributes>
 
     <lx-component-methods lx-title="Service api">
-        <lx-component-method lx-name="LxDialogService.open(dialogId)" lx-description="Show a dialog according to its id.">
+        <lx-component-method lx-name="LxDialogService.open(dialogId, params)" lx-description="Show a dialog according to its id.">
             <table>
                 <thead>
                     <tr>
@@ -60,12 +60,17 @@
                         <td>dialogId*</td>
                         <td><code>string</code></td>
                         <td>The dialog id specified in the directive id attribute.</td>
+                    </tr>
+                    <tr>
+                        <td>params</td>
+                        <td><code>object</code></td>
+                        <td>An optional object that holds extra parameters that will be forwarded to the <code>lx-dialog__open-start</code> and <code>lx-dialog__open-end</code> events.</td>
                     </tr>
                 </tbody>
             </table>
         </lx-component-method>
 
-        <lx-component-method lx-name="LxDialogService.close(dialogId)" lx-description="Close a dialog according to its id.">
+        <lx-component-method lx-name="LxDialogService.close(dialogId, canceled, params)" lx-description="Close a dialog according to its id.">
             <table>
                 <thead>
                     <tr>
@@ -80,6 +85,16 @@
                         <td>dialogId*</td>
                         <td><code>string</code></td>
                         <td>The dialog id specified in the directive id attribute.</td>
+                    </tr>
+                    <tr>
+                        <td>canceled</td>
+                        <td><code>boolean</code></td>
+                        <td>Indicates if the dialog was closed via a cancel or not.</td>
+                    </tr>
+                    <tr>
+                        <td>params</td>
+                        <td><code>object</code></td>
+                        <td>An optional object that holds extra parameters that will be forwarded to the <code>lx-dialog__close-start</code> and <code>lx-dialog__close-end</code> events.</td>
                     </tr>
                 </tbody>
             </table>
@@ -108,6 +123,11 @@
                         <td><code>string</code></td>
                         <td>The dialog id specified in the directive id attribute.</td>
                     </tr>
+                    <tr>
+                        <td>params</td>
+                        <td><code>object</code></td>
+                        <td>An optional object that holds extra parameters originally passed to the <code>open</code> method.</td>
+                    </tr>
                 </tbody>
             </table>
         </lx-component-method>
@@ -132,6 +152,11 @@
                         <td>dialogId</td>
                         <td><code>string</code></td>
                         <td>The dialog id specified in the directive id attribute.</td>
+                    </tr>
+                    <tr>
+                        <td>params</td>
+                        <td><code>object</code></td>
+                        <td>An optional object that holds extra parameters originally passed to the <code>open</code> method.</td>
                     </tr>
                 </tbody>
             </table>
@@ -158,6 +183,16 @@
                         <td><code>string</code></td>
                         <td>The dialog id specified in the directive id attribute.</td>
                     </tr>
+                    <tr>
+                        <td>canceled</td>
+                        <td><code>boolean</code></td>
+                        <td>Indicates if the dialog was closed via a cancel or not.</td>
+                    </tr>
+                    <tr>
+                        <td>params</td>
+                        <td><code>object</code></td>
+                        <td>An optional object that holds extra parameters originally passed to the <code>close</code> method.</td>
+                    </tr>
                 </tbody>
             </table>
         </lx-component-method>
@@ -182,6 +217,16 @@
                         <td>dialogId</td>
                         <td><code>string</code></td>
                         <td>The dialog id specified in the directive id attribute.</td>
+                    </tr>
+                    <tr>
+                        <td>canceled</td>
+                        <td><code>boolean</code></td>
+                        <td>Indicates if the dialog was closed via a cancel or not.</td>
+                    </tr>
+                    <tr>
+                        <td>params</td>
+                        <td><code>object</code></td>
+                        <td>An optional object that holds extra parameters originally passed to the <code>close</code> method.</td>
                     </tr>
                 </tbody>
             </table>

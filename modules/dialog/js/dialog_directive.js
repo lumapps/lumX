@@ -60,19 +60,19 @@
         lxDialog.isOpen = false;
         lxDialog.uuid = LxUtils.generateUUID();
 
-        $scope.$on('lx-dialog__open', function(event, id)
+        $scope.$on('lx-dialog__open', function(event, id, params)
         {
             if (id === lxDialog.id)
             {
-                open();
+                open(params);
             }
         });
 
-        $scope.$on('lx-dialog__close', function(event, id, canceled)
+        $scope.$on('lx-dialog__close', function(event, id, canceled, params)
         {
             if (id === lxDialog.id)
             {
-                close(canceled);
+                close(canceled, params);
             }
         });
 
@@ -171,7 +171,7 @@
             _event.stopPropagation();
         }
 
-        function open()
+        function open(_params)
         {
             if (lxDialog.isOpen)
             {
@@ -206,7 +206,7 @@
 
             $timeout(function()
             {
-                $rootScope.$broadcast('lx-dialog__open-start', lxDialog.id);
+                $rootScope.$broadcast('lx-dialog__open-start', lxDialog.id, _params);
 
                 lxDialog.isOpen = true;
 
@@ -229,7 +229,7 @@
 
             $timeout(function()
             {
-                $rootScope.$broadcast('lx-dialog__open-end', lxDialog.id);
+                $rootScope.$broadcast('lx-dialog__open-end', lxDialog.id, _params);
             }, 700);
 
             dialogInterval = $interval(function()
@@ -240,12 +240,14 @@
             angular.element($window).on('resize', checkDialogHeightOnResize);
         }
 
-        function close(canceled)
+        function close(_canceled, _params)
         {
             if (!lxDialog.isOpen)
             {
                 return;
             }
+
+            _params = _params || {};
 
             if (angular.isDefined(idEventScheduler))
             {
@@ -256,7 +258,7 @@
             angular.element($window).off('resize', checkDialogHeightOnResize);
             $element.find('.dialog__scrollable').off('scroll', checkScrollEnd);
 
-            $rootScope.$broadcast('lx-dialog__close-start', lxDialog.id, canceled);
+            $rootScope.$broadcast('lx-dialog__close-start', lxDialog.id, _canceled, _params);
 
             if (resizeDebounce)
             {
@@ -281,7 +283,7 @@
 
                 lxDialog.isOpen = false;
                 dialogHeight = undefined;
-                $rootScope.$broadcast('lx-dialog__close-end', lxDialog.id, canceled);
+                $rootScope.$broadcast('lx-dialog__close-end', lxDialog.id, _canceled, _params);
             }, 600);
         }
     }

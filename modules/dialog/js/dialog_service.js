@@ -17,14 +17,14 @@
 
         ////////////
 
-        function open(_dialogId)
+        function open(_dialogId, _params)
         {
-            $rootScope.$broadcast('lx-dialog__open', _dialogId);
+            $rootScope.$broadcast('lx-dialog__open', _dialogId, _params);
         }
 
-        function close(_dialogId, canceled)
+        function close(_dialogId, _canceled, _params)
         {
-            $rootScope.$broadcast('lx-dialog__close', _dialogId, canceled);
+            $rootScope.$broadcast('lx-dialog__close', _dialogId, _canceled, _params);
         }
     }
 })();
