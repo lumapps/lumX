@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.5.23:
+
+#### New features:
+ - dialog: allow to pass extra parameters to open/close
+
+
 ## v1.5.22:
 
 #### New features:
