@@ -58,15 +58,15 @@
             age: 21
         }];
 
-        $scope.$on('lx-dialog__open-start', function(_event, _dialogId)
+        $scope.$on('lx-dialog__open-start', function(_event, _dialogId, _params)
         {
             if (vm.dialogId === _dialogId)
             {
-                LxNotificationService.notify('Open start');
+                LxNotificationService.notify('Open start ' + _params.customMessage);
             }
         });
 
-        $scope.$on('lx-dialog__open-end', function(_event, _dialogId)
+        $scope.$on('lx-dialog__open-end', function(_event, _dialogId, _params)
         {
             if (vm.dialogId === _dialogId)
             {
@@ -74,7 +74,7 @@
             }
         });
 
-        $scope.$on('lx-dialog__close-start', function(_event, _dialogId)
+        $scope.$on('lx-dialog__close-start', function(_event, _dialogId, _params)
         {
             if (vm.dialogId === _dialogId)
             {
@@ -82,7 +82,7 @@
             }
         });
 
-        $scope.$on('lx-dialog__close-end', function(_event, _dialogId)
+        $scope.$on('lx-dialog__close-end', function(_event, _dialogId, _params)
         {
             if (vm.dialogId === _dialogId)
             {
@@ -112,7 +112,9 @@
 
         function openDialog()
         {
-            LxDialogService.open(vm.dialogId);
+            LxDialogService.open(vm.dialogId, {
+                customMessage: 'Hello World!',
+            });
         }
     }
 })();
