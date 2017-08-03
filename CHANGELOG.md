@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.5.24:
+
+#### Bug fixes:
+ - dialog: update the demo of dialog with canceled param
+
+
 ## v1.5.23:
 
 #### New features:
