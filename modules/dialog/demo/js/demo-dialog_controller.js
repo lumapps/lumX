@@ -74,7 +74,7 @@
             }
         });
 
-        $scope.$on('lx-dialog__close-start', function(_event, _dialogId, _params)
+        $scope.$on('lx-dialog__close-start', function(_event, _dialogId, _canceled, _params)
         {
             if (vm.dialogId === _dialogId)
             {
@@ -82,7 +82,7 @@
             }
         });
 
-        $scope.$on('lx-dialog__close-end', function(_event, _dialogId, _params)
+        $scope.$on('lx-dialog__close-end', function(_event, _dialogId, _canceled, _params)
         {
             if (vm.dialogId === _dialogId)
             {
