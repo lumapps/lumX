@@ -1,5 +1,5 @@
 /*
- LumX v1.5.25
+ LumX v1.5.26
  (c) 2014-2017 LumApps http://ui.lumapps.com
  License: MIT
 */
@@ -5747,7 +5747,7 @@
                 allowClear: '=?lxAllowClear',
                 error: '=?lxError',
                 fixedLabel: '=?lxFixedLabel',
-                focus: '=?lxFocus',
+                focus: '<?lxFocus',
                 icon: '@?lxIcon',
                 label: '@lxLabel',
                 ngDisabled: '=?',
@@ -5970,6 +5970,7 @@
         }
     }
 })();
+
 (function()
 {
     'use strict';

@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.5.26:
+
+#### Bug fixes:
+ - text-field: make the focus params one way bound
+
+
 ## v1.5.25:
 *No major changes.*
 
