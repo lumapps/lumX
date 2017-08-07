@@ -18,7 +18,7 @@
                 allowClear: '=?lxAllowClear',
                 error: '=?lxError',
                 fixedLabel: '=?lxFixedLabel',
-                focus: '=?lxFocus',
+                focus: '<?lxFocus',
                 icon: '@?lxIcon',
                 label: '@lxLabel',
                 ngDisabled: '=?',
