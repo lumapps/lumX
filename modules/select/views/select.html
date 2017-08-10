@@ -14,7 +14,7 @@
                  'lx-select--view-mode-chips': lxSelect.multiple && lxSelect.viewMode === 'chips',
                  'lx-select--autocomplete': lxSelect.autocomplete }">
     <span class="lx-select-label" ng-if="!lxSelect.autocomplete">
-        {{ ::lxSelect.label }}
+        {{ lxSelect.label }}
     </span>
 
     <lx-dropdown id="dropdown-{{ lxSelect.uuid }}" lx-width="100%" lx-effect="{{ lxSelect.autocomplete ? 'none' : 'expand' }}">
