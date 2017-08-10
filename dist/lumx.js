@@ -1,5 +1,5 @@
 /*
- LumX v1.5.26
+ LumX v1.5.27
  (c) 2014-2017 LumApps http://ui.lumapps.com
  License: MIT
 */
@@ -6260,7 +6260,7 @@ angular.module("lumx.select").run(['$templateCache', function(a) { a.put('select
     '                 \'lx-select--view-mode-chips\': lxSelect.multiple && lxSelect.viewMode === \'chips\',\n' +
     '                 \'lx-select--autocomplete\': lxSelect.autocomplete }">\n' +
     '    <span class="lx-select-label" ng-if="!lxSelect.autocomplete">\n' +
-    '        {{ ::lxSelect.label }}\n' +
+    '        {{ lxSelect.label }}\n' +
     '    </span>\n' +
     '\n' +
     '    <lx-dropdown id="dropdown-{{ lxSelect.uuid }}" lx-width="100%" lx-effect="{{ lxSelect.autocomplete ? \'none\' : \'expand\' }}">\n' +
