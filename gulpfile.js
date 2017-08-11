@@ -109,7 +109,7 @@ gulp.task('scss', function()
         .pipe(plugins.plumber())
         .pipe(plugins.sass(
         {
-            includePaths: ['libs/bourbon/app/assets/stylesheets/', 'libs/mdi/scss/']
+            includePaths: ['libs/bourbon/app/assets/stylesheets/', 'libs/mdi/scss/', 'libs/sass-mq/']
         }))
         .pipe(gulp.dest('build'));
 });
@@ -178,7 +178,7 @@ gulp.task('dist:css', ['scss:paths'], function()
         .pipe(plugins.rename('lumx.scss'))
         .pipe(plugins.sass(
         {
-            includePaths: ['libs/bourbon/app/assets/stylesheets/', 'libs/mdi/scss/']
+            includePaths: ['libs/bourbon/app/assets/stylesheets/', 'libs/mdi/scss/', 'libs/sass-mq/']
         }))
         .pipe(plugins.replace(/\.\.\/fonts/g, './fonts'))
         .pipe(plugins.minifyCss(

@@ -1,0 +1,17 @@
+///* ========================================================================
+//   #SETTINGS-SIZES
+//   ======================================================================== */
+
+$size-xs: 24px !default;
+$size-s:  32px !default;
+$size-m:  36px !default;
+$size-l:  40px !default;
+$size-xl: 56px !default;
+
+$sizes: (
+    'xs': $size-xs,
+    's': $size-s,
+    'm': $size-m,
+    'l': $size-l,
+    'xl': $size-xl
+);

@@ -1,8 +1,7 @@
-///*------------------------------------*\
-//    #BASE-TYPOGRAPHY
-//\*------------------------------------*/
+///* ========================================================================
+//   #TOOLS-TYPOGRAPHY
+//   ======================================================================== */
 
-// Typography mixin
 @mixin typography($type) {
     @if $type == 'caption' {
         @include font-size(12px);
@@ -10,11 +9,11 @@
     }
 
     @if $type == 'body-1' or $type == 'body-2' {
-        @include media-query(portable) {
+        @include mq($until: desktop) {
             @include font-size(14px);
         }
 
-        @include media-query(desk) {
+        @include mq($from: desktop) {
             @include font-size(13px);
         }
     }
@@ -27,14 +26,14 @@
         font-weight: 500;
     }
 
-    @if $type == 'subhead' {
+    @if $type == 'subheading' {
         font-weight: 400;
 
-        @include media-query(portable) {
+        @include mq($until: desktop) {
             @include font-size(16px);
         }
 
-        @include media-query(desk) {
+        @include mq($from: desktop) {
             @include font-size(15px);
         }
     }
@@ -71,59 +70,4 @@
         font-weight: 300;
         letter-spacing: -5px;
     }
-}
-
-
-
-
-
-// Typography variants
-.fs-caption,
-%fs-caption {
-    @include typography('caption');
-}
-
-.fs-body-1,
-%fs-body-1 {
-    @include typography('body-1');
-}
-
-.fs-body-2,
-%fs-body-2 {
-    @include typography('body-2');
-}
-
-.fs-subhead,
-%fs-subhead {
-    @include typography('subhead');
-}
-
-.fs-title,
-%fs-title {
-    @include typography('title');
-}
-
-.fs-headline,
-%fs-headline {
-    @include typography('headline');
-}
-
-.fs-display-1,
-%fs-display-1 {
-    @include typography('display-1');
-}
-
-.fs-display-2,
-%fs-display-2 {
-    @include typography('display-2');
-}
-
-.fs-display-3,
-%fs-display-3 {
-    @include typography('display-3');
-}
-
-.fs-display-4,
-%fs-display-4 {
-    @include typography('display-4');
 }

@@ -1,0 +1,28 @@
+///* ========================================================================
+//   #SETTINGS-SPACINGS
+//   ======================================================================== */
+
+$spacing-properties: (
+    'padding': 'padding',
+    'margin': 'margin',
+);
+
+$spacing-directions: (
+    null: null,
+    '-top': '-top',
+    '-right': '-right',
+    '-bottom': '-bottom',
+    '-left': '-left',
+    '-horizontal': '-left' '-right',
+    '-vertical': '-top' '-bottom',
+);
+
+$spacing-sizes: (
+    null: $base-spacing-unit,
+    '-xs': $base-spacing-unit-xs,
+    '-s': $base-spacing-unit-s,
+    '-m': $base-spacing-unit-m,
+    '-l': $base-spacing-unit-l,
+    '-xl': $base-spacing-unit-xl,
+    '-none': 0
+);

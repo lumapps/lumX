@@ -1,0 +1,15 @@
+///* ========================================================================
+//   #UTILITIES-SPACINGS
+//   ======================================================================== */
+
+@each $property-namespace, $property in $spacing-properties {
+    @each $direction-namespace, $direction-rules in $spacing-directions {
+        @each $size-namespace, $size in $spacing-sizes {
+            .#{$property-namespace}#{$direction-namespace}#{$size-namespace} {
+                @each $direction in $direction-rules {
+                    #{$property}#{$direction}: $size !important;
+                }
+            }
+        }
+    }
+}
