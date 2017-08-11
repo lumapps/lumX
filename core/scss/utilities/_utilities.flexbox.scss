@@ -104,7 +104,7 @@
 
 [flex-gutter="8"] {
     @include mq($from: desktop) {
-        margin: 0 ($base-spacing-unit-s * -1);
+        margin: 0 (($base-spacing-unit / 2) * -1);
     }
 
     & > [flex-item] {
@@ -113,7 +113,7 @@
         }
 
         @include mq($from: desktop) {
-            padding: 0 $base-spacing-unit-s;
+            padding: 0 $base-spacing-unit / 2;
         }
     }
 }
@@ -125,7 +125,7 @@
 
     & > [flex-item] {
         @include mq($until: desktop) {
-            margin-bottom: $base-spacing-unit-m;
+            margin-bottom: $base-spacing-unit * 2;
         }
 
         @include mq($from: desktop) {
@@ -141,7 +141,7 @@
 
     & > [flex-item] {
         @include mq($until: desktop) {
-            margin-bottom: $base-spacing-unit-l;
+            margin-bottom: $base-spacing-unit * 3;
         }
 
         @include mq($from: desktop) {
@@ -152,16 +152,16 @@
 
 [flex-gutter="32"] {
     @include mq($from: desktop) {
-        margin: 0 ($base-spacing-unit-m * -1);
+        margin: 0 (($base-spacing-unit * 2) * -1);
     }
 
     & > [flex-item] {
         @include mq($until: desktop) {
-            margin-bottom: $base-spacing-unit-xl;
+            margin-bottom: $base-spacing-unit * 4;
         }
 
         @include mq($from: desktop) {
-            padding: 0 $base-spacing-unit-m;
+            padding: 0 $base-spacing-unit * 2;
         }
     }
 }
