@@ -1,41 +1,43 @@
-///*------------------------------------*\
-//    #CORE
-//\*------------------------------------*/
+///* ========================================================================
+//   #FRAMEWORK
+//   ======================================================================== */
 
 @import "bourbon";
 @import "materialdesignicons";
+@import "mq";
 
-@import "settings/colors";
-@import "settings/defaults";
-@import "settings/responsive";
+@import "settings/settings.color-palette";
+@import "settings/settings.colors";
+@import "settings/settings.core";
+@import "settings/settings.elevation";
+@import "settings/settings.sizes";
 
-@import "tools/mixins";
-@import "tools/responsive";
-@import "tools/widths";
+@import "tools/tools.bare-list";
+@import "tools/tools.elevation";
+@import "tools/tools.font-size";
+@import "tools/tools.mdi";
+@import "tools/tools.paragraph";
+@import "tools/tools.reset";
+@import "tools/tools.typography";
+@import "tools/tools.visually-hidden";
 
-@import "generic/normalize";
-@import "generic/box-sizing";
-@import "generic/reset";
+@import "generic/generic.box-sizing";
+@import "generic/generic.normalize";
+@import "generic/generic.reset";
 
-@import "base/page";
-@import "base/flexbox";
-@import "base/images";
-@import "base/paragraph";
-@import "base/typography";
-@import "base/colors";
+@import "elements/elements.images";
+@import "elements/elements.page";
+@import "elements/elements.tables";
 
-@import "trumps/widths";
-@import "trumps/widths-responsive";
-@import "trumps/spacing";
-@import "trumps/helpers";
-
-@import "animations/ripple";
-@import "animations/spin";
-
-@import "objects/bare-list";
-@import "objects/divider";
-@import "objects/scroll-mask";
-@import "objects/z-depth";
+@import "utilities/utilities.bare-list";
+@import "utilities/utilities.colors";
+@import "utilities/utilities.elevation";
+@import "utilities/utilities.flexbox";
+@import "utilities/utilities.helpers";
+@import "utilities/utilities.paragraph";
+@import "utilities/utilities.spacings";
+@import "utilities/utilities.typography";
+@import "utilities/utilities.visually-hidden";
 
 @import "modules/button";
 @import "modules/card";

@@ -32,7 +32,7 @@
     overflow: auto;
 
     ul {
-        @extend %bare-list;
+        @include bare-list();
 
         & > li {
             position: relative;
@@ -42,7 +42,7 @@
 
 @for $i from 1 through 5 {
     .dropdown-menu--depth-#{$i} {
-        @include z-depth($i);
+        @include elevation($i);
     }
 }
 
@@ -93,7 +93,7 @@
             background-color: $grey-200;
         }
 
-        #{$base-icon-prefix} {
+        .#{$mdi-css-prefix} {
             @extend %icon;
             @extend %icon--xs;
             @extend %icon--flat;
@@ -106,7 +106,7 @@
 .dropdown-link--is-large {
     height: 48px;
 
-    #{$base-icon-prefix} {
+    .#{$mdi-css-prefix} {
         @extend %icon;
         @extend %icon--s;
         @extend %icon--flat;
@@ -117,7 +117,7 @@
     color: $black-3;
     cursor: default;
 
-    #{$base-icon-prefix} {
+    .#{$mdi-css-prefix} {
         width: 18px;
         margin-right: 6px;
         color: $black-3;

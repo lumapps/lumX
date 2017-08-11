@@ -35,13 +35,13 @@ $dialog-margin: $base-spacing-unit * 4;
     background-color: $white;
     opacity: 0;
     overflow: hidden;
-    @include z-depth(3);
+    @include elevation(3);
     @include transform(translateY(-50px));
     @include transition-property(opacity, transform);
     @include transition-duration(0.6s);
     @include transition-timing-function($ease-out-quint);
 
-    @include media-query(portable) {
+    @include mq($until: desktop) {
         width: 80%;
         margin-left: -40%;
     }
@@ -53,21 +53,21 @@ $dialog-margin: $base-spacing-unit * 4;
 }
 
 .dialog--s {
-    @include media-query(desk) {
+    @include mq($from: desktop) {
         width: 250px;
         margin-left: -125px;
     }
 }
 
 .dialog--m {
-    @include media-query(desk) {
+    @include mq($from: desktop) {
         width: 500px;
         margin-left: -250px;
     }
 }
 
 .dialog--l {
-    @include media-query(desk) {
+    @include mq($from: desktop) {
         width: 800px;
         margin-left: -400px;
     }
@@ -91,7 +91,7 @@ $dialog-margin: $base-spacing-unit * 4;
         overflow-x: hidden;
         overflow-y: auto;
     }
-    
+
     .dialog__footer,
     .dialog__actions {
         @include position(absolute, null 0 0 0);
