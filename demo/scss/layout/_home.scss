@@ -17,7 +17,7 @@
     background-color: $indigo-700;
     text-align: center;
 }
-    
+
     // Home banner: wrapper
     .home-banner__wrapper {
         @include wrapper();
@@ -26,37 +26,37 @@
         @include justify-content(center);
         height: 320px;
     }
-    
+
     // Home banner: title
     .home-banner__title {
         margin-bottom: $base-spacing-unit;
         font-weight: 300;
         color: $white-1;
 
-        @include media-query(portable) {
+        @include mq($until: desktop) {
             @include font-size(24px);
         }
 
-        @include media-query(desk) {
+        @include mq($from: desktop) {
             @include font-size(32px);
         }
     }
-    
+
     // Home banner: subtitle
     .home-banner__subtitle {
         margin-bottom: $base-spacing-unit * 3;
         font-weight: 700;
         color: $white-1;
 
-        @include media-query(portable) {
+        @include mq($until: desktop) {
             @include font-size(16px);
         }
 
-        @include media-query(desk) {
+        @include mq($from: desktop) {
             @include font-size(24px);
         }
     }
-    
+
     // Home banner: download
     .home-banner__download {
         margin: 0 auto;
@@ -68,7 +68,7 @@
         text-decoration: none;
         text-transform: uppercase;
     }
-    
+
     // Home banner: version
     .home-banner__version {
         margin-top: $base-spacing-unit;
@@ -83,7 +83,7 @@
 .home-features {
     margin-top: -80px;
 }
-    
+
     // Home features: wrapper
     .home-features__wrapper {
         @include wrapper();
@@ -95,15 +95,15 @@
 
 // Home feature
 .home-feature {
-    
+
 }
-    
+
     // Home feature: wrapper
      .home-feature__wrapper {
         padding: 0 $base-spacing-unit * 3;
         border-radius: $base-round;
         background-color: $white;
-        @include z-depth(1);
+        @include elevation(1);
 
         h3 {
             padding: $base-spacing-unit * 1.5 0;

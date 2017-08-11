@@ -4,25 +4,25 @@
 
 // Header
 body:not(.home) .header {
-    @include media-query(palm) {
+    @include mq($until: tablet) {
         height: 60px;
     }
 
-    @include media-query(lap) {
+    @include mq($from: tablet, $until: desktop) {
         height: 330px;
     }
 
-    @include media-query(desk) {
+    @include mq($from: desktop) {
         height: 378px;
     }
 }
 
 body.home .header {
-    @include media-query(portable) {
+    @include mq($until: desktop) {
         height: 60px;
     }
 
-    @include media-query(desk) {
+    @include mq($from: desktop) {
         height: 108px;
     }
 }
@@ -38,8 +38,8 @@ body.home .header {
     height: 60px;
     background-color: $white;
 
-    @include media-query(portable) {
-        @include z-depth(1);
+    @include mq($until: desktop) {
+        @include elevation(1);
     }
 }
 
@@ -49,39 +49,39 @@ body.home .header {
         @include display(flex);
         @include align-items(center);
 
-        @include media-query(portable) {
+        @include mq($until: desktop) {
             margin-left: 0;
         }
     }
-    
+
     // Header top: left
     .header-top__left {
         @include flex(1);
         @include display(flex);
         @include align-items(center);
     }
-    
+
     // Header top: right
     .header-top__right {
         @include display(flex);
         @include align-items(center);
-    
+
         a,
         img {
             display: block;
             @include size(30px);
         }
     }
-    
+
     // Header top: palm nav
     .header-top__palm-nav {
         margin: 0 $base-spacing-unit;
-        
-        @include media-query(desk) {
+
+        @include mq($from: desktop) {
             display: none;
         }
     }
-    
+
     // Header top: logo
     .header-top__logo {
         height: 60px;
@@ -110,11 +110,11 @@ body.home .header {
         background-color: $white-4;
     }
 
-    @include media-query(portable) {
+    @include mq($until: desktop) {
         display: none;
     }
 }
-    
+
     // Header nav: wrapper
     .header-nav__wrapper {
         @include wrapper();
@@ -123,7 +123,7 @@ body.home .header {
             @include bare-list();
             @include display(flex);
         }
-    } 
+    }
 
 
 
@@ -131,17 +131,17 @@ body.home .header {
 
 // Header background
 body:not(.home) .header-background {
-    @include media-query(lap-and-up) {
+    @include mq($from: tablet) {
         z-index: 0;
         height: 270px;
         background-color: $indigo-700;
     }
 
-    @include media-query(lap) {
+    @include mq($from: tablet, $until: desktop) {
         @include position(fixed, 60px 0 null 0);
     }
 
-    @include media-query(desk) {
+    @include mq($from: desktop) {
         @include position(fixed, 108px 0 null 0);
     }
 }

@@ -4,7 +4,7 @@
 
 // Main nav
 .main-nav {
-    @include media-query(portable) {
+    @include mq($until: desktop) {
         &.main-nav--header {
             display: none;
         }
@@ -17,9 +17,9 @@
 
 // Main nav link
 .main-nav-link {
-    
+
 }
-    
+
     // Main nav link: state
     .main-nav-link__state {
         .main-nav--palm-nav & {
@@ -41,7 +41,7 @@
                 @include font-size(20px);
                 color: $black-2;
             }
-            
+
             &.main-nav-link__state--is-open {
                 &:after {
                     @include mdi-icon(chevron-down);
@@ -65,7 +65,7 @@
             }
         }
     }
-    
+
     // Main nav link: sub nav
     .main-nav-link__sub-nav {
         .main-nav--header & {
