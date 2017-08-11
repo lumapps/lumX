@@ -14,7 +14,7 @@
         position: relative;
         height: 72px;
         overflow: hidden;
-        @include z-depth(1);
+        @include elevation(1);
     }
 
     // Stepper: nav (horizontal)

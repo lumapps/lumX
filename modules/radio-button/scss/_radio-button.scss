@@ -31,7 +31,7 @@
 
     // Radio button input
     .radio-button__input {
-        @extend %visuallyhidden;
+        @include visually-hidden();
 
         &:not(:checked) {
             & + .radio-button__label {

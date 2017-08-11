@@ -22,7 +22,7 @@
 
     // Checkbox input
     .switch__input {
-        @extend %visuallyhidden;
+        @include visually-hidden();
 
         &:not(:checked) {
             & + .switch__label {
@@ -122,7 +122,7 @@
             display: block;
             @include size(20px);
             border-radius: 50%;
-            @include z-depth(1);
+            @include elevation(1);
             @include transition-property(background-color, transform);
             @include transition-duration(0.2s);
         }

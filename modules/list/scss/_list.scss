@@ -4,7 +4,7 @@
 
 // List base styles
 .list {
-    @extend %bare-list;
+    @include bare-list();
 }
 
 
@@ -67,7 +67,7 @@
 .list-row--is-active {
     background-color: $grey-100;
 }
-    
+
     // List tiles
     .list-row__primary,
     .list-row__content,
@@ -78,13 +78,13 @@
         @include display(flex);
         @include flex-direction(column);
     }
-    
+
     // List row primary
     .list-row__primary,
     .list-primary-tile {
         width: $size-xl;
     }
-    
+
     // List row content
     .list-row__content,
     .list-content-tile {
@@ -123,7 +123,7 @@
 // List subheader
 .list-subheader {
     padding: $base-spacing-unit * 1.5 $base-spacing-unit * 2;
-    @extend %fs-subhead;
+    @include typography('fs-subhead');
     color: $black-2;
 }
 

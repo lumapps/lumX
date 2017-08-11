@@ -16,7 +16,7 @@
 
     // Checkbox input
     .checkbox__input {
-        @extend %visuallyhidden;
+        @include visually-hidden();
 
         &:not(:checked) {
             & + .checkbox__label {

@@ -8,19 +8,19 @@
     @include flex-direction(row);
     padding: 0 $base-spacing-unit * 2;
 
-    @include media-query(portable) {
+    @include mq($until: desktop) {
         height: $base-spacing-unit * 7;
         padding-top: $base-spacing-unit;
         padding-bottom: $base-spacing-unit;
     }
 
-    @include media-query(desk) {
+    @include mq($from: desktop) {
         height: $base-spacing-unit * 8;
         padding-top: $base-spacing-unit * 1.5;
         padding-bottom: $base-spacing-unit * 1.5;
     }
 }
-    
+
     // Toolbar left area
     .toolbar__left {
         @include display(flex);

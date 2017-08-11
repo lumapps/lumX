@@ -13,7 +13,7 @@ $btn-icon-size: ('xs': 13px, 's': 15px, 'm': 20px, 'l': 24px, 'xl': 28px);
 
 // Button mixins
 @mixin btn($size, $color, $type, $disabled: null) {
-    @include btn-reset;
+    @include btn-reset();
 
     @if $disabled {
         @include btn-disabled($type);
@@ -22,37 +22,6 @@ $btn-icon-size: ('xs': 13px, 's': 15px, 'm': 20px, 'l': 24px, 'xl': 28px);
     @include btn-size($size, $type);
     @include btn-color($color, $type);
     @include btn-type($type);
-}
-
-@mixin btn-reset() {
-    z-index: 2;
-    display: inline-block;
-    vertical-align: top;
-    margin: 0;
-    padding: 0;
-    border: none;
-    background-color: transparent;
-    font-weight: 500;
-    text-align: center;
-    text-transform: uppercase;
-    cursor: pointer;
-
-    &,
-    &:hover,
-    &:active,
-    &:focus {
-        text-decoration: none;
-        outline: none;
-    }
-
-    &::-moz-focus-inner {
-        border: 0;
-        padding: 0;
-    }
-
-    .ripple {
-        z-index: -1;
-    }
 }
 
 @mixin btn-disabled($type) {
@@ -109,6 +78,7 @@ $btn-icon-size: ('xs': 13px, 's': 15px, 'm': 20px, 'l': 24px, 'xl': 28px);
         background-color: map-get($colors, $color);
 
         .ripple {
+            z-index: -1;
             background-color: darken(map-get($colors, $color), 50%);
         }
     }
@@ -117,6 +87,7 @@ $btn-icon-size: ('xs': 13px, 's': 15px, 'm': 20px, 'l': 24px, 'xl': 28px);
         color: map-get($colors, $color);
 
         .ripple {
+            z-index: -1;
             background-color: map-get($colors, $color);
         }
 
@@ -129,15 +100,17 @@ $btn-icon-size: ('xs': 13px, 's': 15px, 'm': 20px, 'l': 24px, 'xl': 28px);
 @mixin btn-type($type) {
     @if $type == 'raised' or $type == 'flat' {
         border-radius: $base-round;
+        font-weight: 500;
+        text-transform: uppercase;
     }
 
     @if $type == 'raised' or $type == 'fab' {
-        @include z-depth(1);
+        @include elevation(1);
         @include transition-property(box-shadow);
         @include transition-duration(0.2s);
 
         &:hover {
-            @include z-depth(2);
+            @include elevation(2);
         }
     }
 
