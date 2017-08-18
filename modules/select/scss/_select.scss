@@ -391,9 +391,7 @@
         white-space: nowrap;
 
         .#{$mdi-css-prefix} {
-            @extend %icon;
-            @extend %icon--xs;
-            @extend %icon--flat;
+            @include icon('xs', 'grey', 'flat');
             margin-right: $base-spacing-unit * 2;
         }
     }
