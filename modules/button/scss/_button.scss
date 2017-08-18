@@ -3,9 +3,8 @@
 //\*------------------------------------*/
 
 // Button vars
-$btn-padding:   ('xs': 10px, 's': 12px, 'm': 14px, 'l': 16px, 'xl': 26px);
-$btn-font-size: ('xs': 11px, 's': 11px, 'm': 13px, 'l': 14px, 'xl': 16px);
-$btn-icon-size: ('xs': 13px, 's': 15px, 'm': 20px, 'l': 24px, 'xl': 28px);
+$btn-font-size: ('xs': 10px, 's': 13px, 'm': 14px, 'l': 16px, 'xl': 16px);
+$btn-icon-size: ('xs': 14px, 's': 18px, 'm': 20px, 'l': 24px, 'xl': 24px);
 
 
 
@@ -16,7 +15,7 @@ $btn-icon-size: ('xs': 13px, 's': 15px, 'm': 20px, 'l': 24px, 'xl': 28px);
     @include btn-reset();
 
     @if $disabled {
-        @include btn-disabled($type);
+        @include btn-disabled();
     }
 
     @include btn-size($size, $type);
@@ -24,52 +23,33 @@ $btn-icon-size: ('xs': 13px, 's': 15px, 'm': 20px, 'l': 24px, 'xl': 28px);
     @include btn-type($type);
 }
 
-@mixin btn-disabled($type) {
-    box-shadow: none !important;
-    cursor: not-allowed;
-    color: $black-3 !important;
-
-    @if $type == 'raised' or $type == 'fab' {
-        background-color: $grey-300 !important;
-    }
-
-    @if $type == 'flat' or $type == 'icon' {
-        background-color: transparent !important;
-    }
-
-    .ripple {
-        display: none;
-    }
-}
-
 @mixin btn-size($size, $type: null) {
-    padding-left: map-get($btn-padding, $size);
-    padding-right: map-get($btn-padding, $size);
-    @include font-size(map-get($btn-font-size, $size));
     line-height: map-get($sizes, $size);
+
+    @if $type == 'raised' or $type == 'flat' {
+        min-width: 64px;
+        @include font-size(map-get($btn-font-size, $size));
+    }
+
+    @if $type == 'raised' {
+        padding-left: $base-spacing-unit * 2;
+        padding-right: $base-spacing-unit * 2;
+    }
+
+    @if $type == 'flat' {
+        padding-left: $base-spacing-unit;
+        padding-right: $base-spacing-unit;
+    }
 
     @if $type == 'icon' or $type == 'fab' {
         @include size(map-get($sizes, $size));
-        padding: 0;
-
-        .mdi {
-            vertical-align: top;
-            line-height: map-get($sizes, $size);
-        }
-    }
-
-    @if $type == 'icon' {
-        @include font-size((map-get($btn-icon-size, $size)));
-    }
-
-    @if $type == 'fab' {
-        @include font-size((map-get($btn-font-size, $size)) + 4);
+        @include font-size(map-get($btn-icon-size, $size));
     }
 }
 
 @mixin btn-color($color, $type) {
     @if $type == 'raised' or $type == 'fab' {
-        @if $color == 'white' or $color == 'light-blue' or $color == 'cyan' or $color == 'light-green' or $color == 'lime' or $color == 'yellow' or $color == 'amber' or $color == 'orange' or $color == 'grey' {
+        @if $color == 'white' or $color == 'light-blue' or $color == 'cyan' or $color == 'green' or $color == 'light-green' or $color == 'lime' or $color == 'yellow' or $color == 'amber' or $color == 'orange' or $color == 'grey' {
             color: $black-1;
         } @else {
             color: $white-1;
@@ -92,7 +72,7 @@ $btn-icon-size: ('xs': 13px, 's': 15px, 'm': 20px, 'l': 24px, 'xl': 28px);
         }
 
         &:hover {
-            background-color: rgba(map-get($colors, $color), 0.15);
+            background-color: rgba(map-get($colors, $color), 0.12);
         }
     }
 }
@@ -104,13 +84,24 @@ $btn-icon-size: ('xs': 13px, 's': 15px, 'm': 20px, 'l': 24px, 'xl': 28px);
         text-transform: uppercase;
     }
 
-    @if $type == 'raised' or $type == 'fab' {
-        @include elevation(1);
+    @if $type == 'raised' or $type == 'fab' or $type == 'mini-fab' {
         @include transition-property(box-shadow);
         @include transition-duration(0.2s);
+    }
 
-        &:hover {
-            @include elevation(2);
+    @if $type == 'raised' {
+        @include elevation(2);
+
+        &:active {
+            @include elevation(8);
+        }
+    }
+
+    @if $type == 'fab' or $type == 'mini-fab' {
+        @include elevation(6);
+
+        &:active {
+            @include elevation(12);
         }
     }
 
@@ -119,9 +110,16 @@ $btn-icon-size: ('xs': 13px, 's': 15px, 'm': 20px, 'l': 24px, 'xl': 28px);
         @include transition-duration(0.2s);
     }
 
-    @if $type == 'icon' or $type == 'fab' {
+    @if $type == 'icon' or $type == 'fab' or $type == 'mini-fab' {
         border-radius: 50%;
     }
+}
+
+@mixin btn-disabled() {
+    background-color: $grey-300 !important;
+    box-shadow: none !important;
+    cursor: not-allowed !important;
+    color: $black-3 !important;
 }
 
 
@@ -129,123 +127,66 @@ $btn-icon-size: ('xs': 13px, 's': 15px, 'm': 20px, 'l': 24px, 'xl': 28px);
 
 
 // Button base styles
-.btn,
-%btn {
-    @include btn-reset;
-}
+.btn {
+    @include btn-reset();
 
-
-
-
-
-// Disabled states
-.btn--raised[disabled],
-%btn--raised[disabled],
-.btn--raised.btn--is-disabled,
-%btn--raised%btn--is-disabled {
-    @include btn-disabled('raised');
-}
-
-.btn--fab[disabled],
-%btn--fab[disabled],
-.btn--fab.btn--is-disabled,
-%btn--fab%btn--is-disabled {
-    @include btn-disabled('fab');
-}
-
-.btn--flat[disabled],
-%btn--flat[disabled],
-.btn--flat.btn--is-disabled,
-%btn--flat%btn--is-disabled {
-    @include btn-disabled('flat');
-}
-
-.btn--icon[disabled],
-%btn--icon[disabled],
-.btn--icon.btn--is-disabled,
-%btn--icon%btn--is-disabled {
-    @include btn-disabled('icon');
-}
-
-
-
-
-
-// Sizes
-@each $key, $size in $sizes {
-    .btn--#{$key},
-    %btn--#{$key} {
-        @include btn-size($key);
+    &[disabled],
+    &.btn--is-disabled {
+        @include btn-disabled();
     }
 }
 
+// Size
+@each $key, $size in $sizes {
+    .btn--raised.btn--#{$key} {
+        @include btn-size($key, 'raised');
+    }
 
+    .btn--flat.btn--#{$key} {
+        @include btn-size($key, 'flat');
+    }
 
+    .btn--icon.btn--#{$key} {
+        @include btn-size($key, 'icon');
+    }
 
-
-// Raised / FAB buttons
-.btn--raised,
-%btn--raised {
-    @include btn-type('raised');
+    .btn--fab.btn--#{$key} {
+        @include btn-size($key, 'fab');
+    }
 }
 
-.btn--fab,
-%btn--fab {
-    @include btn-type('fab');
-}
-
+// Color
 @each $key, $color in $colors {
-    .btn--raised.btn--#{$key},
-    %btn--raised%btn--#{$key} {
+    .btn--raised.btn--#{$key} {
         @include btn-color($key, 'raised');
     }
 
-    .btn--fab.btn--#{$key},
-    %btn--fab%btn--#{$key} {
+    .btn--flat.btn--#{$key} {
+        @include btn-color($key, 'flat');
+    }
+
+    .btn--icon.btn--#{$key} {
+        @include btn-color($key, 'icon');
+    }
+
+    .btn--fab.btn--#{$key} {
         @include btn-color($key, 'fab');
     }
 }
 
+// Type
+.btn--raised {
+    @include btn-type('raised');
+}
 
-
-
-
-// Flat / Icon button
-.btn--flat,
-%btn--flat {
+.btn--flat {
     @include btn-type('flat');
 }
 
-.btn--icon,
-%btn--icon {
+.btn--icon {
     @include btn-type('icon');
 }
 
-@each $key, $color in $colors {
-    .btn--flat.btn--#{$key},
-    %btn--flat%btn--#{$key} {
-        @include btn-color($key, 'flat');
-    }
-
-    .btn--icon.btn--#{$key},
-    %btn--icon%btn--#{$key} {
-        @include btn-color($key, 'icon');
-    }
-}
-
-
-
-
-
-// Icon / FAB buttons
-@each $key, $size in $sizes {
-    .btn--icon.btn--#{$key},
-    %btn--icon%btn--#{$key} {
-        @include btn-size($key, 'icon');
-    }
-
-    .btn--fab.btn--#{$key},
-    %btn--fab%btn--#{$key} {
-        @include btn-size($key, 'fab');
-    }
+.btn--fab {
+    @include btn-type('fab');
 }
