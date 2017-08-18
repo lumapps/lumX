@@ -16,7 +16,6 @@
             templateUrl: 'dropdown.html',
             scope:
             {
-                depth: '@?lxDepth',
                 effect: '@?lxEffect',
                 escapeClose: '=?lxEscapeClose',
                 hover: '=?lxHover',
@@ -780,23 +779,9 @@
 
         ////////////
 
-        function addDropdownDepth()
-        {
-            if (lxDropdownMenu.parentCtrl.depth)
-            {
-                $element.addClass('dropdown-menu--depth-' + lxDropdownMenu.parentCtrl.depth);
-            }
-            else
-            {
-                $element.addClass('dropdown-menu--depth-1');
-            }
-        }
-
         function setParentController(_parentCtrl)
         {
             lxDropdownMenu.parentCtrl = _parentCtrl;
-
-            addDropdownDepth();
         }
     }
 
