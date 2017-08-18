@@ -20,9 +20,7 @@
 
     &.list-row--multi-line {
         .list-row__primary,
-        .list-row__secondary,
-        .list-primary-tile,
-        .list-secondary-tile {
+        .list-row__secondary {
             padding: $base-spacing-unit * 2 0;
         }
     }
@@ -30,17 +28,12 @@
     &:not(.list-row--multi-line) {
         .list-row__primary,
         .list-row__content,
-        .list-row__secondary,
-        .list-primary-tile,
-        .list-content-tile,
-        .list-secondary-tile {
+        .list-row__secondary{
             @include justify-content(center);
         }
 
         .list-row__primary,
-        .list-row__secondary,
-        .list-primary-tile,
-        .list-secondary-tile {
+        .list-row__secondary {
             padding: $base-spacing-unit 0;
         }
     }
@@ -71,33 +64,27 @@
     // List tiles
     .list-row__primary,
     .list-row__content,
-    .list-row__secondary,
-    .list-primary-tile,
-    .list-content-tile,
-    .list-secondary-tile {
+    .list-row__secondary {
         @include display(flex);
         @include flex-direction(column);
     }
 
     // List row primary
-    .list-row__primary,
-    .list-primary-tile {
-        width: $size-xl;
+    .list-row__primary {
+        width: 56px;
     }
 
     // List row content
-    .list-row__content,
-    .list-content-tile {
+    .list-row__content {
         position: relative;
         @include flex(1);
         padding: $base-spacing-unit * 1.5 0;
     }
 
     // List row secondary
-    .list-row__secondary,
-    .list-secondary-tile {
+    .list-row__secondary {
         @include align-items(flex-end);
-        width: $size-l;
+        width: 40px;
     }
 
 
@@ -128,5 +115,5 @@
 }
 
 .list-subheader--is-pushed {
-    margin-left: $size-l + ($base-spacing-unit * 2);
+    margin-left: 56px;
 }
