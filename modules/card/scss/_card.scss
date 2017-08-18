@@ -7,7 +7,7 @@
     border-radius: $base-round;
     background-color: $white;
     overflow: hidden;
-    @include elevation(1);
+    @include elevation(2);
 }
 
     // Card: image
