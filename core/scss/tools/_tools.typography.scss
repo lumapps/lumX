@@ -2,7 +2,7 @@
 //   #TOOLS-TYPOGRAPHY
 //   ======================================================================== */
 
-@mixin typography($type) {
+@mixin typography($type, $height) {
     @if $type == 'caption' {
         @include font-size(12px);
         font-weight: 400;
@@ -69,5 +69,33 @@
         @include font-size(112px);
         font-weight: 300;
         letter-spacing: -5px;
+    }
+
+    @if $height == '1B' {
+        line-height: 48px;
+    }
+
+    @if $height == '1A' {
+        line-height: 40px;
+    }
+
+    @if $height == '2' {
+        line-height: 32px;
+    }
+
+    @if $height == '3B' {
+        line-height: 28px;
+    }
+
+    @if $height == '3A' {
+        line-height: 24px;
+    }
+
+    @if $height == '4B' {
+        line-height: 24px;
+    }
+
+    @if $height == '4A' {
+        line-height: 20px;
     }
 }
