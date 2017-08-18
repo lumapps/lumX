@@ -35,7 +35,7 @@ $dialog-margin: $base-spacing-unit * 4;
     background-color: $white;
     opacity: 0;
     overflow: hidden;
-    @include elevation(3);
+    @include elevation(24);
     @include transform(translateY(-50px));
     @include transition-property(opacity, transform);
     @include transition-duration(0.6s);
@@ -102,6 +102,15 @@ $dialog-margin: $base-spacing-unit * 4;
     // Dialog: footer
     .dialog__footer,
     .dialog__actions {
-        padding: $base-spacing-unit $base-spacing-unit * 2;
-        text-align: right;
+        @include display(flex);
+        @include justify-content(flex-end);
+        padding: $base-spacing-unit;
+
+        .btn {
+            margin-left: $base-spacing-unit;
+
+            &:first-child {
+                margin-left: 0;
+            }
+        }
     }
