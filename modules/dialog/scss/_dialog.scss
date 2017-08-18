@@ -92,16 +92,14 @@ $dialog-margin: $base-spacing-unit * 4;
         overflow-y: auto;
     }
 
-    .dialog__footer,
-    .dialog__actions {
+    .dialog__footer {
         @include position(absolute, null 0 0 0);
         border-top: 1px solid $black-4;
     }
 }
 
     // Dialog: footer
-    .dialog__footer,
-    .dialog__actions {
+    .dialog__footer {
         @include display(flex);
         @include justify-content(flex-end);
         padding: $base-spacing-unit;
