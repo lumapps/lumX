@@ -22,7 +22,7 @@
                 ngFalseValue: '@?',
                 ngModel: '=',
                 ngTrueValue: '@?',
-                theme: '@?lxTheme'
+                lxTheme: '@?'
             },
             controller: LxCheckboxController,
             controllerAs: 'lxCheckbox',
