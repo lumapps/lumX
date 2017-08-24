@@ -2,7 +2,7 @@
 //   #TOOLS-TYPOGRAPHY
 //   ======================================================================== */
 
-@mixin typography($type, $height: null) {
+@mixin typography($type) {
     @if $type == 'caption' {
         @include font-size(12px);
         font-weight: 400;
@@ -20,13 +20,15 @@
 
     @if $type == 'body-1' {
         font-weight: 400;
+        line-height: 20px;
     }
 
     @if $type == 'body-2' {
         font-weight: 500;
+        line-height: 24px;
     }
 
-    @if $type == 'subheading' {
+    @if $type == 'subheading-1' or $type == 'subheading-2' {
         font-weight: 400;
 
         @include mq($until: desktop) {
@@ -38,6 +40,14 @@
         }
     }
 
+    @if $type == 'subheading-1' {
+        line-height: 24px;
+    }
+
+    @if $type == 'subheading-2' {
+        line-height: 28px;
+    }
+
     @if $type == 'title' {
         @include font-size(20px);
         font-weight: 500;
@@ -46,16 +56,19 @@
     @if $type == 'headline' {
         @include font-size(24px);
         font-weight: 400;
+        line-height: 32px;
     }
 
     @if $type == 'display-1' {
         @include font-size(34px);
         font-weight: 400;
+        line-height: 40px;
     }
 
     @if $type == 'display-2' {
         @include font-size(45px);
         font-weight: 400;
+        line-height: 48px;
         letter-spacing: -1px;
     }
 
@@ -69,33 +82,5 @@
         @include font-size(112px);
         font-weight: 300;
         letter-spacing: -5px;
-    }
-
-    @if $height == '1B' {
-        line-height: 48px;
-    }
-
-    @if $height == '1A' {
-        line-height: 40px;
-    }
-
-    @if $height == '2' {
-        line-height: 32px;
-    }
-
-    @if $height == '3B' {
-        line-height: 28px;
-    }
-
-    @if $height == '3A' {
-        line-height: 24px;
-    }
-
-    @if $height == '4B' {
-        line-height: 24px;
-    }
-
-    @if $height == '4A' {
-        line-height: 20px;
     }
 }

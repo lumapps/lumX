@@ -110,7 +110,7 @@
 // List subheader
 .list-subheader {
     padding: $base-spacing-unit * 1.5 $base-spacing-unit * 2;
-    @include typography('fs-subhead');
+    @include typography('fs-subheading-1');
     color: $black-2;
 }
 

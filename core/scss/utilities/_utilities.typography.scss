@@ -14,8 +14,12 @@
     @include typography('body-2');
 }
 
-.fs-subheading {
-    @include typography('subheading');
+.fs-subheading-1 {
+    @include typography('subheading-1');
+}
+
+.fs-subheading-2 {
+    @include typography('subheading-2');
 }
 
 .fs-title {
