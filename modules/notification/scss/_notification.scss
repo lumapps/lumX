@@ -40,17 +40,15 @@
 
     // Notification content
     .notification__content {
-        @include font-size(14px);
+        @include typography('body-1');
         color: $white-1;
-        line-height: 20px;
     }
 
     // Notification icon
     .notification__icon {
         margin-right: $base-spacing-unit * 2;
-        @include font-size(14px);
+        @include typography('body-1');
         color: $white-1;
-        line-height: 20px !important;
     }
 
     // Notification action
