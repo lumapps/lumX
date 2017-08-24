@@ -101,7 +101,7 @@
         @include display(flex);
         @include align-items(center);
         @include justify-content(center);
-        @include size($size-xs);
+        @include size(24px);
 
         .lx-stepper--layout-horizontal & {
             margin-right: $base-spacing-unit;
@@ -144,7 +144,7 @@
         @include font-size(14px);
         font-weight: 500;
         color: $black-2;
-        line-height: $size-xs;
+        line-height: 24px;
 
         .lx-step-nav--is-active &,
         .lx-step-nav--is-valid & {
