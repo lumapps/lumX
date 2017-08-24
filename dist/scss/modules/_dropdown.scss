@@ -30,6 +30,7 @@
     text-align: left;
     opacity: 0;
     overflow: auto;
+    @include elevation(8);
 
     ul {
         @include bare-list();
@@ -37,12 +38,6 @@
         & > li {
             position: relative;
         }
-    }
-}
-
-@for $i from 1 through 5 {
-    .dropdown-menu--depth-#{$i} {
-        @include elevation($i);
     }
 }
 
@@ -79,48 +74,42 @@
     @include display(flex);
     @include flex-direction(row);
     @include align-items(center);
-    height: 32px;
-    padding: 0 $base-spacing-unit * 4 0 $base-spacing-unit * 2;
     cursor: pointer;
-    @include font-size(14px);
     color: $black-1;
-    line-height: 32px;
     text-decoration: none;
     white-space: nowrap;
+
+    @include mq($until: desktop) {
+        height: 48px;
+        padding: 0 $base-spacing-unit * 2;
+        @include font-size(16px);
+        line-height: 48px;
+    }
+
+    @include mq($from: desktop) {
+        height: 32px;
+        padding: 0 $base-spacing-unit * 3;
+        @include font-size(15px);
+        line-height: 32px;
+    }
+
+    .#{$mdi-css-prefix} {
+        @include size(24px);
+        margin-right: $base-spacing-unit * 2;
+        @include font-size(24px);
+        line-height: 24px;
+        color: $black-2;
+        text-align: center;
+    }
 
     &:not(.dropdown-link--is-header) {
         &:hover {
             background-color: $grey-200;
         }
-
-        .#{$mdi-css-prefix} {
-            @extend %icon;
-            @extend %icon--xs;
-            @extend %icon--flat;
-            margin-right: $base-spacing-unit * 2;
-            color: $black-2;
-        }
-    }
-}
-
-.dropdown-link--is-large {
-    height: 48px;
-
-    .#{$mdi-css-prefix} {
-        @extend %icon;
-        @extend %icon--s;
-        @extend %icon--flat;
     }
 }
 
 .dropdown-link--is-header {
     color: $black-3;
     cursor: default;
-
-    .#{$mdi-css-prefix} {
-        width: 18px;
-        margin-right: 6px;
-        color: $black-3;
-        text-align: center;
-    }
 }

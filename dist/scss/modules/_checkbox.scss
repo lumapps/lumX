@@ -4,12 +4,12 @@
 
 // Checkbox base styles
 .checkbox {
-    min-width: $size-xs;
-    min-height: $size-xs;
+    min-width: 24px;
+    min-height: 24px;
 }
 
 @each $key, $color in $colors {
-    .checkbox--#{$key} .checkbox__label:after {
+    .checkbox--#{$key} .checkbox__input:checked + .checkbox__label:before {
         color: $color;
     }
 }
@@ -18,28 +18,21 @@
     .checkbox__input {
         @include visually-hidden();
 
-        &:not(:checked) {
-            & + .checkbox__label {
-                &:before {
-                    opacity: 1;
-                }
+        &:not(:checked) + .checkbox__label:before {
+            @include mdi-icon('checkbox-blank-outline');
 
-                &:after {
-                    opacity: 0;
-                }
+            .checkbox--theme-light & {
+                color: $black-2;
+            }
+
+            .checkbox--theme-dark & {
+                color: $white-2;
             }
         }
 
-        &:checked {
-            & + .checkbox__label {
-                &:before {
-                    opacity: 0;
-                }
-
-                &:after {
-                    opacity: 1;
-                }
-            }
+        &:checked + .checkbox__label:before {
+            @include mdi-icon('checkbox-marked');
+            color: $accent;
         }
 
         &[disabled] {
@@ -47,8 +40,7 @@
                 cursor: not-allowed;
 
                 &,
-                &:before,
-                &:after {
+                &:before {
                     .checkbox--theme-light & {
                         color: $black-3;
                     }
@@ -76,8 +68,7 @@
         display: block;
         position: relative;
         padding-left: $base-spacing-unit * 4;
-        font-weight: 400;
-        line-height: $size-xs;
+        @include typography('subheading-1');
         cursor: pointer;
         @include user-select(none);
 
@@ -93,31 +84,11 @@
             padding-left: 0;
         }
 
-        &:before,
-        &:after {
+        &:before {
             @include mdi;
             @include position(absolute, 0 null null 0);
-            @include font-size($size-xs);
-            line-height: $size-xs;
-            @include transition-property(opacity);
-            @include transition-duration(0.2s);
-        }
-
-        &:before {
-            @include mdi-icon('checkbox-blank-outline');
-
-            .checkbox--theme-light & {
-                color: $black-2;
-            }
-
-            .checkbox--theme-dark & {
-                color: $white-2;
-            }
-        }
-
-        &:after {
-            @include mdi-icon('checkbox-marked');
-            color: $accent;
+            @include font-size(24px);
+            line-height: 24px;
         }
     }
 

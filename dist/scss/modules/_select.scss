@@ -248,14 +248,14 @@
             @include display(flex);
             @include flex-direction(row);
             @include align-items(center);
-            background-color: $grey-200;
+            background-color: $grey-300;
             cursor: pointer;
             @include user-select(none);
 
             &:after {
                 @include mdi;
                 @include mdi-icon('close-circle');
-                color: $grey-400;
+                color: $black-3;
             }
 
             .#{$mdi-css-prefix} {
@@ -305,14 +305,18 @@
         .lx-select--default-style.lx-select--view-mode-chips & {
             height: 32px;
             margin: $base-spacing-unit / 2 $base-spacing-unit $base-spacing-unit / 2 0;
-            padding: 0 $base-spacing-unit 0 $base-spacing-unit * 1.5;
+            padding: 0 $base-spacing-unit * 1.5;
+            padding-right: $base-spacing-unit / 2;
             border-radius: 16px;
-            @include font-size(14px);
+            @include font-size(13px);
             line-height: 32px;
 
             &:after {
-                margin-left: $base-spacing-unit;
-                @include font-size(20px);
+                @include size(24px);
+                margin-left: $base-spacing-unit / 2;
+                @include font-size(19px);
+                line-height: 24px;
+                text-align: center;
             }
 
             &:last-child {
@@ -332,10 +336,6 @@
         .lx-select--default-style.lx-select--view-mode-field & {
             height: 24px;
             line-height: 24px;
-
-            @include placeholder {
-                @include font-size(14px);
-            }
         }
 
         .lx-select--default-style.lx-select--view-mode-chips & {
@@ -383,22 +383,33 @@
         @include flex-direction(row);
         @include align-items(center);
         position: relative;
-        height: 32px;
-        padding: 0 $base-spacing-unit * 4 0 $base-spacing-unit * 2;
-        @include font-size(14px);
-        line-height: 32px;
         text-decoration: none;
         white-space: nowrap;
 
+        @include mq($until: desktop) {
+            height: 48px;
+            padding: 0 $base-spacing-unit * 2;
+            @include font-size(16px);
+            line-height: 48px;
+        }
+
+        @include mq($from: desktop) {
+            height: 32px;
+            padding: 0 $base-spacing-unit * 3;
+            @include font-size(15px);
+            line-height: 32px;
+        }
+
         .#{$mdi-css-prefix} {
-            @extend %icon;
-            @extend %icon--xs;
-            @extend %icon--flat;
+            @include size(24px);
             margin-right: $base-spacing-unit * 2;
+            @include font-size(18px);
+            line-height: 24px;
+            text-align: center;
         }
     }
 
-    // Select choices: choice / subheader
+    // Select choices: choice
     .lx-select-choices--default-style .lx-select-choices__choice {
         cursor: pointer;
         color: $black-1;
@@ -419,16 +430,14 @@
     }
 
     .lx-select-choices--is-multiple.lx-select-choices--default-style .lx-select-choices__choice {
-        padding-left: 46px;
-
         &:before {
             @include mdi;
             @include mdi-icon('checkbox-blank-outline');
-            @include position(absolute, 0 null null $base-spacing-unit * 2);
-            @include size($size-xs 32px);
+            @include size(24px);
+            margin-right: $base-spacing-unit * 2;
             @include font-size(18px);
             color: $black-2;
-            line-height: 32px;
+            line-height: 24px;
             text-align: center;
         }
 
