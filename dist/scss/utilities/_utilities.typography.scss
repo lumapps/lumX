@@ -1,0 +1,47 @@
+///* ========================================================================
+//   #UTILITIES-TYPOGRAPHY
+//   ======================================================================== */
+
+.fs-caption {
+    @include typography('caption');
+}
+
+.fs-body-1 {
+    @include typography('body-1');
+}
+
+.fs-body-2 {
+    @include typography('body-2');
+}
+
+.fs-subheading-1 {
+    @include typography('subheading-1');
+}
+
+.fs-subheading-2 {
+    @include typography('subheading-2');
+}
+
+.fs-title {
+    @include typography('title');
+}
+
+.fs-headline {
+    @include typography('headline');
+}
+
+.fs-display-1 {
+    @include typography('display-1');
+}
+
+.fs-display-2 {
+    @include typography('display-2');
+}
+
+.fs-display-3 {
+    @include typography('display-3');
+}
+
+.fs-display-4 {
+    @include typography('display-4');
+}

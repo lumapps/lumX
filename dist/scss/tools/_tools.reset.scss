@@ -1,0 +1,44 @@
+///* ========================================================================
+//   #TOOLS-RESET
+//   ======================================================================== */
+
+@mixin btn-reset() {
+    z-index: 2;
+    display: inline-block;
+    vertical-align: top;
+    margin: 0;
+    padding: 0;
+    border: none;
+    background-color: transparent;
+    text-align: center;
+    cursor: pointer;
+
+    &,
+    &:hover,
+    &:active,
+    &:focus {
+        text-decoration: none;
+        outline: none;
+    }
+
+    &::-moz-focus-inner {
+        border: 0;
+        padding: 0;
+    }
+}
+
+@mixin text-field-reset() {
+    display: block;
+    margin: 0;
+    padding: 0;
+    border: none;
+    background-color: transparent;
+    box-shadow: none;
+    overflow: hidden;
+    cursor: text;
+    @include appearance(none);
+
+    &:focus {
+        outline: none;
+    }
+}
