@@ -396,16 +396,23 @@
         @include mq($from: desktop) {
             height: 32px;
             padding: 0 $base-spacing-unit * 3;
-            @include font-size(15px);
+            @include font-size(14px);
             line-height: 32px;
         }
 
         .#{$mdi-css-prefix} {
             @include size(24px);
             margin-right: $base-spacing-unit * 2;
-            @include font-size(18px);
             line-height: 24px;
             text-align: center;
+
+            @include mq($until: desktop) {
+                @include font-size(24px);
+            }
+
+            @include mq($from: desktop) {
+                @include font-size(18px);
+            }
         }
     }
 
