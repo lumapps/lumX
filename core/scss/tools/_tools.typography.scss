@@ -2,7 +2,7 @@
 //   #TOOLS-TYPOGRAPHY
 //   ======================================================================== */
 
-@mixin typography($type, $height) {
+@mixin typography($type, $height: null) {
     @if $type == 'caption' {
         @include font-size(12px);
         font-weight: 400;
