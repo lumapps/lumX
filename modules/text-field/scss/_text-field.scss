@@ -222,7 +222,7 @@
 // Text field error
 .text-field-error {
     display: block;
-    @include font-size(12px);
+    @include typography('caption');
     color: $red;
 }
 
@@ -233,6 +233,6 @@
 // Text field help
 .text-field-help {
     display: block;
-    @include font-size(12px);
+    @include typography('caption');
     color: $black-2;
 }
