@@ -12,6 +12,7 @@
     border-radius: $base-round;
     background-color: #323232;
     cursor: pointer;
+    @include elevation(6);
     @include transform(translateY(100%));
     @include transition-property(margin-bottom transform);
     @include transition-duration(0.4s);
