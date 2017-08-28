@@ -84,7 +84,7 @@ $btn-icon-size: ('xs': 14px, 's': 18px, 'm': 20px, 'l': 24px, 'xl': 24px);
         text-transform: uppercase;
     }
 
-    @if $type == 'raised' or $type == 'fab' or $type == 'mini-fab' {
+    @if $type == 'raised' or $type == 'fab' {
         @include transition-property(box-shadow);
         @include transition-duration(0.2s);
     }
@@ -97,7 +97,7 @@ $btn-icon-size: ('xs': 14px, 's': 18px, 'm': 20px, 'l': 24px, 'xl': 24px);
         }
     }
 
-    @if $type == 'fab' or $type == 'mini-fab' {
+    @if $type == 'fab' {
         @include elevation(6);
 
         &:active {
@@ -110,7 +110,7 @@ $btn-icon-size: ('xs': 14px, 's': 18px, 'm': 20px, 'l': 24px, 'xl': 24px);
         @include transition-duration(0.2s);
     }
 
-    @if $type == 'icon' or $type == 'fab' or $type == 'mini-fab' {
+    @if $type == 'icon' or $type == 'fab' {
         border-radius: 50%;
     }
 }
