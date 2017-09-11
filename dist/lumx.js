@@ -1,5 +1,5 @@
 /*
- LumX v1.5.28
+ LumX v1.5.29
  (c) 2014-2017 LumApps http://ui.lumapps.com
  License: MIT
 */
@@ -1346,7 +1346,7 @@
 
         $scope.$on('lx-dialog__close', function(event, id, canceled, params)
         {
-            if (id === lxDialog.id)
+            if (id === lxDialog.id || id === undefined)
             {
                 close(canceled, params);
             }
