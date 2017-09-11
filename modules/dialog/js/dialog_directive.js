@@ -70,7 +70,7 @@
 
         $scope.$on('lx-dialog__close', function(event, id, canceled, params)
         {
-            if (id === lxDialog.id)
+            if (id === lxDialog.id || id === undefined)
             {
                 close(canceled, params);
             }
