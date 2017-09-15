@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.5.31:
+
+#### Bug fixes:
+ - date-picker: fix the max date parameter
+
+
 ## v1.5.30:
 
 #### Bug fixes:

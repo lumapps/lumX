@@ -1,5 +1,5 @@
 /*
- LumX v1.5.30
+ LumX v1.5.31
  (c) 2014-2017 LumApps http://ui.lumapps.com
  License: MIT
 */
@@ -1059,7 +1059,7 @@
                 if (angular.isDefined(lxDatePicker.maxDate))
                 {
                     var maxDate = (angular.isString(lxDatePicker.maxDate)) ? new Date(lxDatePicker.maxDate) : lxDatePicker.maxDate;
-                    if (date.toDate() < maxDate)
+                    if (date.toDate() > maxDate)
                     {
                         date.disabled = true;
                     }
