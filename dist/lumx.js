@@ -1,5 +1,5 @@
 /*
- LumX v1.5.31
+ LumX 
  (c) 2014-2017 LumApps http://ui.lumapps.com
  License: MIT
 */
@@ -371,83 +371,6 @@
     'use strict';
 
     angular
-        .module('lumx.button')
-        .directive('lxButton', lxButton);
-
-    function lxButton()
-    {
-        var buttonClass;
-
-        return {
-            restrict: 'E',
-            templateUrl: getTemplateUrl,
-            compile: compile,
-            replace: true,
-            transclude: true
-        };
-
-        function compile(element, attrs)
-        {
-            setButtonStyle(element, attrs.lxSize, attrs.lxColor, attrs.lxType);
-
-            return function(scope, element, attrs)
-            {
-                attrs.$observe('lxSize', function(lxSize)
-                {
-                    setButtonStyle(element, lxSize, attrs.lxColor, attrs.lxType);
-                });
-
-                attrs.$observe('lxColor', function(lxColor)
-                {
-                    setButtonStyle(element, attrs.lxSize, lxColor, attrs.lxType);
-                });
-
-                attrs.$observe('lxType', function(lxType)
-                {
-                    setButtonStyle(element, attrs.lxSize, attrs.lxColor, lxType);
-                });
-
-                element.on('click', function(event)
-                {
-                    if (attrs.disabled === true)
-                    {
-                        event.preventDefault();
-                        event.stopImmediatePropagation();
-                    }
-                });
-            };
-        }
-
-        function getTemplateUrl(element, attrs)
-        {
-            return isAnchor(attrs) ? 'link.html' : 'button.html';
-        }
-
-        function isAnchor(attrs)
-        {
-            return angular.isDefined(attrs.href) || angular.isDefined(attrs.ngHref) || angular.isDefined(attrs.ngLink) || angular.isDefined(attrs.uiSref);
-        }
-
-        function setButtonStyle(element, size, color, type)
-        {
-            var buttonBase = 'btn';
-            var buttonSize = angular.isDefined(size) ? size : 'm';
-            var buttonColor = angular.isDefined(color) ? color : 'primary';
-            var buttonType = angular.isDefined(type) ? type : 'raised';
-
-            element.removeClass(buttonClass);
-
-            buttonClass = buttonBase + ' btn--' + buttonSize + ' btn--' + buttonColor + ' btn--' + buttonType;
-
-            element.addClass(buttonClass);
-        }
-    }
-})();
-(function()
-{
-    'use strict';
-
-    angular
         .module('lumx.checkbox')
         .directive('lxCheckbox', lxCheckbox)
         .directive('lxCheckboxLabel', lxCheckboxLabel)
@@ -467,7 +390,7 @@
                 ngFalseValue: '@?',
                 ngModel: '=',
                 ngTrueValue: '@?',
-                theme: '@?lxTheme'
+                lxTheme: '@?'
             },
             controller: LxCheckboxController,
             controllerAs: 'lxCheckbox',
@@ -588,6 +511,84 @@
             transclude: true,
             replace: true
         };
+    }
+})();
+
+(function()
+{
+    'use strict';
+
+    angular
+        .module('lumx.button')
+        .directive('lxButton', lxButton);
+
+    function lxButton()
+    {
+        var buttonClass;
+
+        return {
+            restrict: 'E',
+            templateUrl: getTemplateUrl,
+            compile: compile,
+            replace: true,
+            transclude: true
+        };
+
+        function compile(element, attrs)
+        {
+            setButtonStyle(element, attrs.lxSize, attrs.lxColor, attrs.lxType);
+
+            return function(scope, element, attrs)
+            {
+                attrs.$observe('lxSize', function(lxSize)
+                {
+                    setButtonStyle(element, lxSize, attrs.lxColor, attrs.lxType);
+                });
+
+                attrs.$observe('lxColor', function(lxColor)
+                {
+                    setButtonStyle(element, attrs.lxSize, lxColor, attrs.lxType);
+                });
+
+                attrs.$observe('lxType', function(lxType)
+                {
+                    setButtonStyle(element, attrs.lxSize, attrs.lxColor, lxType);
+                });
+
+                element.on('click', function(event)
+                {
+                    if (attrs.disabled === true)
+                    {
+                        event.preventDefault();
+                        event.stopImmediatePropagation();
+                    }
+                });
+            };
+        }
+
+        function getTemplateUrl(element, attrs)
+        {
+            return isAnchor(attrs) ? 'link.html' : 'button.html';
+        }
+
+        function isAnchor(attrs)
+        {
+            return angular.isDefined(attrs.href) || angular.isDefined(attrs.ngHref) || angular.isDefined(attrs.ngLink) || angular.isDefined(attrs.uiSref);
+        }
+
+        function setButtonStyle(element, size, color, type)
+        {
+            var buttonBase = 'btn';
+            var buttonSize = angular.isDefined(size) ? size : 'm';
+            var buttonColor = angular.isDefined(color) ? color : 'primary';
+            var buttonType = angular.isDefined(type) ? type : 'raised';
+
+            element.removeClass(buttonClass);
+
+            buttonClass = buttonBase + ' btn--' + buttonSize + ' btn--' + buttonColor + ' btn--' + buttonType;
+
+            element.addClass(buttonClass);
+        }
     }
 })();
 (function()
@@ -798,7 +799,7 @@
                     lxDataTable.selectedRows.push(_row);
                     lxDataTable.areAllRowsSelected();
 
-                    $rootScope.$broadcast('lx-data-table__selected', lxDataTable.id, lxDataTable.selectedRows);
+                    $rootScope.$broadcast('lx-data-table__selected', lxDataTable.id, lxDataTable.selectedRows, _row);
                 }
             }
             else
@@ -808,7 +809,7 @@
                     lxDataTable.selectedRows.splice(lxDataTable.selectedRows.indexOf(_row), 1);
                     lxDataTable.allRowsSelected = false;
 
-                    $rootScope.$broadcast('lx-data-table__unselected', lxDataTable.id, lxDataTable.selectedRows);
+                    $rootScope.$broadcast('lx-data-table__unselected', lxDataTable.id, lxDataTable.selectedRows, _row);
                 }
             }
         }
@@ -826,6 +827,7 @@
         }
     }
 })();
+
 (function()
 {
     'use strict';
@@ -1676,7 +1678,7 @@
             templateUrl: 'dropdown.html',
             scope:
             {
-                depth: '@?lxDepth',
+                closeOnClick: '=?lxCloseOnClick',
                 effect: '@?lxEffect',
                 escapeClose: '=?lxEscapeClose',
                 hover: '=?lxHover',
@@ -1766,6 +1768,7 @@
         lxDropdown.toggle = toggle;
         lxDropdown.uuid = LxUtils.generateUUID();
 
+        lxDropdown.closeOnClick = angular.isDefined(lxDropdown.closeOnClick) ? lxDropdown.closeOnClick : true;
         lxDropdown.effect = angular.isDefined(lxDropdown.effect) ? lxDropdown.effect : 'expand';
         lxDropdown.escapeClose = angular.isDefined(lxDropdown.escapeClose) ? lxDropdown.escapeClose : true;
         lxDropdown.hasToggle = false;
@@ -1789,7 +1792,7 @@
 
         $scope.$on('lx-dropdown__close', function(_event, _params)
         {
-            if (_params.uuid === lxDropdown.uuid && lxDropdown.isOpen)
+            if (_params.uuid === lxDropdown.uuid && lxDropdown.isOpen && (!_params.documentClick || (_params.documentClick && lxDropdown.closeOnClick)))
             {
                 closeDropdownMenu();
             }
@@ -2440,23 +2443,9 @@
 
         ////////////
 
-        function addDropdownDepth()
-        {
-            if (lxDropdownMenu.parentCtrl.depth)
-            {
-                $element.addClass('dropdown-menu--depth-' + lxDropdownMenu.parentCtrl.depth);
-            }
-            else
-            {
-                $element.addClass('dropdown-menu--depth-1');
-            }
-        }
-
         function setParentController(_parentCtrl)
         {
             lxDropdownMenu.parentCtrl = _parentCtrl;
-
-            addDropdownDepth();
         }
     }
 
@@ -2522,6 +2511,7 @@
         {
             $rootScope.$broadcast('lx-dropdown__close',
             {
+                documentClick: false,
                 uuid: _uuid
             });
         }
@@ -2530,6 +2520,7 @@
         {
             $rootScope.$broadcast('lx-dropdown__close',
             {
+                documentClick: true,
                 uuid: activeDropdownUuid
             });
         }
@@ -2559,6 +2550,7 @@
         }
     }
 })();
+
 (function()
 {
     'use strict';
@@ -2975,7 +2967,7 @@
             // Use of `this` for override purpose.
             var notification = this.buildNotification(_text, _icon, _color, _action);
             /*jshint ignore:end*/
-            
+
             var notificationTimeout;
             var notificationDelay = _delay || 6000;
 
@@ -3047,7 +3039,7 @@
 
             var dialogActions = angular.element('<div/>',
             {
-                class: 'dialog__actions'
+                class: 'dialog__footer'
             });
 
             var dialogLastBtn = angular.element('<button/>',
@@ -3356,7 +3348,8 @@
                 ngDisabled: '=?',
                 ngModel: '=',
                 ngValue: '=?',
-                value: '@?'
+                value: '@?',
+                lxTheme: '@?'
             },
             controller: LxRadioButtonController,
             controllerAs: 'lxRadioButton',
@@ -3482,6 +3475,7 @@
         };
     }
 })();
+
 (function()
 {
     'use strict';
@@ -5245,7 +5239,8 @@
                 ngChange: '&?',
                 ngDisabled: '=?',
                 lxColor: '@?',
-                lxPosition: '@?'
+                lxPosition: '@?',
+                lxTheme: '@?'
             },
             controller: LxSwitchController,
             controllerAs: 'lxSwitch',
@@ -5369,6 +5364,7 @@
         };
     }
 })();
+
 (function()
 {
     'use strict';
@@ -6497,8 +6493,8 @@ angular.module("lumx.button").run(['$templateCache', function(a) { a.put('link.h
     '');
 	 }]);
 angular.module("lumx.checkbox").run(['$templateCache', function(a) { a.put('checkbox.html', '<div class="checkbox checkbox--{{ lxCheckbox.lxColor }}"\n' +
-    '     ng-class="{ \'checkbox--theme-light\': !lxCheckbox.theme || lxCheckbox.theme === \'light\',\n' +
-    '                 \'checkbox--theme-dark\': lxCheckbox.theme === \'dark\' }" >\n' +
+    '     ng-class="{ \'checkbox--theme-light\': !lxCheckbox.lxTheme || lxCheckbox.lxTheme === \'light\',\n' +
+    '                 \'checkbox--theme-dark\': lxCheckbox.lxTheme === \'dark\' }">\n' +
     '    <input id="{{ lxCheckbox.getCheckboxId() }}"\n' +
     '           type="checkbox"\n' +
     '           class="checkbox__input"\n' +
@@ -6508,7 +6504,6 @@ angular.module("lumx.checkbox").run(['$templateCache', function(a) { a.put('chec
     '           ng-false-value="{{ lxCheckbox.ngFalseValue }}"\n' +
     '           ng-change="lxCheckbox.triggerNgChange()"\n' +
     '           ng-disabled="lxCheckbox.ngDisabled">\n' +
-    '\n' +
     '    <label for="{{ lxCheckbox.getCheckboxId() }}" class="checkbox__label" ng-transclude ng-if="!lxCheckbox.getCheckboxHasChildren()"></label>\n' +
     '    <ng-transclude-replace ng-if="lxCheckbox.getCheckboxHasChildren()"></ng-transclude-replace>\n' +
     '</div>\n' +
@@ -6520,7 +6515,9 @@ angular.module("lumx.checkbox").run(['$templateCache', function(a) { a.put('chec
 	 }]);
 angular.module("lumx.radio-button").run(['$templateCache', function(a) { a.put('radio-group.html', '<div class="radio-group" ng-transclude></div>\n' +
     '');
-	a.put('radio-button.html', '<div class="radio-button radio-button--{{ lxRadioButton.lxColor }}">\n' +
+	a.put('radio-button.html', '<div class="radio-button radio-button--{{ lxRadioButton.lxColor }}"\n' +
+    '     ng-class="{ \'radio-button--theme-light\': !lxRadioButton.lxTheme || lxRadioButton.lxTheme === \'light\',\n' +
+    '                 \'radio-button--theme-dark\': lxRadioButton.lxTheme === \'dark\' }">\n' +
     '    <input id="{{ lxRadioButton.getRadioButtonId() }}"\n' +
     '           type="radio"\n' +
     '           class="radio-button__input"\n' +
@@ -6529,7 +6526,6 @@ angular.module("lumx.radio-button").run(['$templateCache', function(a) { a.put('
     '           ng-value="lxRadioButton.ngValue"\n' +
     '           ng-change="lxRadioButton.triggerNgChange()"\n' +
     '           ng-disabled="lxRadioButton.ngDisabled">\n' +
-    '\n' +
     '    <label for="{{ lxRadioButton.getRadioButtonId() }}" class="radio-button__label" ng-transclude ng-if="!lxRadioButton.getRadioButtonHasChildren()"></label>\n' +
     '    <ng-transclude-replace ng-if="lxRadioButton.getRadioButtonHasChildren()"></ng-transclude-replace>\n' +
     '</div>\n' +
@@ -6608,7 +6604,9 @@ angular.module("lumx.stepper").run(['$templateCache', function(a) { a.put('stepp
     '    </div>\n' +
     '</div>');
 	 }]);
-angular.module("lumx.switch").run(['$templateCache', function(a) { a.put('switch.html', '<div class="switch switch--{{ lxSwitch.lxColor }} switch--{{ lxSwitch.lxPosition }}">\n' +
+angular.module("lumx.switch").run(['$templateCache', function(a) { a.put('switch.html', '<div class="switch switch--{{ lxSwitch.lxColor }} switch--{{ lxSwitch.lxPosition }}"\n' +
+    '     ng-class="{ \'switch--theme-light\': !lxSwitch.lxTheme || lxSwitch.lxTheme === \'light\',\n' +
+    '                 \'switch--theme-dark\': lxSwitch.lxTheme === \'dark\' }">\n' +
     '    <input id="{{ lxSwitch.getSwitchId() }}"\n' +
     '           type="checkbox"\n' +
     '           class="switch__input"\n' +
