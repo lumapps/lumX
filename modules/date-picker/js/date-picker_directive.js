@@ -189,7 +189,7 @@
                 if (angular.isDefined(lxDatePicker.maxDate))
                 {
                     var maxDate = (angular.isString(lxDatePicker.maxDate)) ? new Date(lxDatePicker.maxDate) : lxDatePicker.maxDate;
-                    if (date.toDate() < maxDate)
+                    if (date.toDate() > maxDate)
                     {
                         date.disabled = true;
                     }
