@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.5.30:
+
+#### Bug fixes:
+ - date-picker: fix the update of min/max dates
+
+
 ## v1.5.29:
 *No major changes.*
 

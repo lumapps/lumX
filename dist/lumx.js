@@ -1,5 +1,5 @@
 /*
- LumX v1.5.29
+ LumX v1.5.30
  (c) 2014-2017 LumApps http://ui.lumapps.com
  License: MIT
 */
@@ -1047,14 +1047,22 @@
                 date.selected = angular.isDefined(lxDatePicker.ngModel) && date.isSame(lxDatePicker.ngModel, 'day');
                 date.today = date.isSame(moment(), 'day');
 
-                if (angular.isDefined(lxDatePicker.minDate) && date.toDate() < lxDatePicker.minDate)
+                if (angular.isDefined(lxDatePicker.minDate))
                 {
-                    date.disabled = true;
+                    var minDate = (angular.isString(lxDatePicker.minDate)) ? new Date(lxDatePicker.minDate) : lxDatePicker.minDate;
+                    if (date.toDate() < minDate)
+                    {
+                        date.disabled = true;
+                    }
                 }
 
-                if (angular.isDefined(lxDatePicker.maxDate) && date.toDate() > lxDatePicker.maxDate)
+                if (angular.isDefined(lxDatePicker.maxDate))
                 {
-                    date.disabled = true;
+                    var maxDate = (angular.isString(lxDatePicker.maxDate)) ? new Date(lxDatePicker.maxDate) : lxDatePicker.maxDate;
+                    if (date.toDate() < maxDate)
+                    {
+                        date.disabled = true;
+                    }
                 }
 
                 lxDatePicker.days.push(date);
@@ -1109,6 +1117,8 @@
         function openDatePicker()
         {
             LxDatePickerService.open(lxDatePicker.pickerId);
+
+            generateCalendar();
         }
 
         function previousMonth()
@@ -1153,6 +1163,7 @@
         }
     }
 })();
+
 (function()
 {
     'use strict';
