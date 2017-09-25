@@ -5,7 +5,6 @@
 #### New features:
  - dropdown: add an option to prevent dropdown close on document click
  - data-table: add selected/unselected row to broadcasts
- - dropdown: sorry Google, i won't respect your guidelines
  - notification: add missing elevation
  - toolbar: small scss enhancements
  - text-field: small scss enhancements
@@ -18,27 +17,20 @@
  - typography: apply line height on each variant
  - list: remove legacy code
  - dialog: remove legacy code
- - icon: remove icon placeholder
  - dropdown: update style according to latest guidelines
  - dialog: update style according to latest guidelines
- - chip: feat card: update style according to latest guidelines
+ - chip: update style according to latest guidelines
  - checkbox: remove opacity transition
  - card: update elevation according to latest guidelines
  - button: update style according to latest guidelines
 
 #### Bug fixes:
- - button: enhance disabled state
- - button: remove useless mini-fab condition
- - notification: use the right dialog footer class
- - dropdown: correctly align items in list
- - typography: make height parameter optional
  - data-table: use accent color for checkboxes
- - ripple: add missing ripple animation
 
 #### Breaking changes:
- - subheading doesn't exist anymore.
- - Instead, you have to use subheading-1 or subheading-2.
- - Please refer to the updated documentation.
+ - No more z-depth mixin. Updated elevation mixin has been added.
+ - No more media query mixin. Media queries are now handled by Saas MQ.
+ - No more subhead typography. Use subheading-1 or subheading-2.
 
 
 ## v1.5.31:
