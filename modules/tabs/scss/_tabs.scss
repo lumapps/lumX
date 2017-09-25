@@ -40,7 +40,7 @@
         }
     }
 }
-    
+
     // Tabs: links
     .tabs__links {
         position: relative;
@@ -71,15 +71,15 @@
         @include transition-property(color);
         @include transition-duration(0.2s);
 
-        @include media-query(portable) {
+        @include mq($until: desktop) {
             @include font-size(14px);
         }
 
-        @include media-query(desk) {
+        @include mq($from: desktop) {
             @include font-size(13px);
         }
 
-        #{$base-icon-prefix} {
+        .#{$mdi-css-prefix} {
             @include font-size(24px);
             line-height: 48px;
         }
@@ -90,12 +90,12 @@
 
         .tabs--layout-inline &,
         .tabs--layout-center & {
-            @include media-query(palm) {
+            @include mq($until: tablet) {
                 padding-left: $base-spacing-unit * 1.5;
                 padding-right: $base-spacing-unit * 1.5;
             }
 
-            @include media-query(lap-and-up) {
+            @include mq($from: tablet) {
                 padding-left: $base-spacing-unit * 3;
                 padding-right: $base-spacing-unit * 3;
             }

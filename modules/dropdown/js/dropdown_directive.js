@@ -16,7 +16,7 @@
             templateUrl: 'dropdown.html',
             scope:
             {
-                depth: '@?lxDepth',
+                closeOnClick: '=?lxCloseOnClick',
                 effect: '@?lxEffect',
                 escapeClose: '=?lxEscapeClose',
                 hover: '=?lxHover',
@@ -106,6 +106,7 @@
         lxDropdown.toggle = toggle;
         lxDropdown.uuid = LxUtils.generateUUID();
 
+        lxDropdown.closeOnClick = angular.isDefined(lxDropdown.closeOnClick) ? lxDropdown.closeOnClick : true;
         lxDropdown.effect = angular.isDefined(lxDropdown.effect) ? lxDropdown.effect : 'expand';
         lxDropdown.escapeClose = angular.isDefined(lxDropdown.escapeClose) ? lxDropdown.escapeClose : true;
         lxDropdown.hasToggle = false;
@@ -129,7 +130,7 @@
 
         $scope.$on('lx-dropdown__close', function(_event, _params)
         {
-            if (_params.uuid === lxDropdown.uuid && lxDropdown.isOpen)
+            if (_params.uuid === lxDropdown.uuid && lxDropdown.isOpen && (!_params.documentClick || (_params.documentClick && lxDropdown.closeOnClick)))
             {
                 closeDropdownMenu();
             }
@@ -780,23 +781,9 @@
 
         ////////////
 
-        function addDropdownDepth()
-        {
-            if (lxDropdownMenu.parentCtrl.depth)
-            {
-                $element.addClass('dropdown-menu--depth-' + lxDropdownMenu.parentCtrl.depth);
-            }
-            else
-            {
-                $element.addClass('dropdown-menu--depth-1');
-            }
-        }
-
         function setParentController(_parentCtrl)
         {
             lxDropdownMenu.parentCtrl = _parentCtrl;
-
-            addDropdownDepth();
         }
     }
 

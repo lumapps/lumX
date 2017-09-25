@@ -58,54 +58,35 @@ $icon-font-size:   ('xs': 10px, 's': 12px, 'm': 14px, 'l': 18px, 'xl': 26px);
 
 
 // Icon base styles
-.icon,
-%icon {
+.icon {
     @include icon-reset;
 }
 
-
-
-
-
 // Icon sizes
 @each $key, $size in $sizes {
-    .icon--#{$key},
-    %icon--#{$key} {
-        &.icon--circled,
-        &%icon--circled {
+    .icon--#{$key} {
+        &.icon--circled {
             @include icon-size($key, 'circled');
         }
 
-        &.icon--flat,
-        &%icon--flat {
+        &.icon--flat {
             @include icon-size($key, 'flat');
         }
     }
 }
 
-
-
-
-
 // Icon colors
 @each $key, $color in $colors {
-    .icon--circled.icon--#{$key},
-    %icon--circled%icon--#{$key} {
+    .icon--circled.icon--#{$key} {
         @include icon-color($key, 'circled');
     }
 
-    .icon--flat.icon--#{$key},
-    %icon--flat%icon--#{$key} {
+    .icon--flat.icon--#{$key} {
         @include icon-color($key, 'flat');
     }
 }
 
-
-
-
-
 // Icon types
-.icon--circled,
-%icon--circled {
+.icon--circled {
     @include icon-type('circled');
 }

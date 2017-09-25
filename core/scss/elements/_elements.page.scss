@@ -1,0 +1,11 @@
+///* ========================================================================
+//   ##ELEMENTS-PAGE
+//   ======================================================================== */
+
+html {
+    font-size: ($base-font-size / 16px) * 1em;
+    line-height: $base-line-height / $base-font-size;
+    min-height: 100%;
+    -moz-osx-font-smoothing: grayscale;
+     -webkit-font-smoothing: antialiased;
+}

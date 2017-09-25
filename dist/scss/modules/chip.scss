@@ -10,7 +10,7 @@
     height: 32px;
     padding: 0 $base-spacing-unit * 1.5;
     border-radius: 16px;
-    background-color: $grey-200;
+    background-color: $grey-300;
 }
 
 .chip--is-contact  {
@@ -23,13 +23,13 @@
     cursor: pointer;
 
     &:after {
-        @include size($size-xs);
+        @include size(24px);
         margin-left: $base-spacing-unit / 2;
         @include mdi;
         @include mdi-icon(close-circle);
         @include font-size(19px);
         color: $black-3;
-        line-height: $size-xs;
+        line-height: 24px;
         text-align: center;
     }
 
@@ -41,7 +41,7 @@
         }
     }
 }
-    
+
     // Chip contact
     .chip__contact {
         @include size(32px);
@@ -60,9 +60,9 @@
     // Chip label
     .chip__label {
         @include flex(1);
-        @include font-size(14px);
+        @include font-size(13px);
         line-height: 32px;
-        color: $black-2;
+        color: $black-1;
     }
 
     .chip--is-deletable:hover .chip__label {

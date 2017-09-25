@@ -32,7 +32,8 @@
                 ngDisabled: '=?',
                 ngModel: '=',
                 ngValue: '=?',
-                value: '@?'
+                value: '@?',
+                lxTheme: '@?'
             },
             controller: LxRadioButtonController,
             controllerAs: 'lxRadioButton',

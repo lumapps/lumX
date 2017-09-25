@@ -6,17 +6,17 @@
 @mixin wrapper() {
     position: relative;
 
-    @include media-query(portable) {
+    @include mq($until: desktop) {
         margin: 0 $base-spacing-unit * 3;
     }
 
-    @include media-query(desk) {
+    @include mq($from: desktop) {
         margin-left: auto;
         margin-right: auto;
         width: 960px;
     }
 
-    @include media-query(desk-wide) {
+    @include mq($from: wide) {
         width: 1136px;
     }
 }

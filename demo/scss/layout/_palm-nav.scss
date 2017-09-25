@@ -13,7 +13,7 @@
     @include transition-duration(0.4s);
     @include transition-timing-function($ease-out-quint);
 
-    @include media-query(desk) {
+    @include mq($from: desktop) {
         display: none;
     }
 }
@@ -39,14 +39,14 @@
     @include transition-duration(0.4s);
     @include transition-timing-function($ease-out-quint);
 
-    @include media-query(desk) {
+    @include mq($from: desktop) {
         display: none !important;
     }
 }
 
 .palm-nav--is-open {
-    @include media-query(portable) {
-        @include z-depth(3);
+    @include mq($until: desktop) {
+        @include elevation(3);
         @include transform(translateX(0px));
     }
 }

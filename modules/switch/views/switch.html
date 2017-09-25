@@ -1,4 +1,6 @@
-<div class="switch switch--{{ lxSwitch.lxColor }} switch--{{ lxSwitch.lxPosition }}">
+<div class="switch switch--{{ lxSwitch.lxColor }} switch--{{ lxSwitch.lxPosition }}"
+     ng-class="{ 'switch--theme-light': !lxSwitch.lxTheme || lxSwitch.lxTheme === 'light',
+                 'switch--theme-dark': lxSwitch.lxTheme === 'dark' }">
     <input id="{{ lxSwitch.getSwitchId() }}"
            type="checkbox"
            class="switch__input"

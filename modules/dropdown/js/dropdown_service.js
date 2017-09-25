@@ -28,6 +28,7 @@
         {
             $rootScope.$broadcast('lx-dropdown__close',
             {
+                documentClick: false,
                 uuid: _uuid
             });
         }
@@ -36,6 +37,7 @@
         {
             $rootScope.$broadcast('lx-dropdown__close',
             {
+                documentClick: true,
                 uuid: activeDropdownUuid
             });
         }

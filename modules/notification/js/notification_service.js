@@ -185,7 +185,7 @@
             // Use of `this` for override purpose.
             var notification = this.buildNotification(_text, _icon, _color, _action);
             /*jshint ignore:end*/
-            
+
             var notificationTimeout;
             var notificationDelay = _delay || 6000;
 
@@ -257,7 +257,7 @@
 
             var dialogActions = angular.element('<div/>',
             {
-                class: 'dialog__actions'
+                class: 'dialog__footer'
             });
 
             var dialogLastBtn = angular.element('<button/>',

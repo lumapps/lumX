@@ -22,7 +22,8 @@
                 ngChange: '&?',
                 ngDisabled: '=?',
                 lxColor: '@?',
-                lxPosition: '@?'
+                lxPosition: '@?',
+                lxTheme: '@?'
             },
             controller: LxSwitchController,
             controllerAs: 'lxSwitch',

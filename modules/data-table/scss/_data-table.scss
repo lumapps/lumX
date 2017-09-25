@@ -7,17 +7,15 @@
     &:before {
         @include mdi;
         @include mdi-icon('checkbox-blank-outline');
-        @include font-size($size-xs);
-        line-height: $size-xs;
-        @include transition-property(transform);
-        @include transition-duration(0.2s);
+        @include font-size(24px);
+        line-height: 24px;
     }
 }
 
 @mixin data-table-checkbox-checked() {
     &:before {
         @include mdi-icon('checkbox-marked');
-        color: $blue;
+        color: $accent;
     }
 }
 
@@ -92,9 +90,9 @@
     &.data-table--thumbnail {
         th:first-child,
         td:first-child {
-            width: $size-l * 3;
-            padding-left: $size-l;
-            padding-right: $size-l;
+            width: 40px * 3;
+            padding-left: 40px;
+            padding-right: 40px;
             border-bottom: none;
         }
     }
@@ -138,7 +136,7 @@
     .data-table:not(.data-table--thumbnail) .data-table__selectable-row {
         th:first-child,
         td:first-child {
-            width: $size-xs + $base-spacing-unit * 6;
+            width: 24px + $base-spacing-unit * 6;
             @include data-table-checkbox();
         }
 
@@ -150,7 +148,7 @@
     .data-table.data-table--thumbnail .data-table__selectable-row {
         th:nth-child(2),
         td:nth-child(2) {
-            width: $size-xs + $base-spacing-unit * 3;
+            width: 24px + $base-spacing-unit * 3;
             padding-right: $base-spacing-unit * 3;
             @include data-table-checkbox();
         }
@@ -211,7 +209,7 @@
         }
 
         &:before {
-            @include mdi;
+            @include mdi();
             margin-right: $base-spacing-unit / 2;
         }
     }
