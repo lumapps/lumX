@@ -1,5 +1,46 @@
 # Changelog
 
+## v1.6.0:
+
+#### New features:
+ - dropdown: add an option to prevent dropdown close on document click
+ - data-table: add selected/unselected row to broadcasts
+ - dropdown: sorry Google, i won't respect your guidelines
+ - notification: add missing elevation
+ - toolbar: small scss enhancements
+ - text-field: small scss enhancements
+ - switch: mall scss enhancements
+ - stepper: small scss enhancements
+ - select: update chips and list styles
+ - radio-button: support dark theme
+ - notification: small scss enhancements
+ - checkbox: small scss enhancements
+ - typography: apply line height on each variant
+ - list: remove legacy code
+ - dialog: remove legacy code
+ - icon: remove icon placeholder
+ - dropdown: update style according to latest guidelines
+ - dialog: update style according to latest guidelines
+ - chip: feat card: update style according to latest guidelines
+ - checkbox: remove opacity transition
+ - card: update elevation according to latest guidelines
+ - button: update style according to latest guidelines
+
+#### Bug fixes:
+ - button: enhance disabled state
+ - button: remove useless mini-fab condition
+ - notification: use the right dialog footer class
+ - dropdown: correctly align items in list
+ - typography: make height parameter optional
+ - data-table: use accent color for checkboxes
+ - ripple: add missing ripple animation
+
+#### Breaking changes:
+ - subheading doesn't exist anymore.
+ - Instead, you have to use subheading-1 or subheading-2.
+ - Please refer to the updated documentation.
+
+
 ## v1.5.31:
 
 #### Bug fixes:
