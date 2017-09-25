@@ -371,6 +371,83 @@
     'use strict';
 
     angular
+        .module('lumx.button')
+        .directive('lxButton', lxButton);
+
+    function lxButton()
+    {
+        var buttonClass;
+
+        return {
+            restrict: 'E',
+            templateUrl: getTemplateUrl,
+            compile: compile,
+            replace: true,
+            transclude: true
+        };
+
+        function compile(element, attrs)
+        {
+            setButtonStyle(element, attrs.lxSize, attrs.lxColor, attrs.lxType);
+
+            return function(scope, element, attrs)
+            {
+                attrs.$observe('lxSize', function(lxSize)
+                {
+                    setButtonStyle(element, lxSize, attrs.lxColor, attrs.lxType);
+                });
+
+                attrs.$observe('lxColor', function(lxColor)
+                {
+                    setButtonStyle(element, attrs.lxSize, lxColor, attrs.lxType);
+                });
+
+                attrs.$observe('lxType', function(lxType)
+                {
+                    setButtonStyle(element, attrs.lxSize, attrs.lxColor, lxType);
+                });
+
+                element.on('click', function(event)
+                {
+                    if (attrs.disabled === true)
+                    {
+                        event.preventDefault();
+                        event.stopImmediatePropagation();
+                    }
+                });
+            };
+        }
+
+        function getTemplateUrl(element, attrs)
+        {
+            return isAnchor(attrs) ? 'link.html' : 'button.html';
+        }
+
+        function isAnchor(attrs)
+        {
+            return angular.isDefined(attrs.href) || angular.isDefined(attrs.ngHref) || angular.isDefined(attrs.ngLink) || angular.isDefined(attrs.uiSref);
+        }
+
+        function setButtonStyle(element, size, color, type)
+        {
+            var buttonBase = 'btn';
+            var buttonSize = angular.isDefined(size) ? size : 'm';
+            var buttonColor = angular.isDefined(color) ? color : 'primary';
+            var buttonType = angular.isDefined(type) ? type : 'raised';
+
+            element.removeClass(buttonClass);
+
+            buttonClass = buttonBase + ' btn--' + buttonSize + ' btn--' + buttonColor + ' btn--' + buttonType;
+
+            element.addClass(buttonClass);
+        }
+    }
+})();
+(function()
+{
+    'use strict';
+
+    angular
         .module('lumx.checkbox')
         .directive('lxCheckbox', lxCheckbox)
         .directive('lxCheckboxLabel', lxCheckboxLabel)
@@ -514,83 +591,6 @@
     }
 })();
 
-(function()
-{
-    'use strict';
-
-    angular
-        .module('lumx.button')
-        .directive('lxButton', lxButton);
-
-    function lxButton()
-    {
-        var buttonClass;
-
-        return {
-            restrict: 'E',
-            templateUrl: getTemplateUrl,
-            compile: compile,
-            replace: true,
-            transclude: true
-        };
-
-        function compile(element, attrs)
-        {
-            setButtonStyle(element, attrs.lxSize, attrs.lxColor, attrs.lxType);
-
-            return function(scope, element, attrs)
-            {
-                attrs.$observe('lxSize', function(lxSize)
-                {
-                    setButtonStyle(element, lxSize, attrs.lxColor, attrs.lxType);
-                });
-
-                attrs.$observe('lxColor', function(lxColor)
-                {
-                    setButtonStyle(element, attrs.lxSize, lxColor, attrs.lxType);
-                });
-
-                attrs.$observe('lxType', function(lxType)
-                {
-                    setButtonStyle(element, attrs.lxSize, attrs.lxColor, lxType);
-                });
-
-                element.on('click', function(event)
-                {
-                    if (attrs.disabled === true)
-                    {
-                        event.preventDefault();
-                        event.stopImmediatePropagation();
-                    }
-                });
-            };
-        }
-
-        function getTemplateUrl(element, attrs)
-        {
-            return isAnchor(attrs) ? 'link.html' : 'button.html';
-        }
-
-        function isAnchor(attrs)
-        {
-            return angular.isDefined(attrs.href) || angular.isDefined(attrs.ngHref) || angular.isDefined(attrs.ngLink) || angular.isDefined(attrs.uiSref);
-        }
-
-        function setButtonStyle(element, size, color, type)
-        {
-            var buttonBase = 'btn';
-            var buttonSize = angular.isDefined(size) ? size : 'm';
-            var buttonColor = angular.isDefined(color) ? color : 'primary';
-            var buttonType = angular.isDefined(type) ? type : 'raised';
-
-            element.removeClass(buttonClass);
-
-            buttonClass = buttonBase + ' btn--' + buttonSize + ' btn--' + buttonColor + ' btn--' + buttonType;
-
-            element.addClass(buttonClass);
-        }
-    }
-})();
 (function()
 {
     'use strict';
@@ -2631,6 +2631,66 @@
     'use strict';
 
     angular
+        .module('lumx.icon')
+        .directive('lxIcon', lxIcon);
+
+    function lxIcon()
+    {
+        return {
+            restrict: 'E',
+            templateUrl: 'icon.html',
+            scope:
+            {
+                color: '@?lxColor',
+                id: '@lxId',
+                size: '@?lxSize',
+                type: '@?lxType'
+            },
+            controller: LxIconController,
+            controllerAs: 'lxIcon',
+            bindToController: true,
+            replace: true
+        };
+    }
+
+    function LxIconController()
+    {
+        var lxIcon = this;
+
+        lxIcon.getClass = getClass;
+
+        ////////////
+
+        function getClass()
+        {
+            var iconClass = [];
+
+            iconClass.push('mdi-' + lxIcon.id);
+
+            if (angular.isDefined(lxIcon.size))
+            {
+                iconClass.push('icon--' + lxIcon.size);
+            }
+
+            if (angular.isDefined(lxIcon.color))
+            {
+                iconClass.push('icon--' + lxIcon.color);
+            }
+
+            if (angular.isDefined(lxIcon.type))
+            {
+                iconClass.push('icon--' + lxIcon.type);
+            }
+
+            return iconClass;
+        }
+    }
+})();
+(function()
+{
+    'use strict';
+
+    angular
         .module('lumx.file-input')
         .directive('lxFileInput', lxFileInput);
 
@@ -2725,61 +2785,163 @@
     'use strict';
 
     angular
-        .module('lumx.icon')
-        .directive('lxIcon', lxIcon);
+        .module('lumx.radio-button')
+        .directive('lxRadioGroup', lxRadioGroup)
+        .directive('lxRadioButton', lxRadioButton)
+        .directive('lxRadioButtonLabel', lxRadioButtonLabel)
+        .directive('lxRadioButtonHelp', lxRadioButtonHelp);
 
-    function lxIcon()
+    function lxRadioGroup()
     {
         return {
             restrict: 'E',
-            templateUrl: 'icon.html',
-            scope:
-            {
-                color: '@?lxColor',
-                id: '@lxId',
-                size: '@?lxSize',
-                type: '@?lxType'
-            },
-            controller: LxIconController,
-            controllerAs: 'lxIcon',
-            bindToController: true,
+            templateUrl: 'radio-group.html',
+            transclude: true,
             replace: true
         };
     }
 
-    function LxIconController()
+    function lxRadioButton()
     {
-        var lxIcon = this;
+        return {
+            restrict: 'E',
+            templateUrl: 'radio-button.html',
+            scope:
+            {
+                lxColor: '@?',
+                name: '@',
+                ngChange: '&?',
+                ngDisabled: '=?',
+                ngModel: '=',
+                ngValue: '=?',
+                value: '@?',
+                lxTheme: '@?'
+            },
+            controller: LxRadioButtonController,
+            controllerAs: 'lxRadioButton',
+            bindToController: true,
+            transclude: true,
+            replace: true
+        };
+    }
 
-        lxIcon.getClass = getClass;
+    LxRadioButtonController.$inject = ['$scope', '$timeout', 'LxUtils'];
+
+    function LxRadioButtonController($scope, $timeout, LxUtils)
+    {
+        var lxRadioButton = this;
+        var radioButtonId;
+        var radioButtonHasChildren;
+        var timer;
+
+        lxRadioButton.getRadioButtonId = getRadioButtonId;
+        lxRadioButton.getRadioButtonHasChildren = getRadioButtonHasChildren;
+        lxRadioButton.setRadioButtonId = setRadioButtonId;
+        lxRadioButton.setRadioButtonHasChildren = setRadioButtonHasChildren;
+        lxRadioButton.triggerNgChange = triggerNgChange;
+
+        $scope.$on('$destroy', function()
+        {
+            $timeout.cancel(timer);
+        });
+
+        init();
 
         ////////////
 
-        function getClass()
+        function getRadioButtonId()
         {
-            var iconClass = [];
+            return radioButtonId;
+        }
 
-            iconClass.push('mdi-' + lxIcon.id);
+        function getRadioButtonHasChildren()
+        {
+            return radioButtonHasChildren;
+        }
 
-            if (angular.isDefined(lxIcon.size))
+        function init()
+        {
+            setRadioButtonId(LxUtils.generateUUID());
+            setRadioButtonHasChildren(false);
+
+            if (angular.isDefined(lxRadioButton.value) && angular.isUndefined(lxRadioButton.ngValue))
             {
-                iconClass.push('icon--' + lxIcon.size);
+                lxRadioButton.ngValue = lxRadioButton.value;
             }
 
-            if (angular.isDefined(lxIcon.color))
-            {
-                iconClass.push('icon--' + lxIcon.color);
-            }
+            lxRadioButton.lxColor = angular.isUndefined(lxRadioButton.lxColor) ? 'accent' : lxRadioButton.lxColor;
+        }
 
-            if (angular.isDefined(lxIcon.type))
-            {
-                iconClass.push('icon--' + lxIcon.type);
-            }
+        function setRadioButtonId(_radioButtonId)
+        {
+            radioButtonId = _radioButtonId;
+        }
 
-            return iconClass;
+        function setRadioButtonHasChildren(_radioButtonHasChildren)
+        {
+            radioButtonHasChildren = _radioButtonHasChildren;
+        }
+
+        function triggerNgChange()
+        {
+            timer = $timeout(lxRadioButton.ngChange);
         }
     }
+
+    function lxRadioButtonLabel()
+    {
+        return {
+            restrict: 'AE',
+            require: ['^lxRadioButton', '^lxRadioButtonLabel'],
+            templateUrl: 'radio-button-label.html',
+            link: link,
+            controller: LxRadioButtonLabelController,
+            controllerAs: 'lxRadioButtonLabel',
+            bindToController: true,
+            transclude: true,
+            replace: true
+        };
+
+        function link(scope, element, attrs, ctrls)
+        {
+            ctrls[0].setRadioButtonHasChildren(true);
+            ctrls[1].setRadioButtonId(ctrls[0].getRadioButtonId());
+        }
+    }
+
+    function LxRadioButtonLabelController()
+    {
+        var lxRadioButtonLabel = this;
+        var radioButtonId;
+
+        lxRadioButtonLabel.getRadioButtonId = getRadioButtonId;
+        lxRadioButtonLabel.setRadioButtonId = setRadioButtonId;
+
+        ////////////
+
+        function getRadioButtonId()
+        {
+            return radioButtonId;
+        }
+
+        function setRadioButtonId(_radioButtonId)
+        {
+            radioButtonId = _radioButtonId;
+        }
+    }
+
+    function lxRadioButtonHelp()
+    {
+        return {
+            restrict: 'AE',
+            require: '^lxRadioButton',
+            templateUrl: 'radio-button-help.html',
+            transclude: true,
+            replace: true
+        };
+    }
 })();
+
 (function()
 {
     'use strict';
@@ -3319,168 +3481,6 @@
     'use strict';
 
     angular
-        .module('lumx.radio-button')
-        .directive('lxRadioGroup', lxRadioGroup)
-        .directive('lxRadioButton', lxRadioButton)
-        .directive('lxRadioButtonLabel', lxRadioButtonLabel)
-        .directive('lxRadioButtonHelp', lxRadioButtonHelp);
-
-    function lxRadioGroup()
-    {
-        return {
-            restrict: 'E',
-            templateUrl: 'radio-group.html',
-            transclude: true,
-            replace: true
-        };
-    }
-
-    function lxRadioButton()
-    {
-        return {
-            restrict: 'E',
-            templateUrl: 'radio-button.html',
-            scope:
-            {
-                lxColor: '@?',
-                name: '@',
-                ngChange: '&?',
-                ngDisabled: '=?',
-                ngModel: '=',
-                ngValue: '=?',
-                value: '@?',
-                lxTheme: '@?'
-            },
-            controller: LxRadioButtonController,
-            controllerAs: 'lxRadioButton',
-            bindToController: true,
-            transclude: true,
-            replace: true
-        };
-    }
-
-    LxRadioButtonController.$inject = ['$scope', '$timeout', 'LxUtils'];
-
-    function LxRadioButtonController($scope, $timeout, LxUtils)
-    {
-        var lxRadioButton = this;
-        var radioButtonId;
-        var radioButtonHasChildren;
-        var timer;
-
-        lxRadioButton.getRadioButtonId = getRadioButtonId;
-        lxRadioButton.getRadioButtonHasChildren = getRadioButtonHasChildren;
-        lxRadioButton.setRadioButtonId = setRadioButtonId;
-        lxRadioButton.setRadioButtonHasChildren = setRadioButtonHasChildren;
-        lxRadioButton.triggerNgChange = triggerNgChange;
-
-        $scope.$on('$destroy', function()
-        {
-            $timeout.cancel(timer);
-        });
-
-        init();
-
-        ////////////
-
-        function getRadioButtonId()
-        {
-            return radioButtonId;
-        }
-
-        function getRadioButtonHasChildren()
-        {
-            return radioButtonHasChildren;
-        }
-
-        function init()
-        {
-            setRadioButtonId(LxUtils.generateUUID());
-            setRadioButtonHasChildren(false);
-
-            if (angular.isDefined(lxRadioButton.value) && angular.isUndefined(lxRadioButton.ngValue))
-            {
-                lxRadioButton.ngValue = lxRadioButton.value;
-            }
-
-            lxRadioButton.lxColor = angular.isUndefined(lxRadioButton.lxColor) ? 'accent' : lxRadioButton.lxColor;
-        }
-
-        function setRadioButtonId(_radioButtonId)
-        {
-            radioButtonId = _radioButtonId;
-        }
-
-        function setRadioButtonHasChildren(_radioButtonHasChildren)
-        {
-            radioButtonHasChildren = _radioButtonHasChildren;
-        }
-
-        function triggerNgChange()
-        {
-            timer = $timeout(lxRadioButton.ngChange);
-        }
-    }
-
-    function lxRadioButtonLabel()
-    {
-        return {
-            restrict: 'AE',
-            require: ['^lxRadioButton', '^lxRadioButtonLabel'],
-            templateUrl: 'radio-button-label.html',
-            link: link,
-            controller: LxRadioButtonLabelController,
-            controllerAs: 'lxRadioButtonLabel',
-            bindToController: true,
-            transclude: true,
-            replace: true
-        };
-
-        function link(scope, element, attrs, ctrls)
-        {
-            ctrls[0].setRadioButtonHasChildren(true);
-            ctrls[1].setRadioButtonId(ctrls[0].getRadioButtonId());
-        }
-    }
-
-    function LxRadioButtonLabelController()
-    {
-        var lxRadioButtonLabel = this;
-        var radioButtonId;
-
-        lxRadioButtonLabel.getRadioButtonId = getRadioButtonId;
-        lxRadioButtonLabel.setRadioButtonId = setRadioButtonId;
-
-        ////////////
-
-        function getRadioButtonId()
-        {
-            return radioButtonId;
-        }
-
-        function setRadioButtonId(_radioButtonId)
-        {
-            radioButtonId = _radioButtonId;
-        }
-    }
-
-    function lxRadioButtonHelp()
-    {
-        return {
-            restrict: 'AE',
-            require: '^lxRadioButton',
-            templateUrl: 'radio-button-help.html',
-            transclude: true,
-            replace: true
-        };
-    }
-})();
-
-(function()
-{
-    'use strict';
-
-    angular
         .module('lumx.ripple')
         .directive('lxRipple', lxRipple);
 
@@ -3940,6 +3940,501 @@
         }
     }
 })();
+(function()
+{
+    'use strict';
+
+    angular
+        .module('lumx.stepper')
+        .directive('lxStepper', lxStepper)
+        .directive('lxStep', lxStep)
+        .directive('lxStepNav', lxStepNav);
+
+    /* Stepper */
+    function lxStepper()
+    {
+        return {
+            restrict: 'E',
+            templateUrl: 'stepper.html',
+            scope: {
+                cancel: '&?lxCancel',
+                complete: '&lxComplete',
+                controls: '=?lxShowControls',
+                id: '@?lxId',
+                isLinear: '=?lxIsLinear',
+                labels: '=?lxLabels',
+                layout: '@?lxLayout'
+            },
+            controller: LxStepperController,
+            controllerAs: 'lxStepper',
+            bindToController: true,
+            transclude: true
+        };
+    }
+
+    LxStepperController.$inject = ['$scope'];
+
+    function LxStepperController($scope)
+    {
+        var lxStepper = this;
+
+        var _classes = [];
+        var _defaultValues = {
+            isLinear: true,
+            labels: {
+                'back': 'Back',
+                'cancel': 'Cancel',
+                'continue': 'Continue',
+                'optional': 'Optional'
+            },
+            layout: 'horizontal'
+        };
+
+        lxStepper.addStep = addStep;
+        lxStepper.getClasses = getClasses;
+        lxStepper.goToStep = goToStep;
+        lxStepper.isComplete = isComplete;
+        lxStepper.updateStep = updateStep;
+
+        lxStepper.controls = angular.isDefined(lxStepper.controls) ? lxStepper.controls : true;
+        lxStepper.activeIndex = 0;
+        lxStepper.isLinear = angular.isDefined(lxStepper.isLinear) ? lxStepper.isLinear : _defaultValues.isLinear;
+        lxStepper.labels = angular.isDefined(lxStepper.labels) ? lxStepper.labels : _defaultValues.labels;
+        lxStepper.layout = angular.isDefined(lxStepper.layout) ? lxStepper.layout : _defaultValues.layout;
+        lxStepper.steps = [];
+
+        ////////////
+
+        function addStep(step)
+        {
+            lxStepper.steps.push(step);
+        }
+
+        function getClasses()
+        {
+            _classes.length = 0;
+
+            _classes.push('lx-stepper--layout-' + lxStepper.layout);
+
+            if (lxStepper.isLinear)
+            {
+                _classes.push('lx-stepper--is-linear');
+            }
+
+            var step = lxStepper.steps[lxStepper.activeIndex];
+            if (angular.isDefined(step))
+            {
+                if (step.feedback)
+                {
+                    _classes.push('lx-stepper--step-has-feedback');
+                }
+
+                if (step.isLoading)
+                {
+                    _classes.push('lx-stepper--step-is-loading');
+                }
+            }
+
+            return _classes;
+        }
+
+        function goToStep(index, bypass)
+        {
+            // Check if the the wanted step previous steps are optionals. If so, check if the step before the last optional step is valid to allow going to the wanted step from the nav (only if linear stepper).
+            var stepBeforeLastOptionalStep;
+            if (!bypass && lxStepper.isLinear)
+            {
+                for (var i = index - 1; i >= 0; i--)
+                {
+                    if (angular.isDefined(lxStepper.steps[i]) && !lxStepper.steps[i].isOptional)
+                    {
+                        stepBeforeLastOptionalStep = lxStepper.steps[i];
+                        break;
+                    }
+                }
+
+                if (angular.isDefined(stepBeforeLastOptionalStep) && stepBeforeLastOptionalStep.isValid === true)
+                {
+                    bypass = true;
+                }
+            }
+
+            // Check if the wanted step previous step is not valid to disallow going to the wanted step from the nav (only if linear stepper).
+            if (!bypass && lxStepper.isLinear && angular.isDefined(lxStepper.steps[index - 1]) && (angular.isUndefined(lxStepper.steps[index - 1].isValid) || lxStepper.steps[index - 1].isValid === false))
+            {
+                return;
+            }
+
+            if (index < lxStepper.steps.length)
+            {
+                lxStepper.activeIndex = parseInt(index);
+                $scope.$emit('lx-stepper__step', lxStepper.id, index, index === 0, index === (lxStepper.steps.length - 1));
+            }
+        }
+
+        function isComplete()
+        {
+            var countMandatory = 0;
+            var countValid = 0;
+
+            for (var i = 0, len = lxStepper.steps.length; i < len; i++)
+            {
+                if (!lxStepper.steps[i].isOptional)
+                {
+                    countMandatory++;
+
+                    if (lxStepper.steps[i].isValid === true) {
+                        countValid++;
+                    }
+                }
+            }
+
+            if (countValid === countMandatory)
+            {
+                lxStepper.complete();
+                return true;
+            }
+        }
+
+        function updateStep(step)
+        {
+            for (var i = 0, len = lxStepper.steps.length; i < len; i++)
+            {
+                if (lxStepper.steps[i].uuid === step.uuid)
+                {
+                    lxStepper.steps[i].index = step.index;
+                    lxStepper.steps[i].label = step.label;
+                    return;
+                }
+            }
+        }
+
+        $scope.$on('lx-stepper__go-to-step', function(event, id, stepIndex, bypass)
+        {
+            if (angular.isDefined(id) && id !== lxStepper.id)
+            {
+                return;
+            }
+
+            goToStep(stepIndex, bypass);
+        });
+        $scope.$on('lx-stepper__cancel', function(event, id)
+        {
+            if ((angular.isDefined(id) && id !== lxStepper.id) || !angular.isFunction(lxStepper.cancel))
+            {
+                return;
+            }
+
+            lxStepper.cancel();
+        });
+    }
+
+    /* Step */
+    function lxStep()
+    {
+        return {
+            restrict: 'E',
+            require: ['lxStep', '^lxStepper'],
+            templateUrl: 'step.html',
+            scope: {
+                feedback: '@?lxFeedback',
+                isEditable: '=?lxIsEditable',
+                isOptional: '=?lxIsOptional',
+                isValid: '=?lxIsValid',
+                label: '@lxLabel',
+                submit: '&?lxSubmit',
+                validate: '&?lxValidate'
+            },
+            link: link,
+            controller: LxStepController,
+            controllerAs: 'lxStep',
+            bindToController: true,
+            replace: true,
+            transclude: true
+        };
+
+        function link(scope, element, attrs, ctrls)
+        {
+            ctrls[0].init(ctrls[1], element.index());
+
+            attrs.$observe('lxFeedback', function(feedback)
+            {
+                ctrls[0].setFeedback(feedback);
+            });
+
+            attrs.$observe('lxLabel', function(label)
+            {
+                ctrls[0].setLabel(label);
+            });
+
+            attrs.$observe('lxIsEditable', function(isEditable)
+            {
+                ctrls[0].setIsEditable(isEditable);
+            });
+
+            attrs.$observe('lxIsOptional', function(isOptional)
+            {
+                ctrls[0].setIsOptional(isOptional);
+            });
+        }
+    }
+
+    LxStepController.$inject = ['$q', '$scope', 'LxNotificationService', 'LxUtils'];
+
+    function LxStepController($q, $scope, LxNotificationService, LxUtils)
+    {
+        var lxStep = this;
+
+        var _classes = [];
+        var _nextStepIndex;
+
+        lxStep.getClasses = getClasses;
+        lxStep.init = init;
+        lxStep.previousStep = previousStep;
+        lxStep.setFeedback = setFeedback;
+        lxStep.setLabel = setLabel;
+        lxStep.setIsEditable = setIsEditable;
+        lxStep.setIsOptional = setIsOptional;
+        lxStep.submitStep = submitStep;
+
+        lxStep.step = {
+            errorMessage: undefined,
+            feedback: undefined,
+            index: undefined,
+            isEditable: false,
+            isLoading: false,
+            isOptional: false,
+            isValid: lxStep.isValid,
+            label: undefined,
+            uuid: LxUtils.generateUUID()
+        };
+
+        ////////////
+
+        function getClasses()
+        {
+            _classes.length = 0;
+
+            if (lxStep.step.index === lxStep.parent.activeIndex)
+            {
+                _classes.push('lx-step--is-active');
+            }
+
+            return _classes;
+        }
+
+        function init(parent, index)
+        {
+            lxStep.parent = parent;
+            lxStep.step.index = index;
+
+            lxStep.parent.addStep(lxStep.step);
+        }
+
+        function previousStep()
+        {
+            if (lxStep.step.index > 0)
+            {
+                lxStep.parent.goToStep(lxStep.step.index - 1);
+            }
+        }
+
+        function setFeedback(feedback)
+        {
+            lxStep.step.feedback = feedback;
+            updateParentStep();
+        }
+
+        function setLabel(label)
+        {
+            lxStep.step.label = label;
+            updateParentStep();
+        }
+
+        function setIsEditable(isEditable)
+        {
+            lxStep.step.isEditable = isEditable;
+            updateParentStep();
+        }
+
+        function setIsOptional(isOptional)
+        {
+            lxStep.step.isOptional = isOptional;
+            updateParentStep();
+        }
+
+        function submitStep()
+        {
+            if (lxStep.step.isValid === true && !lxStep.step.isEditable)
+            {
+                lxStep.parent.goToStep(_nextStepIndex, true);
+                return;
+            }
+
+            var validateFunction = lxStep.validate;
+            var validity = true;
+
+            if (angular.isFunction(validateFunction))
+            {
+                validity = validateFunction();
+            }
+
+            if (validity === true)
+            {
+                $scope.$emit('lx-stepper__step-loading', lxStep.parent.id, lxStep.step.index);
+
+                lxStep.step.isLoading = true;
+                updateParentStep();
+
+                var submitFunction = lxStep.submit;
+
+                if (!angular.isFunction(submitFunction))
+                {
+                    submitFunction = function()
+                    {
+                        return $q(function(resolve)
+                        {
+                            resolve();
+                        });
+                    };
+                }
+
+                var promise = submitFunction();
+
+                promise.then(function(nextStepIndex)
+                {
+                    lxStep.step.isValid = true;
+                    updateParentStep();
+
+                    var isComplete = lxStep.parent.isComplete();
+
+                    if (!isComplete)
+                    {
+                        _nextStepIndex = angular.isDefined(nextStepIndex) && nextStepIndex > lxStep.parent.activeIndex && (!lxStep.parent.isLinear || (lxStep.parent.isLinear && lxStep.parent.steps[nextStepIndex - 1].isOptional)) ? nextStepIndex : lxStep.step.index + 1;
+
+                        lxStep.parent.goToStep(_nextStepIndex, true);
+                    }
+                    else
+                    {
+                        $scope.$emit('lx-stepper__completed', lxStepper.id);
+                    }
+                }).catch(function(error)
+                {
+                    LxNotificationService.error(error);
+                }).finally(function()
+                {
+                    $scope.$emit('lx-stepper__step-loaded', lxStep.parent.id, lxStep.step.index);
+                    lxStep.step.isLoading = false;
+                    updateParentStep();
+                });
+            }
+            else
+            {
+                lxStep.step.isValid = false;
+                lxStep.step.errorMessage = validity;
+                updateParentStep();
+            }
+        }
+
+        function updateParentStep()
+        {
+            lxStep.parent.updateStep(lxStep.step);
+        }
+
+        $scope.$on('lx-stepper__submit-step', function(event, id, index)
+        {
+            if ((angular.isDefined(id) && id !== lxStep.parent.id) || index !== lxStep.step.index)
+            {
+                return;
+            }
+
+            submitStep();
+        });
+        $scope.$on('lx-stepper__previous-step', function(event, id, index)
+        {
+            if ((angular.isDefined(id) && id !== lxStep.parent.id) || index !== lxStep.step.index)
+            {
+                return;
+            }
+
+            previousStep();
+        });
+    }
+
+    /* Step nav */
+    function lxStepNav()
+    {
+        return {
+            restrict: 'E',
+            require: ['lxStepNav', '^lxStepper'],
+            templateUrl: 'step-nav.html',
+            scope: {
+                activeIndex: '@lxActiveIndex',
+                step: '=lxStep'
+            },
+            link: link,
+            controller: LxStepNavController,
+            controllerAs: 'lxStepNav',
+            bindToController: true,
+            replace: true,
+            transclude: false
+        };
+
+        function link(scope, element, attrs, ctrls)
+        {
+            ctrls[0].init(ctrls[1]);
+        }
+    }
+
+    function LxStepNavController()
+    {
+        var lxStepNav = this;
+
+        var _classes = [];
+
+        lxStepNav.getClasses = getClasses;
+        lxStepNav.init = init;
+
+        ////////////
+
+        function getClasses()
+        {
+            _classes.length = 0;
+
+            if (parseInt(lxStepNav.step.index) === parseInt(lxStepNav.activeIndex))
+            {
+                _classes.push('lx-step-nav--is-active');
+            }
+
+            if (lxStepNav.step.isValid === true)
+            {
+                _classes.push('lx-step-nav--is-valid');
+            }
+            else if (lxStepNav.step.isValid === false)
+            {
+                _classes.push('lx-step-nav--has-error');
+            }
+
+            if (lxStepNav.step.isEditable)
+            {
+                _classes.push('lx-step-nav--is-editable');
+            }
+
+            if (lxStepNav.step.isOptional)
+            {
+                _classes.push('lx-step-nav--is-optional');
+            }
+
+            return _classes;
+        }
+
+        function init(parent, index)
+        {
+            lxStepNav.parent = parent;
+        }
+    }
+})();
+
 (function()
 {
     'use strict';
@@ -4716,501 +5211,6 @@
                     }
                 });
             }
-        }
-    }
-})();
-
-(function()
-{
-    'use strict';
-
-    angular
-        .module('lumx.stepper')
-        .directive('lxStepper', lxStepper)
-        .directive('lxStep', lxStep)
-        .directive('lxStepNav', lxStepNav);
-
-    /* Stepper */
-    function lxStepper()
-    {
-        return {
-            restrict: 'E',
-            templateUrl: 'stepper.html',
-            scope: {
-                cancel: '&?lxCancel',
-                complete: '&lxComplete',
-                controls: '=?lxShowControls',
-                id: '@?lxId',
-                isLinear: '=?lxIsLinear',
-                labels: '=?lxLabels',
-                layout: '@?lxLayout'
-            },
-            controller: LxStepperController,
-            controllerAs: 'lxStepper',
-            bindToController: true,
-            transclude: true
-        };
-    }
-
-    LxStepperController.$inject = ['$scope'];
-
-    function LxStepperController($scope)
-    {
-        var lxStepper = this;
-
-        var _classes = [];
-        var _defaultValues = {
-            isLinear: true,
-            labels: {
-                'back': 'Back',
-                'cancel': 'Cancel',
-                'continue': 'Continue',
-                'optional': 'Optional'
-            },
-            layout: 'horizontal'
-        };
-
-        lxStepper.addStep = addStep;
-        lxStepper.getClasses = getClasses;
-        lxStepper.goToStep = goToStep;
-        lxStepper.isComplete = isComplete;
-        lxStepper.updateStep = updateStep;
-
-        lxStepper.controls = angular.isDefined(lxStepper.controls) ? lxStepper.controls : true;
-        lxStepper.activeIndex = 0;
-        lxStepper.isLinear = angular.isDefined(lxStepper.isLinear) ? lxStepper.isLinear : _defaultValues.isLinear;
-        lxStepper.labels = angular.isDefined(lxStepper.labels) ? lxStepper.labels : _defaultValues.labels;
-        lxStepper.layout = angular.isDefined(lxStepper.layout) ? lxStepper.layout : _defaultValues.layout;
-        lxStepper.steps = [];
-
-        ////////////
-
-        function addStep(step)
-        {
-            lxStepper.steps.push(step);
-        }
-
-        function getClasses()
-        {
-            _classes.length = 0;
-
-            _classes.push('lx-stepper--layout-' + lxStepper.layout);
-
-            if (lxStepper.isLinear)
-            {
-                _classes.push('lx-stepper--is-linear');
-            }
-
-            var step = lxStepper.steps[lxStepper.activeIndex];
-            if (angular.isDefined(step))
-            {
-                if (step.feedback)
-                {
-                    _classes.push('lx-stepper--step-has-feedback');
-                }
-
-                if (step.isLoading)
-                {
-                    _classes.push('lx-stepper--step-is-loading');
-                }
-            }
-
-            return _classes;
-        }
-
-        function goToStep(index, bypass)
-        {
-            // Check if the the wanted step previous steps are optionals. If so, check if the step before the last optional step is valid to allow going to the wanted step from the nav (only if linear stepper).
-            var stepBeforeLastOptionalStep;
-            if (!bypass && lxStepper.isLinear)
-            {
-                for (var i = index - 1; i >= 0; i--)
-                {
-                    if (angular.isDefined(lxStepper.steps[i]) && !lxStepper.steps[i].isOptional)
-                    {
-                        stepBeforeLastOptionalStep = lxStepper.steps[i];
-                        break;
-                    }
-                }
-
-                if (angular.isDefined(stepBeforeLastOptionalStep) && stepBeforeLastOptionalStep.isValid === true)
-                {
-                    bypass = true;
-                }
-            }
-
-            // Check if the wanted step previous step is not valid to disallow going to the wanted step from the nav (only if linear stepper).
-            if (!bypass && lxStepper.isLinear && angular.isDefined(lxStepper.steps[index - 1]) && (angular.isUndefined(lxStepper.steps[index - 1].isValid) || lxStepper.steps[index - 1].isValid === false))
-            {
-                return;
-            }
-
-            if (index < lxStepper.steps.length)
-            {
-                lxStepper.activeIndex = parseInt(index);
-                $scope.$emit('lx-stepper__step', lxStepper.id, index, index === 0, index === (lxStepper.steps.length - 1));
-            }
-        }
-
-        function isComplete()
-        {
-            var countMandatory = 0;
-            var countValid = 0;
-
-            for (var i = 0, len = lxStepper.steps.length; i < len; i++)
-            {
-                if (!lxStepper.steps[i].isOptional)
-                {
-                    countMandatory++;
-
-                    if (lxStepper.steps[i].isValid === true) {
-                        countValid++;
-                    }
-                }
-            }
-
-            if (countValid === countMandatory)
-            {
-                lxStepper.complete();
-                return true;
-            }
-        }
-
-        function updateStep(step)
-        {
-            for (var i = 0, len = lxStepper.steps.length; i < len; i++)
-            {
-                if (lxStepper.steps[i].uuid === step.uuid)
-                {
-                    lxStepper.steps[i].index = step.index;
-                    lxStepper.steps[i].label = step.label;
-                    return;
-                }
-            }
-        }
-
-        $scope.$on('lx-stepper__go-to-step', function(event, id, stepIndex, bypass)
-        {
-            if (angular.isDefined(id) && id !== lxStepper.id)
-            {
-                return;
-            }
-
-            goToStep(stepIndex, bypass);
-        });
-        $scope.$on('lx-stepper__cancel', function(event, id)
-        {
-            if ((angular.isDefined(id) && id !== lxStepper.id) || !angular.isFunction(lxStepper.cancel))
-            {
-                return;
-            }
-
-            lxStepper.cancel();
-        });
-    }
-
-    /* Step */
-    function lxStep()
-    {
-        return {
-            restrict: 'E',
-            require: ['lxStep', '^lxStepper'],
-            templateUrl: 'step.html',
-            scope: {
-                feedback: '@?lxFeedback',
-                isEditable: '=?lxIsEditable',
-                isOptional: '=?lxIsOptional',
-                isValid: '=?lxIsValid',
-                label: '@lxLabel',
-                submit: '&?lxSubmit',
-                validate: '&?lxValidate'
-            },
-            link: link,
-            controller: LxStepController,
-            controllerAs: 'lxStep',
-            bindToController: true,
-            replace: true,
-            transclude: true
-        };
-
-        function link(scope, element, attrs, ctrls)
-        {
-            ctrls[0].init(ctrls[1], element.index());
-
-            attrs.$observe('lxFeedback', function(feedback)
-            {
-                ctrls[0].setFeedback(feedback);
-            });
-
-            attrs.$observe('lxLabel', function(label)
-            {
-                ctrls[0].setLabel(label);
-            });
-
-            attrs.$observe('lxIsEditable', function(isEditable)
-            {
-                ctrls[0].setIsEditable(isEditable);
-            });
-
-            attrs.$observe('lxIsOptional', function(isOptional)
-            {
-                ctrls[0].setIsOptional(isOptional);
-            });
-        }
-    }
-
-    LxStepController.$inject = ['$q', '$scope', 'LxNotificationService', 'LxUtils'];
-
-    function LxStepController($q, $scope, LxNotificationService, LxUtils)
-    {
-        var lxStep = this;
-
-        var _classes = [];
-        var _nextStepIndex;
-
-        lxStep.getClasses = getClasses;
-        lxStep.init = init;
-        lxStep.previousStep = previousStep;
-        lxStep.setFeedback = setFeedback;
-        lxStep.setLabel = setLabel;
-        lxStep.setIsEditable = setIsEditable;
-        lxStep.setIsOptional = setIsOptional;
-        lxStep.submitStep = submitStep;
-
-        lxStep.step = {
-            errorMessage: undefined,
-            feedback: undefined,
-            index: undefined,
-            isEditable: false,
-            isLoading: false,
-            isOptional: false,
-            isValid: lxStep.isValid,
-            label: undefined,
-            uuid: LxUtils.generateUUID()
-        };
-
-        ////////////
-
-        function getClasses()
-        {
-            _classes.length = 0;
-
-            if (lxStep.step.index === lxStep.parent.activeIndex)
-            {
-                _classes.push('lx-step--is-active');
-            }
-
-            return _classes;
-        }
-
-        function init(parent, index)
-        {
-            lxStep.parent = parent;
-            lxStep.step.index = index;
-
-            lxStep.parent.addStep(lxStep.step);
-        }
-
-        function previousStep()
-        {
-            if (lxStep.step.index > 0)
-            {
-                lxStep.parent.goToStep(lxStep.step.index - 1);
-            }
-        }
-
-        function setFeedback(feedback)
-        {
-            lxStep.step.feedback = feedback;
-            updateParentStep();
-        }
-
-        function setLabel(label)
-        {
-            lxStep.step.label = label;
-            updateParentStep();
-        }
-
-        function setIsEditable(isEditable)
-        {
-            lxStep.step.isEditable = isEditable;
-            updateParentStep();
-        }
-
-        function setIsOptional(isOptional)
-        {
-            lxStep.step.isOptional = isOptional;
-            updateParentStep();
-        }
-
-        function submitStep()
-        {
-            if (lxStep.step.isValid === true && !lxStep.step.isEditable)
-            {
-                lxStep.parent.goToStep(_nextStepIndex, true);
-                return;
-            }
-
-            var validateFunction = lxStep.validate;
-            var validity = true;
-
-            if (angular.isFunction(validateFunction))
-            {
-                validity = validateFunction();
-            }
-
-            if (validity === true)
-            {
-                $scope.$emit('lx-stepper__step-loading', lxStep.parent.id, lxStep.step.index);
-
-                lxStep.step.isLoading = true;
-                updateParentStep();
-
-                var submitFunction = lxStep.submit;
-
-                if (!angular.isFunction(submitFunction))
-                {
-                    submitFunction = function()
-                    {
-                        return $q(function(resolve)
-                        {
-                            resolve();
-                        });
-                    };
-                }
-
-                var promise = submitFunction();
-
-                promise.then(function(nextStepIndex)
-                {
-                    lxStep.step.isValid = true;
-                    updateParentStep();
-
-                    var isComplete = lxStep.parent.isComplete();
-
-                    if (!isComplete)
-                    {
-                        _nextStepIndex = angular.isDefined(nextStepIndex) && nextStepIndex > lxStep.parent.activeIndex && (!lxStep.parent.isLinear || (lxStep.parent.isLinear && lxStep.parent.steps[nextStepIndex - 1].isOptional)) ? nextStepIndex : lxStep.step.index + 1;
-
-                        lxStep.parent.goToStep(_nextStepIndex, true);
-                    }
-                    else
-                    {
-                        $scope.$emit('lx-stepper__completed', lxStepper.id);
-                    }
-                }).catch(function(error)
-                {
-                    LxNotificationService.error(error);
-                }).finally(function()
-                {
-                    $scope.$emit('lx-stepper__step-loaded', lxStep.parent.id, lxStep.step.index);
-                    lxStep.step.isLoading = false;
-                    updateParentStep();
-                });
-            }
-            else
-            {
-                lxStep.step.isValid = false;
-                lxStep.step.errorMessage = validity;
-                updateParentStep();
-            }
-        }
-
-        function updateParentStep()
-        {
-            lxStep.parent.updateStep(lxStep.step);
-        }
-
-        $scope.$on('lx-stepper__submit-step', function(event, id, index)
-        {
-            if ((angular.isDefined(id) && id !== lxStep.parent.id) || index !== lxStep.step.index)
-            {
-                return;
-            }
-
-            submitStep();
-        });
-        $scope.$on('lx-stepper__previous-step', function(event, id, index)
-        {
-            if ((angular.isDefined(id) && id !== lxStep.parent.id) || index !== lxStep.step.index)
-            {
-                return;
-            }
-
-            previousStep();
-        });
-    }
-
-    /* Step nav */
-    function lxStepNav()
-    {
-        return {
-            restrict: 'E',
-            require: ['lxStepNav', '^lxStepper'],
-            templateUrl: 'step-nav.html',
-            scope: {
-                activeIndex: '@lxActiveIndex',
-                step: '=lxStep'
-            },
-            link: link,
-            controller: LxStepNavController,
-            controllerAs: 'lxStepNav',
-            bindToController: true,
-            replace: true,
-            transclude: false
-        };
-
-        function link(scope, element, attrs, ctrls)
-        {
-            ctrls[0].init(ctrls[1]);
-        }
-    }
-
-    function LxStepNavController()
-    {
-        var lxStepNav = this;
-
-        var _classes = [];
-
-        lxStepNav.getClasses = getClasses;
-        lxStepNav.init = init;
-
-        ////////////
-
-        function getClasses()
-        {
-            _classes.length = 0;
-
-            if (parseInt(lxStepNav.step.index) === parseInt(lxStepNav.activeIndex))
-            {
-                _classes.push('lx-step-nav--is-active');
-            }
-
-            if (lxStepNav.step.isValid === true)
-            {
-                _classes.push('lx-step-nav--is-valid');
-            }
-            else if (lxStepNav.step.isValid === false)
-            {
-                _classes.push('lx-step-nav--has-error');
-            }
-
-            if (lxStepNav.step.isEditable)
-            {
-                _classes.push('lx-step-nav--is-editable');
-            }
-
-            if (lxStepNav.step.isOptional)
-            {
-                _classes.push('lx-step-nav--is-optional');
-            }
-
-            return _classes;
-        }
-
-        function init(parent, index)
-        {
-            lxStepNav.parent = parent;
         }
     }
 })();
