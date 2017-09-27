@@ -29,6 +29,7 @@
     {
         var lxProgress = this;
 
+        lxProgress.getContainerProgressDimension = getContainerProgressDimension;
         lxProgress.getCircularProgressValue = getCircularProgressValue;
         lxProgress.getLinearProgressValue = getLinearProgressValue;
         lxProgress.getProgressDiameter = getProgressDiameter;
@@ -45,6 +46,19 @@
                     'stroke-dasharray': lxProgress.lxValue * 1.26 + ',200'
                 };
             }
+        }
+
+        function getContainerProgressDimension()
+        {
+            if (lxProgress.lxType === 'circular')
+            {
+                return {
+                    'height': lxProgress.lxDiameter + 'px',
+                    'width': lxProgress.lxDiameter + 'px',
+                };
+            }
+
+            return;
         }
 
         function getLinearProgressValue()
