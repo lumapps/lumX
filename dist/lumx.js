@@ -1,5 +1,5 @@
 /*
- LumX v1.6.0
+ LumX v1.6.1
  (c) 2014-2017 LumApps http://ui.lumapps.com
  License: MIT
 */
@@ -327,7 +327,10 @@
             var prevDocumentStyle = documentElement.style.cssText || '';
             var prevBodyStyle = body.style.cssText || '';
 
-            var viewportTop = window.scrollY || window.pageYOffset || 0;
+            var viewportTop = (document.scrollingElement) ?
+                document.scrollingElement.scrollTop : window.scrollY || window.pageYOffset || body.scrollTop;
+            viewportTop = viewportTop || 0;
+
             var clientWidth = body.clientWidth;
             var hasVerticalScrollbar = body.scrollHeight > window.innerHeight + 1;
 
@@ -360,7 +363,11 @@
               documentElement.style.cssText = prevDocumentStyle;
 
               // The body loses its scroll position while being fixed.
-              body.scrollTop = viewportTop;
+              if (document.scrollingElement) {
+                document.scrollingElement.scrollTop = viewportTop;
+              } else {
+                body.scrollTop = viewportTop;
+              }
             };
         }
     }
@@ -6079,9 +6086,13 @@
 
         function setTooltipPosition()
         {
+            var topOffset = ($('.scroll-mask')) ? $('body').css('top') : 0;
+            topOffset = (topOffset) ? parseInt(topOffset, 10) : 0;
+
+
             var width = $element.outerWidth(),
                 height = $element.outerHeight(),
-                top = $element.offset().top,
+                top = $element.offset().top - topOffset,
                 left = $element.offset().left;
 
             tooltip

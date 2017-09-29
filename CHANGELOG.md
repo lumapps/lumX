@@ -1,5 +1,12 @@
 # Changelog
 
+## v1.6.1:
+
+#### Bug fixes:
+ - tooltip: make tooltip display at the right position in dropdowns
+ - dropdown: avoid the page going back to top when closing dropdown
+
+
 ## v1.6.0:
 
 #### New features:
