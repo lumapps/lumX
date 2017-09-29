@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.6.2:
+
+#### Bug fixes:
+ - tooltip: fix the position of tooltip when there is no offset
+
+
 ## v1.6.1:
 
 #### Bug fixes:

@@ -1,5 +1,5 @@
 /*
- LumX v1.6.1
+ LumX v1.6.2
  (c) 2014-2017 LumApps http://ui.lumapps.com
  License: MIT
 */
@@ -6088,7 +6088,7 @@
         {
             var topOffset = ($('.scroll-mask')) ? $('body').css('top') : 0;
             topOffset = (topOffset) ? parseInt(topOffset, 10) : 0;
-
+            topOffset = (isNaN(topOffset)) ? 0 : topOffset;
 
             var width = $element.outerWidth(),
                 height = $element.outerHeight(),
