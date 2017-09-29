@@ -99,9 +99,13 @@
 
         function setTooltipPosition()
         {
+            var topOffset = ($('.scroll-mask')) ? $('body').css('top') : 0;
+            topOffset = (topOffset) ? parseInt(topOffset, 10) : 0;
+
+
             var width = $element.outerWidth(),
                 height = $element.outerHeight(),
-                top = $element.offset().top,
+                top = $element.offset().top - topOffset,
                 left = $element.offset().left;
 
             tooltip

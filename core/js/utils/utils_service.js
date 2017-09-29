@@ -96,7 +96,10 @@
             var prevDocumentStyle = documentElement.style.cssText || '';
             var prevBodyStyle = body.style.cssText || '';
 
-            var viewportTop = window.scrollY || window.pageYOffset || 0;
+            var viewportTop = (document.scrollingElement) ?
+                document.scrollingElement.scrollTop : window.scrollY || window.pageYOffset || body.scrollTop;
+            viewportTop = viewportTop || 0;
+
             var clientWidth = body.clientWidth;
             var hasVerticalScrollbar = body.scrollHeight > window.innerHeight + 1;
 
@@ -129,7 +132,11 @@
               documentElement.style.cssText = prevDocumentStyle;
 
               // The body loses its scroll position while being fixed.
-              body.scrollTop = viewportTop;
+              if (document.scrollingElement) {
+                document.scrollingElement.scrollTop = viewportTop;
+              } else {
+                body.scrollTop = viewportTop;
+              }
             };
         }
     }
