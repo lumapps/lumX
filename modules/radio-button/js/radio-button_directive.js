@@ -39,6 +39,9 @@
             controllerAs: 'lxRadioButton',
             bindToController: true,
             transclude: true,
+            link: function (scope, el, attrs, ctrl) {
+                ctrl.init();
+            },
             replace: true
         };
     }
@@ -57,13 +60,12 @@
         lxRadioButton.setRadioButtonId = setRadioButtonId;
         lxRadioButton.setRadioButtonHasChildren = setRadioButtonHasChildren;
         lxRadioButton.triggerNgChange = triggerNgChange;
+        lxRadioButton.init = init;
 
         $scope.$on('$destroy', function()
         {
             $timeout.cancel(timer);
         });
-
-        init();
 
         ////////////
 
