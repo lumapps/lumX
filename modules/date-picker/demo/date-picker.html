@@ -2,11 +2,11 @@
     <h1 class="main-section__title">Date picker</h1>
 
     <p class="main-section__intro">
-        <code>lx-date-picker</code> is a directive that create a date picker. This date picker is managed by the <code>LxDatePickerService</code>.
+        <code>lx-date-picker</code> is a directive that creates a date picker. This date picker is managed by the <code>LxDatePickerService</code>.
     </p>
 
     <p class="main-section__warning">
-        This component has been completly reworked since LumX beta version (v0.3.96).<br />Please refer to the updated documentation.
+        This component has been completely reworked since LumX beta version (v0.3.96).<br />Please refer to the updated documentation.
     </p>
 
     <lx-component lx-title="Basic usage" lx-path="/includes/modules/date-picker/includes/basic.html" lx-js-path="/js/date-picker/demo/demo-date-picker_controller.js">
@@ -33,31 +33,31 @@
                     <td>lx-auto-close</td>
                     <td><code>boolean</code></td>
                     <td><code>true</code></td>
-                    <td>Specify if the date picker should be closed when clicking outside.</td>
+                    <td>Specify if the date picker should be closed when clicking outside of it.</td>
                 </tr>
                 <tr>
                     <td>lx-callback</td>
                     <td><code>function</code></td>
                     <td></td>
-                    <td>The function called once a day is selected with the date object as parameter.</td>
+                    <td>The function called when a day is selected. The date object will be given as parameter.</td>
                 </tr>
                 <tr>
                     <td>lx-color</td>
                     <td><code>string</code></td>
                     <td><code>primary</code></td>
-                    <td>Define the date picker color. Options: colors defined in colors and sizes section in <code>dist/scss/core/settings/defaults.scss</code></td>
+                    <td>Define the date picker color. Options: colors defined in colors section in <code>dist/scss/core/settings/defaults.scss</code></td>
                 </tr>
                 <tr>
                     <td>lx-escape-close</td>
                     <td><code>boolean</code></td>
                     <td><code>true</code></td>
-                    <td>Specify if the date picker should be closed with escape key.</td>
+                    <td>Specify if the date picker can be closed when hitting the escape key.</td>
                 </tr>
                 <tr>
                     <td>lx-input-format</td>
                     <td><code>string</code></td>
                     <td></td>
-                    <td>Specify the text field date format (moment) when a text field component is transcluded.</td>
+                    <td>Specify the text field date format (see MomentJS format). Used only when a text field component is transcluded.</td>
                 </tr>
                 <tr>
                     <td>lx-max-date</td>
@@ -75,7 +75,7 @@
                     <td>lx-locale*</td>
                     <td><code>string</code></td>
                     <td></td>
-                    <td>Generate the calendar according to the given locale.</td>
+                    <td>Generate the calendar according to the given locale (see MomentJS locales).</td>
                 </tr>
                 <tr>
                     <td>ng-model*</td>
@@ -102,7 +102,7 @@
                     <tr>
                         <td>datePickerId*</td>
                         <td><code>string</code></td>
-                        <td>The date picker id specified in the directive id attribute.</td>
+                        <td>The date picker id given as the directive's id attribute.</td>
                     </tr>
                 </tbody>
             </table>
@@ -122,7 +122,7 @@
                     <tr>
                         <td>datePickerId*</td>
                         <td><code>string</code></td>
-                        <td>The date picker id specified in the directive id attribute.</td>
+                        <td>The date picker id given as the directive's id attribute.</td>
                     </tr>
                 </tbody>
             </table>
@@ -144,12 +144,12 @@
                     <tr>
                         <td>event</td>
                         <td><code>object</code></td>
-                        <td>The broadcast original event.</td>
+                        <td>The original broadcasted event.</td>
                     </tr>
                     <tr>
                         <td>datePickerId</td>
                         <td><code>string</code></td>
-                        <td>The date picker id specified in the directive id attribute.</td>
+                        <td>The date picker id given as the directive's id attribute.</td>
                     </tr>
                 </tbody>
             </table>
@@ -169,12 +169,12 @@
                     <tr>
                         <td>event</td>
                         <td><code>object</code></td>
-                        <td>The broadcast original event.</td>
+                        <td>The original broadcasted event.</td>
                     </tr>
                     <tr>
                         <td>datePickerId</td>
                         <td><code>string</code></td>
-                        <td>The date picker id specified in the directive id attribute.</td>
+                        <td>The date picker id given as the directive's id attribute.</td>
                     </tr>
                 </tbody>
             </table>
@@ -194,12 +194,12 @@
                     <tr>
                         <td>event</td>
                         <td><code>object</code></td>
-                        <td>The broadcast original event.</td>
+                        <td>The original broadcasted event.</td>
                     </tr>
                     <tr>
                         <td>datePickerId</td>
                         <td><code>string</code></td>
-                        <td>The date picker id specified in the directive id attribute.</td>
+                        <td>The date picker id given as the directive's id attribute.</td>
                     </tr>
                 </tbody>
             </table>
@@ -219,12 +219,12 @@
                     <tr>
                         <td>event</td>
                         <td><code>object</code></td>
-                        <td>The broadcast original event.</td>
+                        <td>The original broadcasted event.</td>
                     </tr>
                     <tr>
                         <td>datePickerId</td>
                         <td><code>string</code></td>
-                        <td>The date picker id specified in the directive id attribute.</td>
+                        <td>The date picker id given as the directive's id attribute.</td>
                     </tr>
                 </tbody>
             </table>
