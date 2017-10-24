@@ -2,7 +2,7 @@
     <h1 class="main-section__title">Data table</h1>
 
     <p class="main-section__intro">
-        <code>lx-data-table</code> is a directive that create a data table.
+        <code>lx-data-table</code> is a directive that creates a data table.
     </p>
 
     <lx-component lx-title="Basic usage" lx-path="/includes/modules/data-table/includes/basic.html" lx-js-path="/js/data-table/demo/demo-data-table_controller.js"></lx-component>
@@ -24,31 +24,31 @@
                     <td>lx-border</td>
                     <td><code>boolean</code></td>
                     <td><code>true</code></td>
-                    <td>Specify if the data datable rows have border.</td>
+                    <td>Specify if the data table rows have border.</td>
                 </tr>
                 <tr>
                     <td>lx-selectable</td>
                     <td><code>boolean</code></td>
                     <td><code>false</code></td>
-                    <td>Specify if the data datable is selectable or not.</td>
+                    <td>Specify if a data table row is selectable or not.</td>
                 </tr>
                 <tr>
                     <td>lx-tbody</td>
                     <td><code>object</code></td>
                     <td></td>
-                    <td>Define the data table tbody. Refer to the demo controller.</td>
+                    <td>Define the data table tbody (see the demo controller for more help).</td>
                 </tr>
                 <tr>
                     <td>lx-thead</td>
                     <td><code>object</code></td>
                     <td></td>
-                    <td>Define the data table thead. Refer to the demo controller.</td>
+                    <td>Define the data table thead (see the demo controller for more help).</td>
                 </tr>
                 <tr>
                     <td>lx-thumbnail</td>
                     <td><code>boolean</code></td>
                     <td><code>false</code></td>
-                    <td>Make the first thead array element the row thumbnail. Format option should return a 40px squared image.</td>
+                    <td>Make the first tbody array element the row thumbnail. Format option should return a 40px squared image.</td>
                 </tr>
             </tbody>
         </table>
@@ -69,7 +69,7 @@
                     <tr>
                         <td>dataTableId*</td>
                         <td><code>string</code></td>
-                        <td>The data table id specified in the directive id attribute.</td>
+                        <td>The data table id given as the directive's id attribute.</td>
                     </tr>
                 </tbody>
             </table>
@@ -89,12 +89,12 @@
                     <tr>
                         <td>dataTableId*</td>
                         <td><code>string</code></td>
-                        <td>The data table id specified in the directive id attribute.</td>
+                        <td>The data table id given as the directive's id attribute.</td>
                     </tr>
                     <tr>
                         <td>row*</td>
                         <td><code>object</code></td>
-                        <td>The row object to be selected in the data table.</td>
+                        <td>The row object to select in the data table.</td>
                     </tr>
                 </tbody>
             </table>
@@ -114,7 +114,7 @@
                     <tr>
                         <td>dataTableId*</td>
                         <td><code>string</code></td>
-                        <td>The data table id specified in the directive id attribute.</td>
+                        <td>The data table id given as the directive's id attribute.</td>
                     </tr>
                 </tbody>
             </table>
@@ -134,12 +134,12 @@
                     <tr>
                         <td>dataTableId*</td>
                         <td><code>string</code></td>
-                        <td>The data table id specified in the directive id attribute.</td>
+                        <td>The data table id given as the directive's id attribute.</td>
                     </tr>
                     <tr>
                         <td>row*</td>
                         <td><code>object</code></td>
-                        <td>The row object to be unselected in the data table.</td>
+                        <td>The row object to unselect in the data table.</td>
                     </tr>
                 </tbody>
             </table>
@@ -161,22 +161,22 @@
                     <tr>
                         <td>event</td>
                         <td><code>object</code></td>
-                        <td>The broadcast original event.</td>
+                        <td>The original broadcasted event.</td>
                     </tr>
                     <tr>
                         <td>dataTableId</td>
                         <td><code>string</code></td>
-                        <td>The data table id the selected rows are part of.</td>
+                        <td>The id of the data table the selected rows are part of.</td>
                     </tr>
                     <tr>
                         <td>selectedRows</td>
                         <td><code>array</code></td>
-                        <td>The selected rows from tbody array.</td>
+                        <td>The selected rows (from the tbody array).</td>
                     </tr>
                     <tr>
                         <td>selectedRow</td>
                         <td><code>object</code></td>
-                        <td>The selected row from tbody array.</td>
+                        <td>The selected row (from the tbody array).</td>
                     </tr>
                 </tbody>
             </table>
@@ -196,22 +196,22 @@
                     <tr>
                         <td>event</td>
                         <td><code>object</code></td>
-                        <td>The broadcast original event.</td>
+                        <td>The original broadcasted event.</td>
                     </tr>
                     <tr>
                         <td>dataTableId</td>
                         <td><code>string</code></td>
-                        <td>The data table id the selected rows are part of.</td>
+                        <td>The id of the data table the selected rows are part of.</td>
                     </tr>
                     <tr>
                         <td>selectedRows</td>
                         <td><code>array</code></td>
-                        <td>The selected rows from tbody array.</td>
+                        <td>The selected rows (from the tbody array).</td>
                     </tr>
                     <tr>
                         <td>unselectedRow</td>
                         <td><code>object</code></td>
-                        <td>The unselected row from tbody array.</td>
+                        <td>The unselected row (from the tbody array).</td>
                     </tr>
                 </tbody>
             </table>
@@ -231,17 +231,17 @@
                     <tr>
                         <td>event</td>
                         <td><code>object</code></td>
-                        <td>The broadcast original event.</td>
+                        <td>The original broadcasted event.</td>
                     </tr>
                     <tr>
                         <td>dataTableId</td>
                         <td><code>string</code></td>
-                        <td>The data table id the sorted column is part of.</td>
+                        <td>The id of the data table the selected rows are part of.</td>
                     </tr>
                     <tr>
                         <td>column</td>
                         <td><code>object</code></td>
-                        <td>The sorted column from thead array.</td>
+                        <td>The column (from the thead array) we are sorting on.</td>
                     </tr>
                 </tbody>
             </table>
