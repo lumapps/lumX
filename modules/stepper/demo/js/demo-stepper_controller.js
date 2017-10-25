@@ -20,7 +20,9 @@
         vm.nextStep = nextStep;
         vm.previousStep = previousStep;
         vm.cancelStepper = cancelStepper;
+        vm.toggleStepValidity = toggleStepValidity;
 
+        vm.isValid = true;
         vm.stepperId = 'external-control-id';
         vm.stepperCompleted = false;
         vm.layout = 'horizontal';
@@ -66,9 +68,9 @@
             vm.layout = vm.layout === 'horizontal' ? 'vertical' : 'horizontal';
         }
 
-        function validate(isValid)
+        function validate()
         {
-            if (isValid)
+            if (vm.isValid)
             {
                 return true;
             }
@@ -91,6 +93,11 @@
         function cancelStepper()
         {
             $scope.$broadcast('lx-stepper__cancel', vm.stepperId);
+        }
+
+        function toggleStepValidity() 
+        {
+            vm.isValid = !vm.isValid;
         }
 
         $scope.$on('lx-stepper__step', function onStepperDialogFirstStep(evt, id, index, first, last)

@@ -98,7 +98,8 @@
 
         function goToStep(index, bypass)
         {
-            // Check if the the wanted step previous steps are optionals. If so, check if the step before the last optional step is valid to allow going to the wanted step from the nav (only if linear stepper).
+            // Check if the wanted step previous steps are optionals. 
+            // If so, check if the step before the last optional step is valid to allow going to the wanted step from the nav (only if linear stepper).
             var stepBeforeLastOptionalStep;
             if (!bypass && lxStepper.isLinear)
             {
@@ -111,12 +112,31 @@
                     }
                 }
 
-                if (angular.isDefined(stepBeforeLastOptionalStep) && stepBeforeLastOptionalStep.isValid === true)
+                if(angular.isDefined(stepBeforeLastOptionalStep)) 
                 {
-                    bypass = true;
+                    // Check validity only if step is dirty and editable.
+                    if (!stepBeforeLastOptionalStep.pristine && angular.isFunction(stepBeforeLastOptionalStep.validator) && stepBeforeLastOptionalStep.isEditable) 
+                    {
+                        var validity = stepBeforeLastOptionalStep.validator();
+
+                        if (validity === true) 
+                        {
+                            stepBeforeLastOptionalStep.isValid = true;
+                        } 
+                        else 
+                        {
+                            stepBeforeLastOptionalStep.isValid = false;
+                            stepBeforeLastOptionalStep.errorMessage = validity;
+                        }
+                    }
+
+                    if (stepBeforeLastOptionalStep.isValid === true)
+                    {
+                        bypass = true;
+                    }
                 }
             }
-
+            
             // Check if the wanted step previous step is not valid to disallow going to the wanted step from the nav (only if linear stepper).
             if (!bypass && lxStepper.isLinear && angular.isDefined(lxStepper.steps[index - 1]) && (angular.isUndefined(lxStepper.steps[index - 1].isValid) || lxStepper.steps[index - 1].isValid === false))
             {
@@ -126,6 +146,7 @@
             if (index < lxStepper.steps.length)
             {
                 lxStepper.activeIndex = parseInt(index);
+                lxStepper.steps[lxStepper.activeIndex].pristine = false;
                 $scope.$emit('lx-stepper__step', lxStepper.id, index, index === 0, index === (lxStepper.steps.length - 1));
             }
         }
@@ -254,7 +275,7 @@
         lxStep.setIsEditable = setIsEditable;
         lxStep.setIsOptional = setIsOptional;
         lxStep.submitStep = submitStep;
-
+        
         lxStep.step = {
             errorMessage: undefined,
             feedback: undefined,
@@ -264,7 +285,9 @@
             isOptional: false,
             isValid: lxStep.isValid,
             label: undefined,
-            uuid: LxUtils.generateUUID()
+            pristine: true,
+            uuid: LxUtils.generateUUID(),
+            validator: undefined
         };
 
         ////////////
@@ -285,6 +308,7 @@
         {
             lxStep.parent = parent;
             lxStep.step.index = index;
+            lxStep.step.validator = lxStep.validate;
 
             lxStep.parent.addStep(lxStep.step);
         }
