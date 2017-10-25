@@ -39,7 +39,7 @@ For example, using bash in a Unix system with the default path will need to edit
 1. Run `npm install & bower install`.
 2. Run `gulp watch`.
 3. Run `./dlaunch.sh`
-3. Visit [http://localhost:8080][local] in your browser, and voilà.
+3. Visit [http://localhost:8888][local] in your browser, and voilà.
 
 ## How to get help, contribute, or provide feedback
 
