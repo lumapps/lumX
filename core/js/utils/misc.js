@@ -29,7 +29,7 @@
                     }
 
                     var nodeEl = angular.element(node);
-                    nodeEl.html(highlightCode(nodeEl.text(), query, false))
+                    nodeEl.html(highlightCode(nodeEl.text(), query, false));
                 });
             } else {
                 el.html(highlightCode(el.text(), query, false));
