@@ -30,7 +30,7 @@
                ng-if="lxSelectSelected.parentCtrl.autocomplete && !lxSelectSelected.parentCtrl.ngDisabled">
     </div>
 
-    <lx-search-filter lx-dropdown-filter class="lx-select-selected__filter">
+    <lx-search-filter lx-dropdown-filter class="lx-select-selected__filter" ng-if="lxSelectSelected.parentCtrl.choicesViewMode === 'panes' && !lxSelectSelected.parentCtrl.ngDisabled && lxSelectSelected.parentCtrl.areChoicesOpened() && (lxSelectSelected.parentCtrl.multiple || !lxSelectSelected.parentCtrl.getSelectedModel())">
         <input type="text"
                ng-model="lxSelectSelected.parentCtrl.filterModel"
                ng-change="lxSelectSelected.parentCtrl.updateFilter()"
