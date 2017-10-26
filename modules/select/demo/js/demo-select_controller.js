@@ -15,7 +15,7 @@
         vm.selectCallback = selectCallback;
 
         vm.selectAjax = {
-            selected: 'Inception',
+            selected: 'Darth Vader',
             list: [],
             update: function(newFilter)
             {
@@ -23,12 +23,12 @@
                 {
                     vm.selectAjax.loading = true;
 
-                    $http.get('http://www.omdbapi.com/?s=' + escape(newFilter))
+                    $http.get('https://swapi.co/api/people/?search=' + escape(newFilter))
                         .then(function updateSuccess(response)
                         {
-                            if (response.data)
+                            if (response.data && response.data.results)
                             {
-                                vm.selectAjax.list = response.data.Search;
+                                vm.selectAjax.list = response.data.results;
                             }
                             vm.selectAjax.loading = false;
                         })
@@ -46,7 +46,7 @@
             {
                 if (data)
                 {
-                    callback(data.Title);
+                    callback(data.name);
                 }
                 else
                 {
@@ -57,12 +57,12 @@
             {
                 if (data)
                 {
-                    $http.get('http://www.omdbapi.com/?s=' + escape(data))
+                    $http.get('https://swapi.co/api/people/?search=' + escape(data))
                         .then(function toSelectionSuccess(response)
                         {
-                            if (response.data)
+                            if (response.data && response.data.results)
                             {
-                                callback(response.data.Search[0]);
+                                callback(response.data.results[0]);
                             }
                         })
                         .catch(function toSelectionError()

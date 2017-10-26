@@ -31,7 +31,7 @@
         {
             if (_newValue)
             {
-                $http.get('http://www.omdbapi.com/?s=' + escape(_newValue))
+                $http.get('https://swapi.co/api/people/?search=' + escape(_newValue))
                     .then(function updateSuccess(response)
                     {
                         $timeout(function()
@@ -40,9 +40,9 @@
 
                             vm.autocompleteIcon = undefined;
 
-                            if (response.data && response.data.Search)
+                            if (response.data && response.data.results)
                             {
-                                items = response.data.Search.map(function(object) { return object.Title; });
+                                items = response.data.results.map(function(object) { return object.name; });
                             }
 
                             _cb(items);

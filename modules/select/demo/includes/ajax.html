@@ -6,19 +6,19 @@
                lx-display-filter="true"
                lx-filter="vm.selectAjax.update(newValue)"
                lx-helper="!vm.selectAjax.list.length"
-               lx-helper-message="Type minimum 2 to search"
+               lx-helper-message="Type a minimum of 2 characters to search"
                lx-label="Lorem Ipsum"
                lx-loading="vm.selectAjax.loading"
                lx-model-to-selection="vm.selectAjax.toSelection(data, callback)"
                lx-selection-to-model="vm.selectAjax.toModel(data, callback)">
         <lx-select-selected>
-            {{ $selected.Title }} ({{ $selected.Year }})
+            {{ $selected.name }} (Born in {{ $selected.birth_year }})
         </lx-select-selected>
- 
+
         <lx-select-choices>
-            {{ $choice.Title }} - {{ $choice.Type }}
+            {{ $choice.name }} (Appears in {{ $choice.films.length }} films)
         </lx-select-choices>
     </lx-select>
- 
-    <lx-button ng-click="vm.selectAjax.selected = 'Inception'">Set to Inception</lx-button>
+
+    <lx-button ng-click="vm.selectAjax.selected = 'Darth Vader'">Set to Darth Vader</lx-button>
 </div>
