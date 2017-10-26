@@ -6,12 +6,16 @@
     angular.module('lumx.utils.event-scheduler', []);
     angular.module('lumx.utils.transclude-replace', []);
     angular.module('lumx.utils.utils', []);
+    angular.module('lumx.utils.directives', []);
+    angular.module('lumx.utils.filters', []);
 
     angular.module('lumx.utils', [
         'lumx.utils.depth',
         'lumx.utils.event-scheduler',
         'lumx.utils.transclude-replace',
-        'lumx.utils.utils'
+        'lumx.utils.utils',
+        'lumx.utils.directives',
+        'lumx.utils.filters',
     ]);
 
     angular.module('lumx.button', []);
