@@ -4,6 +4,7 @@
                lx-choices="vm.selectPeopleMultipane"
                lx-choices-view-mode="panes"
                lx-display-filter="true"
+               lx-filter-fields="['name']"
                lx-label="Lorem Ipsum Multipane">
         <lx-select-selected>
             #{{ $selected.uid }} - {{ $selected.name }}
@@ -19,6 +20,7 @@
                lx-choices="vm.selectPeopleMultipane"
                lx-choices-view-mode="panes"
                lx-display-filter="true"
+               lx-filter-fields="['name']"
                lx-label="Lorem Ipsum Multipane multiple"
                lx-multiple="true">
         <lx-select-selected>
