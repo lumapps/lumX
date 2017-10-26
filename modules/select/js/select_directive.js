@@ -62,6 +62,7 @@
                 displayFilter: '=?lxDisplayFilter',
                 error: '=?lxError',
                 filter: '&?lxFilter',
+                filterFields: '=?lxFilterFields',
                 fixedLabel: '=?lxFixedLabel',
                 helper: '=?lxHelper',
                 helperMessage: '@?lxHelperMessage',
@@ -336,15 +337,24 @@
         /**
          * Search for any path in an object containing the given regexp as a key or as a value.
          *
-         * @param  {*}      container   The container in which to search for the regexp.
-         * @param  {RegExp} regexp      The regular expression to search in keys or values of the object (nested)
-         * @param  {string} previousKey The path to the current object.
+         * @param  {*}      container               The container in which to search for the regexp.
+         * @param  {RegExp} regexp                  The regular expression to search in keys or values of the object (nested)
+         * @param  {string} previousKey             The path to the current object.
+         * @param  {Array}  [limitToFields=Array()] The fields in which we want to look for the filter.
+         *                                          If none give, then use all the fields of the object.
          * @return {Array}  The list of paths that have matching key or value.
          */
-        function _searchPath(container, regexp, previousKey) {
+        function _searchPath(container, regexp, previousKey, limitToFields) {
+            limitToFields = limitToFields || [];
+            limitToFields = (angular.isArray(limitToFields)) ? limitToFields : [limitToFields];
+
             var results = [];
 
             angular.forEach(container, function forEachItemsInContainer(items, key) {
+                if (limitToFields.length > 0 && limitToFields.indexOf(key) === -1) {
+                    return;
+                }
+
                 var pathToMatching = (previousKey) ? previousKey + '.' + key : key;
 
                 var previousKeyAdded = false;
@@ -361,7 +371,7 @@
                 }
 
                 if (angular.isArray(items) || angular.isObject(items)) {
-                    var newPaths = _searchPath(items, regexp, pathToMatching);
+                    var newPaths = _searchPath(items, regexp, pathToMatching, (isLeaf) ? lxSelect.filterFields : []);
 
                     if (angular.isDefined(newPaths) && newPaths.length > 0) {
                         if (previousKey) {
