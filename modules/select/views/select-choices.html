@@ -2,14 +2,16 @@
                   ng-class="{ 'lx-select-choices--custom-style': lxSelectChoices.parentCtrl.choicesCustomStyle,
                               'lx-select-choices--default-style': !lxSelectChoices.parentCtrl.choicesCustomStyle,
                               'lx-select-choices--is-multiple': lxSelectChoices.parentCtrl.multiple,
-                              'lx-select-choices--is-unique': !lxSelectChoices.parentCtrl.multiple, }">
-    <ul>
+                              'lx-select-choices--is-unique': !lxSelectChoices.parentCtrl.multiple,
+                              'lx-select-choices--list': lxSelectChoices.parentCtrl.choicesViewMode === 'list',
+                              'lx-select-choices--multi-panes': lxSelectChoices.parentCtrl.choicesViewMode === 'panes' }">
+    <ul ng-if="::lxSelectChoices.parentCtrl.choicesViewMode === 'list'">
         <li class="lx-select-choices__filter" ng-if="::lxSelectChoices.parentCtrl.displayFilter && !lxSelectChoices.parentCtrl.autocomplete">
             <lx-search-filter lx-dropdown-filter>
                 <input type="text" ng-model="lxSelectChoices.parentCtrl.filterModel" ng-change="lxSelectChoices.parentCtrl.updateFilter()">
             </lx-search-filter>
         </li>
-        
+
         <div ng-if="::lxSelectChoices.isArray()">
             <li class="lx-select-choices__choice"
                 ng-class="{ 'lx-select-choices__choice--is-selected': lxSelectChoices.parentCtrl.isSelected(choice),
@@ -41,4 +43,22 @@
             <lx-progress lx-type="circular" lx-color="primary" lx-diameter="20"></lx-progress>
         </li>
     </ul>
+
+    <div ng-if="::lxSelectChoices.parentCtrl.choicesViewMode === 'panes'" stop-propagation="click">
+        <div class="lx-select-choices__panes-container">
+            <div class="lx-select-choices__pane lx-select-choices__pane-{{ $index }}"
+                 ng-class="{ 'lx-select-choices__pane--is-filtering': lxSelectChoices.parentCtrl.matchingPaths !== undefined,
+                             'lx-select-choices__pane--first': $first,
+                             'lx-select-choices__pane--last': $last }"
+                 ng-repeat="pane in lxSelectChoices.parentCtrl.panes">
+                <div ng-repeat="(label, items) in pane"
+                   class="lx-select-choices__pane-choice"
+                   ng-class="{ 'lx-select-choices__pane-choice--is-selected': lxSelectChoices.parentCtrl.isPaneToggled($parent.$index, label) || lxSelectChoices.parentCtrl.isSelected(items),
+                               'lx-select-choices__pane-choice--is-matching': lxSelectChoices.parentCtrl.isMatchingPath($parent.$index, label) }"
+                   ng-bind-html="(lxSelectChoices.isArray(pane)) ? lxSelectChoices.parentCtrl.displayChoice(items) : lxSelectChoices.parentCtrl.displaySubheader(label)"
+                   ng-click="lxSelectChoices.parentCtrl.togglePane($event, $parent.$index, label, true)">
+                </div>
+            </div>
+        </div>
+    </div>
 </lx-dropdown-menu>

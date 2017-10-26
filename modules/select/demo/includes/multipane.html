@@ -1,0 +1,32 @@
+<div class="p+ pt0">
+    <lx-select ng-model="vm.selectModel.selectedPeopleMultipane"
+               lx-allow-clear="true"
+               lx-choices="vm.selectPeopleMultipane"
+               lx-choices-view-mode="panes"
+               lx-display-filter="true"
+               lx-label="Lorem Ipsum Multipane">
+        <lx-select-selected>
+            #{{ $selected.uid }} - {{ $selected.name }}
+        </lx-select-selected>
+
+        <lx-select-choices>
+            {{ $choice.name }}
+        </lx-select-choices>
+    </lx-select>
+
+    <lx-select ng-model="vm.selectModel.selectedPeopleMultipaneMultiple"
+               lx-allow-clear="true"
+               lx-choices="vm.selectPeopleMultipane"
+               lx-choices-view-mode="panes"
+               lx-display-filter="true"
+               lx-label="Lorem Ipsum Multipane multiple"
+               lx-multiple="true">
+        <lx-select-selected>
+            #{{ $selected.uid }} - {{ $selected.name }}
+        </lx-select-selected>
+
+        <lx-select-choices>
+            {{ $choice.name }}
+        </lx-select-choices>
+    </lx-select>
+</div>

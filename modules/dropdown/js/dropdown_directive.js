@@ -79,11 +79,11 @@
         }
     }
 
-    LxDropdownController.$inject = ['$element', '$interval', '$scope', '$timeout', '$window', 'LxDepthService',
-        'LxDropdownService', 'LxEventSchedulerService', 'LxUtils'
+    LxDropdownController.$inject = ['$element', '$interval', '$rootScope', '$scope', '$timeout', '$window',
+        'LxDepthService', 'LxDropdownService', 'LxEventSchedulerService', 'LxUtils'
     ];
 
-    function LxDropdownController($element, $interval, $scope, $timeout, $window, LxDepthService,
+    function LxDropdownController($element, $interval, $rootScope, $scope, $timeout, $window, LxDepthService,
         LxDropdownService, LxEventSchedulerService, LxUtils)
     {
         var lxDropdown = this;
@@ -145,6 +145,8 @@
 
         function closeDropdownMenu()
         {
+            $rootScope.$broadcast('lx-dropdown__close-start', $element.attr('id'));
+
             angular.element(window).off('resize', initDropdownPosition);
 
             $interval.cancel(dropdownInterval);
@@ -155,7 +157,6 @@
             var velocityEasing;
 
             scrollMask.remove();
-
             if (angular.isFunction(enableBodyScroll)) {
                 enableBodyScroll();
             }
@@ -237,6 +238,8 @@
                     idEventScheduler = undefined;
                 }
             }
+
+            $rootScope.$broadcast('lx-dropdown__close-end', $element.attr('id'));
         }
 
         function getAvailableHeight()
@@ -368,6 +371,8 @@
 
         function openDropdownMenu()
         {
+            $rootScope.$broadcast('lx-dropdown__open-start', $element.attr('id'));
+
             lxDropdown.isOpen = true;
 
             LxDepthService.register();
@@ -375,7 +380,6 @@
             scrollMask
                 .css('z-index', LxDepthService.getDepth())
                 .appendTo('body');
-
             scrollMask.on('wheel', function preventDefault(e) {
                 e.preventDefault();
             });
@@ -522,6 +526,8 @@
 
                     dropdownInterval = $interval(updateDropdownMenuHeight, 500);
                 }
+
+                $rootScope.$broadcast('lx-dropdown__open-end', $element.attr('id'));
             });
         }
 

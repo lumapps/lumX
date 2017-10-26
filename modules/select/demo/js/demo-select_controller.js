@@ -164,6 +164,100 @@
                 type: 'Umbelliferous'
             }
         ];
+        vm.selectPeopleMultipane = {
+            '<i class="mdi mdi-human-male"></i> <span>Male</span>': {
+                'Old': [
+                    {
+                        uid: '1',
+                        name: 'Adam'
+                    },
+                    {
+                        uid: '2',
+                        name: 'Tom'
+                    },
+                    {
+                        uid: '3',
+                        name: 'Ben'
+                    }
+                ],
+                'Middle-aged': [
+                    {
+                        uid: '4',
+                        name: 'Franck'
+                    }
+                ],
+                'Young': [
+                    {
+                        uid: '5',
+                        name: 'Wladimir'
+                    },
+                    {
+                        uid: '6',
+                        name: 'Jack'
+                    }
+                ],
+            },
+            '<i class="mdi mdi-human-female"></i> <span>Female</span>': {
+                'France': {
+                    'Old': [
+                        {
+                            uid: '7',
+                            name: 'Amalie'
+                        }
+                    ],
+                    'Middle-aged': {
+                        'Lorem': [
+                            {
+                                uid: '8',
+                                name: 'Samantha'
+                            },
+                            {
+                                uid: '9',
+                                name: 'Estefanía'
+                            },
+                            {
+                                uid: '10',
+                                name: 'Natasha'
+                            },
+                            {
+                                uid: '11',
+                                name: 'Nicole'
+                            }
+                        ],
+                        'Ipsum': [
+                            {
+                                uid: '12',
+                                name: 'Julia'
+                            },
+                            {
+                                uid: '13',
+                                name: 'Sofia'
+                            }
+                        ],
+                    },
+                    'Young': [
+                        {
+                            uid: '14',
+                            name: 'Karin'
+                        },
+                        {
+                            uid: '15',
+                            name: 'Camillia'
+                        }
+                    ],
+                },
+                'US': [
+                    {
+                        uid: '16',
+                        name: 'Katerin'
+                    },
+                    {
+                        uid: '17',
+                        name: 'Olga'
+                    }
+                ],
+            }
+        };
         vm.newValueTransformer = function(_newValue) {
             return {
                 name: _newValue,
@@ -174,6 +268,8 @@
             selectedPerson: undefined,
             selectedPeople: [vm.selectPeople[2], vm.selectPeople[4]],
             selectedPeopleSections: [],
+            selectedPeopleMultipane: undefined,
+            selectedPeopleMultipaneMultiple: [],
             selectedVegetables: []
         };
 

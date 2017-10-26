@@ -11,6 +11,7 @@
     <lx-component lx-title="Theme" lx-path="/includes/modules/select/includes/theme.html" lx-js-path="/js/select/demo/demo-select_controller.js"></lx-component>
     <lx-component lx-title="View mode" lx-path="/includes/modules/select/includes/view-mode.html" lx-js-path="/js/select/demo/demo-select_controller.js"></lx-component>
     <lx-component lx-title="Autocomplete" lx-path="/includes/modules/select/includes/autocomplete.html" lx-js-path="/js/select/demo/demo-select_controller.js"></lx-component>
+    <lx-component lx-title="Multipane" lx-path="/includes/modules/select/includes/multipane.html" lx-js-path="/js/select/demo/demo-select_controller.js"></lx-component>
 
     <lx-component-attributes>
         <table>
@@ -59,6 +60,12 @@
                     <td><code>boolean</code></td>
                     <td><code>false</code></td>
                     <td>Remove the LumX default style for select dropdown.</td>
+                </tr>
+                <tr>
+                    <td>lx-choices-view-mode</td>
+                    <td><code>string</code></td>
+                    <td><code>list</code></td>
+                    <td>The view mode of the choices. Options: <code>list</code>, <code>panes</code></td>
                 </tr>
                 <tr>
                     <td>lx-custom-style</td>
@@ -148,7 +155,7 @@
                     <td>lx-view-mode</td>
                     <td><code>string</code></td>
                     <td><code>field</code></td>
-                    <td>The select component view mode. Options: field, chips</td>
+                    <td>The select component view mode. Options: <code>field</code>, <code>chips</code></td>
                 </tr>
                 <tr>
                     <td>ng-change</td>
