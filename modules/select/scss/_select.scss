@@ -503,9 +503,9 @@
 
         &-choice {
             @include display(flex);
-            height: $base-spacing-unit * 10;
+            height: $base-spacing-unit * 7;
             min-width: 120px;
-            line-height: $base-spacing-unit * 10;
+            line-height: $base-spacing-unit * 7;
             margin-left: $base-spacing-unit * 2;
             padding: 0 $base-spacing-unit * 3 0 $base-spacing-unit * 2;
             color: $white;
