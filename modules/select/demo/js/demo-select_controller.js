@@ -202,7 +202,7 @@
                     'Old': [
                         {
                             uid: '7',
-                            name: 'Amalie'
+                            name: 'Sue Helen'
                         }
                     ],
                     'Middle-aged': {

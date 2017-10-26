@@ -508,7 +508,6 @@
         overflow: auto;
 
         &-choice {
-            @include display(flex);
             height: $base-spacing-unit * 7;
             min-width: 120px;
             line-height: $base-spacing-unit * 7;
@@ -516,6 +515,10 @@
             padding: 0 $base-spacing-unit * 3 0 $base-spacing-unit * 2;
             color: $white;
             cursor: pointer;
+
+            &:not(.lx-select-choices__pane-choice--is-leaf) {
+                @include display(flex);
+            }
 
             i {
                 @include font-size(40px);
