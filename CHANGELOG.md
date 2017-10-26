@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.6.6:
+
+#### Bug fixes:
+ - select: make the multi pane scrollable
+
+
 ## v1.6.5:
 
 #### Bug fixes:
