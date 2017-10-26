@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.6.5:
+
+#### Bug fixes:
+ - select: hide the filter field when not needed
+
+
 ## v1.6.4:
 
 #### New features:

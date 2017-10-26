@@ -1,5 +1,5 @@
 /*
- LumX v1.6.4
+ LumX v1.6.5
  (c) 2014-2017 LumApps http://ui.lumapps.com
  License: MIT
 */
@@ -223,7 +223,7 @@
                     }
 
                     var nodeEl = angular.element(node);
-                    nodeEl.html(highlightCode(nodeEl.text(), query, false))
+                    nodeEl.html(highlightCode(nodeEl.text(), query, false));
                 });
             } else {
                 el.html(highlightCode(el.text(), query, false));
@@ -6914,7 +6914,7 @@ angular.module("lumx.select").run(['$templateCache', function(a) { a.put('select
     '               ng-if="lxSelectSelected.parentCtrl.autocomplete && !lxSelectSelected.parentCtrl.ngDisabled">\n' +
     '    </div>\n' +
     '\n' +
-    '    <lx-search-filter lx-dropdown-filter class="lx-select-selected__filter">\n' +
+    '    <lx-search-filter lx-dropdown-filter class="lx-select-selected__filter" ng-if="lxSelectSelected.parentCtrl.choicesViewMode === \'panes\' && !lxSelectSelected.parentCtrl.ngDisabled && lxSelectSelected.parentCtrl.areChoicesOpened() && (lxSelectSelected.parentCtrl.multiple || !lxSelectSelected.parentCtrl.getSelectedModel())">\n' +
     '        <input type="text"\n' +
     '               ng-model="lxSelectSelected.parentCtrl.filterModel"\n' +
     '               ng-change="lxSelectSelected.parentCtrl.updateFilter()"\n' +
