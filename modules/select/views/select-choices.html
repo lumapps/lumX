@@ -44,7 +44,7 @@
         </li>
     </ul>
 
-    <div ng-if="::lxSelectChoices.parentCtrl.choicesViewMode === 'panes'" stop-propagation="click">
+    <div class="lx-select-choices__panes-wrapper" ng-if="::lxSelectChoices.parentCtrl.choicesViewMode === 'panes'" stop-propagation="click">
         <div class="lx-select-choices__panes-container">
             <div class="lx-select-choices__pane lx-select-choices__pane-{{ $index }}"
                  ng-class="{ 'lx-select-choices__pane--is-filtering': lxSelectChoices.parentCtrl.matchingPaths !== undefined,
