@@ -1,5 +1,5 @@
 /*
- LumX v1.6.3
+ LumX v1.6.4
  (c) 2014-2017 LumApps http://ui.lumapps.com
  License: MIT
 */
@@ -11,12 +11,16 @@
     angular.module('lumx.utils.event-scheduler', []);
     angular.module('lumx.utils.transclude-replace', []);
     angular.module('lumx.utils.utils', []);
+    angular.module('lumx.utils.directives', []);
+    angular.module('lumx.utils.filters', []);
 
     angular.module('lumx.utils', [
         'lumx.utils.depth',
         'lumx.utils.event-scheduler',
         'lumx.utils.transclude-replace',
-        'lumx.utils.utils'
+        'lumx.utils.utils',
+        'lumx.utils.directives',
+        'lumx.utils.filters',
     ]);
 
     angular.module('lumx.button', []);
@@ -64,6 +68,7 @@
         'lumx.utils'
     ]);
 })();
+
 (function()
 {
     'use strict';
@@ -187,6 +192,112 @@
         }
     }
 })();
+/* eslint-disable angular/component-limit */
+(function IIFE() {
+    'use strict';
+
+    /////////////////////////////
+
+    /**
+     * Highlights text in a string that matches another string.
+     *
+     * Taken from AngularUI Bootstrap Typeahead
+     * See https://github.com/angular-ui/bootstrap/blob/0.10.0/src/typeahead/typeahead.js#L340
+     */
+    HighlightFilter.$inject = ['LxUtils'];
+    function HighlightFilter(LxUtils) {
+        return function highlightCode(matchItem, query, html) {
+            if (!html) {
+                return (query && matchItem) ?
+                    matchItem.replace(
+                        new RegExp(LxUtils.escapeRegexp(query), 'gi'),
+                        '<span class="lx-select-choices__pane-choice--highlight">$&</span>'
+                    ) : matchItem;
+            }
+
+            var el = angular.element('<div>' + matchItem + '</div>');
+            if (el.children().length) {
+                angular.forEach(el.children(), function forEachNodes(node) {
+                    if (node.nodeName !== 'SPAN') {
+                        return;
+                    }
+
+                    var nodeEl = angular.element(node);
+                    nodeEl.html(highlightCode(nodeEl.text(), query, false))
+                });
+            } else {
+                el.html(highlightCode(el.text(), query, false));
+            }
+
+            return el.html();
+        };
+    }
+
+    /////////////////////////////
+
+    /**
+     * Replaces the markup `ng-include` with the included content.
+     *
+     * @return {Directive} The include-replace directive.
+     */
+    function IncludeReplaceDirective() {
+        return {
+            link: function includeReplaceLink(scope, el) {
+                el.replaceWith(el.children());
+            },
+            require: 'ngInclude',
+            restrict: 'A',
+        };
+    }
+
+    /////////////////////////////
+
+    /**
+     * Block any event propagation by adding the `prevent` attribute.
+     * Used to block the action of a link or a button for example.
+     *
+     * @return {Directive} The prevent directive.
+     */
+    function PreventDirective() {
+        return function preventCode(scope, el) {
+            el.on('click', function preventDefault(evt) {
+                evt.preventDefault();
+            });
+        };
+    }
+
+    /////////////////////////////
+
+    /**
+     * Blocks the propagation of an event in the DOM.
+     *
+     * @param  {string}    stopPropagation The name of the event (or events) to be stopped.
+     * @return {Directive} The stop propagation directive.
+     */
+    function StopPropagationDirective() {
+        return function stopPropagationCode(scope, el, attrs) {
+            el.on(attrs.stopPropagation, function stopPropagation(evt) {
+                evt.stopPropagation();
+            });
+        };
+    }
+
+    /////////////////////////////
+
+    /**
+     * Place here only small, highly re-usable directives.
+     * For a big complex directive, use a separate own file.
+     * For a directive specific to your application, place it in your application.
+     */
+    angular.module('lumx.utils.directives')
+        .directive('includeReplace', IncludeReplaceDirective)
+        .directive('prevent', PreventDirective)
+        .directive('stopPropagation', StopPropagationDirective);
+
+    angular.module('lumx.utils.filters')
+        .filter('highlight', HighlightFilter);
+})();
+
 (function()
 {
     'use strict';
@@ -242,8 +353,9 @@
         var service = this;
 
         service.debounce = debounce;
-        service.generateUUID = generateUUID;
         service.disableBodyScroll = disableBodyScroll;
+        service.escapeRegexp = escapeRegexp;
+        service.generateUUID = generateUUID;
 
         ////////////
 
@@ -304,21 +416,6 @@
             return debounced;
         }
 
-        function generateUUID()
-        {
-            var d = new Date().getTime();
-
-            var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c)
-            {
-                var r = (d + Math.random() * 16) % 16 | 0;
-                d = Math.floor(d / 16);
-                return (c == 'x' ? r : (r & 0x3 | 0x8))
-                    .toString(16);
-            });
-
-            return uuid.toUpperCase();
-        }
-
         function disableBodyScroll()
         {
             var body = document.body;
@@ -369,6 +466,31 @@
                 body.scrollTop = viewportTop;
               }
             };
+        }
+
+        /**
+         * Escape all RegExp special characters in a string.
+         *
+         * @param  {string} strToEscape The string to escape RegExp special char in.
+         * @return {string} The escapes string.
+         */
+        function escapeRegexp(strToEscape) {
+            return strToEscape.replace(/([.?*+^$[\]\\(){}|-])/g, '\\$1');
+        }
+
+        function generateUUID()
+        {
+            var d = new Date().getTime();
+
+            var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c)
+            {
+                var r = (d + Math.random() * 16) % 16 | 0;
+                d = Math.floor(d / 16);
+                return (c == 'x' ? r : (r & 0x3 | 0x8))
+                    .toString(16);
+            });
+
+            return uuid.toUpperCase();
         }
     }
 })();
@@ -1748,11 +1870,11 @@
         }
     }
 
-    LxDropdownController.$inject = ['$element', '$interval', '$scope', '$timeout', '$window', 'LxDepthService',
-        'LxDropdownService', 'LxEventSchedulerService', 'LxUtils'
+    LxDropdownController.$inject = ['$element', '$interval', '$rootScope', '$scope', '$timeout', '$window',
+        'LxDepthService', 'LxDropdownService', 'LxEventSchedulerService', 'LxUtils'
     ];
 
-    function LxDropdownController($element, $interval, $scope, $timeout, $window, LxDepthService,
+    function LxDropdownController($element, $interval, $rootScope, $scope, $timeout, $window, LxDepthService,
         LxDropdownService, LxEventSchedulerService, LxUtils)
     {
         var lxDropdown = this;
@@ -1814,6 +1936,8 @@
 
         function closeDropdownMenu()
         {
+            $rootScope.$broadcast('lx-dropdown__close-start', $element.attr('id'));
+
             angular.element(window).off('resize', initDropdownPosition);
 
             $interval.cancel(dropdownInterval);
@@ -1824,7 +1948,6 @@
             var velocityEasing;
 
             scrollMask.remove();
-
             if (angular.isFunction(enableBodyScroll)) {
                 enableBodyScroll();
             }
@@ -1906,6 +2029,8 @@
                     idEventScheduler = undefined;
                 }
             }
+
+            $rootScope.$broadcast('lx-dropdown__close-end', $element.attr('id'));
         }
 
         function getAvailableHeight()
@@ -2037,6 +2162,8 @@
 
         function openDropdownMenu()
         {
+            $rootScope.$broadcast('lx-dropdown__open-start', $element.attr('id'));
+
             lxDropdown.isOpen = true;
 
             LxDepthService.register();
@@ -2044,7 +2171,6 @@
             scrollMask
                 .css('z-index', LxDepthService.getDepth())
                 .appendTo('body');
-
             scrollMask.on('wheel', function preventDefault(e) {
                 e.preventDefault();
             });
@@ -2191,6 +2317,8 @@
 
                     dropdownInterval = $interval(updateDropdownMenuHeight, 500);
                 }
+
+                $rootScope.$broadcast('lx-dropdown__open-end', $element.attr('id'));
             });
         }
 
@@ -3362,6 +3490,9 @@
             controllerAs: 'lxRadioButton',
             bindToController: true,
             transclude: true,
+            link: function (scope, el, attrs, ctrl) {
+                ctrl.init();
+            },
             replace: true
         };
     }
@@ -3380,13 +3511,12 @@
         lxRadioButton.setRadioButtonId = setRadioButtonId;
         lxRadioButton.setRadioButtonHasChildren = setRadioButtonHasChildren;
         lxRadioButton.triggerNgChange = triggerNgChange;
+        lxRadioButton.init = init;
 
         $scope.$on('$destroy', function()
         {
             $timeout.cancel(timer);
         });
-
-        init();
 
         ////////////
 
@@ -4006,6 +4136,7 @@
                 newValueTransform: '=?lxNewValueTransform',
                 choices: '=?lxChoices',
                 choicesCustomStyle: '=?lxChoicesCustomStyle',
+                choicesViewMode: '@?lxChoicesViewMode',
                 customStyle: '=?lxCustomStyle',
                 displayFilter: '=?lxDisplayFilter',
                 error: '=?lxError',
@@ -4110,25 +4241,32 @@
         }
     }
 
-    LxSelectController.$inject = ['$interpolate', '$element', '$filter', '$sce', 'LxDropdownService', 'LxUtils'];
+    LxSelectController.$inject = ['$interpolate', '$element', '$filter', '$sce', '$scope', '$timeout', 'LxDepthService', 'LxDropdownService', 'LxUtils'];
 
-    function LxSelectController($interpolate, $element, $filter, $sce, LxDropdownService, LxUtils)
+    function LxSelectController($interpolate, $element, $filter, $sce, $scope, $timeout, LxDepthService, LxDropdownService, LxUtils)
     {
         var lxSelect = this;
         var choiceTemplate;
         var selectedTemplate;
+        var toggledPanes = {};
 
+        lxSelect.areChoicesOpened = areChoicesOpened;
         lxSelect.displayChoice = displayChoice;
         lxSelect.displaySelected = displaySelected;
         lxSelect.displaySubheader = displaySubheader;
         lxSelect.getFilteredChoices = getFilteredChoices;
         lxSelect.getSelectedModel = getSelectedModel;
+        lxSelect.isLeaf = isLeaf;
+        lxSelect.isMatchingPath = isMatchingPath;
+        lxSelect.isPaneToggled = isPaneToggled;
         lxSelect.isSelected = isSelected;
         lxSelect.keyEvent = keyEvent;
         lxSelect.registerChoiceTemplate = registerChoiceTemplate;
         lxSelect.registerSelectedTemplate = registerSelectedTemplate;
+        lxSelect.searchPath = searchPath;
         lxSelect.select = select;
         lxSelect.toggleChoice = toggleChoice;
+        lxSelect.togglePane = togglePane;
         lxSelect.unselect = unselect;
         lxSelect.updateFilter = updateFilter;
         lxSelect.helperDisplayable = helperDisplayable;
@@ -4139,10 +4277,236 @@
         lxSelect.filterModel = undefined;
         lxSelect.ngModel = angular.isUndefined(lxSelect.ngModel) && lxSelect.multiple ? [] : lxSelect.ngModel;
         lxSelect.unconvertedModel = lxSelect.multiple ? [] : undefined;
-        lxSelect.viewMode = angular.isUndefined(lxSelect.viewMode) ? 'field' : 'chips';
+        lxSelect.viewMode = angular.isUndefined(lxSelect.viewMode) ? 'field' : lxSelect.viewMode;
+        lxSelect.choicesViewMode = angular.isUndefined(lxSelect.choicesViewMode) ? 'list' : lxSelect.choicesViewMode;
 
-        ////////////
-        
+        lxSelect.panes = [];
+        lxSelect.matchingPaths = undefined;
+
+        /////////////////////////////
+
+        /**
+         * Close the given panes (and all of its children panes).
+         *
+         * @param {number} index The index of the pane to close.
+         */
+        function _closePane(index) {
+            if (index === 0) {
+                _closePanes();
+
+                return;
+            }
+
+            if (angular.isUndefined(toggledPanes[index])) {
+                return;
+            }
+
+            _closePane(index + 1);
+
+            lxSelect.panes.splice(toggledPanes[index].position, 1);
+            delete toggledPanes[index];
+        }
+
+        /**
+         * Close all panes.
+         */
+        function _closePanes() {
+            toggledPanes = {};
+
+            if (angular.isDefined(lxSelect.choices) && lxSelect.choices !== null) {
+                lxSelect.panes = [lxSelect.choices];
+            } else {
+                lxSelect.panes = [];
+            }
+        }
+
+        /**
+         * Find the index of an element in an array.
+         *
+         * @param  {Array}  haystack The array in which to search for the value.
+         * @param  {*}      needle   The value to search in the array.
+         * @return {number} The index of the value of the array, or -1 if not found.
+         */
+        function _findIndex(haystack, needle) {
+            if (angular.isUndefined(haystack) || haystack.length === 0) {
+                return -1;
+            }
+
+            for (var i = 0, len = haystack.length; i < len; i++) {
+                if (haystack[i] === needle) {
+                    return i;
+                }
+            }
+
+            return -1;
+        }
+
+        /**
+         * Get the longest matching path containing the given string.
+         *
+         * @param {string} [containing] The string we want the matching path to contain.
+         *                              If none given, just take the longest matching path of the first matching path.
+         */
+        function _getLongestMatchingPath(containing) {
+            if (angular.isUndefined(lxSelect.matchingPaths) || lxSelect.matchingPaths.length === 0) {
+                return undefined;
+            }
+
+            containing = containing || lxSelect.matchingPaths[0];
+
+            var longest = lxSelect.matchingPaths[0];
+            var longestSize = longest.split('.').length;
+            for (var i = 1, len = lxSelect.matchingPaths.length; i < len; i++) {
+                var matchingPath = lxSelect.matchingPaths[i];
+                if (!matchingPath) {
+                    continue;
+                }
+
+                if (matchingPath.indexOf(containing) === -1) {
+                    break;
+                }
+
+                var size = matchingPath.split('.').length;
+                if (size > longestSize) {
+                    longest = matchingPath;
+                    longestSize = size;
+                }
+            }
+
+            return longest;
+        }
+
+        /**
+         * Open a pane.
+         * If the pane is already opened, don't do anything.
+         *
+         * @param {number}        parentIndex         The index of the parent of the pane to open.
+         * @param {number|string} indexOrKey          The index or the name of the pane to open.
+         * @param {boolean}       [checkIsLeaf=false] Check if the pane we want to open is in fact a leaf.
+         *                                            In the case of a leaf, don't open it.
+         */
+        function _openPane(parentIndex, indexOrKey, checkIsLeaf) {
+            if (angular.isDefined(toggledPanes[parentIndex])) {
+                return;
+            }
+
+            var pane = pane || lxSelect.panes[parentIndex];
+            if (angular.isUndefined(pane)) {
+                return;
+            }
+
+            var key = indexOrKey;
+            if (angular.isObject(pane) && angular.isNumber(key)) {
+                key = (Object.keys(pane) || [])[key];
+            }
+
+            if (checkIsLeaf && lxSelect.isLeaf(pane[key])) {
+                return;
+            }
+
+            lxSelect.panes.push(pane[key]);
+            toggledPanes[parentIndex] = {
+                key: key,
+                position: lxSelect.panes.length - 1,
+                path: (parentIndex === 0) ? key : toggledPanes[parentIndex - 1].path + '.' + key,
+            };
+        }
+
+        /**
+         * Search for any path in an object containing the given regexp as a key or as a value.
+         *
+         * @param  {*}      container   The container in which to search for the regexp.
+         * @param  {RegExp} regexp      The regular expression to search in keys or values of the object (nested)
+         * @param  {string} previousKey The path to the current object.
+         * @return {Array}  The list of paths that have matching key or value.
+         */
+        function _searchPath(container, regexp, previousKey) {
+            var results = [];
+
+            angular.forEach(container, function forEachItemsInContainer(items, key) {
+                var pathToMatching = (previousKey) ? previousKey + '.' + key : key;
+
+                var previousKeyAdded = false;
+                var isLeaf = lxSelect.isLeaf(items);
+
+                if ((!isLeaf && angular.isString(key) && regexp.test(key)) || (angular.isString(items) && regexp.test(items))) {
+                    if (!previousKeyAdded && previousKey) {
+                        results.push(previousKey);
+                    }
+
+                    if (!isLeaf) {
+                        results.push(pathToMatching);
+                    }
+                }
+
+                if (angular.isArray(items) || angular.isObject(items)) {
+                    var newPaths = _searchPath(items, regexp, pathToMatching);
+
+                    if (angular.isDefined(newPaths) && newPaths.length > 0) {
+                        if (previousKey) {
+                            results.push(previousKey);
+                            previousKeyAdded = true;
+                        }
+
+                        results = results.concat(newPaths);
+                    }
+                }
+            });
+
+            return results;
+        }
+
+        /////////////////////////////
+
+        $scope.$watch(function watcherChoices() {
+            return lxSelect.choices;
+        }, function watchChoices(newChoices, oldChoices) {
+            if (angular.isUndefined(lxSelect.choices) || lxSelect.choices === null) {
+                lxSelect.panes = [];
+
+                return;
+            }
+
+            lxSelect.panes = [lxSelect.choices];
+        }, true);
+
+        /////////////////////////////
+
+        /**
+         * When the choices dropdown closes, reset the toggled panels and the filter.
+         *
+         * @param {Event}  evt        The dropdown close event.
+         * @param {string} dropdownId The id of the dropdown that ends to close.
+         */
+        $scope.$on('lx-dropdown__close-end', function onDropdownClose(evt, dropdownId) {
+            if (lxSelect.choicesViewMode !== 'panes' || dropdownId !== 'dropdown-' + lxSelect.uuid) {
+                return;
+            }
+
+            lxSelect.filterModel = undefined;
+            lxSelect.matchingPaths = undefined;
+
+            _closePanes();
+        });
+
+        /**
+         * When the choices dropdown opens, focus the search filter.
+         *
+         * @param {Event}  evt        The dropdown open event.
+         * @param {string} dropdownId The id of the dropdown that ends to close.
+         */
+        $scope.$on('lx-dropdown__open-start', function onDropdownOpen(evt, dropdownId) {
+            if (lxSelect.choicesViewMode !== 'panes' || dropdownId !== 'dropdown-' + lxSelect.uuid) {
+                return;
+            }
+
+            $timeout(function delayFocusSearchFilter() {
+                $element.find('.lx-select-selected__filter input').focus();
+            });
+        });
+
+        /////////////////////////////
+
         function arrayObjectIndexOf(arr, obj)
         {
             for (var i = 0; i < arr.length; i++)
@@ -4156,13 +4520,25 @@
             return -1;
         }
 
+        /**
+         * Check if the choices dropdown is opened.
+         *
+         * @return {boolean} If the choices dropdown is opened or not.
+         */
+        function areChoicesOpened() {
+            return LxDropdownService.isOpen('dropdown-' + lxSelect.uuid);
+        }
+
         function displayChoice(_choice)
         {
             var choiceScope = {
                 $choice: _choice
             };
 
-            return $sce.trustAsHtml($interpolate(choiceTemplate)(choiceScope));
+            var interpolatedChoice = $interpolate(choiceTemplate)(choiceScope);
+            return $sce.trustAsHtml((lxSelect.matchingPaths) ?
+                $filter('highlight')(interpolatedChoice, lxSelect.filterModel, true) : interpolatedChoice
+            );
         }
 
         function displaySelected(_selected)
@@ -4211,7 +4587,9 @@
 
         function displaySubheader(_subheader)
         {
-            return $sce.trustAsHtml(_subheader);
+            return $sce.trustAsHtml((lxSelect.matchingPaths) ?
+                $filter('highlight')(_subheader, lxSelect.filterModel, true) : _subheader
+            );
         }
 
         function getFilteredChoices()
@@ -4229,6 +4607,94 @@
             {
                 return lxSelect.ngModel;
             }
+        }
+
+        /**
+         * Check if an object is a leaf object.
+         * A leaf object is an object that contains the `isLeaf` property or that has property that are anything else
+         * than object or arrays.
+         *
+         * @param  {*}       obj The object to check if it's a leaf
+         * @return {boolean} If the object is a leaf object.
+         */
+        function isLeaf(obj) {
+            if (angular.isArray(obj)) {
+                return false;
+            }
+
+            if (!angular.isObject(obj)) {
+                return true;
+            }
+
+            if (obj.isLeaf) {
+                return true;
+            }
+
+            var isLeaf = false;
+            var keys = Object.keys(obj);
+            for (var i = 0, len = keys.length; i < len; i++) {
+                var property = keys[i];
+                if (property.charAt(0) === '$') {
+                    continue;
+                }
+
+                if (!angular.isArray(obj[property]) && !angular.isObject(obj[property])) {
+                    isLeaf = true;
+                    break;
+                }
+            }
+
+            return isLeaf;
+        }
+
+        /**
+         * Check if a pane is toggled.
+         *
+         * @param  {number}        parentIndex The parent index of the pane in which to check.
+         * @param  {number|string} indexOrKey  The index or the name of the pane to check.
+         * @return {boolean}       If the pane is toggled or not.
+         */
+        function isPaneToggled(parentIndex, indexOrKey) {
+            var pane = lxSelect.panes[parentIndex];
+            if (angular.isUndefined(pane)) {
+                return false;
+            }
+
+            var key = indexOrKey;
+            if (angular.isObject(pane) && angular.isNumber(indexOrKey)) {
+                key = (Object.keys(pane) || [])[indexOrKey];
+            }
+
+            return angular.isDefined(toggledPanes[parentIndex]) && toggledPanes[parentIndex].key === key;
+        }
+
+        /**
+         * Check if a path of a pane is matching the filter.
+         *
+         * @param {number}        parentIndex The index of the pane.
+         * @param {number|string} indexOrKey  The index or the name of the item to check.
+         */
+        function isMatchingPath(parentIndex, indexOrKey) {
+            var pane = lxSelect.panes[parentIndex];
+            if (angular.isUndefined(pane)) {
+                return;
+            }
+
+            var key = indexOrKey;
+            if (angular.isObject(pane) && angular.isNumber(indexOrKey)) {
+                key = (Object.keys(pane) || [])[indexOrKey];
+            }
+
+            if (parentIndex === 0) {
+                return _findIndex(lxSelect.matchingPaths, key) !== -1;
+            }
+
+            var previous = toggledPanes[parentIndex - 1];
+            if (angular.isUndefined(previous)) {
+                return false;
+            }
+
+            return _findIndex(lxSelect.matchingPaths, previous.path + '.' + key) !== -1;
         }
 
         function isSelected(_choice)
@@ -4299,7 +4765,7 @@
 
         function keyRemove()
         {
-            if (lxSelect.filterModel || !lxSelect.getSelectedModel().length)
+            if (lxSelect.filterModel || angular.isUndefined(lxSelect.getSelectedModel()) || !lxSelect.getSelectedModel().length)
             {
                 return;
             }
@@ -4330,15 +4796,15 @@
                     var identical = getSelectedModel().some(function (item) {
                         return angular.equals(item, value);
                     });
-                    
+
                     if (!identical)
                     {
                         getSelectedModel().push(value);
                     }
                 }
-                
+
                 lxSelect.filterModel = undefined;
-                
+
                 LxDropdownService.close('dropdown-' + lxSelect.uuid);
             }
         }
@@ -4400,6 +4866,10 @@
                         {
                             $element.find('.lx-select-selected__filter').focus();
                         }
+
+                        if (lxSelect.choicesViewMode === 'panes' && lxSelect.displayFilter && lxSelect.multiple) {
+                            $element.find('.lx-select-selected__filter input').focus();
+                        }
                     }
                 });
             }
@@ -4417,6 +4887,10 @@
                 if (lxSelect.autocomplete)
                 {
                     $element.find('.lx-select-selected__filter').focus();
+                }
+
+                if (lxSelect.choicesViewMode === 'panes' && lxSelect.displayFilter && lxSelect.multiple) {
+                    $element.find('.lx-select-selected__filter input').focus();
                 }
             }
         }
@@ -4446,6 +4920,50 @@
             }
         }
 
+        /**
+         * Toggle a pane.
+         *
+         * @param {Event}         evt               The click event that led to toggle the pane.
+         * @param {number}        parentIndex       The index of the containing pane.
+         * @param {number|string} indexOrKey        The index or the name of the pane to toggle.
+         * @param {boolean}       [selectLeaf=true] Indicates if we want to select the choice if the pane to toggle is
+         *                                          in fact a leaf.
+         */
+        function togglePane(evt, parentIndex, indexOrKey, selectLeaf) {
+            selectLeaf = (angular.isUndefined(selectLeaf)) ? true : selectLeaf;
+
+            var pane = lxSelect.panes[parentIndex];
+            if (angular.isUndefined(pane)) {
+                return;
+            }
+
+            var key = indexOrKey;
+            if (angular.isObject(pane) && angular.isNumber(indexOrKey)) {
+                key = (Object.keys(pane) || [])[indexOrKey];
+            }
+
+            if (angular.isDefined(toggledPanes[parentIndex])) {
+                var previousKey = toggledPanes[parentIndex].key;
+
+                _closePane(parentIndex);
+
+                if (previousKey === key) {
+                    return;
+                }
+            }
+
+            var isLeaf = lxSelect.isLeaf(pane[key]);
+            if (isLeaf) {
+                if (selectLeaf) {
+                    lxSelect.toggleChoice(pane[key], evt);
+                }
+
+                return;
+            }
+
+            _openPane(parentIndex, key, false);
+        }
+
         function unselect(_choice)
         {
             if (angular.isDefined(lxSelect.selectionToModel))
@@ -4462,6 +4980,11 @@
                             $element.find('.lx-select-selected__filter').focus();
                             lxSelect.activeSelectedIndex = -1;
                         }
+
+                        if (lxSelect.choicesViewMode === 'panes' && lxSelect.displayFilter &&
+                            (lxSelect.ngModel.length === 0 || lxSelect.multiple)) {
+                            $element.find('.lx-select-selected__filter input').focus();
+                        }
                     }
                 });
 
@@ -4476,31 +4999,52 @@
                     $element.find('.lx-select-selected__filter').focus();
                     lxSelect.activeSelectedIndex = -1;
                 }
+
+                if (lxSelect.choicesViewMode === 'panes' && lxSelect.displayFilter &&
+                    (lxSelect.ngModel.length === 0 || lxSelect.multiple)) {
+                    $element.find('.lx-select-selected__filter input').focus();
+                }
             }
         }
 
-        function updateFilter()
-        {
-            if (angular.isDefined(lxSelect.filter))
-            {
-                lxSelect.filter(
-                {
+        /**
+         * Update the filter.
+         * Either filter the choices available or highlight the path to the matching elements.
+         */
+        function updateFilter() {
+            if (angular.isDefined(lxSelect.filter)) {
+                lxSelect.matchingPaths = lxSelect.filter({
                     newValue: lxSelect.filterModel
                 });
+            } else if (lxSelect.choicesViewMode === 'panes') {
+                lxSelect.matchingPaths = lxSelect.searchPath(lxSelect.filterModel);
+                _closePanes();
             }
 
-            if (lxSelect.autocomplete)
-            {
+            if (lxSelect.autocomplete) {
                 lxSelect.activeChoiceIndex = -1;
 
-                if (lxSelect.filterModel)
-                {
+                if (lxSelect.filterModel) {
                     LxDropdownService.open('dropdown-' + lxSelect.uuid, '#lx-select-selected-wrapper-' + lxSelect.uuid);
-                }
-                else
-                {
+                } else {
                     LxDropdownService.close('dropdown-' + lxSelect.uuid);
                 }
+            }
+
+            if (lxSelect.choicesViewMode === 'panes' && angular.isDefined(lxSelect.matchingPaths) && lxSelect.matchingPaths.length > 0) {
+                var longest = _getLongestMatchingPath();
+                if (!longest) {
+                    return;
+                }
+
+                var longestPath = longest.split('.');
+                if (longestPath.length === 0) {
+                    return;
+                }
+
+                angular.forEach(longestPath, function forEachPartOfTheLongestPath(part, index) {
+                    _openPane(index, part, index === (longestPath.length - 1));
+                });
             }
         }
 
@@ -4516,17 +5060,17 @@
             {
                 return lxSelect.helper;
             }
-            
+
             // Else check if there's choices.
             var choices = lxSelect.getFilteredChoices();
-            
+
             if (angular.isArray(choices))
             {
                 return !choices.length;
             }
             else if (angular.isObject(choices))
             {
-                return !Object.keys(choices).length;
+                return !(Object.keys(choices) || []).length;
             }
 
             return true;
@@ -4548,6 +5092,21 @@
             {
                 model.splice(index, 1);
             }
+        }
+
+        /**
+         * Search in the multipane select for the paths matching the search.
+         *
+         * @param {string} newValue The filter string.
+         */
+        function searchPath(newValue) {
+            if (!newValue || newValue.length < 2) {
+                return undefined;
+            }
+
+            var regexp = new RegExp(LxUtils.escapeRegexp(newValue), 'ig');
+
+            return _searchPath(lxSelect.choices, regexp);
         }
     }
 
@@ -4661,9 +5220,11 @@
 
         ////////////
 
-        function isArray()
+        function isArray(choices)
         {
-            return angular.isArray(lxSelectChoices.parentCtrl.choices);
+            choices = (angular.isUndefined(choices)) ? lxSelectChoices.parentCtrl.choices : choices;
+
+            return angular.isArray(choices);
         }
 
         function setParentController(_parentCtrl)
@@ -4827,7 +5388,8 @@
 
         function goToStep(index, bypass)
         {
-            // Check if the the wanted step previous steps are optionals. If so, check if the step before the last optional step is valid to allow going to the wanted step from the nav (only if linear stepper).
+            // Check if the wanted step previous steps are optionals. 
+            // If so, check if the step before the last optional step is valid to allow going to the wanted step from the nav (only if linear stepper).
             var stepBeforeLastOptionalStep;
             if (!bypass && lxStepper.isLinear)
             {
@@ -4840,12 +5402,31 @@
                     }
                 }
 
-                if (angular.isDefined(stepBeforeLastOptionalStep) && stepBeforeLastOptionalStep.isValid === true)
+                if(angular.isDefined(stepBeforeLastOptionalStep)) 
                 {
-                    bypass = true;
+                    // Check validity only if step is dirty and editable.
+                    if (!stepBeforeLastOptionalStep.pristine && angular.isFunction(stepBeforeLastOptionalStep.validator) && stepBeforeLastOptionalStep.isEditable) 
+                    {
+                        var validity = stepBeforeLastOptionalStep.validator();
+
+                        if (validity === true) 
+                        {
+                            stepBeforeLastOptionalStep.isValid = true;
+                        } 
+                        else 
+                        {
+                            stepBeforeLastOptionalStep.isValid = false;
+                            stepBeforeLastOptionalStep.errorMessage = validity;
+                        }
+                    }
+
+                    if (stepBeforeLastOptionalStep.isValid === true)
+                    {
+                        bypass = true;
+                    }
                 }
             }
-
+            
             // Check if the wanted step previous step is not valid to disallow going to the wanted step from the nav (only if linear stepper).
             if (!bypass && lxStepper.isLinear && angular.isDefined(lxStepper.steps[index - 1]) && (angular.isUndefined(lxStepper.steps[index - 1].isValid) || lxStepper.steps[index - 1].isValid === false))
             {
@@ -4855,6 +5436,7 @@
             if (index < lxStepper.steps.length)
             {
                 lxStepper.activeIndex = parseInt(index);
+                lxStepper.steps[lxStepper.activeIndex].pristine = false;
                 $scope.$emit('lx-stepper__step', lxStepper.id, index, index === 0, index === (lxStepper.steps.length - 1));
             }
         }
@@ -4983,7 +5565,7 @@
         lxStep.setIsEditable = setIsEditable;
         lxStep.setIsOptional = setIsOptional;
         lxStep.submitStep = submitStep;
-
+        
         lxStep.step = {
             errorMessage: undefined,
             feedback: undefined,
@@ -4993,7 +5575,9 @@
             isOptional: false,
             isValid: lxStep.isValid,
             label: undefined,
-            uuid: LxUtils.generateUUID()
+            pristine: true,
+            uuid: LxUtils.generateUUID(),
+            validator: undefined
         };
 
         ////////////
@@ -5014,6 +5598,7 @@
         {
             lxStep.parent = parent;
             lxStep.step.index = index;
+            lxStep.step.validator = lxStep.validate;
 
             lxStep.parent.addStep(lxStep.step);
         }
@@ -6265,7 +6850,7 @@ angular.module("lumx.search-filter").run(['$templateCache', function(a) { a.put(
 angular.module("lumx.select").run(['$templateCache', function(a) { a.put('select.html', '<div class="lx-select"\n' +
     '     ng-class="{ \'lx-select--error\': lxSelect.error,\n' +
     '                 \'lx-select--fixed-label\': lxSelect.fixedLabel && lxSelect.viewMode === \'field\',\n' +
-    '                 \'lx-select--is-active\': (!lxSelect.multiple && lxSelect.getSelectedModel()) || (lxSelect.multiple && lxSelect.getSelectedModel().length),\n' +
+    '                 \'lx-select--is-active\': (!lxSelect.multiple && lxSelect.getSelectedModel()) || (lxSelect.multiple && lxSelect.getSelectedModel().length) || (lxSelect.choicesViewMode === \'panes\' && lxSelect.areChoicesOpened()),\n' +
     '                 \'lx-select--is-disabled\': lxSelect.ngDisabled,\n' +
     '                 \'lx-select--is-multiple\': lxSelect.multiple,\n' +
     '                 \'lx-select--is-unique\': !lxSelect.multiple,\n' +
@@ -6276,12 +6861,15 @@ angular.module("lumx.select").run(['$templateCache', function(a) { a.put('select
     '                 \'lx-select--default-style\': !lxSelect.customStyle,\n' +
     '                 \'lx-select--view-mode-field\': !lxSelect.multiple || (lxSelect.multiple && lxSelect.viewMode === \'field\'),\n' +
     '                 \'lx-select--view-mode-chips\': lxSelect.multiple && lxSelect.viewMode === \'chips\',\n' +
+    '                 \'lx-select--panes\': lxSelect.choicesViewMode === \'panes\',\n' +
+    '                 \'lx-select--with-filter\': lxSelect.displayFilter,\n' +
     '                 \'lx-select--autocomplete\': lxSelect.autocomplete }">\n' +
     '    <span class="lx-select-label" ng-if="!lxSelect.autocomplete">\n' +
     '        {{ lxSelect.label }}\n' +
     '    </span>\n' +
     '\n' +
-    '    <lx-dropdown id="dropdown-{{ lxSelect.uuid }}" lx-width="100%" lx-effect="{{ lxSelect.autocomplete ? \'none\' : \'expand\' }}">\n' +
+    '    <lx-dropdown id="dropdown-{{ lxSelect.uuid }}" lx-width="{{ (lxSelect.choicesViewMode === \'panes\') ? \'\' : \'100%\' }}"\n' +
+    '                 lx-effect="{{ lxSelect.autocomplete ? \'none\' : \'expand\' }}">\n' +
     '        <ng-transclude></ng-transclude>\n' +
     '    </lx-dropdown>\n' +
     '</div>\n' +
@@ -6294,14 +6882,18 @@ angular.module("lumx.select").run(['$templateCache', function(a) { a.put('select
     '    <ng-include src="\'select-selected-content.html\'" ng-if="::lxSelectSelected.parentCtrl.autocomplete"></ng-include>\n' +
     '</div>\n' +
     '');
-	a.put('select-selected-content.html', '<div class="lx-select-selected-wrapper" id="lx-select-selected-wrapper-{{ lxSelectSelected.parentCtrl.uuid }}">\n' +
-    '    <div class="lx-select-selected" ng-if="!lxSelectSelected.parentCtrl.multiple && lxSelectSelected.parentCtrl.getSelectedModel()">\n' +
+	a.put('select-selected-content.html', '<div class="lx-select-selected-wrapper"\n' +
+    '     ng-class="{ \'lx-select-selected-wrapper--with-filter\': !lxSelectSelected.parentCtrl.ngDisabled && lxSelectSelected.parentCtrl.areChoicesOpened() && (lxSelectSelected.parentCtrl.multiple || !lxSelectSelected.parentCtrl.getSelectedModel()) }"\n' +
+    '     id="lx-select-selected-wrapper-{{ lxSelectSelected.parentCtrl.uuid }}">\n' +
+    '    <div class="lx-select-selected"\n' +
+    '         ng-if="!lxSelectSelected.parentCtrl.multiple">\n' +
     '        <span class="lx-select-selected__value"\n' +
-    '              ng-bind-html="lxSelectSelected.parentCtrl.displaySelected()"></span>\n' +
+    '              ng-bind-html="lxSelectSelected.parentCtrl.displaySelected()"\n' +
+    '              ng-if="lxSelectSelected.parentCtrl.getSelectedModel()"></span>\n' +
     '\n' +
     '        <a class="lx-select-selected__clear"\n' +
     '           ng-click="lxSelectSelected.clearModel($event)"\n' +
-    '           ng-if="::lxSelectSelected.parentCtrl.allowClear">\n' +
+    '           ng-if="lxSelectSelected.parentCtrl.allowClear && lxSelectSelected.parentCtrl.getSelectedModel()">\n' +
     '            <i class="mdi mdi-close-circle"></i>\n' +
     '        </a>\n' +
     '    </div>\n' +
@@ -6319,21 +6911,32 @@ angular.module("lumx.select").run(['$templateCache', function(a) { a.put('select
     '               ng-model="lxSelectSelected.parentCtrl.filterModel"\n' +
     '               ng-change="lxSelectSelected.parentCtrl.updateFilter()"\n' +
     '               ng-keydown="lxSelectSelected.parentCtrl.keyEvent($event)"\n' +
-    '               ng-if="::lxSelectSelected.parentCtrl.autocomplete && !lxSelectSelected.parentCtrl.ngDisabled">\n' +
+    '               ng-if="lxSelectSelected.parentCtrl.autocomplete && !lxSelectSelected.parentCtrl.ngDisabled">\n' +
     '    </div>\n' +
-    '</div>');
+    '\n' +
+    '    <lx-search-filter lx-dropdown-filter class="lx-select-selected__filter">\n' +
+    '        <input type="text"\n' +
+    '               ng-model="lxSelectSelected.parentCtrl.filterModel"\n' +
+    '               ng-change="lxSelectSelected.parentCtrl.updateFilter()"\n' +
+    '               ng-keydown="lxSelectSelected.parentCtrl.keyEvent($event)"\n' +
+    '               stop-propagation="click">\n' +
+    '    </lx-search-filter>\n' +
+    '</div>\n' +
+    '');
 	a.put('select-choices.html', '<lx-dropdown-menu class="lx-select-choices"\n' +
     '                  ng-class="{ \'lx-select-choices--custom-style\': lxSelectChoices.parentCtrl.choicesCustomStyle,\n' +
     '                              \'lx-select-choices--default-style\': !lxSelectChoices.parentCtrl.choicesCustomStyle,\n' +
     '                              \'lx-select-choices--is-multiple\': lxSelectChoices.parentCtrl.multiple,\n' +
-    '                              \'lx-select-choices--is-unique\': !lxSelectChoices.parentCtrl.multiple, }">\n' +
-    '    <ul>\n' +
+    '                              \'lx-select-choices--is-unique\': !lxSelectChoices.parentCtrl.multiple,\n' +
+    '                              \'lx-select-choices--list\': lxSelectChoices.parentCtrl.choicesViewMode === \'list\',\n' +
+    '                              \'lx-select-choices--multi-panes\': lxSelectChoices.parentCtrl.choicesViewMode === \'panes\' }">\n' +
+    '    <ul ng-if="::lxSelectChoices.parentCtrl.choicesViewMode === \'list\'">\n' +
     '        <li class="lx-select-choices__filter" ng-if="::lxSelectChoices.parentCtrl.displayFilter && !lxSelectChoices.parentCtrl.autocomplete">\n' +
     '            <lx-search-filter lx-dropdown-filter>\n' +
     '                <input type="text" ng-model="lxSelectChoices.parentCtrl.filterModel" ng-change="lxSelectChoices.parentCtrl.updateFilter()">\n' +
     '            </lx-search-filter>\n' +
     '        </li>\n' +
-    '        \n' +
+    '\n' +
     '        <div ng-if="::lxSelectChoices.isArray()">\n' +
     '            <li class="lx-select-choices__choice"\n' +
     '                ng-class="{ \'lx-select-choices__choice--is-selected\': lxSelectChoices.parentCtrl.isSelected(choice),\n' +
@@ -6365,6 +6968,24 @@ angular.module("lumx.select").run(['$templateCache', function(a) { a.put('select
     '            <lx-progress lx-type="circular" lx-color="primary" lx-diameter="20"></lx-progress>\n' +
     '        </li>\n' +
     '    </ul>\n' +
+    '\n' +
+    '    <div ng-if="::lxSelectChoices.parentCtrl.choicesViewMode === \'panes\'" stop-propagation="click">\n' +
+    '        <div class="lx-select-choices__panes-container">\n' +
+    '            <div class="lx-select-choices__pane lx-select-choices__pane-{{ $index }}"\n' +
+    '                 ng-class="{ \'lx-select-choices__pane--is-filtering\': lxSelectChoices.parentCtrl.matchingPaths !== undefined,\n' +
+    '                             \'lx-select-choices__pane--first\': $first,\n' +
+    '                             \'lx-select-choices__pane--last\': $last }"\n' +
+    '                 ng-repeat="pane in lxSelectChoices.parentCtrl.panes">\n' +
+    '                <div ng-repeat="(label, items) in pane"\n' +
+    '                   class="lx-select-choices__pane-choice"\n' +
+    '                   ng-class="{ \'lx-select-choices__pane-choice--is-selected\': lxSelectChoices.parentCtrl.isPaneToggled($parent.$index, label) || lxSelectChoices.parentCtrl.isSelected(items),\n' +
+    '                               \'lx-select-choices__pane-choice--is-matching\': lxSelectChoices.parentCtrl.isMatchingPath($parent.$index, label) }"\n' +
+    '                   ng-bind-html="(lxSelectChoices.isArray(pane)) ? lxSelectChoices.parentCtrl.displayChoice(items) : lxSelectChoices.parentCtrl.displaySubheader(label)"\n' +
+    '                   ng-click="lxSelectChoices.parentCtrl.togglePane($event, $parent.$index, label, true)">\n' +
+    '                </div>\n' +
+    '            </div>\n' +
+    '        </div>\n' +
+    '    </div>\n' +
     '</lx-dropdown-menu>\n' +
     '');
 	 }]);

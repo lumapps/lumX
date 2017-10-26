@@ -1,5 +1,20 @@
 # Changelog
 
+## v1.6.4:
+
+#### New features:
+ - select: reduce the height of a line
+ - select: add a "panes" choices view mode
+ - utils: add a function to escape regexp char in a string
+ - utils: add misc directives and filters useful for future features
+ - dropdown: send events when the dropdown open/close (start/end)
+ - readme: fix documentation docker port
+ - stepper: add validity check on goToStep
+
+#### Bug fixes:
+ - radio: call init in the link function
+
+
 ## v1.6.3:
 *No major changes.*
 
