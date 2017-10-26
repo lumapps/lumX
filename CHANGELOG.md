@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.6.8:
+
+#### Bug fixes:
+ - select: fix the display of leaf items
+
+
 ## v1.6.7:
 
 #### Bug fixes:

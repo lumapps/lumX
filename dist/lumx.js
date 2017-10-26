@@ -1,5 +1,5 @@
 /*
- LumX v1.6.7
+ LumX v1.6.8
  (c) 2014-2017 LumApps http://ui.lumapps.com
  License: MIT
 */
@@ -6969,7 +6969,8 @@ angular.module("lumx.select").run(['$templateCache', function(a) { a.put('select
     '                <div ng-repeat="(label, items) in pane"\n' +
     '                   class="lx-select-choices__pane-choice"\n' +
     '                   ng-class="{ \'lx-select-choices__pane-choice--is-selected\': lxSelectChoices.parentCtrl.isPaneToggled($parent.$index, label) || lxSelectChoices.parentCtrl.isSelected(items),\n' +
-    '                               \'lx-select-choices__pane-choice--is-matching\': lxSelectChoices.parentCtrl.isMatchingPath($parent.$index, label) }"\n' +
+    '                               \'lx-select-choices__pane-choice--is-matching\': lxSelectChoices.parentCtrl.isMatchingPath($parent.$index, label),\n' +
+    '                               \'lx-select-choices__pane-choice--is-leaf\': lxSelectChoices.isArray(pane) }"\n' +
     '                   ng-bind-html="(lxSelectChoices.isArray(pane)) ? lxSelectChoices.parentCtrl.displayChoice(items) : lxSelectChoices.parentCtrl.displaySubheader(label)"\n' +
     '                   ng-click="lxSelectChoices.parentCtrl.togglePane($event, $parent.$index, label, true)">\n' +
     '                </div>\n' +
