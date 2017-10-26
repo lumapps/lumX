@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.6.10:
+
+#### Bug fixes:
+ - select: remove display flex from the choice container
+
+
 ## v1.6.9:
 
 #### New features:
