@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.6.9:
+
+#### New features:
+ - select: allow to limit the fields to search in with the filter
+
+
 ## v1.6.8:
 
 #### Bug fixes:
