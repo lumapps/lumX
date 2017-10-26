@@ -1,5 +1,12 @@
 # Changelog
 
+## v1.6.7:
+
+#### Bug fixes:
+ - select: make the panes select scrollable
+ - dropdown: make the dropdown scrollable
+
+
 ## v1.6.6:
 
 #### Bug fixes:

@@ -485,7 +485,7 @@
 
     .lx-select-choices--multi-panes {
         width: auto !important;
-        overflow-x: hidden !important;
+        overflow: hidden !important;
 
         .dropdown-menu__content {
             padding: 0;
@@ -497,9 +497,15 @@
         @include flex-direction(row);
     }
 
+    .lx-select-choices__panes-wrapper,
+    .lx-select-choices__panes-container {
+        height: 100%;
+    }
+
     .lx-select-choices__pane {
         @include position(relative);
         padding: $base-spacing-unit 0;
+        overflow: auto;
 
         &-choice {
             @include display(flex);
