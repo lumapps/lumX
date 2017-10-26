@@ -1,11 +1,15 @@
-<div class="lx-select-selected-wrapper" id="lx-select-selected-wrapper-{{ lxSelectSelected.parentCtrl.uuid }}">
-    <div class="lx-select-selected" ng-if="!lxSelectSelected.parentCtrl.multiple && lxSelectSelected.parentCtrl.getSelectedModel()">
+<div class="lx-select-selected-wrapper"
+     ng-class="{ 'lx-select-selected-wrapper--with-filter': !lxSelectSelected.parentCtrl.ngDisabled && lxSelectSelected.parentCtrl.areChoicesOpened() && (lxSelectSelected.parentCtrl.multiple || !lxSelectSelected.parentCtrl.getSelectedModel()) }"
+     id="lx-select-selected-wrapper-{{ lxSelectSelected.parentCtrl.uuid }}">
+    <div class="lx-select-selected"
+         ng-if="!lxSelectSelected.parentCtrl.multiple">
         <span class="lx-select-selected__value"
-              ng-bind-html="lxSelectSelected.parentCtrl.displaySelected()"></span>
+              ng-bind-html="lxSelectSelected.parentCtrl.displaySelected()"
+              ng-if="lxSelectSelected.parentCtrl.getSelectedModel()"></span>
 
         <a class="lx-select-selected__clear"
            ng-click="lxSelectSelected.clearModel($event)"
-           ng-if="::lxSelectSelected.parentCtrl.allowClear">
+           ng-if="lxSelectSelected.parentCtrl.allowClear && lxSelectSelected.parentCtrl.getSelectedModel()">
             <i class="mdi mdi-close-circle"></i>
         </a>
     </div>
@@ -23,6 +27,14 @@
                ng-model="lxSelectSelected.parentCtrl.filterModel"
                ng-change="lxSelectSelected.parentCtrl.updateFilter()"
                ng-keydown="lxSelectSelected.parentCtrl.keyEvent($event)"
-               ng-if="::lxSelectSelected.parentCtrl.autocomplete && !lxSelectSelected.parentCtrl.ngDisabled">
+               ng-if="lxSelectSelected.parentCtrl.autocomplete && !lxSelectSelected.parentCtrl.ngDisabled">
     </div>
+
+    <lx-search-filter lx-dropdown-filter class="lx-select-selected__filter">
+        <input type="text"
+               ng-model="lxSelectSelected.parentCtrl.filterModel"
+               ng-change="lxSelectSelected.parentCtrl.updateFilter()"
+               ng-keydown="lxSelectSelected.parentCtrl.keyEvent($event)"
+               stop-propagation="click">
+    </lx-search-filter>
 </div>
