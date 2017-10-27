@@ -495,10 +495,11 @@
     .lx-select-choices__panes-container {
         @include display(flex);
         @include flex-direction(row);
+        height: 100%;
     }
 
-    .lx-select-choices__panes-wrapper,
-    .lx-select-choices__panes-container {
+    .lx-select-choices__panes-wrapper {
+        @extend .bgc-grey-700;
         height: 100%;
     }
 
