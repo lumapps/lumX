@@ -6,9 +6,9 @@
         .module('Controllers')
         .controller('DemoSelectController', DemoSelectController);
 
-    DemoSelectController.$inject = ['$http', 'LxNotificationService'];
+    DemoSelectController.$inject = ['$http', '$scope', '$timeout', 'LxNotificationService'];
 
-    function DemoSelectController($http, LxNotificationService)
+    function DemoSelectController($http, $scope, $timeout, LxNotificationService)
     {
         var vm = this;
 
@@ -165,7 +165,7 @@
             }
         ];
         vm.selectPeopleMultipane = {
-            '<i class="mdi mdi-human-male"></i> <span>Male</span>': {
+            '<i class="mdi mdi-human-male"></i> <span>Male humans</span>': {
                 'Old': [
                     {
                         uid: '1',
@@ -180,7 +180,7 @@
                         name: 'Ben'
                     }
                 ],
-                'Middle-aged': [
+                'Middle aged': [
                     {
                         uid: '4',
                         name: 'Franck'
@@ -205,7 +205,7 @@
                             name: 'Sue Helen'
                         }
                     ],
-                    'Middle-aged': {
+                    'Middle aged': {
                         'Lorem': [
                             {
                                 uid: '8',
@@ -320,6 +320,13 @@
             selectedPeopleMultipaneMultiple: [],
             selectedVegetables: []
         };
+        vm.multipaneLoading = true;
+
+        $scope.$on('lx-dropdown__open-end', function onDropdownOpenEnd() {
+            $timeout(function delayEndLoading() {
+                vm.multipaneLoading = false;
+            }, 1500);
+        });
 
         ////////////
 
