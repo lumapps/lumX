@@ -332,13 +332,15 @@
                 return;
             }
 
+            var previousPaneIndex = lxSelect.panes.length - 2;
+
             lxSelect.activeChoiceIndex = (
-                Object.keys(lxSelect.panes[(lxSelect.panes.length - 2)]) || []
+                Object.keys(lxSelect.panes[]) || [previousPaneIndex]
             ).indexOf(
-                (toggledPanes[lxSelect.panes.length - 2] || {}).key
+                (toggledPanes[previousPaneIndex] || {}).key
             );
 
-            _closePane(lxSelect.panes.length - 2);
+            _closePane(previousPaneIndex);
         }
 
         function _keyRemove()
