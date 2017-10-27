@@ -291,7 +291,9 @@
             }
 
             return longest;
-        }/**
+        }
+
+        /**
          * When the down key is pressed, select the next item of the most right opened pane (the first one if we are at
          * the bottom).
          */
@@ -1144,7 +1146,7 @@
 
             lxSelect.filterModel = undefined;
             lxSelect.matchingPaths = undefined;
-            lxSelect.activeChoiceIndex = -1
+            lxSelect.activeChoiceIndex = -1;
 
             _closePanes();
         });
