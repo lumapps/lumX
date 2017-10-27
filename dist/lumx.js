@@ -1,5 +1,5 @@
 /*
- LumX v1.6.11
+ LumX v1.6.12
  (c) 2014-2017 LumApps http://ui.lumapps.com
  License: MIT
 */
@@ -4404,7 +4404,7 @@
             var previousPaneIndex = lxSelect.panes.length - 2;
 
             lxSelect.activeChoiceIndex = (
-                Object.keys(lxSelect.panes[]) || [previousPaneIndex]
+                Object.keys(lxSelect.panes[previousPaneIndex]) || []
             ).indexOf(
                 (toggledPanes[previousPaneIndex] || {}).key
             );

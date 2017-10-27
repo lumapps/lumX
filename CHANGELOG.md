@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.6.12:
+
+#### Bug fixes:
+ - select: fix a typo
+
+
 ## v1.6.11:
 
 #### New features:
