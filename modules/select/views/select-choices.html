@@ -53,7 +53,7 @@
                  ng-repeat="pane in lxSelectChoices.parentCtrl.panes">
                 <div ng-repeat="(label, items) in pane"
                    class="lx-select-choices__pane-choice"
-                   ng-class="{ 'lx-select-choices__pane-choice--is-selected': lxSelectChoices.parentCtrl.isPaneToggled($parent.$index, label) || lxSelectChoices.parentCtrl.isSelected(items),
+                   ng-class="{ 'lx-select-choices__pane-choice--is-selected': lxSelectChoices.parentCtrl.isPaneToggled($parent.$index, label) || lxSelectChoices.parentCtrl.isSelected(items) || ($parent.$last && lxSelectChoices.parentCtrl.activeChoiceIndex === $index),
                                'lx-select-choices__pane-choice--is-matching': lxSelectChoices.parentCtrl.isMatchingPath($parent.$index, label),
                                'lx-select-choices__pane-choice--is-leaf': lxSelectChoices.isArray(pane) }"
                    ng-bind-html="(lxSelectChoices.isArray(pane)) ? lxSelectChoices.parentCtrl.displayChoice(items) : lxSelectChoices.parentCtrl.displaySubheader(label)"
