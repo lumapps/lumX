@@ -335,7 +335,7 @@
             var previousPaneIndex = lxSelect.panes.length - 2;
 
             lxSelect.activeChoiceIndex = (
-                Object.keys(lxSelect.panes[]) || [previousPaneIndex]
+                Object.keys(lxSelect.panes[previousPaneIndex]) || []
             ).indexOf(
                 (toggledPanes[previousPaneIndex] || {}).key
             );
