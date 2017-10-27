@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.6.11:
+
+#### New features:
+ - select: support the arrow and enter keys in pane mode
+
+
 ## v1.6.10:
 
 #### Bug fixes:

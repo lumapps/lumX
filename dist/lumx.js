@@ -1,5 +1,5 @@
 /*
- LumX v1.6.10
+ LumX v1.6.11
  (c) 2014-2017 LumApps http://ui.lumapps.com
  License: MIT
 */
@@ -4236,31 +4236,22 @@
 
     function LxSelectController($interpolate, $element, $filter, $sce, $scope, $timeout, LxDepthService, LxDropdownService, LxUtils)
     {
+        /////////////////////////////
+        //                         //
+        //    Private attributes   //
+        //                         //
+        /////////////////////////////
+
         var lxSelect = this;
         var choiceTemplate;
         var selectedTemplate;
         var toggledPanes = {};
 
-        lxSelect.areChoicesOpened = areChoicesOpened;
-        lxSelect.displayChoice = displayChoice;
-        lxSelect.displaySelected = displaySelected;
-        lxSelect.displaySubheader = displaySubheader;
-        lxSelect.getFilteredChoices = getFilteredChoices;
-        lxSelect.getSelectedModel = getSelectedModel;
-        lxSelect.isLeaf = isLeaf;
-        lxSelect.isMatchingPath = isMatchingPath;
-        lxSelect.isPaneToggled = isPaneToggled;
-        lxSelect.isSelected = isSelected;
-        lxSelect.keyEvent = keyEvent;
-        lxSelect.registerChoiceTemplate = registerChoiceTemplate;
-        lxSelect.registerSelectedTemplate = registerSelectedTemplate;
-        lxSelect.searchPath = searchPath;
-        lxSelect.select = select;
-        lxSelect.toggleChoice = toggleChoice;
-        lxSelect.togglePane = togglePane;
-        lxSelect.unselect = unselect;
-        lxSelect.updateFilter = updateFilter;
-        lxSelect.helperDisplayable = helperDisplayable;
+        /////////////////////////////
+        //                         //
+        //    Public attributes    //
+        //                         //
+        /////////////////////////////
 
         lxSelect.activeChoiceIndex = -1;
         lxSelect.activeSelectedIndex = -1;
@@ -4274,6 +4265,10 @@
         lxSelect.panes = [];
         lxSelect.matchingPaths = undefined;
 
+        /////////////////////////////
+        //                         //
+        //    Private functions    //
+        //                         //
         /////////////////////////////
 
         /**
@@ -4368,22 +4363,180 @@
         }
 
         /**
+         * When the down key is pressed, select the next item of the most right opened pane (the first one if we are at
+         * the bottom).
+         */
+        function _keyDown()
+        {
+            var filteredChoices;
+
+            if (lxSelect.choicesViewMode === 'panes') {
+                filteredChoices = Object.keys(lxSelect.panes[(lxSelect.panes.length - 1)]);
+            } else {
+                filteredChoices = $filter('filterChoices')(lxSelect.choices, lxSelect.filter, lxSelect.filterModel);
+            }
+
+            if (filteredChoices.length)
+            {
+                lxSelect.activeChoiceIndex += 1;
+
+                if (lxSelect.activeChoiceIndex >= filteredChoices.length)
+                {
+                    lxSelect.activeChoiceIndex = 0;
+                }
+            }
+
+            if (lxSelect.autocomplete)
+            {
+                LxDropdownService.open('dropdown-' + lxSelect.uuid, '#lx-select-selected-wrapper-' + lxSelect.uuid);
+            }
+        }
+
+        /**
+         * When the left key is pressed and we are displaying the choices in pane mode, close the most right opened
+         * pane.
+         */
+        function _keyLeft() {
+            if (lxSelect.choicesViewMode !== 'panes' || lxSelect.panes.length < 2) {
+                return;
+            }
+
+            var previousPaneIndex = lxSelect.panes.length - 2;
+
+            lxSelect.activeChoiceIndex = (
+                Object.keys(lxSelect.panes[]) || [previousPaneIndex]
+            ).indexOf(
+                (toggledPanes[previousPaneIndex] || {}).key
+            );
+
+            _closePane(previousPaneIndex);
+        }
+
+        function _keyRemove()
+        {
+            if (lxSelect.filterModel || angular.isUndefined(lxSelect.getSelectedModel()) || !lxSelect.getSelectedModel().length)
+            {
+                return;
+            }
+
+            if (lxSelect.activeSelectedIndex === -1)
+            {
+                lxSelect.activeSelectedIndex = lxSelect.getSelectedModel().length - 1;
+            }
+            else
+            {
+                unselect(lxSelect.getSelectedModel()[lxSelect.activeSelectedIndex]);
+            }
+        }
+
+        /**
+         * When the right key is pressed and we are displaying the choices in pane mode, open the currently selected
+         * pane.
+         */
+        function _keyRight() {
+            if (lxSelect.choicesViewMode !== 'panes' || lxSelect.activeChoiceIndex === -1) {
+                return;
+            }
+
+            var paneOpened = _openPane((lxSelect.panes.length - 1), lxSelect.activeChoiceIndex, true);
+
+            if (paneOpened) {
+                lxSelect.activeChoiceIndex = 0;
+            } else {
+                _keySelect();
+            }
+        }
+
+        /**
+         * When the enter key is pressed, select the currently active choice.
+         */
+        function _keySelect() {
+            var filteredChoices;
+
+            if (lxSelect.choicesViewMode === 'panes') {
+                filteredChoices = lxSelect.panes[(lxSelect.panes.length - 1)];
+                if (!lxSelect.isLeaf(filteredChoices[lxSelect.activeChoiceIndex])) {
+                    return;
+                }
+            } else {
+                filteredChoices = $filter('filterChoices')(lxSelect.choices, lxSelect.filter, lxSelect.filterModel);
+            }
+
+            if (filteredChoices.length && filteredChoices[lxSelect.activeChoiceIndex]) {
+                lxSelect.toggleChoice(filteredChoices[lxSelect.activeChoiceIndex]);
+            } else if (lxSelect.filterModel && lxSelect.allowNewValue) {
+                if (angular.isArray(getSelectedModel())) {
+                    var value = angular.isFunction(lxSelect.newValueTransform) ? lxSelect.newValueTransform(lxSelect.filterModel) : lxSelect.filterModel;
+                    var identical = getSelectedModel().some(function (item) {
+                        return angular.equals(item, value);
+                    });
+
+                    if (!identical) {
+                        lxSelect.getSelectedModel().push(value);
+                    }
+                }
+
+                lxSelect.filterModel = undefined;
+
+                LxDropdownService.close('dropdown-' + lxSelect.uuid);
+            }
+        }
+
+        /**
+         * When the up key is pressed, select the previous item of the most right opened pane (the last one if we are at
+         * the top).
+         */
+        function _keyUp() {
+            var filteredChoices;
+
+            if (lxSelect.choicesViewMode === 'panes') {
+                filteredChoices = Object.keys(lxSelect.panes[(lxSelect.panes.length - 1)]);
+            } else {
+                filteredChoices = $filter('filterChoices')(lxSelect.choices, lxSelect.filter, lxSelect.filterModel);
+            }
+
+            if (filteredChoices.length) {
+                lxSelect.activeChoiceIndex -= 1;
+
+                if (lxSelect.activeChoiceIndex < 0) {
+                    lxSelect.activeChoiceIndex = filteredChoices.length - 1;
+                }
+            }
+
+            if (lxSelect.autocomplete) {
+                LxDropdownService.open('dropdown-' + lxSelect.uuid, '#lx-select-selected-wrapper-' + lxSelect.uuid);
+            }
+        }
+
+        /**
+         * When a key is pressed, call the event handler in the angular context.
+         *
+         * @param {Event} evt The keydown event.
+         */
+        function _onKeyDown(evt) {
+            $scope.$apply(function applyKeyEvent() {
+                lxSelect.keyEvent(evt);
+            });
+        }
+
+        /**
          * Open a pane.
          * If the pane is already opened, don't do anything.
          *
-         * @param {number}        parentIndex         The index of the parent of the pane to open.
-         * @param {number|string} indexOrKey          The index or the name of the pane to open.
-         * @param {boolean}       [checkIsLeaf=false] Check if the pane we want to open is in fact a leaf.
-         *                                            In the case of a leaf, don't open it.
+         * @param  {number}        parentIndex         The index of the parent of the pane to open.
+         * @param  {number|string} indexOrKey          The index or the name of the pane to open.
+         * @param  {boolean}       [checkIsLeaf=false] Check if the pane we want to open is in fact a leaf.
+         *                                             In the case of a leaf, don't open it.
+         * @return {boolean}       Indicates if the panel has been opened or not.
          */
         function _openPane(parentIndex, indexOrKey, checkIsLeaf) {
             if (angular.isDefined(toggledPanes[parentIndex])) {
-                return;
+                return false;
             }
 
             var pane = pane || lxSelect.panes[parentIndex];
             if (angular.isUndefined(pane)) {
-                return;
+                return false;
             }
 
             var key = indexOrKey;
@@ -4392,7 +4545,7 @@
             }
 
             if (checkIsLeaf && lxSelect.isLeaf(pane[key])) {
-                return;
+                return false;
             }
 
             lxSelect.panes.push(pane[key]);
@@ -4401,6 +4554,8 @@
                 position: lxSelect.panes.length - 1,
                 path: (parentIndex === 0) ? key : toggledPanes[parentIndex - 1].path + '.' + key,
             };
+
+            return true;
         }
 
         /**
@@ -4457,54 +4612,9 @@
         }
 
         /////////////////////////////
-
-        $scope.$watch(function watcherChoices() {
-            return lxSelect.choices;
-        }, function watchChoices(newChoices, oldChoices) {
-            if (angular.isUndefined(lxSelect.choices) || lxSelect.choices === null) {
-                lxSelect.panes = [];
-
-                return;
-            }
-
-            lxSelect.panes = [lxSelect.choices];
-        }, true);
-
-        /////////////////////////////
-
-        /**
-         * When the choices dropdown closes, reset the toggled panels and the filter.
-         *
-         * @param {Event}  evt        The dropdown close event.
-         * @param {string} dropdownId The id of the dropdown that ends to close.
-         */
-        $scope.$on('lx-dropdown__close-end', function onDropdownClose(evt, dropdownId) {
-            if (lxSelect.choicesViewMode !== 'panes' || dropdownId !== 'dropdown-' + lxSelect.uuid) {
-                return;
-            }
-
-            lxSelect.filterModel = undefined;
-            lxSelect.matchingPaths = undefined;
-
-            _closePanes();
-        });
-
-        /**
-         * When the choices dropdown opens, focus the search filter.
-         *
-         * @param {Event}  evt        The dropdown open event.
-         * @param {string} dropdownId The id of the dropdown that ends to close.
-         */
-        $scope.$on('lx-dropdown__open-start', function onDropdownOpen(evt, dropdownId) {
-            if (lxSelect.choicesViewMode !== 'panes' || dropdownId !== 'dropdown-' + lxSelect.uuid) {
-                return;
-            }
-
-            $timeout(function delayFocusSearchFilter() {
-                $element.find('.lx-select-selected__filter input').focus();
-            });
-        });
-
+        //                         //
+        //     Public functions    //
+        //                         //
         /////////////////////////////
 
         function arrayObjectIndexOf(arr, obj)
@@ -4709,123 +4819,57 @@
             }
         }
 
-        function keyEvent(_event)
-        {
-            if (_event.keyCode !== 8)
-            {
+        /**
+         * Handle a key press event
+         *
+         * @param {Event} evt The key press event.
+         */
+        function keyEvent(evt) {
+            if (evt.keyCode !== 8) {
                 lxSelect.activeSelectedIndex = -1;
             }
 
-            if (!LxDropdownService.isOpen('dropdown-' + lxSelect.uuid))
-            {
+            if (!LxDropdownService.isOpen('dropdown-' + lxSelect.uuid)) {
                 lxSelect.activeChoiceIndex = -1;
             }
 
-            switch (_event.keyCode) {
+            switch (evt.keyCode) {
                 case 8:
-                    keyRemove();
+                    _keyRemove();
                     break;
 
                 case 13:
-                    keySelect();
-                    _event.preventDefault();
+                    _keySelect();
+                    evt.preventDefault();
+                    break;
+
+                case 37:
+                    if (lxSelect.activeChoiceIndex > -1) {
+                        _keyLeft();
+                        evt.preventDefault();
+                    }
                     break;
 
                 case 38:
-                    keyUp();
-                    _event.preventDefault();
+                    _keyUp();
+                    evt.preventDefault();
                     break;
+
+                case 39:
+                    if (lxSelect.activeChoiceIndex > -1) {
+                        _keyRight();
+                        evt.preventDefault();
+                    }
+                    break;
+
 
                 case 40:
-                    keyDown();
-                    _event.preventDefault();
+                    _keyDown();
+                    evt.preventDefault();
                     break;
-            }
-        }
 
-        function keyDown()
-        {
-            var filteredChoices = $filter('filterChoices')(lxSelect.choices, lxSelect.filter, lxSelect.filterModel);
-
-            if (filteredChoices.length)
-            {
-                lxSelect.activeChoiceIndex += 1;
-
-                if (lxSelect.activeChoiceIndex >= filteredChoices.length)
-                {
-                    lxSelect.activeChoiceIndex = 0;
-                }
-            }
-
-            if (lxSelect.autocomplete)
-            {
-                LxDropdownService.open('dropdown-' + lxSelect.uuid, '#lx-select-selected-wrapper-' + lxSelect.uuid);
-            }
-        }
-
-        function keyRemove()
-        {
-            if (lxSelect.filterModel || angular.isUndefined(lxSelect.getSelectedModel()) || !lxSelect.getSelectedModel().length)
-            {
-                return;
-            }
-
-            if (lxSelect.activeSelectedIndex === -1)
-            {
-                lxSelect.activeSelectedIndex = lxSelect.getSelectedModel().length - 1;
-            }
-            else
-            {
-                unselect(lxSelect.getSelectedModel()[lxSelect.activeSelectedIndex]);
-            }
-        }
-
-        function keySelect()
-        {
-            var filteredChoices = $filter('filterChoices')(lxSelect.choices, lxSelect.filter, lxSelect.filterModel);
-
-            if (filteredChoices.length && filteredChoices[lxSelect.activeChoiceIndex])
-            {
-                toggleChoice(filteredChoices[lxSelect.activeChoiceIndex]);
-            }
-            else if (lxSelect.filterModel && lxSelect.allowNewValue)
-            {
-                if (angular.isArray(getSelectedModel()))
-                {
-                    var value = angular.isFunction(lxSelect.newValueTransform) ? lxSelect.newValueTransform(lxSelect.filterModel) : lxSelect.filterModel;
-                    var identical = getSelectedModel().some(function (item) {
-                        return angular.equals(item, value);
-                    });
-
-                    if (!identical)
-                    {
-                        getSelectedModel().push(value);
-                    }
-                }
-
-                lxSelect.filterModel = undefined;
-
-                LxDropdownService.close('dropdown-' + lxSelect.uuid);
-            }
-        }
-
-        function keyUp()
-        {
-            var filteredChoices = $filter('filterChoices')(lxSelect.choices, lxSelect.filter, lxSelect.filterModel);
-
-            if (filteredChoices.length)
-            {
-                lxSelect.activeChoiceIndex -= 1;
-
-                if (lxSelect.activeChoiceIndex < 0)
-                {
-                    lxSelect.activeChoiceIndex = filteredChoices.length - 1;
-                }
-            }
-
-            if (lxSelect.autocomplete)
-            {
-                LxDropdownService.open('dropdown-' + lxSelect.uuid, '#lx-select-selected-wrapper-' + lxSelect.uuid);
+                default:
+                    break;
             }
         }
 
@@ -4895,27 +4939,29 @@
             }
         }
 
-        function toggleChoice(_choice, _event)
-        {
-            if (lxSelect.multiple && !lxSelect.autocomplete)
-            {
-                _event.stopPropagation();
+        /**
+         * Toggle the given choice. If it was selected, unselect it. If it wasn't selected, select it.
+         *
+         * @param {Object} choice The choice to toggle.
+         * @param {Event}  [evt]  The event that triggered the function.
+         */
+        function toggleChoice(choice, evt) {
+            if (lxSelect.multiple && !lxSelect.autocomplete && angular.isDefined(evt)) {
+                evt.stopPropagation();
             }
 
-            if (lxSelect.multiple && isSelected(_choice))
-            {
-                unselect(_choice);
-            }
-            else
-            {
-                select(_choice);
+            if (lxSelect.multiple && isSelected(choice)) {
+                lxSelect.unselect(choice);
+            } else {
+                lxSelect.select(choice);
             }
 
-            if (lxSelect.autocomplete)
-            {
+            if (lxSelect.autocomplete) {
                 lxSelect.activeChoiceIndex = -1;
                 lxSelect.filterModel = undefined;
+            }
 
+            if (lxSelect.autocomplete || (lxSelect.choicesViewMode === 'panes' && !lxSelect.multiple)) {
                 LxDropdownService.close('dropdown-' + lxSelect.uuid);
             }
         }
@@ -5108,6 +5154,91 @@
 
             return _searchPath(lxSelect.choices, regexp);
         }
+
+        /////////////////////////////
+
+        lxSelect.areChoicesOpened = areChoicesOpened;
+        lxSelect.displayChoice = displayChoice;
+        lxSelect.displaySelected = displaySelected;
+        lxSelect.displaySubheader = displaySubheader;
+        lxSelect.getFilteredChoices = getFilteredChoices;
+        lxSelect.getSelectedModel = getSelectedModel;
+        lxSelect.helperDisplayable = helperDisplayable;
+        lxSelect.isLeaf = isLeaf;
+        lxSelect.isMatchingPath = isMatchingPath;
+        lxSelect.isPaneToggled = isPaneToggled;
+        lxSelect.isSelected = isSelected;
+        lxSelect.keyEvent = keyEvent;
+        lxSelect.registerChoiceTemplate = registerChoiceTemplate;
+        lxSelect.registerSelectedTemplate = registerSelectedTemplate;
+        lxSelect.searchPath = searchPath;
+        lxSelect.select = select;
+        lxSelect.toggleChoice = toggleChoice;
+        lxSelect.togglePane = togglePane;
+        lxSelect.unselect = unselect;
+        lxSelect.updateFilter = updateFilter;
+
+        /////////////////////////////
+        //                         //
+        //        Watchers         //
+        //                         //
+        /////////////////////////////
+
+        $scope.$watch(function watcherChoices() {
+            return lxSelect.choices;
+        }, function watchChoices(newChoices, oldChoices) {
+            if (angular.isUndefined(lxSelect.choices) || lxSelect.choices === null) {
+                lxSelect.panes = [];
+
+                return;
+            }
+
+            lxSelect.panes = [lxSelect.choices];
+        }, true);
+
+        /////////////////////////////
+        //                         //
+        //          Events         //
+        //                         //
+        /////////////////////////////
+
+        /**
+         * When the choices dropdown closes, reset the toggled panels and the filter.
+         *
+         * @param {Event}  evt        The dropdown close event.
+         * @param {string} dropdownId The id of the dropdown that ends to close.
+         */
+        $scope.$on('lx-dropdown__close-end', function onDropdownClose(evt, dropdownId) {
+            if (lxSelect.choicesViewMode !== 'panes' || dropdownId !== 'dropdown-' + lxSelect.uuid) {
+                return;
+            }
+
+            angular.element(document).off('keydown', _onKeyDown);
+
+            lxSelect.filterModel = undefined;
+            lxSelect.matchingPaths = undefined;
+            lxSelect.activeChoiceIndex = -1;
+
+            _closePanes();
+        });
+
+        /**
+         * When the choices dropdown opens, focus the search filter.
+         *
+         * @param {Event}  evt        The dropdown open event.
+         * @param {string} dropdownId The id of the dropdown that ends to close.
+         */
+        $scope.$on('lx-dropdown__open-start', function onDropdownOpen(evt, dropdownId) {
+            if (lxSelect.choicesViewMode !== 'panes' || dropdownId !== 'dropdown-' + lxSelect.uuid) {
+                return;
+            }
+
+            angular.element(document).on('keydown', _onKeyDown);
+
+            $timeout(function delayFocusSearchFilter() {
+                $element.find('.lx-select-selected__filter input').focus();
+            });
+        });
     }
 
     function lxSelectSelected()
@@ -6918,7 +7049,6 @@ angular.module("lumx.select").run(['$templateCache', function(a) { a.put('select
     '        <input type="text"\n' +
     '               ng-model="lxSelectSelected.parentCtrl.filterModel"\n' +
     '               ng-change="lxSelectSelected.parentCtrl.updateFilter()"\n' +
-    '               ng-keydown="lxSelectSelected.parentCtrl.keyEvent($event)"\n' +
     '               stop-propagation="click">\n' +
     '    </lx-search-filter>\n' +
     '</div>\n' +
@@ -6978,7 +7108,7 @@ angular.module("lumx.select").run(['$templateCache', function(a) { a.put('select
     '                 ng-repeat="pane in lxSelectChoices.parentCtrl.panes">\n' +
     '                <div ng-repeat="(label, items) in pane"\n' +
     '                   class="lx-select-choices__pane-choice"\n' +
-    '                   ng-class="{ \'lx-select-choices__pane-choice--is-selected\': lxSelectChoices.parentCtrl.isPaneToggled($parent.$index, label) || lxSelectChoices.parentCtrl.isSelected(items),\n' +
+    '                   ng-class="{ \'lx-select-choices__pane-choice--is-selected\': lxSelectChoices.parentCtrl.isPaneToggled($parent.$index, label) || lxSelectChoices.parentCtrl.isSelected(items) || ($parent.$last && lxSelectChoices.parentCtrl.activeChoiceIndex === $index),\n' +
     '                               \'lx-select-choices__pane-choice--is-matching\': lxSelectChoices.parentCtrl.isMatchingPath($parent.$index, label),\n' +
     '                               \'lx-select-choices__pane-choice--is-leaf\': lxSelectChoices.isArray(pane) }"\n' +
     '                   ng-bind-html="(lxSelectChoices.isArray(pane)) ? lxSelectChoices.parentCtrl.displayChoice(items) : lxSelectChoices.parentCtrl.displaySubheader(label)"\n' +
