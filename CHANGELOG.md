@@ -1,5 +1,14 @@
 # Changelog
 
+## v1.6.13:
+
+#### New features:
+ - select: support loader in multipane mode
+
+#### Bug fixes:
+ - dropdown: add a missing semicolon
+
+
 ## v1.6.12:
 
 #### Bug fixes:

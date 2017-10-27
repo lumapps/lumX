@@ -1,5 +1,5 @@
 /*
- LumX v1.6.12
+ LumX v1.6.13
  (c) 2014-2017 LumApps http://ui.lumapps.com
  License: MIT
 */
@@ -2228,7 +2228,7 @@
                     }
 
                     updateDropdownMenuHeight();
-                })
+                });
 
                 if (lxDropdown.effect === 'expand')
                 {
@@ -7100,7 +7100,11 @@ angular.module("lumx.select").run(['$templateCache', function(a) { a.put('select
     '    </ul>\n' +
     '\n' +
     '    <div class="lx-select-choices__panes-wrapper" ng-if="::lxSelectChoices.parentCtrl.choicesViewMode === \'panes\'" stop-propagation="click">\n' +
-    '        <div class="lx-select-choices__panes-container">\n' +
+    '        <div class="lx-select-choices__loader" ng-if="lxSelectChoices.parentCtrl.loading">\n' +
+    '            <lx-progress lx-type="circular" lx-color="white" lx-diameter="60"></lx-progress>\n' +
+    '        </div>\n' +
+    '\n' +
+    '        <div class="lx-select-choices__panes-container" ng-if="!lxSelectChoices.parentCtrl.loading">\n' +
     '            <div class="lx-select-choices__pane lx-select-choices__pane-{{ $index }}"\n' +
     '                 ng-class="{ \'lx-select-choices__pane--is-filtering\': lxSelectChoices.parentCtrl.matchingPaths !== undefined,\n' +
     '                             \'lx-select-choices__pane--first\': $first,\n' +
