@@ -437,7 +437,7 @@
                     }
 
                     updateDropdownMenuHeight();
-                })
+                });
 
                 if (lxDropdown.effect === 'expand')
                 {
