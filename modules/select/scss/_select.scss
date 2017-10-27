@@ -540,6 +540,7 @@
 
         &.lx-select-choices__pane--first {
             .lx-select-choices__pane-choice {
+                @include display(flex);
                 margin-left: 0;
             }
         }
