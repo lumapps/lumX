@@ -2,14 +2,14 @@
 
 [![Join the chat at https://gitter.im/lumapps/lumX](https://badges.gitter.im/lumapps/lumX.svg)](https://gitter.im/lumapps/lumX?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-The first responsive front-end framework based on [AngularJS][angular] & [Google Material Design specifications][material]. *lumX* will help you to design your applications faster and easier. We followed Google Material Design recommendations to bring the best experience to your users.
+The first responsive front-end framework based on [AngularJS][angular] & [Google Material Design specifications][material]. *lumX* will help you design your applications faster and more easily. We followed Google Material Design recommendations to bring the best experience to your users.
 
 ## Quick start
 
 Three quick start options are available:
 
 - [Download the latest release][release].
-- Clone the repo: git clone https://github.com/lumapps/lumx.git.
+- Clone the repo: `git clone https://github.com/lumapps/lumx.git`.
 - Install with Bower: `bower install lumx`.
 
 ## Documentation
