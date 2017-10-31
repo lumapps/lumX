@@ -44,7 +44,7 @@
         </li>
     </ul>
 
-    <div class="lx-select-choices__panes-wrapper" ng-if="::lxSelectChoices.parentCtrl.choicesViewMode === 'panes'" stop-propagation="click">
+    <div class="lx-select-choices__panes-wrapper" ng-if="lxSelectChoices.parentCtrl.choicesViewMode === 'panes' && lxSelectChoices.parentCtrl.choicesViewSize === 'large'" stop-propagation="click">
         <div class="lx-select-choices__loader" ng-if="lxSelectChoices.parentCtrl.loading">
             <lx-progress lx-type="circular" lx-color="white" lx-diameter="60"></lx-progress>
         </div>
@@ -66,4 +66,20 @@
             </div>
         </div>
     </div>
+
+    <div class="lx-select-choices__panes-wrapper" ng-if="lxSelectChoices.parentCtrl.choicesViewMode === 'panes' && lxSelectChoices.parentCtrl.choicesViewSize === 'small'" stop-propagation="click">
+        <div class="lx-select-choices__loader" ng-if="lxSelectChoices.parentCtrl.loading">
+            <lx-progress lx-type="circular" lx-color="white" lx-diameter="60"></lx-progress>
+        </div>
+        <div class="lx-select-choices__panes-container" ng-if="!lxSelectChoices.parentCtrl.loading">
+            <div class="lx-select-choices__pane lx-select-choices__pane"
+                ng-class="{ 'lx-select-choices__pane--is-filtering': lxSelectChoices.parentCtrl.matchingPaths !== undefined,
+                            'lx-select-choices__pane--first': $first,
+                            'lx-select-choices__pane--last': $last }"
+                ng-repeat="pane in lxSelectChoices.parentCtrl.panes">
+                <div ng-include="'select-choices-accordion.html'" ng-init="level = 0"></div>
+            </div>
+        </div>
+    </div>
+
 </lx-dropdown-menu>
