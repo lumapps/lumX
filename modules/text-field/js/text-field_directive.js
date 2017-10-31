@@ -136,10 +136,12 @@
             if (angular.isDefined(newValue) && newValue)
             {
                 lxTextField.isActive = true;
+                updateTextareaHeight();
             }
             else
             {
                 lxTextField.isActive = false;
+                updateTextareaHeight();
             }
         });
 
