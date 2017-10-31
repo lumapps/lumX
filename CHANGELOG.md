@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.6.15:
+
+#### Bug fixes:
+ - text-field: only apply textarea height on textarea input
+
+
 ## v1.6.14:
 
 #### Bug fixes:
