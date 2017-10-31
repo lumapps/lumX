@@ -1,5 +1,5 @@
 /*
- LumX v1.6.13
+ LumX v1.6.14
  (c) 2014-2017 LumApps http://ui.lumapps.com
  License: MIT
 */
@@ -6595,10 +6595,12 @@
             if (angular.isDefined(newValue) && newValue)
             {
                 lxTextField.isActive = true;
+                updateTextareaHeight();
             }
             else
             {
                 lxTextField.isActive = false;
+                updateTextareaHeight();
             }
         });
 

@@ -1,5 +1,12 @@
 # Changelog
 
+## v1.6.14:
+
+#### Bug fixes:
+ - textarea: update textarea height on model update
+ - readme: update grammar and add code block
+
+
 ## v1.6.13:
 
 #### New features:
