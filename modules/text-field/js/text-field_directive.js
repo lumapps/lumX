@@ -117,8 +117,7 @@
         var lxTextField = this;
         var input;
         var modelController;
-        var timer1;
-        var timer2;
+        var timer;
 
         lxTextField.blurInput = blurInput;
         lxTextField.clearInput = clearInput;
@@ -136,11 +135,14 @@
             if (angular.isDefined(newValue) && newValue)
             {
                 lxTextField.isActive = true;
-                updateTextareaHeight();
             }
             else
             {
                 lxTextField.isActive = false;
+            }
+
+            if (newValue !== oldValue && newValue)
+            {
                 updateTextareaHeight();
             }
         });
@@ -163,8 +165,7 @@
 
         $scope.$on('$destroy', function()
         {
-            $timeout.cancel(timer1);
-            $timeout.cancel(timer2);
+            $timeout.cancel(timer);
         });
 
         ////////////
@@ -215,12 +216,7 @@
         {
             input = _input;
 
-            timer1 = $timeout(init);
-
-            if (input.selector === 'textarea')
-            {
-                timer2 = $timeout(updateTextareaHeight);
-            }
+            timer = $timeout(init);
         }
 
         function setModel(_modelControler)
@@ -230,6 +226,11 @@
 
         function updateTextareaHeight()
         {
+            if (!input.is('textarea'))
+            {
+                return;
+            }
+
             var tmpTextArea = angular.element('<textarea class="text-field__input" style="width: ' + input.width() + 'px;">' + input.val() + '</textarea>');
 
             tmpTextArea.appendTo('body');
