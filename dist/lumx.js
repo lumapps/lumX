@@ -1,5 +1,5 @@
 /*
- LumX v1.6.15
+ LumX v1.6.16
  (c) 2014-2017 LumApps http://ui.lumapps.com
  License: MIT
 */
@@ -2681,81 +2681,6 @@
     'use strict';
 
     angular
-        .module('lumx.fab')
-        .directive('lxFab', lxFab)
-        .directive('lxFabTrigger', lxFabTrigger)
-        .directive('lxFabActions', lxFabActions);
-
-    function lxFab()
-    {
-        return {
-            restrict: 'E',
-            templateUrl: 'fab.html',
-            scope: true,
-            link: link,
-            controller: LxFabController,
-            controllerAs: 'lxFab',
-            bindToController: true,
-            transclude: true,
-            replace: true
-        };
-
-        function link(scope, element, attrs, ctrl)
-        {
-            attrs.$observe('lxDirection', function(newDirection)
-            {
-                ctrl.setFabDirection(newDirection);
-            });
-        }
-    }
-
-    function LxFabController()
-    {
-        var lxFab = this;
-
-        lxFab.setFabDirection = setFabDirection;
-
-        ////////////
-
-        function setFabDirection(_direction)
-        {
-            lxFab.lxDirection = _direction;
-        }
-    }
-
-    function lxFabTrigger()
-    {
-        return {
-            restrict: 'E',
-            require: '^lxFab',
-            templateUrl: 'fab-trigger.html',
-            transclude: true,
-            replace: true
-        };
-    }
-
-    function lxFabActions()
-    {
-        return {
-            restrict: 'E',
-            require: '^lxFab',
-            templateUrl: 'fab-actions.html',
-            link: link,
-            transclude: true,
-            replace: true
-        };
-
-        function link(scope, element, attrs, ctrl)
-        {
-            scope.parentCtrl = ctrl;
-        }
-    }
-})();
-(function()
-{
-    'use strict';
-
-    angular
         .module('lumx.file-input')
         .directive('lxFileInput', lxFileInput);
 
@@ -2902,6 +2827,81 @@
             }
 
             return iconClass;
+        }
+    }
+})();
+(function()
+{
+    'use strict';
+
+    angular
+        .module('lumx.fab')
+        .directive('lxFab', lxFab)
+        .directive('lxFabTrigger', lxFabTrigger)
+        .directive('lxFabActions', lxFabActions);
+
+    function lxFab()
+    {
+        return {
+            restrict: 'E',
+            templateUrl: 'fab.html',
+            scope: true,
+            link: link,
+            controller: LxFabController,
+            controllerAs: 'lxFab',
+            bindToController: true,
+            transclude: true,
+            replace: true
+        };
+
+        function link(scope, element, attrs, ctrl)
+        {
+            attrs.$observe('lxDirection', function(newDirection)
+            {
+                ctrl.setFabDirection(newDirection);
+            });
+        }
+    }
+
+    function LxFabController()
+    {
+        var lxFab = this;
+
+        lxFab.setFabDirection = setFabDirection;
+
+        ////////////
+
+        function setFabDirection(_direction)
+        {
+            lxFab.lxDirection = _direction;
+        }
+    }
+
+    function lxFabTrigger()
+    {
+        return {
+            restrict: 'E',
+            require: '^lxFab',
+            templateUrl: 'fab-trigger.html',
+            transclude: true,
+            replace: true
+        };
+    }
+
+    function lxFabActions()
+    {
+        return {
+            restrict: 'E',
+            require: '^lxFab',
+            templateUrl: 'fab-actions.html',
+            link: link,
+            transclude: true,
+            replace: true
+        };
+
+        function link(scope, element, attrs, ctrl)
+        {
+            scope.parentCtrl = ctrl;
         }
     }
 })();
@@ -4289,7 +4289,12 @@
 
             _closePane(index + 1);
 
-            lxSelect.panes.splice(toggledPanes[index].position, 1);
+            if (lxSelect.choicesViewSize === 'large') {
+                lxSelect.panes.splice(toggledPanes[index].position, 1);
+            } else {
+                lxSelect.openedPanes.splice(toggledPanes[index].position, 1);
+            }
+
             delete toggledPanes[index];
         }
 
@@ -4299,10 +4304,18 @@
         function _closePanes() {
             toggledPanes = {};
 
-            if (angular.isDefined(lxSelect.choices) && lxSelect.choices !== null) {
-                lxSelect.panes = [lxSelect.choices];
+            if (lxSelect.choicesViewSize === 'large') {
+                if (angular.isDefined(lxSelect.choices) && lxSelect.choices !== null) {
+                    lxSelect.panes = [lxSelect.choices];
+                } else {
+                    lxSelect.panes = [];
+                }
             } else {
-                lxSelect.panes = [];
+                if (angular.isDefined(lxSelect.choices) && lxSelect.choices !== null) {
+                    lxSelect.openedPanes = [lxSelect.choices];
+                } else {
+                    lxSelect.openedPanes = [];
+                }
             }
         }
 
@@ -4534,7 +4547,8 @@
                 return false;
             }
 
-            var pane = pane || lxSelect.panes[parentIndex];
+            var pane = pane || lxSelect.choicesViewSize === 'large' ? lxSelect.panes[parentIndex] : lxSelect.openedPanes[parentIndex];
+
             if (angular.isUndefined(pane)) {
                 return false;
             }
@@ -4548,10 +4562,15 @@
                 return false;
             }
 
-            lxSelect.panes.push(pane[key]);
+            if (lxSelect.choicesViewSize === 'large') {
+                lxSelect.panes.push(pane[key]);
+            } else {
+                lxSelect.openedPanes.push(pane[key]);
+            }
+
             toggledPanes[parentIndex] = {
                 key: key,
-                position: lxSelect.panes.length - 1,
+                position: lxSelect.choicesViewSize === 'large' ? lxSelect.panes.length - 1 : lxSelect.openedPanes.length - 1,
                 path: (parentIndex === 0) ? key : toggledPanes[parentIndex - 1].path + '.' + key,
             };
 
@@ -4728,6 +4747,10 @@
          * @return {boolean} If the object is a leaf object.
          */
         function isLeaf(obj) {
+            if (angular.isUndefined(obj)) {
+                return false;
+            }
+
             if (angular.isArray(obj)) {
                 return false;
             }
@@ -4765,7 +4788,8 @@
          * @return {boolean}       If the pane is toggled or not.
          */
         function isPaneToggled(parentIndex, indexOrKey) {
-            var pane = lxSelect.panes[parentIndex];
+            var pane = lxSelect.choicesViewSize === 'large' ? lxSelect.panes[parentIndex] : lxSelect.openedPanes[parentIndex];
+
             if (angular.isUndefined(pane)) {
                 return false;
             }
@@ -4785,7 +4809,8 @@
          * @param {number|string} indexOrKey  The index or the name of the item to check.
          */
         function isMatchingPath(parentIndex, indexOrKey) {
-            var pane = lxSelect.panes[parentIndex];
+            var pane = lxSelect.choicesViewSize === 'large' ? lxSelect.panes[parentIndex] : lxSelect.openedPanes[parentIndex];
+
             if (angular.isUndefined(pane)) {
                 return;
             }
@@ -4977,8 +5002,8 @@
          */
         function togglePane(evt, parentIndex, indexOrKey, selectLeaf) {
             selectLeaf = (angular.isUndefined(selectLeaf)) ? true : selectLeaf;
+            var pane = lxSelect.choicesViewSize === 'large' ? lxSelect.panes[parentIndex] : lxSelect.openedPanes[parentIndex];
 
-            var pane = lxSelect.panes[parentIndex];
             if (angular.isUndefined(pane)) {
                 return;
             }
@@ -5194,6 +5219,7 @@
             }
 
             lxSelect.panes = [lxSelect.choices];
+            lxSelect.openedPanes = [lxSelect.choices];
         }, true);
 
         /////////////////////////////
@@ -5334,9 +5360,9 @@
         }
     }
 
-    LxSelectChoicesController.$inject = ['$scope', '$timeout'];
+    LxSelectChoicesController.$inject = ['$scope', '$timeout', '$window'];
 
-    function LxSelectChoicesController($scope, $timeout)
+    function LxSelectChoicesController($scope, $timeout, $window)
     {
         var lxSelectChoices = this;
         var timer;
@@ -5384,6 +5410,16 @@
                     }
                 });
             }, true);
+
+            lxSelectChoices.parentCtrl.choicesViewSize = $window.innerWidth < 980 ? 'small' : 'large';
+
+            angular.element($window).on('resize', function onResize(evt) {
+                if (evt.target.innerWidth < 980) {
+                    lxSelectChoices.parentCtrl.choicesViewSize = 'small';
+                } else {
+                    lxSelectChoices.parentCtrl.choicesViewSize = 'large';
+                }
+            });
         }
 
         function toSelection()
@@ -7102,7 +7138,7 @@ angular.module("lumx.select").run(['$templateCache', function(a) { a.put('select
     '        </li>\n' +
     '    </ul>\n' +
     '\n' +
-    '    <div class="lx-select-choices__panes-wrapper" ng-if="::lxSelectChoices.parentCtrl.choicesViewMode === \'panes\'" stop-propagation="click">\n' +
+    '    <div class="lx-select-choices__panes-wrapper" ng-if="lxSelectChoices.parentCtrl.choicesViewMode === \'panes\' && lxSelectChoices.parentCtrl.choicesViewSize === \'large\'" stop-propagation="click">\n' +
     '        <div class="lx-select-choices__loader" ng-if="lxSelectChoices.parentCtrl.loading">\n' +
     '            <lx-progress lx-type="circular" lx-color="white" lx-diameter="60"></lx-progress>\n' +
     '        </div>\n' +
@@ -7124,7 +7160,36 @@ angular.module("lumx.select").run(['$templateCache', function(a) { a.put('select
     '            </div>\n' +
     '        </div>\n' +
     '    </div>\n' +
+    '\n' +
+    '    <div class="lx-select-choices__panes-wrapper" ng-if="lxSelectChoices.parentCtrl.choicesViewMode === \'panes\' && lxSelectChoices.parentCtrl.choicesViewSize === \'small\'" stop-propagation="click">\n' +
+    '        <div class="lx-select-choices__loader" ng-if="lxSelectChoices.parentCtrl.loading">\n' +
+    '            <lx-progress lx-type="circular" lx-color="white" lx-diameter="60"></lx-progress>\n' +
+    '        </div>\n' +
+    '        <div class="lx-select-choices__panes-container" ng-if="!lxSelectChoices.parentCtrl.loading">\n' +
+    '            <div class="lx-select-choices__pane lx-select-choices__pane"\n' +
+    '                ng-class="{ \'lx-select-choices__pane--is-filtering\': lxSelectChoices.parentCtrl.matchingPaths !== undefined,\n' +
+    '                            \'lx-select-choices__pane--first\': $first,\n' +
+    '                            \'lx-select-choices__pane--last\': $last }"\n' +
+    '                ng-repeat="pane in lxSelectChoices.parentCtrl.panes">\n' +
+    '                <div ng-include="\'select-choices-accordion.html\'" ng-init="level = 0"></div>\n' +
+    '            </div>\n' +
+    '        </div>\n' +
+    '    </div>\n' +
+    '\n' +
     '</lx-dropdown-menu>\n' +
+    '');
+	a.put('select-choices-accordion.html', '<div ng-repeat="(label, items) in pane">\n' +
+    '    <div class="lx-select-choices__pane-choice lx-select-choices__pane-{{ level }}"\n' +
+    '         ng-class="{ \'lx-select-choices__pane-choice--is-selected\': lxSelectChoices.parentCtrl.isPaneToggled(level, label) || lxSelectChoices.parentCtrl.isSelected(items),\n' +
+    '                \'lx-select-choices__pane-choice--is-matching\': lxSelectChoices.parentCtrl.isMatchingPath(level, label),\n' +
+    '                \'lx-select-choices__pane-choice--is-leaf\': lxSelectChoices.isArray(pane) }"\n' +
+    '         ng-bind-html="(lxSelectChoices.isArray(pane)) ? lxSelectChoices.parentCtrl.displayChoice(items) : lxSelectChoices.parentCtrl.displaySubheader(label)"\n' +
+    '         ng-click="lxSelectChoices.parentCtrl.togglePane($event, level, label, true)"></div>\n' +
+    '\n' +
+    '    <div ng-include="\'select-choices-accordion.html\'"\n' +
+    '         ng-if="!lxSelectChoices.isArray(pane) && lxSelectChoices.parentCtrl.isPaneToggled(level,label)"\n' +
+    '         ng-init="pane = items; level = level + 1"></div>\n' +
+    '</div>\n' +
     '');
 	 }]);
 angular.module("lumx.tabs").run(['$templateCache', function(a) { a.put('tabs.html', '<div class="tabs tabs--layout-{{ lxTabs.layout }} tabs--theme-{{ lxTabs.theme }} tabs--color-{{ lxTabs.color }} tabs--indicator-{{ lxTabs.indicator }}">\n' +

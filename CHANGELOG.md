@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.6.16:
+*No major changes.*
+
+
 ## v1.6.15:
 
 #### Bug fixes:
