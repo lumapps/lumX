@@ -509,9 +509,8 @@
         overflow: auto;
 
         &-choice {
-            height: $base-spacing-unit * 7;
+            min-height: $base-spacing-unit * 7;
             min-width: 120px;
-            line-height: $base-spacing-unit * 7;
             margin-left: $base-spacing-unit * 2;
             padding: 0 $base-spacing-unit * 3 0 $base-spacing-unit * 2;
             color: $white;
@@ -538,7 +537,12 @@
             }
 
             @include mq($until: desktop) {
-                padding: 0 $base-spacing-unit * 5 0 $base-spacing-unit * 2;
+                position: relative;
+                padding: $base-spacing-unit * 2 $base-spacing-unit * 5 $base-spacing-unit * 2 $base-spacing-unit * 2;
+
+                span {
+                    padding: 17px 0 17px 0;
+                }
 
                 &:not(.lx-select-choices__pane-choice--is-leaf) {
                     &:after {
@@ -547,6 +551,8 @@
                         @include mdi-icon('chevron-down');
                         @include font-size(20px);
                         right: 10px;
+                        top: 50%;
+                        transform: translateY(-50%);
                     }
 
                     &.lx-select-choices__pane-choice--is-selected {
