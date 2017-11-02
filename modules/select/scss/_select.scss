@@ -505,30 +505,25 @@
 
     .lx-select-choices__pane {
         @include position(relative);
-        padding: $base-spacing-unit 0;
         overflow: auto;
 
         &-choice {
-            height: $base-spacing-unit * 7;
+            @include display(flex);
+            @include align-items(center);
             min-width: 120px;
-            line-height: $base-spacing-unit * 7;
-            margin-left: $base-spacing-unit * 2;
-            padding: 0 $base-spacing-unit * 3 0 $base-spacing-unit * 2;
+            margin:$base-spacing-unit 0 $base-spacing-unit $base-spacing-unit * 1.5;
+            padding: $base-spacing-unit * 1.5;
             color: $white;
             cursor: pointer;
 
             i {
                 @include font-size(40px);
+                line-height:40px;
+                margin-right: $base-spacing-unit;
             }
 
             span:not(.lx-select-choices__pane-choice--highlight) {
                 @include flex(1);
-            }
-
-            &:hover {
-                background-color: $white;
-                color: $black;
-                font-weight: bold;
             }
 
             &--highlight {
@@ -537,16 +532,25 @@
                 text-decoration-skip: ink;
             }
 
+            @include mq($from: desktop) {
+                &:hover {
+                    background-color: $white;
+                    color: $black;
+                }
+            }
+
             @include mq($until: desktop) {
-                padding: 0 $base-spacing-unit * 5 0 $base-spacing-unit * 2;
+                position: relative;
+                padding: $base-spacing-unit * 1.5;
 
                 &:not(.lx-select-choices__pane-choice--is-leaf) {
                     &:after {
-                        position: absolute;
+                        justify-self:flex-end;
                         @include mdi;
                         @include mdi-icon('chevron-down');
                         @include font-size(20px);
-                        right: 10px;
+                        margin-left: auto;
+                        padding-left: $base-spacing-unit;
                     }
 
                     &.lx-select-choices__pane-choice--is-selected {
@@ -560,8 +564,7 @@
 
         &.lx-select-choices__pane--first {
             .lx-select-choices__pane-choice {
-                @include display(flex);
-                margin-left: 0;
+                margin: 0;
             }
         }
 
