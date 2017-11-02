@@ -1,0 +1,12 @@
+<div ng-repeat="(label, items) in pane">
+    <div class="lx-select-choices__pane-choice lx-select-choices__pane-{{ level }}"
+         ng-class="{ 'lx-select-choices__pane-choice--is-selected': lxSelectChoices.parentCtrl.isPaneToggled(level, label) || lxSelectChoices.parentCtrl.isSelected(items),
+                'lx-select-choices__pane-choice--is-matching': lxSelectChoices.parentCtrl.isMatchingPath(level, label),
+                'lx-select-choices__pane-choice--is-leaf': lxSelectChoices.isArray(pane) }"
+         ng-bind-html="(lxSelectChoices.isArray(pane)) ? lxSelectChoices.parentCtrl.displayChoice(items) : lxSelectChoices.parentCtrl.displaySubheader(label)"
+         ng-click="lxSelectChoices.parentCtrl.togglePane($event, level, label, true)"></div>
+
+    <div ng-include="'select-choices-accordion.html'"
+         ng-if="!lxSelectChoices.isArray(pane) && lxSelectChoices.parentCtrl.isPaneToggled(level,label)"
+         ng-init="pane = items; level = level + 1"></div>
+</div>

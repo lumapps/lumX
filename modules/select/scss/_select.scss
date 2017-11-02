@@ -424,7 +424,7 @@
         }
     }
 
-    // Select choices: choice
+    // Select choices: choice / subheader
     .lx-select-choices--default-style .lx-select-choices__choice {
         cursor: pointer;
         color: $black-1;
@@ -535,6 +535,26 @@
                 font-weight: bold;
                 text-decoration: underline;
                 text-decoration-skip: ink;
+            }
+
+            @include mq($until: desktop) {
+                padding: 0 $base-spacing-unit * 5 0 $base-spacing-unit * 2;
+
+                &:not(.lx-select-choices__pane-choice--is-leaf) {
+                    &:after {
+                        position: absolute;
+                        @include mdi;
+                        @include mdi-icon('chevron-down');
+                        @include font-size(20px);
+                        right: 10px;
+                    }
+
+                    &.lx-select-choices__pane-choice--is-selected {
+                        &:after {
+                            @include mdi-icon('chevron-up');
+                        }
+                    }
+                }
             }
         }
 

@@ -220,7 +220,12 @@
 
             _closePane(index + 1);
 
-            lxSelect.panes.splice(toggledPanes[index].position, 1);
+            if (lxSelect.choicesViewSize === 'large') {
+                lxSelect.panes.splice(toggledPanes[index].position, 1);
+            } else {
+                lxSelect.openedPanes.splice(toggledPanes[index].position, 1);
+            }
+
             delete toggledPanes[index];
         }
 
@@ -230,10 +235,18 @@
         function _closePanes() {
             toggledPanes = {};
 
-            if (angular.isDefined(lxSelect.choices) && lxSelect.choices !== null) {
-                lxSelect.panes = [lxSelect.choices];
+            if (lxSelect.choicesViewSize === 'large') {
+                if (angular.isDefined(lxSelect.choices) && lxSelect.choices !== null) {
+                    lxSelect.panes = [lxSelect.choices];
+                } else {
+                    lxSelect.panes = [];
+                }
             } else {
-                lxSelect.panes = [];
+                if (angular.isDefined(lxSelect.choices) && lxSelect.choices !== null) {
+                    lxSelect.openedPanes = [lxSelect.choices];
+                } else {
+                    lxSelect.openedPanes = [];
+                }
             }
         }
 
@@ -465,7 +478,8 @@
                 return false;
             }
 
-            var pane = pane || lxSelect.panes[parentIndex];
+            var pane = pane || lxSelect.choicesViewSize === 'large' ? lxSelect.panes[parentIndex] : lxSelect.openedPanes[parentIndex];
+
             if (angular.isUndefined(pane)) {
                 return false;
             }
@@ -479,10 +493,15 @@
                 return false;
             }
 
-            lxSelect.panes.push(pane[key]);
+            if (lxSelect.choicesViewSize === 'large') {
+                lxSelect.panes.push(pane[key]);
+            } else {
+                lxSelect.openedPanes.push(pane[key]);
+            }
+
             toggledPanes[parentIndex] = {
                 key: key,
-                position: lxSelect.panes.length - 1,
+                position: lxSelect.choicesViewSize === 'large' ? lxSelect.panes.length - 1 : lxSelect.openedPanes.length - 1,
                 path: (parentIndex === 0) ? key : toggledPanes[parentIndex - 1].path + '.' + key,
             };
 
@@ -659,6 +678,10 @@
          * @return {boolean} If the object is a leaf object.
          */
         function isLeaf(obj) {
+            if (angular.isUndefined(obj)) {
+                return false;
+            }
+
             if (angular.isArray(obj)) {
                 return false;
             }
@@ -696,7 +719,8 @@
          * @return {boolean}       If the pane is toggled or not.
          */
         function isPaneToggled(parentIndex, indexOrKey) {
-            var pane = lxSelect.panes[parentIndex];
+            var pane = lxSelect.choicesViewSize === 'large' ? lxSelect.panes[parentIndex] : lxSelect.openedPanes[parentIndex];
+
             if (angular.isUndefined(pane)) {
                 return false;
             }
@@ -716,7 +740,8 @@
          * @param {number|string} indexOrKey  The index or the name of the item to check.
          */
         function isMatchingPath(parentIndex, indexOrKey) {
-            var pane = lxSelect.panes[parentIndex];
+            var pane = lxSelect.choicesViewSize === 'large' ? lxSelect.panes[parentIndex] : lxSelect.openedPanes[parentIndex];
+
             if (angular.isUndefined(pane)) {
                 return;
             }
@@ -908,8 +933,8 @@
          */
         function togglePane(evt, parentIndex, indexOrKey, selectLeaf) {
             selectLeaf = (angular.isUndefined(selectLeaf)) ? true : selectLeaf;
+            var pane = lxSelect.choicesViewSize === 'large' ? lxSelect.panes[parentIndex] : lxSelect.openedPanes[parentIndex];
 
-            var pane = lxSelect.panes[parentIndex];
             if (angular.isUndefined(pane)) {
                 return;
             }
@@ -1125,6 +1150,7 @@
             }
 
             lxSelect.panes = [lxSelect.choices];
+            lxSelect.openedPanes = [lxSelect.choices];
         }, true);
 
         /////////////////////////////
@@ -1265,9 +1291,9 @@
         }
     }
 
-    LxSelectChoicesController.$inject = ['$scope', '$timeout'];
+    LxSelectChoicesController.$inject = ['$scope', '$timeout', '$window'];
 
-    function LxSelectChoicesController($scope, $timeout)
+    function LxSelectChoicesController($scope, $timeout, $window)
     {
         var lxSelectChoices = this;
         var timer;
@@ -1315,6 +1341,16 @@
                     }
                 });
             }, true);
+
+            lxSelectChoices.parentCtrl.choicesViewSize = $window.innerWidth < 980 ? 'small' : 'large';
+
+            angular.element($window).on('resize', function onResize(evt) {
+                if (evt.target.innerWidth < 980) {
+                    lxSelectChoices.parentCtrl.choicesViewSize = 'small';
+                } else {
+                    lxSelectChoices.parentCtrl.choicesViewSize = 'large';
+                }
+            });
         }
 
         function toSelection()
