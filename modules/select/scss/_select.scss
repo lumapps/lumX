@@ -392,20 +392,17 @@
         @include align-items(center);
         position: relative;
         text-decoration: none;
-        white-space: nowrap;
 
         @include mq($until: desktop) {
-            height: 48px;
-            padding: 0 $base-spacing-unit * 2;
+            min-height: 48px;
+            padding: $base-spacing-unit $base-spacing-unit * 2;
             @include font-size(16px);
-            line-height: 48px;
         }
 
         @include mq($from: desktop) {
-            height: 32px;
-            padding: 0 $base-spacing-unit * 3;
+            min-height: 32px;
+            padding: $base-spacing-unit $base-spacing-unit * 3;
             @include font-size(14px);
-            line-height: 32px;
         }
 
         .#{$mdi-css-prefix} {
