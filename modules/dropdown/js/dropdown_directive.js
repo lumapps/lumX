@@ -583,9 +583,6 @@
 
             var availableHeight = getAvailableHeight();
 
-            dropdownMenu.css({
-                height: 'auto',
-            });
             dropdownMenu.css(availableHeight.direction, 'auto');
 
             var dropdownMenuHeight = dropdownMenu.find('.dropdown-menu__content').outerHeight();

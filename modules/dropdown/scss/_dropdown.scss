@@ -45,6 +45,7 @@
     .dropdown-menu__content {
         padding: $base-spacing-unit 0;
         opacity: 0;
+        height: 100%;
         @include transition-property(opacity);
         @include transition-duration(0.2s);
 
