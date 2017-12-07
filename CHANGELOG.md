@@ -1,5 +1,12 @@
 # Changelog
 
+## v1.6.19:
+
+#### Breaking changes:
+ - The `stopPropagation` directive has been renamed to `lxStopPropagation`
+ - The `highlight` filter has been renamed to `lxHighlight`
+
+
 ## v1.6.18:
 *No major changes.*
 
