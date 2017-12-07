@@ -42,39 +42,6 @@
     /////////////////////////////
 
     /**
-     * Replaces the markup `ng-include` with the included content.
-     *
-     * @return {Directive} The include-replace directive.
-     */
-    function IncludeReplaceDirective() {
-        return {
-            link: function includeReplaceLink(scope, el) {
-                el.replaceWith(el.children());
-            },
-            require: 'ngInclude',
-            restrict: 'A',
-        };
-    }
-
-    /////////////////////////////
-
-    /**
-     * Block any event propagation by adding the `prevent` attribute.
-     * Used to block the action of a link or a button for example.
-     *
-     * @return {Directive} The prevent directive.
-     */
-    function PreventDirective() {
-        return function preventCode(scope, el) {
-            el.on('click', function preventDefault(evt) {
-                evt.preventDefault();
-            });
-        };
-    }
-
-    /////////////////////////////
-
-    /**
      * Blocks the propagation of an event in the DOM.
      *
      * @param  {string}    stopPropagation The name of the event (or events) to be stopped.
@@ -96,10 +63,8 @@
      * For a directive specific to your application, place it in your application.
      */
     angular.module('lumx.utils.directives')
-        .directive('includeReplace', IncludeReplaceDirective)
-        .directive('prevent', PreventDirective)
-        .directive('stopPropagation', StopPropagationDirective);
+        .directive('lxStopPropagation', StopPropagationDirective);
 
     angular.module('lumx.utils.filters')
-        .filter('highlight', HighlightFilter);
+        .filter('lxHighlight', HighlightFilter);
 })();
