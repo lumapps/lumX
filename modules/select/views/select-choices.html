@@ -44,7 +44,7 @@
         </li>
     </ul>
 
-    <div class="lx-select-choices__panes-wrapper" ng-if="lxSelectChoices.parentCtrl.choicesViewMode === 'panes' && lxSelectChoices.parentCtrl.choicesViewSize === 'large'" stop-propagation="click">
+    <div class="lx-select-choices__panes-wrapper" ng-if="lxSelectChoices.parentCtrl.choicesViewMode === 'panes' && lxSelectChoices.parentCtrl.choicesViewSize === 'large'" lx-stop-propagation="click">
         <div class="lx-select-choices__loader" ng-if="lxSelectChoices.parentCtrl.loading">
             <lx-progress lx-type="circular" lx-color="white" lx-diameter="60"></lx-progress>
         </div>
@@ -67,7 +67,7 @@
         </div>
     </div>
 
-    <div class="lx-select-choices__panes-wrapper" ng-if="lxSelectChoices.parentCtrl.choicesViewMode === 'panes' && lxSelectChoices.parentCtrl.choicesViewSize === 'small'" stop-propagation="click">
+    <div class="lx-select-choices__panes-wrapper" ng-if="lxSelectChoices.parentCtrl.choicesViewMode === 'panes' && lxSelectChoices.parentCtrl.choicesViewSize === 'small'" lx-stop-propagation="click">
         <div class="lx-select-choices__loader" ng-if="lxSelectChoices.parentCtrl.loading">
             <lx-progress lx-type="circular" lx-color="white" lx-diameter="60"></lx-progress>
         </div>

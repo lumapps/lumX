@@ -597,7 +597,7 @@
 
             var interpolatedChoice = $interpolate(choiceTemplate)(choiceScope);
             return $sce.trustAsHtml((lxSelect.matchingPaths) ?
-                $filter('highlight')(interpolatedChoice, lxSelect.filterModel, true) : interpolatedChoice
+                $filter('lxHighlight')(interpolatedChoice, lxSelect.filterModel, true) : interpolatedChoice
             );
         }
 
@@ -648,7 +648,7 @@
         function displaySubheader(_subheader)
         {
             return $sce.trustAsHtml((lxSelect.matchingPaths) ?
-                $filter('highlight')(_subheader, lxSelect.filterModel, true) : _subheader
+                $filter('lxHighlight')(_subheader, lxSelect.filterModel, true) : _subheader
             );
         }
 
