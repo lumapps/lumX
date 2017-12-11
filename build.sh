@@ -14,9 +14,9 @@ if [[ ! $release_version == v* ]]; then
     release_version="v${release_version}"
 fi
 
-npm install
+yarn install
 if [ $? != 0 ]; then
-    echo "Error during npm install"
+    echo "Error during yarn install"
     exit -2
 fi
 

@@ -47,12 +47,14 @@ def commit(version):
     print "Publishing new commit to master..."
     subprocess.call(('git push origin master').split(), stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
 
-    print "Publishing new tag..."
-    subprocess.call(('git tag %s' % version).split())
+    print "Publishing to NPM registry..."
+    subprocess.call(('npm version %s' % version).split())
+    subprocess.call(('npm publish').split())
+
+    print "Push git repository..."
     subprocess.call(('git push origin %s' % version).split(), stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
 
     print "Release %s created!" % version
-
 
 
 if __name__ == "__main__":
