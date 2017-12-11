@@ -21,13 +21,6 @@ if [ $? != 0 ]; then
 fi
 
 gulp clean
-rm -rf libs
-
-bower install --allow-root
-if [ $? != 0 ]; then
-    echo "Error during bower install"
-    exit -3
-fi
 
 gulp build
 if [ $? != 0 ]; then
