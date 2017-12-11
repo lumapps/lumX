@@ -10,7 +10,7 @@ Three quick start options are available:
 
 - [Download the latest release][release].
 - Clone the repo: `git clone https://github.com/lumapps/lumx.git`.
-- Install with Bower: `bower install lumx`.
+- Install with NPM: `npm install official-lumx` (or Yarn: `yarn add official-lumx`).
 
 ## Documentation
 
@@ -24,22 +24,21 @@ For example, using bash in a Unix system with the default path will need to edit
     ```bash
     export APPENGINE=/home/USER/google-cloud-sdk/bin/
     ```
-3. Run `npm install & bower install`.
-4. Run `./launch.sh`.
-5. Visit [http://localhost:8888][local] in your browser, and voilà.
+
+Then install all dependencies:
+
+* Run `npm install` (or `yarn install`).
+
+Then run the build system and the server:
+
+1. Run `gulp`.
+2. In an other terminal, run `./launch.sh` (or `./dlaunch.sh` if you want to use Docker, recommended on MacOS X).
+3. Visit [http://localhost:8888][local] in your browser, and voilà.
 
 #### or
 
-1. Run `npm install & bower install`.
-2. Run `gulp serve`.
-3. Visit [http://localhost:8080][local] in your browser, and voilà.
-
-#### or (using docker)
-
-1. Run `npm install & bower install`.
-2. Run `gulp watch`.
-3. Run `./dlaunch.sh`
-3. Visit [http://localhost:8888][local] in your browser, and voilà.
+1. Run `gulp serve`.
+2. Visit [http://localhost:8080][local] in your browser, and voilà.
 
 ## How to get help, contribute, or provide feedback
 

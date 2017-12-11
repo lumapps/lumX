@@ -1,14 +1,13 @@
 var gulp = require('gulp'),
     path = require('path'),
     minimist = require('minimist'),
-    summary = require('jshint-summary'),
     del = require('del'),
     plugins = require('gulp-load-plugins')();
 
 var paths = {
     js: [
         'core/js/**/*.js',
-        'modules/**/*.js'
+        'modules/**/*.js',
     ],
     distJs: [
         'core/js/**/*.js',
@@ -17,7 +16,7 @@ var paths = {
     ],
     scss: [
         'core/scss/**/*.scss',
-        'modules/**/*.scss'
+        'modules/**/*.scss',
     ],
     templates: [
         'build/js/templates/dropdown_template.js',
@@ -40,28 +39,27 @@ var paths = {
     demo: [
         'demo/**/*',
         '!demo/scss/**/*',
-        '!demo/scss'
+        '!demo/scss',
     ],
     examples: [
-        'modules/**/demo/**/*.html'
+        'modules/**/demo/**/*.html',
     ],
     libs: [
-        'libs/**/*'
+        'node_modules/angular/**/*',
+        'node_modules/angular-ui-router/**/*',
+        'node_modules/angular-highlightjs/**/*',
+        'node_modules/jquery/**/*',
+        'node_modules/velocity-animate/**/*',
+        'node_modules/moment/**/*',
+        'node_modules/bourbon/**/*',
+        'node_modules/mdi/**/*',
+        'node_modules/sass-mq/**/*',
     ]
 };
 
 function watcherWithCache(name, src, tasks)
 {
     var watcher = gulp.watch(src, tasks);
-
-    watcher.on('change', function(event)
-    {
-        if (event.type === 'deleted')
-        {
-            delete plugins.cached.caches.scripts[event.path];
-            plugins.remember.forget(name, event.path);
-        }
-    });
 }
 
 var knownOptions = {
@@ -75,27 +73,22 @@ var knownOptions = {
 var options = minimist(process.argv.slice(2), knownOptions);
 
 // Clean
-gulp.task('clean:build', function(cb)
+gulp.task('clean:build', function()
 {
-    del(['build/*'], cb);
+    return del(['build/**']);
 });
 
-gulp.task('clean:dist', function(cb)
+gulp.task('clean:dist', function()
 {
-    del(['dist/*'], cb);
+    return del(['dist/**']);
 });
 
 
 // Develop
-gulp.task('lint', function()
+gulp.task('js', function()
 {
     return gulp.src(paths.js)
         .pipe(plugins.plumber())
-        .pipe(plugins.cached('lint'))
-        .pipe(plugins.jshint())
-        .pipe(plugins.jshint.reporter('jshint-summary'))
-        .pipe(plugins.jshint.reporter('fail'))
-        .pipe(plugins.remember('lint'))
         .pipe(plugins.rename(function(p)
         {
             p.dirname = p.dirname.replace(path.normalize('/js'), '');
@@ -109,14 +102,15 @@ gulp.task('scss', function()
         .pipe(plugins.plumber())
         .pipe(plugins.sass(
         {
-            includePaths: ['libs/bourbon/app/assets/stylesheets/', 'libs/mdi/scss/', 'libs/sass-mq/']
+            includePaths: ['node_modules/bourbon/app/assets/stylesheets/', 'node_modules/mdi/scss/', 'node_modules/sass-mq/']
         }))
         .pipe(gulp.dest('build'));
 });
 
 gulp.task('fonts', function()
 {
-    return gulp.src('libs/mdi/fonts/**')
+    return gulp.src('node_modules/mdi/fonts/**')
+        .pipe(plugins.plumber())
         .pipe(gulp.dest('build/fonts'));
 });
 
@@ -140,7 +134,7 @@ gulp.task('examples', function()
 
 gulp.task('libs', function()
 {
-    return gulp.src(paths.libs)
+    return gulp.src(paths.libs, { base : 'node_modules' })
         .pipe(plugins.plumber())
         .pipe(gulp.dest('build/libs'));
 });
@@ -178,12 +172,12 @@ gulp.task('dist:css', ['scss:paths'], function()
         .pipe(plugins.rename('lumx.scss'))
         .pipe(plugins.sass(
         {
-            includePaths: ['libs/bourbon/app/assets/stylesheets/', 'libs/mdi/scss/', 'libs/sass-mq/']
+            includePaths: ['node_modules/bourbon/app/assets/stylesheets/', 'node_modules/mdi/scss/', 'node_modules/sass-mq/']
         }))
         .pipe(plugins.replace(/\.\.\/fonts/g, './fonts'))
-        .pipe(plugins.minifyCss(
+        .pipe(plugins.cleanCss(
         {
-            keepSpecialComments: 0
+            specialComments: 0
         }))
         .pipe(plugins.insert.prepend('/*\n LumX ' + options.version + '\n (c) 2014-' + new Date().getFullYear() + ' LumApps http://ui.lumapps.com\n License: MIT\n*/\n'))
         .pipe(gulp.dest('dist'));
@@ -191,7 +185,7 @@ gulp.task('dist:css', ['scss:paths'], function()
 
 gulp.task('dist:fonts', function()
 {
-    return gulp.src('libs/mdi/fonts/**')
+    return gulp.src('node_modules/mdi/fonts/**')
         .pipe(gulp.dest('dist/fonts'));
 });
 
@@ -426,7 +420,7 @@ gulp.task('serve', ['watch'], function()
 
 gulp.task('watch', ['build'], function()
 {
-    watcherWithCache('lint', paths.js, ['lint']);
+    watcherWithCache('js', paths.js, ['js']);
     watcherWithCache('scss', [paths.scss, 'demo/scss/**/*.scss'], ['scss']);
     watcherWithCache('demo', paths.demo, ['demo']);
     watcherWithCache('examples', paths.examples, ['examples']);
@@ -451,7 +445,7 @@ gulp.task('watch', ['build'], function()
 
 gulp.task('clean', ['clean:build', 'clean:dist']);
 
-gulp.task('build', ['lint', 'scss', 'fonts', 'demo', 'examples', 'libs', 'tpl:dropdown', 'tpl:file-input', 'tpl:text-field', 'tpl:search-filter', 'tpl:select', 'tpl:tabs', 'tpl:date-picker', 'tpl:progress', 'tpl:button', 'tpl:checkbox', 'tpl:radio-button', 'tpl:switch', 'tpl:stepper', 'tpl:fab', 'tpl:icon', 'tpl:data-table']);
+gulp.task('build', ['js', 'scss', 'fonts', 'demo', 'examples', 'libs', 'tpl:dropdown', 'tpl:file-input', 'tpl:text-field', 'tpl:search-filter', 'tpl:select', 'tpl:tabs', 'tpl:date-picker', 'tpl:progress', 'tpl:button', 'tpl:checkbox', 'tpl:radio-button', 'tpl:switch', 'tpl:stepper', 'tpl:fab', 'tpl:icon', 'tpl:data-table']);
 gulp.task('dist', ['clean:dist'], function()
 {
     gulp.start('dist:css');

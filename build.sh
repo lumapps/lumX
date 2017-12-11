@@ -14,20 +14,13 @@ if [[ ! $release_version == v* ]]; then
     release_version="v${release_version}"
 fi
 
-npm install
+yarn install
 if [ $? != 0 ]; then
-    echo "Error during npm install"
+    echo "Error during yarn install"
     exit -2
 fi
 
 gulp clean
-rm -rf libs
-
-bower install --allow-root
-if [ $? != 0 ]; then
-    echo "Error during bower install"
-    exit -3
-fi
 
 gulp build
 if [ $? != 0 ]; then

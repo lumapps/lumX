@@ -1,13 +1,13 @@
 {
   "name": "lumx",
   "description": "The first responsive front-end framework based on AngularJS & Google Material Design specifications",
-  "kewords": [
+  "keywords": [
     "AngularJS",
     "Material Design",
     "Framework"
   ],
-  "homepage": "http://ui.lumapps.com",
-  "version": "0.0.0",
+  "homepage": "https://ui.lumapps.com",
+  "version": "1.6.19",
   "authors": [
     "LumApps"
   ],
