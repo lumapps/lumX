@@ -1,15 +1,11 @@
-<div class="lx-select-selected-wrapper"
-     ng-class="{ 'lx-select-selected-wrapper--with-filter': !lxSelectSelected.parentCtrl.ngDisabled && lxSelectSelected.parentCtrl.areChoicesOpened() && (lxSelectSelected.parentCtrl.multiple || !lxSelectSelected.parentCtrl.getSelectedModel()) }"
-     id="lx-select-selected-wrapper-{{ lxSelectSelected.parentCtrl.uuid }}">
-    <div class="lx-select-selected"
-         ng-if="!lxSelectSelected.parentCtrl.multiple">
+<div class="lx-select-selected-wrapper" id="lx-select-selected-wrapper-{{ lxSelectSelected.parentCtrl.uuid }}">
+    <div class="lx-select-selected" ng-if="!lxSelectSelected.parentCtrl.multiple && lxSelectSelected.parentCtrl.getSelectedModel()">
         <span class="lx-select-selected__value"
-              ng-bind-html="lxSelectSelected.parentCtrl.displaySelected()"
-              ng-if="lxSelectSelected.parentCtrl.getSelectedModel()"></span>
+              ng-bind-html="lxSelectSelected.parentCtrl.displaySelected()"></span>
 
         <a class="lx-select-selected__clear"
            ng-click="lxSelectSelected.clearModel($event)"
-           ng-if="lxSelectSelected.parentCtrl.allowClear && lxSelectSelected.parentCtrl.getSelectedModel()">
+           ng-if="::lxSelectSelected.parentCtrl.allowClear">
             <i class="mdi mdi-close-circle"></i>
         </a>
     </div>
@@ -27,13 +23,6 @@
                ng-model="lxSelectSelected.parentCtrl.filterModel"
                ng-change="lxSelectSelected.parentCtrl.updateFilter()"
                ng-keydown="lxSelectSelected.parentCtrl.keyEvent($event)"
-               ng-if="lxSelectSelected.parentCtrl.autocomplete && !lxSelectSelected.parentCtrl.ngDisabled">
+               ng-if="::lxSelectSelected.parentCtrl.autocomplete && !lxSelectSelected.parentCtrl.ngDisabled">
     </div>
-
-    <lx-search-filter lx-dropdown-filter class="lx-select-selected__filter" ng-if="lxSelectSelected.parentCtrl.choicesViewMode === 'panes' && !lxSelectSelected.parentCtrl.ngDisabled && lxSelectSelected.parentCtrl.areChoicesOpened() && (lxSelectSelected.parentCtrl.multiple || !lxSelectSelected.parentCtrl.getSelectedModel())">
-        <input type="text"
-               ng-model="lxSelectSelected.parentCtrl.filterModel"
-               ng-change="lxSelectSelected.parentCtrl.updateFilter()"
-               lx-stop-propagation="click">
-    </lx-search-filter>
 </div>

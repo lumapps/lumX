@@ -6,9 +6,9 @@
         .module('Controllers')
         .controller('DemoSelectController', DemoSelectController);
 
-    DemoSelectController.$inject = ['$http', '$scope', '$timeout', 'LxNotificationService'];
+    DemoSelectController.$inject = ['$http', 'LxNotificationService'];
 
-    function DemoSelectController($http, $scope, $timeout, LxNotificationService)
+    function DemoSelectController($http, LxNotificationService)
     {
         var vm = this;
 
@@ -164,148 +164,6 @@
                 type: 'Umbelliferous'
             }
         ];
-        vm.selectPeopleMultipane = {
-            '<i class="mdi mdi-human-male"></i> <span>Male humans</span>': {
-                'Old': [
-                    {
-                        uid: '1',
-                        name: 'Adam'
-                    },
-                    {
-                        uid: '2',
-                        name: 'Tom'
-                    },
-                    {
-                        uid: '3',
-                        name: 'Ben'
-                    }
-                ],
-                'Middle aged': [
-                    {
-                        uid: '4',
-                        name: 'Franck'
-                    }
-                ],
-                'Young': [
-                    {
-                        uid: '5',
-                        name: 'Wladimir'
-                    },
-                    {
-                        uid: '6',
-                        name: 'Jack'
-                    }
-                ],
-            },
-            '<i class="mdi mdi-human-female"></i> <span>Female</span>': {
-                'France': {
-                    'Old': [
-                        {
-                            uid: '7',
-                            name: 'Sue Helen'
-                        }
-                    ],
-                    'Middle aged': {
-                        'Lorem': [
-                            {
-                                uid: '8',
-                                name: 'Samantha'
-                            },
-                            {
-                                uid: '9',
-                                name: 'Estefanía'
-                            },
-                            {
-                                uid: '10',
-                                name: 'Natasha'
-                            },
-                            {
-                                uid: '11',
-                                name: 'Nicole'
-                            },
-                            {
-                                uid: '12',
-                                name: 'Kathy'
-                            },
-                            {
-                                uid: '13',
-                                name: 'Robin'
-                            },
-                            {
-                                uid: '14',
-                                name: 'Jessica'
-                            },
-                            {
-                                uid: '15',
-                                name: 'Reagan'
-                            },
-                            {
-                                uid: '16',
-                                name: 'Ariel'
-                            },
-                            {
-                                uid: '17',
-                                name: 'Krista'
-                            },
-                            {
-                                uid: '18',
-                                name: 'Lillie'
-                            },
-                            {
-                                uid: '19',
-                                name: 'Brittany'
-                            },
-                            {
-                                uid: '20',
-                                name: 'Tiffany'
-                            },
-                            {
-                                uid: '21',
-                                name: 'Alexa'
-                            },
-                            {
-                                uid: '22',
-                                name: 'Alison'
-                            },
-                            {
-                                uid: '23',
-                                name: 'Karen'
-                            }
-                        ],
-                        'Ipsum': [
-                            {
-                                uid: '16',
-                                name: 'Julia'
-                            },
-                            {
-                                uid: '17',
-                                name: 'Sofia'
-                            }
-                        ],
-                    },
-                    'Young': [
-                        {
-                            uid: '18',
-                            name: 'Karin'
-                        },
-                        {
-                            uid: '19',
-                            name: 'Camillia'
-                        }
-                    ],
-                },
-                'US': [
-                    {
-                        uid: '16',
-                        name: 'Katerin'
-                    },
-                    {
-                        uid: '17',
-                        name: 'Olga'
-                    }
-                ],
-            }
-        };
         vm.newValueTransformer = function(_newValue) {
             return {
                 name: _newValue,
@@ -316,17 +174,8 @@
             selectedPerson: undefined,
             selectedPeople: [vm.selectPeople[2], vm.selectPeople[4]],
             selectedPeopleSections: [],
-            selectedPeopleMultipane: undefined,
-            selectedPeopleMultipaneMultiple: [],
             selectedVegetables: []
         };
-        vm.multipaneLoading = true;
-
-        $scope.$on('lx-dropdown__open-end', function onDropdownOpenEnd() {
-            $timeout(function delayEndLoading() {
-                vm.multipaneLoading = false;
-            }, 1500);
-        });
 
         ////////////
 

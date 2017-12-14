@@ -87,7 +87,7 @@
         LxDropdownService, LxEventSchedulerService, LxUtils)
     {
         var lxDropdown = this;
-        var dropdownContentWatcher;
+        var dropdownInterval;
         var dropdownMenu;
         var dropdownToggle;
         var idEventScheduler;
@@ -149,10 +149,7 @@
 
             angular.element(window).off('resize', initDropdownPosition);
 
-            if (angular.isFunction(dropdownContentWatcher)) {
-                dropdownContentWatcher();
-                dropdownContentWatcher = undefined;
-            }
+            $interval.cancel(dropdownInterval);
 
             LxDropdownService.resetActiveDropdownUuid();
 
@@ -176,6 +173,7 @@
             }
 
             dropdownMenu
+                .off('wheel')
                 .css(
                 {
                     overflow: 'hidden'
@@ -406,6 +404,19 @@
                 .css('z-index', LxDepthService.getDepth() + 1)
                 .appendTo('body');
 
+            dropdownMenu.on('wheel', function preventDefault(e) {
+                var d = e.originalEvent.deltaY;
+
+                if (d < 0 && dropdownMenu.scrollTop() === 0) {
+                    e.preventDefault();
+                }
+                else {
+                    if (d > 0 && (dropdownMenu.scrollTop() == dropdownMenu.get(0).scrollHeight - dropdownMenu.innerHeight())) {
+                        e.preventDefault();
+                    }
+                }
+            });
+
             if (lxDropdown.escapeClose)
             {
                 idEventScheduler = LxEventSchedulerService.register('keyup', onKeyUp);
@@ -423,21 +434,6 @@
                     enoughHeight = false;
                     dropdownMenuHeight = availableHeight;
                 }
-
-                /*
-                 * Watch for any changes in the dropdown content.
-                 * Each time the content of the dropdown changes, recompute its height to be sure to stay inside of the
-                 * viewport (and make it scrollable when it overflows).
-                 */
-                dropdownContentWatcher = $scope.$watch(function watcherDropdownContent() {
-                    return dropdownMenu.find('.dropdown-menu__content').html();
-                }, function watchDropdownContent(newValue, oldValue) {
-                    if (newValue === oldValue) {
-                        return;
-                    }
-
-                    updateDropdownMenuHeight();
-                });
 
                 if (lxDropdown.effect === 'expand')
                 {
@@ -491,6 +487,8 @@
                             $timeout(updateDropdownMenuHeight);
 
                             dropdownMenu.find('.dropdown-menu__content').removeAttr('style');
+
+                            dropdownInterval = $interval(updateDropdownMenuHeight, 500);
                         }
                     });
                 }
@@ -512,6 +510,8 @@
                         complete: function()
                         {
                             $timeout(updateDropdownMenuHeight);
+
+                            dropdownInterval = $interval(updateDropdownMenuHeight, 500);
                         }
                     });
                 }
@@ -523,6 +523,8 @@
                     });
 
                     $timeout(updateDropdownMenuHeight);
+
+                    dropdownInterval = $interval(updateDropdownMenuHeight, 500);
                 }
 
                 $rootScope.$broadcast('lx-dropdown__open-end', $element.attr('id'));
@@ -566,14 +568,10 @@
             }
         }
 
-        /**
-         * Update the height of the dropdown.
-         * If the content is too large to fit in the remaining size of the screen (to the top or the bottom), then make
-         * it scrollable.
-         * This function is called everytime the content inside of the dropdown changes.
-         */
-        function updateDropdownMenuHeight() {
-            if (positionTarget) {
+        function updateDropdownMenuHeight()
+        {
+            if (positionTarget)
+            {
                 registerDropdownToggle(angular.element(positionTarget));
             }
 
@@ -582,32 +580,44 @@
             }
 
             var availableHeight = getAvailableHeight();
-
-            dropdownMenu.css({
-                height: 'auto',
-            });
-            dropdownMenu.css(availableHeight.direction, 'auto');
-
             var dropdownMenuHeight = dropdownMenu.find('.dropdown-menu__content').outerHeight();
 
-            if ((availableHeight[availableHeight.direction] - ~~lxDropdown.offset) <= dropdownMenuHeight) {
-                if (availableHeight.direction === 'top') {
-                    dropdownMenu.css({
-                        top: 0,
-                    });
-                } else if (availableHeight.direction === 'bottom') {
-                    dropdownMenu.css({
-                        bottom: 0,
+            dropdownMenu.css(
+            {
+                height: 'auto'
+            });
+
+            if ((availableHeight[availableHeight.direction] - ~~lxDropdown.offset) < dropdownMenuHeight)
+            {
+                if (availableHeight.direction === 'top')
+                {
+                    dropdownMenu.css(
+                    {
+                        top: 0
                     });
                 }
-            } else {
-                if (availableHeight.direction === 'top') {
-                    dropdownMenu.css({
-                        top: 'auto',
+                else if (availableHeight.direction === 'bottom')
+                {
+                    dropdownMenu.css(
+                    {
+                        bottom: 0
                     });
-                } else if (availableHeight.direction === 'bottom') {
-                    dropdownMenu.css({
-                        bottom: 'auto',
+                }
+            }
+            else
+            {
+                if (availableHeight.direction === 'top')
+                {
+                    dropdownMenu.css(
+                    {
+                        top: 'auto'
+                    });
+                }
+                else if (availableHeight.direction === 'bottom')
+                {
+                    dropdownMenu.css(
+                    {
+                        bottom: 'auto'
                     });
                 }
             }
