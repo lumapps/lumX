@@ -1,5 +1,5 @@
 /*
- LumX v1.7.2
+ LumX v1.7.3
  (c) 2014-2017 LumApps http://ui.lumapps.com
  License: MIT
 */
@@ -2339,6 +2339,9 @@
 
             var availableHeight = getAvailableHeight();
 
+            dropdownMenu.css({
+                height: 'auto',
+            });
             dropdownMenu.css(availableHeight.direction, 'auto');
 
             var dropdownMenuHeight = dropdownMenu.find('.dropdown-menu__content').outerHeight();

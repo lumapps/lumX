@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.7.3:
+
+#### Bug fixes:
+ - dropdown: content height not recomputed correctly when it changes quickly partial rollback of 4c8557b7c77fa3571fe9b963e837ec4a152c9af1
+
+
 ## v1.7.2:
 *No major changes.*
 
