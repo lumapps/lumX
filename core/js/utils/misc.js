@@ -49,7 +49,7 @@
      */
     function StopPropagationDirective() {
         return function stopPropagationCode(scope, el, attrs) {
-            el.on(attrs.stopPropagation, function stopPropagation(evt) {
+            el.on(attrs.lxStopPropagation, function stopPropagation(evt) {
                 evt.stopPropagation();
             });
         };
