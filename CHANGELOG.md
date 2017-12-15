@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.7.4:
+*No major changes.*
+
+
 ## v1.7.3:
 
 #### Bug fixes:
