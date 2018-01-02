@@ -1,5 +1,14 @@
 # Changelog
 
+## v1.7.5:
+
+#### New features:
+ - fab: add an option to display fab actions on click
+
+#### Bug fixes:
+ - button: fix the icon size for large fab buttons
+
+
 ## v1.7.4:
 *No major changes.*
 

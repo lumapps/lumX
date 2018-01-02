@@ -8,7 +8,8 @@
     vertical-align: top;
     position: relative;
 
-    &:hover {
+    &.lx-fab--trigger-on-hover:hover,
+    &.lx-fab--trigger-on-click.lx-fab--is-open {
         .fab__primary .mdi {
             &:nth-of-type(1) {
                 opacity: 0;
@@ -29,19 +30,19 @@
             }
 
             &.fab__actions--up .btn {
-                @include transform(scale(1) translateY(-($base-spacing-unit * 1.5)));
+                @include transform(scale(1) translateY(-($base-spacing-unit * 2)));
             }
 
             &.fab__actions--right .btn {
-                @include transform(scale(1) translateX($base-spacing-unit * 1.5));
+                @include transform(scale(1) translateX($base-spacing-unit * 2));
             }
 
             &.fab__actions--down .btn {
-                @include transform(scale(1) translateY($base-spacing-unit * 1.5));
+                @include transform(scale(1) translateY($base-spacing-unit * 2));
             }
 
             &.fab__actions--left .btn {
-                @include transform(scale(1) translateX(-($base-spacing-unit * 1.5)));
+                @include transform(scale(1) translateX(-($base-spacing-unit * 2)));
             }
         }
     }
@@ -115,7 +116,11 @@
         @include position(absolute, null null $size-xl 7px);
 
         .btn {
-            margin-bottom: $base-spacing-unit;
+            margin-bottom: $base-spacing-unit * 2;
+
+            &:last-child {
+                margin-bottom: 0;
+            }
         }
     }
 
@@ -123,7 +128,11 @@
         @include position(absolute, $size-xl null null 7px);
 
         .btn {
-            margin-top: $base-spacing-unit;
+            margin-top: $base-spacing-unit * 2;
+
+            &:first-child {
+                margin-top: 0;
+            }
         }
     }
 
@@ -131,7 +140,11 @@
         @include position(absolute, null $size-xl 7px null);
 
         .btn {
-            margin-right: $base-spacing-unit;
+            margin-right: $base-spacing-unit * 2;
+
+            &:last-child {
+                margin-right: 0;
+            }
         }
     }
 
@@ -139,6 +152,10 @@
         @include position(absolute, null null 7px $size-xl);
 
         .btn {
-            margin-left: $base-spacing-unit;
+            margin-left: $base-spacing-unit * 2;
+
+            &:first-child {
+                margin-left: 0;
+            }
         }
     }

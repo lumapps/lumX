@@ -5,6 +5,7 @@
 // Button vars
 $btn-font-size: ('xs': 10px, 's': 13px, 'm': 14px, 'l': 16px, 'xl': 16px);
 $btn-icon-size: ('xs': 14px, 's': 18px, 'm': 20px, 'l': 24px, 'xl': 24px);
+$btn-fab-size: ('xs': 14px, 's': 18px, 'm': 20px, 'l': 20px, 'xl': 24px);
 
 
 
@@ -43,7 +44,14 @@ $btn-icon-size: ('xs': 14px, 's': 18px, 'm': 20px, 'l': 24px, 'xl': 24px);
 
     @if $type == 'icon' or $type == 'fab' {
         @include size(map-get($sizes, $size));
+    }
+
+    @if $type == 'icon' {
         @include font-size(map-get($btn-icon-size, $size));
+    }
+
+    @if $type == 'fab' {
+        @include font-size(map-get($btn-fab-size, $size));
     }
 }
 
