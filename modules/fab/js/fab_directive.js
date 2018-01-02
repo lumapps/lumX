@@ -28,6 +28,11 @@
             {
                 ctrl.setFabDirection(newDirection);
             });
+
+            attrs.$observe('lxTriggerOnClick', function(isTriggeredOnClick)
+            {
+                ctrl.setFabTriggerMethod(isTriggeredOnClick);
+            });
         }
     }
 
@@ -36,12 +41,29 @@
         var lxFab = this;
 
         lxFab.setFabDirection = setFabDirection;
+        lxFab.setFabTriggerMethod = setFabTriggerMethod;
+        lxFab.toggleState = toggleState;
+
+        lxFab.isOpen = false;
 
         ////////////
 
         function setFabDirection(_direction)
         {
             lxFab.lxDirection = _direction;
+        }
+
+        function setFabTriggerMethod(_isTriggeredOnClick)
+        {
+            lxFab.lxTriggerOnClick = _isTriggeredOnClick;
+        }
+
+        function toggleState()
+        {
+            if (lxFab.lxTriggerOnClick)
+            {
+                lxFab.isOpen = !lxFab.isOpen;
+            }
         }
     }
 
