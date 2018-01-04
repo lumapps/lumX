@@ -780,9 +780,9 @@
         }
     }
 
-    lxDropdownFilter.$inject = ['$timeout'];
+    lxDropdownFilter.$inject = ['$timeout', '$window'];
 
-    function lxDropdownFilter($timeout)
+    function lxDropdownFilter($timeout, $window)
     {
         return {
             restrict: 'A',
@@ -791,7 +791,10 @@
 
         function link(scope, element)
         {
+            var filterHasFocus = false;
             var focusTimeout;
+            var input = element.find('input');
+            var currentWindow = angular.element($window);
 
             element.on('click', function(_event)
             {
@@ -800,13 +803,21 @@
 
             focusTimeout = $timeout(function()
             {
-                element.find('input').focus();
+                input.focus();
+                filterHasFocus = true;
             }, 200);
+
+            window.on('mousewheel', function onMousewheel() {
+                if (selectIsFocus) {
+                    input.blur();
+                }
+            });
 
             scope.$on('$destroy', function()
             {
                 $timeout.cancel(focusTimeout);
                 element.off();
+                currentWindow.off('mousewheel');
             });
         }
     }
