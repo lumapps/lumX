@@ -86,9 +86,9 @@
         }
     }
 
-    LxSearchFilterController.$inject = ['$element', '$scope', 'LxDropdownService', 'LxNotificationService', 'LxUtils'];
+    LxSearchFilterController.$inject = ['$element', '$scope', '$timeout', 'LxDropdownService', 'LxNotificationService', 'LxUtils'];
 
-    function LxSearchFilterController($element, $scope, LxDropdownService, LxNotificationService, LxUtils)
+    function LxSearchFilterController($element, $scope, $timeout, LxDropdownService, LxNotificationService, LxUtils)
     {
         var lxSearchFilter = this;
         var debouncedAutocomplete;
@@ -129,7 +129,9 @@
 
             if (!input.val())
             {
-                lxSearchFilter.modelController.$setViewValue(undefined);
+                $timeout(function() {
+                    lxSearchFilter.modelController.$setViewValue(undefined);
+                }, 500);
             }
         }
 
