@@ -807,9 +807,12 @@
                 filterHasFocus = true;
             }, 200);
 
-            window.on('mousewheel', function onMousewheel() {
-                if (selectIsFocus) {
+            currentWindow.on('mousewheel', function onMousewheel()
+            {
+                if (filterHasFocus)
+                {
                     input.blur();
+                    currentWindow.off('mousewheel');
                 }
             });
 
@@ -817,7 +820,11 @@
             {
                 $timeout.cancel(focusTimeout);
                 element.off();
-                currentWindow.off('mousewheel');
+                
+                if (filterHasFocus)
+                {
+                    currentWindow.off('mousewheel');
+                }
             });
         }
     }
