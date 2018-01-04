@@ -20,8 +20,6 @@
         service.registerActiveDropdownUuid = registerActiveDropdownUuid;
         service.resetActiveDropdownUuid = resetActiveDropdownUuid;
 
-        $document.on('click', closeActiveDropdown);
-
         ////////////
 
         function close(_uuid)
@@ -35,11 +33,13 @@
 
         function closeActiveDropdown()
         {
-            $rootScope.$broadcast('lx-dropdown__close',
-            {
-                documentClick: true,
-                uuid: activeDropdownUuid
-            });
+            if (angular.isDefined(activeDropdownUuid) && activeDropdownUuid.length > 0) {
+                $rootScope.$broadcast('lx-dropdown__close',
+                {
+                    documentClick: true,
+                    uuid: activeDropdownUuid
+                });
+            }
         }
 
         function open(_uuid, _target)

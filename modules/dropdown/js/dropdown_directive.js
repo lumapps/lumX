@@ -79,11 +79,11 @@
         }
     }
 
-    LxDropdownController.$inject = ['$element', '$interval', '$rootScope', '$scope', '$timeout', '$window',
+    LxDropdownController.$inject = ['$document', '$element', '$interval', '$rootScope', '$scope', '$timeout', '$window',
         'LxDepthService', 'LxDropdownService', 'LxEventSchedulerService', 'LxUtils'
     ];
 
-    function LxDropdownController($element, $interval, $rootScope, $scope, $timeout, $window, LxDepthService,
+    function LxDropdownController($document, $element, $interval, $rootScope, $scope, $timeout, $window, LxDepthService,
         LxDropdownService, LxEventSchedulerService, LxUtils)
     {
         var lxDropdown = this;
@@ -145,6 +145,8 @@
 
         function closeDropdownMenu()
         {
+            $document.off('click', onDocumentClick);
+
             $rootScope.$broadcast('lx-dropdown__close-start', $element.attr('id'));
 
             angular.element(window).off('resize', initDropdownPosition);
@@ -371,8 +373,14 @@
             }
         }
 
+        function onDocumentClick() {
+            LxDropdownService.close(lxDropdown.uuid);
+        }
+
         function openDropdownMenu()
         {
+            $document.on('click', onDocumentClick);
+
             $rootScope.$broadcast('lx-dropdown__open-start', $element.attr('id'));
 
             lxDropdown.isOpen = true;
