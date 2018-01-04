@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.7.6:
+
+#### Bug fixes:
+ - search-filter: wait before changing the view value
+
+
 ## v1.7.5:
 
 #### New features:

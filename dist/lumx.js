@@ -1,5 +1,5 @@
 /*
- LumX v1.7.5
+ LumX v1.7.6
  (c) 2014-2018 LumApps http://ui.lumapps.com
  License: MIT
 */
@@ -1835,11 +1835,11 @@
         }
     }
 
-    LxDropdownController.$inject = ['$element', '$interval', '$rootScope', '$scope', '$timeout', '$window',
+    LxDropdownController.$inject = ['$document', '$element', '$interval', '$rootScope', '$scope', '$timeout', '$window',
         'LxDepthService', 'LxDropdownService', 'LxEventSchedulerService', 'LxUtils'
     ];
 
-    function LxDropdownController($element, $interval, $rootScope, $scope, $timeout, $window, LxDepthService,
+    function LxDropdownController($document, $element, $interval, $rootScope, $scope, $timeout, $window, LxDepthService,
         LxDropdownService, LxEventSchedulerService, LxUtils)
     {
         var lxDropdown = this;
@@ -1901,6 +1901,8 @@
 
         function closeDropdownMenu()
         {
+            $document.off('click', onDocumentClick);
+
             $rootScope.$broadcast('lx-dropdown__close-start', $element.attr('id'));
 
             angular.element(window).off('resize', initDropdownPosition);
@@ -2127,8 +2129,14 @@
             }
         }
 
+        function onDocumentClick() {
+            LxDropdownService.close(lxDropdown.uuid);
+        }
+
         function openDropdownMenu()
         {
+            $document.on('click', onDocumentClick);
+
             $rootScope.$broadcast('lx-dropdown__open-start', $element.attr('id'));
 
             lxDropdown.isOpen = true;
@@ -2593,8 +2601,6 @@
         service.registerActiveDropdownUuid = registerActiveDropdownUuid;
         service.resetActiveDropdownUuid = resetActiveDropdownUuid;
 
-        $document.on('click', closeActiveDropdown);
-
         ////////////
 
         function close(_uuid)
@@ -2608,11 +2614,13 @@
 
         function closeActiveDropdown()
         {
-            $rootScope.$broadcast('lx-dropdown__close',
-            {
-                documentClick: true,
-                uuid: activeDropdownUuid
-            });
+            if (angular.isDefined(activeDropdownUuid) && activeDropdownUuid.length > 0) {
+                $rootScope.$broadcast('lx-dropdown__close',
+                {
+                    documentClick: true,
+                    uuid: activeDropdownUuid
+                });
+            }
         }
 
         function open(_uuid, _target)
@@ -3765,9 +3773,9 @@
         }
     }
 
-    LxSearchFilterController.$inject = ['$element', '$scope', 'LxDropdownService', 'LxNotificationService', 'LxUtils'];
+    LxSearchFilterController.$inject = ['$element', '$scope', '$timeout', 'LxDropdownService', 'LxNotificationService', 'LxUtils'];
 
-    function LxSearchFilterController($element, $scope, LxDropdownService, LxNotificationService, LxUtils)
+    function LxSearchFilterController($element, $scope, $timeout, LxDropdownService, LxNotificationService, LxUtils)
     {
         var lxSearchFilter = this;
         var debouncedAutocomplete;
@@ -3808,7 +3816,9 @@
 
             if (!input.val())
             {
-                lxSearchFilter.modelController.$setViewValue(undefined);
+                $timeout(function() {
+                    lxSearchFilter.modelController.$setViewValue(undefined);
+                }, 500);
             }
         }
 
@@ -4055,6 +4065,7 @@
         }
     }
 })();
+
 (function()
 {
     'use strict';
