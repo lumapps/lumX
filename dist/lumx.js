@@ -1,5 +1,5 @@
 /*
- LumX v1.7.6
+ LumX v1.7.7
  (c) 2014-2018 LumApps http://ui.lumapps.com
  License: MIT
 */
@@ -316,6 +316,7 @@
     function LxUtils()
     {
         var service = this;
+        var alreadyDisabledScroll = false;
 
         service.debounce = debounce;
         service.disableBodyScroll = disableBodyScroll;
@@ -386,12 +387,14 @@
             var body = document.body;
             var documentElement = document.documentElement;
 
-            var prevDocumentStyle = documentElement.style.cssText || '';
-            var prevBodyStyle = body.style.cssText || '';
+            if (!alreadyDisabledScroll) {
+                var prevDocumentStyle = documentElement.style.cssText || '';
+                var prevBodyStyle = body.style.cssText || '';
+                var viewportTop = (document.scrollingElement) ?
+                    document.scrollingElement.scrollTop : window.scrollY || window.pageYOffset || body.scrollTop;
+                viewportTop = viewportTop || 0;
+            }
 
-            var viewportTop = (document.scrollingElement) ?
-                document.scrollingElement.scrollTop : window.scrollY || window.pageYOffset || body.scrollTop;
-            viewportTop = viewportTop || 0;
 
             var clientWidth = body.clientWidth;
             var hasVerticalScrollbar = body.scrollHeight > window.innerHeight + 1;
@@ -418,18 +421,28 @@
               documentElement.style.overflowY = 'scroll';
             }
 
+            // This attribution prevents this function to consider the css it sets
+            // to body and documents to be the 'previous' css attributes to recover.
+            alreadyDisabledScroll = true;
+
             return function restoreScroll()
             {
-              // Reset the inline style CSS to the previous.
-              body.style.cssText = prevBodyStyle;
-              documentElement.style.cssText = prevDocumentStyle;
+                if (!alreadyDisabledScroll) {
+                    return;
+                }
 
-              // The body loses its scroll position while being fixed.
-              if (document.scrollingElement) {
-                document.scrollingElement.scrollTop = viewportTop;
-              } else {
-                body.scrollTop = viewportTop;
-              }
+                // Reset the inline style CSS to the previous.
+                body.style.cssText = prevBodyStyle;
+                documentElement.style.cssText = prevDocumentStyle;
+                
+                // The body loses its scroll position while being fixed.
+                if (document.scrollingElement) {
+                    document.scrollingElement.scrollTop = viewportTop;
+                } else {
+                    body.scrollTop = viewportTop;
+                }
+
+                alreadyDisabledScroll = false;
             };
         }
 

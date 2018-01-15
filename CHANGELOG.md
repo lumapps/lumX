@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.7.7:
+*No major changes.*
+
+
 ## v1.7.6:
 
 #### Bug fixes:
