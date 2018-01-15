@@ -80,7 +80,7 @@
             var body = document.body;
             var documentElement = document.documentElement;
 
-            if(!alreadyDisabledScroll) {
+            if (!alreadyDisabledScroll) {
                 var prevDocumentStyle = documentElement.style.cssText || '';
                 var prevBodyStyle = body.style.cssText || '';
                 var viewportTop = (document.scrollingElement) ?
