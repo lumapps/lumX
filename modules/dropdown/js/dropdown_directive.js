@@ -374,7 +374,7 @@
         }
 
         function onDocumentClick() {
-            LxDropdownService.close(lxDropdown.uuid);
+            LxDropdownService.close(lxDropdown.uuid, true);
         }
 
         function openDropdownMenu()
