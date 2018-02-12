@@ -22,11 +22,12 @@
 
         ////////////
 
-        function close(_uuid)
+        function close(_uuid, isDocumentClick)
         {
+            isDocumentClick = isDocumentClick || false;
             $rootScope.$broadcast('lx-dropdown__close',
             {
-                documentClick: false,
+                documentClick: isDocumentClick,
                 uuid: _uuid
             });
         }
