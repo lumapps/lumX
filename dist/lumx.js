@@ -1,5 +1,5 @@
 /*
- LumX v1.7.7
+ LumX v1.7.8
  (c) 2014-2018 LumApps http://ui.lumapps.com
  License: MIT
 */
@@ -982,6 +982,379 @@
     'use strict';
 
     angular
+        .module('lumx.dialog')
+        .directive('lxDialog', lxDialog)
+        .directive('lxDialogHeader', lxDialogHeader)
+        .directive('lxDialogContent', lxDialogContent)
+        .directive('lxDialogFooter', lxDialogFooter)
+        .directive('lxDialogClose', lxDialogClose);
+
+    function lxDialog()
+    {
+        return {
+            restrict: 'E',
+            template: '<div class="dialog" ng-class="{ \'dialog--l\': !lxDialog.size || lxDialog.size === \'l\', \'dialog--s\': lxDialog.size === \'s\', \'dialog--m\': lxDialog.size === \'m\' }"><div ng-if="lxDialog.isOpen" ng-transclude></div></div>',
+            scope:
+            {
+                autoClose: '=?lxAutoClose',
+                escapeClose: '=?lxEscapeClose',
+                size: '@?lxSize'
+            },
+            link: link,
+            controller: LxDialogController,
+            controllerAs: 'lxDialog',
+            bindToController: true,
+            replace: true,
+            transclude: true
+        };
+
+        function link(scope, element, attrs, ctrl)
+        {
+            attrs.$observe('id', function(_newId)
+            {
+                ctrl.id = _newId;
+            });
+        }
+    }
+
+    LxDialogController.$inject = ['$element', '$interval', '$rootScope', '$scope', '$timeout', '$window', 'LxDepthService', 'LxEventSchedulerService', 'LxUtils'];
+
+    function LxDialogController($element, $interval, $rootScope, $scope, $timeout, $window, LxDepthService, LxEventSchedulerService, LxUtils)
+    {
+        var lxDialog = this;
+        var dialogFilter = angular.element('<div/>',
+        {
+            class: 'dialog-filter'
+        });
+        var dialogHeight;
+        var dialogInterval;
+        var dialogScrollable;
+        var elementParent = $element.parent();
+        var idEventScheduler;
+        var resizeDebounce;
+        var windowHeight;
+
+        lxDialog.autoClose = angular.isDefined(lxDialog.autoClose) ? lxDialog.autoClose : true;
+        lxDialog.escapeClose = angular.isDefined(lxDialog.escapeClose) ? lxDialog.escapeClose : true;
+        lxDialog.isOpen = false;
+        lxDialog.uuid = LxUtils.generateUUID();
+
+        $scope.$on('lx-dialog__open', function(event, id, params)
+        {
+            if (id === lxDialog.id)
+            {
+                open(params);
+            }
+        });
+
+        $scope.$on('lx-dialog__close', function(event, id, canceled, params)
+        {
+            if (id === lxDialog.id || id === undefined)
+            {
+                close(canceled, params);
+            }
+        });
+
+        $scope.$on('$destroy', function()
+        {
+            close(true);
+        });
+
+        ////////////
+
+        function checkDialogHeight()
+        {
+            var dialog = $element;
+            var dialogHeader = dialog.find('.dialog__header');
+            var dialogContent = dialog.find('.dialog__content');
+            var dialogFooter = dialog.find('.dialog__footer');
+
+            if (!dialogFooter.length)
+            {
+                dialogFooter = dialog.find('.dialog__actions');
+            }
+
+            if (angular.isUndefined(dialogHeader))
+            {
+                return;
+            }
+
+            var heightToCheck = 60 + dialogHeader.outerHeight() + dialogContent.outerHeight() + dialogFooter.outerHeight();
+
+            if (dialogHeight === heightToCheck && windowHeight === $window.innerHeight)
+            {
+                return;
+            }
+
+            dialogHeight = heightToCheck;
+            windowHeight = $window.innerHeight;
+
+            if (heightToCheck >= $window.innerHeight)
+            {
+                dialog.addClass('dialog--is-fixed');
+
+                dialogScrollable
+                    .css(
+                    {
+                        top: dialogHeader.outerHeight(),
+                        bottom: dialogFooter.outerHeight()
+                    })
+                    .off('scroll', checkScrollEnd)
+                    .on('scroll', checkScrollEnd);
+            }
+            else
+            {
+                dialog.removeClass('dialog--is-fixed');
+
+                dialogScrollable
+                    .removeAttr('style')
+                    .off('scroll', checkScrollEnd);
+            }
+        }
+
+        function checkDialogHeightOnResize()
+        {
+            if (resizeDebounce)
+            {
+                $timeout.cancel(resizeDebounce);
+            }
+
+            resizeDebounce = $timeout(function()
+            {
+                checkDialogHeight();
+            }, 200);
+        }
+
+        function checkScrollEnd()
+        {
+            if (dialogScrollable.scrollTop() + dialogScrollable.innerHeight() >= dialogScrollable[0].scrollHeight)
+            {
+                $rootScope.$broadcast('lx-dialog__scroll-end', lxDialog.id);
+
+                dialogScrollable.off('scroll', checkScrollEnd);
+
+                $timeout(function()
+                {
+                    dialogScrollable.on('scroll', checkScrollEnd);
+                }, 500);
+            }
+        }
+
+        function onKeyUp(_event)
+        {
+            if (_event.keyCode == 27)
+            {
+                close(true);
+            }
+
+            _event.stopPropagation();
+        }
+
+        function open(_params)
+        {
+            if (lxDialog.isOpen)
+            {
+                return;
+            }
+
+            LxDepthService.register();
+
+            angular.element('body').addClass('no-scroll-dialog-' + lxDialog.uuid);
+
+            dialogFilter
+                .css('z-index', LxDepthService.getDepth())
+                .appendTo('body');
+
+            if (lxDialog.autoClose)
+            {
+                dialogFilter.on('click', function()
+                {
+                    close(true);
+                });
+            }
+
+            if (lxDialog.escapeClose)
+            {
+                idEventScheduler = LxEventSchedulerService.register('keyup', onKeyUp);
+            }
+
+            $element
+                .css('z-index', LxDepthService.getDepth() + 1)
+                .appendTo('body')
+                .show();
+
+            $timeout(function()
+            {
+                $rootScope.$broadcast('lx-dialog__open-start', lxDialog.id, _params);
+
+                lxDialog.isOpen = true;
+
+                dialogFilter.addClass('dialog-filter--is-shown');
+                $element.addClass('dialog--is-shown');
+            }, 100);
+
+            $timeout(function()
+            {
+                if ($element.find('.dialog__scrollable').length === 0)
+                {
+                    $element.find('.dialog__content').wrap(angular.element('<div/>',
+                    {
+                        class: 'dialog__scrollable'
+                    }));
+                }
+
+                dialogScrollable = $element.find('.dialog__scrollable');
+            }, 200);
+
+            $timeout(function()
+            {
+                $rootScope.$broadcast('lx-dialog__open-end', lxDialog.id, _params);
+            }, 700);
+
+            dialogInterval = $interval(function()
+            {
+                checkDialogHeight();
+            }, 500);
+
+            angular.element($window).on('resize', checkDialogHeightOnResize);
+        }
+
+        function close(_canceled, _params)
+        {
+            if (!lxDialog.isOpen)
+            {
+                return;
+            }
+
+            _params = _params || {};
+
+            if (angular.isDefined(idEventScheduler))
+            {
+                LxEventSchedulerService.unregister(idEventScheduler);
+                idEventScheduler = undefined;
+            }
+
+            angular.element($window).off('resize', checkDialogHeightOnResize);
+            $element.find('.dialog__scrollable').off('scroll', checkScrollEnd);
+
+            $rootScope.$broadcast('lx-dialog__close-start', lxDialog.id, _canceled, _params);
+
+            if (resizeDebounce)
+            {
+                $timeout.cancel(resizeDebounce);
+            }
+
+            $interval.cancel(dialogInterval);
+
+            dialogFilter.removeClass('dialog-filter--is-shown');
+            $element.removeClass('dialog--is-shown');
+
+            $timeout(function()
+            {
+                angular.element('body').removeClass('no-scroll-dialog-' + lxDialog.uuid);
+
+                dialogFilter.remove();
+
+                $element
+                    .hide()
+                    .removeClass('dialog--is-fixed')
+                    .appendTo(elementParent);
+
+                lxDialog.isOpen = false;
+                dialogHeight = undefined;
+                $rootScope.$broadcast('lx-dialog__close-end', lxDialog.id, _canceled, _params);
+            }, 600);
+        }
+    }
+
+    function lxDialogHeader()
+    {
+        return {
+            restrict: 'E',
+            template: '<div class="dialog__header" ng-transclude></div>',
+            replace: true,
+            transclude: true
+        };
+    }
+
+    function lxDialogContent()
+    {
+        return {
+            restrict: 'E',
+            template: '<div class="dialog__scrollable"><div class="dialog__content" ng-transclude></div></div>',
+            replace: true,
+            transclude: true
+        };
+    }
+
+    function lxDialogFooter()
+    {
+        return {
+            restrict: 'E',
+            template: '<div class="dialog__footer" ng-transclude></div>',
+            replace: true,
+            transclude: true
+        };
+    }
+
+    lxDialogClose.$inject = ['LxDialogService'];
+
+    function lxDialogClose(LxDialogService)
+    {
+        return {
+            restrict: 'A',
+            link: function(scope, element)
+            {
+                element.on('click', function()
+                {
+                    LxDialogService.close(element.parents('.dialog').attr('id'), true);
+                });
+
+                scope.$on('$destroy', function()
+                {
+                    element.off();
+                });
+            }
+        };
+    }
+})();
+
+(function()
+{
+    'use strict';
+
+    angular
+        .module('lumx.dialog')
+        .service('LxDialogService', LxDialogService);
+
+    LxDialogService.$inject = ['$rootScope'];
+
+    function LxDialogService($rootScope)
+    {
+        var service = this;
+
+        service.open = open;
+        service.close = close;
+
+        ////////////
+
+        function open(_dialogId, _params)
+        {
+            $rootScope.$broadcast('lx-dialog__open', _dialogId, _params);
+        }
+
+        function close(_dialogId, _canceled, _params)
+        {
+            $rootScope.$broadcast('lx-dialog__close', _dialogId, _canceled, _params);
+        }
+    }
+})();
+
+(function()
+{
+    'use strict';
+
+    angular
         .module('lumx.date-picker')
         .directive('lxDatePicker', lxDatePicker);
 
@@ -1399,379 +1772,6 @@
     'use strict';
 
     angular
-        .module('lumx.dialog')
-        .directive('lxDialog', lxDialog)
-        .directive('lxDialogHeader', lxDialogHeader)
-        .directive('lxDialogContent', lxDialogContent)
-        .directive('lxDialogFooter', lxDialogFooter)
-        .directive('lxDialogClose', lxDialogClose);
-
-    function lxDialog()
-    {
-        return {
-            restrict: 'E',
-            template: '<div class="dialog" ng-class="{ \'dialog--l\': !lxDialog.size || lxDialog.size === \'l\', \'dialog--s\': lxDialog.size === \'s\', \'dialog--m\': lxDialog.size === \'m\' }"><div ng-if="lxDialog.isOpen" ng-transclude></div></div>',
-            scope:
-            {
-                autoClose: '=?lxAutoClose',
-                escapeClose: '=?lxEscapeClose',
-                size: '@?lxSize'
-            },
-            link: link,
-            controller: LxDialogController,
-            controllerAs: 'lxDialog',
-            bindToController: true,
-            replace: true,
-            transclude: true
-        };
-
-        function link(scope, element, attrs, ctrl)
-        {
-            attrs.$observe('id', function(_newId)
-            {
-                ctrl.id = _newId;
-            });
-        }
-    }
-
-    LxDialogController.$inject = ['$element', '$interval', '$rootScope', '$scope', '$timeout', '$window', 'LxDepthService', 'LxEventSchedulerService', 'LxUtils'];
-
-    function LxDialogController($element, $interval, $rootScope, $scope, $timeout, $window, LxDepthService, LxEventSchedulerService, LxUtils)
-    {
-        var lxDialog = this;
-        var dialogFilter = angular.element('<div/>',
-        {
-            class: 'dialog-filter'
-        });
-        var dialogHeight;
-        var dialogInterval;
-        var dialogScrollable;
-        var elementParent = $element.parent();
-        var idEventScheduler;
-        var resizeDebounce;
-        var windowHeight;
-
-        lxDialog.autoClose = angular.isDefined(lxDialog.autoClose) ? lxDialog.autoClose : true;
-        lxDialog.escapeClose = angular.isDefined(lxDialog.escapeClose) ? lxDialog.escapeClose : true;
-        lxDialog.isOpen = false;
-        lxDialog.uuid = LxUtils.generateUUID();
-
-        $scope.$on('lx-dialog__open', function(event, id, params)
-        {
-            if (id === lxDialog.id)
-            {
-                open(params);
-            }
-        });
-
-        $scope.$on('lx-dialog__close', function(event, id, canceled, params)
-        {
-            if (id === lxDialog.id || id === undefined)
-            {
-                close(canceled, params);
-            }
-        });
-
-        $scope.$on('$destroy', function()
-        {
-            close(true);
-        });
-
-        ////////////
-
-        function checkDialogHeight()
-        {
-            var dialog = $element;
-            var dialogHeader = dialog.find('.dialog__header');
-            var dialogContent = dialog.find('.dialog__content');
-            var dialogFooter = dialog.find('.dialog__footer');
-
-            if (!dialogFooter.length)
-            {
-                dialogFooter = dialog.find('.dialog__actions');
-            }
-
-            if (angular.isUndefined(dialogHeader))
-            {
-                return;
-            }
-
-            var heightToCheck = 60 + dialogHeader.outerHeight() + dialogContent.outerHeight() + dialogFooter.outerHeight();
-
-            if (dialogHeight === heightToCheck && windowHeight === $window.innerHeight)
-            {
-                return;
-            }
-
-            dialogHeight = heightToCheck;
-            windowHeight = $window.innerHeight;
-
-            if (heightToCheck >= $window.innerHeight)
-            {
-                dialog.addClass('dialog--is-fixed');
-
-                dialogScrollable
-                    .css(
-                    {
-                        top: dialogHeader.outerHeight(),
-                        bottom: dialogFooter.outerHeight()
-                    })
-                    .off('scroll', checkScrollEnd)
-                    .on('scroll', checkScrollEnd);
-            }
-            else
-            {
-                dialog.removeClass('dialog--is-fixed');
-
-                dialogScrollable
-                    .removeAttr('style')
-                    .off('scroll', checkScrollEnd);
-            }
-        }
-
-        function checkDialogHeightOnResize()
-        {
-            if (resizeDebounce)
-            {
-                $timeout.cancel(resizeDebounce);
-            }
-
-            resizeDebounce = $timeout(function()
-            {
-                checkDialogHeight();
-            }, 200);
-        }
-
-        function checkScrollEnd()
-        {
-            if (dialogScrollable.scrollTop() + dialogScrollable.innerHeight() >= dialogScrollable[0].scrollHeight)
-            {
-                $rootScope.$broadcast('lx-dialog__scroll-end', lxDialog.id);
-
-                dialogScrollable.off('scroll', checkScrollEnd);
-
-                $timeout(function()
-                {
-                    dialogScrollable.on('scroll', checkScrollEnd);
-                }, 500);
-            }
-        }
-
-        function onKeyUp(_event)
-        {
-            if (_event.keyCode == 27)
-            {
-                close(true);
-            }
-
-            _event.stopPropagation();
-        }
-
-        function open(_params)
-        {
-            if (lxDialog.isOpen)
-            {
-                return;
-            }
-
-            LxDepthService.register();
-
-            angular.element('body').addClass('no-scroll-dialog-' + lxDialog.uuid);
-
-            dialogFilter
-                .css('z-index', LxDepthService.getDepth())
-                .appendTo('body');
-
-            if (lxDialog.autoClose)
-            {
-                dialogFilter.on('click', function()
-                {
-                    close(true);
-                });
-            }
-
-            if (lxDialog.escapeClose)
-            {
-                idEventScheduler = LxEventSchedulerService.register('keyup', onKeyUp);
-            }
-
-            $element
-                .css('z-index', LxDepthService.getDepth() + 1)
-                .appendTo('body')
-                .show();
-
-            $timeout(function()
-            {
-                $rootScope.$broadcast('lx-dialog__open-start', lxDialog.id, _params);
-
-                lxDialog.isOpen = true;
-
-                dialogFilter.addClass('dialog-filter--is-shown');
-                $element.addClass('dialog--is-shown');
-            }, 100);
-
-            $timeout(function()
-            {
-                if ($element.find('.dialog__scrollable').length === 0)
-                {
-                    $element.find('.dialog__content').wrap(angular.element('<div/>',
-                    {
-                        class: 'dialog__scrollable'
-                    }));
-                }
-
-                dialogScrollable = $element.find('.dialog__scrollable');
-            }, 200);
-
-            $timeout(function()
-            {
-                $rootScope.$broadcast('lx-dialog__open-end', lxDialog.id, _params);
-            }, 700);
-
-            dialogInterval = $interval(function()
-            {
-                checkDialogHeight();
-            }, 500);
-
-            angular.element($window).on('resize', checkDialogHeightOnResize);
-        }
-
-        function close(_canceled, _params)
-        {
-            if (!lxDialog.isOpen)
-            {
-                return;
-            }
-
-            _params = _params || {};
-
-            if (angular.isDefined(idEventScheduler))
-            {
-                LxEventSchedulerService.unregister(idEventScheduler);
-                idEventScheduler = undefined;
-            }
-
-            angular.element($window).off('resize', checkDialogHeightOnResize);
-            $element.find('.dialog__scrollable').off('scroll', checkScrollEnd);
-
-            $rootScope.$broadcast('lx-dialog__close-start', lxDialog.id, _canceled, _params);
-
-            if (resizeDebounce)
-            {
-                $timeout.cancel(resizeDebounce);
-            }
-
-            $interval.cancel(dialogInterval);
-
-            dialogFilter.removeClass('dialog-filter--is-shown');
-            $element.removeClass('dialog--is-shown');
-
-            $timeout(function()
-            {
-                angular.element('body').removeClass('no-scroll-dialog-' + lxDialog.uuid);
-
-                dialogFilter.remove();
-
-                $element
-                    .hide()
-                    .removeClass('dialog--is-fixed')
-                    .appendTo(elementParent);
-
-                lxDialog.isOpen = false;
-                dialogHeight = undefined;
-                $rootScope.$broadcast('lx-dialog__close-end', lxDialog.id, _canceled, _params);
-            }, 600);
-        }
-    }
-
-    function lxDialogHeader()
-    {
-        return {
-            restrict: 'E',
-            template: '<div class="dialog__header" ng-transclude></div>',
-            replace: true,
-            transclude: true
-        };
-    }
-
-    function lxDialogContent()
-    {
-        return {
-            restrict: 'E',
-            template: '<div class="dialog__scrollable"><div class="dialog__content" ng-transclude></div></div>',
-            replace: true,
-            transclude: true
-        };
-    }
-
-    function lxDialogFooter()
-    {
-        return {
-            restrict: 'E',
-            template: '<div class="dialog__footer" ng-transclude></div>',
-            replace: true,
-            transclude: true
-        };
-    }
-
-    lxDialogClose.$inject = ['LxDialogService'];
-
-    function lxDialogClose(LxDialogService)
-    {
-        return {
-            restrict: 'A',
-            link: function(scope, element)
-            {
-                element.on('click', function()
-                {
-                    LxDialogService.close(element.parents('.dialog').attr('id'), true);
-                });
-
-                scope.$on('$destroy', function()
-                {
-                    element.off();
-                });
-            }
-        };
-    }
-})();
-
-(function()
-{
-    'use strict';
-
-    angular
-        .module('lumx.dialog')
-        .service('LxDialogService', LxDialogService);
-
-    LxDialogService.$inject = ['$rootScope'];
-
-    function LxDialogService($rootScope)
-    {
-        var service = this;
-
-        service.open = open;
-        service.close = close;
-
-        ////////////
-
-        function open(_dialogId, _params)
-        {
-            $rootScope.$broadcast('lx-dialog__open', _dialogId, _params);
-        }
-
-        function close(_dialogId, _canceled, _params)
-        {
-            $rootScope.$broadcast('lx-dialog__close', _dialogId, _canceled, _params);
-        }
-    }
-})();
-
-(function()
-{
-    'use strict';
-
-    angular
         .module('lumx.dropdown')
         .directive('lxDropdown', lxDropdown)
         .directive('lxDropdownToggle', lxDropdownToggle)
@@ -2143,7 +2143,7 @@
         }
 
         function onDocumentClick() {
-            LxDropdownService.close(lxDropdown.uuid);
+            LxDropdownService.close(lxDropdown.uuid, true);
         }
 
         function openDropdownMenu()
@@ -2616,11 +2616,12 @@
 
         ////////////
 
-        function close(_uuid)
+        function close(_uuid, isDocumentClick)
         {
+            isDocumentClick = isDocumentClick || false;
             $rootScope.$broadcast('lx-dropdown__close',
             {
-                documentClick: false,
+                documentClick: isDocumentClick,
                 uuid: _uuid
             });
         }
@@ -3375,84 +3376,6 @@
     'use strict';
 
     angular
-        .module('lumx.progress')
-        .directive('lxProgress', lxProgress);
-
-    function lxProgress()
-    {
-        return {
-            restrict: 'E',
-            templateUrl: 'progress.html',
-            scope:
-            {
-                lxColor: '@?',
-                lxDiameter: '@?',
-                lxType: '@',
-                lxValue: '@'
-            },
-            controller: LxProgressController,
-            controllerAs: 'lxProgress',
-            bindToController: true,
-            replace: true
-        };
-    }
-
-    function LxProgressController()
-    {
-        var lxProgress = this;
-
-        lxProgress.getCircularProgressValue = getCircularProgressValue;
-        lxProgress.getLinearProgressValue = getLinearProgressValue;
-        lxProgress.getProgressDiameter = getProgressDiameter;
-
-        init();
-
-        ////////////
-
-        function getCircularProgressValue()
-        {
-            if (angular.isDefined(lxProgress.lxValue))
-            {
-                return {
-                    'stroke-dasharray': lxProgress.lxValue * 1.26 + ',200'
-                };
-            }
-        }
-
-        function getLinearProgressValue()
-        {
-            if (angular.isDefined(lxProgress.lxValue))
-            {
-                return {
-                    'transform': 'scale(' + lxProgress.lxValue / 100 + ', 1)'
-                };
-            }
-        }
-
-        function getProgressDiameter()
-        {
-            if (lxProgress.lxType === 'circular')
-            {
-                return {
-                    'transform': 'scale(' + parseInt(lxProgress.lxDiameter) / 100 + ')'
-                };
-            }
-
-            return;
-        }
-
-        function init()
-        {
-            lxProgress.lxDiameter = angular.isDefined(lxProgress.lxDiameter) ? lxProgress.lxDiameter : 100;
-            lxProgress.lxColor = angular.isDefined(lxProgress.lxColor) ? lxProgress.lxColor : 'primary';
-        }
-    }
-})();
-(function()
-{
-    'use strict';
-
-    angular
         .module('lumx.radio-button')
         .directive('lxRadioGroup', lxRadioGroup)
         .directive('lxRadioButton', lxRadioButton)
@@ -3612,6 +3535,84 @@
     }
 })();
 
+(function()
+{
+    'use strict';
+
+    angular
+        .module('lumx.progress')
+        .directive('lxProgress', lxProgress);
+
+    function lxProgress()
+    {
+        return {
+            restrict: 'E',
+            templateUrl: 'progress.html',
+            scope:
+            {
+                lxColor: '@?',
+                lxDiameter: '@?',
+                lxType: '@',
+                lxValue: '@'
+            },
+            controller: LxProgressController,
+            controllerAs: 'lxProgress',
+            bindToController: true,
+            replace: true
+        };
+    }
+
+    function LxProgressController()
+    {
+        var lxProgress = this;
+
+        lxProgress.getCircularProgressValue = getCircularProgressValue;
+        lxProgress.getLinearProgressValue = getLinearProgressValue;
+        lxProgress.getProgressDiameter = getProgressDiameter;
+
+        init();
+
+        ////////////
+
+        function getCircularProgressValue()
+        {
+            if (angular.isDefined(lxProgress.lxValue))
+            {
+                return {
+                    'stroke-dasharray': lxProgress.lxValue * 1.26 + ',200'
+                };
+            }
+        }
+
+        function getLinearProgressValue()
+        {
+            if (angular.isDefined(lxProgress.lxValue))
+            {
+                return {
+                    'transform': 'scale(' + lxProgress.lxValue / 100 + ', 1)'
+                };
+            }
+        }
+
+        function getProgressDiameter()
+        {
+            if (lxProgress.lxType === 'circular')
+            {
+                return {
+                    'transform': 'scale(' + parseInt(lxProgress.lxDiameter) / 100 + ')'
+                };
+            }
+
+            return;
+        }
+
+        function init()
+        {
+            lxProgress.lxDiameter = angular.isDefined(lxProgress.lxDiameter) ? lxProgress.lxDiameter : 100;
+            lxProgress.lxColor = angular.isDefined(lxProgress.lxColor) ? lxProgress.lxColor : 'primary';
+        }
+    }
+})();
 (function()
 {
     'use strict';
@@ -4076,6 +4077,1044 @@
 
             return _newValue;
         }
+    }
+})();
+
+(function()
+{
+    'use strict';
+
+    angular
+        .module('lumx.stepper')
+        .directive('lxStepper', lxStepper)
+        .directive('lxStep', lxStep)
+        .directive('lxStepNav', lxStepNav);
+
+    /* Stepper */
+    function lxStepper()
+    {
+        return {
+            restrict: 'E',
+            templateUrl: 'stepper.html',
+            scope: {
+                cancel: '&?lxCancel',
+                complete: '&lxComplete',
+                controls: '=?lxShowControls',
+                id: '@?lxId',
+                isLinear: '=?lxIsLinear',
+                labels: '=?lxLabels',
+                layout: '@?lxLayout'
+            },
+            controller: LxStepperController,
+            controllerAs: 'lxStepper',
+            bindToController: true,
+            transclude: true
+        };
+    }
+
+    LxStepperController.$inject = ['$scope'];
+
+    function LxStepperController($scope)
+    {
+        var lxStepper = this;
+
+        var _classes = [];
+        var _defaultValues = {
+            isLinear: true,
+            labels: {
+                'back': 'Back',
+                'cancel': 'Cancel',
+                'continue': 'Continue',
+                'optional': 'Optional'
+            },
+            layout: 'horizontal'
+        };
+
+        lxStepper.addStep = addStep;
+        lxStepper.getClasses = getClasses;
+        lxStepper.goToStep = goToStep;
+        lxStepper.isComplete = isComplete;
+        lxStepper.updateStep = updateStep;
+
+        lxStepper.controls = angular.isDefined(lxStepper.controls) ? lxStepper.controls : true;
+        lxStepper.activeIndex = 0;
+        lxStepper.isLinear = angular.isDefined(lxStepper.isLinear) ? lxStepper.isLinear : _defaultValues.isLinear;
+        lxStepper.labels = angular.isDefined(lxStepper.labels) ? lxStepper.labels : _defaultValues.labels;
+        lxStepper.layout = angular.isDefined(lxStepper.layout) ? lxStepper.layout : _defaultValues.layout;
+        lxStepper.steps = [];
+
+        ////////////
+
+        function addStep(step)
+        {
+            lxStepper.steps.push(step);
+        }
+
+        function getClasses()
+        {
+            _classes.length = 0;
+
+            _classes.push('lx-stepper--layout-' + lxStepper.layout);
+
+            if (lxStepper.isLinear)
+            {
+                _classes.push('lx-stepper--is-linear');
+            }
+
+            var step = lxStepper.steps[lxStepper.activeIndex];
+            if (angular.isDefined(step))
+            {
+                if (step.feedback)
+                {
+                    _classes.push('lx-stepper--step-has-feedback');
+                }
+
+                if (step.isLoading)
+                {
+                    _classes.push('lx-stepper--step-is-loading');
+                }
+            }
+
+            return _classes;
+        }
+
+        function goToStep(index, bypass)
+        {
+            // Check if the wanted step previous steps are optionals. 
+            // If so, check if the step before the last optional step is valid to allow going to the wanted step from the nav (only if linear stepper).
+            var stepBeforeLastOptionalStep;
+            if (!bypass && lxStepper.isLinear)
+            {
+                for (var i = index - 1; i >= 0; i--)
+                {
+                    if (angular.isDefined(lxStepper.steps[i]) && !lxStepper.steps[i].isOptional)
+                    {
+                        stepBeforeLastOptionalStep = lxStepper.steps[i];
+                        break;
+                    }
+                }
+
+                if(angular.isDefined(stepBeforeLastOptionalStep)) 
+                {
+                    // Check validity only if step is dirty and editable.
+                    if (!stepBeforeLastOptionalStep.pristine && angular.isFunction(stepBeforeLastOptionalStep.validator) && stepBeforeLastOptionalStep.isEditable) 
+                    {
+                        var validity = stepBeforeLastOptionalStep.validator();
+
+                        if (validity === true) 
+                        {
+                            stepBeforeLastOptionalStep.isValid = true;
+                        } 
+                        else 
+                        {
+                            stepBeforeLastOptionalStep.isValid = false;
+                            stepBeforeLastOptionalStep.errorMessage = validity;
+                        }
+                    }
+
+                    if (stepBeforeLastOptionalStep.isValid === true)
+                    {
+                        bypass = true;
+                    }
+                }
+            }
+            
+            // Check if the wanted step previous step is not valid to disallow going to the wanted step from the nav (only if linear stepper).
+            if (!bypass && lxStepper.isLinear && angular.isDefined(lxStepper.steps[index - 1]) && (angular.isUndefined(lxStepper.steps[index - 1].isValid) || lxStepper.steps[index - 1].isValid === false))
+            {
+                return;
+            }
+
+            if (index < lxStepper.steps.length)
+            {
+                lxStepper.activeIndex = parseInt(index);
+                lxStepper.steps[lxStepper.activeIndex].pristine = false;
+                $scope.$emit('lx-stepper__step', lxStepper.id, index, index === 0, index === (lxStepper.steps.length - 1));
+            }
+        }
+
+        function isComplete()
+        {
+            var countMandatory = 0;
+            var countValid = 0;
+
+            for (var i = 0, len = lxStepper.steps.length; i < len; i++)
+            {
+                if (!lxStepper.steps[i].isOptional)
+                {
+                    countMandatory++;
+
+                    if (lxStepper.steps[i].isValid === true) {
+                        countValid++;
+                    }
+                }
+            }
+
+            if (countValid === countMandatory)
+            {
+                lxStepper.complete();
+                return true;
+            }
+        }
+
+        function updateStep(step)
+        {
+            for (var i = 0, len = lxStepper.steps.length; i < len; i++)
+            {
+                if (lxStepper.steps[i].uuid === step.uuid)
+                {
+                    lxStepper.steps[i].index = step.index;
+                    lxStepper.steps[i].label = step.label;
+                    return;
+                }
+            }
+        }
+
+        $scope.$on('lx-stepper__go-to-step', function(event, id, stepIndex, bypass)
+        {
+            if (angular.isDefined(id) && id !== lxStepper.id)
+            {
+                return;
+            }
+
+            goToStep(stepIndex, bypass);
+        });
+        $scope.$on('lx-stepper__cancel', function(event, id)
+        {
+            if ((angular.isDefined(id) && id !== lxStepper.id) || !angular.isFunction(lxStepper.cancel))
+            {
+                return;
+            }
+
+            lxStepper.cancel();
+        });
+    }
+
+    /* Step */
+    function lxStep()
+    {
+        return {
+            restrict: 'E',
+            require: ['lxStep', '^lxStepper'],
+            templateUrl: 'step.html',
+            scope: {
+                feedback: '@?lxFeedback',
+                isEditable: '=?lxIsEditable',
+                isOptional: '=?lxIsOptional',
+                isValid: '=?lxIsValid',
+                label: '@lxLabel',
+                submit: '&?lxSubmit',
+                validate: '&?lxValidate'
+            },
+            link: link,
+            controller: LxStepController,
+            controllerAs: 'lxStep',
+            bindToController: true,
+            replace: true,
+            transclude: true
+        };
+
+        function link(scope, element, attrs, ctrls)
+        {
+            ctrls[0].init(ctrls[1], element.index());
+
+            attrs.$observe('lxFeedback', function(feedback)
+            {
+                ctrls[0].setFeedback(feedback);
+            });
+
+            attrs.$observe('lxLabel', function(label)
+            {
+                ctrls[0].setLabel(label);
+            });
+
+            attrs.$observe('lxIsEditable', function(isEditable)
+            {
+                ctrls[0].setIsEditable(isEditable);
+            });
+
+            attrs.$observe('lxIsOptional', function(isOptional)
+            {
+                ctrls[0].setIsOptional(isOptional);
+            });
+        }
+    }
+
+    LxStepController.$inject = ['$q', '$scope', 'LxNotificationService', 'LxUtils'];
+
+    function LxStepController($q, $scope, LxNotificationService, LxUtils)
+    {
+        var lxStep = this;
+
+        var _classes = [];
+        var _nextStepIndex;
+
+        lxStep.getClasses = getClasses;
+        lxStep.init = init;
+        lxStep.previousStep = previousStep;
+        lxStep.setFeedback = setFeedback;
+        lxStep.setLabel = setLabel;
+        lxStep.setIsEditable = setIsEditable;
+        lxStep.setIsOptional = setIsOptional;
+        lxStep.submitStep = submitStep;
+        
+        lxStep.step = {
+            errorMessage: undefined,
+            feedback: undefined,
+            index: undefined,
+            isEditable: false,
+            isLoading: false,
+            isOptional: false,
+            isValid: lxStep.isValid,
+            label: undefined,
+            pristine: true,
+            uuid: LxUtils.generateUUID(),
+            validator: undefined
+        };
+
+        ////////////
+
+        function getClasses()
+        {
+            _classes.length = 0;
+
+            if (lxStep.step.index === lxStep.parent.activeIndex)
+            {
+                _classes.push('lx-step--is-active');
+            }
+
+            return _classes;
+        }
+
+        function init(parent, index)
+        {
+            lxStep.parent = parent;
+            lxStep.step.index = index;
+            lxStep.step.validator = lxStep.validate;
+
+            lxStep.parent.addStep(lxStep.step);
+        }
+
+        function previousStep()
+        {
+            if (lxStep.step.index > 0)
+            {
+                lxStep.parent.goToStep(lxStep.step.index - 1);
+            }
+        }
+
+        function setFeedback(feedback)
+        {
+            lxStep.step.feedback = feedback;
+            updateParentStep();
+        }
+
+        function setLabel(label)
+        {
+            lxStep.step.label = label;
+            updateParentStep();
+        }
+
+        function setIsEditable(isEditable)
+        {
+            lxStep.step.isEditable = isEditable;
+            updateParentStep();
+        }
+
+        function setIsOptional(isOptional)
+        {
+            lxStep.step.isOptional = isOptional;
+            updateParentStep();
+        }
+
+        function submitStep()
+        {
+            if (lxStep.step.isValid === true && !lxStep.step.isEditable)
+            {
+                lxStep.parent.goToStep(_nextStepIndex, true);
+                return;
+            }
+
+            var validateFunction = lxStep.validate;
+            var validity = true;
+
+            if (angular.isFunction(validateFunction))
+            {
+                validity = validateFunction();
+            }
+
+            if (validity === true)
+            {
+                $scope.$emit('lx-stepper__step-loading', lxStep.parent.id, lxStep.step.index);
+
+                lxStep.step.isLoading = true;
+                updateParentStep();
+
+                var submitFunction = lxStep.submit;
+
+                if (!angular.isFunction(submitFunction))
+                {
+                    submitFunction = function()
+                    {
+                        return $q(function(resolve)
+                        {
+                            resolve();
+                        });
+                    };
+                }
+
+                var promise = submitFunction();
+
+                promise.then(function(nextStepIndex)
+                {
+                    lxStep.step.isValid = true;
+                    updateParentStep();
+
+                    var isComplete = lxStep.parent.isComplete();
+
+                    if (!isComplete)
+                    {
+                        _nextStepIndex = angular.isDefined(nextStepIndex) && nextStepIndex > lxStep.parent.activeIndex && (!lxStep.parent.isLinear || (lxStep.parent.isLinear && lxStep.parent.steps[nextStepIndex - 1].isOptional)) ? nextStepIndex : lxStep.step.index + 1;
+
+                        lxStep.parent.goToStep(_nextStepIndex, true);
+                    }
+                    else
+                    {
+                        $scope.$emit('lx-stepper__completed', lxStepper.id);
+                    }
+                }).catch(function(error)
+                {
+                    LxNotificationService.error(error);
+                }).finally(function()
+                {
+                    $scope.$emit('lx-stepper__step-loaded', lxStep.parent.id, lxStep.step.index);
+                    lxStep.step.isLoading = false;
+                    updateParentStep();
+                });
+            }
+            else
+            {
+                lxStep.step.isValid = false;
+                lxStep.step.errorMessage = validity;
+                updateParentStep();
+            }
+        }
+
+        function updateParentStep()
+        {
+            lxStep.parent.updateStep(lxStep.step);
+        }
+
+        $scope.$on('lx-stepper__submit-step', function(event, id, index)
+        {
+            if ((angular.isDefined(id) && id !== lxStep.parent.id) || index !== lxStep.step.index)
+            {
+                return;
+            }
+
+            submitStep();
+        });
+        $scope.$on('lx-stepper__previous-step', function(event, id, index)
+        {
+            if ((angular.isDefined(id) && id !== lxStep.parent.id) || index !== lxStep.step.index)
+            {
+                return;
+            }
+
+            previousStep();
+        });
+    }
+
+    /* Step nav */
+    function lxStepNav()
+    {
+        return {
+            restrict: 'E',
+            require: ['lxStepNav', '^lxStepper'],
+            templateUrl: 'step-nav.html',
+            scope: {
+                activeIndex: '@lxActiveIndex',
+                step: '=lxStep'
+            },
+            link: link,
+            controller: LxStepNavController,
+            controllerAs: 'lxStepNav',
+            bindToController: true,
+            replace: true,
+            transclude: false
+        };
+
+        function link(scope, element, attrs, ctrls)
+        {
+            ctrls[0].init(ctrls[1]);
+        }
+    }
+
+    function LxStepNavController()
+    {
+        var lxStepNav = this;
+
+        var _classes = [];
+
+        lxStepNav.getClasses = getClasses;
+        lxStepNav.init = init;
+
+        ////////////
+
+        function getClasses()
+        {
+            _classes.length = 0;
+
+            if (parseInt(lxStepNav.step.index) === parseInt(lxStepNav.activeIndex))
+            {
+                _classes.push('lx-step-nav--is-active');
+            }
+
+            if (lxStepNav.step.isValid === true)
+            {
+                _classes.push('lx-step-nav--is-valid');
+            }
+            else if (lxStepNav.step.isValid === false)
+            {
+                _classes.push('lx-step-nav--has-error');
+            }
+
+            if (lxStepNav.step.isEditable)
+            {
+                _classes.push('lx-step-nav--is-editable');
+            }
+
+            if (lxStepNav.step.isOptional)
+            {
+                _classes.push('lx-step-nav--is-optional');
+            }
+
+            return _classes;
+        }
+
+        function init(parent, index)
+        {
+            lxStepNav.parent = parent;
+        }
+    }
+})();
+
+(function()
+{
+    'use strict';
+
+    angular
+        .module('lumx.switch')
+        .directive('lxSwitch', lxSwitch)
+        .directive('lxSwitchLabel', lxSwitchLabel)
+        .directive('lxSwitchHelp', lxSwitchHelp);
+
+    function lxSwitch()
+    {
+        return {
+            restrict: 'E',
+            templateUrl: 'switch.html',
+            scope:
+            {
+                ngModel: '=',
+                name: '@?',
+                ngTrueValue: '@?',
+                ngFalseValue: '@?',
+                ngChange: '&?',
+                ngDisabled: '=?',
+                lxColor: '@?',
+                lxPosition: '@?',
+                lxTheme: '@?'
+            },
+            controller: LxSwitchController,
+            controllerAs: 'lxSwitch',
+            bindToController: true,
+            transclude: true,
+            replace: true
+        };
+    }
+
+    LxSwitchController.$inject = ['$scope', '$timeout', 'LxUtils'];
+
+    function LxSwitchController($scope, $timeout, LxUtils)
+    {
+        var lxSwitch = this;
+        var switchId;
+        var switchHasChildren;
+        var timer;
+
+        lxSwitch.getSwitchId = getSwitchId;
+        lxSwitch.getSwitchHasChildren = getSwitchHasChildren;
+        lxSwitch.setSwitchId = setSwitchId;
+        lxSwitch.setSwitchHasChildren = setSwitchHasChildren;
+        lxSwitch.triggerNgChange = triggerNgChange;
+
+        $scope.$on('$destroy', function()
+        {
+            $timeout.cancel(timer);
+        });
+
+        init();
+
+        ////////////
+
+        function getSwitchId()
+        {
+            return switchId;
+        }
+
+        function getSwitchHasChildren()
+        {
+            return switchHasChildren;
+        }
+
+        function init()
+        {
+            setSwitchId(LxUtils.generateUUID());
+            setSwitchHasChildren(false);
+
+            lxSwitch.ngTrueValue = angular.isUndefined(lxSwitch.ngTrueValue) ? true : lxSwitch.ngTrueValue;
+            lxSwitch.ngFalseValue = angular.isUndefined(lxSwitch.ngFalseValue) ? false : lxSwitch.ngFalseValue;
+            lxSwitch.lxColor = angular.isUndefined(lxSwitch.lxColor) ? 'accent' : lxSwitch.lxColor;
+            lxSwitch.lxPosition = angular.isUndefined(lxSwitch.lxPosition) ? 'left' : lxSwitch.lxPosition;
+        }
+
+        function setSwitchId(_switchId)
+        {
+            switchId = _switchId;
+        }
+
+        function setSwitchHasChildren(_switchHasChildren)
+        {
+            switchHasChildren = _switchHasChildren;
+        }
+
+        function triggerNgChange()
+        {
+            timer = $timeout(lxSwitch.ngChange);
+        }
+    }
+
+    function lxSwitchLabel()
+    {
+        return {
+            restrict: 'AE',
+            require: ['^lxSwitch', '^lxSwitchLabel'],
+            templateUrl: 'switch-label.html',
+            link: link,
+            controller: LxSwitchLabelController,
+            controllerAs: 'lxSwitchLabel',
+            bindToController: true,
+            transclude: true,
+            replace: true
+        };
+
+        function link(scope, element, attrs, ctrls)
+        {
+            ctrls[0].setSwitchHasChildren(true);
+            ctrls[1].setSwitchId(ctrls[0].getSwitchId());
+        }
+    }
+
+    function LxSwitchLabelController()
+    {
+        var lxSwitchLabel = this;
+        var switchId;
+
+        lxSwitchLabel.getSwitchId = getSwitchId;
+        lxSwitchLabel.setSwitchId = setSwitchId;
+
+        ////////////
+
+        function getSwitchId()
+        {
+            return switchId;
+        }
+
+        function setSwitchId(_switchId)
+        {
+            switchId = _switchId;
+        }
+    }
+
+    function lxSwitchHelp()
+    {
+        return {
+            restrict: 'AE',
+            require: '^lxSwitch',
+            templateUrl: 'switch-help.html',
+            transclude: true,
+            replace: true
+        };
+    }
+})();
+
+(function()
+{
+    'use strict';
+
+    angular
+        .module('lumx.tabs')
+        .directive('lxTabs', lxTabs)
+        .directive('lxTab', lxTab)
+        .directive('lxTabsPanes', lxTabsPanes)
+        .directive('lxTabPane', lxTabPane);
+
+    function lxTabs()
+    {
+        return {
+            restrict: 'E',
+            templateUrl: 'tabs.html',
+            scope:
+            {
+                layout: '@?lxLayout',
+                theme: '@?lxTheme',
+                color: '@?lxColor',
+                indicator: '@?lxIndicator',
+                activeTab: '=?lxActiveTab',
+                panesId: '@?lxPanesId',
+                links: '=?lxLinks',
+                position: '@?lxPosition'
+            },
+            controller: LxTabsController,
+            controllerAs: 'lxTabs',
+            bindToController: true,
+            replace: true,
+            transclude: true
+        };
+    }
+
+    LxTabsController.$inject = ['LxUtils', '$element', '$scope', '$timeout'];
+
+    function LxTabsController(LxUtils, $element, $scope, $timeout)
+    {
+        var lxTabs = this;
+        var tabsLength;
+        var timer1;
+        var timer2;
+        var timer3;
+        var timer4;
+
+        lxTabs.removeTab = removeTab;
+        lxTabs.setActiveTab = setActiveTab;
+        lxTabs.setViewMode = setViewMode;
+        lxTabs.tabIsActive = tabIsActive;
+        lxTabs.updateTabs = updateTabs;
+
+        lxTabs.activeTab = angular.isDefined(lxTabs.activeTab) ? lxTabs.activeTab : 0;
+        lxTabs.color = angular.isDefined(lxTabs.color) ? lxTabs.color : 'primary';
+        lxTabs.indicator = angular.isDefined(lxTabs.indicator) ? lxTabs.indicator : 'accent';
+        lxTabs.layout = angular.isDefined(lxTabs.layout) ? lxTabs.layout : 'full';
+        lxTabs.tabs = [];
+        lxTabs.theme = angular.isDefined(lxTabs.theme) ? lxTabs.theme : 'light';
+        lxTabs.viewMode = angular.isDefined(lxTabs.links) ? 'separate' : 'gather';
+
+        $scope.$watch(function()
+        {
+            return lxTabs.activeTab;
+        }, function(_newActiveTab, _oldActiveTab)
+        {
+            timer1 = $timeout(function()
+            {
+                setIndicatorPosition(_oldActiveTab);
+
+                if (lxTabs.viewMode === 'separate')
+                {
+                    angular.element('#' + lxTabs.panesId).find('.tabs__pane').hide();
+                    angular.element('#' + lxTabs.panesId).find('.tabs__pane').eq(lxTabs.activeTab).show();
+                }
+            });
+        });
+
+        $scope.$watch(function()
+        {
+            return lxTabs.position;
+        }, function(_newPosition) {
+            lxTabs.bottomPosition = angular.isDefined(_newPosition) && (_newPosition === 'bottom');
+        });
+
+        $scope.$watch(function()
+        {
+            return lxTabs.links;
+        }, function(_newLinks)
+        {
+            lxTabs.viewMode = angular.isDefined(_newLinks) ? 'separate' : 'gather';
+
+            angular.forEach(_newLinks, function(link, index)
+            {
+                var tab = {
+                    uuid: (angular.isUndefined(link.uuid) || link.uuid.length === 0) ? LxUtils.generateUUID() : link.uuid,
+                    index: index,
+                    label: link.label,
+                    icon: link.icon,
+                    disabled: link.disabled
+                };
+
+                updateTabs(tab);
+            });
+        });
+
+        timer2 = $timeout(function()
+        {
+            tabsLength = lxTabs.tabs.length;
+        });
+
+        $scope.$on('$destroy', function()
+        {
+            $timeout.cancel(timer1);
+            $timeout.cancel(timer2);
+            $timeout.cancel(timer3);
+            $timeout.cancel(timer4);
+        });
+
+        ////////////
+
+        function removeTab(_tab)
+        {
+            lxTabs.tabs.splice(_tab.index, 1);
+
+            angular.forEach(lxTabs.tabs, function(tab, index)
+            {
+                tab.index = index;
+            });
+
+            if (lxTabs.activeTab === 0)
+            {
+                timer3 = $timeout(function()
+                {
+                    setIndicatorPosition();
+                });
+            }
+            else
+            {
+                setActiveTab(lxTabs.tabs[0]);
+            }
+        }
+
+        function setActiveTab(_tab)
+        {
+            if (!_tab.disabled)
+            {
+                lxTabs.activeTab = _tab.index;
+            }
+        }
+
+        function setIndicatorPosition(_previousActiveTab)
+        {
+            var direction = lxTabs.activeTab > _previousActiveTab ? 'right' : 'left';
+            var indicator = $element.find('.tabs__indicator');
+            var activeTab = $element.find('.tabs__link').eq(lxTabs.activeTab);
+            var indicatorLeft = activeTab.position().left;
+            var indicatorRight = $element.outerWidth() - (indicatorLeft + activeTab.outerWidth());
+
+            if (angular.isUndefined(_previousActiveTab))
+            {
+                indicator.css(
+                {
+                    left: indicatorLeft,
+                    right: indicatorRight
+                });
+            }
+            else
+            {
+                var animationProperties = {
+                    duration: 200,
+                    easing: 'easeOutQuint'
+                };
+
+                if (direction === 'left')
+                {
+                    indicator.velocity(
+                    {
+                        left: indicatorLeft
+                    }, animationProperties);
+
+                    indicator.velocity(
+                    {
+                        right: indicatorRight
+                    }, animationProperties);
+                }
+                else
+                {
+                    indicator.velocity(
+                    {
+                        right: indicatorRight
+                    }, animationProperties);
+
+                    indicator.velocity(
+                    {
+                        left: indicatorLeft
+                    }, animationProperties);
+                }
+            }
+        }
+
+        function setViewMode(_viewMode)
+        {
+            lxTabs.viewMode = _viewMode;
+        }
+
+        function tabIsActive(_index)
+        {
+            return lxTabs.activeTab === _index;
+        }
+
+        function updateTabs(_tab)
+        {
+            var newTab = true;
+
+            angular.forEach(lxTabs.tabs, function(tab)
+            {
+                if (tab.index === _tab.index)
+                {
+                    newTab = false;
+
+                    tab.uuid = _tab.uuid;
+                    tab.icon = _tab.icon;
+                    tab.label = _tab.label;
+                }
+            });
+
+            if (newTab)
+            {
+                lxTabs.tabs.push(_tab);
+
+                if (angular.isDefined(tabsLength))
+                {
+                    timer4 = $timeout(function()
+                    {
+                        setIndicatorPosition();
+                    });
+                }
+            }
+        }
+    }
+
+    function lxTab()
+    {
+        return {
+            restrict: 'E',
+            require: ['lxTab', '^lxTabs'],
+            templateUrl: 'tab.html',
+            scope:
+            {
+                ngDisabled: '=?'
+            },
+            link: link,
+            controller: LxTabController,
+            controllerAs: 'lxTab',
+            bindToController: true,
+            replace: true,
+            transclude: true
+        };
+
+        function link(scope, element, attrs, ctrls)
+        {
+            ctrls[0].init(ctrls[1], element.index());
+
+            attrs.$observe('lxLabel', function(_newLabel)
+            {
+                ctrls[0].setLabel(_newLabel);
+            });
+
+            attrs.$observe('lxIcon', function(_newIcon)
+            {
+                ctrls[0].setIcon(_newIcon);
+            });
+        }
+    }
+
+    LxTabController.$inject = ['$scope', 'LxUtils'];
+
+    function LxTabController($scope, LxUtils)
+    {
+        var lxTab = this;
+        var parentCtrl;
+        var tab = {
+            uuid: LxUtils.generateUUID(),
+            index: undefined,
+            label: undefined,
+            icon: undefined,
+            disabled: false
+        };
+
+        lxTab.init = init;
+        lxTab.setIcon = setIcon;
+        lxTab.setLabel = setLabel;
+        lxTab.tabIsActive = tabIsActive;
+
+        $scope.$watch(function()
+        {
+            return lxTab.ngDisabled;
+        }, function(_isDisabled)
+        {
+            if (_isDisabled)
+            {
+                tab.disabled = true;
+            }
+            else
+            {
+                tab.disabled = false;
+            }
+
+            parentCtrl.updateTabs(tab);
+        });
+
+        $scope.$on('$destroy', function()
+        {
+            parentCtrl.removeTab(tab);
+        });
+
+        ////////////
+
+        function init(_parentCtrl, _index)
+        {
+            parentCtrl = _parentCtrl;
+            tab.index = _index;
+
+            parentCtrl.updateTabs(tab);
+        }
+
+        function setIcon(_icon)
+        {
+            tab.icon = _icon;
+
+            parentCtrl.updateTabs(tab);
+        }
+
+        function setLabel(_label)
+        {
+            tab.label = _label;
+
+            parentCtrl.updateTabs(tab);
+        }
+
+        function tabIsActive()
+        {
+            return parentCtrl.tabIsActive(tab.index);
+        }
+    }
+
+    function lxTabsPanes()
+    {
+        return {
+            restrict: 'E',
+            templateUrl: 'tabs-panes.html',
+            scope: true,
+            replace: true,
+            transclude: true
+        };
+    }
+
+    function lxTabPane()
+    {
+        return {
+            restrict: 'E',
+            templateUrl: 'tab-pane.html',
+            scope: true,
+            replace: true,
+            transclude: true
+        };
     }
 })();
 
@@ -5464,1044 +6503,6 @@
                 });
             }
         }
-    }
-})();
-
-(function()
-{
-    'use strict';
-
-    angular
-        .module('lumx.stepper')
-        .directive('lxStepper', lxStepper)
-        .directive('lxStep', lxStep)
-        .directive('lxStepNav', lxStepNav);
-
-    /* Stepper */
-    function lxStepper()
-    {
-        return {
-            restrict: 'E',
-            templateUrl: 'stepper.html',
-            scope: {
-                cancel: '&?lxCancel',
-                complete: '&lxComplete',
-                controls: '=?lxShowControls',
-                id: '@?lxId',
-                isLinear: '=?lxIsLinear',
-                labels: '=?lxLabels',
-                layout: '@?lxLayout'
-            },
-            controller: LxStepperController,
-            controllerAs: 'lxStepper',
-            bindToController: true,
-            transclude: true
-        };
-    }
-
-    LxStepperController.$inject = ['$scope'];
-
-    function LxStepperController($scope)
-    {
-        var lxStepper = this;
-
-        var _classes = [];
-        var _defaultValues = {
-            isLinear: true,
-            labels: {
-                'back': 'Back',
-                'cancel': 'Cancel',
-                'continue': 'Continue',
-                'optional': 'Optional'
-            },
-            layout: 'horizontal'
-        };
-
-        lxStepper.addStep = addStep;
-        lxStepper.getClasses = getClasses;
-        lxStepper.goToStep = goToStep;
-        lxStepper.isComplete = isComplete;
-        lxStepper.updateStep = updateStep;
-
-        lxStepper.controls = angular.isDefined(lxStepper.controls) ? lxStepper.controls : true;
-        lxStepper.activeIndex = 0;
-        lxStepper.isLinear = angular.isDefined(lxStepper.isLinear) ? lxStepper.isLinear : _defaultValues.isLinear;
-        lxStepper.labels = angular.isDefined(lxStepper.labels) ? lxStepper.labels : _defaultValues.labels;
-        lxStepper.layout = angular.isDefined(lxStepper.layout) ? lxStepper.layout : _defaultValues.layout;
-        lxStepper.steps = [];
-
-        ////////////
-
-        function addStep(step)
-        {
-            lxStepper.steps.push(step);
-        }
-
-        function getClasses()
-        {
-            _classes.length = 0;
-
-            _classes.push('lx-stepper--layout-' + lxStepper.layout);
-
-            if (lxStepper.isLinear)
-            {
-                _classes.push('lx-stepper--is-linear');
-            }
-
-            var step = lxStepper.steps[lxStepper.activeIndex];
-            if (angular.isDefined(step))
-            {
-                if (step.feedback)
-                {
-                    _classes.push('lx-stepper--step-has-feedback');
-                }
-
-                if (step.isLoading)
-                {
-                    _classes.push('lx-stepper--step-is-loading');
-                }
-            }
-
-            return _classes;
-        }
-
-        function goToStep(index, bypass)
-        {
-            // Check if the wanted step previous steps are optionals. 
-            // If so, check if the step before the last optional step is valid to allow going to the wanted step from the nav (only if linear stepper).
-            var stepBeforeLastOptionalStep;
-            if (!bypass && lxStepper.isLinear)
-            {
-                for (var i = index - 1; i >= 0; i--)
-                {
-                    if (angular.isDefined(lxStepper.steps[i]) && !lxStepper.steps[i].isOptional)
-                    {
-                        stepBeforeLastOptionalStep = lxStepper.steps[i];
-                        break;
-                    }
-                }
-
-                if(angular.isDefined(stepBeforeLastOptionalStep)) 
-                {
-                    // Check validity only if step is dirty and editable.
-                    if (!stepBeforeLastOptionalStep.pristine && angular.isFunction(stepBeforeLastOptionalStep.validator) && stepBeforeLastOptionalStep.isEditable) 
-                    {
-                        var validity = stepBeforeLastOptionalStep.validator();
-
-                        if (validity === true) 
-                        {
-                            stepBeforeLastOptionalStep.isValid = true;
-                        } 
-                        else 
-                        {
-                            stepBeforeLastOptionalStep.isValid = false;
-                            stepBeforeLastOptionalStep.errorMessage = validity;
-                        }
-                    }
-
-                    if (stepBeforeLastOptionalStep.isValid === true)
-                    {
-                        bypass = true;
-                    }
-                }
-            }
-            
-            // Check if the wanted step previous step is not valid to disallow going to the wanted step from the nav (only if linear stepper).
-            if (!bypass && lxStepper.isLinear && angular.isDefined(lxStepper.steps[index - 1]) && (angular.isUndefined(lxStepper.steps[index - 1].isValid) || lxStepper.steps[index - 1].isValid === false))
-            {
-                return;
-            }
-
-            if (index < lxStepper.steps.length)
-            {
-                lxStepper.activeIndex = parseInt(index);
-                lxStepper.steps[lxStepper.activeIndex].pristine = false;
-                $scope.$emit('lx-stepper__step', lxStepper.id, index, index === 0, index === (lxStepper.steps.length - 1));
-            }
-        }
-
-        function isComplete()
-        {
-            var countMandatory = 0;
-            var countValid = 0;
-
-            for (var i = 0, len = lxStepper.steps.length; i < len; i++)
-            {
-                if (!lxStepper.steps[i].isOptional)
-                {
-                    countMandatory++;
-
-                    if (lxStepper.steps[i].isValid === true) {
-                        countValid++;
-                    }
-                }
-            }
-
-            if (countValid === countMandatory)
-            {
-                lxStepper.complete();
-                return true;
-            }
-        }
-
-        function updateStep(step)
-        {
-            for (var i = 0, len = lxStepper.steps.length; i < len; i++)
-            {
-                if (lxStepper.steps[i].uuid === step.uuid)
-                {
-                    lxStepper.steps[i].index = step.index;
-                    lxStepper.steps[i].label = step.label;
-                    return;
-                }
-            }
-        }
-
-        $scope.$on('lx-stepper__go-to-step', function(event, id, stepIndex, bypass)
-        {
-            if (angular.isDefined(id) && id !== lxStepper.id)
-            {
-                return;
-            }
-
-            goToStep(stepIndex, bypass);
-        });
-        $scope.$on('lx-stepper__cancel', function(event, id)
-        {
-            if ((angular.isDefined(id) && id !== lxStepper.id) || !angular.isFunction(lxStepper.cancel))
-            {
-                return;
-            }
-
-            lxStepper.cancel();
-        });
-    }
-
-    /* Step */
-    function lxStep()
-    {
-        return {
-            restrict: 'E',
-            require: ['lxStep', '^lxStepper'],
-            templateUrl: 'step.html',
-            scope: {
-                feedback: '@?lxFeedback',
-                isEditable: '=?lxIsEditable',
-                isOptional: '=?lxIsOptional',
-                isValid: '=?lxIsValid',
-                label: '@lxLabel',
-                submit: '&?lxSubmit',
-                validate: '&?lxValidate'
-            },
-            link: link,
-            controller: LxStepController,
-            controllerAs: 'lxStep',
-            bindToController: true,
-            replace: true,
-            transclude: true
-        };
-
-        function link(scope, element, attrs, ctrls)
-        {
-            ctrls[0].init(ctrls[1], element.index());
-
-            attrs.$observe('lxFeedback', function(feedback)
-            {
-                ctrls[0].setFeedback(feedback);
-            });
-
-            attrs.$observe('lxLabel', function(label)
-            {
-                ctrls[0].setLabel(label);
-            });
-
-            attrs.$observe('lxIsEditable', function(isEditable)
-            {
-                ctrls[0].setIsEditable(isEditable);
-            });
-
-            attrs.$observe('lxIsOptional', function(isOptional)
-            {
-                ctrls[0].setIsOptional(isOptional);
-            });
-        }
-    }
-
-    LxStepController.$inject = ['$q', '$scope', 'LxNotificationService', 'LxUtils'];
-
-    function LxStepController($q, $scope, LxNotificationService, LxUtils)
-    {
-        var lxStep = this;
-
-        var _classes = [];
-        var _nextStepIndex;
-
-        lxStep.getClasses = getClasses;
-        lxStep.init = init;
-        lxStep.previousStep = previousStep;
-        lxStep.setFeedback = setFeedback;
-        lxStep.setLabel = setLabel;
-        lxStep.setIsEditable = setIsEditable;
-        lxStep.setIsOptional = setIsOptional;
-        lxStep.submitStep = submitStep;
-        
-        lxStep.step = {
-            errorMessage: undefined,
-            feedback: undefined,
-            index: undefined,
-            isEditable: false,
-            isLoading: false,
-            isOptional: false,
-            isValid: lxStep.isValid,
-            label: undefined,
-            pristine: true,
-            uuid: LxUtils.generateUUID(),
-            validator: undefined
-        };
-
-        ////////////
-
-        function getClasses()
-        {
-            _classes.length = 0;
-
-            if (lxStep.step.index === lxStep.parent.activeIndex)
-            {
-                _classes.push('lx-step--is-active');
-            }
-
-            return _classes;
-        }
-
-        function init(parent, index)
-        {
-            lxStep.parent = parent;
-            lxStep.step.index = index;
-            lxStep.step.validator = lxStep.validate;
-
-            lxStep.parent.addStep(lxStep.step);
-        }
-
-        function previousStep()
-        {
-            if (lxStep.step.index > 0)
-            {
-                lxStep.parent.goToStep(lxStep.step.index - 1);
-            }
-        }
-
-        function setFeedback(feedback)
-        {
-            lxStep.step.feedback = feedback;
-            updateParentStep();
-        }
-
-        function setLabel(label)
-        {
-            lxStep.step.label = label;
-            updateParentStep();
-        }
-
-        function setIsEditable(isEditable)
-        {
-            lxStep.step.isEditable = isEditable;
-            updateParentStep();
-        }
-
-        function setIsOptional(isOptional)
-        {
-            lxStep.step.isOptional = isOptional;
-            updateParentStep();
-        }
-
-        function submitStep()
-        {
-            if (lxStep.step.isValid === true && !lxStep.step.isEditable)
-            {
-                lxStep.parent.goToStep(_nextStepIndex, true);
-                return;
-            }
-
-            var validateFunction = lxStep.validate;
-            var validity = true;
-
-            if (angular.isFunction(validateFunction))
-            {
-                validity = validateFunction();
-            }
-
-            if (validity === true)
-            {
-                $scope.$emit('lx-stepper__step-loading', lxStep.parent.id, lxStep.step.index);
-
-                lxStep.step.isLoading = true;
-                updateParentStep();
-
-                var submitFunction = lxStep.submit;
-
-                if (!angular.isFunction(submitFunction))
-                {
-                    submitFunction = function()
-                    {
-                        return $q(function(resolve)
-                        {
-                            resolve();
-                        });
-                    };
-                }
-
-                var promise = submitFunction();
-
-                promise.then(function(nextStepIndex)
-                {
-                    lxStep.step.isValid = true;
-                    updateParentStep();
-
-                    var isComplete = lxStep.parent.isComplete();
-
-                    if (!isComplete)
-                    {
-                        _nextStepIndex = angular.isDefined(nextStepIndex) && nextStepIndex > lxStep.parent.activeIndex && (!lxStep.parent.isLinear || (lxStep.parent.isLinear && lxStep.parent.steps[nextStepIndex - 1].isOptional)) ? nextStepIndex : lxStep.step.index + 1;
-
-                        lxStep.parent.goToStep(_nextStepIndex, true);
-                    }
-                    else
-                    {
-                        $scope.$emit('lx-stepper__completed', lxStepper.id);
-                    }
-                }).catch(function(error)
-                {
-                    LxNotificationService.error(error);
-                }).finally(function()
-                {
-                    $scope.$emit('lx-stepper__step-loaded', lxStep.parent.id, lxStep.step.index);
-                    lxStep.step.isLoading = false;
-                    updateParentStep();
-                });
-            }
-            else
-            {
-                lxStep.step.isValid = false;
-                lxStep.step.errorMessage = validity;
-                updateParentStep();
-            }
-        }
-
-        function updateParentStep()
-        {
-            lxStep.parent.updateStep(lxStep.step);
-        }
-
-        $scope.$on('lx-stepper__submit-step', function(event, id, index)
-        {
-            if ((angular.isDefined(id) && id !== lxStep.parent.id) || index !== lxStep.step.index)
-            {
-                return;
-            }
-
-            submitStep();
-        });
-        $scope.$on('lx-stepper__previous-step', function(event, id, index)
-        {
-            if ((angular.isDefined(id) && id !== lxStep.parent.id) || index !== lxStep.step.index)
-            {
-                return;
-            }
-
-            previousStep();
-        });
-    }
-
-    /* Step nav */
-    function lxStepNav()
-    {
-        return {
-            restrict: 'E',
-            require: ['lxStepNav', '^lxStepper'],
-            templateUrl: 'step-nav.html',
-            scope: {
-                activeIndex: '@lxActiveIndex',
-                step: '=lxStep'
-            },
-            link: link,
-            controller: LxStepNavController,
-            controllerAs: 'lxStepNav',
-            bindToController: true,
-            replace: true,
-            transclude: false
-        };
-
-        function link(scope, element, attrs, ctrls)
-        {
-            ctrls[0].init(ctrls[1]);
-        }
-    }
-
-    function LxStepNavController()
-    {
-        var lxStepNav = this;
-
-        var _classes = [];
-
-        lxStepNav.getClasses = getClasses;
-        lxStepNav.init = init;
-
-        ////////////
-
-        function getClasses()
-        {
-            _classes.length = 0;
-
-            if (parseInt(lxStepNav.step.index) === parseInt(lxStepNav.activeIndex))
-            {
-                _classes.push('lx-step-nav--is-active');
-            }
-
-            if (lxStepNav.step.isValid === true)
-            {
-                _classes.push('lx-step-nav--is-valid');
-            }
-            else if (lxStepNav.step.isValid === false)
-            {
-                _classes.push('lx-step-nav--has-error');
-            }
-
-            if (lxStepNav.step.isEditable)
-            {
-                _classes.push('lx-step-nav--is-editable');
-            }
-
-            if (lxStepNav.step.isOptional)
-            {
-                _classes.push('lx-step-nav--is-optional');
-            }
-
-            return _classes;
-        }
-
-        function init(parent, index)
-        {
-            lxStepNav.parent = parent;
-        }
-    }
-})();
-
-(function()
-{
-    'use strict';
-
-    angular
-        .module('lumx.switch')
-        .directive('lxSwitch', lxSwitch)
-        .directive('lxSwitchLabel', lxSwitchLabel)
-        .directive('lxSwitchHelp', lxSwitchHelp);
-
-    function lxSwitch()
-    {
-        return {
-            restrict: 'E',
-            templateUrl: 'switch.html',
-            scope:
-            {
-                ngModel: '=',
-                name: '@?',
-                ngTrueValue: '@?',
-                ngFalseValue: '@?',
-                ngChange: '&?',
-                ngDisabled: '=?',
-                lxColor: '@?',
-                lxPosition: '@?',
-                lxTheme: '@?'
-            },
-            controller: LxSwitchController,
-            controllerAs: 'lxSwitch',
-            bindToController: true,
-            transclude: true,
-            replace: true
-        };
-    }
-
-    LxSwitchController.$inject = ['$scope', '$timeout', 'LxUtils'];
-
-    function LxSwitchController($scope, $timeout, LxUtils)
-    {
-        var lxSwitch = this;
-        var switchId;
-        var switchHasChildren;
-        var timer;
-
-        lxSwitch.getSwitchId = getSwitchId;
-        lxSwitch.getSwitchHasChildren = getSwitchHasChildren;
-        lxSwitch.setSwitchId = setSwitchId;
-        lxSwitch.setSwitchHasChildren = setSwitchHasChildren;
-        lxSwitch.triggerNgChange = triggerNgChange;
-
-        $scope.$on('$destroy', function()
-        {
-            $timeout.cancel(timer);
-        });
-
-        init();
-
-        ////////////
-
-        function getSwitchId()
-        {
-            return switchId;
-        }
-
-        function getSwitchHasChildren()
-        {
-            return switchHasChildren;
-        }
-
-        function init()
-        {
-            setSwitchId(LxUtils.generateUUID());
-            setSwitchHasChildren(false);
-
-            lxSwitch.ngTrueValue = angular.isUndefined(lxSwitch.ngTrueValue) ? true : lxSwitch.ngTrueValue;
-            lxSwitch.ngFalseValue = angular.isUndefined(lxSwitch.ngFalseValue) ? false : lxSwitch.ngFalseValue;
-            lxSwitch.lxColor = angular.isUndefined(lxSwitch.lxColor) ? 'accent' : lxSwitch.lxColor;
-            lxSwitch.lxPosition = angular.isUndefined(lxSwitch.lxPosition) ? 'left' : lxSwitch.lxPosition;
-        }
-
-        function setSwitchId(_switchId)
-        {
-            switchId = _switchId;
-        }
-
-        function setSwitchHasChildren(_switchHasChildren)
-        {
-            switchHasChildren = _switchHasChildren;
-        }
-
-        function triggerNgChange()
-        {
-            timer = $timeout(lxSwitch.ngChange);
-        }
-    }
-
-    function lxSwitchLabel()
-    {
-        return {
-            restrict: 'AE',
-            require: ['^lxSwitch', '^lxSwitchLabel'],
-            templateUrl: 'switch-label.html',
-            link: link,
-            controller: LxSwitchLabelController,
-            controllerAs: 'lxSwitchLabel',
-            bindToController: true,
-            transclude: true,
-            replace: true
-        };
-
-        function link(scope, element, attrs, ctrls)
-        {
-            ctrls[0].setSwitchHasChildren(true);
-            ctrls[1].setSwitchId(ctrls[0].getSwitchId());
-        }
-    }
-
-    function LxSwitchLabelController()
-    {
-        var lxSwitchLabel = this;
-        var switchId;
-
-        lxSwitchLabel.getSwitchId = getSwitchId;
-        lxSwitchLabel.setSwitchId = setSwitchId;
-
-        ////////////
-
-        function getSwitchId()
-        {
-            return switchId;
-        }
-
-        function setSwitchId(_switchId)
-        {
-            switchId = _switchId;
-        }
-    }
-
-    function lxSwitchHelp()
-    {
-        return {
-            restrict: 'AE',
-            require: '^lxSwitch',
-            templateUrl: 'switch-help.html',
-            transclude: true,
-            replace: true
-        };
-    }
-})();
-
-(function()
-{
-    'use strict';
-
-    angular
-        .module('lumx.tabs')
-        .directive('lxTabs', lxTabs)
-        .directive('lxTab', lxTab)
-        .directive('lxTabsPanes', lxTabsPanes)
-        .directive('lxTabPane', lxTabPane);
-
-    function lxTabs()
-    {
-        return {
-            restrict: 'E',
-            templateUrl: 'tabs.html',
-            scope:
-            {
-                layout: '@?lxLayout',
-                theme: '@?lxTheme',
-                color: '@?lxColor',
-                indicator: '@?lxIndicator',
-                activeTab: '=?lxActiveTab',
-                panesId: '@?lxPanesId',
-                links: '=?lxLinks',
-                position: '@?lxPosition'
-            },
-            controller: LxTabsController,
-            controllerAs: 'lxTabs',
-            bindToController: true,
-            replace: true,
-            transclude: true
-        };
-    }
-
-    LxTabsController.$inject = ['LxUtils', '$element', '$scope', '$timeout'];
-
-    function LxTabsController(LxUtils, $element, $scope, $timeout)
-    {
-        var lxTabs = this;
-        var tabsLength;
-        var timer1;
-        var timer2;
-        var timer3;
-        var timer4;
-
-        lxTabs.removeTab = removeTab;
-        lxTabs.setActiveTab = setActiveTab;
-        lxTabs.setViewMode = setViewMode;
-        lxTabs.tabIsActive = tabIsActive;
-        lxTabs.updateTabs = updateTabs;
-
-        lxTabs.activeTab = angular.isDefined(lxTabs.activeTab) ? lxTabs.activeTab : 0;
-        lxTabs.color = angular.isDefined(lxTabs.color) ? lxTabs.color : 'primary';
-        lxTabs.indicator = angular.isDefined(lxTabs.indicator) ? lxTabs.indicator : 'accent';
-        lxTabs.layout = angular.isDefined(lxTabs.layout) ? lxTabs.layout : 'full';
-        lxTabs.tabs = [];
-        lxTabs.theme = angular.isDefined(lxTabs.theme) ? lxTabs.theme : 'light';
-        lxTabs.viewMode = angular.isDefined(lxTabs.links) ? 'separate' : 'gather';
-
-        $scope.$watch(function()
-        {
-            return lxTabs.activeTab;
-        }, function(_newActiveTab, _oldActiveTab)
-        {
-            timer1 = $timeout(function()
-            {
-                setIndicatorPosition(_oldActiveTab);
-
-                if (lxTabs.viewMode === 'separate')
-                {
-                    angular.element('#' + lxTabs.panesId).find('.tabs__pane').hide();
-                    angular.element('#' + lxTabs.panesId).find('.tabs__pane').eq(lxTabs.activeTab).show();
-                }
-            });
-        });
-
-        $scope.$watch(function()
-        {
-            return lxTabs.position;
-        }, function(_newPosition) {
-            lxTabs.bottomPosition = angular.isDefined(_newPosition) && (_newPosition === 'bottom');
-        });
-
-        $scope.$watch(function()
-        {
-            return lxTabs.links;
-        }, function(_newLinks)
-        {
-            lxTabs.viewMode = angular.isDefined(_newLinks) ? 'separate' : 'gather';
-
-            angular.forEach(_newLinks, function(link, index)
-            {
-                var tab = {
-                    uuid: (angular.isUndefined(link.uuid) || link.uuid.length === 0) ? LxUtils.generateUUID() : link.uuid,
-                    index: index,
-                    label: link.label,
-                    icon: link.icon,
-                    disabled: link.disabled
-                };
-
-                updateTabs(tab);
-            });
-        });
-
-        timer2 = $timeout(function()
-        {
-            tabsLength = lxTabs.tabs.length;
-        });
-
-        $scope.$on('$destroy', function()
-        {
-            $timeout.cancel(timer1);
-            $timeout.cancel(timer2);
-            $timeout.cancel(timer3);
-            $timeout.cancel(timer4);
-        });
-
-        ////////////
-
-        function removeTab(_tab)
-        {
-            lxTabs.tabs.splice(_tab.index, 1);
-
-            angular.forEach(lxTabs.tabs, function(tab, index)
-            {
-                tab.index = index;
-            });
-
-            if (lxTabs.activeTab === 0)
-            {
-                timer3 = $timeout(function()
-                {
-                    setIndicatorPosition();
-                });
-            }
-            else
-            {
-                setActiveTab(lxTabs.tabs[0]);
-            }
-        }
-
-        function setActiveTab(_tab)
-        {
-            if (!_tab.disabled)
-            {
-                lxTabs.activeTab = _tab.index;
-            }
-        }
-
-        function setIndicatorPosition(_previousActiveTab)
-        {
-            var direction = lxTabs.activeTab > _previousActiveTab ? 'right' : 'left';
-            var indicator = $element.find('.tabs__indicator');
-            var activeTab = $element.find('.tabs__link').eq(lxTabs.activeTab);
-            var indicatorLeft = activeTab.position().left;
-            var indicatorRight = $element.outerWidth() - (indicatorLeft + activeTab.outerWidth());
-
-            if (angular.isUndefined(_previousActiveTab))
-            {
-                indicator.css(
-                {
-                    left: indicatorLeft,
-                    right: indicatorRight
-                });
-            }
-            else
-            {
-                var animationProperties = {
-                    duration: 200,
-                    easing: 'easeOutQuint'
-                };
-
-                if (direction === 'left')
-                {
-                    indicator.velocity(
-                    {
-                        left: indicatorLeft
-                    }, animationProperties);
-
-                    indicator.velocity(
-                    {
-                        right: indicatorRight
-                    }, animationProperties);
-                }
-                else
-                {
-                    indicator.velocity(
-                    {
-                        right: indicatorRight
-                    }, animationProperties);
-
-                    indicator.velocity(
-                    {
-                        left: indicatorLeft
-                    }, animationProperties);
-                }
-            }
-        }
-
-        function setViewMode(_viewMode)
-        {
-            lxTabs.viewMode = _viewMode;
-        }
-
-        function tabIsActive(_index)
-        {
-            return lxTabs.activeTab === _index;
-        }
-
-        function updateTabs(_tab)
-        {
-            var newTab = true;
-
-            angular.forEach(lxTabs.tabs, function(tab)
-            {
-                if (tab.index === _tab.index)
-                {
-                    newTab = false;
-
-                    tab.uuid = _tab.uuid;
-                    tab.icon = _tab.icon;
-                    tab.label = _tab.label;
-                }
-            });
-
-            if (newTab)
-            {
-                lxTabs.tabs.push(_tab);
-
-                if (angular.isDefined(tabsLength))
-                {
-                    timer4 = $timeout(function()
-                    {
-                        setIndicatorPosition();
-                    });
-                }
-            }
-        }
-    }
-
-    function lxTab()
-    {
-        return {
-            restrict: 'E',
-            require: ['lxTab', '^lxTabs'],
-            templateUrl: 'tab.html',
-            scope:
-            {
-                ngDisabled: '=?'
-            },
-            link: link,
-            controller: LxTabController,
-            controllerAs: 'lxTab',
-            bindToController: true,
-            replace: true,
-            transclude: true
-        };
-
-        function link(scope, element, attrs, ctrls)
-        {
-            ctrls[0].init(ctrls[1], element.index());
-
-            attrs.$observe('lxLabel', function(_newLabel)
-            {
-                ctrls[0].setLabel(_newLabel);
-            });
-
-            attrs.$observe('lxIcon', function(_newIcon)
-            {
-                ctrls[0].setIcon(_newIcon);
-            });
-        }
-    }
-
-    LxTabController.$inject = ['$scope', 'LxUtils'];
-
-    function LxTabController($scope, LxUtils)
-    {
-        var lxTab = this;
-        var parentCtrl;
-        var tab = {
-            uuid: LxUtils.generateUUID(),
-            index: undefined,
-            label: undefined,
-            icon: undefined,
-            disabled: false
-        };
-
-        lxTab.init = init;
-        lxTab.setIcon = setIcon;
-        lxTab.setLabel = setLabel;
-        lxTab.tabIsActive = tabIsActive;
-
-        $scope.$watch(function()
-        {
-            return lxTab.ngDisabled;
-        }, function(_isDisabled)
-        {
-            if (_isDisabled)
-            {
-                tab.disabled = true;
-            }
-            else
-            {
-                tab.disabled = false;
-            }
-
-            parentCtrl.updateTabs(tab);
-        });
-
-        $scope.$on('$destroy', function()
-        {
-            parentCtrl.removeTab(tab);
-        });
-
-        ////////////
-
-        function init(_parentCtrl, _index)
-        {
-            parentCtrl = _parentCtrl;
-            tab.index = _index;
-
-            parentCtrl.updateTabs(tab);
-        }
-
-        function setIcon(_icon)
-        {
-            tab.icon = _icon;
-
-            parentCtrl.updateTabs(tab);
-        }
-
-        function setLabel(_label)
-        {
-            tab.label = _label;
-
-            parentCtrl.updateTabs(tab);
-        }
-
-        function tabIsActive()
-        {
-            return parentCtrl.tabIsActive(tab.index);
-        }
-    }
-
-    function lxTabsPanes()
-    {
-        return {
-            restrict: 'E',
-            templateUrl: 'tabs-panes.html',
-            scope: true,
-            replace: true,
-            transclude: true
-        };
-    }
-
-    function lxTabPane()
-    {
-        return {
-            restrict: 'E',
-            templateUrl: 'tab-pane.html',
-            scope: true,
-            replace: true,
-            transclude: true
-        };
     }
 })();
 
