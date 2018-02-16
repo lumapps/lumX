@@ -132,3 +132,8 @@
     .tabs__indicator--bottom {
         @include position(absolute, null 0 46px 0);
     }
+
+    // Tabs: pane
+    .tabs__pane {
+        display: none;
+    }
