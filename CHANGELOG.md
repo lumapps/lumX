@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.7.10:
+*No major changes.*
+
+
 ## v1.7.9:
 *No major changes.*
 
