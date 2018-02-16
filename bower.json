@@ -42,7 +42,7 @@
   "dependencies": {
     "angular": "latest",
     "jquery": "latest",
-    "velocity": "latest",
+    "velocity": "1.5.1",
     "moment": "latest",
     "bourbon": "~4.2.7",
     "mdi": "2.0.46",
