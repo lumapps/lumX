@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.7.11:
+
+#### Bug fixes:
+ - tabs: only display none by default for separate layout this display issue was introduced by 20bfe180b988c84b0aef73785b3e752ed0d620cf
+
+
 ## v1.7.10:
 *No major changes.*
 
