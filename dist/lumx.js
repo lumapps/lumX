@@ -1,5 +1,5 @@
 /*
- LumX v1.7.11
+ LumX v1.7.12
  (c) 2014-2018 LumApps http://ui.lumapps.com
  License: MIT
 */
@@ -2609,6 +2609,7 @@
 
         service.close = close;
         service.closeActiveDropdown = closeActiveDropdown;
+        service.handleScrollAfterRecompilation = handleScrollAfterRecompilation;
         service.open = open;
         service.isOpen = isOpen;
         service.registerActiveDropdownUuid = registerActiveDropdownUuid;
@@ -2633,6 +2634,24 @@
                 {
                     documentClick: true,
                     uuid: activeDropdownUuid
+                });
+            }
+        }
+
+        function handleScrollAfterRecompilation(evt)
+        {
+            var dropdownElement;
+            var registeredScrollTop = 0;
+
+            dropdownElement = angular.element(evt.target).closest('.lx-select-choices.dropdown-menu--is-open')[0];
+
+            if (angular.isDefined(dropdownElement)) {
+                registeredScrollTop = dropdownElement.scrollTop;
+            }
+
+            if (registeredScrollTop > 0) {
+                $timeout(function waitForDigestCycle() {
+                    dropdownElement.scrollTop = registeredScrollTop;
                 });
             }
         }
@@ -4921,8 +4940,10 @@
             selectedTemplate = _selectedTemplate;
         }
 
-        function select(_choice)
+        function select(_choice, cb)
         {
+            cb = cb || angular.noop;
+
             if (lxSelect.multiple && angular.isUndefined(lxSelect.ngModel))
             {
                 lxSelect.ngModel = [];
@@ -4975,6 +4996,10 @@
                     $element.find('.lx-select-selected__filter input').focus();
                 }
             }
+
+            if (angular.isFunction(cb)) {
+                cb();
+            }
         }
 
         /**
@@ -4988,10 +5013,24 @@
                 evt.stopPropagation();
             }
 
+            var areChoicesOpened = lxSelect.areChoicesOpened();
+
             if (lxSelect.multiple && isSelected(choice)) {
-                lxSelect.unselect(choice);
+                lxSelect.unselect(choice, function onUnselect() {
+                    if (areChoicesOpened) {
+                        $timeout(function onTimeout() {
+                            LxDropdownService.handleScrollAfterRecompilation(evt);
+                        })
+                    }
+                });
             } else {
-                lxSelect.select(choice);
+                lxSelect.select(choice, function onUnselect() {
+                    if (areChoicesOpened) {
+                        $timeout(function onTimeout() {
+                            LxDropdownService.handleScrollAfterRecompilation(evt);
+                        })
+                    }
+                });
             }
 
             if (lxSelect.autocomplete) {
@@ -5048,8 +5087,10 @@
             _openPane(parentIndex, key, false);
         }
 
-        function unselect(_choice)
+        function unselect(_choice, cb)
         {
+            cb = cb || angular.noop;
+
             if (angular.isDefined(lxSelect.selectionToModel))
             {
                 lxSelect.selectionToModel(
@@ -5088,6 +5129,10 @@
                     (lxSelect.ngModel.length === 0 || lxSelect.multiple)) {
                     $element.find('.lx-select-selected__filter input').focus();
                 }
+            }
+
+            if (angular.isFunction(cb)) {
+                cb();
             }
         }
 
