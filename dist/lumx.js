@@ -1,5 +1,5 @@
 /*
- LumX v1.7.15
+ LumX v1.7.16
  (c) 2014-2018 LumApps http://ui.lumapps.com
  License: MIT
 */
@@ -4999,7 +4999,7 @@
             }
             
             if (lxSelect.areChoicesOpened() && lxSelect.multiple) {
-                var dropdownElement = angular.element(angular.element(evt.target).closest('.dropdown-menu__content')[0]);
+                var dropdownElement = angular.element(angular.element(evt.target).closest('.dropdown-menu--is-open')[0]);
                 // If the dropdown element is scrollable, fix the content div height to keep the current scroll state.
                 if (dropdownElement.scrollTop() > 0) {
                     var dropdownContentElement = angular.element(dropdownElement.find('.dropdown-menu__content')[0]);
