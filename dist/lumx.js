@@ -1,5 +1,5 @@
 /*
- LumX v1.7.13
+ LumX v1.7.14
  (c) 2014-2018 LumApps http://ui.lumapps.com
  License: MIT
 */
@@ -2600,16 +2600,15 @@
         .module('lumx.dropdown')
         .service('LxDropdownService', LxDropdownService);
 
-    LxDropdownService.$inject = ['$document', '$rootScope', '$timeout'];
+    LxDropdownService.$inject = ['$document', '$rootScope'];
 
-    function LxDropdownService($document, $rootScope, $timeout)
+    function LxDropdownService($document, $rootScope)
     {
         var service = this;
         var activeDropdownUuid;
 
         service.close = close;
         service.closeActiveDropdown = closeActiveDropdown;
-        service.handleScrollAfterRecompilation = handleScrollAfterRecompilation;
         service.open = open;
         service.isOpen = isOpen;
         service.registerActiveDropdownUuid = registerActiveDropdownUuid;
@@ -2634,24 +2633,6 @@
                 {
                     documentClick: true,
                     uuid: activeDropdownUuid
-                });
-            }
-        }
-
-        function handleScrollAfterRecompilation(evt)
-        {
-            var dropdownElement;
-            var registeredScrollTop = 0;
-
-            dropdownElement = angular.element(evt.target).closest('.lx-select-choices.dropdown-menu--is-open')[0];
-
-            if (angular.isDefined(dropdownElement)) {
-                registeredScrollTop = dropdownElement.scrollTop;
-            }
-
-            if (registeredScrollTop > 0) {
-                $timeout(function waitForDigestCycle() {
-                    dropdownElement.scrollTop = registeredScrollTop;
                 });
             }
         }
@@ -5017,24 +4998,26 @@
                 evt.stopPropagation();
             }
 
-            var areChoicesOpened = lxSelect.areChoicesOpened();
+            if (lxSelect.areChoicesOpened() && lxSelect.multiple) {
+                var dropdownElement = angular.element(angular.element(evt.target).closest('.dropdown-menu__content')[0]);
+                var dropdownFilterElement = angular.element(dropdownElement.find('.lx-select-choices__filter')[0]);
+                
+                var newHeight = dropdownElement.height();
+                newHeight -= (dropdownFilterElement.length) ? dropdownFilterElement.outerHeight() : 0;
+
+                var dropdownListElement = angular.element(dropdownElement.find('ul > div')[0]);
+                dropdownListElement.css('height', newHeight + 'px');
+
+                lxSelect.resetDropdownSize = function() {
+                    dropdownListElement.css('height', 'auto');
+                    lxSelect.resetDropdownSize = undefined;
+                }
+            }
 
             if (lxSelect.multiple && isSelected(choice)) {
-                lxSelect.unselect(choice, function onUnselect() {
-                    if (areChoicesOpened) {
-                        $timeout(function onTimeout() {
-                            LxDropdownService.handleScrollAfterRecompilation(evt);
-                        })
-                    }
-                });
+                lxSelect.unselect(choice);
             } else {
-                lxSelect.select(choice, function onUnselect() {
-                    if (areChoicesOpened) {
-                        $timeout(function onTimeout() {
-                            LxDropdownService.handleScrollAfterRecompilation(evt);
-                        })
-                    }
-                });
+                lxSelect.select(choice);
             }
 
             if (lxSelect.autocomplete) {
@@ -5149,6 +5132,10 @@
          * Either filter the choices available or highlight the path to the matching elements.
          */
         function updateFilter() {
+            if (angular.isFunction(lxSelect.resetDropdownSize)) {
+                lxSelect.resetDropdownSize();
+            }
+
             if (angular.isDefined(lxSelect.filter)) {
                 lxSelect.matchingPaths = lxSelect.filter({
                     newValue: lxSelect.filterModel
