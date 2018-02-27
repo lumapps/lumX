@@ -1,5 +1,5 @@
 /*
- LumX v1.7.14
+ LumX v1.7.15
  (c) 2014-2018 LumApps http://ui.lumapps.com
  License: MIT
 */
@@ -4997,20 +4997,25 @@
             if (lxSelect.multiple && !lxSelect.autocomplete && angular.isDefined(evt)) {
                 evt.stopPropagation();
             }
-
+            
             if (lxSelect.areChoicesOpened() && lxSelect.multiple) {
                 var dropdownElement = angular.element(angular.element(evt.target).closest('.dropdown-menu__content')[0]);
-                var dropdownFilterElement = angular.element(dropdownElement.find('.lx-select-choices__filter')[0]);
-                
-                var newHeight = dropdownElement.height();
-                newHeight -= (dropdownFilterElement.length) ? dropdownFilterElement.outerHeight() : 0;
+                // If the dropdown element is scrollable, fix the content div height to keep the current scroll state.
+                if (dropdownElement.scrollTop() > 0) {
+                    var dropdownContentElement = angular.element(dropdownElement.find('.dropdown-menu__content')[0]);
+                    var dropdownFilterElement = angular.element(dropdownContentElement.find('.lx-select-choices__filter')[0]);
 
-                var dropdownListElement = angular.element(dropdownElement.find('ul > div')[0]);
-                dropdownListElement.css('height', newHeight + 'px');
+                    var newHeight = dropdownContentElement.height();
+                    newHeight -= (dropdownFilterElement.length) ? dropdownFilterElement.outerHeight() : 0;
 
-                lxSelect.resetDropdownSize = function() {
-                    dropdownListElement.css('height', 'auto');
-                    lxSelect.resetDropdownSize = undefined;
+                    var dropdownListElement = angular.element(dropdownContentElement.find('ul > div')[0]);
+                    dropdownListElement.css('height', newHeight + 'px');
+
+                    // This function is called when the ng-change attached to the filter input is called.
+                    lxSelect.resetDropdownSize = function() {
+                        dropdownListElement.css('height', 'auto');
+                        lxSelect.resetDropdownSize = undefined;
+                    }
                 }
             }
 
