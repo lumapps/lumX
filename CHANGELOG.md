@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.7.13:
+*No major changes.*
+
+
 ## v1.7.12:
 *No major changes.*
 

@@ -1,5 +1,5 @@
 /*
- LumX v1.7.12
+ LumX v1.7.13
  (c) 2014-2018 LumApps http://ui.lumapps.com
  License: MIT
 */
@@ -4973,6 +4973,10 @@
                         if (lxSelect.choicesViewMode === 'panes' && lxSelect.displayFilter && lxSelect.multiple) {
                             $element.find('.lx-select-selected__filter input').focus();
                         }
+
+                        if (angular.isFunction(cb)) {
+                            $timeout(cb);
+                        }
                     }
                 });
             }
@@ -4995,10 +4999,10 @@
                 if (lxSelect.choicesViewMode === 'panes' && lxSelect.displayFilter && lxSelect.multiple) {
                     $element.find('.lx-select-selected__filter input').focus();
                 }
-            }
 
-            if (angular.isFunction(cb)) {
-                cb();
+                if (angular.isFunction(cb)) {
+                    $timeout(cb);
+                }
             }
         }
 
@@ -5110,6 +5114,10 @@
                             (lxSelect.ngModel.length === 0 || lxSelect.multiple)) {
                             $element.find('.lx-select-selected__filter input').focus();
                         }
+                        
+                        if (angular.isFunction(cb)) {
+                            $timeout(cb);
+                        }
                     }
                 });
 
@@ -5129,10 +5137,10 @@
                     (lxSelect.ngModel.length === 0 || lxSelect.multiple)) {
                     $element.find('.lx-select-selected__filter input').focus();
                 }
-            }
-
-            if (angular.isFunction(cb)) {
-                cb();
+                
+                if (angular.isFunction(cb)) {
+                    $timeout(cb);
+                }
             }
         }
 
