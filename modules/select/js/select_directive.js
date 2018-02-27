@@ -916,24 +916,26 @@
                 evt.stopPropagation();
             }
 
-            var areChoicesOpened = lxSelect.areChoicesOpened();
+            if (lxSelect.areChoicesOpened() && lxSelect.multiple) {
+                var dropdownElement = angular.element(angular.element(evt.target).closest('.dropdown-menu__content')[0]);
+                var dropdownFilterElement = angular.element(dropdownElement.find('.lx-select-choices__filter')[0]);
+                
+                var newHeight = dropdownElement.height();
+                newHeight -= (dropdownFilterElement.length) ? dropdownFilterElement.outerHeight() : 0;
+
+                var dropdownListElement = angular.element(dropdownElement.find('ul > div')[0]);
+                dropdownListElement.css('height', newHeight + 'px');
+
+                lxSelect.resetDropdownSize = function() {
+                    dropdownListElement.css('height', 'auto');
+                    lxSelect.resetDropdownSize = undefined;
+                }
+            }
 
             if (lxSelect.multiple && isSelected(choice)) {
-                lxSelect.unselect(choice, function onUnselect() {
-                    if (areChoicesOpened) {
-                        $timeout(function onTimeout() {
-                            LxDropdownService.handleScrollAfterRecompilation(evt);
-                        })
-                    }
-                });
+                lxSelect.unselect(choice);
             } else {
-                lxSelect.select(choice, function onUnselect() {
-                    if (areChoicesOpened) {
-                        $timeout(function onTimeout() {
-                            LxDropdownService.handleScrollAfterRecompilation(evt);
-                        })
-                    }
-                });
+                lxSelect.select(choice);
             }
 
             if (lxSelect.autocomplete) {
@@ -1048,6 +1050,10 @@
          * Either filter the choices available or highlight the path to the matching elements.
          */
         function updateFilter() {
+            if (angular.isFunction(lxSelect.resetDropdownSize)) {
+                lxSelect.resetDropdownSize();
+            }
+
             if (angular.isDefined(lxSelect.filter)) {
                 lxSelect.matchingPaths = lxSelect.filter({
                     newValue: lxSelect.filterModel

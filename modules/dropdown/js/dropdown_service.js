@@ -6,16 +6,15 @@
         .module('lumx.dropdown')
         .service('LxDropdownService', LxDropdownService);
 
-    LxDropdownService.$inject = ['$document', '$rootScope', '$timeout'];
+    LxDropdownService.$inject = ['$document', '$rootScope'];
 
-    function LxDropdownService($document, $rootScope, $timeout)
+    function LxDropdownService($document, $rootScope)
     {
         var service = this;
         var activeDropdownUuid;
 
         service.close = close;
         service.closeActiveDropdown = closeActiveDropdown;
-        service.handleScrollAfterRecompilation = handleScrollAfterRecompilation;
         service.open = open;
         service.isOpen = isOpen;
         service.registerActiveDropdownUuid = registerActiveDropdownUuid;
@@ -40,24 +39,6 @@
                 {
                     documentClick: true,
                     uuid: activeDropdownUuid
-                });
-            }
-        }
-
-        function handleScrollAfterRecompilation(evt)
-        {
-            var dropdownElement;
-            var registeredScrollTop = 0;
-
-            dropdownElement = angular.element(evt.target).closest('.lx-select-choices.dropdown-menu--is-open')[0];
-
-            if (angular.isDefined(dropdownElement)) {
-                registeredScrollTop = dropdownElement.scrollTop;
-            }
-
-            if (registeredScrollTop > 0) {
-                $timeout(function waitForDigestCycle() {
-                    dropdownElement.scrollTop = registeredScrollTop;
                 });
             }
         }
