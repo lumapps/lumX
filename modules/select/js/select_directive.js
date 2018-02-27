@@ -839,8 +839,10 @@
             selectedTemplate = _selectedTemplate;
         }
 
-        function select(_choice)
+        function select(_choice, cb)
         {
+            cb = cb || angular.noop;
+
             if (lxSelect.multiple && angular.isUndefined(lxSelect.ngModel))
             {
                 lxSelect.ngModel = [];
@@ -893,6 +895,10 @@
                     $element.find('.lx-select-selected__filter input').focus();
                 }
             }
+
+            if (angular.isFunction(cb)) {
+                cb();
+            }
         }
 
         /**
@@ -906,10 +912,24 @@
                 evt.stopPropagation();
             }
 
+            var areChoicesOpened = lxSelect.areChoicesOpened();
+
             if (lxSelect.multiple && isSelected(choice)) {
-                lxSelect.unselect(choice);
+                lxSelect.unselect(choice, function onUnselect() {
+                    if (areChoicesOpened) {
+                        $timeout(function onTimeout() {
+                            LxDropdownService.handleScrollAfterRecompilation(evt);
+                        })
+                    }
+                });
             } else {
-                lxSelect.select(choice);
+                lxSelect.select(choice, function onUnselect() {
+                    if (areChoicesOpened) {
+                        $timeout(function onTimeout() {
+                            LxDropdownService.handleScrollAfterRecompilation(evt);
+                        })
+                    }
+                });
             }
 
             if (lxSelect.autocomplete) {
@@ -966,8 +986,10 @@
             _openPane(parentIndex, key, false);
         }
 
-        function unselect(_choice)
+        function unselect(_choice, cb)
         {
+            cb = cb || angular.noop;
+
             if (angular.isDefined(lxSelect.selectionToModel))
             {
                 lxSelect.selectionToModel(
@@ -1006,6 +1028,10 @@
                     (lxSelect.ngModel.length === 0 || lxSelect.multiple)) {
                     $element.find('.lx-select-selected__filter input').focus();
                 }
+            }
+
+            if (angular.isFunction(cb)) {
+                cb();
             }
         }
 
