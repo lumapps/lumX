@@ -1,5 +1,5 @@
 /*
- LumX v1.7.16
+ LumX v1.7.17
  (c) 2014-2018 LumApps http://ui.lumapps.com
  License: MIT
 */
@@ -4678,6 +4678,7 @@
             };
 
             var interpolatedChoice = $interpolate(choiceTemplate)(choiceScope);
+            interpolatedChoice = '<span>' + interpolatedChoice + '</span>';
             return $sce.trustAsHtml((lxSelect.matchingPaths) ?
                 $filter('lxHighlight')(interpolatedChoice, lxSelect.filterModel, true) : interpolatedChoice
             );
