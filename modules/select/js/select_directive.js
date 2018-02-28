@@ -596,6 +596,7 @@
             };
 
             var interpolatedChoice = $interpolate(choiceTemplate)(choiceScope);
+            interpolatedChoice = '<span>' + interpolatedChoice + '</span>';
             return $sce.trustAsHtml((lxSelect.matchingPaths) ?
                 $filter('lxHighlight')(interpolatedChoice, lxSelect.filterModel, true) : interpolatedChoice
             );
