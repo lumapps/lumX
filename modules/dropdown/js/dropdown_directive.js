@@ -161,7 +161,9 @@
             var velocityProperties;
             var velocityEasing;
 
-            scrollMask.remove();
+            if (scrollMask) {
+                scrollMask.remove();
+            }
             if (angular.isFunction(enableBodyScroll)) {
                 enableBodyScroll();
             }
@@ -387,12 +389,14 @@
 
             LxDepthService.register();
 
-            scrollMask
-                .css('z-index', LxDepthService.getDepth())
-                .appendTo('body');
-            scrollMask.on('wheel', function preventDefault(e) {
-                e.preventDefault();
-            });
+            if (!lxDropdown.hover) {
+                scrollMask
+                    .css('z-index', LxDepthService.getDepth())
+                    .appendTo('body');
+                scrollMask.on('wheel', function preventDefault(e) {
+                    e.preventDefault();
+                });
+            }
 
             angular.element(window).on('resize', initDropdownPosition);
 
