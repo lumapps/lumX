@@ -594,6 +594,7 @@
             }
 
             var availableHeight = getAvailableHeight();
+            var scrollPosition = dropdownMenu.scrollTop();
 
             dropdownMenu.css({
                 height: 'auto',
@@ -623,6 +624,8 @@
                     });
                 }
             }
+
+            dropdownMenu.scrollTop(scrollPosition);
         }
     }
 
