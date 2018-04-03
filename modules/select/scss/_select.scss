@@ -75,11 +75,16 @@
 .lx-select-label {
     .lx-select--default-style & {
         display: block;
+        padding-right: $base-spacing-unit * 3;
         pointer-events: none;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
 
     .lx-select--default-style.lx-select--view-mode-field & {
         @include position(absolute, $base-spacing-unit null null 0);
+        @include size(100% 32px);
         line-height: 32px;
         @include transform(translateY($base-spacing-unit * 3));
         @include transform-origin(bottom left);
@@ -90,6 +95,7 @@
 
     .lx-select--default-style.lx-select--view-mode-chips & {
         @include position(absolute, 0 null null 0);
+        @include size(100% 40px);
         line-height: 40px;
     }
 
