@@ -90,6 +90,7 @@
                 {
                     if (angular.isDefined(tooltip))
                     {
+                        angular.element(document).off('scroll', _debouncedSetPosition);
                         tooltip.remove();
                         tooltip = undefined;
                     }
@@ -146,6 +147,7 @@
                 });
             }
         }
+        var _debouncedSetPosition = LxUtils.debounce(setTooltipPosition, 250);
 
         function showTooltip()
         {
@@ -170,6 +172,7 @@
                 });
 
                 setTooltipPosition();
+                angular.element(document).on('scroll', _debouncedSetPosition);
 
                 tooltip
                     .append(tooltipBackground)
