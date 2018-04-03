@@ -90,6 +90,7 @@
                 {
                     if (angular.isDefined(tooltip))
                     {
+                        angular.element(document).off('scroll', setTooltipPosition);
                         tooltip.remove();
                         tooltip = undefined;
                     }
@@ -170,6 +171,7 @@
                 });
 
                 setTooltipPosition();
+                angular.element(document).on('scroll', setTooltipPosition);
 
                 tooltip
                     .append(tooltipBackground)
