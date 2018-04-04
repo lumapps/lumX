@@ -4,7 +4,7 @@
 
     angular
         .module('lumx.tooltip')
-        .directive('lxTooltip', 'LxUtils', lxTooltip, LxUtils);
+        .directive('lxTooltip', lxTooltip);
 
     function lxTooltip()
     {
@@ -49,9 +49,9 @@
         }
     }
 
-    LxTooltipController.$inject = ['$element', '$scope', '$timeout', 'LxDepthService'];
+    LxTooltipController.$inject = ['$element', '$scope', '$timeout', 'LxDepthService', 'LxUtils'];
 
-    function LxTooltipController($element, $scope, $timeout, LxDepthService)
+    function LxTooltipController($element, $scope, $timeout, LxDepthService, LxUtils)
     {
         var lxTooltip = this;
         var timer1;
