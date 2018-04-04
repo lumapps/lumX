@@ -1,5 +1,5 @@
 /*
- LumX v1.7.21
+ LumX v1.7.22
  (c) 2014-2018 LumApps http://ui.lumapps.com
  License: MIT
 */
