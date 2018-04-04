@@ -1,5 +1,5 @@
 /*
- LumX v1.7.20
+ LumX v1.7.21
  (c) 2014-2018 LumApps http://ui.lumapps.com
  License: MIT
 */
@@ -6812,7 +6812,7 @@
 
     angular
         .module('lumx.tooltip')
-        .directive('lxTooltip', lxTooltip);
+        .directive('lxTooltip', 'LxUtils', lxTooltip, LxUtils);
 
     function lxTooltip()
     {
