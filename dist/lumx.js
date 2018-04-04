@@ -1,5 +1,5 @@
 /*
- LumX v1.7.19
+ LumX v1.7.20
  (c) 2014-2018 LumApps http://ui.lumapps.com
  License: MIT
 */
@@ -6898,6 +6898,7 @@
                 {
                     if (angular.isDefined(tooltip))
                     {
+                        angular.element(document).off('scroll', _debouncedSetPosition);
                         tooltip.remove();
                         tooltip = undefined;
                     }
@@ -6954,6 +6955,7 @@
                 });
             }
         }
+        var _debouncedSetPosition = LxUtils.debounce(setTooltipPosition, 250);
 
         function showTooltip()
         {
@@ -6978,6 +6980,7 @@
                 });
 
                 setTooltipPosition();
+                angular.element(document).on('scroll', _debouncedSetPosition);
 
                 tooltip
                     .append(tooltipBackground)

@@ -1,5 +1,12 @@
 # Changelog
 
+## v1.7.20:
+
+#### Bug fixes:
+ - tooltip: debounce the set position function
+ - tooltip: don't scroll the tooltip when scrolling the window
+
+
 ## v1.7.19:
 *No major changes.*
 

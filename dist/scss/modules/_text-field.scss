@@ -82,8 +82,12 @@
     .text-field__label {
         display: block;
         @include position(absolute, $base-spacing-unit null null 0);
+        @include size(100% 32px);
         line-height: 32px;
         pointer-events: none;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
         @include transform(translateY($base-spacing-unit * 3));
         @include transform-origin(bottom left);
         @include transition-property(transform, color);
