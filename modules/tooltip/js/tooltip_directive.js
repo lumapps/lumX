@@ -4,7 +4,7 @@
 
     angular
         .module('lumx.tooltip')
-        .directive('lxTooltip', lxTooltip);
+        .directive('lxTooltip', 'LxUtils', lxTooltip, LxUtils);
 
     function lxTooltip()
     {
