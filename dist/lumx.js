@@ -1,5 +1,5 @@
 /*
- LumX v1.7.22
+ LumX v1.7.23
  (c) 2014-2018 LumApps http://ui.lumapps.com
  License: MIT
 */
@@ -6812,7 +6812,7 @@
 
     angular
         .module('lumx.tooltip')
-        .directive('lxTooltip', 'LxUtils', lxTooltip, LxUtils);
+        .directive('lxTooltip', lxTooltip);
 
     function lxTooltip()
     {
@@ -6857,9 +6857,9 @@
         }
     }
 
-    LxTooltipController.$inject = ['$element', '$scope', '$timeout', 'LxDepthService'];
+    LxTooltipController.$inject = ['$element', '$scope', '$timeout', 'LxDepthService', 'LxUtils'];
 
-    function LxTooltipController($element, $scope, $timeout, LxDepthService)
+    function LxTooltipController($element, $scope, $timeout, LxDepthService, LxUtils)
     {
         var lxTooltip = this;
         var timer1;
