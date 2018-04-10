@@ -1,5 +1,5 @@
 /*
- LumX v1.7.23
+ LumX v1.7.24
  (c) 2014-2018 LumApps http://ui.lumapps.com
  License: MIT
 */
@@ -3453,6 +3453,7 @@
         {
             lxProgress.lxDiameter = angular.isDefined(lxProgress.lxDiameter) ? lxProgress.lxDiameter : 100;
             lxProgress.lxColor = angular.isDefined(lxProgress.lxColor) ? lxProgress.lxColor : 'primary';
+            lxProgress.lxClass = angular.isDefined(lxProgress.lxValue) ? 'progress-container--determinate' : 'progress-container--indeterminate';
         }
     }
 })();
@@ -7372,9 +7373,7 @@ angular.module("lumx.date-picker").run(['$templateCache', function(a) { a.put('d
     '    </div>\n' +
     '</div>');
 	 }]);
-angular.module("lumx.progress").run(['$templateCache', function(a) { a.put('progress.html', '<div class="progress-container progress-container--{{ lxProgress.lxType }} progress-container--{{ lxProgress.lxColor }}"\n' +
-    '     ng-class="{ \'progress-container--determinate\': lxProgress.lxValue,\n' +
-    '                 \'progress-container--indeterminate\': !lxProgress.lxValue }">\n' +
+angular.module("lumx.progress").run(['$templateCache', function(a) { a.put('progress.html', '<div class="progress-container progress-container--{{ lxProgress.lxType }} progress-container--{{ lxProgress.lxColor }} {{ lxProgress.lxClass }}">\n' +
     '    <div class="progress-circular"\n' +
     '         ng-if="lxProgress.lxType === \'circular\'"\n' +
     '         ng-style="lxProgress.getProgressDiameter()">\n' +
