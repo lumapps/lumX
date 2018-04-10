@@ -1,4 +1,4 @@
-<div class="progress-container progress-container--{{ lxProgress.lxType }} progress-container--{{ lxProgress.lxColor }} progress-container--{{ lxProgress.lxValue ? 'determinate' : 'indeterminate' }}">
+<div class="progress-container progress-container--{{ lxProgress.lxType }} progress-container--{{ lxProgress.lxColor }} {{ lxProgress.lxClass }}">
     <div class="progress-circular"
          ng-if="lxProgress.lxType === 'circular'"
          ng-style="lxProgress.getProgressDiameter()">
