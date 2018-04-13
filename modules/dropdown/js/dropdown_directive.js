@@ -145,7 +145,11 @@
 
         function closeDropdownMenu()
         {
-            $document.off('click', onDocumentClick);
+            if ('ontouchstart' in window) {
+                $document.off('touchstart', onDocumentClick);
+            } else {
+                $document.off('click', onDocumentClick);
+            }
 
             $rootScope.$broadcast('lx-dropdown__close-start', $element.attr('id'));
 
@@ -381,8 +385,12 @@
 
         function openDropdownMenu()
         {
-            $document.on('click', onDocumentClick);
-
+            if ('ontouchstart' in window) {
+                $document.on('touchstart', onDocumentClick);
+            } else {
+                $document.on('click', onDocumentClick);
+            }
+            
             $rootScope.$broadcast('lx-dropdown__open-start', $element.attr('id'));
 
             lxDropdown.isOpen = true;
