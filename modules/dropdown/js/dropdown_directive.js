@@ -145,7 +145,7 @@
 
         function closeDropdownMenu()
         {
-            $document.off('click touchstart', onDocumentClick);
+            $document.off('click touchend', onDocumentClick);
 
             $rootScope.$broadcast('lx-dropdown__close-start', $element.attr('id'));
 
@@ -376,13 +376,19 @@
         }
 
         function onDocumentClick() {
-            LxDropdownService.close(lxDropdown.uuid, true);
+            $timeout(function nextDigest() {
+                LxDropdownService.close(lxDropdown.uuid, true);
+            })
         }
 
         function openDropdownMenu()
         {
-            $document.on('click touchstart', onDocumentClick);
-            
+            $document.on('click touchend', onDocumentClick);
+
+            $document.on('touchmove', function onTouchMove(evt) {
+                $document.off('touchend', onDocumentClick);
+            });
+
             $rootScope.$broadcast('lx-dropdown__open-start', $element.attr('id'));
 
             lxDropdown.isOpen = true;
