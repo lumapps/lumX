@@ -31,7 +31,7 @@
 
             attrs.$observe('lxTriggerOnClick', function(isTriggeredOnClick)
             {
-                ctrl.setFabTriggerMethod(isTriggeredOnClick);
+                ctrl.setFabTriggerMethod(scope.$eval(isTriggeredOnClick));
             });
         }
     }
