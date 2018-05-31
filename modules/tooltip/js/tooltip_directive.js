@@ -39,8 +39,10 @@
                 });
             }
 
-            element.on('mouseenter', ctrl.showTooltip);
-            element.on('mouseleave', ctrl.hideTooltip);
+            if (angular.element(window).outerWidth() > 768) {
+                element.on('mouseenter', ctrl.showTooltip);
+                element.on('mouseleave', ctrl.hideTooltip);
+            }
 
             scope.$on('$destroy', function()
             {
