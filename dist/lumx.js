@@ -1,5 +1,5 @@
 /*
- LumX v1.7.28
+ LumX v1.7.29
  (c) 2014-2018 LumApps http://ui.lumapps.com
  License: MIT
 */
@@ -6854,8 +6854,10 @@
                 });
             }
 
-            element.on('mouseenter', ctrl.showTooltip);
-            element.on('mouseleave', ctrl.hideTooltip);
+            if (angular.element(window).outerWidth() > 768) {
+                element.on('mouseenter', ctrl.showTooltip);
+                element.on('mouseleave', ctrl.hideTooltip);
+            }
 
             scope.$on('$destroy', function()
             {
