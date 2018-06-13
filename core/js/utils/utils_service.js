@@ -95,9 +95,7 @@
             if (hasVerticalScrollbar)
             {
               angular.element('body').css({
-                position: 'fixed',
-                width: '100%',
-                top: -viewportTop + 'px'
+                overflow: 'hidden',
               });
             }
 

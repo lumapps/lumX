@@ -394,15 +394,11 @@
             lxDropdown.isOpen = true;
 
             LxDepthService.register();
-
-            if (!lxDropdown.hover) {
-                scrollMask
-                    .css('z-index', LxDepthService.getDepth())
-                    .appendTo('body');
-                scrollMask.on('wheel', function preventDefault(e) {
-                    e.preventDefault();
-                });
-            }
+            
+            scrollMask.css('z-index', LxDepthService.getDepth()).appendTo('body');
+            
+            // An action outside the dropdown triggers the close function.
+            scrollMask.on('click wheel touchmove ontouchstart', closeDropdownMenu);
 
             angular.element(window).on('resize', initDropdownPosition);
 
