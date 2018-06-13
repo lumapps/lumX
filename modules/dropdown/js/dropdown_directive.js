@@ -397,7 +397,8 @@
             
             scrollMask.css('z-index', LxDepthService.getDepth()).appendTo('body');
             
-            angular.element(scrollMask).on('click wheel touchmove ontouchstart', closeDropdownMenu);
+            // An action outside the dropdown triggers the close function.
+            scrollMask.on('click wheel touchmove ontouchstart', closeDropdownMenu);
 
             angular.element(window).on('resize', initDropdownPosition);
 
