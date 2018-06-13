@@ -1,5 +1,5 @@
 /*
- LumX v1.7.29
+ LumX v1.7.30
  (c) 2014-2018 LumApps http://ui.lumapps.com
  License: MIT
 */
@@ -402,9 +402,7 @@
             if (hasVerticalScrollbar)
             {
               angular.element('body').css({
-                position: 'fixed',
-                width: '100%',
-                top: -viewportTop + 'px'
+                overflow: 'hidden',
               });
             }
 
@@ -2163,15 +2161,11 @@
             lxDropdown.isOpen = true;
 
             LxDepthService.register();
-
-            if (!lxDropdown.hover) {
-                scrollMask
-                    .css('z-index', LxDepthService.getDepth())
-                    .appendTo('body');
-                scrollMask.on('wheel', function preventDefault(e) {
-                    e.preventDefault();
-                });
-            }
+            
+            scrollMask.css('z-index', LxDepthService.getDepth()).appendTo('body');
+            
+            // An action outside the dropdown triggers the close function.
+            scrollMask.on('click wheel touchmove ontouchstart', closeDropdownMenu);
 
             angular.element(window).on('resize', initDropdownPosition);
 
