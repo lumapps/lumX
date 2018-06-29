@@ -76,7 +76,10 @@
         @include position(absolute, 0 0 0 0);
         @include size(100%);
         margin: auto;
+    }
 
+    // Progress ciruclar: g
+    .progress-ciruclar__g {
         .progress-container--determinate & {
             @include transform(rotate(-90deg));
         }

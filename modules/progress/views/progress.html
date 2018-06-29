@@ -3,7 +3,9 @@
          ng-if="lxProgress.lxType === 'circular'"
          ng-style="lxProgress.getProgressDiameter()">
         <svg class="progress-circular__svg">
-            <circle class="progress-circular__path" cx="50" cy="50" r="20" fill="none" stroke-width="4" stroke-miterlimit="10" ng-style="lxProgress.getCircularProgressValue()">
+            <g class="progress-circular__g">
+                <circle class="progress-circular__path" cx="50" cy="50" r="20" fill="none" stroke-width="4" stroke-miterlimit="10" ng-style="lxProgress.getCircularProgressValue()"></circle>
+            </g>
         </svg>
     </div>
 
