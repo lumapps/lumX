@@ -33,8 +33,6 @@
         lxProgress.getLinearProgressValue = getLinearProgressValue;
         lxProgress.getProgressDiameter = getProgressDiameter;
 
-        init();
-
         ////////////
 
         function getCircularProgressValue()
@@ -75,5 +73,7 @@
             lxProgress.lxColor = angular.isDefined(lxProgress.lxColor) ? lxProgress.lxColor : 'primary';
             lxProgress.lxClass = angular.isDefined(lxProgress.lxValue) ? 'progress-container--determinate' : 'progress-container--indeterminate';
         }
+
+        this.$onInit = init;
     }
 })();
