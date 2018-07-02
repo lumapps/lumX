@@ -70,7 +70,7 @@
         padding-top: 100%;
     }
 }
-    
+
     // Progress circular: svg
     .progress-circular__svg {
         @include position(absolute, 0 0 0 0);
@@ -79,7 +79,7 @@
     }
 
     // Progress ciruclar: g
-    .progress-ciruclar__g {
+    .progress-circular__g {
         .progress-container--determinate & {
             @include transform(rotate(-90deg));
         }
