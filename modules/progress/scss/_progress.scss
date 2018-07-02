@@ -86,7 +86,6 @@
 
         .progress-container--indeterminate & {
             @include animation(lx-progress-circular-rotate 2s linear infinite);
-            @include transform-origin(center center);
         }
     }
 
