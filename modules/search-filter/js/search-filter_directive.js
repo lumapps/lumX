@@ -42,6 +42,7 @@
                 closed: '=?lxClosed',
                 color: '@?lxColor',
                 icon: '@?lxIcon',
+                onInit: '&?lxOnInit',
                 onSelect: '=?lxOnSelect',
                 searchOnFocus: '=?lxSearchOnFocus',
                 theme: '@?lxTheme',
@@ -83,6 +84,11 @@
             {
                 input.off();
             });
+
+
+            if (angular.isDefined(scope.lxSearchFilter.onInit)) {
+                scope.lxSearchFilter.onInit()(scope.lxSearchFilter.dropdownId);
+            }
         }
     }
 
@@ -272,18 +278,21 @@
             }
         }
 
+        function openDropdown()
+        {
+            LxDropdownService.open(lxSearchFilter.dropdownId, $element);
+        }
+
+        function closeDropdown()
+        {
+            LxDropdownService.close(lxSearchFilter.dropdownId);
+        }
+
         function onAutocompleteSuccess(autocompleteList)
         {
             lxSearchFilter.autocompleteList = autocompleteList;
 
-            if (lxSearchFilter.autocompleteList.length)
-            {
-                LxDropdownService.open(lxSearchFilter.dropdownId, $element);
-            }
-            else
-            {
-                LxDropdownService.close(lxSearchFilter.dropdownId);
-            }
+            (lxSearchFilter.autocompleteList.length) ? openDropdown() : closeDropdown();
             lxSearchFilter.isLoading = false;
         }
 
@@ -321,7 +330,7 @@
         {
             itemSelected = true;
 
-            LxDropdownService.close(lxSearchFilter.dropdownId);
+            closeDropdown();
 
             lxSearchFilter.modelController.$setViewValue(_item);
             lxSearchFilter.modelController.$render();
@@ -369,7 +378,7 @@
             else
             {
                 debouncedAutocomplete.clear();
-                LxDropdownService.close(lxSearchFilter.dropdownId);
+                closeDropdown();
             }
 
             itemSelected = false;
