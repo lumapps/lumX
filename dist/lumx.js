@@ -1,5 +1,5 @@
 /*
- LumX v1.7.30
+ LumX v1.7.31
  (c) 2014-2018 LumApps http://ui.lumapps.com
  License: MIT
 */
@@ -3413,8 +3413,6 @@
         lxProgress.getLinearProgressValue = getLinearProgressValue;
         lxProgress.getProgressDiameter = getProgressDiameter;
 
-        init();
-
         ////////////
 
         function getCircularProgressValue()
@@ -3455,6 +3453,8 @@
             lxProgress.lxColor = angular.isDefined(lxProgress.lxColor) ? lxProgress.lxColor : 'primary';
             lxProgress.lxClass = angular.isDefined(lxProgress.lxValue) ? 'progress-container--determinate' : 'progress-container--indeterminate';
         }
+
+        this.$onInit = init;
     }
 })();
 (function()
@@ -3751,6 +3751,7 @@
                 closed: '=?lxClosed',
                 color: '@?lxColor',
                 icon: '@?lxIcon',
+                onInit: '&?lxOnInit',
                 onSelect: '=?lxOnSelect',
                 searchOnFocus: '=?lxSearchOnFocus',
                 theme: '@?lxTheme',
@@ -3792,6 +3793,11 @@
             {
                 input.off();
             });
+
+
+            if (angular.isDefined(scope.lxSearchFilter.onInit)) {
+                scope.lxSearchFilter.onInit()(scope.lxSearchFilter.dropdownId);
+            }
         }
     }
 
@@ -3981,18 +3987,21 @@
             }
         }
 
+        function openDropdown()
+        {
+            LxDropdownService.open(lxSearchFilter.dropdownId, $element);
+        }
+
+        function closeDropdown()
+        {
+            LxDropdownService.close(lxSearchFilter.dropdownId);
+        }
+
         function onAutocompleteSuccess(autocompleteList)
         {
             lxSearchFilter.autocompleteList = autocompleteList;
 
-            if (lxSearchFilter.autocompleteList.length)
-            {
-                LxDropdownService.open(lxSearchFilter.dropdownId, $element);
-            }
-            else
-            {
-                LxDropdownService.close(lxSearchFilter.dropdownId);
-            }
+            (lxSearchFilter.autocompleteList.length) ? openDropdown() : closeDropdown();
             lxSearchFilter.isLoading = false;
         }
 
@@ -4030,7 +4039,7 @@
         {
             itemSelected = true;
 
-            LxDropdownService.close(lxSearchFilter.dropdownId);
+            closeDropdown();
 
             lxSearchFilter.modelController.$setViewValue(_item);
             lxSearchFilter.modelController.$render();
@@ -4078,7 +4087,7 @@
             else
             {
                 debouncedAutocomplete.clear();
-                LxDropdownService.close(lxSearchFilter.dropdownId);
+                closeDropdown();
             }
 
             itemSelected = false;
@@ -7380,7 +7389,11 @@ angular.module("lumx.progress").run(['$templateCache', function(a) { a.put('prog
     '         ng-if="lxProgress.lxType === \'circular\'"\n' +
     '         ng-style="lxProgress.getProgressDiameter()">\n' +
     '        <svg class="progress-circular__svg">\n' +
-    '            <circle class="progress-circular__path" cx="50" cy="50" r="20" fill="none" stroke-width="4" stroke-miterlimit="10" ng-style="lxProgress.getCircularProgressValue()">\n' +
+    '            <g transform="translate(50 50)">\n' +
+    '                <g class="progress-circular__g">\n' +
+    '                    <circle class="progress-circular__path" cx="0" cy="0" r="20" fill="none" stroke-width="4" stroke-miterlimit="10" ng-style="lxProgress.getCircularProgressValue()"></circle>\n' +
+    '                </g>\n' +
+    '            </g>\n' +
     '        </svg>\n' +
     '    </div>\n' +
     '\n' +

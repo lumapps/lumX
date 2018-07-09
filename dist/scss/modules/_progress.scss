@@ -70,20 +70,22 @@
         padding-top: 100%;
     }
 }
-    
+
     // Progress circular: svg
     .progress-circular__svg {
         @include position(absolute, 0 0 0 0);
         @include size(100%);
         margin: auto;
+    }
 
+    // Progress ciruclar: g
+    .progress-circular__g {
         .progress-container--determinate & {
             @include transform(rotate(-90deg));
         }
 
         .progress-container--indeterminate & {
             @include animation(lx-progress-circular-rotate 2s linear infinite);
-            @include transform-origin(center center);
         }
     }
 
