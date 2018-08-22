@@ -161,7 +161,7 @@
             var velocityProperties;
             var velocityEasing;
 
-            if (scrollMask) {
+            if (!lxDropdown.hover && angular.isDefined(scrollMask)) {
                 scrollMask.remove();
             }
             if (angular.isFunction(enableBodyScroll)) {
@@ -395,10 +395,12 @@
 
             LxDepthService.register();
             
-            scrollMask.css('z-index', LxDepthService.getDepth()).appendTo('body');
+            if (!lxDropdown.hover) {
+                scrollMask.css('z-index', LxDepthService.getDepth()).appendTo('body');
             
-            // An action outside the dropdown triggers the close function.
-            scrollMask.on('click wheel touchmove ontouchstart', closeDropdownMenu);
+                // An action outside the dropdown triggers the close function.
+                scrollMask.on('click wheel touchmove ontouchstart', closeDropdownMenu);
+            }
 
             angular.element(window).on('resize', initDropdownPosition);
 
