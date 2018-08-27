@@ -38,10 +38,10 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
+    "@mdi/font": "^2.6.95",
     "angular": "latest",
     "bourbon": "~4.2.7",
     "jquery": "latest",
-    "mdi": "2.0.46",
     "moment": "latest",
     "sass-mq": "^3.3.2",
     "velocity-animate": "latest"
