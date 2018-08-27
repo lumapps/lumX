@@ -52,7 +52,7 @@ var paths = {
         'node_modules/velocity-animate/**/*',
         'node_modules/moment/**/*',
         'node_modules/bourbon/**/*',
-        'node_modules/mdi/**/*',
+        'node_modules/@mdi/font/**/*',
         'node_modules/sass-mq/**/*',
     ]
 };
@@ -102,14 +102,14 @@ gulp.task('scss', function()
         .pipe(plugins.plumber())
         .pipe(plugins.sass(
         {
-            includePaths: ['node_modules/bourbon/app/assets/stylesheets/', 'node_modules/mdi/scss/', 'node_modules/sass-mq/']
+            includePaths: ['node_modules/bourbon/app/assets/stylesheets/', 'node_modules/@mdi/font/scss/', 'node_modules/sass-mq/']
         }))
         .pipe(gulp.dest('build'));
 });
 
 gulp.task('fonts', function()
 {
-    return gulp.src('node_modules/mdi/fonts/**')
+    return gulp.src('node_modules/@mdi/font/fonts/**')
         .pipe(plugins.plumber())
         .pipe(gulp.dest('build/fonts'));
 });
@@ -172,7 +172,7 @@ gulp.task('dist:css', ['scss:paths'], function()
         .pipe(plugins.rename('lumx.scss'))
         .pipe(plugins.sass(
         {
-            includePaths: ['node_modules/bourbon/app/assets/stylesheets/', 'node_modules/mdi/scss/', 'node_modules/sass-mq/']
+            includePaths: ['node_modules/bourbon/app/assets/stylesheets/', 'node_modules/@mdi/font/scss/', 'node_modules/sass-mq/']
         }))
         .pipe(plugins.replace(/\.\.\/fonts/g, './fonts'))
         .pipe(plugins.cleanCss(
@@ -185,7 +185,7 @@ gulp.task('dist:css', ['scss:paths'], function()
 
 gulp.task('dist:fonts', function()
 {
-    return gulp.src('node_modules/mdi/fonts/**')
+    return gulp.src('node_modules/@mdi/font/fonts/**')
         .pipe(gulp.dest('dist/fonts'));
 });
 
