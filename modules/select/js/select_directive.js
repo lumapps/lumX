@@ -68,6 +68,7 @@
                 helperMessage: '@?lxHelperMessage',
                 label: '@?lxLabel',
                 loading: '=?lxLoading',
+                max: '=?lxMax',
                 modelToSelection: '&?lxModelToSelection',
                 multiple: '=?lxMultiple',
                 ngChange: '&?',
@@ -776,6 +777,15 @@
             }
         }
 
+        function isMaxSelected() {
+            if (lxSelect.multiple && angular.isDefined(lxSelect.max))
+            {
+                return lxSelect.ngModel.length >= parseInt(lxSelect.max, 10);
+            }
+
+            return false;
+        }
+
         /**
          * Handle a key press event
          *
@@ -844,9 +854,17 @@
         {
             cb = cb || angular.noop;
 
-            if (lxSelect.multiple && angular.isUndefined(lxSelect.ngModel))
+            if (lxSelect.multiple)
             {
-                lxSelect.ngModel = [];
+                if (angular.isUndefined(lxSelect.ngModel)) {
+                    lxSelect.ngModel = [];
+                }
+
+                if (isMaxSelected()) {
+                    cb();
+
+                    return;
+                }
             }
 
             if (angular.isDefined(lxSelect.selectionToModel))
@@ -916,7 +934,7 @@
             if (lxSelect.multiple && !lxSelect.autocomplete && angular.isDefined(evt)) {
                 evt.stopPropagation();
             }
-            
+
             if (lxSelect.areChoicesOpened() && lxSelect.multiple) {
                 var dropdownElement = angular.element(angular.element(evt.target).closest('.dropdown-menu--is-open')[0]);
                 // If the dropdown element is scrollable, fix the content div height to keep the current scroll state.
@@ -1021,7 +1039,7 @@
                             (lxSelect.ngModel.length === 0 || lxSelect.multiple)) {
                             $element.find('.lx-select-selected__filter input').focus();
                         }
-                        
+
                         if (angular.isFunction(cb)) {
                             $timeout(cb);
                         }
@@ -1044,7 +1062,7 @@
                     (lxSelect.ngModel.length === 0 || lxSelect.multiple)) {
                     $element.find('.lx-select-selected__filter input').focus();
                 }
-                
+
                 if (angular.isFunction(cb)) {
                     $timeout(cb);
                 }
@@ -1170,6 +1188,7 @@
         lxSelect.isMatchingPath = isMatchingPath;
         lxSelect.isPaneToggled = isPaneToggled;
         lxSelect.isSelected = isSelected;
+        lxSelect.isMaxSelected = isMaxSelected;
         lxSelect.keyEvent = keyEvent;
         lxSelect.registerChoiceTemplate = registerChoiceTemplate;
         lxSelect.registerSelectedTemplate = registerSelectedTemplate;

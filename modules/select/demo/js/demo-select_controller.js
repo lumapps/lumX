@@ -315,6 +315,7 @@
         vm.selectModel = {
             selectedPerson: undefined,
             selectedPeople: [vm.selectPeople[2], vm.selectPeople[4]],
+            selectedPeopleMax: [vm.selectPeople[3], vm.selectPeople[5]],
             selectedPeopleSections: [],
             selectedPeopleMultipane: undefined,
             selectedPeopleMultipaneMultiple: [],
