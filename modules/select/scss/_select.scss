@@ -450,13 +450,22 @@
     .lx-select-choices--is-multiple.lx-select-choices--default-style .lx-select-choices__choice {
         &:before {
             @include mdi;
-            @include mdi-icon('checkbox-blank-outline');
             @include size(24px);
+            @include mdi-icon('checkbox-blank-outline');
             margin-right: $base-spacing-unit * 2;
             @include font-size(18px);
             color: $black-2;
             line-height: 24px;
             text-align: center;
+        }
+
+        &.lx-select-choices__choice--is-disabled {
+            cursor: not-allowed;
+            color: $black-3;
+
+            &:before {
+                color: $black-3;
+            }
         }
 
         &.lx-select-choices__choice--is-selected {
