@@ -2,7 +2,7 @@
 
 [![Join the chat at https://gitter.im/lumapps/lumX](https://badges.gitter.im/lumapps/lumX.svg)](https://gitter.im/lumapps/lumX?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-The first responsive front-end framework based on [AngularJS][angular] & [Google Material Design specifications][material]. *lumX* will help you design your applications faster and more easily. We followed Google Material Design recommendations to bring the best experience to your users.
+The first responsive front-end framework based on [AngularJS][angularjs] & [Google Material Design specifications][material]. *lumX* will help you design your applications faster and more easily. We followed Google Material Design recommendations to bring the best experience to your users.
 
 ## Quick start
 
@@ -46,10 +46,10 @@ Please refer to our [contributing guidelines](CONTRIBUTING.md). The roadmap is a
 
 ## Copyright and license
 
-Code and documentation copyright 2014 LumApps. Code released under the [MIT license](LICENSE.md).
+Code and documentation copyright 2018 LumApps. Code released under the [MIT license](LICENSE.md).
 
 
-[angular]: https://angularjs.org/
+[angularjs]: https://angularjs.org/
 [gae]: https://cloud.google.com/appengine/
 [gaepython]: https://cloud.google.com/appengine/downloads
 [gulp]: http://gulpjs.com/
