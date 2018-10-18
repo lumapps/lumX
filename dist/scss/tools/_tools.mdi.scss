@@ -15,3 +15,8 @@
 @mixin mdi-icon($icon) {
     content: mdi($icon);
 }
+
+// mdi backward
+.mdi-youtube-play {
+    @extend .mdi-youtube;
+}

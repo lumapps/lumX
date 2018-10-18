@@ -1,5 +1,5 @@
 /*
- LumX v1.7.36
+ LumX v1.7.37
  (c) 2014-2018 LumApps http://ui.lumapps.com
  License: MIT
 */
@@ -6614,6 +6614,7 @@
                 icon: '@?lxIcon',
                 label: '@lxLabel',
                 ngDisabled: '=?',
+                hasPlaceholder: '=?lxHasPlaceholder',
                 theme: '@?lxTheme',
                 valid: '=?lxValid'
             },
@@ -7059,10 +7060,10 @@ angular.module("lumx.file-input").run(['$templateCache', function(a) { a.put('fi
 	 }]);
 angular.module("lumx.text-field").run(['$templateCache', function(a) { a.put('text-field.html', '<div class="text-field"\n' +
     '     ng-class="{ \'text-field--error\': lxTextField.error,\n' +
-    '                 \'text-field--fixed-label\': lxTextField.fixedLabel,\n' +
+    '                 \'text-field--fixed-label\': lxTextField.fixedLabel && !lxTextField.hasPlaceholder,\n' +
     '                 \'text-field--has-icon\': lxTextField.icon,\n' +
     '                 \'text-field--has-value\': lxTextField.hasValue(),\n' +
-    '                 \'text-field--is-active\': lxTextField.isActive,\n' +
+    '                 \'text-field--is-active\': lxTextField.isActive || lxTextField.hasPlaceholder,\n' +
     '                 \'text-field--is-disabled\': lxTextField.ngDisabled,\n' +
     '                 \'text-field--is-focus\': lxTextField.isFocus,\n' +
     '                 \'text-field--theme-light\': !lxTextField.theme || lxTextField.theme === \'light\',\n' +
