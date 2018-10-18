@@ -17,7 +17,8 @@
             {
                 company: 'LumApps',
                 firstName: 'Matthias',
-                lastName: 'Manoukian'
+                lastName: 'Manoukian',
+                empty: ''
             },
             fixed:
             {

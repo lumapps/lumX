@@ -22,6 +22,7 @@
                 icon: '@?lxIcon',
                 label: '@lxLabel',
                 ngDisabled: '=?',
+                hasPlaceholder: '=?lxHasPlaceholder',
                 theme: '@?lxTheme',
                 valid: '=?lxValid'
             },
