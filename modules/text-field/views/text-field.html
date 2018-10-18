@@ -1,9 +1,9 @@
 <div class="text-field"
      ng-class="{ 'text-field--error': lxTextField.error,
-                 'text-field--fixed-label': lxTextField.fixedLabel,
+                 'text-field--fixed-label': lxTextField.fixedLabel && !lxTextField.hasPlaceholder,
                  'text-field--has-icon': lxTextField.icon,
                  'text-field--has-value': lxTextField.hasValue(),
-                 'text-field--is-active': lxTextField.isActive,
+                 'text-field--is-active': lxTextField.isActive || lxTextField.hasPlaceholder,
                  'text-field--is-disabled': lxTextField.ngDisabled,
                  'text-field--is-focus': lxTextField.isFocus,
                  'text-field--theme-light': !lxTextField.theme || lxTextField.theme === 'light',
