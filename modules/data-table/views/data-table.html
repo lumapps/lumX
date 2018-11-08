@@ -1,11 +1,13 @@
 <div class="data-table-container">
     <table class="data-table"
-           ng-class="{ 'data-table--no-border': !lxDataTable.border,
+           ng-class="{ 'data-table--bulk': lxDataTable.bulk,
+                       'data-table--no-border': !lxDataTable.border,
                        'data-table--thumbnail': lxDataTable.thumbnail }">
         <thead>
             <tr ng-class="{ 'data-table__selectable-row': lxDataTable.selectable,
                             'data-table__selectable-row--is-selected': lxDataTable.selectable && lxDataTable.allRowsSelected }">
-                <th ng-if="lxDataTable.thumbnail"></th>
+                <th ng-if="lxDataTable.thumbnail"
+                    ng-click="lxDataTable.toggleAllSelected()"></th>
                 <th ng-click="lxDataTable.toggleAllSelected()"
                     ng-if="lxDataTable.selectable && !lxDataTable.thumbnail"></th>
                 <th ng-class=" { 'data-table__sortable-cell': th.sortable,
