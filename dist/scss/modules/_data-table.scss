@@ -140,11 +140,24 @@
         th:first-child,
         td:first-child {
             width: 24px + $base-spacing-unit * 6;
-            @include data-table-checkbox();
         }
 
+        td:first-child {
+            @include data-table-checkbox();
+        }
+    }
+
+    .data-table.data-table--bulk .data-table__selectable-row {
         th:first-child {
+            @include data-table-checkbox();
             cursor: pointer;
+        }
+    }
+
+    .data-table.data-table--thumbnail.data-table--bulk .data-table__selectable-row {
+        th:first-child {
+            padding-left: 48px;
+            padding-right: 48px;
         }
     }
 
@@ -168,8 +181,13 @@
     }
 
     .data-table:not(.data-table--thumbnail) .data-table__selectable-row--is-selected {
-        th:first-child,
         td:first-child {
+            @include data-table-checkbox-checked();
+        }
+    }
+
+    .data-table.data-table--bulk .data-table__selectable-row--is-selected {
+        th:first-child {
             @include data-table-checkbox-checked();
         }
     }
@@ -193,8 +211,13 @@
     }
 
     .data-table:not(.data-table--thumbnail) .data-table__selectable-row--is-disabled {
-        th:first-child,
         td:first-child {
+            @include data-table-checkbox-disabled();
+        }
+    }
+
+    .data-table.data-table--bulk .data-table__selectable-row--is-disabled {
+        th:first-child {
             @include data-table-checkbox-disabled();
         }
     }

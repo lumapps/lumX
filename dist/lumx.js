@@ -1,5 +1,5 @@
 /*
- LumX v1.7.38
+ LumX v1.7.39
  (c) 2014-2018 LumApps http://ui.lumapps.com
  License: MIT
 */
@@ -712,6 +712,7 @@
             scope:
             {
                 border: '=?lxBorder',
+                bulk: '=?lxBulk',
                 selectable: '=?lxSelectable',
                 thumbnail: '=?lxThumbnail',
                 tbody: '=lxTbody',
@@ -742,6 +743,7 @@
 
         lxDataTable.areAllRowsSelected = areAllRowsSelected;
         lxDataTable.border = angular.isUndefined(lxDataTable.border) ? true : lxDataTable.border;
+        lxDataTable.bulk = angular.isUndefined(lxDataTable.bulk) ? true : lxDataTable.bulk;
         lxDataTable.sort = sort;
         lxDataTable.toggle = toggle;
         lxDataTable.toggleAllSelected = toggleAllSelected;
@@ -921,6 +923,11 @@
 
         function toggleAllSelected()
         {
+            if (!lxDataTable.bulk)
+            {
+                return;
+            }
+
             if (lxDataTable.allRowsSelected)
             {
                 _unselectAll();
@@ -7585,12 +7592,14 @@ angular.module("lumx.icon").run(['$templateCache', function(a) { a.put('icon.htm
 	 }]);
 angular.module("lumx.data-table").run(['$templateCache', function(a) { a.put('data-table.html', '<div class="data-table-container">\n' +
     '    <table class="data-table"\n' +
-    '           ng-class="{ \'data-table--no-border\': !lxDataTable.border,\n' +
+    '           ng-class="{ \'data-table--bulk\': lxDataTable.bulk,\n' +
+    '                       \'data-table--no-border\': !lxDataTable.border,\n' +
     '                       \'data-table--thumbnail\': lxDataTable.thumbnail }">\n' +
     '        <thead>\n' +
     '            <tr ng-class="{ \'data-table__selectable-row\': lxDataTable.selectable,\n' +
     '                            \'data-table__selectable-row--is-selected\': lxDataTable.selectable && lxDataTable.allRowsSelected }">\n' +
-    '                <th ng-if="lxDataTable.thumbnail"></th>\n' +
+    '                <th ng-if="lxDataTable.thumbnail"\n' +
+    '                    ng-click="lxDataTable.toggleAllSelected()"></th>\n' +
     '                <th ng-click="lxDataTable.toggleAllSelected()"\n' +
     '                    ng-if="lxDataTable.selectable && !lxDataTable.thumbnail"></th>\n' +
     '                <th ng-class=" { \'data-table__sortable-cell\': th.sortable,\n' +
