@@ -1,5 +1,5 @@
 /*
- LumX v1.7.37
+ LumX v1.7.38
  (c) 2014-2018 LumApps http://ui.lumapps.com
  License: MIT
 */
@@ -7592,7 +7592,7 @@ angular.module("lumx.data-table").run(['$templateCache', function(a) { a.put('da
     '                            \'data-table__selectable-row--is-selected\': lxDataTable.selectable && lxDataTable.allRowsSelected }">\n' +
     '                <th ng-if="lxDataTable.thumbnail"></th>\n' +
     '                <th ng-click="lxDataTable.toggleAllSelected()"\n' +
-    '                    ng-if="lxDataTable.selectable"></th>\n' +
+    '                    ng-if="lxDataTable.selectable && !lxDataTable.thumbnail"></th>\n' +
     '                <th ng-class=" { \'data-table__sortable-cell\': th.sortable,\n' +
     '                                 \'data-table__sortable-cell--asc\': th.sortable && th.sort === \'asc\',\n' +
     '                                 \'data-table__sortable-cell--desc\': th.sortable && th.sort === \'desc\' }"\n' +
@@ -7611,10 +7611,10 @@ angular.module("lumx.data-table").run(['$templateCache', function(a) { a.put('da
     '                            \'data-table__selectable-row--is-selected\': lxDataTable.selectable && tr.lxDataTableSelected }"\n' +
     '                ng-repeat="tr in lxDataTable.tbody"\n' +
     '                ng-click="lxDataTable.toggle(tr)">\n' +
-    '                <td ng-if="lxDataTable.thumbnail">\n' +
+    '                <td ng-if="lxDataTable.thumbnail" align="center">\n' +
     '                    <div ng-if="lxDataTable.thead[0].format" ng-bind-html="lxDataTable.$sce.trustAsHtml(lxDataTable.thead[0].format(tr))"></div>\n' +
     '                </td>\n' +
-    '                <td ng-if="lxDataTable.selectable"></td>\n' +
+    '                <td ng-if="lxDataTable.selectable && !lxDataTable.thumbnail"></td>\n' +
     '                <td ng-repeat="th in lxDataTable.thead track by $index"\n' +
     '                    ng-if="!lxDataTable.thumbnail || (lxDataTable.thumbnail && $index != 0)">\n' +
     '                    <span ng-if="!th.format">{{ tr[th.name] }}</span>\n' +
@@ -7623,5 +7623,6 @@ angular.module("lumx.data-table").run(['$templateCache', function(a) { a.put('da
     '            </tr>\n' +
     '        </tbody>\n' +
     '    </table>\n' +
-    '</div>');
+    '</div>\n' +
+    '');
 	 }]);
