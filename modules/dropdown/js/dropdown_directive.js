@@ -236,13 +236,16 @@
                     .removeClass('dropdown-menu--is-open')
                     .appendTo($element.find('.dropdown'));
 
-                lxDropdown.isOpen = false;
-
-                if (lxDropdown.escapeClose)
+                $scope.$apply(function()
                 {
-                    LxEventSchedulerService.unregister(idEventScheduler);
-                    idEventScheduler = undefined;
-                }
+                    lxDropdown.isOpen = false;
+
+                    if (lxDropdown.escapeClose)
+                    {
+                        LxEventSchedulerService.unregister(idEventScheduler);
+                        idEventScheduler = undefined;
+                    }
+                });
             }
 
             $rootScope.$broadcast('lx-dropdown__close-end', $element.attr('id'));
@@ -394,10 +397,10 @@
             lxDropdown.isOpen = true;
 
             LxDepthService.register();
-            
+
             if (!lxDropdown.hover) {
                 scrollMask.css('z-index', LxDepthService.getDepth()).appendTo('body');
-            
+
                 // An action outside the dropdown triggers the close function.
                 scrollMask.on('click wheel touchmove ontouchstart', closeDropdownMenu);
             }
