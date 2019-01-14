@@ -8,46 +8,41 @@
 
     function lxButton()
     {
-        var buttonClass;
-
         return {
             restrict: 'E',
             templateUrl: getTemplateUrl,
-            compile: compile,
+            link: link,
             replace: true,
             transclude: true
         };
 
-        function compile(element, attrs)
+        function link(scope, element, attrs)
         {
             setButtonStyle(element, attrs.lxSize, attrs.lxColor, attrs.lxType);
 
-            return function(scope, element, attrs)
+            attrs.$observe('lxSize', function(lxSize)
             {
-                attrs.$observe('lxSize', function(lxSize)
-                {
-                    setButtonStyle(element, lxSize, attrs.lxColor, attrs.lxType);
-                });
+                setButtonStyle(element, lxSize, attrs.lxColor, attrs.lxType);
+            });
 
-                attrs.$observe('lxColor', function(lxColor)
-                {
-                    setButtonStyle(element, attrs.lxSize, lxColor, attrs.lxType);
-                });
+            attrs.$observe('lxColor', function(lxColor)
+            {
+                setButtonStyle(element, attrs.lxSize, lxColor, attrs.lxType);
+            });
 
-                attrs.$observe('lxType', function(lxType)
-                {
-                    setButtonStyle(element, attrs.lxSize, attrs.lxColor, lxType);
-                });
+            attrs.$observe('lxType', function(lxType)
+            {
+                setButtonStyle(element, attrs.lxSize, attrs.lxColor, lxType);
+            });
 
-                element.on('click', function(event)
+            element.on('click', function(event)
+            {
+                if (attrs.disabled === true)
                 {
-                    if (attrs.disabled === true)
-                    {
-                        event.preventDefault();
-                        event.stopImmediatePropagation();
-                    }
-                });
-            };
+                    event.preventDefault();
+                    event.stopImmediatePropagation();
+                }
+            });
         }
 
         function getTemplateUrl(element, attrs)
@@ -62,16 +57,19 @@
 
         function setButtonStyle(element, size, color, type)
         {
-            var buttonBase = 'btn';
-            var buttonSize = angular.isDefined(size) ? size : 'm';
-            var buttonColor = angular.isDefined(color) ? color : 'primary';
-            var buttonType = angular.isDefined(type) ? type : 'raised';
+            element.removeClass('btn');
+            element.removeClass (function (index, className) {
+                return (className.match (/(^|\s)btn--\S+/g) || []).join(' ');
+            });
 
-            element.removeClass(buttonClass);
+            var buttonSize = angular.isDefined(size) ? 'btn--' + size : 'btn--m';
+            var buttonColor = angular.isDefined(color) ? 'btn--' + color : 'btn--primary';
+            var buttonType = angular.isDefined(type) ? 'btn--' + type : 'btn--raised';
 
-            buttonClass = buttonBase + ' btn--' + buttonSize + ' btn--' + buttonColor + ' btn--' + buttonType;
-
-            element.addClass(buttonClass);
+            element.addClass('btn');
+            element.addClass(buttonSize);
+            element.addClass(buttonColor);
+            element.addClass(buttonType);
         }
     }
 })();
