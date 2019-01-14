@@ -2,33 +2,6 @@
 //    #OBJECTS-DATA-TABLE
 //\*------------------------------------*/
 
-// Data table vars
-@mixin data-table-checkbox() {
-    &:before {
-        @include mdi;
-        @include mdi-icon('checkbox-blank-outline');
-        @include font-size(24px);
-        line-height: 24px;
-    }
-}
-
-@mixin data-table-checkbox-checked() {
-    &:before {
-        @include mdi-icon('checkbox-marked');
-        color: $accent;
-    }
-}
-
-@mixin data-table-checkbox-disabled() {
-    &:before {
-        color: $black-3;
-    }
-}
-
-
-
-
-
 // Data table container
 .data-table-container {
     position: relative;
@@ -90,9 +63,8 @@
     &.data-table--thumbnail {
         th:first-child,
         td:first-child {
-            width: 40px * 3;
-            padding-left: 40px;
-            padding-right: 40px;
+            width: 88px;
+            padding: 0;
             border-bottom: none;
         }
     }
@@ -102,7 +74,6 @@
         @include font-size(12px);
         font-weight: 400;
         color: $black-2;
-        text-align: left;
         white-space: nowrap;
 
         i {
@@ -122,60 +93,67 @@
     }
 }
 
-    // Data table selectable row
-    .data-table__selectable-row {
+    // Data table activable row
+    .data-table__activable-row {
         td {
             cursor: pointer;
         }
 
-        &:not(.data-table__selectable-row--is-selected):not(.data-table__selectable-row--is-disabled):hover td {
+        &:not(.data-table__selectable-row--is-disabled):hover td {
             background-color: $grey-200;
         }
     }
 
-    .data-table:not(.data-table--thumbnail) .data-table__selectable-row {
+    // Data table selectable row
+    .data-table__selectable-row {
         th:first-child,
         td:first-child {
-            width: 24px + $base-spacing-unit * 6;
-            @include data-table-checkbox();
+            width: 88px;
+            padding: 0;
+
+            i {
+                margin: 0;
+            }
         }
 
-        th:first-child {
-            cursor: pointer;
+    .data-table.data-table--thumbnail .data-table__selectable-row:not(.data-table__selectable-row--is-disabled):not(.data-table__selectable-row--is-selected) {
+        td:first-child {
+            .data-table__checkbox {
+                display: none;
+            }
+
+            .data-table__thumbnail {
+                display: block;
+            }
+        }
+
+        &:hover td:first-child {
+            .data-table__checkbox {
+                display: block;
+            }
+
+            .data-table__thumbnail {
+                display: none;
+            }
         }
     }
 
-    .data-table.data-table--thumbnail .data-table__selectable-row {
-        th:nth-child(2),
-        td:nth-child(2) {
-            width: 24px + $base-spacing-unit * 3;
-            padding-right: $base-spacing-unit * 3;
-            @include data-table-checkbox();
-        }
-
-        th:nth-child(2) {
-            cursor: pointer;
-        }
-    }
-
-    // Data table selectable row (selected)
-    .data-table__selectable-row--is-selected {
+    // Data table activable row (activated)
+    .data-table__activable-row--is-activated {
         td {
             background-color: $grey-100;
         }
     }
 
-    .data-table:not(.data-table--thumbnail) .data-table__selectable-row--is-selected {
-        th:first-child,
-        td:first-child {
-            @include data-table-checkbox-checked();
-        }
-    }
-
     .data-table.data-table--thumbnail .data-table__selectable-row--is-selected {
-        th:nth-child(2),
-        td:nth-child(2) {
-            @include data-table-checkbox-checked();
+        td:first-child {
+            .data-table__checkbox {
+                display: block;
+            }
+
+            .data-table__thumbnail {
+                display: none;
+            }
         }
     }
 
@@ -183,20 +161,6 @@
     .data-table__selectable-row--is-disabled {
         td {
             cursor: not-allowed;
-        }
-    }
-
-    .data-table:not(.data-table--thumbnail) .data-table__selectable-row--is-disabled {
-        th:first-child,
-        td:first-child {
-            @include data-table-checkbox-disabled();
-        }
-    }
-
-    .data-table.data-table--thumbnail .data-table__selectable-row--is-disabled {
-        th:nth-child(2),
-        td:nth-child(2) {
-            @include data-table-checkbox-disabled();
         }
     }
 

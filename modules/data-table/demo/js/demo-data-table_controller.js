@@ -41,7 +41,7 @@
             name: 'image',
             format: function(row)
             {
-                return '<img src="' + row.image + '" width="40" height="40">';
+                return '<img src="' + row.image + '" width="36" height="36">';
             }
         });
         vm.dataTableTbody = [
