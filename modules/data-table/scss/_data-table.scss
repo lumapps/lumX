@@ -70,6 +70,7 @@
 
     th {
         height: 56px;
+        border-bottom: 1px solid #e0e0e0;
         @include font-size(12px);
         font-weight: 400;
         color: $black-2;
