@@ -42,7 +42,6 @@
 
     th, td {
         padding-right: 56px;
-        border-bottom: 1px solid #e0e0e0;
 
         &:first-child {
             padding-left: $base-spacing-unit * 3;
@@ -54,9 +53,9 @@
         }
     }
 
-    &.data-table--no-border {
+    &.data-table--border {
         td {
-            border-bottom: none;
+            border-bottom: 1px solid #e0e0e0;
         }
     }
 

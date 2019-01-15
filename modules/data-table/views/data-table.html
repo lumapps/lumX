@@ -1,6 +1,7 @@
 <div class="data-table-container">
     <table class="data-table"
-           ng-class="{ 'data-table--no-border': !lxDataTable.border,
+           ng-class="{ 'data-table--bulk': lxDataTable.bulk,
+                       'data-table--border': lxDataTable.border,
                        'data-table--thumbnail': lxDataTable.thumbnail }">
         <thead>
             <tr ng-class="{ 'data-table__selectable-row': lxDataTable.selectable,
