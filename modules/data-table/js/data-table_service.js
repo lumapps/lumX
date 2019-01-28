@@ -16,6 +16,8 @@
         service.selectAll = selectAll;
         service.unselect = unselect;
         service.unselectAll = unselectAll;
+        service.activate = activate;
+        service.deactivate = deactivate;
 
         ////////////
 
