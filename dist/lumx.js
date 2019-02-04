@@ -1,6 +1,6 @@
 /*
- LumX v1.7.41
- (c) 2014-2018 LumApps http://ui.lumapps.com
+ LumX v1.7.42
+ (c) 2014-2019 LumApps http://ui.lumapps.com
  License: MIT
 */
 (function()
@@ -481,46 +481,41 @@
 
     function lxButton()
     {
-        var buttonClass;
-
         return {
             restrict: 'E',
             templateUrl: getTemplateUrl,
-            compile: compile,
+            link: link,
             replace: true,
             transclude: true
         };
 
-        function compile(element, attrs)
+        function link(scope, element, attrs)
         {
             setButtonStyle(element, attrs.lxSize, attrs.lxColor, attrs.lxType);
 
-            return function(scope, element, attrs)
+            attrs.$observe('lxSize', function(lxSize)
             {
-                attrs.$observe('lxSize', function(lxSize)
-                {
-                    setButtonStyle(element, lxSize, attrs.lxColor, attrs.lxType);
-                });
+                setButtonStyle(element, lxSize, attrs.lxColor, attrs.lxType);
+            });
 
-                attrs.$observe('lxColor', function(lxColor)
-                {
-                    setButtonStyle(element, attrs.lxSize, lxColor, attrs.lxType);
-                });
+            attrs.$observe('lxColor', function(lxColor)
+            {
+                setButtonStyle(element, attrs.lxSize, lxColor, attrs.lxType);
+            });
 
-                attrs.$observe('lxType', function(lxType)
-                {
-                    setButtonStyle(element, attrs.lxSize, attrs.lxColor, lxType);
-                });
+            attrs.$observe('lxType', function(lxType)
+            {
+                setButtonStyle(element, attrs.lxSize, attrs.lxColor, lxType);
+            });
 
-                element.on('click', function(event)
+            element.on('click', function(event)
+            {
+                if (attrs.disabled === true)
                 {
-                    if (attrs.disabled === true)
-                    {
-                        event.preventDefault();
-                        event.stopImmediatePropagation();
-                    }
-                });
-            };
+                    event.preventDefault();
+                    event.stopImmediatePropagation();
+                }
+            });
         }
 
         function getTemplateUrl(element, attrs)
@@ -535,19 +530,23 @@
 
         function setButtonStyle(element, size, color, type)
         {
-            var buttonBase = 'btn';
-            var buttonSize = angular.isDefined(size) ? size : 'm';
-            var buttonColor = angular.isDefined(color) ? color : 'primary';
-            var buttonType = angular.isDefined(type) ? type : 'raised';
+            element.removeClass('btn');
+            element.removeClass (function (index, className) {
+                return (className.match (/(^|\s)btn--\S+/g) || []).join(' ');
+            });
 
-            element.removeClass(buttonClass);
+            var buttonSize = angular.isDefined(size) ? 'btn--' + size : 'btn--m';
+            var buttonColor = angular.isDefined(color) ? 'btn--' + color : 'btn--primary';
+            var buttonType = angular.isDefined(type) ? 'btn--' + type : 'btn--raised';
 
-            buttonClass = buttonBase + ' btn--' + buttonSize + ' btn--' + buttonColor + ' btn--' + buttonType;
-
-            element.addClass(buttonClass);
+            element.addClass('btn');
+            element.addClass(buttonSize);
+            element.addClass(buttonColor);
+            element.addClass(buttonType);
         }
     }
 })();
+
 (function()
 {
     'use strict';
@@ -3724,396 +3723,6 @@
     'use strict';
 
     angular
-        .module('lumx.search-filter')
-        .filter('lxSearchHighlight', lxSearchHighlight)
-        .directive('lxSearchFilter', lxSearchFilter);
-
-    lxSearchHighlight.$inject = ['$sce'];
-
-    function lxSearchHighlight($sce)
-    {
-        function escapeRegexp(queryToEscape)
-        {
-            return queryToEscape.replace(/([.?*+^$[\]\\(){}|-])/g, '\\$1');
-        }
-
-        return function (matchItem, query, icon)
-        {
-            var string = '';
-
-            if (icon)
-            {
-                string += '<i class="mdi mdi-' + icon + '"></i>';
-            }
-
-            string += query && matchItem ? matchItem.replace(new RegExp(escapeRegexp(query), 'gi'), '<strong>$&</strong>') : matchItem;
-
-            return $sce.trustAsHtml(string);
-        };
-    }
-
-    function lxSearchFilter()
-    {
-        return {
-            restrict: 'E',
-            templateUrl: 'search-filter.html',
-            scope:
-            {
-                autocomplete: '&?lxAutocomplete',
-                closed: '=?lxClosed',
-                color: '@?lxColor',
-                icon: '@?lxIcon',
-                onInit: '&?lxOnInit',
-                onSelect: '=?lxOnSelect',
-                searchOnFocus: '=?lxSearchOnFocus',
-                theme: '@?lxTheme',
-                width: '@?lxWidth'
-            },
-            link: link,
-            controller: LxSearchFilterController,
-            controllerAs: 'lxSearchFilter',
-            bindToController: true,
-            replace: true,
-            transclude: true
-        };
-
-        function link(scope, element, attrs, ctrl, transclude)
-        {
-            var input;
-
-            attrs.$observe('lxWidth', function(newWidth)
-            {
-                if (angular.isDefined(scope.lxSearchFilter.closed) && scope.lxSearchFilter.closed)
-                {
-                    element.find('.search-filter__container').css('width', newWidth);
-                }
-            });
-
-            transclude(function()
-            {
-                input = element.find('input');
-
-                ctrl.setInput(input);
-                ctrl.setModel(input.data('$ngModelController'));
-
-                input.on('focus', ctrl.focusInput);
-                input.on('blur', ctrl.blurInput);
-                input.on('keydown', ctrl.keyEvent);
-            });
-
-            scope.$on('$destroy', function()
-            {
-                input.off();
-            });
-
-
-            if (angular.isDefined(scope.lxSearchFilter.onInit)) {
-                scope.lxSearchFilter.onInit()(scope.lxSearchFilter.dropdownId);
-            }
-        }
-    }
-
-    LxSearchFilterController.$inject = ['$element', '$scope', '$timeout', 'LxDropdownService', 'LxNotificationService', 'LxUtils'];
-
-    function LxSearchFilterController($element, $scope, $timeout, LxDropdownService, LxNotificationService, LxUtils)
-    {
-        var lxSearchFilter = this;
-        var debouncedAutocomplete;
-        var input;
-        var itemSelected = false;
-
-        lxSearchFilter.blurInput = blurInput;
-        lxSearchFilter.clearInput = clearInput;
-        lxSearchFilter.focusInput = focusInput;
-        lxSearchFilter.getClass = getClass;
-        lxSearchFilter.keyEvent = keyEvent;
-        lxSearchFilter.openInput = openInput;
-        lxSearchFilter.selectItem = selectItem;
-        lxSearchFilter.setInput = setInput;
-        lxSearchFilter.setModel = setModel;
-
-        lxSearchFilter.activeChoiceIndex = -1;
-        lxSearchFilter.color = angular.isDefined(lxSearchFilter.color) ? lxSearchFilter.color : 'black';
-        lxSearchFilter.dropdownId = LxUtils.generateUUID();
-        lxSearchFilter.theme = angular.isDefined(lxSearchFilter.theme) ? lxSearchFilter.theme : 'light';
-
-        ////////////
-
-        function blurInput()
-        {
-            if (angular.isDefined(lxSearchFilter.closed) && lxSearchFilter.closed && !input.val())
-            {
-                $element.velocity(
-                {
-                    width: 40
-                },
-                {
-                    duration: 400,
-                    easing: 'easeOutQuint',
-                    queue: false
-                });
-            }
-
-            if (!input.val())
-            {
-                $timeout(function() {
-                    lxSearchFilter.modelController.$setViewValue(undefined);
-                }, 500);
-            }
-        }
-
-        function clearInput()
-        {
-            lxSearchFilter.modelController.$setViewValue(undefined);
-            lxSearchFilter.modelController.$render();
-
-            // Temporarily disabling search on focus since we never want to trigger it when clearing the input.
-            var searchOnFocus = lxSearchFilter.searchOnFocus;
-            lxSearchFilter.searchOnFocus = false;
-
-            input.focus();
-
-            lxSearchFilter.searchOnFocus = searchOnFocus;
-        }
-
-        function focusInput()
-        {
-            if (!lxSearchFilter.searchOnFocus)
-            {
-                return;
-            }
-
-            updateAutocomplete(lxSearchFilter.modelController.$viewValue, true);
-        }
-
-        function getClass()
-        {
-            var searchFilterClass = [];
-
-            if (angular.isUndefined(lxSearchFilter.closed) || !lxSearchFilter.closed)
-            {
-                searchFilterClass.push('search-filter--opened-mode');
-            }
-
-            if (angular.isDefined(lxSearchFilter.closed) && lxSearchFilter.closed)
-            {
-                searchFilterClass.push('search-filter--closed-mode');
-            }
-
-            if (input.val())
-            {
-                searchFilterClass.push('search-filter--has-clear-button');
-            }
-
-            if (angular.isDefined(lxSearchFilter.color))
-            {
-                searchFilterClass.push('search-filter--' + lxSearchFilter.color);
-            }
-
-            if (angular.isDefined(lxSearchFilter.theme))
-            {
-                searchFilterClass.push('search-filter--theme-' + lxSearchFilter.theme);
-            }
-
-            if (angular.isFunction(lxSearchFilter.autocomplete))
-            {
-                searchFilterClass.push('search-filter--autocomplete');
-            }
-
-            if (LxDropdownService.isOpen(lxSearchFilter.dropdownId))
-            {
-                searchFilterClass.push('search-filter--is-open');
-            }
-
-            return searchFilterClass;
-        }
-
-        function keyEvent(_event)
-        {
-            if (!angular.isFunction(lxSearchFilter.autocomplete))
-            {
-                return;
-            }
-
-            if (!LxDropdownService.isOpen(lxSearchFilter.dropdownId))
-            {
-                lxSearchFilter.activeChoiceIndex = -1;
-            }
-
-            switch (_event.keyCode) {
-                case 13:
-                    keySelect();
-                    if (lxSearchFilter.activeChoiceIndex > -1)
-                    {
-                        _event.preventDefault();
-                    }
-                    break;
-
-                case 38:
-                    keyUp();
-                    _event.preventDefault();
-                    break;
-
-                case 40:
-                    keyDown();
-                    _event.preventDefault();
-                    break;
-            }
-
-            $scope.$apply();
-        }
-
-        function keyDown()
-        {
-            if (lxSearchFilter.autocompleteList.length)
-            {
-                lxSearchFilter.activeChoiceIndex += 1;
-
-                if (lxSearchFilter.activeChoiceIndex >= lxSearchFilter.autocompleteList.length)
-                {
-                    lxSearchFilter.activeChoiceIndex = 0;
-                }
-            }
-        }
-
-        function keySelect()
-        {
-            if (!lxSearchFilter.autocompleteList || lxSearchFilter.activeChoiceIndex === -1)
-            {
-                return;
-            }
-
-            selectItem(lxSearchFilter.autocompleteList[lxSearchFilter.activeChoiceIndex]);
-        }
-
-        function keyUp()
-        {
-            if (lxSearchFilter.autocompleteList.length)
-            {
-                lxSearchFilter.activeChoiceIndex -= 1;
-
-                if (lxSearchFilter.activeChoiceIndex < 0)
-                {
-                    lxSearchFilter.activeChoiceIndex = lxSearchFilter.autocompleteList.length - 1;
-                }
-            }
-        }
-
-        function openDropdown()
-        {
-            LxDropdownService.open(lxSearchFilter.dropdownId, $element);
-        }
-
-        function closeDropdown()
-        {
-            LxDropdownService.close(lxSearchFilter.dropdownId);
-        }
-
-        function onAutocompleteSuccess(autocompleteList)
-        {
-            lxSearchFilter.autocompleteList = autocompleteList;
-
-            (lxSearchFilter.autocompleteList.length) ? openDropdown() : closeDropdown();
-            lxSearchFilter.isLoading = false;
-        }
-
-        function onAutocompleteError(error)
-        {
-            LxNotificationService.error(error);
-            lxSearchFilter.isLoading = false;
-        }
-
-        function openInput()
-        {
-            if (angular.isDefined(lxSearchFilter.closed) && lxSearchFilter.closed)
-            {
-                $element.velocity(
-                {
-                    width: angular.isDefined(lxSearchFilter.width) ? parseInt(lxSearchFilter.width) : 240
-                },
-                {
-                    duration: 400,
-                    easing: 'easeOutQuint',
-                    queue: false,
-                    complete: function()
-                    {
-                        input.focus();
-                    }
-                });
-            }
-            else
-            {
-                input.focus();
-            }
-        }
-
-        function selectItem(_item)
-        {
-            itemSelected = true;
-
-            closeDropdown();
-
-            lxSearchFilter.modelController.$setViewValue(_item);
-            lxSearchFilter.modelController.$render();
-
-            if (angular.isFunction(lxSearchFilter.onSelect))
-            {
-                lxSearchFilter.onSelect(_item);
-            }
-        }
-
-        function setInput(_input)
-        {
-            input = _input;
-        }
-
-        function setModel(_modelController)
-        {
-            lxSearchFilter.modelController = _modelController;
-
-            if (angular.isFunction(lxSearchFilter.autocomplete) && angular.isFunction(lxSearchFilter.autocomplete()))
-            {
-                debouncedAutocomplete = LxUtils.debounce(function()
-                {
-                    lxSearchFilter.isLoading = true;
-                    (lxSearchFilter.autocomplete()).apply(this, arguments);
-                }, 500);
-                lxSearchFilter.modelController.$parsers.push(updateAutocomplete);
-            }
-        }
-
-        function updateAutocomplete(_newValue, _immediate)
-        {
-            if ((_newValue || (angular.isUndefined(_newValue) && lxSearchFilter.searchOnFocus)) && !itemSelected)
-            {
-                if (_immediate)
-                {
-                    lxSearchFilter.isLoading = true;
-                    (lxSearchFilter.autocomplete())(_newValue, onAutocompleteSuccess, onAutocompleteError);
-                }
-                else
-                {
-                    debouncedAutocomplete(_newValue, onAutocompleteSuccess, onAutocompleteError);
-                }
-            }
-            else
-            {
-                debouncedAutocomplete.clear();
-                closeDropdown();
-            }
-
-            itemSelected = false;
-
-            return _newValue;
-        }
-    }
-})();
-
-(function()
-{
-    'use strict';
-
-    angular
         .module('lumx.select')
         .filter('filterChoices', filterChoices)
         .directive('lxSelect', lxSelect)
@@ -5567,6 +5176,396 @@
     'use strict';
 
     angular
+        .module('lumx.search-filter')
+        .filter('lxSearchHighlight', lxSearchHighlight)
+        .directive('lxSearchFilter', lxSearchFilter);
+
+    lxSearchHighlight.$inject = ['$sce'];
+
+    function lxSearchHighlight($sce)
+    {
+        function escapeRegexp(queryToEscape)
+        {
+            return queryToEscape.replace(/([.?*+^$[\]\\(){}|-])/g, '\\$1');
+        }
+
+        return function (matchItem, query, icon)
+        {
+            var string = '';
+
+            if (icon)
+            {
+                string += '<i class="mdi mdi-' + icon + '"></i>';
+            }
+
+            string += query && matchItem ? matchItem.replace(new RegExp(escapeRegexp(query), 'gi'), '<strong>$&</strong>') : matchItem;
+
+            return $sce.trustAsHtml(string);
+        };
+    }
+
+    function lxSearchFilter()
+    {
+        return {
+            restrict: 'E',
+            templateUrl: 'search-filter.html',
+            scope:
+            {
+                autocomplete: '&?lxAutocomplete',
+                closed: '=?lxClosed',
+                color: '@?lxColor',
+                icon: '@?lxIcon',
+                onInit: '&?lxOnInit',
+                onSelect: '=?lxOnSelect',
+                searchOnFocus: '=?lxSearchOnFocus',
+                theme: '@?lxTheme',
+                width: '@?lxWidth'
+            },
+            link: link,
+            controller: LxSearchFilterController,
+            controllerAs: 'lxSearchFilter',
+            bindToController: true,
+            replace: true,
+            transclude: true
+        };
+
+        function link(scope, element, attrs, ctrl, transclude)
+        {
+            var input;
+
+            attrs.$observe('lxWidth', function(newWidth)
+            {
+                if (angular.isDefined(scope.lxSearchFilter.closed) && scope.lxSearchFilter.closed)
+                {
+                    element.find('.search-filter__container').css('width', newWidth);
+                }
+            });
+
+            transclude(function()
+            {
+                input = element.find('input');
+
+                ctrl.setInput(input);
+                ctrl.setModel(input.data('$ngModelController'));
+
+                input.on('focus', ctrl.focusInput);
+                input.on('blur', ctrl.blurInput);
+                input.on('keydown', ctrl.keyEvent);
+            });
+
+            scope.$on('$destroy', function()
+            {
+                input.off();
+            });
+
+
+            if (angular.isDefined(scope.lxSearchFilter.onInit)) {
+                scope.lxSearchFilter.onInit()(scope.lxSearchFilter.dropdownId);
+            }
+        }
+    }
+
+    LxSearchFilterController.$inject = ['$element', '$scope', '$timeout', 'LxDropdownService', 'LxNotificationService', 'LxUtils'];
+
+    function LxSearchFilterController($element, $scope, $timeout, LxDropdownService, LxNotificationService, LxUtils)
+    {
+        var lxSearchFilter = this;
+        var debouncedAutocomplete;
+        var input;
+        var itemSelected = false;
+
+        lxSearchFilter.blurInput = blurInput;
+        lxSearchFilter.clearInput = clearInput;
+        lxSearchFilter.focusInput = focusInput;
+        lxSearchFilter.getClass = getClass;
+        lxSearchFilter.keyEvent = keyEvent;
+        lxSearchFilter.openInput = openInput;
+        lxSearchFilter.selectItem = selectItem;
+        lxSearchFilter.setInput = setInput;
+        lxSearchFilter.setModel = setModel;
+
+        lxSearchFilter.activeChoiceIndex = -1;
+        lxSearchFilter.color = angular.isDefined(lxSearchFilter.color) ? lxSearchFilter.color : 'black';
+        lxSearchFilter.dropdownId = LxUtils.generateUUID();
+        lxSearchFilter.theme = angular.isDefined(lxSearchFilter.theme) ? lxSearchFilter.theme : 'light';
+
+        ////////////
+
+        function blurInput()
+        {
+            if (angular.isDefined(lxSearchFilter.closed) && lxSearchFilter.closed && !input.val())
+            {
+                $element.velocity(
+                {
+                    width: 40
+                },
+                {
+                    duration: 400,
+                    easing: 'easeOutQuint',
+                    queue: false
+                });
+            }
+
+            if (!input.val())
+            {
+                $timeout(function() {
+                    lxSearchFilter.modelController.$setViewValue(undefined);
+                }, 500);
+            }
+        }
+
+        function clearInput()
+        {
+            lxSearchFilter.modelController.$setViewValue(undefined);
+            lxSearchFilter.modelController.$render();
+
+            // Temporarily disabling search on focus since we never want to trigger it when clearing the input.
+            var searchOnFocus = lxSearchFilter.searchOnFocus;
+            lxSearchFilter.searchOnFocus = false;
+
+            input.focus();
+
+            lxSearchFilter.searchOnFocus = searchOnFocus;
+        }
+
+        function focusInput()
+        {
+            if (!lxSearchFilter.searchOnFocus)
+            {
+                return;
+            }
+
+            updateAutocomplete(lxSearchFilter.modelController.$viewValue, true);
+        }
+
+        function getClass()
+        {
+            var searchFilterClass = [];
+
+            if (angular.isUndefined(lxSearchFilter.closed) || !lxSearchFilter.closed)
+            {
+                searchFilterClass.push('search-filter--opened-mode');
+            }
+
+            if (angular.isDefined(lxSearchFilter.closed) && lxSearchFilter.closed)
+            {
+                searchFilterClass.push('search-filter--closed-mode');
+            }
+
+            if (input.val())
+            {
+                searchFilterClass.push('search-filter--has-clear-button');
+            }
+
+            if (angular.isDefined(lxSearchFilter.color))
+            {
+                searchFilterClass.push('search-filter--' + lxSearchFilter.color);
+            }
+
+            if (angular.isDefined(lxSearchFilter.theme))
+            {
+                searchFilterClass.push('search-filter--theme-' + lxSearchFilter.theme);
+            }
+
+            if (angular.isFunction(lxSearchFilter.autocomplete))
+            {
+                searchFilterClass.push('search-filter--autocomplete');
+            }
+
+            if (LxDropdownService.isOpen(lxSearchFilter.dropdownId))
+            {
+                searchFilterClass.push('search-filter--is-open');
+            }
+
+            return searchFilterClass;
+        }
+
+        function keyEvent(_event)
+        {
+            if (!angular.isFunction(lxSearchFilter.autocomplete))
+            {
+                return;
+            }
+
+            if (!LxDropdownService.isOpen(lxSearchFilter.dropdownId))
+            {
+                lxSearchFilter.activeChoiceIndex = -1;
+            }
+
+            switch (_event.keyCode) {
+                case 13:
+                    keySelect();
+                    if (lxSearchFilter.activeChoiceIndex > -1)
+                    {
+                        _event.preventDefault();
+                    }
+                    break;
+
+                case 38:
+                    keyUp();
+                    _event.preventDefault();
+                    break;
+
+                case 40:
+                    keyDown();
+                    _event.preventDefault();
+                    break;
+            }
+
+            $scope.$apply();
+        }
+
+        function keyDown()
+        {
+            if (lxSearchFilter.autocompleteList.length)
+            {
+                lxSearchFilter.activeChoiceIndex += 1;
+
+                if (lxSearchFilter.activeChoiceIndex >= lxSearchFilter.autocompleteList.length)
+                {
+                    lxSearchFilter.activeChoiceIndex = 0;
+                }
+            }
+        }
+
+        function keySelect()
+        {
+            if (!lxSearchFilter.autocompleteList || lxSearchFilter.activeChoiceIndex === -1)
+            {
+                return;
+            }
+
+            selectItem(lxSearchFilter.autocompleteList[lxSearchFilter.activeChoiceIndex]);
+        }
+
+        function keyUp()
+        {
+            if (lxSearchFilter.autocompleteList.length)
+            {
+                lxSearchFilter.activeChoiceIndex -= 1;
+
+                if (lxSearchFilter.activeChoiceIndex < 0)
+                {
+                    lxSearchFilter.activeChoiceIndex = lxSearchFilter.autocompleteList.length - 1;
+                }
+            }
+        }
+
+        function openDropdown()
+        {
+            LxDropdownService.open(lxSearchFilter.dropdownId, $element);
+        }
+
+        function closeDropdown()
+        {
+            LxDropdownService.close(lxSearchFilter.dropdownId);
+        }
+
+        function onAutocompleteSuccess(autocompleteList)
+        {
+            lxSearchFilter.autocompleteList = autocompleteList;
+
+            (lxSearchFilter.autocompleteList.length) ? openDropdown() : closeDropdown();
+            lxSearchFilter.isLoading = false;
+        }
+
+        function onAutocompleteError(error)
+        {
+            LxNotificationService.error(error);
+            lxSearchFilter.isLoading = false;
+        }
+
+        function openInput()
+        {
+            if (angular.isDefined(lxSearchFilter.closed) && lxSearchFilter.closed)
+            {
+                $element.velocity(
+                {
+                    width: angular.isDefined(lxSearchFilter.width) ? parseInt(lxSearchFilter.width) : 240
+                },
+                {
+                    duration: 400,
+                    easing: 'easeOutQuint',
+                    queue: false,
+                    complete: function()
+                    {
+                        input.focus();
+                    }
+                });
+            }
+            else
+            {
+                input.focus();
+            }
+        }
+
+        function selectItem(_item)
+        {
+            itemSelected = true;
+
+            closeDropdown();
+
+            lxSearchFilter.modelController.$setViewValue(_item);
+            lxSearchFilter.modelController.$render();
+
+            if (angular.isFunction(lxSearchFilter.onSelect))
+            {
+                lxSearchFilter.onSelect(_item);
+            }
+        }
+
+        function setInput(_input)
+        {
+            input = _input;
+        }
+
+        function setModel(_modelController)
+        {
+            lxSearchFilter.modelController = _modelController;
+
+            if (angular.isFunction(lxSearchFilter.autocomplete) && angular.isFunction(lxSearchFilter.autocomplete()))
+            {
+                debouncedAutocomplete = LxUtils.debounce(function()
+                {
+                    lxSearchFilter.isLoading = true;
+                    (lxSearchFilter.autocomplete()).apply(this, arguments);
+                }, 500);
+                lxSearchFilter.modelController.$parsers.push(updateAutocomplete);
+            }
+        }
+
+        function updateAutocomplete(_newValue, _immediate)
+        {
+            if ((_newValue || (angular.isUndefined(_newValue) && lxSearchFilter.searchOnFocus)) && !itemSelected)
+            {
+                if (_immediate)
+                {
+                    lxSearchFilter.isLoading = true;
+                    (lxSearchFilter.autocomplete())(_newValue, onAutocompleteSuccess, onAutocompleteError);
+                }
+                else
+                {
+                    debouncedAutocomplete(_newValue, onAutocompleteSuccess, onAutocompleteError);
+                }
+            }
+            else
+            {
+                debouncedAutocomplete.clear();
+                closeDropdown();
+            }
+
+            itemSelected = false;
+
+            return _newValue;
+        }
+    }
+})();
+
+(function()
+{
+    'use strict';
+
+    angular
         .module('lumx.stepper')
         .directive('lxStepper', lxStepper)
         .directive('lxStep', lxStep)
@@ -6236,6 +6235,375 @@
     'use strict';
 
     angular
+        .module('lumx.tabs')
+        .directive('lxTabs', lxTabs)
+        .directive('lxTab', lxTab)
+        .directive('lxTabsPanes', lxTabsPanes)
+        .directive('lxTabPane', lxTabPane);
+
+    function lxTabs()
+    {
+        return {
+            restrict: 'E',
+            templateUrl: 'tabs.html',
+            scope:
+            {
+                layout: '@?lxLayout',
+                theme: '@?lxTheme',
+                color: '@?lxColor',
+                indicator: '@?lxIndicator',
+                activeTab: '=?lxActiveTab',
+                panesId: '@?lxPanesId',
+                links: '=?lxLinks',
+                position: '@?lxPosition'
+            },
+            controller: LxTabsController,
+            controllerAs: 'lxTabs',
+            bindToController: true,
+            replace: true,
+            transclude: true
+        };
+    }
+
+    LxTabsController.$inject = ['LxUtils', '$element', '$scope', '$timeout'];
+
+    function LxTabsController(LxUtils, $element, $scope, $timeout)
+    {
+        var lxTabs = this;
+        var tabsLength;
+        var timer1;
+        var timer2;
+        var timer3;
+        var timer4;
+
+        lxTabs.removeTab = removeTab;
+        lxTabs.setActiveTab = setActiveTab;
+        lxTabs.setViewMode = setViewMode;
+        lxTabs.tabIsActive = tabIsActive;
+        lxTabs.updateTabs = updateTabs;
+
+        lxTabs.activeTab = angular.isDefined(lxTabs.activeTab) ? lxTabs.activeTab : 0;
+        lxTabs.color = angular.isDefined(lxTabs.color) ? lxTabs.color : 'primary';
+        lxTabs.indicator = angular.isDefined(lxTabs.indicator) ? lxTabs.indicator : 'accent';
+        lxTabs.layout = angular.isDefined(lxTabs.layout) ? lxTabs.layout : 'full';
+        lxTabs.tabs = [];
+        lxTabs.theme = angular.isDefined(lxTabs.theme) ? lxTabs.theme : 'light';
+        lxTabs.viewMode = angular.isDefined(lxTabs.links) ? 'separate' : 'gather';
+
+        $scope.$watch(function()
+        {
+            return lxTabs.activeTab;
+        }, function(_newActiveTab, _oldActiveTab)
+        {
+            timer1 = $timeout(function()
+            {
+                setIndicatorPosition(_oldActiveTab);
+
+                if (lxTabs.viewMode === 'separate')
+                {
+                    angular.element('#' + lxTabs.panesId).find('.tabs__pane').hide();
+                    angular.element('#' + lxTabs.panesId).find('.tabs__pane').eq(lxTabs.activeTab).show();
+                }
+            });
+        });
+
+        $scope.$watch(function()
+        {
+            return lxTabs.position;
+        }, function(_newPosition) {
+            lxTabs.bottomPosition = angular.isDefined(_newPosition) && (_newPosition === 'bottom');
+        });
+
+        $scope.$watch(function()
+        {
+            return lxTabs.links;
+        }, function(_newLinks)
+        {
+            lxTabs.viewMode = angular.isDefined(_newLinks) ? 'separate' : 'gather';
+
+            angular.forEach(_newLinks, function(link, index)
+            {
+                var tab = {
+                    uuid: (angular.isUndefined(link.uuid) || link.uuid.length === 0) ? LxUtils.generateUUID() : link.uuid,
+                    index: index,
+                    label: link.label,
+                    icon: link.icon,
+                    disabled: link.disabled
+                };
+
+                updateTabs(tab);
+            });
+        });
+
+        timer2 = $timeout(function()
+        {
+            tabsLength = lxTabs.tabs.length;
+        });
+
+        $scope.$on('$destroy', function()
+        {
+            $timeout.cancel(timer1);
+            $timeout.cancel(timer2);
+            $timeout.cancel(timer3);
+            $timeout.cancel(timer4);
+        });
+
+        ////////////
+
+        function removeTab(_tab)
+        {
+            lxTabs.tabs.splice(_tab.index, 1);
+
+            angular.forEach(lxTabs.tabs, function(tab, index)
+            {
+                tab.index = index;
+            });
+
+            if (lxTabs.activeTab === 0)
+            {
+                timer3 = $timeout(function()
+                {
+                    setIndicatorPosition();
+                });
+            }
+            else
+            {
+                setActiveTab(lxTabs.tabs[0]);
+            }
+        }
+
+        function setActiveTab(_tab)
+        {
+            if (!_tab.disabled)
+            {
+                lxTabs.activeTab = _tab.index;
+            }
+        }
+
+        function setIndicatorPosition(_previousActiveTab)
+        {
+            var direction = lxTabs.activeTab > _previousActiveTab ? 'right' : 'left';
+            var indicator = $element.find('.tabs__indicator');
+            var activeTab = $element.find('.tabs__link').eq(lxTabs.activeTab);
+            var indicatorLeft = activeTab.position().left;
+            var indicatorRight = $element.outerWidth() - (indicatorLeft + activeTab.outerWidth());
+
+            if (angular.isUndefined(_previousActiveTab))
+            {
+                indicator.css(
+                {
+                    left: indicatorLeft,
+                    right: indicatorRight
+                });
+            }
+            else
+            {
+                var animationProperties = {
+                    duration: 200,
+                    easing: 'easeOutQuint'
+                };
+
+                if (direction === 'left')
+                {
+                    indicator.velocity(
+                    {
+                        left: indicatorLeft
+                    }, animationProperties);
+
+                    indicator.velocity(
+                    {
+                        right: indicatorRight
+                    }, animationProperties);
+                }
+                else
+                {
+                    indicator.velocity(
+                    {
+                        right: indicatorRight
+                    }, animationProperties);
+
+                    indicator.velocity(
+                    {
+                        left: indicatorLeft
+                    }, animationProperties);
+                }
+            }
+        }
+
+        function setViewMode(_viewMode)
+        {
+            lxTabs.viewMode = _viewMode;
+        }
+
+        function tabIsActive(_index)
+        {
+            return lxTabs.activeTab === _index;
+        }
+
+        function updateTabs(_tab)
+        {
+            var newTab = true;
+
+            angular.forEach(lxTabs.tabs, function(tab)
+            {
+                if (tab.index === _tab.index)
+                {
+                    newTab = false;
+
+                    tab.uuid = _tab.uuid;
+                    tab.icon = _tab.icon;
+                    tab.label = _tab.label;
+                }
+            });
+
+            if (newTab)
+            {
+                lxTabs.tabs.push(_tab);
+
+                if (angular.isDefined(tabsLength))
+                {
+                    timer4 = $timeout(function()
+                    {
+                        setIndicatorPosition();
+                    });
+                }
+            }
+        }
+    }
+
+    function lxTab()
+    {
+        return {
+            restrict: 'E',
+            require: ['lxTab', '^lxTabs'],
+            templateUrl: 'tab.html',
+            scope:
+            {
+                ngDisabled: '=?'
+            },
+            link: link,
+            controller: LxTabController,
+            controllerAs: 'lxTab',
+            bindToController: true,
+            replace: true,
+            transclude: true
+        };
+
+        function link(scope, element, attrs, ctrls)
+        {
+            ctrls[0].init(ctrls[1], element.index());
+
+            attrs.$observe('lxLabel', function(_newLabel)
+            {
+                ctrls[0].setLabel(_newLabel);
+            });
+
+            attrs.$observe('lxIcon', function(_newIcon)
+            {
+                ctrls[0].setIcon(_newIcon);
+            });
+        }
+    }
+
+    LxTabController.$inject = ['$scope', 'LxUtils'];
+
+    function LxTabController($scope, LxUtils)
+    {
+        var lxTab = this;
+        var parentCtrl;
+        var tab = {
+            uuid: LxUtils.generateUUID(),
+            index: undefined,
+            label: undefined,
+            icon: undefined,
+            disabled: false
+        };
+
+        lxTab.init = init;
+        lxTab.setIcon = setIcon;
+        lxTab.setLabel = setLabel;
+        lxTab.tabIsActive = tabIsActive;
+
+        $scope.$watch(function()
+        {
+            return lxTab.ngDisabled;
+        }, function(_isDisabled)
+        {
+            if (_isDisabled)
+            {
+                tab.disabled = true;
+            }
+            else
+            {
+                tab.disabled = false;
+            }
+
+            parentCtrl.updateTabs(tab);
+        });
+
+        $scope.$on('$destroy', function()
+        {
+            parentCtrl.removeTab(tab);
+        });
+
+        ////////////
+
+        function init(_parentCtrl, _index)
+        {
+            parentCtrl = _parentCtrl;
+            tab.index = _index;
+
+            parentCtrl.updateTabs(tab);
+        }
+
+        function setIcon(_icon)
+        {
+            tab.icon = _icon;
+
+            parentCtrl.updateTabs(tab);
+        }
+
+        function setLabel(_label)
+        {
+            tab.label = _label;
+
+            parentCtrl.updateTabs(tab);
+        }
+
+        function tabIsActive()
+        {
+            return parentCtrl.tabIsActive(tab.index);
+        }
+    }
+
+    function lxTabsPanes()
+    {
+        return {
+            restrict: 'E',
+            templateUrl: 'tabs-panes.html',
+            scope: true,
+            replace: true,
+            transclude: true
+        };
+    }
+
+    function lxTabPane()
+    {
+        return {
+            restrict: 'E',
+            templateUrl: 'tab-pane.html',
+            scope: true,
+            replace: true,
+            transclude: true
+        };
+    }
+})();
+
+(function()
+{
+    'use strict';
+
+    angular
         .module('lumx.text-field')
         .directive('lxTextField', lxTextField);
 
@@ -6677,375 +7045,6 @@
                 tooltipLabel.text(_newValue);
             }
         }
-    }
-})();
-
-(function()
-{
-    'use strict';
-
-    angular
-        .module('lumx.tabs')
-        .directive('lxTabs', lxTabs)
-        .directive('lxTab', lxTab)
-        .directive('lxTabsPanes', lxTabsPanes)
-        .directive('lxTabPane', lxTabPane);
-
-    function lxTabs()
-    {
-        return {
-            restrict: 'E',
-            templateUrl: 'tabs.html',
-            scope:
-            {
-                layout: '@?lxLayout',
-                theme: '@?lxTheme',
-                color: '@?lxColor',
-                indicator: '@?lxIndicator',
-                activeTab: '=?lxActiveTab',
-                panesId: '@?lxPanesId',
-                links: '=?lxLinks',
-                position: '@?lxPosition'
-            },
-            controller: LxTabsController,
-            controllerAs: 'lxTabs',
-            bindToController: true,
-            replace: true,
-            transclude: true
-        };
-    }
-
-    LxTabsController.$inject = ['LxUtils', '$element', '$scope', '$timeout'];
-
-    function LxTabsController(LxUtils, $element, $scope, $timeout)
-    {
-        var lxTabs = this;
-        var tabsLength;
-        var timer1;
-        var timer2;
-        var timer3;
-        var timer4;
-
-        lxTabs.removeTab = removeTab;
-        lxTabs.setActiveTab = setActiveTab;
-        lxTabs.setViewMode = setViewMode;
-        lxTabs.tabIsActive = tabIsActive;
-        lxTabs.updateTabs = updateTabs;
-
-        lxTabs.activeTab = angular.isDefined(lxTabs.activeTab) ? lxTabs.activeTab : 0;
-        lxTabs.color = angular.isDefined(lxTabs.color) ? lxTabs.color : 'primary';
-        lxTabs.indicator = angular.isDefined(lxTabs.indicator) ? lxTabs.indicator : 'accent';
-        lxTabs.layout = angular.isDefined(lxTabs.layout) ? lxTabs.layout : 'full';
-        lxTabs.tabs = [];
-        lxTabs.theme = angular.isDefined(lxTabs.theme) ? lxTabs.theme : 'light';
-        lxTabs.viewMode = angular.isDefined(lxTabs.links) ? 'separate' : 'gather';
-
-        $scope.$watch(function()
-        {
-            return lxTabs.activeTab;
-        }, function(_newActiveTab, _oldActiveTab)
-        {
-            timer1 = $timeout(function()
-            {
-                setIndicatorPosition(_oldActiveTab);
-
-                if (lxTabs.viewMode === 'separate')
-                {
-                    angular.element('#' + lxTabs.panesId).find('.tabs__pane').hide();
-                    angular.element('#' + lxTabs.panesId).find('.tabs__pane').eq(lxTabs.activeTab).show();
-                }
-            });
-        });
-
-        $scope.$watch(function()
-        {
-            return lxTabs.position;
-        }, function(_newPosition) {
-            lxTabs.bottomPosition = angular.isDefined(_newPosition) && (_newPosition === 'bottom');
-        });
-
-        $scope.$watch(function()
-        {
-            return lxTabs.links;
-        }, function(_newLinks)
-        {
-            lxTabs.viewMode = angular.isDefined(_newLinks) ? 'separate' : 'gather';
-
-            angular.forEach(_newLinks, function(link, index)
-            {
-                var tab = {
-                    uuid: (angular.isUndefined(link.uuid) || link.uuid.length === 0) ? LxUtils.generateUUID() : link.uuid,
-                    index: index,
-                    label: link.label,
-                    icon: link.icon,
-                    disabled: link.disabled
-                };
-
-                updateTabs(tab);
-            });
-        });
-
-        timer2 = $timeout(function()
-        {
-            tabsLength = lxTabs.tabs.length;
-        });
-
-        $scope.$on('$destroy', function()
-        {
-            $timeout.cancel(timer1);
-            $timeout.cancel(timer2);
-            $timeout.cancel(timer3);
-            $timeout.cancel(timer4);
-        });
-
-        ////////////
-
-        function removeTab(_tab)
-        {
-            lxTabs.tabs.splice(_tab.index, 1);
-
-            angular.forEach(lxTabs.tabs, function(tab, index)
-            {
-                tab.index = index;
-            });
-
-            if (lxTabs.activeTab === 0)
-            {
-                timer3 = $timeout(function()
-                {
-                    setIndicatorPosition();
-                });
-            }
-            else
-            {
-                setActiveTab(lxTabs.tabs[0]);
-            }
-        }
-
-        function setActiveTab(_tab)
-        {
-            if (!_tab.disabled)
-            {
-                lxTabs.activeTab = _tab.index;
-            }
-        }
-
-        function setIndicatorPosition(_previousActiveTab)
-        {
-            var direction = lxTabs.activeTab > _previousActiveTab ? 'right' : 'left';
-            var indicator = $element.find('.tabs__indicator');
-            var activeTab = $element.find('.tabs__link').eq(lxTabs.activeTab);
-            var indicatorLeft = activeTab.position().left;
-            var indicatorRight = $element.outerWidth() - (indicatorLeft + activeTab.outerWidth());
-
-            if (angular.isUndefined(_previousActiveTab))
-            {
-                indicator.css(
-                {
-                    left: indicatorLeft,
-                    right: indicatorRight
-                });
-            }
-            else
-            {
-                var animationProperties = {
-                    duration: 200,
-                    easing: 'easeOutQuint'
-                };
-
-                if (direction === 'left')
-                {
-                    indicator.velocity(
-                    {
-                        left: indicatorLeft
-                    }, animationProperties);
-
-                    indicator.velocity(
-                    {
-                        right: indicatorRight
-                    }, animationProperties);
-                }
-                else
-                {
-                    indicator.velocity(
-                    {
-                        right: indicatorRight
-                    }, animationProperties);
-
-                    indicator.velocity(
-                    {
-                        left: indicatorLeft
-                    }, animationProperties);
-                }
-            }
-        }
-
-        function setViewMode(_viewMode)
-        {
-            lxTabs.viewMode = _viewMode;
-        }
-
-        function tabIsActive(_index)
-        {
-            return lxTabs.activeTab === _index;
-        }
-
-        function updateTabs(_tab)
-        {
-            var newTab = true;
-
-            angular.forEach(lxTabs.tabs, function(tab)
-            {
-                if (tab.index === _tab.index)
-                {
-                    newTab = false;
-
-                    tab.uuid = _tab.uuid;
-                    tab.icon = _tab.icon;
-                    tab.label = _tab.label;
-                }
-            });
-
-            if (newTab)
-            {
-                lxTabs.tabs.push(_tab);
-
-                if (angular.isDefined(tabsLength))
-                {
-                    timer4 = $timeout(function()
-                    {
-                        setIndicatorPosition();
-                    });
-                }
-            }
-        }
-    }
-
-    function lxTab()
-    {
-        return {
-            restrict: 'E',
-            require: ['lxTab', '^lxTabs'],
-            templateUrl: 'tab.html',
-            scope:
-            {
-                ngDisabled: '=?'
-            },
-            link: link,
-            controller: LxTabController,
-            controllerAs: 'lxTab',
-            bindToController: true,
-            replace: true,
-            transclude: true
-        };
-
-        function link(scope, element, attrs, ctrls)
-        {
-            ctrls[0].init(ctrls[1], element.index());
-
-            attrs.$observe('lxLabel', function(_newLabel)
-            {
-                ctrls[0].setLabel(_newLabel);
-            });
-
-            attrs.$observe('lxIcon', function(_newIcon)
-            {
-                ctrls[0].setIcon(_newIcon);
-            });
-        }
-    }
-
-    LxTabController.$inject = ['$scope', 'LxUtils'];
-
-    function LxTabController($scope, LxUtils)
-    {
-        var lxTab = this;
-        var parentCtrl;
-        var tab = {
-            uuid: LxUtils.generateUUID(),
-            index: undefined,
-            label: undefined,
-            icon: undefined,
-            disabled: false
-        };
-
-        lxTab.init = init;
-        lxTab.setIcon = setIcon;
-        lxTab.setLabel = setLabel;
-        lxTab.tabIsActive = tabIsActive;
-
-        $scope.$watch(function()
-        {
-            return lxTab.ngDisabled;
-        }, function(_isDisabled)
-        {
-            if (_isDisabled)
-            {
-                tab.disabled = true;
-            }
-            else
-            {
-                tab.disabled = false;
-            }
-
-            parentCtrl.updateTabs(tab);
-        });
-
-        $scope.$on('$destroy', function()
-        {
-            parentCtrl.removeTab(tab);
-        });
-
-        ////////////
-
-        function init(_parentCtrl, _index)
-        {
-            parentCtrl = _parentCtrl;
-            tab.index = _index;
-
-            parentCtrl.updateTabs(tab);
-        }
-
-        function setIcon(_icon)
-        {
-            tab.icon = _icon;
-
-            parentCtrl.updateTabs(tab);
-        }
-
-        function setLabel(_label)
-        {
-            tab.label = _label;
-
-            parentCtrl.updateTabs(tab);
-        }
-
-        function tabIsActive()
-        {
-            return parentCtrl.tabIsActive(tab.index);
-        }
-    }
-
-    function lxTabsPanes()
-    {
-        return {
-            restrict: 'E',
-            templateUrl: 'tabs-panes.html',
-            scope: true,
-            replace: true,
-            transclude: true
-        };
-    }
-
-    function lxTabPane()
-    {
-        return {
-            restrict: 'E',
-            templateUrl: 'tab-pane.html',
-            scope: true,
-            replace: true,
-            transclude: true
-        };
     }
 })();
 
