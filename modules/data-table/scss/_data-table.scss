@@ -90,8 +90,9 @@
     &.data-table--thumbnail {
         th:first-child,
         td:first-child {
-            width: 120px;
-            padding: 0;
+            width: 40px * 3;
+            padding-left: 40px;
+            padding-right: 40px;
             border-bottom: none;
         }
     }
@@ -114,10 +115,6 @@
         @include font-size(13px);
         padding-top: $base-spacing-unit;
         padding-bottom: $base-spacing-unit;
-    }
-
-    &.data-table--thumbnail td {
-        height: 56px;
     }
 
     tr:last-child td {
@@ -148,15 +145,16 @@
         }
     }
 
-    .data-table.data-table--thumbnail .data-table__selectable-row:not(.data-table__selectable-row--is-disabled):not(.data-table__selectable-row--is-selected) {
-        &:hover {
-            td:first-child {
-                @include data-table-checkbox();
+    .data-table.data-table--thumbnail .data-table__selectable-row {
+        th:nth-child(2),
+        td:nth-child(2) {
+            width: 24px + $base-spacing-unit * 3;
+            padding-right: $base-spacing-unit * 3;
+            @include data-table-checkbox();
+        }
 
-                div {
-                    display: none;
-                }
-            }
+        th:nth-child(2) {
+            cursor: pointer;
         }
     }
 
@@ -175,13 +173,9 @@
     }
 
     .data-table.data-table--thumbnail .data-table__selectable-row--is-selected {
-        td:first-child {
-            @include data-table-checkbox();
+        th:nth-child(2),
+        td:nth-child(2) {
             @include data-table-checkbox-checked();
-
-            div {
-                display: none;
-            }
         }
     }
 
@@ -195,6 +189,13 @@
     .data-table:not(.data-table--thumbnail) .data-table__selectable-row--is-disabled {
         th:first-child,
         td:first-child {
+            @include data-table-checkbox-disabled();
+        }
+    }
+
+    .data-table.data-table--thumbnail .data-table__selectable-row--is-disabled {
+        th:nth-child(2),
+        td:nth-child(2) {
             @include data-table-checkbox-disabled();
         }
     }

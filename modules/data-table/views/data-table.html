@@ -7,7 +7,7 @@
                             'data-table__selectable-row--is-selected': lxDataTable.selectable && lxDataTable.allRowsSelected }">
                 <th ng-if="lxDataTable.thumbnail"></th>
                 <th ng-click="lxDataTable.toggleAllSelected()"
-                    ng-if="lxDataTable.selectable && !lxDataTable.thumbnail"></th>
+                    ng-if="lxDataTable.selectable"></th>
                 <th ng-class=" { 'data-table__sortable-cell': th.sortable,
                                  'data-table__sortable-cell--asc': th.sortable && th.sort === 'asc',
                                  'data-table__sortable-cell--desc': th.sortable && th.sort === 'desc' }"
@@ -26,10 +26,10 @@
                             'data-table__selectable-row--is-selected': lxDataTable.selectable && tr.lxDataTableSelected }"
                 ng-repeat="tr in lxDataTable.tbody"
                 ng-click="lxDataTable.toggle(tr)">
-                <td ng-if="lxDataTable.thumbnail" align="center">
+                <td ng-if="lxDataTable.thumbnail">
                     <div ng-if="lxDataTable.thead[0].format" ng-bind-html="lxDataTable.$sce.trustAsHtml(lxDataTable.thead[0].format(tr))"></div>
                 </td>
-                <td ng-if="lxDataTable.selectable && !lxDataTable.thumbnail"></td>
+                <td ng-if="lxDataTable.selectable"></td>
                 <td ng-repeat="th in lxDataTable.thead track by $index"
                     ng-if="!lxDataTable.thumbnail || (lxDataTable.thumbnail && $index != 0)">
                     <span ng-if="!th.format">{{ tr[th.name] }}</span>
