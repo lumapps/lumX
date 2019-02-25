@@ -539,7 +539,7 @@
             &--highlight {
                 font-weight: bold;
                 text-decoration: underline;
-                text-decoration-skip-ink: auto;
+                text-decoration-skip: ink;
             }
 
             @include mq($from: desktop) {
