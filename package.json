@@ -39,7 +39,7 @@
   },
   "dependencies": {
     "@mdi/font": "^2.8.94",
-    "angular": "latest",
+    "angular": "^1.5.11",
     "bourbon": "~4.2.7",
     "jquery": "latest",
     "moment": "latest",
@@ -61,7 +61,7 @@
     "gulp-rename": "^1.2.2",
     "gulp-replace": "^1.0.0",
     "gulp-sass": "^3.2.1",
-    "gulp-templatecache": "^0.1.0",
+    "gulp-templatecache": "0.0.3",
     "gulp-uglify": "^3.0.2",
     "gulp-watch": "^5.0.1",
     "minimist": "^1.2.0"
