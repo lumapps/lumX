@@ -1270,22 +1270,22 @@
         });
 
         /**
-         * When the end of the dropdown is reached and inifinite scroll is specified,
+         * When the end of the dropdown is reached and infinite scroll is specified,
          * fetch new data.
          * 
-         * @param {Event}  evt        The dropdown open event.
-         * @param {string} dropdownId The id of the dropdown that ends to close.
+         * @param {Event}  evt        The scroll event.
+         * @param {string} dropdownId The id of the dropdown that scrolled to the end.
          */
         $scope.$on('lx-dropdown__scroll-end', async (evt, dropdownId) => {
             if (angular.isUndefined(lxSelect.infiniteScroll) || dropdownId !== 'dropdown-' + lxSelect.uuid) {
                 return;
             }
 
-            const newdata = await lxSelect.infiniteScroll()();
-
-            if (!!newdata.length) {
-                lxSelect.choices = [...lxSelect.choices, ...newdata];
-            }
+            lxSelect.infiniteScroll()().then((newData) => {
+                if (!!newdata.length) {
+                    lxSelect.choices = [...lxSelect.choices, ...newdata];
+                }
+            })
         });
     }
 
