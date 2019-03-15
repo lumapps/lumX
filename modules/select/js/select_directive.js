@@ -1281,11 +1281,15 @@
                 return;
             }
 
-            lxSelect.infiniteScroll()().then((newData) => {
-                if (!!newdata.length) {
-                    lxSelect.choices = [...lxSelect.choices, ...newdata];
-                }
-            })
+            lxSelect.infiniteScroll()()
+                    .then(function fetchNewData(newData) {
+                        if (newData && newData.length) {
+                            lxSelect.choices = [...lxSelect.choices, ...newData];
+                        }
+                    })
+                    .catch(function() {
+                        // Do nothing here, because error is supposed to be catched before.
+                    });
         });
     }
 
