@@ -200,7 +200,7 @@
         lxSelect.unconvertedModel = lxSelect.multiple ? [] : undefined;
         lxSelect.viewMode = angular.isUndefined(lxSelect.viewMode) ? 'field' : lxSelect.viewMode;
         lxSelect.choicesViewMode = angular.isUndefined(lxSelect.choicesViewMode) ? 'list' : lxSelect.choicesViewMode;
-
+        
         lxSelect.panes = [];
         lxSelect.matchingPaths = undefined;
 
@@ -1281,6 +1281,8 @@
                 return;
             }
 
+            lxSelect.loading = true;
+
             lxSelect.infiniteScroll()()
                     .then(function fetchNewData(newData) {
                         if (newData && newData.length) {
@@ -1289,6 +1291,9 @@
                     })
                     .catch(function() {
                         // Do nothing here, because error is supposed to be catched before.
+                    })
+                    .finally(function stopLoading() {
+                        lxSelect.loading = false;
                     });
         });
     }
