@@ -1,4 +1,5 @@
-(function() {
+(function()
+{
     'use strict';
 
     angular
@@ -10,23 +11,32 @@
 
     filterChoices.$inject = ['$filter'];
 
-    function filterChoices($filter) {
-        return function(choices, externalFilter, textFilter) {
-            if (externalFilter) {
+    function filterChoices($filter)
+    {
+        return function(choices, externalFilter, textFilter)
+        {
+            if (externalFilter)
+            {
                 return choices;
             }
 
             var toFilter = [];
 
-            if (!angular.isArray(choices)) {
-                if (angular.isObject(choices)) {
-                    for (var idx in choices) {
-                        if (angular.isArray(choices[idx])) {
+            if (!angular.isArray(choices))
+            {
+                if (angular.isObject(choices))
+                {
+                    for (var idx in choices)
+                    {
+                        if (angular.isArray(choices[idx]))
+                        {
                             toFilter = toFilter.concat(choices[idx]);
                         }
                     }
                 }
-            } else {
+            }
+            else
+            {
                 toFilter = choices;
             }
 
@@ -34,11 +44,13 @@
         };
     }
 
-    function lxSelect() {
+    function lxSelect()
+    {
         return {
             restrict: 'E',
             templateUrl: 'select.html',
-            scope: {
+            scope:
+            {
                 allowClear: '=?lxAllowClear',
                 allowNewValue: '=?lxAllowNewValue',
                 autocomplete: '=?lxAutocomplete',
@@ -54,7 +66,6 @@
                 fixedLabel: '=?lxFixedLabel',
                 helper: '=?lxHelper',
                 helperMessage: '@?lxHelperMessage',
-                infiniteScroll: '&?lxInfiniteScroll',
                 label: '@?lxLabel',
                 loading: '=?lxLoading',
                 max: '=?lxMax',
@@ -76,105 +87,87 @@
             transclude: true
         };
 
-        function link(scope, element, attrs) {
+        function link(scope, element, attrs)
+        {
             var backwardOneWay = ['customStyle'];
-            var backwardTwoWay = [
-                'allowClear',
-                'choices',
-                'error',
-                'loading',
-                'multiple',
-                'valid'
-            ];
+            var backwardTwoWay = ['allowClear', 'choices', 'error', 'loading', 'multiple', 'valid'];
 
-            angular.forEach(backwardOneWay, function(attribute) {
-                if (angular.isDefined(attrs[attribute])) {
-                    attrs.$observe(attribute, function(newValue) {
+            angular.forEach(backwardOneWay, function(attribute)
+            {
+                if (angular.isDefined(attrs[attribute]))
+                {
+                    attrs.$observe(attribute, function(newValue)
+                    {
                         scope.lxSelect[attribute] = newValue;
                     });
                 }
             });
 
-            angular.forEach(backwardTwoWay, function(attribute) {
-                if (angular.isDefined(attrs[attribute])) {
-                    scope.$watch(
-                        function() {
-                            return scope.$parent.$eval(attrs[attribute]);
-                        },
-                        function(newValue) {
-                            if (
-                                attribute === 'multiple' &&
-                                angular.isUndefined(newValue)
-                            ) {
-                                scope.lxSelect[attribute] = true;
-                            } else {
-                                scope.lxSelect[attribute] = newValue;
-                            }
+            angular.forEach(backwardTwoWay, function(attribute)
+            {
+                if (angular.isDefined(attrs[attribute]))
+                {
+                    scope.$watch(function()
+                    {
+                        return scope.$parent.$eval(attrs[attribute]);
+                    }, function(newValue)
+                    {
+                        if (attribute === 'multiple' && angular.isUndefined(newValue))
+                        {
+                            scope.lxSelect[attribute] = true;
                         }
-                    );
+                        else
+                        {
+                            scope.lxSelect[attribute] = newValue;
+                        }
+                    });
                 }
             });
 
-            attrs.$observe('placeholder', function(newValue) {
+            attrs.$observe('placeholder', function(newValue)
+            {
                 scope.lxSelect.label = newValue;
             });
 
-            attrs.$observe('change', function(newValue) {
-                scope.lxSelect.ngChange = function(data) {
+            attrs.$observe('change', function(newValue)
+            {
+                scope.lxSelect.ngChange = function(data)
+                {
                     return scope.$parent.$eval(newValue, data);
                 };
             });
 
-            attrs.$observe('filter', function(newValue) {
-                scope.lxSelect.filter = function(data) {
+            attrs.$observe('filter', function(newValue)
+            {
+                scope.lxSelect.filter = function(data)
+                {
                     return scope.$parent.$eval(newValue, data);
                 };
                 scope.lxSelect.displayFilter = true;
             });
 
-            attrs.$observe('modelToSelection', function(newValue) {
-                scope.lxSelect.modelToSelection = function(data) {
+            attrs.$observe('modelToSelection', function(newValue)
+            {
+                scope.lxSelect.modelToSelection = function(data)
+                {
                     return scope.$parent.$eval(newValue, data);
                 };
             });
 
-            attrs.$observe('selectionToModel', function(newValue) {
-                scope.lxSelect.selectionToModel = function(data) {
-                    return scope.$parent.$eval(newValue, data);
-                };
-            });
-
-            attrs.$observe('infiniteScroll', function(newValue) {
-                scope.lxSelect.infiniteScroll = data => {
+            attrs.$observe('selectionToModel', function(newValue)
+            {
+                scope.lxSelect.selectionToModel = function(data)
+                {
                     return scope.$parent.$eval(newValue, data);
                 };
             });
         }
     }
 
-    LxSelectController.$inject = [
-        '$interpolate',
-        '$element',
-        '$filter',
-        '$sce',
-        '$scope',
-        '$timeout',
-        'LxDepthService',
-        'LxDropdownService',
-        'LxUtils'
-    ];
+    LxSelectController.$inject = ['$interpolate', '$element', '$filter', '$sce', '$scope', '$timeout', 'LxDepthService', 'LxDropdownService', 'LxUtils'];
 
-    function LxSelectController(
-        $interpolate,
-        $element,
-        $filter,
-        $sce,
-        $scope,
-        $timeout,
-        LxDepthService,
-        LxDropdownService,
-        LxUtils
-    ) {
+    function LxSelectController($interpolate, $element, $filter, $sce, $scope, $timeout, LxDepthService, LxDropdownService, LxUtils)
+    {
         /////////////////////////////
         //                         //
         //    Private attributes   //
@@ -196,17 +189,10 @@
         lxSelect.activeSelectedIndex = -1;
         lxSelect.uuid = LxUtils.generateUUID();
         lxSelect.filterModel = undefined;
-        lxSelect.ngModel =
-            angular.isUndefined(lxSelect.ngModel) && lxSelect.multiple
-                ? []
-                : lxSelect.ngModel;
+        lxSelect.ngModel = angular.isUndefined(lxSelect.ngModel) && lxSelect.multiple ? [] : lxSelect.ngModel;
         lxSelect.unconvertedModel = lxSelect.multiple ? [] : undefined;
-        lxSelect.viewMode = angular.isUndefined(lxSelect.viewMode)
-            ? 'field'
-            : lxSelect.viewMode;
-        lxSelect.choicesViewMode = angular.isUndefined(lxSelect.choicesViewMode)
-            ? 'list'
-            : lxSelect.choicesViewMode;
+        lxSelect.viewMode = angular.isUndefined(lxSelect.viewMode) ? 'field' : lxSelect.viewMode;
+        lxSelect.choicesViewMode = angular.isUndefined(lxSelect.choicesViewMode) ? 'list' : lxSelect.choicesViewMode;
 
         lxSelect.panes = [];
         lxSelect.matchingPaths = undefined;
@@ -251,19 +237,13 @@
             toggledPanes = {};
 
             if (lxSelect.choicesViewSize === 'large') {
-                if (
-                    angular.isDefined(lxSelect.choices) &&
-                    lxSelect.choices !== null
-                ) {
+                if (angular.isDefined(lxSelect.choices) && lxSelect.choices !== null) {
                     lxSelect.panes = [lxSelect.choices];
                 } else {
                     lxSelect.panes = [];
                 }
             } else {
-                if (
-                    angular.isDefined(lxSelect.choices) &&
-                    lxSelect.choices !== null
-                ) {
+                if (angular.isDefined(lxSelect.choices) && lxSelect.choices !== null) {
                     lxSelect.openedPanes = [lxSelect.choices];
                 } else {
                     lxSelect.openedPanes = [];
@@ -299,10 +279,7 @@
          *                              If none given, just take the longest matching path of the first matching path.
          */
         function _getLongestMatchingPath(containing) {
-            if (
-                angular.isUndefined(lxSelect.matchingPaths) ||
-                lxSelect.matchingPaths.length === 0
-            ) {
+            if (angular.isUndefined(lxSelect.matchingPaths) || lxSelect.matchingPaths.length === 0) {
                 return undefined;
             }
 
@@ -334,34 +311,29 @@
          * When the down key is pressed, select the next item of the most right opened pane (the first one if we are at
          * the bottom).
          */
-        function _keyDown() {
+        function _keyDown()
+        {
             var filteredChoices;
 
             if (lxSelect.choicesViewMode === 'panes') {
-                filteredChoices = Object.keys(
-                    lxSelect.panes[lxSelect.panes.length - 1]
-                );
+                filteredChoices = Object.keys(lxSelect.panes[(lxSelect.panes.length - 1)]);
             } else {
-                filteredChoices = $filter('filterChoices')(
-                    lxSelect.choices,
-                    lxSelect.filter,
-                    lxSelect.filterModel
-                );
+                filteredChoices = $filter('filterChoices')(lxSelect.choices, lxSelect.filter, lxSelect.filterModel);
             }
 
-            if (filteredChoices.length) {
+            if (filteredChoices.length)
+            {
                 lxSelect.activeChoiceIndex += 1;
 
-                if (lxSelect.activeChoiceIndex >= filteredChoices.length) {
+                if (lxSelect.activeChoiceIndex >= filteredChoices.length)
+                {
                     lxSelect.activeChoiceIndex = 0;
                 }
             }
 
-            if (lxSelect.autocomplete) {
-                LxDropdownService.open(
-                    'dropdown-' + lxSelect.uuid,
-                    '#lx-select-selected-wrapper-' + lxSelect.uuid
-                );
+            if (lxSelect.autocomplete)
+            {
+                LxDropdownService.open('dropdown-' + lxSelect.uuid, '#lx-select-selected-wrapper-' + lxSelect.uuid);
             }
         }
 
@@ -370,10 +342,7 @@
          * pane.
          */
         function _keyLeft() {
-            if (
-                lxSelect.choicesViewMode !== 'panes' ||
-                lxSelect.panes.length < 2
-            ) {
+            if (lxSelect.choicesViewMode !== 'panes' || lxSelect.panes.length < 2) {
                 return;
             }
 
@@ -381,27 +350,27 @@
 
             lxSelect.activeChoiceIndex = (
                 Object.keys(lxSelect.panes[previousPaneIndex]) || []
-            ).indexOf((toggledPanes[previousPaneIndex] || {}).key);
+            ).indexOf(
+                (toggledPanes[previousPaneIndex] || {}).key
+            );
 
             _closePane(previousPaneIndex);
         }
 
-        function _keyRemove() {
-            if (
-                lxSelect.filterModel ||
-                angular.isUndefined(lxSelect.getSelectedModel()) ||
-                !lxSelect.getSelectedModel().length
-            ) {
+        function _keyRemove()
+        {
+            if (lxSelect.filterModel || angular.isUndefined(lxSelect.getSelectedModel()) || !lxSelect.getSelectedModel().length)
+            {
                 return;
             }
 
-            if (lxSelect.activeSelectedIndex === -1) {
-                lxSelect.activeSelectedIndex =
-                    lxSelect.getSelectedModel().length - 1;
-            } else {
-                unselect(
-                    lxSelect.getSelectedModel()[lxSelect.activeSelectedIndex]
-                );
+            if (lxSelect.activeSelectedIndex === -1)
+            {
+                lxSelect.activeSelectedIndex = lxSelect.getSelectedModel().length - 1;
+            }
+            else
+            {
+                unselect(lxSelect.getSelectedModel()[lxSelect.activeSelectedIndex]);
             }
         }
 
@@ -410,18 +379,11 @@
          * pane.
          */
         function _keyRight() {
-            if (
-                lxSelect.choicesViewMode !== 'panes' ||
-                lxSelect.activeChoiceIndex === -1
-            ) {
+            if (lxSelect.choicesViewMode !== 'panes' || lxSelect.activeChoiceIndex === -1) {
                 return;
             }
 
-            var paneOpened = _openPane(
-                lxSelect.panes.length - 1,
-                lxSelect.activeChoiceIndex,
-                true
-            );
+            var paneOpened = _openPane((lxSelect.panes.length - 1), lxSelect.activeChoiceIndex, true);
 
             if (paneOpened) {
                 lxSelect.activeChoiceIndex = 0;
@@ -437,35 +399,20 @@
             var filteredChoices;
 
             if (lxSelect.choicesViewMode === 'panes') {
-                filteredChoices = lxSelect.panes[lxSelect.panes.length - 1];
-                if (
-                    !lxSelect.isLeaf(
-                        filteredChoices[lxSelect.activeChoiceIndex]
-                    )
-                ) {
+                filteredChoices = lxSelect.panes[(lxSelect.panes.length - 1)];
+                if (!lxSelect.isLeaf(filteredChoices[lxSelect.activeChoiceIndex])) {
                     return;
                 }
             } else {
-                filteredChoices = $filter('filterChoices')(
-                    lxSelect.choices,
-                    lxSelect.filter,
-                    lxSelect.filterModel
-                );
+                filteredChoices = $filter('filterChoices')(lxSelect.choices, lxSelect.filter, lxSelect.filterModel);
             }
 
-            if (
-                filteredChoices.length &&
-                filteredChoices[lxSelect.activeChoiceIndex]
-            ) {
-                lxSelect.toggleChoice(
-                    filteredChoices[lxSelect.activeChoiceIndex]
-                );
+            if (filteredChoices.length && filteredChoices[lxSelect.activeChoiceIndex]) {
+                lxSelect.toggleChoice(filteredChoices[lxSelect.activeChoiceIndex]);
             } else if (lxSelect.filterModel && lxSelect.allowNewValue) {
                 if (angular.isArray(getSelectedModel())) {
-                    var value = angular.isFunction(lxSelect.newValueTransform)
-                        ? lxSelect.newValueTransform(lxSelect.filterModel)
-                        : lxSelect.filterModel;
-                    var identical = getSelectedModel().some(function(item) {
+                    var value = angular.isFunction(lxSelect.newValueTransform) ? lxSelect.newValueTransform(lxSelect.filterModel) : lxSelect.filterModel;
+                    var identical = getSelectedModel().some(function (item) {
                         return angular.equals(item, value);
                     });
 
@@ -488,15 +435,9 @@
             var filteredChoices;
 
             if (lxSelect.choicesViewMode === 'panes') {
-                filteredChoices = Object.keys(
-                    lxSelect.panes[lxSelect.panes.length - 1]
-                );
+                filteredChoices = Object.keys(lxSelect.panes[(lxSelect.panes.length - 1)]);
             } else {
-                filteredChoices = $filter('filterChoices')(
-                    lxSelect.choices,
-                    lxSelect.filter,
-                    lxSelect.filterModel
-                );
+                filteredChoices = $filter('filterChoices')(lxSelect.choices, lxSelect.filter, lxSelect.filterModel);
             }
 
             if (filteredChoices.length) {
@@ -508,10 +449,7 @@
             }
 
             if (lxSelect.autocomplete) {
-                LxDropdownService.open(
-                    'dropdown-' + lxSelect.uuid,
-                    '#lx-select-selected-wrapper-' + lxSelect.uuid
-                );
+                LxDropdownService.open('dropdown-' + lxSelect.uuid, '#lx-select-selected-wrapper-' + lxSelect.uuid);
             }
         }
 
@@ -541,10 +479,7 @@
                 return false;
             }
 
-            var pane =
-                pane || lxSelect.choicesViewSize === 'large'
-                    ? lxSelect.panes[parentIndex]
-                    : lxSelect.openedPanes[parentIndex];
+            var pane = pane || lxSelect.choicesViewSize === 'large' ? lxSelect.panes[parentIndex] : lxSelect.openedPanes[parentIndex];
 
             if (angular.isUndefined(pane)) {
                 return false;
@@ -567,14 +502,8 @@
 
             toggledPanes[parentIndex] = {
                 key: key,
-                position:
-                    lxSelect.choicesViewSize === 'large'
-                        ? lxSelect.panes.length - 1
-                        : lxSelect.openedPanes.length - 1,
-                path:
-                    parentIndex === 0
-                        ? key
-                        : toggledPanes[parentIndex - 1].path + '.' + key
+                position: lxSelect.choicesViewSize === 'large' ? lxSelect.panes.length - 1 : lxSelect.openedPanes.length - 1,
+                path: (parentIndex === 0) ? key : toggledPanes[parentIndex - 1].path + '.' + key,
             };
 
             return true;
@@ -592,34 +521,21 @@
          */
         function _searchPath(container, regexp, previousKey, limitToFields) {
             limitToFields = limitToFields || [];
-            limitToFields = angular.isArray(limitToFields)
-                ? limitToFields
-                : [limitToFields];
+            limitToFields = (angular.isArray(limitToFields)) ? limitToFields : [limitToFields];
 
             var results = [];
 
-            angular.forEach(container, function forEachItemsInContainer(
-                items,
-                key
-            ) {
-                if (
-                    limitToFields.length > 0 &&
-                    limitToFields.indexOf(key) === -1
-                ) {
+            angular.forEach(container, function forEachItemsInContainer(items, key) {
+                if (limitToFields.length > 0 && limitToFields.indexOf(key) === -1) {
                     return;
                 }
 
-                var pathToMatching = previousKey
-                    ? previousKey + '.' + key
-                    : key;
+                var pathToMatching = (previousKey) ? previousKey + '.' + key : key;
 
                 var previousKeyAdded = false;
                 var isLeaf = lxSelect.isLeaf(items);
 
-                if (
-                    (!isLeaf && angular.isString(key) && regexp.test(key)) ||
-                    (angular.isString(items) && regexp.test(items))
-                ) {
+                if ((!isLeaf && angular.isString(key) && regexp.test(key)) || (angular.isString(items) && regexp.test(items))) {
                     if (!previousKeyAdded && previousKey) {
                         results.push(previousKey);
                     }
@@ -630,12 +546,7 @@
                 }
 
                 if (angular.isArray(items) || angular.isObject(items)) {
-                    var newPaths = _searchPath(
-                        items,
-                        regexp,
-                        pathToMatching,
-                        isLeaf ? lxSelect.filterFields : []
-                    );
+                    var newPaths = _searchPath(items, regexp, pathToMatching, (isLeaf) ? lxSelect.filterFields : []);
 
                     if (angular.isDefined(newPaths) && newPaths.length > 0) {
                         if (previousKey) {
@@ -657,9 +568,12 @@
         //                         //
         /////////////////////////////
 
-        function arrayObjectIndexOf(arr, obj) {
-            for (var i = 0; i < arr.length; i++) {
-                if (angular.equals(arr[i], obj)) {
+        function arrayObjectIndexOf(arr, obj)
+        {
+            for (var i = 0; i < arr.length; i++)
+            {
+                if (angular.equals(arr[i], obj))
+                {
                     return i;
                 }
             }
@@ -676,47 +590,40 @@
             return LxDropdownService.isOpen('dropdown-' + lxSelect.uuid);
         }
 
-        function displayChoice(_choice) {
+        function displayChoice(_choice)
+        {
             var choiceScope = {
                 $choice: _choice
             };
 
             var interpolatedChoice = $interpolate(choiceTemplate)(choiceScope);
             interpolatedChoice = '<span>' + interpolatedChoice + '</span>';
-            return $sce.trustAsHtml(
-                lxSelect.matchingPaths
-                    ? $filter('lxHighlight')(
-                          interpolatedChoice,
-                          lxSelect.filterModel,
-                          true
-                      )
-                    : interpolatedChoice
+            return $sce.trustAsHtml((lxSelect.matchingPaths) ?
+                $filter('lxHighlight')(interpolatedChoice, lxSelect.filterModel, true) : interpolatedChoice
             );
         }
 
-        function displaySelected(_selected) {
+        function displaySelected(_selected)
+        {
             var selectedScope = {};
 
-            if (!angular.isArray(lxSelect.choices)) {
+            if (!angular.isArray(lxSelect.choices))
+            {
                 var found = false;
 
-                for (var header in lxSelect.choices) {
-                    if (found) {
+                for (var header in lxSelect.choices)
+                {
+                    if (found)
+                    {
                         break;
                     }
 
-                    if (lxSelect.choices.hasOwnProperty(header)) {
-                        for (
-                            var idx = 0, len = lxSelect.choices[header].length;
-                            idx < len;
-                            idx++
-                        ) {
-                            if (
-                                angular.equals(
-                                    _selected,
-                                    lxSelect.choices[header][idx]
-                                )
-                            ) {
+                    if (lxSelect.choices.hasOwnProperty(header))
+                    {
+                        for (var idx = 0, len = lxSelect.choices[header].length; idx < len; idx++)
+                        {
+                            if (angular.equals(_selected, lxSelect.choices[header][idx]))
+                            {
                                 selectedScope.$selectedSubheader = header;
 
                                 found = true;
@@ -728,44 +635,38 @@
                 }
             }
 
-            if (angular.isDefined(_selected)) {
+            if (angular.isDefined(_selected))
+            {
                 selectedScope.$selected = _selected;
-            } else {
+            }
+            else
+            {
                 selectedScope.$selected = getSelectedModel();
             }
 
-            return $sce.trustAsHtml(
-                $interpolate(selectedTemplate)(selectedScope)
+            return $sce.trustAsHtml($interpolate(selectedTemplate)(selectedScope));
+        }
+
+        function displaySubheader(_subheader)
+        {
+            return $sce.trustAsHtml((lxSelect.matchingPaths) ?
+                $filter('lxHighlight')(_subheader, lxSelect.filterModel, true) : _subheader
             );
         }
 
-        function displaySubheader(_subheader) {
-            return $sce.trustAsHtml(
-                lxSelect.matchingPaths
-                    ? $filter('lxHighlight')(
-                          _subheader,
-                          lxSelect.filterModel,
-                          true
-                      )
-                    : _subheader
-            );
+        function getFilteredChoices()
+        {
+            return $filter('filterChoices')(lxSelect.choices, lxSelect.filter, lxSelect.filterModel);
         }
 
-        function getFilteredChoices() {
-            return $filter('filterChoices')(
-                lxSelect.choices,
-                lxSelect.filter,
-                lxSelect.filterModel
-            );
-        }
-
-        function getSelectedModel() {
-            if (
-                angular.isDefined(lxSelect.modelToSelection) ||
-                angular.isDefined(lxSelect.selectionToModel)
-            ) {
+        function getSelectedModel()
+        {
+            if (angular.isDefined(lxSelect.modelToSelection) || angular.isDefined(lxSelect.selectionToModel))
+            {
                 return lxSelect.unconvertedModel;
-            } else {
+            }
+            else
+            {
                 return lxSelect.ngModel;
             }
         }
@@ -803,10 +704,7 @@
                     continue;
                 }
 
-                if (
-                    !angular.isArray(obj[property]) &&
-                    !angular.isObject(obj[property])
-                ) {
+                if (!angular.isArray(obj[property]) && !angular.isObject(obj[property])) {
                     isLeaf = true;
                     break;
                 }
@@ -823,10 +721,7 @@
          * @return {boolean}       If the pane is toggled or not.
          */
         function isPaneToggled(parentIndex, indexOrKey) {
-            var pane =
-                lxSelect.choicesViewSize === 'large'
-                    ? lxSelect.panes[parentIndex]
-                    : lxSelect.openedPanes[parentIndex];
+            var pane = lxSelect.choicesViewSize === 'large' ? lxSelect.panes[parentIndex] : lxSelect.openedPanes[parentIndex];
 
             if (angular.isUndefined(pane)) {
                 return false;
@@ -837,10 +732,7 @@
                 key = (Object.keys(pane) || [])[indexOrKey];
             }
 
-            return (
-                angular.isDefined(toggledPanes[parentIndex]) &&
-                toggledPanes[parentIndex].key === key
-            );
+            return angular.isDefined(toggledPanes[parentIndex]) && toggledPanes[parentIndex].key === key;
         }
 
         /**
@@ -850,10 +742,7 @@
          * @param {number|string} indexOrKey  The index or the name of the item to check.
          */
         function isMatchingPath(parentIndex, indexOrKey) {
-            var pane =
-                lxSelect.choicesViewSize === 'large'
-                    ? lxSelect.panes[parentIndex]
-                    : lxSelect.openedPanes[parentIndex];
+            var pane = lxSelect.choicesViewSize === 'large' ? lxSelect.panes[parentIndex] : lxSelect.openedPanes[parentIndex];
 
             if (angular.isUndefined(pane)) {
                 return;
@@ -873,24 +762,24 @@
                 return false;
             }
 
-            return (
-                _findIndex(
-                    lxSelect.matchingPaths,
-                    previous.path + '.' + key
-                ) !== -1
-            );
+            return _findIndex(lxSelect.matchingPaths, previous.path + '.' + key) !== -1;
         }
 
-        function isSelected(_choice) {
-            if (lxSelect.multiple && angular.isDefined(getSelectedModel())) {
+        function isSelected(_choice)
+        {
+            if (lxSelect.multiple && angular.isDefined(getSelectedModel()))
+            {
                 return arrayObjectIndexOf(getSelectedModel(), _choice) !== -1;
-            } else if (angular.isDefined(getSelectedModel())) {
+            }
+            else if (angular.isDefined(getSelectedModel()))
+            {
                 return angular.equals(getSelectedModel(), _choice);
             }
         }
 
         function isMaxSelected() {
-            if (lxSelect.multiple && angular.isDefined(lxSelect.max)) {
+            if (lxSelect.multiple && angular.isDefined(lxSelect.max))
+            {
                 return lxSelect.ngModel.length >= parseInt(lxSelect.max, 10);
             }
 
@@ -940,6 +829,7 @@
                     }
                     break;
 
+
                 case 40:
                     _keyDown();
                     evt.preventDefault();
@@ -950,18 +840,22 @@
             }
         }
 
-        function registerChoiceTemplate(_choiceTemplate) {
+        function registerChoiceTemplate(_choiceTemplate)
+        {
             choiceTemplate = _choiceTemplate;
         }
 
-        function registerSelectedTemplate(_selectedTemplate) {
+        function registerSelectedTemplate(_selectedTemplate)
+        {
             selectedTemplate = _selectedTemplate;
         }
 
-        function select(_choice, cb) {
+        function select(_choice, cb)
+        {
             cb = cb || angular.noop;
 
-            if (lxSelect.multiple) {
+            if (lxSelect.multiple)
+            {
                 if (angular.isUndefined(lxSelect.ngModel)) {
                     lxSelect.ngModel = [];
                 }
@@ -973,30 +867,29 @@
                 }
             }
 
-            if (angular.isDefined(lxSelect.selectionToModel)) {
-                lxSelect.selectionToModel({
+            if (angular.isDefined(lxSelect.selectionToModel))
+            {
+                lxSelect.selectionToModel(
+                {
                     data: _choice,
-                    callback: function(resp) {
-                        if (lxSelect.multiple) {
+                    callback: function(resp)
+                    {
+                        if (lxSelect.multiple)
+                        {
                             lxSelect.ngModel.push(resp);
-                        } else {
+                        }
+                        else
+                        {
                             lxSelect.ngModel = resp;
                         }
 
-                        if (lxSelect.autocomplete) {
-                            $element
-                                .find('.lx-select-selected__filter')
-                                .focus();
+                        if (lxSelect.autocomplete)
+                        {
+                            $element.find('.lx-select-selected__filter').focus();
                         }
 
-                        if (
-                            lxSelect.choicesViewMode === 'panes' &&
-                            lxSelect.displayFilter &&
-                            lxSelect.multiple
-                        ) {
-                            $element
-                                .find('.lx-select-selected__filter input')
-                                .focus();
+                        if (lxSelect.choicesViewMode === 'panes' && lxSelect.displayFilter && lxSelect.multiple) {
+                            $element.find('.lx-select-selected__filter input').focus();
                         }
 
                         if (angular.isFunction(cb)) {
@@ -1004,22 +897,24 @@
                         }
                     }
                 });
-            } else {
-                if (lxSelect.multiple) {
+            }
+            else
+            {
+                if (lxSelect.multiple)
+                {
                     lxSelect.ngModel.push(_choice);
-                } else {
+                }
+                else
+                {
                     lxSelect.ngModel = _choice;
                 }
 
-                if (lxSelect.autocomplete) {
+                if (lxSelect.autocomplete)
+                {
                     $element.find('.lx-select-selected__filter').focus();
                 }
 
-                if (
-                    lxSelect.choicesViewMode === 'panes' &&
-                    lxSelect.displayFilter &&
-                    lxSelect.multiple
-                ) {
+                if (lxSelect.choicesViewMode === 'panes' && lxSelect.displayFilter && lxSelect.multiple) {
                     $element.find('.lx-select-selected__filter input').focus();
                 }
 
@@ -1036,46 +931,28 @@
          * @param {Event}  [evt]  The event that triggered the function.
          */
         function toggleChoice(choice, evt) {
-            if (
-                lxSelect.multiple &&
-                !lxSelect.autocomplete &&
-                angular.isDefined(evt)
-            ) {
+            if (lxSelect.multiple && !lxSelect.autocomplete && angular.isDefined(evt)) {
                 evt.stopPropagation();
             }
 
             if (lxSelect.areChoicesOpened() && lxSelect.multiple) {
-                var dropdownElement = angular.element(
-                    angular
-                        .element(evt.target)
-                        .closest('.dropdown-menu--is-open')[0]
-                );
+                var dropdownElement = angular.element(angular.element(evt.target).closest('.dropdown-menu--is-open')[0]);
                 // If the dropdown element is scrollable, fix the content div height to keep the current scroll state.
                 if (dropdownElement.scrollTop() > 0) {
-                    var dropdownContentElement = angular.element(
-                        dropdownElement.find('.dropdown-menu__content')[0]
-                    );
-                    var dropdownFilterElement = angular.element(
-                        dropdownContentElement.find(
-                            '.lx-select-choices__filter'
-                        )[0]
-                    );
+                    var dropdownContentElement = angular.element(dropdownElement.find('.dropdown-menu__content')[0]);
+                    var dropdownFilterElement = angular.element(dropdownContentElement.find('.lx-select-choices__filter')[0]);
 
                     var newHeight = dropdownContentElement.height();
-                    newHeight -= dropdownFilterElement.length
-                        ? dropdownFilterElement.outerHeight()
-                        : 0;
+                    newHeight -= (dropdownFilterElement.length) ? dropdownFilterElement.outerHeight() : 0;
 
-                    var dropdownListElement = angular.element(
-                        dropdownContentElement.find('ul > div')[0]
-                    );
+                    var dropdownListElement = angular.element(dropdownContentElement.find('ul > div')[0]);
                     dropdownListElement.css('height', newHeight + 'px');
 
                     // This function is called when the ng-change attached to the filter input is called.
                     lxSelect.resetDropdownSize = function() {
                         dropdownListElement.css('height', 'auto');
                         lxSelect.resetDropdownSize = undefined;
-                    };
+                    }
                 }
             }
 
@@ -1090,10 +967,7 @@
                 lxSelect.filterModel = undefined;
             }
 
-            if (
-                lxSelect.autocomplete ||
-                (lxSelect.choicesViewMode === 'panes' && !lxSelect.multiple)
-            ) {
+            if (lxSelect.autocomplete || (lxSelect.choicesViewMode === 'panes' && !lxSelect.multiple)) {
                 LxDropdownService.close('dropdown-' + lxSelect.uuid);
             }
         }
@@ -1108,11 +982,8 @@
          *                                          in fact a leaf.
          */
         function togglePane(evt, parentIndex, indexOrKey, selectLeaf) {
-            selectLeaf = angular.isUndefined(selectLeaf) ? true : selectLeaf;
-            var pane =
-                lxSelect.choicesViewSize === 'large'
-                    ? lxSelect.panes[parentIndex]
-                    : lxSelect.openedPanes[parentIndex];
+            selectLeaf = (angular.isUndefined(selectLeaf)) ? true : selectLeaf;
+            var pane = lxSelect.choicesViewSize === 'large' ? lxSelect.panes[parentIndex] : lxSelect.openedPanes[parentIndex];
 
             if (angular.isUndefined(pane)) {
                 return;
@@ -1145,30 +1016,28 @@
             _openPane(parentIndex, key, false);
         }
 
-        function unselect(_choice, cb) {
+        function unselect(_choice, cb)
+        {
             cb = cb || angular.noop;
 
-            if (angular.isDefined(lxSelect.selectionToModel)) {
-                lxSelect.selectionToModel({
+            if (angular.isDefined(lxSelect.selectionToModel))
+            {
+                lxSelect.selectionToModel(
+                {
                     data: _choice,
-                    callback: function(resp) {
+                    callback: function(resp)
+                    {
                         removeElement(lxSelect.ngModel, resp);
 
-                        if (lxSelect.autocomplete) {
-                            $element
-                                .find('.lx-select-selected__filter')
-                                .focus();
+                        if (lxSelect.autocomplete)
+                        {
+                            $element.find('.lx-select-selected__filter').focus();
                             lxSelect.activeSelectedIndex = -1;
                         }
 
-                        if (
-                            lxSelect.choicesViewMode === 'panes' &&
-                            lxSelect.displayFilter &&
-                            (lxSelect.ngModel.length === 0 || lxSelect.multiple)
-                        ) {
-                            $element
-                                .find('.lx-select-selected__filter input')
-                                .focus();
+                        if (lxSelect.choicesViewMode === 'panes' && lxSelect.displayFilter &&
+                            (lxSelect.ngModel.length === 0 || lxSelect.multiple)) {
+                            $element.find('.lx-select-selected__filter input').focus();
                         }
 
                         if (angular.isFunction(cb)) {
@@ -1178,19 +1047,19 @@
                 });
 
                 removeElement(lxSelect.unconvertedModel, _choice);
-            } else {
+            }
+            else
+            {
                 removeElement(lxSelect.ngModel, _choice);
 
-                if (lxSelect.autocomplete) {
+                if (lxSelect.autocomplete)
+                {
                     $element.find('.lx-select-selected__filter').focus();
                     lxSelect.activeSelectedIndex = -1;
                 }
 
-                if (
-                    lxSelect.choicesViewMode === 'panes' &&
-                    lxSelect.displayFilter &&
-                    (lxSelect.ngModel.length === 0 || lxSelect.multiple)
-                ) {
+                if (lxSelect.choicesViewMode === 'panes' && lxSelect.displayFilter &&
+                    (lxSelect.ngModel.length === 0 || lxSelect.multiple)) {
                     $element.find('.lx-select-selected__filter input').focus();
                 }
 
@@ -1214,9 +1083,7 @@
                     newValue: lxSelect.filterModel
                 });
             } else if (lxSelect.choicesViewMode === 'panes') {
-                lxSelect.matchingPaths = lxSelect.searchPath(
-                    lxSelect.filterModel
-                );
+                lxSelect.matchingPaths = lxSelect.searchPath(lxSelect.filterModel);
                 _closePanes();
             }
 
@@ -1224,20 +1091,13 @@
                 lxSelect.activeChoiceIndex = -1;
 
                 if (lxSelect.filterModel) {
-                    LxDropdownService.open(
-                        'dropdown-' + lxSelect.uuid,
-                        '#lx-select-selected-wrapper-' + lxSelect.uuid
-                    );
+                    LxDropdownService.open('dropdown-' + lxSelect.uuid, '#lx-select-selected-wrapper-' + lxSelect.uuid);
                 } else {
                     LxDropdownService.close('dropdown-' + lxSelect.uuid);
                 }
             }
 
-            if (
-                lxSelect.choicesViewMode === 'panes' &&
-                angular.isDefined(lxSelect.matchingPaths) &&
-                lxSelect.matchingPaths.length > 0
-            ) {
+            if (lxSelect.choicesViewMode === 'panes' && angular.isDefined(lxSelect.matchingPaths) && lxSelect.matchingPaths.length > 0) {
                 var longest = _getLongestMatchingPath();
                 if (!longest) {
                     return;
@@ -1248,52 +1108,54 @@
                     return;
                 }
 
-                angular.forEach(
-                    longestPath,
-                    function forEachPartOfTheLongestPath(part, index) {
-                        _openPane(
-                            index,
-                            part,
-                            index === longestPath.length - 1
-                        );
-                    }
-                );
+                angular.forEach(longestPath, function forEachPartOfTheLongestPath(part, index) {
+                    _openPane(index, part, index === (longestPath.length - 1));
+                });
             }
         }
 
         function helperDisplayable() {
             // If helper message is not defined, message is not displayed...
-            if (angular.isUndefined(lxSelect.helperMessage)) {
+            if (angular.isUndefined(lxSelect.helperMessage))
+            {
                 return false;
             }
 
             // If helper is defined return it's state.
-            if (angular.isDefined(lxSelect.helper)) {
+            if (angular.isDefined(lxSelect.helper))
+            {
                 return lxSelect.helper;
             }
 
             // Else check if there's choices.
             var choices = lxSelect.getFilteredChoices();
 
-            if (angular.isArray(choices)) {
+            if (angular.isArray(choices))
+            {
                 return !choices.length;
-            } else if (angular.isObject(choices)) {
+            }
+            else if (angular.isObject(choices))
+            {
                 return !(Object.keys(choices) || []).length;
             }
 
             return true;
         }
 
-        function removeElement(model, element) {
+        function removeElement(model, element)
+        {
             var index = -1;
-            for (var i = 0, len = model.length; i < len; i++) {
-                if (angular.equals(element, model[i])) {
+            for (var i = 0, len = model.length; i < len; i++)
+            {
+                if (angular.equals(element, model[i]))
+                {
                     index = i;
                     break;
                 }
             }
 
-            if (index > -1) {
+            if (index > -1)
+            {
                 model.splice(index, 1);
             }
         }
@@ -1343,25 +1205,18 @@
         //                         //
         /////////////////////////////
 
-        $scope.$watch(
-            function watcherChoices() {
-                return lxSelect.choices;
-            },
-            function watchChoices(newChoices, oldChoices) {
-                if (
-                    angular.isUndefined(lxSelect.choices) ||
-                    lxSelect.choices === null
-                ) {
-                    lxSelect.panes = [];
+        $scope.$watch(function watcherChoices() {
+            return lxSelect.choices;
+        }, function watchChoices(newChoices, oldChoices) {
+            if (angular.isUndefined(lxSelect.choices) || lxSelect.choices === null) {
+                lxSelect.panes = [];
 
-                    return;
-                }
+                return;
+            }
 
-                lxSelect.panes = [lxSelect.choices];
-                lxSelect.openedPanes = [lxSelect.choices];
-            },
-            true
-        );
+            lxSelect.panes = [lxSelect.choices];
+            lxSelect.openedPanes = [lxSelect.choices];
+        }, true);
 
         /////////////////////////////
         //                         //
@@ -1375,14 +1230,8 @@
          * @param {Event}  evt        The dropdown close event.
          * @param {string} dropdownId The id of the dropdown that ends to close.
          */
-        $scope.$on('lx-dropdown__close-end', function onDropdownClose(
-            evt,
-            dropdownId
-        ) {
-            if (
-                lxSelect.choicesViewMode !== 'panes' ||
-                dropdownId !== 'dropdown-' + lxSelect.uuid
-            ) {
+        $scope.$on('lx-dropdown__close-end', function onDropdownClose(evt, dropdownId) {
+            if (lxSelect.choicesViewMode !== 'panes' || dropdownId !== 'dropdown-' + lxSelect.uuid) {
                 return;
             }
 
@@ -1401,14 +1250,8 @@
          * @param {Event}  evt        The dropdown open event.
          * @param {string} dropdownId The id of the dropdown that ends to close.
          */
-        $scope.$on('lx-dropdown__open-start', function onDropdownOpen(
-            evt,
-            dropdownId
-        ) {
-            if (
-                lxSelect.choicesViewMode !== 'panes' ||
-                dropdownId !== 'dropdown-' + lxSelect.uuid
-            ) {
+        $scope.$on('lx-dropdown__open-start', function onDropdownOpen(evt, dropdownId) {
+            if (lxSelect.choicesViewMode !== 'panes' || dropdownId !== 'dropdown-' + lxSelect.uuid) {
                 return;
             }
 
@@ -1418,25 +1261,10 @@
                 $element.find('.lx-select-selected__filter input').focus();
             });
         });
-
-        /**
-         * When the end of the dropdown is reached and inifinite scroll is specified,
-         * fetch new data.
-         */
-        $scope.$on('lx-dropdown__scroll-end', async () => {
-            if (angular.isUndefined(lxSelect.infiniteScroll)) {
-                return;
-            }
-
-            const newdata = await lxSelect.infiniteScroll()();
-
-            if (!!newdata.length) {
-                lxSelect.choices = [...lxSelect.choices, ...newdata];
-            }
-        });
     }
 
-    function lxSelectSelected() {
+    function lxSelectSelected()
+    {
         return {
             restrict: 'E',
             require: ['lxSelectSelected', '^lxSelect'],
@@ -1448,13 +1276,16 @@
             transclude: true
         };
 
-        function link(scope, element, attrs, ctrls, transclude) {
+        function link(scope, element, attrs, ctrls, transclude)
+        {
             ctrls[0].setParentController(ctrls[1]);
 
-            transclude(scope, function(clone) {
+            transclude(scope, function(clone)
+            {
                 var template = '';
 
-                for (var i = 0; i < clone.length; i++) {
+                for (var i = 0; i < clone.length; i++)
+                {
                     template += clone[i].data || clone[i].outerHTML || '';
                 }
 
@@ -1463,7 +1294,8 @@
         }
     }
 
-    function LxSelectSelectedController() {
+    function LxSelectSelectedController()
+    {
         var lxSelectSelected = this;
 
         lxSelectSelected.clearModel = clearModel;
@@ -1472,25 +1304,29 @@
 
         ////////////
 
-        function clearModel(_event) {
+        function clearModel(_event)
+        {
             _event.stopPropagation();
 
             lxSelectSelected.parentCtrl.ngModel = undefined;
             lxSelectSelected.parentCtrl.unconvertedModel = undefined;
         }
 
-        function setParentController(_parentCtrl) {
+        function setParentController(_parentCtrl)
+        {
             lxSelectSelected.parentCtrl = _parentCtrl;
         }
 
-        function removeSelected(_selected, _event) {
+        function removeSelected(_selected, _event)
+        {
             _event.stopPropagation();
 
             lxSelectSelected.parentCtrl.unselect(_selected);
         }
     }
 
-    function lxSelectChoices() {
+    function lxSelectChoices()
+    {
         return {
             restrict: 'E',
             require: ['lxSelectChoices', '^lxSelect'],
@@ -1502,13 +1338,16 @@
             transclude: true
         };
 
-        function link(scope, element, attrs, ctrls, transclude) {
+        function link(scope, element, attrs, ctrls, transclude)
+        {
             ctrls[0].setParentController(ctrls[1]);
 
-            transclude(scope, function(clone) {
+            transclude(scope, function(clone)
+            {
                 var template = '';
 
-                for (var i = 0; i < clone.length; i++) {
+                for (var i = 0; i < clone.length; i++)
+                {
                     template += clone[i].data || clone[i].outerHTML || '';
                 }
 
@@ -1519,65 +1358,56 @@
 
     LxSelectChoicesController.$inject = ['$scope', '$timeout', '$window'];
 
-    function LxSelectChoicesController($scope, $timeout, $window) {
+    function LxSelectChoicesController($scope, $timeout, $window)
+    {
         var lxSelectChoices = this;
         var timer;
 
         lxSelectChoices.isArray = isArray;
         lxSelectChoices.setParentController = setParentController;
 
-        $scope.$on('$destroy', function() {
+        $scope.$on('$destroy', function()
+        {
             $timeout.cancel(timer);
         });
 
         ////////////
 
-        function isArray(choices) {
-            choices = angular.isUndefined(choices)
-                ? lxSelectChoices.parentCtrl.choices
-                : choices;
+        function isArray(choices)
+        {
+            choices = (angular.isUndefined(choices)) ? lxSelectChoices.parentCtrl.choices : choices;
 
             return angular.isArray(choices);
         }
 
-        function setParentController(_parentCtrl) {
+        function setParentController(_parentCtrl)
+        {
             lxSelectChoices.parentCtrl = _parentCtrl;
 
-            $scope.$watch(
-                function() {
-                    return lxSelectChoices.parentCtrl.ngModel;
-                },
-                function(newModel, oldModel) {
-                    timer = $timeout(function() {
-                        if (
-                            newModel !== oldModel &&
-                            angular.isDefined(
-                                lxSelectChoices.parentCtrl.ngChange
-                            )
-                        ) {
-                            lxSelectChoices.parentCtrl.ngChange({
-                                newValue: newModel,
-                                oldValue: oldModel
-                            });
-                        }
+            $scope.$watch(function()
+            {
+                return lxSelectChoices.parentCtrl.ngModel;
+            }, function(newModel, oldModel)
+            {
+                timer = $timeout(function()
+                {
+                    if (newModel !== oldModel && angular.isDefined(lxSelectChoices.parentCtrl.ngChange))
+                    {
+                        lxSelectChoices.parentCtrl.ngChange(
+                        {
+                            newValue: newModel,
+                            oldValue: oldModel
+                        });
+                    }
 
-                        if (
-                            angular.isDefined(
-                                lxSelectChoices.parentCtrl.modelToSelection
-                            ) ||
-                            angular.isDefined(
-                                lxSelectChoices.parentCtrl.selectionToModel
-                            )
-                        ) {
-                            toSelection();
-                        }
-                    });
-                },
-                true
-            );
+                    if (angular.isDefined(lxSelectChoices.parentCtrl.modelToSelection) || angular.isDefined(lxSelectChoices.parentCtrl.selectionToModel))
+                    {
+                        toSelection();
+                    }
+                });
+            }, true);
 
-            lxSelectChoices.parentCtrl.choicesViewSize =
-                $window.innerWidth < 980 ? 'small' : 'large';
+            lxSelectChoices.parentCtrl.choicesViewSize = $window.innerWidth < 980 ? 'small' : 'large';
 
             angular.element($window).on('resize', function onResize(evt) {
                 if (evt.target.innerWidth < 980) {
@@ -1588,26 +1418,31 @@
             });
         }
 
-        function toSelection() {
-            if (lxSelectChoices.parentCtrl.multiple) {
+        function toSelection()
+        {
+            if (lxSelectChoices.parentCtrl.multiple)
+            {
                 lxSelectChoices.parentCtrl.unconvertedModel = [];
 
-                angular.forEach(lxSelectChoices.parentCtrl.ngModel, function(
-                    item
-                ) {
-                    lxSelectChoices.parentCtrl.modelToSelection({
+                angular.forEach(lxSelectChoices.parentCtrl.ngModel, function(item)
+                {
+                    lxSelectChoices.parentCtrl.modelToSelection(
+                    {
                         data: item,
-                        callback: function(resp) {
-                            lxSelectChoices.parentCtrl.unconvertedModel.push(
-                                resp
-                            );
+                        callback: function(resp)
+                        {
+                            lxSelectChoices.parentCtrl.unconvertedModel.push(resp);
                         }
                     });
                 });
-            } else {
-                lxSelectChoices.parentCtrl.modelToSelection({
+            }
+            else
+            {
+                lxSelectChoices.parentCtrl.modelToSelection(
+                {
                     data: lxSelectChoices.parentCtrl.ngModel,
-                    callback: function(resp) {
+                    callback: function(resp)
+                    {
                         lxSelectChoices.parentCtrl.unconvertedModel = resp;
                     }
                 });

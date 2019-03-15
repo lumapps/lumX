@@ -44,6 +44,3 @@ config.codekit
 
 # Yarn lock file
 yarn.lock
-
-# VSCode settings
-.vscode/settings.json
