@@ -66,6 +66,7 @@
                 fixedLabel: '=?lxFixedLabel',
                 helper: '=?lxHelper',
                 helperMessage: '@?lxHelperMessage',
+                infiniteScroll: '&?lxInfiniteScroll',
                 label: '@?lxLabel',
                 loading: '=?lxLoading',
                 max: '=?lxMax',
@@ -158,6 +159,12 @@
             {
                 scope.lxSelect.selectionToModel = function(data)
                 {
+                    return scope.$parent.$eval(newValue, data);
+                };
+            });
+
+            attrs.$observe('infiniteScroll', function(newValue) {
+                scope.lxSelect.infiniteScroll = data => {
                     return scope.$parent.$eval(newValue, data);
                 };
             });
@@ -1260,6 +1267,25 @@
             $timeout(function delayFocusSearchFilter() {
                 $element.find('.lx-select-selected__filter input').focus();
             });
+        });
+
+        /**
+         * When the end of the dropdown is reached and inifinite scroll is specified,
+         * fetch new data.
+         * 
+         * @param {Event}  evt        The dropdown open event.
+         * @param {string} dropdownId The id of the dropdown that ends to close.
+         */
+        $scope.$on('lx-dropdown__scroll-end', async (evt, dropdownId) => {
+            if (angular.isUndefined(lxSelect.infiniteScroll) || dropdownId !== 'dropdown-' + lxSelect.uuid) {
+                return;
+            }
+
+            const newdata = await lxSelect.infiniteScroll()();
+
+            if (!!newdata.length) {
+                lxSelect.choices = [...lxSelect.choices, ...newdata];
+            }
         });
     }
 
