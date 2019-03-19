@@ -405,22 +405,22 @@
             vm.pageInfiniteScroll++;
             return $http
                 .get(
-                    `https://randomuser.me/api/?results=10&seed=lumapps&page=${
-                        vm.pageInfiniteScroll
-                    }`
+                    'https://randomuser.me/api/?results=10&seed=lumapps&page=' + vm.pageInfiniteScroll
                 )
-                .then(response => {
+                .then(function(response) {
                     if (response.data && response.data.results) {
-                        return response.data.results.map(person => ({
-                            name: person.name.first,
-                            email: person.email,
-                            age: person.dob.age
-                        }));
+                        return response.data.results.map(function(person) {
+                            return {
+                                name: person.name.first,
+                                email: person.email,
+                                age: person.dob.age
+                            };
+                        });
                     } else {
                         return [];
                     }
                 })
-                .catch(() => {
+                .catch(function() {
                     return [];
                 });
         }

@@ -164,7 +164,7 @@
             });
 
             attrs.$observe('infiniteScroll', function(newValue) {
-                scope.lxSelect.infiniteScroll = data => {
+                scope.lxSelect.infiniteScroll = function(data) {
                     return scope.$parent.$eval(newValue, data);
                 };
             });
@@ -1276,8 +1276,11 @@
          * @param {Event}  evt        The scroll event.
          * @param {string} dropdownId The id of the dropdown that scrolled to the end.
          */
-        $scope.$on('lx-dropdown__scroll-end', async (evt, dropdownId) => {
-            if (angular.isUndefined(lxSelect.infiniteScroll) || dropdownId !== 'dropdown-' + lxSelect.uuid) {
+        $scope.$on('lx-dropdown__scroll-end', function(evt, dropdownId) {
+            if (angular.isUndefined(lxSelect.infiniteScroll) 
+                || dropdownId !== 'dropdown-' + lxSelect.uuid 
+                || !!lxSelect.loading
+            ) {
                 return;
             }
 
@@ -1286,7 +1289,7 @@
             lxSelect.infiniteScroll()()
                     .then(function fetchNewData(newData) {
                         if (newData && newData.length) {
-                            lxSelect.choices = [...lxSelect.choices, ...newData];
+                            lxSelect.choices = lxSelect.choices.concat(newData);
                         }
                     })
                     .catch(function() {
