@@ -1277,15 +1277,12 @@
          * @param {string} dropdownId The id of the dropdown that scrolled to the end.
          */
         $scope.$on('lx-dropdown__scroll-end', function(evt, dropdownId) {
-            if (angular.isUndefined(lxSelect.infiniteScroll)
-                || typeof lxSelect.infiniteScroll !== 'function'
+            if (typeof lxSelect.infiniteScroll !== 'function'
                 || dropdownId !== 'dropdown-' + lxSelect.uuid 
                 || lxSelect.loading
             ) {
                 return;
             }
-
-            lxSelect.loading = true;
 
             lxSelect.infiniteScroll()()
                     .then(function fetchNewData(newData) {
@@ -1295,9 +1292,6 @@
                     })
                     .catch(function() {
                         // Do nothing here, because error is supposed to be catched before.
-                    })
-                    .finally(function stopLoading() {
-                        lxSelect.loading = false;
                     });
         });
     }

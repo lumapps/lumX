@@ -378,6 +378,7 @@
             selectedVegetables: []
         };
         vm.multipaneLoading = true;
+        vm.loadingInfiniteScroll = false;
         vm.pageInfiniteScroll = 0;
 
         $scope.$on('lx-dropdown__open-end', function onDropdownOpenEnd() {
@@ -403,6 +404,8 @@
          */
         function callApi() {
             vm.pageInfiniteScroll++;
+            vm.loadingInfiniteScroll = true;
+
             return $http
                 .get(
                     'https://randomuser.me/api/?results=10&seed=lumapps&page=' + vm.pageInfiniteScroll
@@ -422,6 +425,9 @@
                 })
                 .catch(function() {
                     return [];
+                })
+                .finally(function() {
+                    vm.loadingInfiniteScroll = false;
                 });
         }
     }
