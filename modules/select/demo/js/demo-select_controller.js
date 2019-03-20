@@ -12,6 +12,7 @@
     {
         var vm = this;
 
+        vm.callApi = callApi;
         vm.selectCallback = selectCallback;
 
         vm.selectAjax = {
@@ -117,6 +118,61 @@
             name: 'Adrian',
             email: 'adrian@email.com',
             age: 21
+        },
+        {
+            name: 'David',
+            email: 'david@email.com',
+            age: 42
+        },
+        {
+            name: 'Julia',
+            email: 'julia@email.com',
+            age: 35
+        },
+        {
+            name: 'Ahmed',
+            email: 'ahmed@email.com',
+            age: 31
+        },
+        {
+            name: 'Sofia',
+            email: 'sofia@email.com',
+            age: 23
+        },
+        {
+            name: 'Corinne',
+            email: 'corinne@email.com',
+            age: 54
+        },
+        {
+            name: 'Nicolas',
+            email: 'nicolas@email.com',
+            age: 32
+        },
+        {
+            name: 'Henry',
+            email: 'henry@email.com',
+            age: 18
+        },
+        {
+            name: 'Carol',
+            email: 'carol@email.com',
+            age: 45
+        },
+        {
+            name: 'Stephan',
+            email: 'stephan@email.com',
+            age: 36
+        },
+        {
+            name: 'Elizabeth',
+            email: 'elizabeth@email.com',
+            age: 92
+        },
+        {
+            name: 'François',
+            email: 'francois@email.com',
+            age: 45
         }];
         vm.selectSections = {
             '<i class="mdi mdi-account"></i> <span>Sub header 1</span>': [
@@ -322,6 +378,8 @@
             selectedVegetables: []
         };
         vm.multipaneLoading = true;
+        vm.loadingInfiniteScroll = false;
+        vm.pageInfiniteScroll = 0;
 
         $scope.$on('lx-dropdown__open-end', function onDropdownOpenEnd() {
             $timeout(function delayEndLoading() {
@@ -337,6 +395,40 @@
 
             console.log('Old value: ', _oldValue);
             console.log('New value: ', _newValue);
+        }
+
+        /**
+         * Call sample API.
+         *
+         * @return {Promise} Promise containing an array of users.
+         */
+        function callApi() {
+            vm.pageInfiniteScroll++;
+            vm.loadingInfiniteScroll = true;
+
+            return $http
+                .get(
+                    'https://randomuser.me/api/?results=10&seed=lumapps&page=' + vm.pageInfiniteScroll
+                )
+                .then(function(response) {
+                    if (response.data && response.data.results) {
+                        return response.data.results.map(function(person) {
+                            return {
+                                name: person.name.first,
+                                email: person.email,
+                                age: person.dob.age
+                            };
+                        });
+                    } else {
+                        return [];
+                    }
+                })
+                .catch(function() {
+                    return [];
+                })
+                .finally(function() {
+                    vm.loadingInfiniteScroll = false;
+                });
         }
     }
 })();

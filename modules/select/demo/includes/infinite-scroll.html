@@ -1,0 +1,20 @@
+<div class="p+ pt0">
+    <lx-select
+        ng-model="vm.selectModel.selectedPerson"
+        lx-allow-clear="true"
+        lx-choices="vm.selectPeople"
+        lx-display-filter="true"
+        lx-fixed-label="true"
+        lx-infinite-scroll="vm.callApi"
+        lx-label="Lorem Ipsum"
+        lx-loading="vm.loadingInfiniteScroll"
+    >
+        <lx-select-selected>
+            {{ $selected.name }} - {{ $selected.age }}
+        </lx-select-selected>
+
+        <lx-select-choices>
+            {{ $choice.email }}
+        </lx-select-choices>
+    </lx-select>
+</div>

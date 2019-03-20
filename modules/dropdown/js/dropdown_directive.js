@@ -248,6 +248,8 @@
                 });
             }
 
+            dropdownMenu.off('scroll', checkScrollEnd);
+
             $rootScope.$broadcast('lx-dropdown__close-end', $element.attr('id'));
         }
 
@@ -544,6 +546,8 @@
                     $timeout(updateDropdownMenuHeight);
                 }
 
+                dropdownMenu.on('scroll', checkScrollEnd);
+
                 $rootScope.$broadcast('lx-dropdown__open-end', $element.attr('id'));
             });
         }
@@ -633,6 +637,21 @@
             }
 
             dropdownMenu.scrollTop(scrollPosition);
+        }
+
+        /**
+        * Check if user has scrolled to the end of the dropdown.
+        */
+        function checkScrollEnd() {
+            if (
+                dropdownMenu.scrollTop() + dropdownMenu.innerHeight() >=
+                dropdownMenu[0].scrollHeight
+            ) {
+                $rootScope.$broadcast(
+                    'lx-dropdown__scroll-end',
+                    $element.attr('id')
+                );
+            }
         }
     }
 

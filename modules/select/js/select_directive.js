@@ -66,6 +66,7 @@
                 fixedLabel: '=?lxFixedLabel',
                 helper: '=?lxHelper',
                 helperMessage: '@?lxHelperMessage',
+                infiniteScroll: '&?lxInfiniteScroll',
                 label: '@?lxLabel',
                 loading: '=?lxLoading',
                 max: '=?lxMax',
@@ -161,6 +162,12 @@
                     return scope.$parent.$eval(newValue, data);
                 };
             });
+
+            attrs.$observe('infiniteScroll', function(newValue) {
+                scope.lxSelect.infiniteScroll = function(data) {
+                    return scope.$parent.$eval(newValue, data);
+                };
+            });
         }
     }
 
@@ -193,7 +200,7 @@
         lxSelect.unconvertedModel = lxSelect.multiple ? [] : undefined;
         lxSelect.viewMode = angular.isUndefined(lxSelect.viewMode) ? 'field' : lxSelect.viewMode;
         lxSelect.choicesViewMode = angular.isUndefined(lxSelect.choicesViewMode) ? 'list' : lxSelect.choicesViewMode;
-
+        
         lxSelect.panes = [];
         lxSelect.matchingPaths = undefined;
 
@@ -1260,6 +1267,32 @@
             $timeout(function delayFocusSearchFilter() {
                 $element.find('.lx-select-selected__filter input').focus();
             });
+        });
+
+        /**
+         * When the end of the dropdown is reached and infinite scroll is specified,
+         * fetch new data.
+         * 
+         * @param {Event}  evt        The scroll event.
+         * @param {string} dropdownId The id of the dropdown that scrolled to the end.
+         */
+        $scope.$on('lx-dropdown__scroll-end', function(evt, dropdownId) {
+            if (typeof lxSelect.infiniteScroll !== 'function'
+                || dropdownId !== 'dropdown-' + lxSelect.uuid 
+                || lxSelect.loading
+            ) {
+                return;
+            }
+
+            lxSelect.infiniteScroll()()
+                    .then(function fetchNewData(newData) {
+                        if (newData && newData.length) {
+                            lxSelect.choices = lxSelect.choices.concat(newData);
+                        }
+                    })
+                    .catch(function() {
+                        // Do nothing here, because error is supposed to be catched before.
+                    });
         });
     }
 

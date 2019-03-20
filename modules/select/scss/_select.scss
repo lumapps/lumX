@@ -490,9 +490,7 @@
 
     // Select choices: loader
     .lx-select-choices--default-style .lx-select-choices__loader {
-        @include display(flex);
-        @include flex-direction(row);
-        @include justify-content(center);
+        @include position(absolute, 0 0 null 0);
     }
 
     .lx-select-choices--multi-panes {
