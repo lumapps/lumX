@@ -1,5 +1,5 @@
 /*
- LumX v1.7.43
+ LumX v1.8.2
  (c) 2014-2019 LumApps http://ui.lumapps.com
  License: MIT
 */
@@ -2014,6 +2014,8 @@
                 });
             }
 
+            dropdownMenu.off('scroll', checkScrollEnd);
+
             $rootScope.$broadcast('lx-dropdown__close-end', $element.attr('id'));
         }
 
@@ -2310,6 +2312,8 @@
                     $timeout(updateDropdownMenuHeight);
                 }
 
+                dropdownMenu.on('scroll', checkScrollEnd);
+
                 $rootScope.$broadcast('lx-dropdown__open-end', $element.attr('id'));
             });
         }
@@ -2399,6 +2403,21 @@
             }
 
             dropdownMenu.scrollTop(scrollPosition);
+        }
+
+        /**
+        * Check if user has scrolled to the end of the dropdown.
+        */
+        function checkScrollEnd() {
+            if (
+                dropdownMenu.scrollTop() + dropdownMenu.innerHeight() >=
+                dropdownMenu[0].scrollHeight
+            ) {
+                $rootScope.$broadcast(
+                    'lx-dropdown__scroll-end',
+                    $element.attr('id')
+                );
+            }
         }
     }
 
@@ -4169,6 +4188,7 @@
                 fixedLabel: '=?lxFixedLabel',
                 helper: '=?lxHelper',
                 helperMessage: '@?lxHelperMessage',
+                infiniteScroll: '&?lxInfiniteScroll',
                 label: '@?lxLabel',
                 loading: '=?lxLoading',
                 max: '=?lxMax',
@@ -4264,6 +4284,12 @@
                     return scope.$parent.$eval(newValue, data);
                 };
             });
+
+            attrs.$observe('infiniteScroll', function(newValue) {
+                scope.lxSelect.infiniteScroll = function(data) {
+                    return scope.$parent.$eval(newValue, data);
+                };
+            });
         }
     }
 
@@ -4296,7 +4322,7 @@
         lxSelect.unconvertedModel = lxSelect.multiple ? [] : undefined;
         lxSelect.viewMode = angular.isUndefined(lxSelect.viewMode) ? 'field' : lxSelect.viewMode;
         lxSelect.choicesViewMode = angular.isUndefined(lxSelect.choicesViewMode) ? 'list' : lxSelect.choicesViewMode;
-
+        
         lxSelect.panes = [];
         lxSelect.matchingPaths = undefined;
 
@@ -5363,6 +5389,32 @@
             $timeout(function delayFocusSearchFilter() {
                 $element.find('.lx-select-selected__filter input').focus();
             });
+        });
+
+        /**
+         * When the end of the dropdown is reached and infinite scroll is specified,
+         * fetch new data.
+         * 
+         * @param {Event}  evt        The scroll event.
+         * @param {string} dropdownId The id of the dropdown that scrolled to the end.
+         */
+        $scope.$on('lx-dropdown__scroll-end', function(evt, dropdownId) {
+            if (typeof lxSelect.infiniteScroll !== 'function'
+                || dropdownId !== 'dropdown-' + lxSelect.uuid 
+                || lxSelect.loading
+            ) {
+                return;
+            }
+
+            lxSelect.infiniteScroll()()
+                    .then(function fetchNewData(newData) {
+                        if (newData && newData.length) {
+                            lxSelect.choices = lxSelect.choices.concat(newData);
+                        }
+                    })
+                    .catch(function() {
+                        // Do nothing here, because error is supposed to be catched before.
+                    });
         });
     }
 
@@ -7205,12 +7257,16 @@ angular.module("lumx.select").run(['$templateCache', function(a) { a.put('select
     '                              \'lx-select-choices--list\': lxSelectChoices.parentCtrl.choicesViewMode === \'list\',\n' +
     '                              \'lx-select-choices--multi-panes\': lxSelectChoices.parentCtrl.choicesViewMode === \'panes\' }">\n' +
     '    <ul ng-if="::lxSelectChoices.parentCtrl.choicesViewMode === \'list\'">\n' +
+    '        <li class="lx-select-choices__loader" ng-if="lxSelectChoices.parentCtrl.loading">\n' +
+    '            <lx-progress lx-type="linear" lx-color="primary"></lx-progress>\n' +
+    '        </li>\n' +
+    '\n' +
     '        <li class="lx-select-choices__filter" ng-if="::lxSelectChoices.parentCtrl.displayFilter && !lxSelectChoices.parentCtrl.autocomplete">\n' +
     '            <lx-search-filter lx-dropdown-filter>\n' +
     '                <input type="text" ng-model="lxSelectChoices.parentCtrl.filterModel" ng-change="lxSelectChoices.parentCtrl.updateFilter()">\n' +
     '            </lx-search-filter>\n' +
     '        </li>\n' +
-    '\n' +
+    '        \n' +
     '        <div ng-if="::lxSelectChoices.isArray()">\n' +
     '            <li class="lx-select-choices__choice"\n' +
     '                ng-class="{ \'lx-select-choices__choice--is-selected\': lxSelectChoices.parentCtrl.isSelected(choice),\n' +
@@ -7237,10 +7293,6 @@ angular.module("lumx.select").run(['$templateCache', function(a) { a.put('select
     '\n' +
     '        <li class="lx-select-choices__subheader" ng-if="lxSelectChoices.parentCtrl.helperDisplayable()">\n' +
     '            {{ lxSelectChoices.parentCtrl.helperMessage }}\n' +
-    '        </li>\n' +
-    '\n' +
-    '        <li class="lx-select-choices__loader" ng-if="lxSelectChoices.parentCtrl.loading">\n' +
-    '            <lx-progress lx-type="circular" lx-color="primary" lx-diameter="20"></lx-progress>\n' +
     '        </li>\n' +
     '    </ul>\n' +
     '\n' +

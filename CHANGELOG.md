@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.8.2:
+*No major changes.*
+
+
 ## v1.7.43:
 *No major changes.*
 
