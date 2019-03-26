@@ -395,6 +395,12 @@ textarea {
   font: inherit; /* 2 */
 }
 
+/**
+* Remove the clear cross when present in ie11 in text fields  
+*
+*/
+[type="text"]::-ms-clear {  display: none; width : 0; height: 0; }
+
 /* Interactive
    ========================================================================== */
 
