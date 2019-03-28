@@ -1,14 +1,30 @@
 <div class="data-table-container">
     <table class="data-table"
-           ng-class="{ 'data-table--no-border': !lxDataTable.border,
+           ng-class="{ 'data-table--bulk': lxDataTable.bulk,
+                       'data-table--border': lxDataTable.border,
                        'data-table--thumbnail': lxDataTable.thumbnail }">
         <thead>
             <tr ng-class="{ 'data-table__selectable-row': lxDataTable.selectable,
-                            'data-table__selectable-row--is-selected': lxDataTable.selectable && lxDataTable.allRowsSelected }">
-                <th ng-if="lxDataTable.thumbnail"></th>
-                <th ng-click="lxDataTable.toggleAllSelected()"
-                    ng-if="lxDataTable.selectable"></th>
-                <th ng-class=" { 'data-table__sortable-cell': th.sortable,
+                            'data-table__selectable-row--is-selected': lxDataTable.selectable && lxDataTable.allRowsSelected, }">
+                <th align="center" ng-if="lxDataTable.thumbnail">
+                    <lx-button class="data-table__checkbox"
+                               lx-type="icon" lx-color="{{ lxDataTable.allRowsSelected ? 'accent' : 'grey' }}"
+                               ng-click="lxDataTable.toggleAllSelected()"
+                               ng-if="lxDataTable.selectable">
+                        <lx-icon lx-id="checkbox-blank-outline" ng-if="!lxDataTable.allRowsSelected"></lx-icon>
+                        <lx-icon lx-id="checkbox-marked" ng-if="lxDataTable.allRowsSelected"></lx-icon>
+                    </lx-button>
+                </th>
+                <th align="center" ng-if="lxDataTable.selectable && !lxDataTable.thumbnail">
+                    <lx-button class="data-table__checkbox"
+                               lx-type="icon" lx-color="{{ lxDataTable.allRowsSelected ? 'accent' : 'grey' }}"
+                               ng-click="lxDataTable.toggleAllSelected()">
+                        <lx-icon lx-id="checkbox-blank-outline" ng-if="!lxDataTable.allRowsSelected"></lx-icon>
+                        <lx-icon lx-id="checkbox-marked" ng-if="lxDataTable.allRowsSelected"></lx-icon>
+                    </lx-button>
+                </th>
+                <th align="left"
+                    ng-class=" { 'data-table__sortable-cell': th.sortable,
                                  'data-table__sortable-cell--asc': th.sortable && th.sort === 'asc',
                                  'data-table__sortable-cell--desc': th.sortable && th.sort === 'desc' }"
                     ng-click="lxDataTable.sort(th)"
@@ -23,14 +39,33 @@
         <tbody>
             <tr ng-class="{ 'data-table__selectable-row': lxDataTable.selectable,
                             'data-table__selectable-row--is-disabled': lxDataTable.selectable && tr.lxDataTableDisabled,
-                            'data-table__selectable-row--is-selected': lxDataTable.selectable && tr.lxDataTableSelected }"
+                            'data-table__selectable-row--is-selected': lxDataTable.selectable && tr.lxDataTableSelected,
+                            'data-table__activable-row': lxDataTable.activable,
+                            'data-table__activable-row--is-activated': lxDataTable.activable && tr.lxDataTableActivated }"
                 ng-repeat="tr in lxDataTable.tbody"
-                ng-click="lxDataTable.toggle(tr)">
-                <td ng-if="lxDataTable.thumbnail">
-                    <div ng-if="lxDataTable.thead[0].format" ng-bind-html="lxDataTable.$sce.trustAsHtml(lxDataTable.thead[0].format(tr))"></div>
+                ng-click="lxDataTable.toggleActivation(tr)">
+                <td align="center" ng-if="lxDataTable.thumbnail">
+                    <div class="data-table__thumbnail" ng-if="lxDataTable.thead[0].format" ng-bind-html="lxDataTable.$sce.trustAsHtml(lxDataTable.thead[0].format(tr))"></div>
+
+                    <lx-button class="data-table__checkbox"
+                               lx-type="icon" lx-color="{{ tr.lxDataTableSelected ? 'accent' : 'black' }}"
+                               ng-click="lxDataTable.toggleSelection(tr, undefined, $event)"
+                               ng-if="lxDataTable.selectable && !tr.lxDataTableDisabled">
+                        <lx-icon lx-id="checkbox-blank-outline" ng-if="!tr.lxDataTableSelected"></lx-icon>
+                        <lx-icon lx-id="checkbox-marked" ng-if="tr.lxDataTableSelected"></lx-icon>
+                    </lx-button>
                 </td>
-                <td ng-if="lxDataTable.selectable"></td>
-                <td ng-repeat="th in lxDataTable.thead track by $index"
+                <td align="center" ng-if="lxDataTable.selectable && !lxDataTable.thumbnail">
+                    <lx-button class="data-table__checkbox"
+                               lx-type="icon" lx-color="{{ tr.lxDataTableSelected ? 'accent' : 'black' }}"
+                               ng-click="lxDataTable.toggleSelection(tr, undefined, $event)"
+                               ng-disabled="tr.lxDataTableDisabled">
+                        <lx-icon lx-id="checkbox-blank-outline" ng-if="!tr.lxDataTableSelected"></lx-icon>
+                        <lx-icon lx-id="checkbox-marked" ng-if="tr.lxDataTableSelected"></lx-icon>
+                    </lx-button>
+                </td>
+                <td align="left"
+                    ng-repeat="th in lxDataTable.thead track by $index"
                     ng-if="!lxDataTable.thumbnail || (lxDataTable.thumbnail && $index != 0)">
                     <span ng-if="!th.format">{{ tr[th.name] }}</span>
                     <div ng-if="th.format" ng-bind-html="lxDataTable.$sce.trustAsHtml(th.format(tr))"></div>

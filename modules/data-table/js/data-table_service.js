@@ -16,6 +16,8 @@
         service.selectAll = selectAll;
         service.unselect = unselect;
         service.unselectAll = unselectAll;
+        service.activate = activate;
+        service.deactivate = deactivate;
 
         ////////////
 
@@ -37,6 +39,16 @@
         function unselectAll(_dataTableId)
         {
             $rootScope.$broadcast('lx-data-table__unselect-all', _dataTableId);
+        }
+
+        function activate(_dataTableId, row)
+        {
+            $rootScope.$broadcast('lx-data-table__activate', _dataTableId, row);
+        }
+
+        function deactivate(_dataTableId, row)
+        {
+            $rootScope.$broadcast('lx-data-table__deactivate', _dataTableId, row);
         }
     }
 })();
