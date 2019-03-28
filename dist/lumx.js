@@ -1,5 +1,5 @@
 /*
- LumX v1.8.3
+ LumX v1.9.0
  (c) 2014-2019 LumApps http://ui.lumapps.com
  License: MIT
 */
@@ -710,7 +710,9 @@
             templateUrl: 'data-table.html',
             scope:
             {
+                activable: '=?lxActivable',
                 border: '=?lxBorder',
+                bulk: '=?lxBulk',
                 selectable: '=?lxSelectable',
                 thumbnail: '=?lxThumbnail',
                 tbody: '=lxTbody',
@@ -741,9 +743,11 @@
 
         lxDataTable.areAllRowsSelected = areAllRowsSelected;
         lxDataTable.border = angular.isUndefined(lxDataTable.border) ? true : lxDataTable.border;
+        lxDataTable.bulk = angular.isUndefined(lxDataTable.bulk) ? true : lxDataTable.bulk;
         lxDataTable.sort = sort;
-        lxDataTable.toggle = toggle;
+        lxDataTable.toggleActivation = toggleActivation;
         lxDataTable.toggleAllSelected = toggleAllSelected;
+        lxDataTable.toggleSelection = toggleSelection;
 
         lxDataTable.$sce = $sce;
         lxDataTable.allRowsSelected = false;
@@ -753,11 +757,7 @@
         {
             if (id === lxDataTable.id && angular.isDefined(row))
             {
-                if (angular.isArray(row) && row.length > 0)
-                {
-                    row = row[0];
-                }
-                _select(row);
+                _select((angular.isArray(row) && row.length > 0) ? row[0] : row);
             }
         });
 
@@ -773,11 +773,7 @@
         {
             if (id === lxDataTable.id && angular.isDefined(row))
             {
-                if (angular.isArray(row) && row.length > 0)
-                {
-                    row = row[0];
-                }
-                _unselect(row);
+                _unselect((angular.isArray(row) && row.length > 0) ? row[0] : row);
             }
         });
 
@@ -789,7 +785,38 @@
             }
         });
 
+        $scope.$on('lx-data-table__activate', function(event, id, row)
+        {
+            if (id === lxDataTable.id && angular.isDefined(row))
+            {
+                _activate((angular.isArray(row) && row.length > 0) ? row[0] : row);
+            }
+        });
+
+        $scope.$on('lx-data-table__deactivate', function(event, id, row)
+        {
+            if (id === lxDataTable.id && angular.isDefined(row))
+            {
+                _deactivate((angular.isArray(row) && row.length > 0) ? row[0] : row);
+            }
+        });
+
         ////////////
+
+        function _activate(row)
+        {
+            toggleActivation(row, true);
+        }
+
+        function _deactivate(row)
+        {
+            toggleActivation(row, false);
+        }
+
+        function _select(row)
+        {
+            toggleSelection(row, true);
+        }
 
         function _selectAll()
         {
@@ -809,9 +836,9 @@
             $rootScope.$broadcast('lx-data-table__unselected', lxDataTable.id, lxDataTable.selectedRows);
         }
 
-        function _select(row)
+        function _unselect(row)
         {
-            toggle(row, true);
+            toggleSelection(row, false);
         }
 
         function _unselectAll()
@@ -828,11 +855,6 @@
             lxDataTable.selectedRows.length = 0;
 
             $rootScope.$broadcast('lx-data-table__selected', lxDataTable.id, lxDataTable.selectedRows);
-        }
-
-        function _unselect(row)
-        {
-            toggle(row, false);
         }
 
         ////////////
@@ -886,11 +908,59 @@
             $rootScope.$broadcast('lx-data-table__sorted', lxDataTable.id, _column);
         }
 
-        function toggle(_row, _newSelectedStatus)
+        function toggleActivation(_row, _newActivatedStatus)
+        {
+            if (_row.lxDataTableDisabled || !lxDataTable.activable)
+            {
+                return;
+            }
+
+            for (var i = 0, len = lxDataTable.tbody.length; i < len; i++)
+            {
+                if (lxDataTable.tbody.indexOf(_row) !== i)
+                {
+                    lxDataTable.tbody[i].lxDataTableActivated = false;
+                }
+            }
+
+            _row.lxDataTableActivated = !_row.lxDataTableActivated;
+
+            if (_row.lxDataTableActivated)
+            {
+                $rootScope.$broadcast('lx-data-table__activated', lxDataTable.id, _row);
+            }
+            else
+            {
+                $rootScope.$broadcast('lx-data-table__deactivated', lxDataTable.id, _row);
+            }
+        }
+
+        function toggleAllSelected()
+        {
+            if (!lxDataTable.bulk)
+            {
+                return;
+            }
+
+            if (lxDataTable.allRowsSelected)
+            {
+                _unselectAll();
+            }
+            else
+            {
+                _selectAll();
+            }
+        }
+
+        function toggleSelection(_row, _newSelectedStatus, _event)
         {
             if (_row.lxDataTableDisabled || !lxDataTable.selectable)
             {
                 return;
+            }
+
+            if (angular.isDefined(_event)) {
+                _event.stopPropagation();
             }
 
             _row.lxDataTableSelected = angular.isDefined(_newSelectedStatus) ? _newSelectedStatus : !_row.lxDataTableSelected;
@@ -917,18 +987,6 @@
                 }
             }
         }
-
-        function toggleAllSelected()
-        {
-            if (lxDataTable.allRowsSelected)
-            {
-                _unselectAll();
-            }
-            else
-            {
-                _selectAll();
-            }
-        }
     }
 })();
 
@@ -950,6 +1008,8 @@
         service.selectAll = selectAll;
         service.unselect = unselect;
         service.unselectAll = unselectAll;
+        service.activate = activate;
+        service.deactivate = deactivate;
 
         ////////////
 
@@ -972,8 +1032,19 @@
         {
             $rootScope.$broadcast('lx-data-table__unselect-all', _dataTableId);
         }
+
+        function activate(_dataTableId, row)
+        {
+            $rootScope.$broadcast('lx-data-table__activate', _dataTableId, row);
+        }
+
+        function deactivate(_dataTableId, row)
+        {
+            $rootScope.$broadcast('lx-data-table__deactivate', _dataTableId, row);
+        }
     }
 })();
+
 (function()
 {
     'use strict';
@@ -7639,15 +7710,31 @@ angular.module("lumx.icon").run(['$templateCache', function(a) { a.put('icon.htm
 	 }]);
 angular.module("lumx.data-table").run(['$templateCache', function(a) { a.put('data-table.html', '<div class="data-table-container">\n' +
     '    <table class="data-table"\n' +
-    '           ng-class="{ \'data-table--no-border\': !lxDataTable.border,\n' +
+    '           ng-class="{ \'data-table--bulk\': lxDataTable.bulk,\n' +
+    '                       \'data-table--border\': lxDataTable.border,\n' +
     '                       \'data-table--thumbnail\': lxDataTable.thumbnail }">\n' +
     '        <thead>\n' +
     '            <tr ng-class="{ \'data-table__selectable-row\': lxDataTable.selectable,\n' +
-    '                            \'data-table__selectable-row--is-selected\': lxDataTable.selectable && lxDataTable.allRowsSelected }">\n' +
-    '                <th ng-if="lxDataTable.thumbnail"></th>\n' +
-    '                <th ng-click="lxDataTable.toggleAllSelected()"\n' +
-    '                    ng-if="lxDataTable.selectable"></th>\n' +
-    '                <th ng-class=" { \'data-table__sortable-cell\': th.sortable,\n' +
+    '                            \'data-table__selectable-row--is-selected\': lxDataTable.selectable && lxDataTable.allRowsSelected, }">\n' +
+    '                <th align="center" ng-if="lxDataTable.thumbnail">\n' +
+    '                    <lx-button class="data-table__checkbox"\n' +
+    '                               lx-type="icon" lx-color="{{ lxDataTable.allRowsSelected ? \'accent\' : \'grey\' }}"\n' +
+    '                               ng-click="lxDataTable.toggleAllSelected()"\n' +
+    '                               ng-if="lxDataTable.selectable">\n' +
+    '                        <lx-icon lx-id="checkbox-blank-outline" ng-if="!lxDataTable.allRowsSelected"></lx-icon>\n' +
+    '                        <lx-icon lx-id="checkbox-marked" ng-if="lxDataTable.allRowsSelected"></lx-icon>\n' +
+    '                    </lx-button>\n' +
+    '                </th>\n' +
+    '                <th align="center" ng-if="lxDataTable.selectable && !lxDataTable.thumbnail">\n' +
+    '                    <lx-button class="data-table__checkbox"\n' +
+    '                               lx-type="icon" lx-color="{{ lxDataTable.allRowsSelected ? \'accent\' : \'grey\' }}"\n' +
+    '                               ng-click="lxDataTable.toggleAllSelected()">\n' +
+    '                        <lx-icon lx-id="checkbox-blank-outline" ng-if="!lxDataTable.allRowsSelected"></lx-icon>\n' +
+    '                        <lx-icon lx-id="checkbox-marked" ng-if="lxDataTable.allRowsSelected"></lx-icon>\n' +
+    '                    </lx-button>\n' +
+    '                </th>\n' +
+    '                <th align="left"\n' +
+    '                    ng-class=" { \'data-table__sortable-cell\': th.sortable,\n' +
     '                                 \'data-table__sortable-cell--asc\': th.sortable && th.sort === \'asc\',\n' +
     '                                 \'data-table__sortable-cell--desc\': th.sortable && th.sort === \'desc\' }"\n' +
     '                    ng-click="lxDataTable.sort(th)"\n' +
@@ -7662,14 +7749,33 @@ angular.module("lumx.data-table").run(['$templateCache', function(a) { a.put('da
     '        <tbody>\n' +
     '            <tr ng-class="{ \'data-table__selectable-row\': lxDataTable.selectable,\n' +
     '                            \'data-table__selectable-row--is-disabled\': lxDataTable.selectable && tr.lxDataTableDisabled,\n' +
-    '                            \'data-table__selectable-row--is-selected\': lxDataTable.selectable && tr.lxDataTableSelected }"\n' +
+    '                            \'data-table__selectable-row--is-selected\': lxDataTable.selectable && tr.lxDataTableSelected,\n' +
+    '                            \'data-table__activable-row\': lxDataTable.activable,\n' +
+    '                            \'data-table__activable-row--is-activated\': lxDataTable.activable && tr.lxDataTableActivated }"\n' +
     '                ng-repeat="tr in lxDataTable.tbody"\n' +
-    '                ng-click="lxDataTable.toggle(tr)">\n' +
-    '                <td ng-if="lxDataTable.thumbnail">\n' +
-    '                    <div ng-if="lxDataTable.thead[0].format" ng-bind-html="lxDataTable.$sce.trustAsHtml(lxDataTable.thead[0].format(tr))"></div>\n' +
+    '                ng-click="lxDataTable.toggleActivation(tr)">\n' +
+    '                <td align="center" ng-if="lxDataTable.thumbnail">\n' +
+    '                    <div class="data-table__thumbnail" ng-if="lxDataTable.thead[0].format" ng-bind-html="lxDataTable.$sce.trustAsHtml(lxDataTable.thead[0].format(tr))"></div>\n' +
+    '\n' +
+    '                    <lx-button class="data-table__checkbox"\n' +
+    '                               lx-type="icon" lx-color="{{ tr.lxDataTableSelected ? \'accent\' : \'black\' }}"\n' +
+    '                               ng-click="lxDataTable.toggleSelection(tr, undefined, $event)"\n' +
+    '                               ng-if="lxDataTable.selectable && !tr.lxDataTableDisabled">\n' +
+    '                        <lx-icon lx-id="checkbox-blank-outline" ng-if="!tr.lxDataTableSelected"></lx-icon>\n' +
+    '                        <lx-icon lx-id="checkbox-marked" ng-if="tr.lxDataTableSelected"></lx-icon>\n' +
+    '                    </lx-button>\n' +
     '                </td>\n' +
-    '                <td ng-if="lxDataTable.selectable"></td>\n' +
-    '                <td ng-repeat="th in lxDataTable.thead track by $index"\n' +
+    '                <td align="center" ng-if="lxDataTable.selectable && !lxDataTable.thumbnail">\n' +
+    '                    <lx-button class="data-table__checkbox"\n' +
+    '                               lx-type="icon" lx-color="{{ tr.lxDataTableSelected ? \'accent\' : \'black\' }}"\n' +
+    '                               ng-click="lxDataTable.toggleSelection(tr, undefined, $event)"\n' +
+    '                               ng-disabled="tr.lxDataTableDisabled">\n' +
+    '                        <lx-icon lx-id="checkbox-blank-outline" ng-if="!tr.lxDataTableSelected"></lx-icon>\n' +
+    '                        <lx-icon lx-id="checkbox-marked" ng-if="tr.lxDataTableSelected"></lx-icon>\n' +
+    '                    </lx-button>\n' +
+    '                </td>\n' +
+    '                <td align="left"\n' +
+    '                    ng-repeat="th in lxDataTable.thead track by $index"\n' +
     '                    ng-if="!lxDataTable.thumbnail || (lxDataTable.thumbnail && $index != 0)">\n' +
     '                    <span ng-if="!th.format">{{ tr[th.name] }}</span>\n' +
     '                    <div ng-if="th.format" ng-bind-html="lxDataTable.$sce.trustAsHtml(th.format(tr))"></div>\n' +

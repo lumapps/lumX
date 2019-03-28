@@ -1,5 +1,13 @@
 # Changelog
 
+## v1.9.0:
+
+#### Breaking changes:
+ - Data table styles have been reworked and some modifier selectors have been added
+ - The size of the thumbnails (if you use them) have been reduced
+ - Anything to do with row / bulk selection should be reviewed because of the newly added "activated" state
+
+
 ## v1.8.3:
 *No major changes.*
 
