@@ -60,11 +60,7 @@
         {
             if (id === lxDataTable.id && angular.isDefined(row))
             {
-                if (angular.isArray(row) && row.length > 0)
-                {
-                    row = row[0];
-                }
-                _select(row);
+                _select((angular.isArray(row) && row.length > 0) ? row[0] : row);
             }
         });
 
@@ -80,11 +76,7 @@
         {
             if (id === lxDataTable.id && angular.isDefined(row))
             {
-                if (angular.isArray(row) && row.length > 0)
-                {
-                    row = row[0];
-                }
-                _unselect(row);
+                _unselect((angular.isArray(row) && row.length > 0) ? row[0] : row);
             }
         });
 
@@ -100,11 +92,7 @@
         {
             if (id === lxDataTable.id && angular.isDefined(row))
             {
-                if (angular.isArray(row) && row.length > 0)
-                {
-                    row = row[0];
-                }
-                _activate(row);
+                _activate((angular.isArray(row) && row.length > 0) ? row[0] : row);
             }
         });
 
@@ -112,11 +100,7 @@
         {
             if (id === lxDataTable.id && angular.isDefined(row))
             {
-                if (angular.isArray(row) && row.length > 0)
-                {
-                    row = row[0];
-                }
-                _deactivate(row);
+                _deactivate((angular.isArray(row) && row.length > 0) ? row[0] : row);
             }
         });
 
