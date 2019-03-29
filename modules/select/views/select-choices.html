@@ -6,10 +6,6 @@
                               'lx-select-choices--list': lxSelectChoices.parentCtrl.choicesViewMode === 'list',
                               'lx-select-choices--multi-panes': lxSelectChoices.parentCtrl.choicesViewMode === 'panes' }">
     <ul ng-if="::lxSelectChoices.parentCtrl.choicesViewMode === 'list'">
-        <li class="lx-select-choices__loader" ng-if="lxSelectChoices.parentCtrl.loading">
-            <lx-progress lx-type="linear" lx-color="primary"></lx-progress>
-        </li>
-
         <li class="lx-select-choices__filter" ng-if="::lxSelectChoices.parentCtrl.displayFilter && !lxSelectChoices.parentCtrl.autocomplete">
             <lx-search-filter lx-dropdown-filter>
                 <input type="text" ng-model="lxSelectChoices.parentCtrl.filterModel" ng-change="lxSelectChoices.parentCtrl.updateFilter()">
@@ -83,4 +79,5 @@
         </div>
     </div>
 
+    <lx-progress lx-type="linear" lx-color="primary" ng-if="lxSelectChoices.parentCtrl.loading"></lx-progress>
 </lx-dropdown-menu>
