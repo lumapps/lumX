@@ -1,5 +1,5 @@
 /*
- LumX v1.9.0
+ LumX v1.9.1
  (c) 2014-2019 LumApps http://ui.lumapps.com
  License: MIT
 */
@@ -692,356 +692,6 @@
             transclude: true,
             replace: true
         };
-    }
-})();
-
-(function()
-{
-    'use strict';
-
-    angular
-        .module('lumx.data-table')
-        .directive('lxDataTable', lxDataTable);
-
-    function lxDataTable()
-    {
-        return {
-            restrict: 'E',
-            templateUrl: 'data-table.html',
-            scope:
-            {
-                activable: '=?lxActivable',
-                border: '=?lxBorder',
-                bulk: '=?lxBulk',
-                selectable: '=?lxSelectable',
-                thumbnail: '=?lxThumbnail',
-                tbody: '=lxTbody',
-                thead: '=lxThead'
-            },
-            link: link,
-            controller: LxDataTableController,
-            controllerAs: 'lxDataTable',
-            bindToController: true,
-            transclude: true,
-            replace: true
-        };
-
-        function link(scope, element, attrs, ctrl)
-        {
-            attrs.$observe('id', function(_newId)
-            {
-                ctrl.id = _newId;
-            });
-        }
-    }
-
-    LxDataTableController.$inject = ['$rootScope', '$sce', '$scope'];
-
-    function LxDataTableController($rootScope, $sce, $scope)
-    {
-        var lxDataTable = this;
-
-        lxDataTable.areAllRowsSelected = areAllRowsSelected;
-        lxDataTable.border = angular.isUndefined(lxDataTable.border) ? true : lxDataTable.border;
-        lxDataTable.bulk = angular.isUndefined(lxDataTable.bulk) ? true : lxDataTable.bulk;
-        lxDataTable.sort = sort;
-        lxDataTable.toggleActivation = toggleActivation;
-        lxDataTable.toggleAllSelected = toggleAllSelected;
-        lxDataTable.toggleSelection = toggleSelection;
-
-        lxDataTable.$sce = $sce;
-        lxDataTable.allRowsSelected = false;
-        lxDataTable.selectedRows = [];
-
-        $scope.$on('lx-data-table__select', function(event, id, row)
-        {
-            if (id === lxDataTable.id && angular.isDefined(row))
-            {
-                _select((angular.isArray(row) && row.length > 0) ? row[0] : row);
-            }
-        });
-
-        $scope.$on('lx-data-table__select-all', function(event, id)
-        {
-            if (id === lxDataTable.id)
-            {
-                _selectAll();
-            }
-        });
-
-        $scope.$on('lx-data-table__unselect', function(event, id, row)
-        {
-            if (id === lxDataTable.id && angular.isDefined(row))
-            {
-                _unselect((angular.isArray(row) && row.length > 0) ? row[0] : row);
-            }
-        });
-
-        $scope.$on('lx-data-table__unselect-all', function(event, id)
-        {
-            if (id === lxDataTable.id)
-            {
-                _unselectAll();
-            }
-        });
-
-        $scope.$on('lx-data-table__activate', function(event, id, row)
-        {
-            if (id === lxDataTable.id && angular.isDefined(row))
-            {
-                _activate((angular.isArray(row) && row.length > 0) ? row[0] : row);
-            }
-        });
-
-        $scope.$on('lx-data-table__deactivate', function(event, id, row)
-        {
-            if (id === lxDataTable.id && angular.isDefined(row))
-            {
-                _deactivate((angular.isArray(row) && row.length > 0) ? row[0] : row);
-            }
-        });
-
-        ////////////
-
-        function _activate(row)
-        {
-            toggleActivation(row, true);
-        }
-
-        function _deactivate(row)
-        {
-            toggleActivation(row, false);
-        }
-
-        function _select(row)
-        {
-            toggleSelection(row, true);
-        }
-
-        function _selectAll()
-        {
-            lxDataTable.selectedRows.length = 0;
-
-            for (var i = 0, len = lxDataTable.tbody.length; i < len; i++)
-            {
-                if (!lxDataTable.tbody[i].lxDataTableDisabled)
-                {
-                    lxDataTable.tbody[i].lxDataTableSelected = true;
-                    lxDataTable.selectedRows.push(lxDataTable.tbody[i]);
-                }
-            }
-
-            lxDataTable.allRowsSelected = true;
-
-            $rootScope.$broadcast('lx-data-table__unselected', lxDataTable.id, lxDataTable.selectedRows);
-        }
-
-        function _unselect(row)
-        {
-            toggleSelection(row, false);
-        }
-
-        function _unselectAll()
-        {
-            for (var i = 0, len = lxDataTable.tbody.length; i < len; i++)
-            {
-                if (!lxDataTable.tbody[i].lxDataTableDisabled)
-                {
-                    lxDataTable.tbody[i].lxDataTableSelected = false;
-                }
-            }
-
-            lxDataTable.allRowsSelected = false;
-            lxDataTable.selectedRows.length = 0;
-
-            $rootScope.$broadcast('lx-data-table__selected', lxDataTable.id, lxDataTable.selectedRows);
-        }
-
-        ////////////
-
-        function areAllRowsSelected()
-        {
-            var displayedRows = 0;
-
-            for (var i = 0, len = lxDataTable.tbody.length; i < len; i++)
-            {
-                if (!lxDataTable.tbody[i].lxDataTableDisabled)
-                {
-                    displayedRows++;
-                }
-            }
-
-            if (displayedRows === lxDataTable.selectedRows.length)
-            {
-                lxDataTable.allRowsSelected = true;
-            }
-            else
-            {
-                lxDataTable.allRowsSelected = false;
-            }
-        }
-
-        function sort(_column)
-        {
-            if (!_column.sortable)
-            {
-                return;
-            }
-
-            for (var i = 0, len = lxDataTable.thead.length; i < len; i++)
-            {
-                if (lxDataTable.thead[i].sortable && lxDataTable.thead[i].name !== _column.name)
-                {
-                    lxDataTable.thead[i].sort = undefined;
-                }
-            }
-
-            if (!_column.sort || _column.sort === 'desc')
-            {
-                _column.sort = 'asc';
-            }
-            else
-            {
-                _column.sort = 'desc';
-            }
-
-            $rootScope.$broadcast('lx-data-table__sorted', lxDataTable.id, _column);
-        }
-
-        function toggleActivation(_row, _newActivatedStatus)
-        {
-            if (_row.lxDataTableDisabled || !lxDataTable.activable)
-            {
-                return;
-            }
-
-            for (var i = 0, len = lxDataTable.tbody.length; i < len; i++)
-            {
-                if (lxDataTable.tbody.indexOf(_row) !== i)
-                {
-                    lxDataTable.tbody[i].lxDataTableActivated = false;
-                }
-            }
-
-            _row.lxDataTableActivated = !_row.lxDataTableActivated;
-
-            if (_row.lxDataTableActivated)
-            {
-                $rootScope.$broadcast('lx-data-table__activated', lxDataTable.id, _row);
-            }
-            else
-            {
-                $rootScope.$broadcast('lx-data-table__deactivated', lxDataTable.id, _row);
-            }
-        }
-
-        function toggleAllSelected()
-        {
-            if (!lxDataTable.bulk)
-            {
-                return;
-            }
-
-            if (lxDataTable.allRowsSelected)
-            {
-                _unselectAll();
-            }
-            else
-            {
-                _selectAll();
-            }
-        }
-
-        function toggleSelection(_row, _newSelectedStatus, _event)
-        {
-            if (_row.lxDataTableDisabled || !lxDataTable.selectable)
-            {
-                return;
-            }
-
-            if (angular.isDefined(_event)) {
-                _event.stopPropagation();
-            }
-
-            _row.lxDataTableSelected = angular.isDefined(_newSelectedStatus) ? _newSelectedStatus : !_row.lxDataTableSelected;
-
-            if (_row.lxDataTableSelected)
-            {
-                // Make sure it's not already in.
-                if (lxDataTable.selectedRows.length === 0 || (lxDataTable.selectedRows.length && lxDataTable.selectedRows.indexOf(_row) === -1))
-                {
-                    lxDataTable.selectedRows.push(_row);
-                    lxDataTable.areAllRowsSelected();
-
-                    $rootScope.$broadcast('lx-data-table__selected', lxDataTable.id, lxDataTable.selectedRows, _row);
-                }
-            }
-            else
-            {
-                if (lxDataTable.selectedRows.length && lxDataTable.selectedRows.indexOf(_row) > -1)
-                {
-                    lxDataTable.selectedRows.splice(lxDataTable.selectedRows.indexOf(_row), 1);
-                    lxDataTable.allRowsSelected = false;
-
-                    $rootScope.$broadcast('lx-data-table__unselected', lxDataTable.id, lxDataTable.selectedRows, _row);
-                }
-            }
-        }
-    }
-})();
-
-(function()
-{
-    'use strict';
-
-    angular
-        .module('lumx.data-table')
-        .service('LxDataTableService', LxDataTableService);
-
-    LxDataTableService.$inject = ['$rootScope'];
-
-    function LxDataTableService($rootScope)
-    {
-        var service = this;
-
-        service.select = select;
-        service.selectAll = selectAll;
-        service.unselect = unselect;
-        service.unselectAll = unselectAll;
-        service.activate = activate;
-        service.deactivate = deactivate;
-
-        ////////////
-
-        function select(_dataTableId, row)
-        {
-            $rootScope.$broadcast('lx-data-table__select', _dataTableId, row);
-        }
-
-        function selectAll(_dataTableId)
-        {
-            $rootScope.$broadcast('lx-data-table__select-all', _dataTableId);
-        }
-
-        function unselect(_dataTableId, row)
-        {
-            $rootScope.$broadcast('lx-data-table__unselect', _dataTableId, row);
-        }
-
-        function unselectAll(_dataTableId)
-        {
-            $rootScope.$broadcast('lx-data-table__unselect-all', _dataTableId);
-        }
-
-        function activate(_dataTableId, row)
-        {
-            $rootScope.$broadcast('lx-data-table__activate', _dataTableId, row);
-        }
-
-        function deactivate(_dataTableId, row)
-        {
-            $rootScope.$broadcast('lx-data-table__deactivate', _dataTableId, row);
-        }
     }
 })();
 
@@ -1831,6 +1481,356 @@
         function close(_dialogId, _canceled, _params)
         {
             $rootScope.$broadcast('lx-dialog__close', _dialogId, _canceled, _params);
+        }
+    }
+})();
+
+(function()
+{
+    'use strict';
+
+    angular
+        .module('lumx.data-table')
+        .directive('lxDataTable', lxDataTable);
+
+    function lxDataTable()
+    {
+        return {
+            restrict: 'E',
+            templateUrl: 'data-table.html',
+            scope:
+            {
+                activable: '=?lxActivable',
+                border: '=?lxBorder',
+                bulk: '=?lxBulk',
+                selectable: '=?lxSelectable',
+                thumbnail: '=?lxThumbnail',
+                tbody: '=lxTbody',
+                thead: '=lxThead'
+            },
+            link: link,
+            controller: LxDataTableController,
+            controllerAs: 'lxDataTable',
+            bindToController: true,
+            transclude: true,
+            replace: true
+        };
+
+        function link(scope, element, attrs, ctrl)
+        {
+            attrs.$observe('id', function(_newId)
+            {
+                ctrl.id = _newId;
+            });
+        }
+    }
+
+    LxDataTableController.$inject = ['$rootScope', '$sce', '$scope'];
+
+    function LxDataTableController($rootScope, $sce, $scope)
+    {
+        var lxDataTable = this;
+
+        lxDataTable.areAllRowsSelected = areAllRowsSelected;
+        lxDataTable.border = angular.isUndefined(lxDataTable.border) ? true : lxDataTable.border;
+        lxDataTable.bulk = angular.isUndefined(lxDataTable.bulk) ? true : lxDataTable.bulk;
+        lxDataTable.sort = sort;
+        lxDataTable.toggleActivation = toggleActivation;
+        lxDataTable.toggleAllSelected = toggleAllSelected;
+        lxDataTable.toggleSelection = toggleSelection;
+
+        lxDataTable.$sce = $sce;
+        lxDataTable.allRowsSelected = false;
+        lxDataTable.selectedRows = [];
+
+        $scope.$on('lx-data-table__select', function(event, id, row)
+        {
+            if (id === lxDataTable.id && angular.isDefined(row))
+            {
+                _select((angular.isArray(row) && row.length > 0) ? row[0] : row);
+            }
+        });
+
+        $scope.$on('lx-data-table__select-all', function(event, id)
+        {
+            if (id === lxDataTable.id)
+            {
+                _selectAll();
+            }
+        });
+
+        $scope.$on('lx-data-table__unselect', function(event, id, row)
+        {
+            if (id === lxDataTable.id && angular.isDefined(row))
+            {
+                _unselect((angular.isArray(row) && row.length > 0) ? row[0] : row);
+            }
+        });
+
+        $scope.$on('lx-data-table__unselect-all', function(event, id)
+        {
+            if (id === lxDataTable.id)
+            {
+                _unselectAll();
+            }
+        });
+
+        $scope.$on('lx-data-table__activate', function(event, id, row)
+        {
+            if (id === lxDataTable.id && angular.isDefined(row))
+            {
+                _activate((angular.isArray(row) && row.length > 0) ? row[0] : row);
+            }
+        });
+
+        $scope.$on('lx-data-table__deactivate', function(event, id, row)
+        {
+            if (id === lxDataTable.id && angular.isDefined(row))
+            {
+                _deactivate((angular.isArray(row) && row.length > 0) ? row[0] : row);
+            }
+        });
+
+        ////////////
+
+        function _activate(row)
+        {
+            toggleActivation(row, true);
+        }
+
+        function _deactivate(row)
+        {
+            toggleActivation(row, false);
+        }
+
+        function _select(row)
+        {
+            toggleSelection(row, true);
+        }
+
+        function _selectAll()
+        {
+            lxDataTable.selectedRows.length = 0;
+
+            for (var i = 0, len = lxDataTable.tbody.length; i < len; i++)
+            {
+                if (!lxDataTable.tbody[i].lxDataTableDisabled)
+                {
+                    lxDataTable.tbody[i].lxDataTableSelected = true;
+                    lxDataTable.selectedRows.push(lxDataTable.tbody[i]);
+                }
+            }
+
+            lxDataTable.allRowsSelected = true;
+
+            $rootScope.$broadcast('lx-data-table__unselected', lxDataTable.id, lxDataTable.selectedRows);
+        }
+
+        function _unselect(row)
+        {
+            toggleSelection(row, false);
+        }
+
+        function _unselectAll()
+        {
+            for (var i = 0, len = lxDataTable.tbody.length; i < len; i++)
+            {
+                if (!lxDataTable.tbody[i].lxDataTableDisabled)
+                {
+                    lxDataTable.tbody[i].lxDataTableSelected = false;
+                }
+            }
+
+            lxDataTable.allRowsSelected = false;
+            lxDataTable.selectedRows.length = 0;
+
+            $rootScope.$broadcast('lx-data-table__selected', lxDataTable.id, lxDataTable.selectedRows);
+        }
+
+        ////////////
+
+        function areAllRowsSelected()
+        {
+            var displayedRows = 0;
+
+            for (var i = 0, len = lxDataTable.tbody.length; i < len; i++)
+            {
+                if (!lxDataTable.tbody[i].lxDataTableDisabled)
+                {
+                    displayedRows++;
+                }
+            }
+
+            if (displayedRows === lxDataTable.selectedRows.length)
+            {
+                lxDataTable.allRowsSelected = true;
+            }
+            else
+            {
+                lxDataTable.allRowsSelected = false;
+            }
+        }
+
+        function sort(_column)
+        {
+            if (!_column.sortable)
+            {
+                return;
+            }
+
+            for (var i = 0, len = lxDataTable.thead.length; i < len; i++)
+            {
+                if (lxDataTable.thead[i].sortable && lxDataTable.thead[i].name !== _column.name)
+                {
+                    lxDataTable.thead[i].sort = undefined;
+                }
+            }
+
+            if (!_column.sort || _column.sort === 'desc')
+            {
+                _column.sort = 'asc';
+            }
+            else
+            {
+                _column.sort = 'desc';
+            }
+
+            $rootScope.$broadcast('lx-data-table__sorted', lxDataTable.id, _column);
+        }
+
+        function toggleActivation(_row, _newActivatedStatus)
+        {
+            if (_row.lxDataTableDisabled || !lxDataTable.activable)
+            {
+                return;
+            }
+
+            for (var i = 0, len = lxDataTable.tbody.length; i < len; i++)
+            {
+                if (lxDataTable.tbody.indexOf(_row) !== i)
+                {
+                    lxDataTable.tbody[i].lxDataTableActivated = false;
+                }
+            }
+
+            _row.lxDataTableActivated = !_row.lxDataTableActivated;
+
+            if (_row.lxDataTableActivated)
+            {
+                $rootScope.$broadcast('lx-data-table__activated', lxDataTable.id, _row);
+            }
+            else
+            {
+                $rootScope.$broadcast('lx-data-table__deactivated', lxDataTable.id, _row);
+            }
+        }
+
+        function toggleAllSelected()
+        {
+            if (!lxDataTable.bulk)
+            {
+                return;
+            }
+
+            if (lxDataTable.allRowsSelected)
+            {
+                _unselectAll();
+            }
+            else
+            {
+                _selectAll();
+            }
+        }
+
+        function toggleSelection(_row, _newSelectedStatus, _event)
+        {
+            if (_row.lxDataTableDisabled || !lxDataTable.selectable)
+            {
+                return;
+            }
+
+            if (angular.isDefined(_event)) {
+                _event.stopPropagation();
+            }
+
+            _row.lxDataTableSelected = angular.isDefined(_newSelectedStatus) ? _newSelectedStatus : !_row.lxDataTableSelected;
+
+            if (_row.lxDataTableSelected)
+            {
+                // Make sure it's not already in.
+                if (lxDataTable.selectedRows.length === 0 || (lxDataTable.selectedRows.length && lxDataTable.selectedRows.indexOf(_row) === -1))
+                {
+                    lxDataTable.selectedRows.push(_row);
+                    lxDataTable.areAllRowsSelected();
+
+                    $rootScope.$broadcast('lx-data-table__selected', lxDataTable.id, lxDataTable.selectedRows, _row);
+                }
+            }
+            else
+            {
+                if (lxDataTable.selectedRows.length && lxDataTable.selectedRows.indexOf(_row) > -1)
+                {
+                    lxDataTable.selectedRows.splice(lxDataTable.selectedRows.indexOf(_row), 1);
+                    lxDataTable.allRowsSelected = false;
+
+                    $rootScope.$broadcast('lx-data-table__unselected', lxDataTable.id, lxDataTable.selectedRows, _row);
+                }
+            }
+        }
+    }
+})();
+
+(function()
+{
+    'use strict';
+
+    angular
+        .module('lumx.data-table')
+        .service('LxDataTableService', LxDataTableService);
+
+    LxDataTableService.$inject = ['$rootScope'];
+
+    function LxDataTableService($rootScope)
+    {
+        var service = this;
+
+        service.select = select;
+        service.selectAll = selectAll;
+        service.unselect = unselect;
+        service.unselectAll = unselectAll;
+        service.activate = activate;
+        service.deactivate = deactivate;
+
+        ////////////
+
+        function select(_dataTableId, row)
+        {
+            $rootScope.$broadcast('lx-data-table__select', _dataTableId, row);
+        }
+
+        function selectAll(_dataTableId)
+        {
+            $rootScope.$broadcast('lx-data-table__select-all', _dataTableId);
+        }
+
+        function unselect(_dataTableId, row)
+        {
+            $rootScope.$broadcast('lx-data-table__unselect', _dataTableId, row);
+        }
+
+        function unselectAll(_dataTableId)
+        {
+            $rootScope.$broadcast('lx-data-table__unselect-all', _dataTableId);
+        }
+
+        function activate(_dataTableId, row)
+        {
+            $rootScope.$broadcast('lx-data-table__activate', _dataTableId, row);
+        }
+
+        function deactivate(_dataTableId, row)
+        {
+            $rootScope.$broadcast('lx-data-table__deactivate', _dataTableId, row);
         }
     }
 })();
@@ -3556,170 +3556,6 @@
     'use strict';
 
     angular
-        .module('lumx.radio-button')
-        .directive('lxRadioGroup', lxRadioGroup)
-        .directive('lxRadioButton', lxRadioButton)
-        .directive('lxRadioButtonLabel', lxRadioButtonLabel)
-        .directive('lxRadioButtonHelp', lxRadioButtonHelp);
-
-    function lxRadioGroup()
-    {
-        return {
-            restrict: 'E',
-            templateUrl: 'radio-group.html',
-            transclude: true,
-            replace: true
-        };
-    }
-
-    function lxRadioButton()
-    {
-        return {
-            restrict: 'E',
-            templateUrl: 'radio-button.html',
-            scope:
-            {
-                lxColor: '@?',
-                name: '@',
-                ngChange: '&?',
-                ngDisabled: '=?',
-                ngModel: '=',
-                ngValue: '=?',
-                value: '@?',
-                lxTheme: '@?'
-            },
-            controller: LxRadioButtonController,
-            controllerAs: 'lxRadioButton',
-            bindToController: true,
-            transclude: true,
-            link: function (scope, el, attrs, ctrl) {
-                ctrl.init();
-            },
-            replace: true
-        };
-    }
-
-    LxRadioButtonController.$inject = ['$scope', '$timeout', 'LxUtils'];
-
-    function LxRadioButtonController($scope, $timeout, LxUtils)
-    {
-        var lxRadioButton = this;
-        var radioButtonId;
-        var radioButtonHasChildren;
-        var timer;
-
-        lxRadioButton.getRadioButtonId = getRadioButtonId;
-        lxRadioButton.getRadioButtonHasChildren = getRadioButtonHasChildren;
-        lxRadioButton.setRadioButtonId = setRadioButtonId;
-        lxRadioButton.setRadioButtonHasChildren = setRadioButtonHasChildren;
-        lxRadioButton.triggerNgChange = triggerNgChange;
-        lxRadioButton.init = init;
-
-        $scope.$on('$destroy', function()
-        {
-            $timeout.cancel(timer);
-        });
-
-        ////////////
-
-        function getRadioButtonId()
-        {
-            return radioButtonId;
-        }
-
-        function getRadioButtonHasChildren()
-        {
-            return radioButtonHasChildren;
-        }
-
-        function init()
-        {
-            setRadioButtonId(LxUtils.generateUUID());
-            setRadioButtonHasChildren(false);
-
-            if (angular.isDefined(lxRadioButton.value) && angular.isUndefined(lxRadioButton.ngValue))
-            {
-                lxRadioButton.ngValue = lxRadioButton.value;
-            }
-
-            lxRadioButton.lxColor = angular.isUndefined(lxRadioButton.lxColor) ? 'accent' : lxRadioButton.lxColor;
-        }
-
-        function setRadioButtonId(_radioButtonId)
-        {
-            radioButtonId = _radioButtonId;
-        }
-
-        function setRadioButtonHasChildren(_radioButtonHasChildren)
-        {
-            radioButtonHasChildren = _radioButtonHasChildren;
-        }
-
-        function triggerNgChange()
-        {
-            timer = $timeout(lxRadioButton.ngChange);
-        }
-    }
-
-    function lxRadioButtonLabel()
-    {
-        return {
-            restrict: 'AE',
-            require: ['^lxRadioButton', '^lxRadioButtonLabel'],
-            templateUrl: 'radio-button-label.html',
-            link: link,
-            controller: LxRadioButtonLabelController,
-            controllerAs: 'lxRadioButtonLabel',
-            bindToController: true,
-            transclude: true,
-            replace: true
-        };
-
-        function link(scope, element, attrs, ctrls)
-        {
-            ctrls[0].setRadioButtonHasChildren(true);
-            ctrls[1].setRadioButtonId(ctrls[0].getRadioButtonId());
-        }
-    }
-
-    function LxRadioButtonLabelController()
-    {
-        var lxRadioButtonLabel = this;
-        var radioButtonId;
-
-        lxRadioButtonLabel.getRadioButtonId = getRadioButtonId;
-        lxRadioButtonLabel.setRadioButtonId = setRadioButtonId;
-
-        ////////////
-
-        function getRadioButtonId()
-        {
-            return radioButtonId;
-        }
-
-        function setRadioButtonId(_radioButtonId)
-        {
-            radioButtonId = _radioButtonId;
-        }
-    }
-
-    function lxRadioButtonHelp()
-    {
-        return {
-            restrict: 'AE',
-            require: '^lxRadioButton',
-            templateUrl: 'radio-button-help.html',
-            transclude: true,
-            replace: true
-        };
-    }
-})();
-
-(function()
-{
-    'use strict';
-
-    angular
         .module('lumx.ripple')
         .directive('lxRipple', lxRipple);
 
@@ -4188,6 +4024,170 @@
 
             return _newValue;
         }
+    }
+})();
+
+(function()
+{
+    'use strict';
+
+    angular
+        .module('lumx.radio-button')
+        .directive('lxRadioGroup', lxRadioGroup)
+        .directive('lxRadioButton', lxRadioButton)
+        .directive('lxRadioButtonLabel', lxRadioButtonLabel)
+        .directive('lxRadioButtonHelp', lxRadioButtonHelp);
+
+    function lxRadioGroup()
+    {
+        return {
+            restrict: 'E',
+            templateUrl: 'radio-group.html',
+            transclude: true,
+            replace: true
+        };
+    }
+
+    function lxRadioButton()
+    {
+        return {
+            restrict: 'E',
+            templateUrl: 'radio-button.html',
+            scope:
+            {
+                lxColor: '@?',
+                name: '@',
+                ngChange: '&?',
+                ngDisabled: '=?',
+                ngModel: '=',
+                ngValue: '=?',
+                value: '@?',
+                lxTheme: '@?'
+            },
+            controller: LxRadioButtonController,
+            controllerAs: 'lxRadioButton',
+            bindToController: true,
+            transclude: true,
+            link: function (scope, el, attrs, ctrl) {
+                ctrl.init();
+            },
+            replace: true
+        };
+    }
+
+    LxRadioButtonController.$inject = ['$scope', '$timeout', 'LxUtils'];
+
+    function LxRadioButtonController($scope, $timeout, LxUtils)
+    {
+        var lxRadioButton = this;
+        var radioButtonId;
+        var radioButtonHasChildren;
+        var timer;
+
+        lxRadioButton.getRadioButtonId = getRadioButtonId;
+        lxRadioButton.getRadioButtonHasChildren = getRadioButtonHasChildren;
+        lxRadioButton.setRadioButtonId = setRadioButtonId;
+        lxRadioButton.setRadioButtonHasChildren = setRadioButtonHasChildren;
+        lxRadioButton.triggerNgChange = triggerNgChange;
+        lxRadioButton.init = init;
+
+        $scope.$on('$destroy', function()
+        {
+            $timeout.cancel(timer);
+        });
+
+        ////////////
+
+        function getRadioButtonId()
+        {
+            return radioButtonId;
+        }
+
+        function getRadioButtonHasChildren()
+        {
+            return radioButtonHasChildren;
+        }
+
+        function init()
+        {
+            setRadioButtonId(LxUtils.generateUUID());
+            setRadioButtonHasChildren(false);
+
+            if (angular.isDefined(lxRadioButton.value) && angular.isUndefined(lxRadioButton.ngValue))
+            {
+                lxRadioButton.ngValue = lxRadioButton.value;
+            }
+
+            lxRadioButton.lxColor = angular.isUndefined(lxRadioButton.lxColor) ? 'accent' : lxRadioButton.lxColor;
+        }
+
+        function setRadioButtonId(_radioButtonId)
+        {
+            radioButtonId = _radioButtonId;
+        }
+
+        function setRadioButtonHasChildren(_radioButtonHasChildren)
+        {
+            radioButtonHasChildren = _radioButtonHasChildren;
+        }
+
+        function triggerNgChange()
+        {
+            timer = $timeout(lxRadioButton.ngChange);
+        }
+    }
+
+    function lxRadioButtonLabel()
+    {
+        return {
+            restrict: 'AE',
+            require: ['^lxRadioButton', '^lxRadioButtonLabel'],
+            templateUrl: 'radio-button-label.html',
+            link: link,
+            controller: LxRadioButtonLabelController,
+            controllerAs: 'lxRadioButtonLabel',
+            bindToController: true,
+            transclude: true,
+            replace: true
+        };
+
+        function link(scope, element, attrs, ctrls)
+        {
+            ctrls[0].setRadioButtonHasChildren(true);
+            ctrls[1].setRadioButtonId(ctrls[0].getRadioButtonId());
+        }
+    }
+
+    function LxRadioButtonLabelController()
+    {
+        var lxRadioButtonLabel = this;
+        var radioButtonId;
+
+        lxRadioButtonLabel.getRadioButtonId = getRadioButtonId;
+        lxRadioButtonLabel.setRadioButtonId = setRadioButtonId;
+
+        ////////////
+
+        function getRadioButtonId()
+        {
+            return radioButtonId;
+        }
+
+        function setRadioButtonId(_radioButtonId)
+        {
+            radioButtonId = _radioButtonId;
+        }
+    }
+
+    function lxRadioButtonHelp()
+    {
+        return {
+            restrict: 'AE',
+            require: '^lxRadioButton',
+            templateUrl: 'radio-button-help.html',
+            transclude: true,
+            replace: true
+        };
     }
 })();
 
@@ -7328,10 +7328,6 @@ angular.module("lumx.select").run(['$templateCache', function(a) { a.put('select
     '                              \'lx-select-choices--list\': lxSelectChoices.parentCtrl.choicesViewMode === \'list\',\n' +
     '                              \'lx-select-choices--multi-panes\': lxSelectChoices.parentCtrl.choicesViewMode === \'panes\' }">\n' +
     '    <ul ng-if="::lxSelectChoices.parentCtrl.choicesViewMode === \'list\'">\n' +
-    '        <li class="lx-select-choices__loader" ng-if="lxSelectChoices.parentCtrl.loading">\n' +
-    '            <lx-progress lx-type="linear" lx-color="primary"></lx-progress>\n' +
-    '        </li>\n' +
-    '\n' +
     '        <li class="lx-select-choices__filter" ng-if="::lxSelectChoices.parentCtrl.displayFilter && !lxSelectChoices.parentCtrl.autocomplete">\n' +
     '            <lx-search-filter lx-dropdown-filter>\n' +
     '                <input type="text" ng-model="lxSelectChoices.parentCtrl.filterModel" ng-change="lxSelectChoices.parentCtrl.updateFilter()">\n' +
@@ -7405,6 +7401,7 @@ angular.module("lumx.select").run(['$templateCache', function(a) { a.put('select
     '        </div>\n' +
     '    </div>\n' +
     '\n' +
+    '    <lx-progress lx-type="linear" lx-color="primary" ng-if="lxSelectChoices.parentCtrl.loading"></lx-progress>\n' +
     '</lx-dropdown-menu>\n' +
     '');
 	a.put('select-choices-accordion.html', '<div ng-repeat="(label, items) in pane">\n' +

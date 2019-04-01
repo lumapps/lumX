@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.9.1:
+*No major changes.*
+
+
 ## v1.9.0:
 
 #### Breaking changes:
