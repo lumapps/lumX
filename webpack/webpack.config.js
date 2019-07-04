@@ -1,11 +1,9 @@
 const IS_CI = require('is-ci');
-var glob = require('glob');
 
 const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
 const WebpackBar = require('webpackbar');
 
 const { babelSetup } = require('./utils');
-const { CORE_PATH, MODULES_PATH } = require('./constants');
 
 const plugins = [new WebpackBar(), new FriendlyErrorsWebpackPlugin()];
 
@@ -14,12 +12,7 @@ const baseConfig = {
 
     devtool: 'cheap-module-source-map',
 
-    entry: {
-        'lumx': [
-			`${CORE_PATH}/scss/_lumx.scss`,
-			`${CORE_PATH}/js/lumx.js`,
-		],
-    },
+    entry: {},
 
     externals: [
         '@uirouter/angularjs',

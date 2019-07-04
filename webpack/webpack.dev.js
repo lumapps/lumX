@@ -1,4 +1,5 @@
 const IS_CI = require('is-ci');
+var glob = require('glob');
 
 const merge = require('webpack-merge');
 
@@ -7,15 +8,9 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const WebpackNotifierPlugin = require('webpack-notifier');
 
 const { getStyleLoader } = require('./utils');
-const { DEFAULT_HOST, DEMO_PATH, ROOT_PATH } = require('./constants');
+const { CORE_PATH, DEFAULT_HOST, DEMO_PATH, MODULES_PATH, ROOT_PATH } = require('./constants');
 
 const baseConfig = require('./webpack.config');
-
-const devConfig = {
-    entry: {
-        'demo-site': `${DEMO_PATH}/app.js`,
-    },
-};
 
 const plugins = [
     ...baseConfig.plugins,
@@ -42,7 +37,18 @@ module.exports = merge.smartStrategy({
     entry: 'append',
     'module.rules': 'append',
     plugins: 'replace',
-})(baseConfig, devConfig, {
+})(baseConfig, {
+    entry: {
+        'lumx': [
+			`${CORE_PATH}/scss/_lumx.scss`,
+			`${CORE_PATH}/js/lumx.js`,
+			...glob.sync(`${CORE_PATH}/js/**/*.js`).filter(p => p !== `${CORE_PATH}/js/lumx.js`),
+			...glob.sync(`${MODULES_PATH}/js/**/*.js`),
+		],
+        'demo-site': `${DEMO_PATH}/app.js`,
+        'lumx-theme': `${DEMO_PATH}/scss/lumx.scss`,
+	},
+
     devServer: {
         compress: true,
 		contentBase: [DEMO_PATH, ROOT_PATH],
@@ -61,12 +67,11 @@ module.exports = merge.smartStrategy({
         // eslint-disable-next-line no-magic-numbers
         port: 4001,
         quiet: true,
-    },
-    entry: {
-        'lumx': `${DEMO_PATH}/scss/lumx.scss`,
-    },
+	},
+
     module: {
         rules: getStyleLoader({ mode: 'dev' }),
-    },
+	},
+
     plugins,
 });
