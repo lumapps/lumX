@@ -1,16 +1,21 @@
 const IS_CI = require('is-ci');
-var glob = require('glob');
 
 const merge = require('webpack-merge');
 
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ExtractCssChunks = require('extract-css-chunks-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const WebpackNotifierPlugin = require('webpack-notifier');
 
 const { getStyleLoader } = require('./utils');
-const { CORE_PATH, DEFAULT_HOST, DEMO_PATH, MODULES_PATH, ROOT_PATH } = require('./constants');
+const { DEFAULT_HOST, DEMO_PATH, MODULES_PATH, ROOT_PATH } = require('./constants');
 
 const baseConfig = require('./webpack.config');
+
+const entry = Object.assign(baseConfig.entry, {
+	'demo-site': `${DEMO_PATH}/app.js`,
+	'lumx-theme': `${DEMO_PATH}/scss/lumx.scss`,
+});
 
 const plugins = [
     ...baseConfig.plugins,
@@ -33,21 +38,23 @@ if (!IS_CI) {
     );
 }
 
+plugins.push(
+	new CopyWebpackPlugin([
+		{
+			context: `${MODULES_PATH}/`,
+			from: `${MODULES_PATH}/**/demo/**/*.html`,
+			to: `${DEMO_PATH}/includes/modules`,
+			transformPath: (targetPath) => targetPath.replace('/demo/', '/'),
+		},
+	]),
+);
+
 module.exports = merge.smartStrategy({
-    entry: 'append',
+    entry: 'replace',
     'module.rules': 'append',
     plugins: 'replace',
 })(baseConfig, {
-    entry: {
-        'lumx': [
-			`${CORE_PATH}/scss/_lumx.scss`,
-			`${CORE_PATH}/js/lumx.js`,
-			...glob.sync(`${CORE_PATH}/js/**/*.js`).filter(p => p !== `${CORE_PATH}/js/lumx.js`),
-			...glob.sync(`${MODULES_PATH}/js/**/*.js`),
-		],
-        'demo-site': `${DEMO_PATH}/app.js`,
-        'lumx-theme': `${DEMO_PATH}/scss/lumx.scss`,
-	},
+    entry,
 
     devServer: {
         compress: true,
@@ -62,8 +69,8 @@ module.exports = merge.smartStrategy({
         },
         host: DEFAULT_HOST,
         hot: true,
-        open: true,
-        overlay: true,
+		open: true,
+		overlay: true,
         // eslint-disable-next-line no-magic-numbers
         port: 4001,
         quiet: true,

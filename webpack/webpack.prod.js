@@ -1,5 +1,4 @@
 const IS_CI = require('is-ci');
-var glob = require('glob');
 
 const merge = require('webpack-merge');
 
@@ -11,7 +10,7 @@ const TerserPlugin = require('terser-webpack-plugin');
 const WebpackNotifierPlugin = require('webpack-notifier');
 
 const { getStyleLoader } = require('./utils');
-const { CONFIGS, CORE_PATH, DIST_PATH, MODULES_PATH, STYLES_PATH } = require('./constants');
+const { CONFIGS, DIST_PATH, MODULES_PATH, STYLES_PATH } = require('./constants');
 
 const baseConfig = require('./webpack.config');
 
@@ -20,6 +19,8 @@ const generatePackage = Boolean(process.env.GENERATE_PACKAGE);
 
 const filename = `[name]${minify ? '.min' : ''}`;
 const distTechPath = `${DIST_PATH}`;
+
+const entry = baseConfig.entry;
 
 const minimizer = [];
 const plugins = [
@@ -81,7 +82,7 @@ if (minify) {
 }
 
 module.exports = merge.smartStrategy({
-    entry: 'append',
+    entry: 'replace',
     'module.rules': 'append',
     plugins: 'replace',
 })(baseConfig, {
@@ -90,14 +91,7 @@ module.exports = merge.smartStrategy({
     mode: 'production',
 	name: `lumx-umd${minify ? '-minified' : ''}`,
 
-    entry: {
-        'lumx': [
-			`${CORE_PATH}/scss/_lumx.scss`,
-			`${CORE_PATH}/js/lumx.js`,
-			...glob.sync(`${CORE_PATH}/js/**/*.js`).filter(p => p !== `${CORE_PATH}/js/lumx.js`),
-			...glob.sync(`${MODULES_PATH}/js/**/*.js`),
-		],
-	},
+    entry,
 
     module: {
         rules: getStyleLoader({ mode: 'prod' }),

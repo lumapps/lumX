@@ -33,6 +33,7 @@ $RECYCLE.BIN/
 /libs
 /build
 /dist
+/demo/includes/modules
 
 *.css.map
 
