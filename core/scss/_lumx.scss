@@ -7,6 +7,8 @@ $mdi-font-path: '../../node_modules/@mdi/font/fonts';
 @import "bourbon";
 @import "materialdesignicons";
 @import "mq";
+@import 'core-lumapps';
+@import 'components-lumapps';
 
 @import "settings/settings.color-palette";
 @import "settings/settings.colors";
