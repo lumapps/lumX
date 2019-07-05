@@ -6,6 +6,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ExtractCssChunks = require('extract-css-chunks-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const WebpackNotifierPlugin = require('webpack-notifier');
+const WriteFilePlugin = require('write-file-webpack-plugin');
 
 const { getStyleLoader } = require('./utils');
 const { DEFAULT_HOST, DEMO_PATH, MODULES_PATH, ROOT_PATH } = require('./constants');
@@ -44,9 +45,15 @@ plugins.push(
 			context: `${MODULES_PATH}/`,
 			from: `${MODULES_PATH}/**/demo/**/*.html`,
 			to: `${DEMO_PATH}/includes/modules`,
-			transformPath: (targetPath) => targetPath.replace('/demo/', '/'),
+			transformPath: (targetPath) => {
+                const n = targetPath.lastIndexOf('/demo/');
+                console.log(targetPath, `${targetPath.slice(0, n)}${targetPath.slice(n).replace('/demo/', '/')}`);
+                return `${targetPath.slice(0, n)}${targetPath.slice(n).replace('/demo/', '/')}`;
+            },
+            force: true,
 		},
-	]),
+    ]),
+    new WriteFilePlugin(),
 );
 
 module.exports = merge.smartStrategy({

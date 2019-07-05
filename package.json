@@ -112,7 +112,8 @@
     "webpack-dev-server": "^3.7.2",
     "webpack-merge": "^4.2.1",
     "webpack-notifier": "^1.8.0",
-    "webpackbar": "^3.2.0"
+    "webpackbar": "^3.2.0",
+    "write-file-webpack-plugin": "^4.5.0"
   },
   "engines": {
     "node": ">4.0.0",

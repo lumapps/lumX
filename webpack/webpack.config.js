@@ -17,9 +17,8 @@ const baseConfig = {
 
     entry: {
         'lumx': [
-			`${CORE_PATH}/scss/_lumx.scss`,
 			...glob.sync(`${CORE_PATH}/js/**/*.js`),
-			...glob.sync(`${MODULES_PATH}/js/**/*.js`),
+			...glob.sync(`${MODULES_PATH}/**/js/**/*.js`),
 			...glob.sync(`${MODULES_PATH}/dropdown/views/*.html`),
 			...glob.sync(`${MODULES_PATH}/file-input/views/*.html`),
 			...glob.sync(`${MODULES_PATH}/text-field/views/*.html`),

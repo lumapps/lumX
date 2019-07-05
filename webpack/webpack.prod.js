@@ -10,7 +10,7 @@ const TerserPlugin = require('terser-webpack-plugin');
 const WebpackNotifierPlugin = require('webpack-notifier');
 
 const { getStyleLoader } = require('./utils');
-const { CONFIGS, DIST_PATH, MODULES_PATH, STYLES_PATH } = require('./constants');
+const { CONFIGS, CORE_PATH, DIST_PATH, MODULES_PATH, STYLES_PATH } = require('./constants');
 
 const baseConfig = require('./webpack.config');
 
@@ -21,6 +21,10 @@ const filename = `[name]${minify ? '.min' : ''}`;
 const distTechPath = `${DIST_PATH}`;
 
 const entry = baseConfig.entry;
+entry.lumx = [
+	`${CORE_PATH}/scss/_lumx.scss`,
+	...entry.lumx
+];
 
 const minimizer = [];
 const plugins = [
