@@ -80,17 +80,13 @@
     <script src="node_modules/angular-highlightjs/angular-highlightjs.min.js"></script>
 
     <!-- LumX -->
-    <% for (key in htmlWebpackPlugin.files.chunks) { %>
-    <script
-      src="<%= htmlWebpackPlugin.files.chunks[key].entry %>"
-      type="text/javascript"
-      crossorigin="<%= webpackConfig.output.crossOriginLoading %>"
-    ></script>
-    <% } %>
+		<script src="lumx.js" type="text/javascript" crossorigin="anonymous"></script>
+		<script src="app.js" type="text/javascript" crossorigin="anonymous"></script>
     <script src="js/demo/layout/js/layout_service.js"></script>
     <script src="js/demo/main-nav/js/main-nav_directive.js"></script>
     <script src="js/demo/main-nav/js/main-nav-link_directive.js"></script>
-    <script src="js/demo/component/js/component_directive.js"></script>
+		<script src="js/demo/component/js/component_directive.js"></script>
+		<script src="modules.js" type="text/javascript" crossorigin="anonymous"></script>
 
     <!-- Analytics -->
     <script>

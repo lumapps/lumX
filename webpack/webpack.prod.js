@@ -23,7 +23,7 @@ const distTechPath = `${DIST_PATH}`;
 const entry = baseConfig.entry;
 entry.lumx = [
 	`${CORE_PATH}/scss/_lumx.scss`,
-	...entry.lumx
+	...entry.lumx,
 ];
 
 const minimizer = [];
