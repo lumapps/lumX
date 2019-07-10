@@ -23,7 +23,7 @@ const STYLES_PATH = `${CORE_PATH}/scss`;
 
 // Dev-server relative constants
 const DEFAULT_HOST = '0.0.0.0';
-const DEFAULT_PORT = 4000;
+const DEFAULT_PORT = 8888;
 
 // Plugins configurations
 const CONFIGS = {

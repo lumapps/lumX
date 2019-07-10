@@ -1,6 +1,6 @@
 {
   "name": "official-lumx",
-  "version": "1.7.34",
+  "version": "1.7.35",
   "description": "The first responsive front-end framework based on AngularJS & Google Material Design specifications",
   "keywords": [
     "AngularJS",
@@ -39,6 +39,7 @@
   "scripts": {
     "prebuild": "rm -Rf ./dist/*",
     "build": "webpack --config webpack/webpack.prod.js && MINIFY=true GENERATE_PACKAGE=true webpack --config webpack/webpack.prod.js",
+    "build:demo": "webpack --config webpack/webpack.demo.js",
     "prepublish-package": "npm run build",
     "publish-package": "cd dist && npm publish --access=public && cd -",
     "start": "nodemon --watch webpack --ignore webpack/.eslintrc.js node_modules/.bin/webpack-dev-server -- --config webpack/webpack.dev.js --hot",

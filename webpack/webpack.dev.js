@@ -8,7 +8,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const WebpackNotifierPlugin = require('webpack-notifier');
 
 const { getStyleLoader } = require('./utils');
-const { DEFAULT_HOST, DEMO_PATH, ROOT_PATH } = require('./constants');
+const { DEFAULT_HOST, DEFAULT_PORT, DEMO_PATH, ROOT_PATH } = require('./constants');
 
 const baseConfig = require('./webpack.config');
 
@@ -65,7 +65,7 @@ module.exports = merge.smartStrategy({
 		open: true,
 		overlay: true,
         // eslint-disable-next-line no-magic-numbers
-        port: 4001,
+        port: DEFAULT_PORT,
         quiet: true,
 	},
 
