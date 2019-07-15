@@ -31,14 +31,14 @@ Then install all dependencies:
 
 Then run the build system and the server:
 
-1. Run `gulp`.
+1. Run `npm run build:demo`.
 2. In an other terminal, run `./launch.sh` (or `./dlaunch.sh` if you want to use Docker, recommended on MacOS X).
 3. Visit [http://localhost:8888][local] in your browser, and voilà.
 
 #### or
 
-1. Run `gulp serve`.
-2. Visit [http://localhost:8080][local] in your browser, and voilà.
+1. Run `npm start`.
+2. Visit [http://localhost:8888][local] in your browser, and voilà.
 
 ## How to get help, contribute, or provide feedback
 

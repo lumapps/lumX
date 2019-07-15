@@ -33,6 +33,10 @@ $RECYCLE.BIN/
 /libs
 /build
 /dist
+/demo/node_modules
+/demo/lumx.css
+/demo/lumx.js
+/demo/modules.js
 
 *.css.map
 
