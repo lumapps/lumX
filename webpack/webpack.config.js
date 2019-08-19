@@ -26,7 +26,6 @@ const baseConfig = {
             ...glob.sync(`${MODULES_PATH}/select/views/*.html`),
             ...glob.sync(`${MODULES_PATH}/tabs/views/*.html`),
             ...glob.sync(`${MODULES_PATH}/date-picker/views/*.html`),
-            ...glob.sync(`${MODULES_PATH}/button/views/*.html`),
             ...glob.sync(`${MODULES_PATH}/checkbox/views/*.html`),
             ...glob.sync(`${MODULES_PATH}/radio-button/views/*.html`),
             ...glob.sync(`${MODULES_PATH}/stepper/views/*.html`),
@@ -60,7 +59,9 @@ const baseConfig = {
                 use: [
                     {
                         loader: 'babel-loader?cacheDirectory=true',
-                        options: babelSetup({ plugins: [['angularjs-annotate', { explicitOnly: true }]] }),
+                        options: babelSetup({
+                            plugins: [['angularjs-annotate', { explicitOnly: true }]],
+                        }),
                     },
                 ],
             },
@@ -99,10 +100,6 @@ const baseConfig = {
             {
                 test: /\/date-picker\/.*\.html$/,
                 loader: 'angular-templatecache-loader-2?module=lumx.date-picker&relativeTo=modules/date-picker/views/',
-            },
-            {
-                test: /\/button\/.*\.html$/,
-                loader: 'angular-templatecache-loader-2?module=lumx.button&relativeTo=modules/button/views/',
             },
             {
                 test: /\/checkbox\/.*\.html$/,
