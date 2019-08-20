@@ -36,7 +36,7 @@ function ButtonDirective() {
     }
 
     function link(scope, el, attrs) {
-        if (!attrs.lumxVariant || attrs.lumxVariant === 'button') {
+        if (!attrs.lxVariant || attrs.lxVariant === 'button') {
             const leftIcon = el.find('i:first-child');
             const rightIcon = el.find('i:last-child');
             const label = el.find('span');
@@ -54,7 +54,7 @@ function ButtonDirective() {
             }
         }
 
-        const isDefaultEmphasis = !attrs.lumxEmphasis || attrs.lumxEmphasis === 'high';
+        const isDefaultEmphasis = !attrs.lxEmphasis || attrs.lxEmphasis === 'high';
 
         const defaultProps = {
             color: isDefaultEmphasis ? 'primary' : 'dark',
@@ -64,85 +64,9 @@ function ButtonDirective() {
             variant: 'button',
         };
 
-        if (!attrs.lumxColor) {
+        if (!attrs.lxColor) {
             el.addClass(`${CSS_PREFIX}-button--color-${defaultProps.color}`);
         }
-
-        attrs.$observe('lumxColor', (color) => {
-            if (!color) {
-                return;
-            }
-
-            el.removeClass((index, className) => {
-                return (className.match(/(?:\S|-)*button--color-\S+/g) || []).join(' ');
-            }).addClass(`${CSS_PREFIX}-button--color-${color}`);
-        });
-
-        if (!attrs.lumxEmphasis) {
-            el.addClass(`${CSS_PREFIX}-button--emphasis-${defaultProps.emphasis}`);
-        }
-
-        attrs.$observe('lumxEmphasis', (emphasis) => {
-            if (!emphasis) {
-                return;
-            }
-
-            el.removeClass((index, className) => {
-                return (className.match(/(?:\S|-)*button--emphasis-\S+/g) || []).join(' ');
-            }).addClass(`${CSS_PREFIX}-button--emphasis-${emphasis}`);
-        });
-
-        if (!attrs.lumxSize) {
-            el.addClass(`${CSS_PREFIX}-button--size-${defaultProps.size}`);
-        }
-
-        attrs.$observe('lumxSize', (size) => {
-            if (!size) {
-                return;
-            }
-
-            el.removeClass((index, className) => {
-                return (className.match(/(?:\S|-)*button--size-\S+/g) || []).join(' ');
-            }).addClass(`${CSS_PREFIX}-button--size-${size}`);
-        });
-
-        if (!attrs.lumxTheme && isDefaultEmphasis) {
-            el.addClass(`${CSS_PREFIX}-button--theme-${defaultProps.theme}`);
-        }
-
-        attrs.$observe('lumxTheme', (theme) => {
-            if (!theme) {
-                return;
-            }
-
-            el.removeClass((index, className) => {
-                return (className.match(/(?:\S|-)*button--theme-\S+/g) || []).join(' ');
-            }).addClass(`${CSS_PREFIX}-button--theme-${theme}`);
-        });
-
-        if (!attrs.lumxVariant) {
-            el.addClass(`${CSS_PREFIX}-button--variant-${defaultProps.variant}`);
-        }
-
-        attrs.$observe('lumxVariant', (variant) => {
-            if (!variant) {
-                return;
-            }
-
-            el.removeClass((index, className) => {
-                return (className.match(/(?:\S|-)*button--variant-\S+/g) || []).join(' ');
-            }).addClass(`${CSS_PREFIX}-button--variant-${variant}`);
-        });
-
-        scope.$watch(attrs.lumxIsSelected, (isSelected) => {
-            if (isSelected) {
-                el.addClass(`${CSS_PREFIX}-button--is-selected`);
-            } else {
-                el.removeClass(`${CSS_PREFIX}-button--is-selected`);
-            }
-        });
-
-        // Backward compatibility
 
         attrs.$observe('lxColor', (color) => {
             if (!color) {
@@ -154,11 +78,30 @@ function ButtonDirective() {
             }).addClass(`${CSS_PREFIX}-button--color-${color}`);
         });
 
+        if (!attrs.lxEmphasis) {
+            el.addClass(`${CSS_PREFIX}-button--emphasis-${defaultProps.emphasis}`);
+        }
+
+        attrs.$observe('lxEmphasis', (emphasis) => {
+            if (!emphasis) {
+                return;
+            }
+
+            el.removeClass((index, className) => {
+                return (className.match(/(?:\S|-)*button--emphasis-\S+/g) || []).join(' ');
+            }).addClass(`${CSS_PREFIX}-button--emphasis-${emphasis}`);
+        });
+
+        if (!attrs.lxSize) {
+            el.addClass(`${CSS_PREFIX}-button--size-${defaultProps.size}`);
+        }
+
         attrs.$observe('lxSize', (size) => {
             if (!size) {
                 return;
             }
 
+            // Backward compatibility.
             const sizeFallback = {
                 xs: 's',
                 s: 's',
@@ -171,6 +114,44 @@ function ButtonDirective() {
                 return (className.match(/(?:\S|-)*button--size-\S+/g) || []).join(' ');
             }).addClass(`${CSS_PREFIX}-button--size-${sizeFallback[size]}`);
         });
+
+        if (!attrs.lxTheme && isDefaultEmphasis) {
+            el.addClass(`${CSS_PREFIX}-button--theme-${defaultProps.theme}`);
+        }
+
+        attrs.$observe('lxTheme', (theme) => {
+            if (!theme) {
+                return;
+            }
+
+            el.removeClass((index, className) => {
+                return (className.match(/(?:\S|-)*button--theme-\S+/g) || []).join(' ');
+            }).addClass(`${CSS_PREFIX}-button--theme-${theme}`);
+        });
+
+        if (!attrs.lxVariant) {
+            el.addClass(`${CSS_PREFIX}-button--variant-${defaultProps.variant}`);
+        }
+
+        attrs.$observe('lxVariant', (variant) => {
+            if (!variant) {
+                return;
+            }
+
+            el.removeClass((index, className) => {
+                return (className.match(/(?:\S|-)*button--variant-\S+/g) || []).join(' ');
+            }).addClass(`${CSS_PREFIX}-button--variant-${variant}`);
+        });
+
+        scope.$watch(attrs.lxIsSelected, (isSelected) => {
+            if (isSelected) {
+                el.addClass(`${CSS_PREFIX}-button--is-selected`);
+            } else {
+                el.removeClass(`${CSS_PREFIX}-button--is-selected`);
+            }
+        });
+
+        // Backward compatibility.
 
         attrs.$observe('lxType', (type) => {
             if (!type) {
