@@ -9,12 +9,12 @@
 .mdi:before,
 .mdi-set {
   display: inline-block;
-  font: normal normal normal 24px/ 1 "Material Design Icons";
+  font: normal normal normal 24px/1 "Material Design Icons";
   font-size: inherit;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  text-rendering: auto;
   line-height: inherit;
-  text-rendering: auto; }
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale; }
 
 .mdi-access-point::before {
   content: "\F002"; }
