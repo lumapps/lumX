@@ -1,0 +1,258 @@
+///*------------------------------------*\
+//    #STEPPER
+//\*------------------------------------*/
+
+// Stepper
+.lx-stepper {
+    &.lx-stepper--layout-vertical {
+        padding: $base-spacing-unit * 3 0;
+    }
+}
+
+    // Stepper: header (horizontal)
+    .lx-stepper__header {
+        position: relative;
+        height: 72px;
+        overflow: hidden;
+        @include elevation(1);
+    }
+
+    // Stepper: nav (horizontal)
+    .lx-stepper__nav {
+        @include position(absolute, 0 0 0 0);
+        z-index: 2;
+        @include display(flex);
+        @include justify-content(space-between);
+
+        &:before {
+            content: '';
+            @include position(absolute, 50% 0 null 0);
+            height: 1px;
+            background-color: $black-4;
+        }
+
+        .lx-stepper--step-has-feedback & {
+            @include transition-property(opacity);
+            @include transition-duration(0.6s);
+            @include transition-timing-function($ease-out-quint);
+        }
+
+        .lx-stepper--step-has-feedback.lx-stepper--step-is-loading & {
+            opacity: 0;
+        }
+    }
+
+    // Stepper: feedback (horizontal)
+    .lx-stepper__feedback {
+        @include position(absolute, 0 0 0 0);
+        z-index: 1;
+        @include display(flex);
+        @include align-items(center);
+        padding: 0 $base-spacing-unit * 3;
+        opacity: 0;
+        @include font-size(14px);
+        @include transform(translateY(20px));
+        @include transition-property(opacity, transform);
+        @include transition-duration(0.6s);
+        @include transition-timing-function($ease-out-quint);
+
+        .lx-stepper--step-is-loading & {
+            opacity: 1;
+            @include transform(translateY(0));
+        }
+    }
+
+
+
+
+
+// Step nav
+.lx-step-nav {
+    @include display(flex);
+    cursor: pointer;
+
+    .ripple {
+        background-color: $black-2;
+    }
+
+    .lx-stepper--layout-horizontal & {
+        @include align-items(center);
+        position: relative;
+        height: 72px;
+        padding: 0 $base-spacing-unit;
+        background-color: $white;
+
+        &:first-child {
+            padding-left: $base-spacing-unit * 3;
+        }
+
+        &:last-child {
+            padding-right: $base-spacing-unit * 3;
+        }
+    }
+
+    .lx-stepper--layout-vertical & {
+        padding: $base-spacing-unit $base-spacing-unit * 3;
+    }
+}
+
+    // Step nav: circle
+    .lx-step-nav__indicator {
+        @include display(flex);
+        @include align-items(center);
+        @include justify-content(center);
+        @include size(24px);
+
+        .lx-stepper--layout-horizontal & {
+            margin-right: $base-spacing-unit;
+        }
+
+        .lx-stepper--layout-vertical & {
+            margin-right: $base-spacing-unit * 1.5;
+        }
+
+        &.lx-step-nav__indicator--index,
+        &.lx-step-nav__indicator--icon {
+            border-radius: 50%;
+            background-color: $black-3;
+            color: $white-1;
+        }
+
+        .lx-step-nav--is-active &.lx-step-nav__indicator--index,
+        .lx-step-nav--is-active &.lx-step-nav__indicator--icon,
+        .lx-step-nav--is-valid &.lx-step-nav__indicator--index,
+        .lx-step-nav--is-valid &.lx-step-nav__indicator--icon {
+            background-color: $primary;
+        }
+
+        &.lx-step-nav__indicator--index {
+            @include font-size(11px);
+        }
+
+        &.lx-step-nav__indicator--icon {
+            @include font-size(14px);
+        }
+
+        &.lx-step-nav__indicator--error {
+            @include font-size(24px);
+            color: $red;
+        }
+    }
+
+    // Step nav: label
+    .lx-step-nav__label {
+        @include font-size(14px);
+        font-weight: 500;
+        color: $black-2;
+        line-height: 24px;
+
+        .lx-step-nav--is-active &,
+        .lx-step-nav--is-valid & {
+            color: $black-1;
+        }
+
+        .lx-step-nav--has-error & {
+            color: $red;
+        }
+    }
+
+    // Step nav: state
+    .lx-step-nav__state {
+        @include font-size(12px);
+        color: $black-3;
+
+        .lx-step-nav--has-error & {
+            color: $red;
+        }
+    }
+
+
+
+
+
+// Step
+.lx-step {
+    .lx-stepper--layout-vertical & {
+        position: relative;
+        padding-bottom: $base-spacing-unit * 2;
+
+        &.lx-step--is-active {
+            padding-bottom: $base-spacing-unit * 6;
+        }
+
+        &:last-child {
+            padding-bottom: 0;
+        }
+
+        &:before {
+            content: '';
+            @include position(absolute, 40px null 0 $base-spacing-unit * 4.5);
+            width: 1px;
+            background-color: $black-4;
+        }
+    }
+}
+
+    // Step: nav (vertical)
+    .lx-step__nav {
+        margin-bottom: $base-spacing-unit;
+
+        .lx-step:not(.lx-step--is-active):last-child & {
+            margin-bottom: 0;
+        }
+    }
+
+    // Step: wrapper
+    .lx-step__wrapper {
+        .lx-stepper--layout-horizontal & {
+            padding: $base-spacing-unit * 3;
+        }
+
+        .lx-stepper--layout-vertical & {
+            padding: 0 $base-spacing-unit * 3 0 60px;
+        }
+    }
+
+    // Step: content
+    .lx-step__content {
+        position: relative;
+    }
+
+    // Step: progress
+    .lx-step__progress {
+        @include position(absolute, 0 0 0 0);
+        @include display(flex);
+        @include align-items(center);
+        @include justify-content(center);
+        background-color: $white-2;
+    }
+
+    // Step: actions
+    .lx-step__actions {
+        @include display(flex);
+        margin-top: $base-spacing-unit * 3;
+
+        .lx-stepper--layout-horizontal & {
+            @include flex-direction(row-reverse);
+        }
+    }
+
+    // Step: action
+    .lx-step__action {
+        .lx-stepper--layout-horizontal &.lx-step__action--cancel {
+            margin-right: $base-spacing-unit;
+        }
+
+        .lx-stepper--layout-vertical &.lx-step__action--cancel {
+            margin-left: $base-spacing-unit;
+        }
+
+        .lx-stepper--layout-horizontal &.lx-step__action--back {
+            @include flex(1);
+        }
+
+        .lx-stepper--layout-vertical &.lx-step__action--back {
+            @include flex(1);
+            text-align: right;
+        }
+    }

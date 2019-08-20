@@ -1,0 +1,103 @@
+///* ========================================================================
+//   #UTILITIES-SPACINGS
+//   ======================================================================== */
+
+.m          { margin:           $base-spacing-unit !important; }
+.mt         { margin-top:       $base-spacing-unit !important; }
+.mr         { margin-right:     $base-spacing-unit !important; }
+.mb         { margin-bottom:    $base-spacing-unit !important; }
+.ml         { margin-left:      $base-spacing-unit !important; }
+.mh         { margin-right:     $base-spacing-unit !important; margin-left:      $base-spacing-unit !important; }
+.mv         { margin-top:       $base-spacing-unit !important; margin-bottom:    $base-spacing-unit !important; }
+
+.m-         { margin:           $base-spacing-unit / 2 !important; }
+.mt-        { margin-top:       $base-spacing-unit / 2 !important; }
+.mr-        { margin-right:     $base-spacing-unit / 2 !important; }
+.mb-        { margin-bottom:    $base-spacing-unit / 2 !important; }
+.ml-        { margin-left:      $base-spacing-unit / 2 !important; }
+.mh-        { margin-right:     $base-spacing-unit / 2 !important; margin-left:   $base-spacing-unit / 2 !important; }
+.mv-        { margin-top:       $base-spacing-unit / 2 !important; margin-bottom: $base-spacing-unit / 2 !important; }
+
+.m\+        { margin:           $base-spacing-unit * 2 !important; }
+.mt\+       { margin-top:       $base-spacing-unit * 2 !important; }
+.mr\+       { margin-right:     $base-spacing-unit * 2 !important; }
+.mb\+       { margin-bottom:    $base-spacing-unit * 2 !important; }
+.ml\+       { margin-left:      $base-spacing-unit * 2 !important; }
+.mh\+       { margin-right:     $base-spacing-unit * 2 !important; margin-left:   $base-spacing-unit * 2 !important; }
+.mv\+       { margin-top:       $base-spacing-unit * 2 !important; margin-bottom: $base-spacing-unit * 2 !important; }
+
+.m\+\+      { margin:           $base-spacing-unit * 3 !important; }
+.mt\+\+     { margin-top:       $base-spacing-unit * 3 !important; }
+.mr\+\+     { margin-right:     $base-spacing-unit * 3 !important; }
+.mb\+\+     { margin-bottom:    $base-spacing-unit * 3 !important; }
+.ml\+\+     { margin-left:      $base-spacing-unit * 3 !important; }
+.mh\+\+     { margin-right:     $base-spacing-unit * 3 !important; margin-left:   $base-spacing-unit * 3 !important; }
+.mv\+\+     { margin-top:       $base-spacing-unit * 3 !important; margin-bottom: $base-spacing-unit * 3 !important; }
+
+.m\+\+\+    { margin:           $base-spacing-unit * 4 !important; }
+.mt\+\+\+   { margin-top:       $base-spacing-unit * 4 !important; }
+.mr\+\+\+   { margin-right:     $base-spacing-unit * 4 !important; }
+.mb\+\+\+   { margin-bottom:    $base-spacing-unit * 4 !important; }
+.ml\+\+\+   { margin-left:      $base-spacing-unit * 4 !important; }
+.mh\+\+\+   { margin-right:     $base-spacing-unit * 4 !important; margin-left:   $base-spacing-unit * 4 !important; }
+.mv\+\+\+   { margin-top:       $base-spacing-unit * 4 !important; margin-bottom: $base-spacing-unit * 4 !important; }
+
+.m0         { margin:           0 !important; }
+.mt0        { margin-top:       0 !important; }
+.mr0        { margin-right:     0 !important; }
+.mb0        { margin-bottom:    0 !important; }
+.ml0        { margin-left:      0 !important; }
+.mh0        { margin-right:     0 !important; margin-left:      0 !important; }
+.mv0        { margin-top:       0 !important; margin-bottom:    0 !important; }
+
+
+
+
+
+.p          { padding:          $base-spacing-unit !important; }
+.pt         { padding-top:      $base-spacing-unit !important; }
+.pr         { padding-right:    $base-spacing-unit !important; }
+.pb         { padding-bottom:   $base-spacing-unit !important; }
+.pl         { padding-left:     $base-spacing-unit !important; }
+.ph         { padding-right:    $base-spacing-unit !important; padding-left:    $base-spacing-unit !important; }
+.pv         { padding-top:      $base-spacing-unit !important; padding-bottom:  $base-spacing-unit !important; }
+
+.p-         { padding:          $base-spacing-unit / 2 !important; }
+.pt-        { padding-top:      $base-spacing-unit / 2 !important; }
+.pr-        { padding-right:    $base-spacing-unit / 2 !important; }
+.pb-        { padding-bottom:   $base-spacing-unit / 2 !important; }
+.pl-        { padding-left:     $base-spacing-unit / 2 !important; }
+.ph-        { padding-right:    $base-spacing-unit / 2 !important; padding-left:    $base-spacing-unit / 2 !important; }
+.pv-        { padding-top:      $base-spacing-unit / 2 !important; padding-bottom:  $base-spacing-unit / 2 !important; }
+
+.p\+        { padding:          $base-spacing-unit * 2 !important; }
+.pt\+       { padding-top:      $base-spacing-unit * 2 !important; }
+.pr\+       { padding-right:    $base-spacing-unit * 2 !important; }
+.pb\+       { padding-bottom:   $base-spacing-unit * 2 !important; }
+.pl\+       { padding-left:     $base-spacing-unit * 2 !important; }
+.ph\+       { padding-right:    $base-spacing-unit * 2 !important; padding-left:   $base-spacing-unit * 2 !important; }
+.pv\+       { padding-top:      $base-spacing-unit * 2 !important; padding-bottom: $base-spacing-unit * 2 !important; }
+
+.p\+\+      { padding:          $base-spacing-unit * 3 !important; }
+.pt\+\+     { padding-top:      $base-spacing-unit * 3 !important; }
+.pr\+\+     { padding-right:    $base-spacing-unit * 3 !important; }
+.pb\+\+     { padding-bottom:   $base-spacing-unit * 3 !important; }
+.pl\+\+     { padding-left:     $base-spacing-unit * 3 !important; }
+.ph\+\+     { padding-right:    $base-spacing-unit * 3 !important; padding-left:    $base-spacing-unit * 3 !important; }
+.pv\+\+     { padding-top:      $base-spacing-unit * 3 !important; padding-bottom:  $base-spacing-unit * 3 !important; }
+
+.p\+\+\+    { padding:          $base-spacing-unit * 4 !important; }
+.pt\+\+\+   { padding-top:      $base-spacing-unit * 4 !important; }
+.pr\+\+\+   { padding-right:    $base-spacing-unit * 4 !important; }
+.pb\+\+\+   { padding-bottom:   $base-spacing-unit * 4 !important; }
+.pl\+\+\+   { padding-left:     $base-spacing-unit * 4 !important; }
+.ph\+\+\+   { padding-right:    $base-spacing-unit * 4 !important; padding-left:    $base-spacing-unit * 4 !important; }
+.pv\+\+\+   { padding-top:      $base-spacing-unit * 4 !important; padding-bottom:  $base-spacing-unit * 4 !important; }
+
+.p0         { padding:          0 !important; }
+.pt0        { padding-top:      0 !important; }
+.pr0        { padding-right:    0 !important; }
+.pb0        { padding-bottom:   0 !important; }
+.pl0        { padding-left:     0 !important; }
+.ph0        { padding-right:    0 !important; padding-left:     0 !important; }
+.pv0        { padding-top:      0 !important; padding-bottom:   0 !important; }

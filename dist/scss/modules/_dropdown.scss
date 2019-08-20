@@ -1,0 +1,123 @@
+///*------------------------------------*\
+//    #DROPDOWN
+//\*------------------------------------*/
+
+// Dropdown
+.dropdown--has-toggle {
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+}
+
+
+
+
+
+// Dropdown toggle
+.dropdown-toggle {
+    position: relative;
+}
+
+
+
+
+
+// Dropdown menu
+.dropdown-menu {
+    position: fixed;
+    border-radius: $base-round;
+    background-color: $white;
+    text-align: left;
+    opacity: 0;
+    overflow: auto;
+    @include elevation(8);
+
+    ul {
+        @include bare-list();
+
+        & > li {
+            position: relative;
+        }
+    }
+}
+
+    // Dropdown menu: content
+    .dropdown-menu__content {
+        padding: $base-spacing-unit 0;
+        opacity: 0;
+        height: 100%;
+        @include transition-property(opacity);
+        @include transition-duration(0.2s);
+
+        .dropdown-menu--is-open & {
+            opacity: 1;
+        }
+    }
+
+
+
+
+
+// Dropdown divider
+.dropdown-divider {
+    height: 1px;
+    margin-top: $base-spacing-unit;
+    margin-bottom: $base-spacing-unit;
+    background-color: $black-4;
+}
+
+
+
+
+
+// Dropdown link
+.dropdown-link {
+    @include display(flex);
+    @include flex-direction(row);
+    @include align-items(center);
+    cursor: pointer;
+    color: $black-1;
+    text-decoration: none;
+    white-space: nowrap;
+
+    @include mq($until: desktop) {
+        height: 48px;
+        padding: 0 $base-spacing-unit * 2;
+        @include font-size(16px);
+        line-height: 48px;
+    }
+
+    @include mq($from: desktop) {
+        height: 32px;
+        padding: 0 $base-spacing-unit * 3;
+        @include font-size(14px);
+        line-height: 32px;
+    }
+
+    .#{$mdi-css-prefix} {
+        @include size(24px);
+        margin-right: $base-spacing-unit * 2;
+        line-height: 24px;
+        color: $black-2;
+        text-align: center;
+
+        @include mq($until: desktop) {
+            @include font-size(24px);
+        }
+
+        @include mq($from: desktop) {
+            @include font-size(18px);
+        }
+    }
+
+    &:not(.dropdown-link--is-header) {
+        &:hover {
+            background-color: $grey-200;
+        }
+    }
+}
+
+.dropdown-link--is-header {
+    color: $black-3;
+    cursor: default;
+}

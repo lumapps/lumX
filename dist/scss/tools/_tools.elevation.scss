@@ -1,0 +1,9 @@
+///* ========================================================================
+//   #TOOLS-ELEVATION
+//   ======================================================================== */
+
+@mixin elevation($elevation) {
+    box-shadow: #{map-get($umbra-elevations, $elevation)},
+                #{map-get($penumbra-elevations, $elevation)},
+                #{map-get($ambient-elevations, $elevation)};
+}

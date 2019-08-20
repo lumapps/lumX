@@ -1,0 +1,22 @@
+///* ========================================================================
+//   #TOOLS-MDI
+//   ======================================================================== */
+
+@mixin mdi() {
+    display: inline-block;
+    font: normal normal normal #{$mdi-font-size-base}/1 '#{$mdi-font-name}';
+    font-size: inherit;
+    text-rendering: auto;
+    line-height: inherit;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+@mixin mdi-icon($icon) {
+    content: mdi($icon);
+}
+
+// mdi backward
+.mdi-youtube-play {
+    @extend .mdi-youtube;
+}

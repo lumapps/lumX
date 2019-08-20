@@ -1,0 +1,216 @@
+///*------------------------------------*\
+//    #OBJECTS-DATA-TABLE
+//\*------------------------------------*/
+
+// Data table container
+.data-table-container {
+    position: relative;
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+}
+
+
+
+
+
+// Data table header (seprecated)
+.data-table-header {
+    @include display(flex);
+    @include flex-direction(row);
+    @include align-items(center);
+    height: 64px;
+    padding: 0 $base-spacing-unit * 3;
+    border-bottom: 1px solid $black-4;
+}
+
+    // Data table header label
+    .data-table-header__label {
+        @include flex(1);
+    }
+
+
+
+
+
+// Data table base styles
+.data-table {
+    width: 100%;
+    margin: 0;
+    table-layout: fixed;
+
+    th, td {
+        padding-right: 56px;
+
+        &:first-child {
+            padding-left: $base-spacing-unit * 3;
+            padding-right: $base-spacing-unit * 3;
+        }
+
+        &:last-child {
+            padding-right: $base-spacing-unit * 3;
+        }
+    }
+
+    &.data-table--border {
+        td {
+            border-bottom: 1px solid #e0e0e0;
+        }
+    }
+
+    &.data-table--thumbnail {
+        th:first-child,
+        td:first-child {
+            width: 88px;
+            padding: 0;
+            border-bottom: none;
+        }
+    }
+
+    th {
+        height: 56px;
+        border-bottom: 1px solid #e0e0e0;
+        @include font-size(12px);
+        font-weight: 400;
+        color: $black-2;
+        white-space: nowrap;
+
+        i {
+            margin-right: $base-spacing-unit / 2;
+        }
+    }
+
+    td {
+        height: 48px;
+        @include font-size(13px);
+        padding-top: $base-spacing-unit;
+        padding-bottom: $base-spacing-unit;
+    }
+
+    &.data-table--thumbnail td {
+        height: 56px;
+    }
+
+    tr:last-child td {
+        border-bottom: none;
+    }
+}
+
+    // Data table activable row
+    .data-table__activable-row {
+        td {
+            cursor: pointer;
+        }
+
+        &:not(.data-table__selectable-row--is-disabled):hover td {
+            background-color: $grey-200;
+        }
+    }
+
+    // Data table selectable row
+    .data-table__selectable-row {
+        th:first-child,
+        td:first-child {
+            width: 88px;
+            padding: 0;
+
+            i {
+                margin: 0;
+            }
+        }
+    }
+
+    .data-table.data-table--thumbnail .data-table__selectable-row:not(.data-table__selectable-row--is-disabled):not(.data-table__selectable-row--is-selected) {
+        td:first-child {
+            .data-table__checkbox {
+                display: none;
+            }
+
+            .data-table__thumbnail {
+                display: block;
+            }
+        }
+
+        &:hover td:first-child {
+            .data-table__checkbox {
+                display: block;
+            }
+
+            .data-table__thumbnail {
+                display: none;
+            }
+        }
+    }
+
+    // Data table activable row (activated)
+    .data-table__activable-row--is-activated {
+        td {
+            background-color: $grey-100;
+        }
+    }
+
+    .data-table.data-table--thumbnail .data-table__selectable-row--is-selected {
+        td:first-child {
+            .data-table__checkbox {
+                display: block;
+            }
+
+            .data-table__thumbnail {
+                display: none;
+            }
+        }
+    }
+
+    // Data table selectable row (disabled)
+    .data-table__selectable-row--is-disabled {
+        td {
+            cursor: not-allowed;
+        }
+    }
+
+    // Data table sortable-cell
+    .data-table__sortable-cell {
+        cursor: pointer;
+
+        &:hover {
+            color: $black-1 !important;
+        }
+
+        &:before {
+            @include mdi();
+            margin-right: $base-spacing-unit / 2;
+        }
+    }
+
+    .data-table__sortable-cell--asc,
+    .data-table__sortable-cell--desc {
+        color: $black-1 !important;
+
+        &:before {
+            color: $black-2 !important;
+        }
+    }
+
+    .data-table__sortable-cell--asc:before {
+        @include mdi-icon('arrow-up');
+    }
+
+    .data-table__sortable-cell--desc:before {
+        @include mdi-icon('arrow-down');
+    }
+
+    // Data table actions
+    .data-table__actions {
+        @include display(flex);
+        @include flex-direction(row);
+        @include align-items(center);
+
+        button {
+            margin-right: $base-spacing-unit / 2;
+
+            &:last-child {
+                margin-right: 0;
+            }
+        }
+    }

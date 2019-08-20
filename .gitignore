@@ -7,7 +7,6 @@ tmp
 .idea
 package-lock.json
 .vscode/settings.json
-dist/
 yarn-error.log
 jsconfig.json
 .awcache

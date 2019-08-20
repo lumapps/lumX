@@ -1,0 +1,27 @@
+///*------------------------------------*\
+//    #RIPPLE
+//\*------------------------------------*/
+
+// Ripple animation
+@include keyframes(ripple) {
+    0% { opacity: 0.3; @include transform(scale(0)); }
+    100% { opacity: 0; @include transform(scale(2.5)); }
+}
+
+
+
+
+
+// Ripple
+.ripple {
+	display: block;
+	position: absolute;
+	border-radius: 100%;
+    opacity: 0.3;
+	@include transform(scale(0));
+    pointer-events: none;
+}
+
+.ripple--is-animated {
+	@include animation(ripple 0.65s linear);
+}
