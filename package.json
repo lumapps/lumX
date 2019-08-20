@@ -47,7 +47,7 @@
     },
     "dependencies": {
         "@lumx/core": "0.6.16",
-        "@mdi/font": "^4.0.96",
+        "@lumx/icons": "0.7.15",
         "angular": "^1.5.11",
         "bourbon": "^4.2.7",
         "jquery": "^3.4.1",
