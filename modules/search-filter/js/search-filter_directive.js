@@ -92,9 +92,9 @@
         }
     }
 
-    LxSearchFilterController.$inject = ['$element', '$scope', '$timeout', 'LxDropdownService', 'LxNotificationService', 'LxUtils'];
+    LxSearchFilterController.$inject = ['$element', '$scope', '$timeout', 'LxDropdownService', 'LxNotificationService', 'LxUtilsService'];
 
-    function LxSearchFilterController($element, $scope, $timeout, LxDropdownService, LxNotificationService, LxUtils)
+    function LxSearchFilterController($element, $scope, $timeout, LxDropdownService, LxNotificationService, LxUtilsService)
     {
         var lxSearchFilter = this;
         var debouncedAutocomplete;
@@ -113,7 +113,7 @@
 
         lxSearchFilter.activeChoiceIndex = -1;
         lxSearchFilter.color = angular.isDefined(lxSearchFilter.color) ? lxSearchFilter.color : 'black';
-        lxSearchFilter.dropdownId = LxUtils.generateUUID();
+        lxSearchFilter.dropdownId = LxUtilsService.generateUUID();
         lxSearchFilter.theme = angular.isDefined(lxSearchFilter.theme) ? lxSearchFilter.theme : 'light';
 
         ////////////
@@ -352,7 +352,7 @@
 
             if (angular.isFunction(lxSearchFilter.autocomplete) && angular.isFunction(lxSearchFilter.autocomplete()))
             {
-                debouncedAutocomplete = LxUtils.debounce(function()
+                debouncedAutocomplete = LxUtilsService.debounce(function()
                 {
                     lxSearchFilter.isLoading = true;
                     (lxSearchFilter.autocomplete()).apply(this, arguments);

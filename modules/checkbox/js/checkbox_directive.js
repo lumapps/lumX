@@ -32,9 +32,9 @@
         };
     }
 
-    LxCheckboxController.$inject = ['$scope', '$timeout', 'LxUtils'];
+    LxCheckboxController.$inject = ['$scope', '$timeout', 'LxUtilsService'];
 
-    function LxCheckboxController($scope, $timeout, LxUtils)
+    function LxCheckboxController($scope, $timeout, LxUtilsService)
     {
         var lxCheckbox = this;
         var checkboxId;
@@ -68,7 +68,7 @@
 
         function init()
         {
-            setCheckboxId(LxUtils.generateUUID());
+            setCheckboxId(LxUtilsService.generateUUID());
             setCheckboxHasChildren(false);
 
             lxCheckbox.ngTrueValue = angular.isUndefined(lxCheckbox.ngTrueValue) ? true : lxCheckbox.ngTrueValue;

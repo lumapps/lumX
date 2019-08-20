@@ -80,11 +80,11 @@
     }
 
     LxDropdownController.$inject = ['$document', '$element', '$interval', '$rootScope', '$scope', '$timeout', '$window',
-        'LxDepthService', 'LxDropdownService', 'LxEventSchedulerService', 'LxUtils'
+        'LxDepthService', 'LxDropdownService', 'LxEventSchedulerService', 'LxUtilsService'
     ];
 
     function LxDropdownController($document, $element, $interval, $rootScope, $scope, $timeout, $window, LxDepthService,
-        LxDropdownService, LxEventSchedulerService, LxUtils)
+        LxDropdownService, LxEventSchedulerService, LxUtilsService)
     {
         var lxDropdown = this;
         var dropdownContentWatcher;
@@ -104,7 +104,7 @@
         lxDropdown.registerDropdownMenu = registerDropdownMenu;
         lxDropdown.registerDropdownToggle = registerDropdownToggle;
         lxDropdown.toggle = toggle;
-        lxDropdown.uuid = LxUtils.generateUUID();
+        lxDropdown.uuid = LxUtilsService.generateUUID();
 
         lxDropdown.closeOnClick = angular.isDefined(lxDropdown.closeOnClick) ? lxDropdown.closeOnClick : true;
         lxDropdown.effect = angular.isDefined(lxDropdown.effect) ? lxDropdown.effect : 'expand';
@@ -409,7 +409,7 @@
 
             angular.element(window).on('resize', initDropdownPosition);
 
-            enableBodyScroll = LxUtils.disableBodyScroll();
+            enableBodyScroll = LxUtilsService.disableBodyScroll();
 
             var dropdownToggleElement;
             if (lxDropdown.hasToggle)

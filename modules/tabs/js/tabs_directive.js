@@ -33,9 +33,9 @@
         };
     }
 
-    LxTabsController.$inject = ['LxUtils', '$element', '$scope', '$timeout'];
+    LxTabsController.$inject = ['LxUtilsService', '$element', '$scope', '$timeout'];
 
-    function LxTabsController(LxUtils, $element, $scope, $timeout)
+    function LxTabsController(LxUtilsService, $element, $scope, $timeout)
     {
         var lxTabs = this;
         var tabsLength;
@@ -92,7 +92,7 @@
             angular.forEach(_newLinks, function(link, index)
             {
                 var tab = {
-                    uuid: (angular.isUndefined(link.uuid) || link.uuid.length === 0) ? LxUtils.generateUUID() : link.uuid,
+                    uuid: (angular.isUndefined(link.uuid) || link.uuid.length === 0) ? LxUtilsService.generateUUID() : link.uuid,
                     index: index,
                     label: link.label,
                     icon: link.icon,
@@ -273,14 +273,14 @@
         }
     }
 
-    LxTabController.$inject = ['$scope', 'LxUtils'];
+    LxTabController.$inject = ['$scope', 'LxUtilsService'];
 
-    function LxTabController($scope, LxUtils)
+    function LxTabController($scope, LxUtilsService)
     {
         var lxTab = this;
         var parentCtrl;
         var tab = {
-            uuid: LxUtils.generateUUID(),
+            uuid: LxUtilsService.generateUUID(),
             index: undefined,
             label: undefined,
             icon: undefined,

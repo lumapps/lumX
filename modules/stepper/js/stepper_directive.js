@@ -258,9 +258,9 @@
         }
     }
 
-    LxStepController.$inject = ['$q', '$scope', 'LxNotificationService', 'LxUtils'];
+    LxStepController.$inject = ['$q', '$scope', 'LxNotificationService', 'LxUtilsService'];
 
-    function LxStepController($q, $scope, LxNotificationService, LxUtils)
+    function LxStepController($q, $scope, LxNotificationService, LxUtilsService)
     {
         var lxStep = this;
 
@@ -286,7 +286,7 @@
             isValid: lxStep.isValid,
             label: undefined,
             pristine: true,
-            uuid: LxUtils.generateUUID(),
+            uuid: LxUtilsService.generateUUID(),
             validator: undefined
         };
 

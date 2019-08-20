@@ -84,6 +84,7 @@
         "eslint-plugin-angular": "^4.0.0",
         "eslint-plugin-html": "^5.0.3",
         "eslint-plugin-import": "^2.16.0",
+        "eslint-plugin-jsx-a11y": "^6.2.1",
         "eslint-plugin-lumapps": "git+ssh://git@github.com/lumapps/eslint-plugin-lumapps.git#master",
         "eslint-plugin-no-useless-assign": "^1.0.2",
         "eslint-plugin-prettier": "^3.0.1",

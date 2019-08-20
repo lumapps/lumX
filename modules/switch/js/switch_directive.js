@@ -33,9 +33,9 @@
         };
     }
 
-    LxSwitchController.$inject = ['$scope', '$timeout', 'LxUtils'];
+    LxSwitchController.$inject = ['$scope', '$timeout', 'LxUtilsService'];
 
-    function LxSwitchController($scope, $timeout, LxUtils)
+    function LxSwitchController($scope, $timeout, LxUtilsService)
     {
         var lxSwitch = this;
         var switchId;
@@ -69,7 +69,7 @@
 
         function init()
         {
-            setSwitchId(LxUtils.generateUUID());
+            setSwitchId(LxUtilsService.generateUUID());
             setSwitchHasChildren(false);
 
             lxSwitch.ngTrueValue = angular.isUndefined(lxSwitch.ngTrueValue) ? true : lxSwitch.ngTrueValue;

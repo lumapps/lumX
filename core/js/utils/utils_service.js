@@ -1,165 +1,107 @@
-(function()
-{
-    'use strict';
+function UtilsService($rootScope) {
+    'ngInject';
 
-    angular
-        .module('lumx.utils.utils')
-        .service('LxUtils', LxUtils);
+    const service = this;
 
-    function LxUtils()
-    {
-        var service = this;
-        var alreadyDisabledScroll = false;
+    /////////////////////////////
+    //                         //
+    //     Public functions    //
+    //                         //
+    /////////////////////////////
 
-        service.debounce = debounce;
-        service.disableBodyScroll = disableBodyScroll;
-        service.escapeRegexp = escapeRegexp;
-        service.generateUUID = generateUUID;
+    /**
+     * Returns a function, that, as long as it continues to be invoked, will not be triggered.
+     *
+     * @param  {Function} func      The function to debounce.
+     * @param  {number}   wait      The function will be called after it stops being called for N milliseconds.
+     * @param  {boolean}  immediate Whether to trigger the function on the leading edge.
+     * @return {Function} The debounced function.
+     */
+    function debounce(func, wait, immediate) {
+        let timeout;
 
-        ////////////
+        return () => {
+            // eslint-disable-next-line import/unambiguous, consistent-this
+            const context = this;
 
-        // http://underscorejs.org/#debounce (1.8.3)
-        function debounce(func, wait, immediate)
-        {
-            var timeout, args, context, timestamp, result;
+            // eslint-disable-next-line prefer-rest-params
+            const args = arguments;
 
-            wait = wait || 500;
+            const later = () => {
+                timeout = null;
 
-            var later = function()
-            {
-                var last = Date.now() - timestamp;
-
-                if (last < wait && last >= 0)
-                {
-                    timeout = setTimeout(later, wait - last);
-                }
-                else
-                {
-                    timeout = null;
-                    if (!immediate)
-                    {
-                        result = func.apply(context, args);
-                        if (!timeout)
-                        {
-                            context = args = null;
-                        }
-                    }
+                if (!immediate) {
+                    func.apply(context, args);
                 }
             };
 
-            var debounced = function()
-            {
-                context = this;
-                args = arguments;
-                timestamp = Date.now();
-                var callNow = immediate && !timeout;
-                if (!timeout)
-                {
-                    timeout = setTimeout(later, wait);
-                }
-                if (callNow)
-                {
-                    result = func.apply(context, args);
-                    context = args = null;
-                }
+            const callNow = immediate && !timeout;
 
-                return result;
-            };
+            clearTimeout(timeout);
 
-            debounced.clear = function()
-            {
-                clearTimeout(timeout);
-                timeout = context = args = null;
-            };
+            timeout = setTimeout(later, wait);
 
-            return debounced;
-        }
-
-        function disableBodyScroll()
-        {
-            var body = document.body;
-            var documentElement = document.documentElement;
-
-            if (!alreadyDisabledScroll) {
-                var prevDocumentStyle = documentElement.style.cssText || '';
-                var prevBodyStyle = body.style.cssText || '';
-                var viewportTop = (document.scrollingElement) ?
-                    document.scrollingElement.scrollTop : window.scrollY || window.pageYOffset || body.scrollTop;
-                viewportTop = viewportTop || 0;
+            if (callNow) {
+                func.apply(context, args);
             }
-
-
-            var clientWidth = body.clientWidth;
-            var hasVerticalScrollbar = body.scrollHeight > window.innerHeight + 1;
-
-            if (hasVerticalScrollbar)
-            {
-              angular.element('body').css({
-                overflow: 'hidden',
-              });
-            }
-
-            if (body.clientWidth < clientWidth)
-            {
-              body.style.overflow = 'hidden';
-            }
-
-            // This should be applied after the manipulation to the body, because
-            // adding a scrollbar can potentially resize it, causing the measurement
-            // to change.
-            if (hasVerticalScrollbar)
-            {
-              documentElement.style.overflowY = 'scroll';
-            }
-
-            // This attribution prevents this function to consider the css it sets
-            // to body and documents to be the 'previous' css attributes to recover.
-            alreadyDisabledScroll = true;
-
-            return function restoreScroll()
-            {
-                if (!alreadyDisabledScroll) {
-                    return;
-                }
-
-                // Reset the inline style CSS to the previous.
-                body.style.cssText = prevBodyStyle;
-                documentElement.style.cssText = prevDocumentStyle;
-                
-                // The body loses its scroll position while being fixed.
-                if (document.scrollingElement) {
-                    document.scrollingElement.scrollTop = viewportTop;
-                } else {
-                    body.scrollTop = viewportTop;
-                }
-
-                alreadyDisabledScroll = false;
-            };
-        }
-
-        /**
-         * Escape all RegExp special characters in a string.
-         *
-         * @param  {string} strToEscape The string to escape RegExp special char in.
-         * @return {string} The escapes string.
-         */
-        function escapeRegexp(strToEscape) {
-            return strToEscape.replace(/([.?*+^$[\]\\(){}|-])/g, '\\$1');
-        }
-
-        function generateUUID()
-        {
-            var d = new Date().getTime();
-
-            var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c)
-            {
-                var r = (d + Math.random() * 16) % 16 | 0;
-                d = Math.floor(d / 16);
-                return (c == 'x' ? r : (r & 0x3 | 0x8))
-                    .toString(16);
-            });
-
-            return uuid.toUpperCase();
-        }
+        };
     }
-})();
+
+    /**
+     * Disable body scroll.
+     */
+    function disableBodyScroll() {
+        $rootScope.$broadcast('lx-scroll__disable');
+    }
+
+    /**
+     * Escape all RegExp special characters in a string.
+     *
+     * @param  {string} strToEscape The string to escape RegExp special char in.
+     * @return {string} The escapes string.
+     */
+    function escapeRegexp(strToEscape) {
+        return strToEscape.replace(/([.?*+^$[\]\\(){}|-])/g, '\\$1');
+    }
+
+    /**
+     * Generate a unique identifier.
+     *
+     * @return {string} A unique identifier.
+     */
+    function generateUUID() {
+        /* eslint-disable no-bitwise, no-magic-numbers */
+        let time = new Date().getTime();
+
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (char) => {
+            const random = (time + Math.random() * 16) % 16 | 0;
+            time = Math.floor(time / 16);
+
+            return (char === 'x' ? random : (random & 0x3) | 0x8).toString(16);
+        });
+        /* eslint-enable no-bitwise, no-magic-numbers */
+    }
+
+    /**
+     * Restore body scroll.
+     */
+    function restoreBodyScroll() {
+        $rootScope.$broadcast('lx-scroll__restore');
+    }
+
+    /////////////////////////////
+
+    service.debounce = debounce;
+    service.disableBodyScroll = disableBodyScroll;
+    service.escapeRegexp = escapeRegexp;
+    service.generateUUID = generateUUID;
+    service.restoreBodyScroll = restoreBodyScroll;
+}
+
+/////////////////////////////
+
+angular.module('lumx.utils.utils').service('LxUtilsService', UtilsService);
+
+/////////////////////////////
+
+export { UtilsService };

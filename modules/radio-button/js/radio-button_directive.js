@@ -46,9 +46,9 @@
         };
     }
 
-    LxRadioButtonController.$inject = ['$scope', '$timeout', 'LxUtils'];
+    LxRadioButtonController.$inject = ['$scope', '$timeout', 'LxUtilsService'];
 
-    function LxRadioButtonController($scope, $timeout, LxUtils)
+    function LxRadioButtonController($scope, $timeout, LxUtilsService)
     {
         var lxRadioButton = this;
         var radioButtonId;
@@ -81,7 +81,7 @@
 
         function init()
         {
-            setRadioButtonId(LxUtils.generateUUID());
+            setRadioButtonId(LxUtilsService.generateUUID());
             setRadioButtonHasChildren(false);
 
             if (angular.isDefined(lxRadioButton.value) && angular.isUndefined(lxRadioButton.ngValue))

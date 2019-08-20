@@ -51,9 +51,9 @@
         }
     }
 
-    LxTooltipController.$inject = ['$element', '$scope', '$timeout', 'LxDepthService', 'LxUtils'];
+    LxTooltipController.$inject = ['$element', '$scope', '$timeout', 'LxDepthService', 'LxUtilsService'];
 
-    function LxTooltipController($element, $scope, $timeout, LxDepthService, LxUtils)
+    function LxTooltipController($element, $scope, $timeout, LxDepthService, LxUtilsService)
     {
         var lxTooltip = this;
         var timer1;
@@ -149,7 +149,7 @@
                 });
             }
         }
-        var _debouncedSetPosition = LxUtils.debounce(setTooltipPosition, 250);
+        var _debouncedSetPosition = LxUtilsService.debounce(setTooltipPosition, 250);
 
         function showTooltip()
         {

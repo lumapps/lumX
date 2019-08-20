@@ -6,9 +6,9 @@
         .module('lumx.date-picker')
         .directive('lxDatePicker', lxDatePicker);
 
-    lxDatePicker.$inject = ['LxDatePickerService', 'LxUtils'];
+    lxDatePicker.$inject = ['LxDatePickerService', 'LxUtilsService'];
 
-    function lxDatePicker(LxDatePickerService, LxUtils)
+    function lxDatePicker(LxDatePickerService, LxUtilsService)
     {
         return {
             restrict: 'AE',
@@ -45,15 +45,15 @@
             }
             else
             {
-                scope.lxDatePicker.pickerId = LxUtils.generateUUID();
+                scope.lxDatePicker.pickerId = LxUtilsService.generateUUID();
                 LxDatePickerService.registerScope(scope.lxDatePicker.pickerId, scope);
             }
         }
     }
 
-    LxDatePickerController.$inject = ['$element', '$scope', '$timeout', '$transclude', 'LxDatePickerService', 'LxUtils'];
+    LxDatePickerController.$inject = ['$element', '$scope', '$timeout', '$transclude', 'LxDatePickerService', 'LxUtilsService'];
 
-    function LxDatePickerController($element, $scope, $timeout, $transclude, LxDatePickerService, LxUtils)
+    function LxDatePickerController($element, $scope, $timeout, $transclude, LxDatePickerService, LxUtilsService)
     {
         var lxDatePicker = this;
         var input;
@@ -80,7 +80,7 @@
         lxDatePicker.isOpen = false;
         lxDatePicker.moment = moment;
         lxDatePicker.yearSelection = false;
-        lxDatePicker.uuid = LxUtils.generateUUID();
+        lxDatePicker.uuid = LxUtilsService.generateUUID();
 
         $transclude(function(clone)
         {

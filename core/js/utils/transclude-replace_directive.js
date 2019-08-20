@@ -1,42 +1,31 @@
-(function()
-{
-    'use strict';
+function TranscludeReplaceDirective() {
+    'ngInject';
 
-    angular
-        .module('lumx.utils.transclude-replace')
-        .directive('ngTranscludeReplace', ngTranscludeReplace);
-
-    ngTranscludeReplace.$inject = ['$log'];
-
-    function ngTranscludeReplace($log)
-    {
-        return {
-            terminal: true,
-            restrict: 'EA',
-            link: link
-        };
-
-        function link(scope, element, attrs, ctrl, transclude)
-        {
-            if (!transclude)
-            {
-                $log.error('orphan',
-                    'Illegal use of ngTranscludeReplace directive in the template! ' +
-                    'No parent directive that requires a transclusion found. ');
-                return;
-            }
-
-            transclude(function(clone)
-            {
-                if (clone.length)
-                {
-                    element.replaceWith(clone);
-                }
-                else
-                {
-                    element.remove();
-                }
-            });
+    function link(scope, el, attrs, ctrl, transclude) {
+        if (!transclude) {
+            return;
         }
+
+        transclude((clone) => {
+            if (clone.length > 0) {
+                el.replaceWith(clone);
+            } else {
+                el.remove();
+            }
+        });
     }
-})();
+
+    return {
+        link,
+        restrict: 'EA',
+        terminal: true,
+    };
+}
+
+/////////////////////////////
+
+angular.module('lumx.utils.transclude-replace').directive('ngTranscludeReplace', TranscludeReplaceDirective);
+
+/////////////////////////////
+
+export { TranscludeReplaceDirective };

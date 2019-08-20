@@ -171,9 +171,9 @@
         }
     }
 
-    LxSelectController.$inject = ['$interpolate', '$element', '$filter', '$sce', '$scope', '$timeout', 'LxDepthService', 'LxDropdownService', 'LxUtils'];
+    LxSelectController.$inject = ['$interpolate', '$element', '$filter', '$sce', '$scope', '$timeout', 'LxDepthService', 'LxDropdownService', 'LxUtilsService'];
 
-    function LxSelectController($interpolate, $element, $filter, $sce, $scope, $timeout, LxDepthService, LxDropdownService, LxUtils)
+    function LxSelectController($interpolate, $element, $filter, $sce, $scope, $timeout, LxDepthService, LxDropdownService, LxUtilsService)
     {
         /////////////////////////////
         //                         //
@@ -194,7 +194,7 @@
 
         lxSelect.activeChoiceIndex = -1;
         lxSelect.activeSelectedIndex = -1;
-        lxSelect.uuid = LxUtils.generateUUID();
+        lxSelect.uuid = LxUtilsService.generateUUID();
         lxSelect.filterModel = undefined;
         lxSelect.ngModel = angular.isUndefined(lxSelect.ngModel) && lxSelect.multiple ? [] : lxSelect.ngModel;
         lxSelect.unconvertedModel = lxSelect.multiple ? [] : undefined;
@@ -1177,7 +1177,7 @@
                 return undefined;
             }
 
-            var regexp = new RegExp(LxUtils.escapeRegexp(newValue), 'ig');
+            var regexp = new RegExp(LxUtilsService.escapeRegexp(newValue), 'ig');
 
             return _searchPath(lxSelect.choices, regexp);
         }

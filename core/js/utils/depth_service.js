@@ -1,29 +1,59 @@
-(function()
-{
-    'use strict';
+function DepthService() {
+    'ngInject';
 
-    angular
-        .module('lumx.utils.depth')
-        .service('LxDepthService', LxDepthService);
+    const service = this;
 
-    function LxDepthService()
-    {
-        var service = this;
-        var depth = 1000;
+    /////////////////////////////
+    //                         //
+    //    Private attributes   //
+    //                         //
+    /////////////////////////////
 
-        service.getDepth = getDepth;
-        service.register = register;
+    /**
+     * The initial depth.
+     *
+     * @type {number}
+     */
+    // eslint-disable-next-line no-magic-numbers
+    let _depth = 1000;
 
-        ////////////
+    /////////////////////////////
+    //                         //
+    //     Public functions    //
+    //                         //
+    /////////////////////////////
 
-        function getDepth()
-        {
-            return depth;
-        }
-
-        function register()
-        {
-            depth++;
-        }
+    /**
+     * Get the highest depth.
+     *
+     * @return {number} The highest depth.
+     */
+    function get() {
+        return _depth;
     }
-})();
+
+    /**
+     * Increase depth.
+     */
+    function increase() {
+        _depth++;
+    }
+
+    /////////////////////////////
+
+    service.get = get;
+    service.increase = increase;
+
+    // Backward compatibility.
+
+    service.getDepth = get;
+    service.register = increase;
+}
+
+/////////////////////////////
+
+angular.module('lumx.utils.depth').service('LxDepthService', DepthService);
+
+/////////////////////////////
+
+export { DepthService };
