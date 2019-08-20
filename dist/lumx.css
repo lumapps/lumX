@@ -1,23 +1,20 @@
 /* MaterialDesignIcons.com */
 @font-face {
   font-family: "Material Design Icons";
-  src: url(node_modules/@mdi/font/fonts/materialdesignicons-webfont-8e4c7482.eot);
-  src: url(node_modules/@mdi/font/fonts/materialdesignicons-webfont-8e4c7482.eot?#iefix&v=4.0.96) format("embedded-opentype"), url(node_modules/@mdi/font/fonts/materialdesignicons-webfont-0aee1bb1.woff2) format("woff2"), url(node_modules/@mdi/font/fonts/materialdesignicons-webfont-ce34aa6c.woff) format("woff"), url(node_modules/@mdi/font/fonts/materialdesignicons-webfont-3c851d60.ttf) format("truetype");
+  src: url(node_modules/@mdi/font/fonts/materialdesignicons-webfont-541e65fb.eot);
+  src: url(node_modules/@mdi/font/fonts/materialdesignicons-webfont-541e65fb.eot?#iefix&v=3.9.97) format("embedded-opentype"), url(node_modules/@mdi/font/fonts/materialdesignicons-webfont-c61b9c12.woff2) format("woff2"), url(node_modules/@mdi/font/fonts/materialdesignicons-webfont-ff13d121.woff) format("woff"), url(node_modules/@mdi/font/fonts/materialdesignicons-webfont-fc03f7f1.ttf) format("truetype");
   font-weight: normal;
   font-style: normal; }
 
 .mdi:before,
 .mdi-set {
   display: inline-block;
-  font: normal normal normal 24px/1 "Material Design Icons";
+  font: normal normal normal 24px/ 1 "Material Design Icons";
   font-size: inherit;
-  text-rendering: auto;
-  line-height: inherit;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale; }
-
-.mdi-ab-testing::before {
-  content: "\F001C"; }
+  -moz-osx-font-smoothing: grayscale;
+  line-height: inherit;
+  text-rendering: auto; }
 
 .mdi-access-point::before {
   content: "\F002"; }
@@ -114,9 +111,6 @@
 
 .mdi-account-edit::before {
   content: "\F6BB"; }
-
-.mdi-account-edit-outline::before {
-  content: "\F001D"; }
 
 .mdi-account-group::before {
   content: "\F848"; }
@@ -234,9 +228,6 @@
 
 .mdi-adobe::before {
   content: "\F935"; }
-
-.mdi-adobe-acrobat::before {
-  content: "\FFBD"; }
 
 .mdi-air-conditioner::before {
   content: "\F01B"; }
@@ -862,12 +853,6 @@
 .mdi-application-import::before {
   content: "\FD8A"; }
 
-.mdi-approximately-equal::before {
-  content: "\FFBE"; }
-
-.mdi-approximately-equal-box::before {
-  content: "\FFBF"; }
-
 .mdi-apps::before {
   content: "\F03B"; }
 
@@ -1324,11 +1309,8 @@
 .mdi-baby-bottle-outline::before {
   content: "\FF57"; }
 
-.mdi-baby-carriage::before {
+.mdi-baby-buggy::before {
   content: "\F68E"; }
-
-.mdi-baby-carriage-off::before {
-  content: "\FFC0"; }
 
 .mdi-baby-face::before {
   content: "\FE99"; }
@@ -1662,12 +1644,6 @@
 
 .mdi-bed-empty::before {
   content: "\F89F"; }
-
-.mdi-bee::before {
-  content: "\FFC1"; }
-
-.mdi-bee-flower::before {
-  content: "\FFC2"; }
 
 .mdi-beer::before {
   content: "\F098"; }
@@ -2491,9 +2467,6 @@
 .mdi-car-brake-parking::before {
   content: "\FD3B"; }
 
-.mdi-car-child-seat::before {
-  content: "\FFC3"; }
-
 .mdi-car-connected::before {
   content: "\F10D"; }
 
@@ -2550,15 +2523,6 @@
 
 .mdi-car-pickup::before {
   content: "\F7A9"; }
-
-.mdi-car-seat::before {
-  content: "\FFC4"; }
-
-.mdi-car-seat-cooler::before {
-  content: "\FFC5"; }
-
-.mdi-car-seat-heater::before {
-  content: "\FFC6"; }
 
 .mdi-car-shift-pattern::before {
   content: "\FF5D"; }
@@ -2811,9 +2775,6 @@
 
 .mdi-chart-bell-curve::before {
   content: "\FC2C"; }
-
-.mdi-chart-bell-curve-cumulative::before {
-  content: "\FFC7"; }
 
 .mdi-chart-bubble::before {
   content: "\F5E3"; }
@@ -3250,12 +3211,6 @@
 .mdi-clock-alert-outline::before {
   content: "\F5CE"; }
 
-.mdi-clock-check::before {
-  content: "\FFC8"; }
-
-.mdi-clock-check-outline::before {
-  content: "\FFC9"; }
-
 .mdi-clock-digital::before {
   content: "\FEB4"; }
 
@@ -3685,9 +3640,6 @@
 .mdi-cookie::before {
   content: "\F198"; }
 
-.mdi-coolant-temperature::before {
-  content: "\F3C8"; }
-
 .mdi-copyright::before {
   content: "\F5E6"; }
 
@@ -3722,7 +3674,7 @@
   content: "\FD47"; }
 
 .mdi-credit-card::before {
-  content: "\F0010"; }
+  content: "\F19B"; }
 
 .mdi-credit-card-clock::before {
   content: "\FEFE"; }
@@ -3731,66 +3683,27 @@
   content: "\FFBC"; }
 
 .mdi-credit-card-marker::before {
-  content: "\F6A7"; }
-
-.mdi-credit-card-marker-outline::before {
   content: "\FD9A"; }
 
-.mdi-credit-card-minus::before {
-  content: "\FFCC"; }
-
-.mdi-credit-card-minus-outline::before {
-  content: "\FFCD"; }
-
 .mdi-credit-card-multiple::before {
-  content: "\F0011"; }
-
-.mdi-credit-card-multiple-outline::before {
   content: "\F19C"; }
 
 .mdi-credit-card-off::before {
-  content: "\F0012"; }
-
-.mdi-credit-card-off-outline::before {
   content: "\F5E4"; }
 
-.mdi-credit-card-outline::before {
-  content: "\F19B"; }
-
 .mdi-credit-card-plus::before {
-  content: "\F0013"; }
-
-.mdi-credit-card-plus-outline::before {
   content: "\F675"; }
 
 .mdi-credit-card-refund::before {
-  content: "\F0014"; }
-
-.mdi-credit-card-refund-outline::before {
   content: "\FAA7"; }
 
-.mdi-credit-card-remove::before {
-  content: "\FFCE"; }
-
-.mdi-credit-card-remove-outline::before {
-  content: "\FFCF"; }
-
 .mdi-credit-card-scan::before {
-  content: "\F0015"; }
-
-.mdi-credit-card-scan-outline::before {
   content: "\F19D"; }
 
 .mdi-credit-card-settings::before {
-  content: "\F0016"; }
-
-.mdi-credit-card-settings-outline::before {
   content: "\F8D6"; }
 
 .mdi-credit-card-wireless::before {
-  content: "\F801"; }
-
-.mdi-credit-card-wireless-outline::before {
   content: "\FD48"; }
 
 .mdi-cricket::before {
@@ -3876,6 +3789,9 @@
 
 .mdi-currency-btc::before {
   content: "\F1AC"; }
+
+.mdi-currency-chf::before {
+  content: "\F7B8"; }
 
 .mdi-currency-cny::before {
   content: "\F7B9"; }
@@ -4098,9 +4014,6 @@
 
 .mdi-deviantart::before {
   content: "\F1C7"; }
-
-.mdi-devices::before {
-  content: "\FFD0"; }
 
 .mdi-dialpad::before {
   content: "\F61C"; }
@@ -4471,9 +4384,6 @@
 .mdi-email-multiple-outline::before {
   content: "\FF05"; }
 
-.mdi-email-newsletter::before {
-  content: "\FFD1"; }
-
 .mdi-email-open::before {
   content: "\F1EF"; }
 
@@ -4678,12 +4588,6 @@
 .mdi-expand-all-outline::before {
   content: "\FAB4"; }
 
-.mdi-expansion-card::before {
-  content: "\F8AD"; }
-
-.mdi-expansion-card-variant::before {
-  content: "\FFD2"; }
-
 .mdi-exponent::before {
   content: "\F962"; }
 
@@ -4846,9 +4750,6 @@
 .mdi-file-cloud::before {
   content: "\F217"; }
 
-.mdi-file-code::before {
-  content: "\F22E"; }
-
 .mdi-file-compare::before {
   content: "\F8A9"; }
 
@@ -4975,9 +4876,6 @@
 .mdi-file-pdf-box::before {
   content: "\F226"; }
 
-.mdi-file-pdf-box-outline::before {
-  content: "\FFD3"; }
-
 .mdi-file-pdf-outline::before {
   content: "\FE7D"; }
 
@@ -5023,12 +4921,6 @@
 .mdi-file-send::before {
   content: "\F22A"; }
 
-.mdi-file-swap::before {
-  content: "\FFD4"; }
-
-.mdi-file-swap-outline::before {
-  content: "\FFD5"; }
-
 .mdi-file-table::before {
   content: "\FC5A"; }
 
@@ -5058,6 +4950,9 @@
 
 .mdi-file-word-box::before {
   content: "\F22D"; }
+
+.mdi-file-xml::before {
+  content: "\F22E"; }
 
 .mdi-film::before {
   content: "\F22F"; }
@@ -5377,12 +5272,6 @@
 .mdi-folder-star-outline::before {
   content: "\FB7B"; }
 
-.mdi-folder-swap::before {
-  content: "\FFD6"; }
-
-.mdi-folder-swap-outline::before {
-  content: "\FFD7"; }
-
 .mdi-folder-sync::before {
   content: "\FCE7"; }
 
@@ -5397,12 +5286,6 @@
 
 .mdi-folder-upload::before {
   content: "\F259"; }
-
-.mdi-folder-zip::before {
-  content: "\F6EA"; }
-
-.mdi-folder-zip-outline::before {
-  content: "\F7B8"; }
 
 .mdi-font-awesome::before {
   content: "\F03A"; }
@@ -5566,15 +5449,6 @@
 .mdi-format-letter-case-upper::before {
   content: "\FB1B"; }
 
-.mdi-format-letter-ends-with::before {
-  content: "\FFD8"; }
-
-.mdi-format-letter-matches::before {
-  content: "\FFD9"; }
-
-.mdi-format-letter-starts-with::before {
-  content: "\FFDA"; }
-
 .mdi-format-line-spacing::before {
   content: "\F278"; }
 
@@ -5590,9 +5464,6 @@
 .mdi-format-list-bulleted-square::before {
   content: "\FDAC"; }
 
-.mdi-format-list-bulleted-triangle::before {
-  content: "\FECF"; }
-
 .mdi-format-list-bulleted-type::before {
   content: "\F27A"; }
 
@@ -5607,6 +5478,9 @@
 
 .mdi-format-list-numbered-rtl::before {
   content: "\FCE9"; }
+
+.mdi-format-list-triangle::before {
+  content: "\FECF"; }
 
 .mdi-format-overline::before {
   content: "\FED0"; }
@@ -5653,26 +5527,11 @@
 .mdi-format-text::before {
   content: "\F284"; }
 
-.mdi-format-text-rotation-angle-down::before {
-  content: "\FFDB"; }
-
-.mdi-format-text-rotation-angle-up::before {
-  content: "\FFDC"; }
-
 .mdi-format-text-rotation-down::before {
   content: "\FD4F"; }
 
-.mdi-format-text-rotation-down-vertical::before {
-  content: "\FFDD"; }
-
 .mdi-format-text-rotation-none::before {
   content: "\FD50"; }
-
-.mdi-format-text-rotation-up::before {
-  content: "\FFDE"; }
-
-.mdi-format-text-rotation-vertical::before {
-  content: "\FFDF"; }
 
 .mdi-format-text-variant::before {
   content: "\FE15"; }
@@ -6058,6 +5917,9 @@
 .mdi-google-adwords::before {
   content: "\FC63"; }
 
+.mdi-google-allo::before {
+  content: "\F801"; }
+
 .mdi-google-analytics::before {
   content: "\F7CB"; }
 
@@ -6150,6 +6012,9 @@
 
 .mdi-google-translate::before {
   content: "\F2BF"; }
+
+.mdi-gpu::before {
+  content: "\F8AD"; }
 
 .mdi-gradient::before {
   content: "\F69F"; }
@@ -6551,13 +6416,7 @@
   content: "\FA57"; }
 
 .mdi-hospital::before {
-  content: "\F0017"; }
-
-.mdi-hospital-box::before {
   content: "\F2E0"; }
-
-.mdi-hospital-box-outline::before {
-  content: "\F0018"; }
 
 .mdi-hospital-building::before {
   content: "\F2E1"; }
@@ -6643,9 +6502,6 @@
 .mdi-ice-pop::before {
   content: "\FF1A"; }
 
-.mdi-id-card::before {
-  content: "\FFE0"; }
-
 .mdi-identifier::before {
   content: "\FF1B"; }
 
@@ -6666,9 +6522,6 @@
 
 .mdi-image-area-close::before {
   content: "\F2EC"; }
-
-.mdi-image-auto-adjust::before {
-  content: "\FFE1"; }
 
 .mdi-image-broken::before {
   content: "\F2ED"; }
@@ -6873,9 +6726,6 @@
 
 .mdi-key-variant::before {
   content: "\F30B"; }
-
-.mdi-key-wireless::before {
-  content: "\FFE2"; }
 
 .mdi-keyboard::before {
   content: "\F30C"; }
@@ -7144,9 +6994,6 @@
 .mdi-library-video::before {
   content: "\FCF5"; }
 
-.mdi-license::before {
-  content: "\FFE3"; }
-
 .mdi-lifebuoy::before {
   content: "\F87D"; }
 
@@ -7222,12 +7069,6 @@
 .mdi-loading::before {
   content: "\F771"; }
 
-.mdi-location-enter::before {
-  content: "\FFE4"; }
-
-.mdi-location-exit::before {
-  content: "\FFE5"; }
-
 .mdi-lock::before {
   content: "\F33E"; }
 
@@ -7242,12 +7083,6 @@
 
 .mdi-lock-open-outline::before {
   content: "\F340"; }
-
-.mdi-lock-open-variant::before {
-  content: "\FFE6"; }
-
-.mdi-lock-open-variant-outline::before {
-  content: "\FFE7"; }
 
 .mdi-lock-outline::before {
   content: "\F341"; }
@@ -7290,6 +7125,9 @@
 
 .mdi-looks::before {
   content: "\F344"; }
+
+.mdi-loop::before {
+  content: "\F6EA"; }
 
 .mdi-loupe::before {
   content: "\F345"; }
@@ -7483,18 +7321,6 @@
 .mdi-math-cos::before {
   content: "\FC72"; }
 
-.mdi-math-integral::before {
-  content: "\FFE8"; }
-
-.mdi-math-integral-box::before {
-  content: "\FFE9"; }
-
-.mdi-math-norm::before {
-  content: "\FFEA"; }
-
-.mdi-math-norm-box::before {
-  content: "\FFEB"; }
-
 .mdi-math-sin::before {
   content: "\FC73"; }
 
@@ -7582,9 +7408,6 @@
 .mdi-message-image::before {
   content: "\F364"; }
 
-.mdi-message-lock::before {
-  content: "\FFEC"; }
-
 .mdi-message-outline::before {
   content: "\F365"; }
 
@@ -7608,9 +7431,6 @@
 
 .mdi-message-text::before {
   content: "\F369"; }
-
-.mdi-message-text-lock::before {
-  content: "\FFED"; }
 
 .mdi-message-text-outline::before {
   content: "\F36A"; }
@@ -7818,12 +7638,6 @@
 
 .mdi-movie::before {
   content: "\F381"; }
-
-.mdi-movie-open::before {
-  content: "\FFEE"; }
-
-.mdi-movie-open-outline::before {
-  content: "\FFEF"; }
 
 .mdi-movie-outline::before {
   content: "\FDB9"; }
@@ -8041,18 +7855,6 @@
 .mdi-newspaper-plus::before {
   content: "\FF2A"; }
 
-.mdi-newspaper-variant::before {
-  content: "\F0023"; }
-
-.mdi-newspaper-variant-multiple::before {
-  content: "\F0024"; }
-
-.mdi-newspaper-variant-multiple-outline::before {
-  content: "\F0025"; }
-
-.mdi-newspaper-variant-outline::before {
-  content: "\F0026"; }
-
 .mdi-nfc::before {
   content: "\F396"; }
 
@@ -8088,6 +7890,9 @@
 
 .mdi-note::before {
   content: "\F39A"; }
+
+.mdi-note-circle::before {
+  content: "\FEDB"; }
 
 .mdi-note-multiple::before {
   content: "\F6B7"; }
@@ -8179,26 +7984,11 @@
 .mdi-numeric-1-circle-outline::before {
   content: "\FC7D"; }
 
-.mdi-numeric-10::before {
-  content: "\F000A"; }
-
 .mdi-numeric-10-box::before {
   content: "\FF9A"; }
 
-.mdi-numeric-10-box-multiple::before {
-  content: "\F000B"; }
-
-.mdi-numeric-10-box-multiple-outline::before {
-  content: "\F000C"; }
-
 .mdi-numeric-10-box-outline::before {
   content: "\FF9B"; }
-
-.mdi-numeric-10-circle::before {
-  content: "\F000D"; }
-
-.mdi-numeric-10-circle-outline::before {
-  content: "\F000E"; }
 
 .mdi-numeric-2::before {
   content: "\32"; }
@@ -8368,9 +8158,6 @@
 .mdi-numeric-9-circle-outline::before {
   content: "\FC8D"; }
 
-.mdi-numeric-9-plus::before {
-  content: "\F000F"; }
-
 .mdi-numeric-9-plus-box::before {
   content: "\F3BF"; }
 
@@ -8429,7 +8216,7 @@
   content: "\FF36"; }
 
 .mdi-oil-temperature::before {
-  content: "\F0019"; }
+  content: "\F3C8"; }
 
 .mdi-omega::before {
   content: "\F3C9"; }
@@ -8478,9 +8265,6 @@
 
 .mdi-outlook::before {
   content: "\FCFE"; }
-
-.mdi-overscan::before {
-  content: "\F0027"; }
 
 .mdi-owl::before {
   content: "\F3D2"; }
@@ -8661,18 +8445,6 @@
 
 .mdi-peace::before {
   content: "\F883"; }
-
-.mdi-peanut::before {
-  content: "\F001E"; }
-
-.mdi-peanut-off::before {
-  content: "\F001F"; }
-
-.mdi-peanut-off-outline::before {
-  content: "\F0021"; }
-
-.mdi-peanut-outline::before {
-  content: "\F0020"; }
 
 .mdi-pen::before {
   content: "\F3EA"; }
@@ -8871,12 +8643,6 @@
 
 .mdi-pig::before {
   content: "\F401"; }
-
-.mdi-pig-variant::before {
-  content: "\F0028"; }
-
-.mdi-piggy-bank::before {
-  content: "\F0029"; }
 
 .mdi-pill::before {
   content: "\F402"; }
@@ -9082,12 +8848,6 @@
 .mdi-popcorn::before {
   content: "\F422"; }
 
-.mdi-post::before {
-  content: "\F002A"; }
-
-.mdi-post-outline::before {
-  content: "\F002B"; }
-
 .mdi-postage-stamp::before {
   content: "\FC97"; }
 
@@ -9213,9 +8973,6 @@
 
 .mdi-projector-screen::before {
   content: "\F42F"; }
-
-.mdi-protocol::before {
-  content: "\FFF9"; }
 
 .mdi-publish::before {
   content: "\F6A6"; }
@@ -9490,6 +9247,9 @@
 .mdi-restore::before {
   content: "\F99A"; }
 
+.mdi-restore-clock::before {
+  content: "\F6A7"; }
+
 .mdi-rewind::before {
   content: "\F45F"; }
 
@@ -9619,9 +9379,6 @@
 .mdi-ruler-square::before {
   content: "\FC9E"; }
 
-.mdi-ruler-square-compass::before {
-  content: "\FEDB"; }
-
 .mdi-run::before {
   content: "\F70D"; }
 
@@ -9739,9 +9496,6 @@
 .mdi-seal::before {
   content: "\F47A"; }
 
-.mdi-seal-variant::before {
-  content: "\FFFA"; }
-
 .mdi-search-web::before {
   content: "\F70E"; }
 
@@ -9816,9 +9570,6 @@
 
 .mdi-select-off::before {
   content: "\F488"; }
-
-.mdi-select-place::before {
-  content: "\FFFB"; }
 
 .mdi-selection::before {
   content: "\F489"; }
@@ -10099,15 +9850,6 @@
 .mdi-sign-direction::before {
   content: "\F780"; }
 
-.mdi-sign-direction-minus::before {
-  content: "\F0022"; }
-
-.mdi-sign-direction-plus::before {
-  content: "\FFFD"; }
-
-.mdi-sign-direction-remove::before {
-  content: "\FFFE"; }
-
 .mdi-sign-text::before {
   content: "\F781"; }
 
@@ -10170,9 +9912,6 @@
 
 .mdi-silverware::before {
   content: "\F4A3"; }
-
-.mdi-silverware-clean::before {
-  content: "\FFFF"; }
 
 .mdi-silverware-fork::before {
   content: "\F4A4"; }
@@ -10269,12 +10008,6 @@
 
 .mdi-slackware::before {
   content: "\F90A"; }
-
-.mdi-slash-forward::before {
-  content: "\F0000"; }
-
-.mdi-slash-forward-box::before {
-  content: "\F0001"; }
 
 .mdi-sleep::before {
   content: "\F4B2"; }
@@ -10511,9 +10244,6 @@
   content: "\F4CC"; }
 
 .mdi-stadium::before {
-  content: "\F001A"; }
-
-.mdi-stadium-variant::before {
   content: "\F71F"; }
 
 .mdi-stairs::before {
@@ -10678,12 +10408,6 @@
 .mdi-swap-horizontal-bold::before {
   content: "\FBA9"; }
 
-.mdi-swap-horizontal-circle::before {
-  content: "\F0002"; }
-
-.mdi-swap-horizontal-circle-outline::before {
-  content: "\F0003"; }
-
 .mdi-swap-horizontal-variant::before {
   content: "\F8C0"; }
 
@@ -10692,12 +10416,6 @@
 
 .mdi-swap-vertical-bold::before {
   content: "\FBAA"; }
-
-.mdi-swap-vertical-circle::before {
-  content: "\F0004"; }
-
-.mdi-swap-vertical-circle-outline::before {
-  content: "\F0005"; }
 
 .mdi-swap-vertical-variant::before {
   content: "\F8C1"; }
@@ -10861,9 +10579,6 @@
 .mdi-tank::before {
   content: "\FD16"; }
 
-.mdi-tanker-truck::before {
-  content: "\F0006"; }
-
 .mdi-tape-measure::before {
   content: "\FB28"; }
 
@@ -10980,9 +10695,6 @@
 
 .mdi-texture::before {
   content: "\F50C"; }
-
-.mdi-texture-box::before {
-  content: "\F0007"; }
 
 .mdi-theater::before {
   content: "\F50D"; }
@@ -11223,9 +10935,6 @@
 
 .mdi-tram::before {
   content: "\F52D"; }
-
-.mdi-tram-side::before {
-  content: "\F0008"; }
 
 .mdi-transcribe::before {
   content: "\F52E"; }
@@ -11529,9 +11238,6 @@
 
 .mdi-vector-line::before {
   content: "\F55E"; }
-
-.mdi-vector-link::before {
-  content: "\F0009"; }
 
 .mdi-vector-point::before {
   content: "\F55F"; }
@@ -12262,9 +11968,6 @@
 .mdi-zip-box::before {
   content: "\F5C4"; }
 
-.mdi-zip-box-outline::before {
-  content: "\F001B"; }
-
 .mdi-zip-disk::before {
   content: "\FA22"; }
 
@@ -12500,441 +12203,6 @@
   100% {
     transform: rotate(359deg); } }
 
-html {
-  box-sizing: border-box; }
-
-*, *:before, *:after {
-  box-sizing: inherit; }
-
-/*! normalize.css v7.0.0 | MIT License | github.com/necolas/normalize.css */
-/* Document
-   ========================================================================== */
-/**
- * 1. Correct the line height in all browsers.
- * 2. Prevent adjustments of font size after orientation changes in
- *    IE on Windows Phone and in iOS.
- */
-html {
-  line-height: 1.15;
-  /* 1 */
-  -ms-text-size-adjust: 100%;
-  /* 2 */
-  -webkit-text-size-adjust: 100%;
-  /* 2 */ }
-
-/* Sections
-   ========================================================================== */
-/**
- * Remove the margin in all browsers (opinionated).
- */
-body {
-  margin: 0; }
-
-/**
- * Add the correct display in IE 9-.
- */
-article,
-aside,
-footer,
-header,
-nav,
-section {
-  display: block; }
-
-/**
- * Correct the font size and margin on `h1` elements within `section` and
- * `article` contexts in Chrome, Firefox, and Safari.
- */
-h1 {
-  font-size: 2em;
-  margin: 0.67em 0; }
-
-/* Grouping content
-   ========================================================================== */
-/**
- * Add the correct display in IE 9-.
- * 1. Add the correct display in IE.
- */
-figcaption,
-figure,
-main {
-  /* 1 */
-  display: block; }
-
-/**
- * Add the correct margin in IE 8.
- */
-figure {
-  margin: 1em 40px; }
-
-/**
- * 1. Add the correct box sizing in Firefox.
- * 2. Show the overflow in Edge and IE.
- */
-hr {
-  box-sizing: content-box;
-  /* 1 */
-  height: 0;
-  /* 1 */
-  overflow: visible;
-  /* 2 */ }
-
-/**
- * 1. Correct the inheritance and scaling of font size in all browsers.
- * 2. Correct the odd `em` font sizing in all browsers.
- */
-pre {
-  font-family: monospace, monospace;
-  /* 1 */
-  font-size: 1em;
-  /* 2 */ }
-
-/* Text-level semantics
-   ========================================================================== */
-/**
- * 1. Remove the gray background on active links in IE 10.
- * 2. Remove gaps in links underline in iOS 8+ and Safari 8+.
- */
-a {
-  background-color: transparent;
-  /* 1 */
-  -webkit-text-decoration-skip: objects;
-  /* 2 */ }
-
-/**
- * 1. Remove the bottom border in Chrome 57- and Firefox 39-.
- * 2. Add the correct text decoration in Chrome, Edge, IE, Opera, and Safari.
- */
-abbr[title] {
-  border-bottom: none;
-  /* 1 */
-  text-decoration: underline;
-  /* 2 */
-  -webkit-text-decoration: underline dotted;
-          text-decoration: underline dotted;
-  /* 2 */ }
-
-/**
- * Prevent the duplicate application of `bolder` by the next rule in Safari 6.
- */
-b,
-strong {
-  font-weight: inherit; }
-
-/**
- * Add the correct font weight in Chrome, Edge, and Safari.
- */
-b,
-strong {
-  font-weight: bolder; }
-
-/**
- * 1. Correct the inheritance and scaling of font size in all browsers.
- * 2. Correct the odd `em` font sizing in all browsers.
- */
-code,
-kbd,
-samp {
-  font-family: monospace, monospace;
-  /* 1 */
-  font-size: 1em;
-  /* 2 */ }
-
-/**
- * Add the correct font style in Android 4.3-.
- */
-dfn {
-  font-style: italic; }
-
-/**
- * Add the correct background and color in IE 9-.
- */
-mark {
-  background-color: #ff0;
-  color: #000; }
-
-/**
- * Add the correct font size in all browsers.
- */
-small {
-  font-size: 80%; }
-
-/**
- * Prevent `sub` and `sup` elements from affecting the line height in
- * all browsers.
- */
-sub,
-sup {
-  font-size: 75%;
-  line-height: 0;
-  position: relative;
-  vertical-align: baseline; }
-
-sub {
-  bottom: -0.25em; }
-
-sup {
-  top: -0.5em; }
-
-/* Embedded content
-   ========================================================================== */
-/**
- * Add the correct display in IE 9-.
- */
-audio,
-video {
-  display: inline-block; }
-
-/**
- * Add the correct display in iOS 4-7.
- */
-audio:not([controls]) {
-  display: none;
-  height: 0; }
-
-/**
- * Remove the border on images inside links in IE 10-.
- */
-img {
-  border-style: none; }
-
-/**
- * Hide the overflow in IE.
- */
-svg:not(:root) {
-  overflow: hidden; }
-
-/* Forms
-   ========================================================================== */
-/**
- * 1. Change the font styles in all browsers (opinionated).
- * 2. Remove the margin in Firefox and Safari.
- */
-button,
-input,
-optgroup,
-select,
-textarea {
-  font-family: sans-serif;
-  /* 1 */
-  font-size: 100%;
-  /* 1 */
-  line-height: 1.15;
-  /* 1 */
-  margin: 0;
-  /* 2 */ }
-
-/**
- * Show the overflow in IE.
- * 1. Show the overflow in Edge.
- */
-button,
-input {
-  /* 1 */
-  overflow: visible; }
-
-/**
- * Remove the inheritance of text transform in Edge, Firefox, and IE.
- * 1. Remove the inheritance of text transform in Firefox.
- */
-button,
-select {
-  /* 1 */
-  text-transform: none; }
-
-/**
- * 1. Prevent a WebKit bug where (2) destroys native `audio` and `video`
- *    controls in Android 4.
- * 2. Correct the inability to style clickable types in iOS and Safari.
- */
-button,
-html [type="button"],
-[type="reset"],
-[type="submit"] {
-  -webkit-appearance: button;
-  /* 2 */ }
-
-/**
- * Remove the inner border and padding in Firefox.
- */
-button::-moz-focus-inner,
-[type="button"]::-moz-focus-inner,
-[type="reset"]::-moz-focus-inner,
-[type="submit"]::-moz-focus-inner {
-  border-style: none;
-  padding: 0; }
-
-/**
- * Restore the focus styles unset by the previous rule.
- */
-button:-moz-focusring,
-[type="button"]:-moz-focusring,
-[type="reset"]:-moz-focusring,
-[type="submit"]:-moz-focusring {
-  outline: 1px dotted ButtonText; }
-
-/**
- * Correct the padding in Firefox.
- */
-fieldset {
-  padding: 0.35em 0.75em 0.625em; }
-
-/**
- * 1. Correct the text wrapping in Edge and IE.
- * 2. Correct the color inheritance from `fieldset` elements in IE.
- * 3. Remove the padding so developers are not caught out when they zero out
- *    `fieldset` elements in all browsers.
- */
-legend {
-  box-sizing: border-box;
-  /* 1 */
-  color: inherit;
-  /* 2 */
-  display: table;
-  /* 1 */
-  max-width: 100%;
-  /* 1 */
-  padding: 0;
-  /* 3 */
-  white-space: normal;
-  /* 1 */ }
-
-/**
- * 1. Add the correct display in IE 9-.
- * 2. Add the correct vertical alignment in Chrome, Firefox, and Opera.
- */
-progress {
-  display: inline-block;
-  /* 1 */
-  vertical-align: baseline;
-  /* 2 */ }
-
-/**
- * Remove the default vertical scrollbar in IE.
- */
-textarea {
-  overflow: auto; }
-
-/**
- * 1. Add the correct box sizing in IE 10-.
- * 2. Remove the padding in IE 10-.
- */
-[type="checkbox"],
-[type="radio"] {
-  box-sizing: border-box;
-  /* 1 */
-  padding: 0;
-  /* 2 */ }
-
-/**
- * Correct the cursor style of increment and decrement buttons in Chrome.
- */
-[type="number"]::-webkit-inner-spin-button,
-[type="number"]::-webkit-outer-spin-button {
-  height: auto; }
-
-/**
- * 1. Correct the odd appearance in Chrome and Safari.
- * 2. Correct the outline style in Safari.
- */
-[type="search"] {
-  -webkit-appearance: textfield;
-  /* 1 */
-  outline-offset: -2px;
-  /* 2 */ }
-
-/**
- * Remove the inner padding and cancel buttons in Chrome and Safari on macOS.
- */
-[type="search"]::-webkit-search-cancel-button,
-[type="search"]::-webkit-search-decoration {
-  -webkit-appearance: none; }
-
-/**
- * 1. Correct the inability to style clickable types in iOS and Safari.
- * 2. Change font properties to `inherit` in Safari.
- */
-::-webkit-file-upload-button {
-  -webkit-appearance: button;
-  /* 1 */
-  font: inherit;
-  /* 2 */ }
-
-/**
-* Remove the clear cross when present in ie11 in text fields  
-*
-*/
-[type="text"]::-ms-clear {
-  display: none;
-  width: 0;
-  height: 0; }
-
-/* Interactive
-   ========================================================================== */
-/*
- * Add the correct display in IE 9-.
- * 1. Add the correct display in Edge, IE, and Firefox.
- */
-details,
-menu {
-  display: block; }
-
-/*
- * Add the correct display in all browsers.
- */
-summary {
-  display: list-item; }
-
-/* Scripting
-   ========================================================================== */
-/**
- * Add the correct display in IE 9-.
- */
-canvas {
-  display: inline-block; }
-
-/**
- * Add the correct display in IE.
- */
-template {
-  display: none; }
-
-/* Hidden
-   ========================================================================== */
-/**
- * Add the correct display in IE 10-.
- */
-[hidden] {
-  display: none; }
-
-body,
-h1, h2, h3, h4, h5, h6,
-blockquote, p, pre,
-dl, dd, ol, ul,
-figure,
-hr,
-fieldset, legend {
-  margin: 0;
-  padding: 0; }
-
-li > ol,
-li > ul {
-  margin-bottom: 0; }
-
-table {
-  border-spacing: 0; }
-
-fieldset {
-  min-width: 0;
-  border: 0; }
-
-button,
-input,
-optgroup,
-select,
-textarea {
-  font: inherit; }
-
 img {
   display: block;
   max-width: 100%; }
@@ -12942,13 +12210,6 @@ img {
 img[width],
 img[height] {
   max-width: none; }
-
-html {
-  font-size: 1em;
-  line-height: 1.5;
-  min-height: 100%;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased; }
 
 table {
   width: 100%; }
