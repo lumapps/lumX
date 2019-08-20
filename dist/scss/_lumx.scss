@@ -2,7 +2,7 @@
 //   #FRAMEWORK
 //   ======================================================================== */
 
-$mdi-font-path: '../../node_modules/@mdi/font/fonts';
+$mdi-font-path: '../../node_modules/@mdi/font/fonts' !default;
 
 @import 'bourbon';
 @import 'materialdesignicons';
