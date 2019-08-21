@@ -20,11 +20,8 @@ const generatePackage = Boolean(process.env.GENERATE_PACKAGE);
 const filename = `[name]${minify ? '.min' : ''}`;
 const distTechPath = `${DIST_PATH}`;
 
-const entry = baseConfig.entry;
-entry.lumx = [
-	`${CORE_PATH}/scss/_lumx.scss`,
-	...entry.lumx,
-];
+const { entry } = baseConfig;
+entry.lumx = [`${CORE_PATH}/scss/_lumx-lumapps.scss`, `${CORE_PATH}/scss/_lumx-material.scss`, ...entry.lumx];
 
 const minimizer = [];
 const plugins = [
@@ -62,7 +59,7 @@ if (generatePackage) {
                 from: `${MODULES_PATH}/**/*.scss`,
                 to: `${DIST_PATH}/scss/modules`,
                 flatten: true,
-			},
+            },
         ]),
     );
 }
@@ -93,7 +90,7 @@ module.exports = merge.smartStrategy({
     bail: true,
     devtool: minify ? 'source-map' : '',
     mode: 'production',
-	name: `lumx-umd${minify ? '-minified' : ''}`,
+    name: `lumx-umd${minify ? '-minified' : ''}`,
 
     entry,
 

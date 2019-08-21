@@ -1,12 +1,10 @@
-///* ========================================================================
-//   #FRAMEWORK
-//   ======================================================================== */
-
 $mdi-font-path: '../../node_modules/@mdi/font/fonts' !default;
 
 @import 'bourbon';
 @import 'materialdesignicons';
 @import 'mq';
+@import 'core-lumapps';
+@import 'components-lumapps';
 @import 'settings/settings.color-palette';
 @import 'settings/settings.colors';
 @import 'settings/settings.core';

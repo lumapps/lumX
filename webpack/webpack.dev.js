@@ -1,5 +1,5 @@
 const IS_CI = require('is-ci');
-var glob = require('glob');
+const glob = require('glob');
 
 const merge = require('webpack-merge');
 
@@ -13,13 +13,10 @@ const { DEFAULT_HOST, DEFAULT_PORT, DEMO_PATH, ROOT_PATH } = require('./constant
 const baseConfig = require('./webpack.config');
 
 const entry = Object.assign(baseConfig.entry, {
-	'app': `${DEMO_PATH}/app.js`,
-	'modules': [...glob.sync(`${DEMO_PATH}/includes/modules/**/*.js`)],
+    app: `${DEMO_PATH}/app.js`,
+    modules: [...glob.sync(`${DEMO_PATH}/includes/modules/**/*.js`)],
 });
-entry.lumx = [
-	...entry.lumx,
-	`${DEMO_PATH}/scss/lumx.scss`,
-];
+entry.lumx = [...entry.lumx, `${DEMO_PATH}/scss/lumx.scss`];
 
 const plugins = [
     ...baseConfig.plugins,
@@ -51,7 +48,7 @@ module.exports = merge.smartStrategy({
 
     devServer: {
         compress: true,
-		contentBase: [DEMO_PATH, ROOT_PATH],
+        contentBase: [DEMO_PATH, ROOT_PATH],
         disableHostCheck: true,
         headers: {
             'Access-Control-Allow-Headers': '*',
@@ -62,16 +59,16 @@ module.exports = merge.smartStrategy({
         },
         host: DEFAULT_HOST,
         hot: true,
-		open: true,
-		overlay: true,
+        open: true,
+        overlay: true,
         // eslint-disable-next-line no-magic-numbers
         port: DEFAULT_PORT,
         quiet: true,
-	},
+    },
 
     module: {
         rules: getStyleLoader({ mode: 'dev' }),
-	},
+    },
 
     plugins,
 });
