@@ -2,6 +2,30 @@
    Button
    ========================================================================== */
 
+$btn-font-size: (
+    'xs': 10px,
+    's': 13px,
+    'm': 14px,
+    'l': 16px,
+    'xl': 16px,
+);
+
+$btn-icon-size: (
+    'xs': 14px,
+    's': 18px,
+    'm': 20px,
+    'l': 24px,
+    'xl': 24px,
+);
+
+$btn-fab-size: (
+    'xs': 14px,
+    's': 18px,
+    'm': 20px,
+    'l': 20px,
+    'xl': 24px,
+);
+
 $btn-emphasis-fallback: (
     'raised': 'emphasis-high',
     'flat': 'emphasis-low',
