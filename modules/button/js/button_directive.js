@@ -36,7 +36,12 @@ function ButtonDirective() {
     }
 
     function link(scope, el, attrs) {
-        if (!attrs.lxVariant || attrs.lxVariant === 'button') {
+        if (
+            (!attrs.lxVariant && !attrs.lxType) ||
+            attrs.lxVariant === 'button' ||
+            attrs.lxType === 'raised' ||
+            attrs.lxType === 'flat'
+        ) {
             const leftIcon = el.find('i:first-child');
             const rightIcon = el.find('i:last-child');
             const label = el.find('span');
@@ -101,7 +106,6 @@ function ButtonDirective() {
                 return;
             }
 
-            // Backward compatibility.
             const sizeFallback = {
                 xs: 's',
                 s: 's',
@@ -143,16 +147,6 @@ function ButtonDirective() {
             }).addClass(`${CSS_PREFIX}-button--variant-${variant}`);
         });
 
-        scope.$watch(attrs.lxIsSelected, (isSelected) => {
-            if (isSelected) {
-                el.addClass(`${CSS_PREFIX}-button--is-selected`);
-            } else {
-                el.removeClass(`${CSS_PREFIX}-button--is-selected`);
-            }
-        });
-
-        // Backward compatibility.
-
         attrs.$observe('lxType', (type) => {
             if (!type) {
                 return;
@@ -173,6 +167,14 @@ function ButtonDirective() {
                 el.removeClass((index, className) => {
                     return (className.match(/(?:\S|-)*button--variant-\S+/g) || []).join(' ');
                 }).addClass(`${CSS_PREFIX}-button--variant-icon`);
+            }
+        });
+
+        scope.$watch(attrs.lxIsSelected, (isSelected) => {
+            if (isSelected) {
+                el.addClass(`${CSS_PREFIX}-button--is-selected`);
+            } else {
+                el.removeClass(`${CSS_PREFIX}-button--is-selected`);
             }
         });
     }

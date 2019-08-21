@@ -4,14 +4,13 @@
 
 // body
 body {
-    font-family: Roboto;
     background-color: $grey-200;
 }
 
 code {
     padding: 2px 4px;
-    border-radius: $base-round;
     background-color: $indigo-50;
-    font-size: 90%;
+    border-radius: $base-round;
     color: $primary;
+    font-size: 90%;
 }
