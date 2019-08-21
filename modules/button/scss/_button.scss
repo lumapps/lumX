@@ -98,7 +98,7 @@ $btn-variant-fallback: (
     }
 }
 
-@each $key, $color in $lumx-theme-color-palette {
+@each $key, $color in $colors {
     .btn--raised.btn--#{$key} {
         @include btn-color($key, 'raised');
     }
