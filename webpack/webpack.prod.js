@@ -21,7 +21,11 @@ const filename = `[name]${minify ? '.min' : ''}`;
 const distTechPath = `${DIST_PATH}`;
 
 const { entry } = baseConfig;
-entry.lumx = [`${CORE_PATH}/scss/_lumx-lumapps.scss`, `${CORE_PATH}/scss/_lumx-material.scss`, ...entry.lumx];
+entry.lumx = [
+    `${CORE_PATH}/scss/_legacy-theme-lumapps.scss`,
+    `${CORE_PATH}/scss/_legacy-theme-material.scss`,
+    ...entry.lumx,
+];
 
 const minimizer = [];
 const plugins = [
