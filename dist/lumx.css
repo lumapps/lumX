@@ -16896,196 +16896,266 @@ table {
   vertical-align: top; }
 
 .icon--xs.icon--circled {
-  font-size: 20px; }
+  height: 24px;
+  width: 24px;
+  line-height: 24px !important;
+  font-size: 14px;
+  font-size: 0.875rem; }
 
 .icon--xs.icon--flat {
-  font-size: 20px; }
+  height: 24px;
+  width: 24px;
+  line-height: 24px !important;
+  font-size: 18px;
+  font-size: 1.125rem; }
 
 .icon--s.icon--circled {
-  font-size: 24px; }
+  height: 32px;
+  width: 32px;
+  line-height: 32px !important;
+  font-size: 16px;
+  font-size: 1rem; }
 
 .icon--s.icon--flat {
-  font-size: 24px; }
+  height: 32px;
+  width: 32px;
+  line-height: 32px !important;
+  font-size: 26px;
+  font-size: 1.625rem; }
 
 .icon--m.icon--circled {
-  font-size: 36px; }
+  height: 36px;
+  width: 36px;
+  line-height: 36px !important;
+  font-size: 18px;
+  font-size: 1.125rem; }
 
 .icon--m.icon--flat {
-  font-size: 36px; }
+  height: 36px;
+  width: 36px;
+  line-height: 36px !important;
+  font-size: 30px;
+  font-size: 1.875rem; }
 
 .icon--l.icon--circled {
-  font-size: 64px; }
+  height: 40px;
+  width: 40px;
+  line-height: 40px !important;
+  font-size: 20px;
+  font-size: 1.25rem; }
 
 .icon--l.icon--flat {
-  font-size: 64px; }
+  height: 40px;
+  width: 40px;
+  line-height: 40px !important;
+  font-size: 34px;
+  font-size: 2.125rem; }
 
 .icon--xl.icon--circled {
-  font-size: 128px; }
+  height: 56px;
+  width: 56px;
+  line-height: 56px !important;
+  font-size: 26px;
+  font-size: 1.625rem; }
 
 .icon--xl.icon--flat {
-  font-size: 128px; }
+  height: 56px;
+  width: 56px;
+  line-height: 56px !important;
+  font-size: 50px;
+  font-size: 3.125rem; }
 
 .icon--circled.icon--red {
-  color: #28336d; }
+  background-color: #F44336;
+  color: #FFFFFF; }
 
 .icon--flat.icon--red {
-  color: #28336d; }
+  color: #F44336; }
 
 .icon--circled.icon--pink {
-  color: #28336d; }
+  background-color: #E91E63;
+  color: #FFFFFF; }
 
 .icon--flat.icon--pink {
-  color: #28336d; }
+  color: #E91E63; }
 
 .icon--circled.icon--purple {
-  color: #28336d; }
+  background-color: #9C27B0;
+  color: #FFFFFF; }
 
 .icon--flat.icon--purple {
-  color: #28336d; }
+  color: #9C27B0; }
 
 .icon--circled.icon--deep-purple {
-  color: #28336d; }
+  background-color: #673AB7;
+  color: #FFFFFF; }
 
 .icon--flat.icon--deep-purple {
-  color: #28336d; }
+  color: #673AB7; }
 
 .icon--circled.icon--indigo {
-  color: #28336d; }
+  background-color: #3F51B5;
+  color: #FFFFFF; }
 
 .icon--flat.icon--indigo {
-  color: #28336d; }
+  color: #3F51B5; }
 
 .icon--circled.icon--blue {
-  color: #28336d; }
+  background-color: #2196F3;
+  color: #FFFFFF; }
 
 .icon--flat.icon--blue {
-  color: #28336d; }
+  color: #2196F3; }
 
 .icon--circled.icon--light-blue {
-  color: #28336d; }
+  background-color: #03A9F4;
+  color: #FFFFFF; }
 
 .icon--flat.icon--light-blue {
-  color: #28336d; }
+  color: #03A9F4; }
 
 .icon--circled.icon--cyan {
-  color: #28336d; }
+  background-color: #00BCD4;
+  color: #FFFFFF; }
 
 .icon--flat.icon--cyan {
-  color: #28336d; }
+  color: #00BCD4; }
 
 .icon--circled.icon--teal {
-  color: #28336d; }
+  background-color: #009688;
+  color: #FFFFFF; }
 
 .icon--flat.icon--teal {
-  color: #28336d; }
+  color: #009688; }
 
 .icon--circled.icon--green {
-  color: #28336d; }
+  background-color: #4CAF50;
+  color: #FFFFFF; }
 
 .icon--flat.icon--green {
-  color: #28336d; }
+  color: #4CAF50; }
 
 .icon--circled.icon--light-green {
-  color: #28336d; }
+  background-color: #8BC34A;
+  color: #FFFFFF; }
 
 .icon--flat.icon--light-green {
-  color: #28336d; }
+  color: #8BC34A; }
 
 .icon--circled.icon--lime {
-  color: #28336d; }
+  background-color: #CDDC39;
+  color: #FFFFFF; }
 
 .icon--flat.icon--lime {
-  color: #28336d; }
+  color: #CDDC39; }
 
 .icon--circled.icon--yellow {
-  color: #28336d; }
+  background-color: #FFEB3B;
+  color: #FFFFFF; }
 
 .icon--flat.icon--yellow {
-  color: #28336d; }
+  color: #FFEB3B; }
 
 .icon--circled.icon--amber {
-  color: #28336d; }
+  background-color: #FFC107;
+  color: #FFFFFF; }
 
 .icon--flat.icon--amber {
-  color: #28336d; }
+  color: #FFC107; }
 
 .icon--circled.icon--orange {
-  color: #28336d; }
+  background-color: #FF9800;
+  color: #FFFFFF; }
 
 .icon--flat.icon--orange {
-  color: #28336d; }
+  color: #FF9800; }
 
 .icon--circled.icon--deep-orange {
-  color: #28336d; }
+  background-color: #FF5722;
+  color: #FFFFFF; }
 
 .icon--flat.icon--deep-orange {
-  color: #28336d; }
+  color: #FF5722; }
 
 .icon--circled.icon--brown {
-  color: #28336d; }
+  background-color: #795548;
+  color: #FFFFFF; }
 
 .icon--flat.icon--brown {
-  color: #28336d; }
+  color: #795548; }
 
 .icon--circled.icon--grey {
-  color: #28336d; }
+  background-color: #9E9E9E;
+  color: #FFFFFF; }
 
 .icon--flat.icon--grey {
-  color: #28336d; }
+  color: #9E9E9E; }
 
 .icon--circled.icon--blue-grey {
-  color: #28336d; }
+  background-color: #607D8B;
+  color: #FFFFFF; }
 
 .icon--flat.icon--blue-grey {
-  color: #28336d; }
+  color: #607D8B; }
 
 .icon--circled.icon--black {
-  color: #28336d; }
+  background-color: #000000;
+  color: #FFFFFF; }
 
 .icon--flat.icon--black {
-  color: #28336d; }
+  color: #000000; }
 
 .icon--circled.icon--white {
-  color: #28336d; }
+  background-color: #FFFFFF;
+  color: #FFFFFF; }
 
 .icon--flat.icon--white {
-  color: #28336d; }
+  color: #FFFFFF; }
 
 .icon--circled.icon--primary {
-  color: #2493ff; }
+  background-color: #3F51B5;
+  color: #FFFFFF; }
 
 .icon--flat.icon--primary {
-  color: #2493ff; }
+  color: #3F51B5; }
 
 .icon--circled.icon--primary-hue-1 {
-  color: #28336d; }
+  background-color: #C5CAE9;
+  color: #FFFFFF; }
 
 .icon--flat.icon--primary-hue-1 {
-  color: #28336d; }
+  color: #C5CAE9; }
 
 .icon--circled.icon--primary-hue-2 {
-  color: #28336d; }
+  background-color: #303F9F;
+  color: #FFFFFF; }
 
 .icon--flat.icon--primary-hue-2 {
-  color: #28336d; }
+  color: #303F9F; }
 
 .icon--circled.icon--accent {
-  color: #28336d; }
+  background-color: #FF4081;
+  color: #FFFFFF; }
 
 .icon--flat.icon--accent {
-  color: #28336d; }
+  color: #FF4081; }
 
 .icon--circled.icon--accent-hue-1 {
-  color: #28336d; }
+  background-color: #FF80AB;
+  color: #FFFFFF; }
 
 .icon--flat.icon--accent-hue-1 {
-  color: #28336d; }
+  color: #FF80AB; }
 
 .icon--circled.icon--accent-hue-2 {
-  color: #28336d; }
+  background-color: #F50057;
+  color: #FFFFFF; }
 
 .icon--flat.icon--accent-hue-2 {
-  color: #28336d; }
+  color: #F50057; }
+
+.icon--circled {
+  border-radius: 50%; }
 
 .list {
   margin: 0;
@@ -36872,196 +36942,266 @@ table {
   vertical-align: top; }
 
 .icon--xs.icon--circled {
-  font-size: 20px; }
+  height: 24px;
+  width: 24px;
+  line-height: 24px !important;
+  font-size: 14px;
+  font-size: 0.875rem; }
 
 .icon--xs.icon--flat {
-  font-size: 20px; }
+  height: 24px;
+  width: 24px;
+  line-height: 24px !important;
+  font-size: 18px;
+  font-size: 1.125rem; }
 
 .icon--s.icon--circled {
-  font-size: 24px; }
+  height: 32px;
+  width: 32px;
+  line-height: 32px !important;
+  font-size: 16px;
+  font-size: 1rem; }
 
 .icon--s.icon--flat {
-  font-size: 24px; }
+  height: 32px;
+  width: 32px;
+  line-height: 32px !important;
+  font-size: 26px;
+  font-size: 1.625rem; }
 
 .icon--m.icon--circled {
-  font-size: 36px; }
+  height: 36px;
+  width: 36px;
+  line-height: 36px !important;
+  font-size: 18px;
+  font-size: 1.125rem; }
 
 .icon--m.icon--flat {
-  font-size: 36px; }
+  height: 36px;
+  width: 36px;
+  line-height: 36px !important;
+  font-size: 30px;
+  font-size: 1.875rem; }
 
 .icon--l.icon--circled {
-  font-size: 64px; }
+  height: 40px;
+  width: 40px;
+  line-height: 40px !important;
+  font-size: 20px;
+  font-size: 1.25rem; }
 
 .icon--l.icon--flat {
-  font-size: 64px; }
+  height: 40px;
+  width: 40px;
+  line-height: 40px !important;
+  font-size: 34px;
+  font-size: 2.125rem; }
 
 .icon--xl.icon--circled {
-  font-size: 128px; }
+  height: 56px;
+  width: 56px;
+  line-height: 56px !important;
+  font-size: 26px;
+  font-size: 1.625rem; }
 
 .icon--xl.icon--flat {
-  font-size: 128px; }
+  height: 56px;
+  width: 56px;
+  line-height: 56px !important;
+  font-size: 50px;
+  font-size: 3.125rem; }
 
 .icon--circled.icon--red {
-  color: rgba(0, 0, 0, 0.87); }
+  background-color: #F44336;
+  color: #FFFFFF; }
 
 .icon--flat.icon--red {
-  color: rgba(0, 0, 0, 0.87); }
+  color: #F44336; }
 
 .icon--circled.icon--pink {
-  color: rgba(0, 0, 0, 0.87); }
+  background-color: #E91E63;
+  color: #FFFFFF; }
 
 .icon--flat.icon--pink {
-  color: rgba(0, 0, 0, 0.87); }
+  color: #E91E63; }
 
 .icon--circled.icon--purple {
-  color: rgba(0, 0, 0, 0.87); }
+  background-color: #9C27B0;
+  color: #FFFFFF; }
 
 .icon--flat.icon--purple {
-  color: rgba(0, 0, 0, 0.87); }
+  color: #9C27B0; }
 
 .icon--circled.icon--deep-purple {
-  color: rgba(0, 0, 0, 0.87); }
+  background-color: #673AB7;
+  color: #FFFFFF; }
 
 .icon--flat.icon--deep-purple {
-  color: rgba(0, 0, 0, 0.87); }
+  color: #673AB7; }
 
 .icon--circled.icon--indigo {
-  color: rgba(0, 0, 0, 0.87); }
+  background-color: #3F51B5;
+  color: #FFFFFF; }
 
 .icon--flat.icon--indigo {
-  color: rgba(0, 0, 0, 0.87); }
+  color: #3F51B5; }
 
 .icon--circled.icon--blue {
-  color: rgba(0, 0, 0, 0.87); }
+  background-color: #2196F3;
+  color: #FFFFFF; }
 
 .icon--flat.icon--blue {
-  color: rgba(0, 0, 0, 0.87); }
+  color: #2196F3; }
 
 .icon--circled.icon--light-blue {
-  color: rgba(0, 0, 0, 0.87); }
+  background-color: #03A9F4;
+  color: #FFFFFF; }
 
 .icon--flat.icon--light-blue {
-  color: rgba(0, 0, 0, 0.87); }
+  color: #03A9F4; }
 
 .icon--circled.icon--cyan {
-  color: rgba(0, 0, 0, 0.87); }
+  background-color: #00BCD4;
+  color: #FFFFFF; }
 
 .icon--flat.icon--cyan {
-  color: rgba(0, 0, 0, 0.87); }
+  color: #00BCD4; }
 
 .icon--circled.icon--teal {
-  color: rgba(0, 0, 0, 0.87); }
+  background-color: #009688;
+  color: #FFFFFF; }
 
 .icon--flat.icon--teal {
-  color: rgba(0, 0, 0, 0.87); }
+  color: #009688; }
 
 .icon--circled.icon--green {
-  color: rgba(0, 0, 0, 0.87); }
+  background-color: #4CAF50;
+  color: #FFFFFF; }
 
 .icon--flat.icon--green {
-  color: rgba(0, 0, 0, 0.87); }
+  color: #4CAF50; }
 
 .icon--circled.icon--light-green {
-  color: rgba(0, 0, 0, 0.87); }
+  background-color: #8BC34A;
+  color: #FFFFFF; }
 
 .icon--flat.icon--light-green {
-  color: rgba(0, 0, 0, 0.87); }
+  color: #8BC34A; }
 
 .icon--circled.icon--lime {
-  color: rgba(0, 0, 0, 0.87); }
+  background-color: #CDDC39;
+  color: #FFFFFF; }
 
 .icon--flat.icon--lime {
-  color: rgba(0, 0, 0, 0.87); }
+  color: #CDDC39; }
 
 .icon--circled.icon--yellow {
-  color: rgba(0, 0, 0, 0.87); }
+  background-color: #FFEB3B;
+  color: #FFFFFF; }
 
 .icon--flat.icon--yellow {
-  color: rgba(0, 0, 0, 0.87); }
+  color: #FFEB3B; }
 
 .icon--circled.icon--amber {
-  color: rgba(0, 0, 0, 0.87); }
+  background-color: #FFC107;
+  color: #FFFFFF; }
 
 .icon--flat.icon--amber {
-  color: rgba(0, 0, 0, 0.87); }
+  color: #FFC107; }
 
 .icon--circled.icon--orange {
-  color: rgba(0, 0, 0, 0.87); }
+  background-color: #FF9800;
+  color: #FFFFFF; }
 
 .icon--flat.icon--orange {
-  color: rgba(0, 0, 0, 0.87); }
+  color: #FF9800; }
 
 .icon--circled.icon--deep-orange {
-  color: rgba(0, 0, 0, 0.87); }
+  background-color: #FF5722;
+  color: #FFFFFF; }
 
 .icon--flat.icon--deep-orange {
-  color: rgba(0, 0, 0, 0.87); }
+  color: #FF5722; }
 
 .icon--circled.icon--brown {
-  color: rgba(0, 0, 0, 0.87); }
+  background-color: #795548;
+  color: #FFFFFF; }
 
 .icon--flat.icon--brown {
-  color: rgba(0, 0, 0, 0.87); }
+  color: #795548; }
 
 .icon--circled.icon--grey {
-  color: rgba(0, 0, 0, 0.87); }
+  background-color: #9E9E9E;
+  color: #FFFFFF; }
 
 .icon--flat.icon--grey {
-  color: rgba(0, 0, 0, 0.87); }
+  color: #9E9E9E; }
 
 .icon--circled.icon--blue-grey {
-  color: rgba(0, 0, 0, 0.87); }
+  background-color: #607D8B;
+  color: #FFFFFF; }
 
 .icon--flat.icon--blue-grey {
-  color: rgba(0, 0, 0, 0.87); }
+  color: #607D8B; }
 
 .icon--circled.icon--black {
-  color: rgba(0, 0, 0, 0.87); }
+  background-color: #000000;
+  color: #FFFFFF; }
 
 .icon--flat.icon--black {
-  color: rgba(0, 0, 0, 0.87); }
+  color: #000000; }
 
 .icon--circled.icon--white {
-  color: rgba(0, 0, 0, 0.87); }
+  background-color: #FFFFFF;
+  color: #FFFFFF; }
 
 .icon--flat.icon--white {
-  color: rgba(0, 0, 0, 0.87); }
+  color: #FFFFFF; }
 
 .icon--circled.icon--primary {
-  color: #2196f3; }
+  background-color: #3F51B5;
+  color: #FFFFFF; }
 
 .icon--flat.icon--primary {
-  color: #2196f3; }
+  color: #3F51B5; }
 
 .icon--circled.icon--primary-hue-1 {
-  color: rgba(0, 0, 0, 0.87); }
+  background-color: #C5CAE9;
+  color: #FFFFFF; }
 
 .icon--flat.icon--primary-hue-1 {
-  color: rgba(0, 0, 0, 0.87); }
+  color: #C5CAE9; }
 
 .icon--circled.icon--primary-hue-2 {
-  color: rgba(0, 0, 0, 0.87); }
+  background-color: #303F9F;
+  color: #FFFFFF; }
 
 .icon--flat.icon--primary-hue-2 {
-  color: rgba(0, 0, 0, 0.87); }
+  color: #303F9F; }
 
 .icon--circled.icon--accent {
-  color: rgba(0, 0, 0, 0.87); }
+  background-color: #FF4081;
+  color: #FFFFFF; }
 
 .icon--flat.icon--accent {
-  color: rgba(0, 0, 0, 0.87); }
+  color: #FF4081; }
 
 .icon--circled.icon--accent-hue-1 {
-  color: rgba(0, 0, 0, 0.87); }
+  background-color: #FF80AB;
+  color: #FFFFFF; }
 
 .icon--flat.icon--accent-hue-1 {
-  color: rgba(0, 0, 0, 0.87); }
+  color: #FF80AB; }
 
 .icon--circled.icon--accent-hue-2 {
-  color: rgba(0, 0, 0, 0.87); }
+  background-color: #F50057;
+  color: #FFFFFF; }
 
 .icon--flat.icon--accent-hue-2 {
-  color: rgba(0, 0, 0, 0.87); }
+  color: #F50057; }
+
+.icon--circled {
+  border-radius: 50%; }
 
 .list {
   margin: 0;

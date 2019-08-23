@@ -2,6 +2,14 @@
    Icon
    ========================================================================== */
 
+$icon-font-size: (
+    'xs': 14px,
+    's': 16px,
+    'm': 18px,
+    'l': 20px,
+    'xl': 26px,
+);
+
 @mixin icon($size, $color, $type) {
     @include icon-reset;
     @include icon-size($size, $type);
@@ -16,14 +24,34 @@
 }
 
 @mixin icon-size($size, $type) {
-    @include lumx-icon-size($size);
+    @include size(map-get($sizes, $size));
+
+    line-height: map-get($sizes, $size) !important;
+
+    @if $type == 'circled' {
+        @include font-size(map-get($icon-font-size, $size));
+    }
+
+    @if $type == 'flat' {
+        @include font-size(map-get($sizes, $size) - 6);
+    }
 }
 
 @mixin icon-color($color, $type) {
-    @include lumx-icon-color($color, N);
+    @if $type == 'circled' {
+        background-color: map-get($colors, $color);
+        color: $white-1;
+    }
+
+    @if $type == 'flat' {
+        color: map-get($colors, $color);
+    }
 }
 
 @mixin icon-type($type) {
+    @if $type == 'circled' {
+        border-radius: 50%;
+    }
 }
 
 .icon {
