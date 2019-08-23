@@ -1,15 +1,33 @@
-<div class="checkbox checkbox--{{ lxCheckbox.lxColor }}"
-     ng-class="{ 'checkbox--theme-light': !lxCheckbox.lxTheme || lxCheckbox.lxTheme === 'light',
-                 'checkbox--theme-dark': lxCheckbox.lxTheme === 'dark' }">
-    <input id="{{ lxCheckbox.getCheckboxId() }}"
-           type="checkbox"
-           class="checkbox__input"
-           name="{{ lxCheckbox.name }}"
-           ng-model="lxCheckbox.ngModel"
-           ng-true-value="{{ lxCheckbox.ngTrueValue }}"
-           ng-false-value="{{ lxCheckbox.ngFalseValue }}"
-           ng-change="lxCheckbox.triggerNgChange()"
-           ng-disabled="lxCheckbox.ngDisabled">
-    <label for="{{ lxCheckbox.getCheckboxId() }}" class="checkbox__label" ng-transclude ng-if="!lxCheckbox.getCheckboxHasChildren()"></label>
-    <ng-transclude-replace ng-if="lxCheckbox.getCheckboxHasChildren()"></ng-transclude-replace>
+<div
+    class="lumx-checkbox"
+    ng-class="{ 'lumx-checkbox--is-checked': lx.viewValue,
+                'lumx-checkbox--is-unchecked': !lx.viewValue,
+                'lumx-checkbox--theme-light': !lx.theme || lx.theme === 'light',
+                'lumx-checkbox--theme-dark': lx.theme === 'dark' }"
+>
+    <div class="lumx-checkbox__input-wrapper">
+        <input
+            type="checkbox"
+            id="{{ lx.checkboxId }}"
+            class="lumx-checkbox__input-native"
+            ng-checked="lx.viewValue"
+            ng-click="lx.updateViewValue()"
+        />
+
+        <div class="lumx-checkbox__input-placeholder">
+            <div class="lumx-checkbox__input-background"></div>
+            <div class="lumx-checkbox__input-indicator">
+                <lx-icon lx-path="{{ lx.icons.mdiCheck }}"></lx-icon>
+            </div>
+        </div>
+    </div>
+
+    <div class="lumx-checkbox__content" ng-if="::!lx.hasLabel && !lx.hasHelper && lx.hasTranscluded">
+        <label for="{{ lx.checkboxId }}" class="lumx-checkbox__label" ng-transclude></label>
+    </div>
+
+    <div class="lumx-checkbox__content" ng-if="::lx.hasLabel">
+        <label for="{{ lx.checkboxId }}" class="lumx-checkbox__label" ng-transclude="label"></label>
+        <span class="lumx-checkbox__helper" ng-transclude="helper" ng-if="::lx.hasHelper"></span>
+    </div>
 </div>
