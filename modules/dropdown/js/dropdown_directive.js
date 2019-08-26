@@ -1,857 +1,449 @@
-(function()
-{
-    'use strict';
+import { CSS_PREFIX, ESCAPE_KEY_CODE } from '@lumx/core/js/constants';
 
-    angular
-        .module('lumx.dropdown')
-        .directive('lxDropdown', lxDropdown)
-        .directive('lxDropdownToggle', lxDropdownToggle)
-        .directive('lxDropdownMenu', lxDropdownMenu)
-        .directive('lxDropdownFilter', lxDropdownFilter);
+import template from '../views/dropdown.html';
 
-    function lxDropdown()
-    {
-        return {
-            restrict: 'E',
-            templateUrl: 'dropdown.html',
-            scope:
-            {
-                closeOnClick: '=?lxCloseOnClick',
-                effect: '@?lxEffect',
-                escapeClose: '=?lxEscapeClose',
-                hover: '=?lxHover',
-                hoverDelay: '=?lxHoverDelay',
-                minOffset: '=?lxMinOffset',
-                offset: '@?lxOffset',
-                overToggle: '=?lxOverToggle',
-                position: '@?lxPosition',
-                width: '@?lxWidth'
-            },
-            link: link,
-            controller: LxDropdownController,
-            controllerAs: 'lxDropdown',
-            bindToController: true,
-            transclude: true
+/////////////////////////////
+
+function DropdownController(
+    $document,
+    $scope,
+    $timeout,
+    $window,
+    LxDepthService,
+    LxDropdownService,
+    LxEventSchedulerService,
+    LxUtilsService,
+) {
+    'ngInject';
+
+    // eslint-disable-next-line consistent-this
+    const lx = this;
+
+    /////////////////////////////
+    //                         //
+    //    Private attributes   //
+    //                         //
+    /////////////////////////////
+
+    /**
+     * Offset from the edge of the view port if dropdown is higher.
+     *
+     * @type {number}
+     * @constant
+     * @readonly
+     */
+    const _OFFSET_FROM_EDGE = 16;
+
+    /**
+     * The event scheduler id.
+     *
+     * @type {string}
+     */
+    // eslint-disable-next-line one-var
+    let _idEventScheduler;
+
+    /**
+     * The menu element.
+     *
+     * @type {element}
+     */
+    // eslint-disable-next-line one-var
+    let _menuEl;
+
+    /**
+     * The source element.
+     *
+     * @type {element}
+     */
+    // eslint-disable-next-line one-var
+    let _sourceEl;
+
+    /**
+     * The toggle element.
+     *
+     * @type {element}
+     */
+    // eslint-disable-next-line one-var
+    let _toggleEl;
+
+    /////////////////////////////
+    //                         //
+    //    Public attributes    //
+    //                         //
+    /////////////////////////////
+
+    /**
+     * Whether the directive has toggle slot filled or not.
+     *
+     * @type {boolean}
+     */
+    lx.hasToggle = false;
+
+    /**
+     * Whether the dropdown is open or not.
+     *
+     * @type {boolean}
+     */
+    lx.isOpen = false;
+
+    /**
+     * The dropdown uuid.
+     *
+     * @type {string}
+     */
+    lx.uuid = LxUtilsService.generateUUID();
+
+    /////////////////////////////
+    //                         //
+    //    Private functions    //
+    //                         //
+    /////////////////////////////
+
+    /**
+     * Close dropdown on document click.
+     */
+    function _onDocumentClick() {
+        if (angular.isUndefined(lx.closeOnClick) || lx.closeOnClick) {
+            LxDropdownService.closeActiveDropdown();
+        }
+    }
+
+    /**
+     * Close dropdown.
+     */
+    function _close() {
+        lx.isOpen = false;
+
+        LxDropdownService.resetActiveDropdownId();
+
+        LxUtilsService.restoreBodyScroll();
+
+        $timeout(() => {
+            _menuEl.removeAttr('style').insertAfter(_toggleEl);
+
+            if (angular.isUndefined(lx.escapeClose) || lx.escapeClose) {
+                LxEventSchedulerService.unregister(_idEventScheduler);
+                _idEventScheduler = undefined;
+            }
+
+            $document.off('click keydown keypress', _onDocumentClick);
+
+            if (angular.isDefined(_sourceEl)) {
+                _sourceEl.focus();
+            }
+        });
+    }
+
+    /**
+     * Get available height.
+     *
+     * @return {Object} Available height on top / bottom.
+     */
+    function _getAvailableHeight() {
+        const availaibleHeight = {};
+        const toggleProps = {
+            height: _toggleEl.outerHeight(),
+            top: _toggleEl.offset().top - angular.element($window).scrollTop(),
+        };
+        const windowProps = {
+            height: $window.innerHeight,
         };
 
-        function link(scope, element, attrs, ctrl)
-        {
-            var backwardOneWay = ['position', 'width'];
-            var backwardTwoWay = ['escapeClose', 'overToggle'];
+        if (lx.overToggle) {
+            availaibleHeight.above = toggleProps.top;
+            availaibleHeight.below = windowProps.height - toggleProps.top;
+        } else {
+            availaibleHeight.above = toggleProps.top;
+            availaibleHeight.below = windowProps.height - (toggleProps.top + toggleProps.height);
+        }
 
-            angular.forEach(backwardOneWay, function(attribute)
-            {
-                if (angular.isDefined(attrs[attribute]))
-                {
-                    attrs.$observe(attribute, function(newValue)
-                    {
-                        scope.lxDropdown[attribute] = newValue;
-                    });
-                }
+        return availaibleHeight;
+    }
+
+    /**
+     * Initialize horizontal position.
+     */
+    function _initHorizontalPosition() {
+        const menuProps = {};
+        const toggleProps = {
+            height: _toggleEl.outerHeight(),
+            left: _toggleEl.offset().left,
+            width: _toggleEl.outerWidth(),
+        };
+        const windowProps = {
+            height: $window.innerHeight,
+            width: $window.innerWidth,
+        };
+
+        if (angular.isDefined(lx.width)) {
+            if (lx.width.indexOf('%') > -1) {
+                // eslint-disable-next-line no-magic-numbers
+                menuProps.minWidth = toggleProps.width * (lx.width.slice(0, -1) / 100);
+            } else {
+                menuProps.width = lx.width;
+            }
+        } else {
+            menuProps.width = 'auto';
+        }
+
+        if (!lx.position || lx.position === 'left') {
+            menuProps.left = toggleProps.left;
+            menuProps.right = 'auto';
+        } else if (lx.position === 'right') {
+            menuProps.left = 'auto';
+            menuProps.right = windowProps.width - toggleProps.width - toggleProps.left;
+        }
+
+        _menuEl.css({
+            left: menuProps.left,
+            right: menuProps.right,
+        });
+
+        if (angular.isDefined(menuProps.minWidth)) {
+            _menuEl.css({
+                minWidth: menuProps.minWidth,
             });
-
-            angular.forEach(backwardTwoWay, function(attribute)
-            {
-                if (angular.isDefined(attrs[attribute]))
-                {
-                    scope.$watch(function()
-                    {
-                        return scope.$parent.$eval(attrs[attribute]);
-                    }, function(newValue)
-                    {
-                        scope.lxDropdown[attribute] = newValue;
-                    });
-                }
-            });
-
-            attrs.$observe('id', function(_newId)
-            {
-                ctrl.uuid = _newId;
-            });
-
-            scope.$on('$destroy', function()
-            {
-                if (ctrl.isOpen)
-                {
-                    ctrl.closeDropdownMenu();
-                }
+        } else {
+            _menuEl.css({
+                width: menuProps.width,
             });
         }
     }
 
-    LxDropdownController.$inject = ['$document', '$element', '$interval', '$rootScope', '$scope', '$timeout', '$window',
-        'LxDepthService', 'LxDropdownService', 'LxEventSchedulerService', 'LxUtilsService'
-    ];
+    /**
+     * Initialize vertical position.
+     */
+    function _initVerticalPosition() {
+        const availaibleHeight = _getAvailableHeight();
+        const menuProps = {};
+        const windowProps = {
+            height: $window.innerHeight,
+        };
 
-    function LxDropdownController($document, $element, $interval, $rootScope, $scope, $timeout, $window, LxDepthService,
-        LxDropdownService, LxEventSchedulerService, LxUtilsService)
-    {
-        var lxDropdown = this;
-        var dropdownContentWatcher;
-        var dropdownMenu;
-        var dropdownToggle;
-        var idEventScheduler;
-        var openTimeout;
-        var positionTarget;
-        var scrollMask = angular.element('<div/>',
-        {
-            class: 'scroll-mask'
+        if (availaibleHeight.below > availaibleHeight.above) {
+            if (lx.overToggle) {
+                menuProps.top = availaibleHeight.above;
+                menuProps.maxHeight = availaibleHeight.below;
+            } else {
+                // eslint-disable-next-line no-bitwise
+                menuProps.top = availaibleHeight.above + _toggleEl.outerHeight() + ~~lx.offset;
+                menuProps.maxHeight = availaibleHeight.below;
+            }
+        } else if (lx.overToggle) {
+            menuProps.bottom = windowProps.height - availaibleHeight.above - _toggleEl.outerHeight();
+            menuProps.maxHeight = availaibleHeight.above + _toggleEl.outerHeight();
+        } else {
+            // eslint-disable-next-line no-bitwise
+            menuProps.bottom = windowProps.height - availaibleHeight.above + ~~lx.offset;
+            menuProps.maxHeight = availaibleHeight.above;
+        }
+
+        menuProps.maxHeight -= _OFFSET_FROM_EDGE;
+
+        _menuEl.css(menuProps);
+    }
+
+    /**
+     * Close dropdown on echap key up.
+     *
+     * @param {Event} evt The key up event.
+     */
+    function _onKeyUp(evt) {
+        if (evt.keyCode === ESCAPE_KEY_CODE) {
+            LxDropdownService.closeActiveDropdown();
+        }
+
+        evt.stopPropagation();
+    }
+
+    /**
+     * Open dropdown.
+     */
+    function _open() {
+        LxDropdownService.closeActiveDropdown();
+        LxDropdownService.registerActiveDropdownId(lx.uuid);
+
+        if (angular.isUndefined(lx.escapeClose) || lx.escapeClose) {
+            _idEventScheduler = LxEventSchedulerService.register('keyup', _onKeyUp);
+        }
+
+        LxDepthService.increase();
+
+        _menuEl.appendTo('body').css('z-index', LxDepthService.get());
+
+        $timeout(() => {
+            _initHorizontalPosition();
+            _initVerticalPosition();
+
+            lx.isOpen = true;
+            LxUtilsService.disableBodyScroll();
+
+            $document.on('click keydown keypress', _onDocumentClick);
         });
-        var enableBodyScroll;
+    }
 
-        lxDropdown.closeDropdownMenu = closeDropdownMenu;
-        lxDropdown.openDropdownMenu = openDropdownMenu;
-        lxDropdown.registerDropdownMenu = registerDropdownMenu;
-        lxDropdown.registerDropdownToggle = registerDropdownToggle;
-        lxDropdown.toggle = toggle;
-        lxDropdown.uuid = LxUtilsService.generateUUID();
+    /**
+     * Register the source element that triggered the dropdown.
+     *
+     * @param {element} sourceEl The source element that triggered the dropdown.
+     */
+    function _registerSource(sourceEl) {
+        _sourceEl = sourceEl;
+    }
 
-        lxDropdown.closeOnClick = angular.isDefined(lxDropdown.closeOnClick) ? lxDropdown.closeOnClick : true;
-        lxDropdown.effect = angular.isDefined(lxDropdown.effect) ? lxDropdown.effect : 'expand';
-        lxDropdown.escapeClose = angular.isDefined(lxDropdown.escapeClose) ? lxDropdown.escapeClose : true;
-        lxDropdown.hasToggle = false;
-        lxDropdown.isOpen = false;
-        lxDropdown.overToggle = angular.isDefined(lxDropdown.overToggle) ? lxDropdown.overToggle : false;
-        lxDropdown.position = angular.isDefined(lxDropdown.position) ? lxDropdown.position : 'left';
-        lxDropdown.minOffset = (angular.isUndefined(lxDropdown.minOffset) || lxDropdown.minOffset < 0) ? 8 : lxDropdown.minOffset;
+    /////////////////////////////
+    //                         //
+    //     Public functions    //
+    //                         //
+    /////////////////////////////
 
-        $scope.$on('lx-dropdown__open', function(_event, _params)
-        {
-            if (_params.uuid === lxDropdown.uuid && !lxDropdown.isOpen)
-            {
-                LxDropdownService.closeActiveDropdown();
-                LxDropdownService.registerActiveDropdownUuid(lxDropdown.uuid);
-                positionTarget = _params.target;
+    /**
+     * Register menu.
+     *
+     * @param {element} menuEl The menu element.
+     */
+    function registerMenu(menuEl) {
+        _menuEl = menuEl;
+    }
 
-                registerDropdownToggle(positionTarget);
-                openDropdownMenu();
-            }
-        });
+    /**
+     * Register toggle.
+     *
+     * @param {element} toggleEl The toggle element.
+     */
+    function registerToggle(toggleEl) {
+        _toggleEl = toggleEl;
+    }
 
-        $scope.$on('lx-dropdown__close', function(_event, _params)
-        {
-            if (_params.uuid === lxDropdown.uuid && lxDropdown.isOpen && (!_params.documentClick || (_params.documentClick && lxDropdown.closeOnClick)))
-            {
-                closeDropdownMenu();
-            }
-        });
-
-        $scope.$on('$destroy', function()
-        {
-            $timeout.cancel(openTimeout);
-        });
-
-        ////////////
-
-        function closeDropdownMenu()
-        {
-            $document.off('click touchend', onDocumentClick);
-
-            $rootScope.$broadcast('lx-dropdown__close-start', $element.attr('id'));
-
-            angular.element(window).off('resize', initDropdownPosition);
-
-            if (angular.isFunction(dropdownContentWatcher)) {
-                dropdownContentWatcher();
-                dropdownContentWatcher = undefined;
-            }
-
-            LxDropdownService.resetActiveDropdownUuid();
-
-            var velocityProperties;
-            var velocityEasing;
-
-            if (!lxDropdown.hover && angular.isDefined(scrollMask)) {
-                scrollMask.remove();
-            }
-            if (angular.isFunction(enableBodyScroll)) {
-                enableBodyScroll();
-            }
-            enableBodyScroll = undefined;
-
-            var dropdownToggleElement;
-            if (lxDropdown.hasToggle)
-            {
-                dropdownToggleElement = (angular.isString(dropdownToggle)) ? angular.element(dropdownToggle) : dropdownToggle;
-
-                dropdownToggleElement
-                    .off('wheel')
-                    .css('z-index', '');
-            }
-
-            dropdownMenu
-                .css(
-                {
-                    overflow: 'hidden'
-                });
-
-            if (lxDropdown.effect === 'expand')
-            {
-                velocityProperties = {
-                    width: 0,
-                    height: 0
-                };
-
-                velocityEasing = 'easeOutQuint';
-            }
-            else if (lxDropdown.effect === 'fade')
-            {
-                velocityProperties = {
-                    opacity: 0
-                };
-
-                velocityEasing = 'linear';
-            }
-
-            if (lxDropdown.effect === 'expand' || lxDropdown.effect === 'fade')
-            {
-                dropdownMenu.velocity(velocityProperties,
-                {
-                    duration: 200,
-                    easing: velocityEasing,
-                    complete: function()
-                    {
-                        dropdownMenu
-                            .removeAttr('style')
-                            .removeClass('dropdown-menu--is-open')
-                            .appendTo($element.find('.dropdown'));
-
-                        $scope.$apply(function()
-                        {
-                            lxDropdown.isOpen = false;
-
-                            if (lxDropdown.escapeClose)
-                            {
-                                LxEventSchedulerService.unregister(idEventScheduler);
-                                idEventScheduler = undefined;
-                            }
-                        });
-                    }
-                });
-            }
-            else if (lxDropdown.effect === 'none')
-            {
-                dropdownMenu
-                    .removeAttr('style')
-                    .removeClass('dropdown-menu--is-open')
-                    .appendTo($element.find('.dropdown'));
-
-                $scope.$apply(function()
-                {
-                    lxDropdown.isOpen = false;
-
-                    if (lxDropdown.escapeClose)
-                    {
-                        LxEventSchedulerService.unregister(idEventScheduler);
-                        idEventScheduler = undefined;
-                    }
-                });
-            }
-
-            dropdownMenu.off('scroll', checkScrollEnd);
-
-            $rootScope.$broadcast('lx-dropdown__close-end', $element.attr('id'));
+    /**
+     * Toggle the dropdown on toggle click.
+     *
+     * @param {Event} evt The sclick event.
+     */
+    function toggle(evt) {
+        if (angular.isDefined(evt.target)) {
+            _registerSource(angular.element(evt.target));
         }
 
-        function getAvailableHeight()
-        {
-            var availableHeightOnTop;
-            var availableHeightOnBottom;
-            var direction;
-            var dropdownToggleElement = (angular.isString(dropdownToggle)) ? angular.element(dropdownToggle) : dropdownToggle;
-            var dropdownToggleHeight = dropdownToggleElement.outerHeight();
-            var dropdownToggleTop = dropdownToggleElement.offset().top - angular.element($window).scrollTop();
-            var windowHeight = $window.innerHeight;
-
-            if (lxDropdown.overToggle)
-            {
-                availableHeightOnTop = dropdownToggleTop + dropdownToggleHeight;
-                availableHeightOnBottom = windowHeight - dropdownToggleTop;
-            }
-            else
-            {
-                availableHeightOnTop = dropdownToggleTop;
-                availableHeightOnBottom = windowHeight - (dropdownToggleTop + dropdownToggleHeight);
-            }
-
-            if (availableHeightOnTop > availableHeightOnBottom)
-            {
-                direction = 'top';
-            }
-            else
-            {
-                direction = 'bottom';
-            }
-
-            return {
-                top: availableHeightOnTop,
-                bottom: availableHeightOnBottom,
-                direction: direction
-            };
+        if (lx.isOpen) {
+            LxDropdownService.closeActiveDropdown();
+        } else {
+            _open();
         }
+    }
 
-        function initDropdownPosition()
-        {
-            var availableHeight = getAvailableHeight();
-            var dropdownMenuWidth;
-            var dropdownMenuLeft;
-            var dropdownMenuRight;
-            var dropdownToggleElement = (angular.isString(dropdownToggle)) ? angular.element(dropdownToggle) : dropdownToggle;
-            var dropdownToggleWidth = dropdownToggleElement.outerWidth();
-            var dropdownToggleHeight = dropdownToggleElement.outerHeight();
-            var dropdownToggleTop = dropdownToggleElement.offset().top - angular.element($window).scrollTop();
-            var windowWidth = $window.innerWidth;
-            var windowHeight = $window.innerHeight;
-            var cssProperties = {};
+    /////////////////////////////
 
-            if (angular.isDefined(lxDropdown.width))
-            {
-                if (lxDropdown.width.indexOf('%') > -1)
-                {
-                    dropdownMenuWidth = dropdownToggleWidth * (lxDropdown.width.slice(0, -1) / 100);
-                    angular.extend(cssProperties,
-                    {
-                        minWidth: dropdownMenuWidth,
-                    });
-                }
-                else
-                {
-                    dropdownMenuWidth = lxDropdown.width;
-                    angular.extend(cssProperties,
-                    {
-                        width: dropdownMenuWidth,
-                    });
-                }
-            }
-            else
-            {
-                dropdownMenuWidth = 'auto';
-                angular.extend(cssProperties,
-                {
-                    width: dropdownMenuWidth,
-                });
-            }
+    lx.registerMenu = registerMenu;
+    lx.registerToggle = registerToggle;
+    lx.toggle = toggle;
 
+    /////////////////////////////
+    //                         //
+    //          Events         //
+    //                         //
+    /////////////////////////////
 
-            if (lxDropdown.position === 'left')
-            {
-                dropdownMenuLeft = dropdownToggleElement.offset().left;
-                dropdownMenuLeft = (dropdownMenuLeft <= lxDropdown.minOffset) ? lxDropdown.minOffset : dropdownMenuLeft;
-                dropdownMenuRight = 'auto';
-            }
-            else if (lxDropdown.position === 'right')
-            {
-                dropdownMenuLeft = 'auto';
-                dropdownMenuRight = windowWidth - dropdownToggleElement.offset().left - dropdownToggleWidth;
-                dropdownMenuRight = (dropdownMenuRight > (windowWidth - lxDropdown.minOffset)) ? (windowWidth - lxDropdown.minOffset) : dropdownMenuRight;
-            }
-            else if (lxDropdown.position === 'center')
-            {
-                dropdownMenuLeft = (dropdownToggleElement.offset().left + (dropdownToggleWidth / 2)) - (dropdownMenuWidth / 2);
-                dropdownMenuLeft = (dropdownMenuLeft <= lxDropdown.minOffset) ? lxDropdown.minOffset : dropdownMenuLeft;
-                dropdownMenuRight = 'auto';
-            }
+    /**
+     * Open a given dropdown.
+     *
+     * @param {Event}  evt        The dropdown open event.
+     * @param {string} dropdownId The dropdown identifier.
+     * @param {Object} params     An optional object that holds extra parameters.
+     */
+    $scope.$on('lx-dropdown__open', (evt, dropdownId, params) => {
+        if (dropdownId === lx.uuid && !lx.isOpen) {
+            // Backward compatibility.
+            if (angular.isString(params) || angular.isElement(params)) {
+                const toggleEl = angular.isString(params) ? angular.element(params) : params;
 
-            angular.extend(cssProperties,
-            {
-                left: dropdownMenuLeft,
-                right: dropdownMenuRight,
-            });
+                registerToggle(toggleEl);
 
-            dropdownMenu.css(cssProperties);
+                _open();
 
-            if (availableHeight.direction === 'top')
-            {
-                dropdownMenu.css(
-                {
-                    bottom: lxDropdown.overToggle ? (windowHeight - dropdownToggleTop - dropdownToggleHeight) : (windowHeight - dropdownToggleTop + ~~lxDropdown.offset)
-                });
-
-                return availableHeight.top;
-            }
-            else if (availableHeight.direction === 'bottom')
-            {
-                dropdownMenu.css(
-                {
-                    top: lxDropdown.overToggle ? dropdownToggleTop : (dropdownToggleTop + dropdownToggleHeight + ~~lxDropdown.offset)
-                });
-
-                return availableHeight.bottom;
-            }
-        }
-
-        function onDocumentClick() {
-            $timeout(function nextDigest() {
-                LxDropdownService.close(lxDropdown.uuid, true);
-            })
-        }
-
-        function openDropdownMenu()
-        {
-            $document.on('click touchend', onDocumentClick);
-
-            $document.on('touchmove', function onTouchMove(evt) {
-                $document.off('touchend', onDocumentClick);
-            });
-
-            $rootScope.$broadcast('lx-dropdown__open-start', $element.attr('id'));
-
-            lxDropdown.isOpen = true;
-
-            LxDepthService.register();
-
-            if (!lxDropdown.hover) {
-                scrollMask.css('z-index', LxDepthService.getDepth()).appendTo('body');
-
-                // An action outside the dropdown triggers the close function.
-                scrollMask.on('click wheel touchmove ontouchstart', closeDropdownMenu);
-            }
-
-            angular.element(window).on('resize', initDropdownPosition);
-
-            enableBodyScroll = LxUtilsService.disableBodyScroll();
-
-            var dropdownToggleElement;
-            if (lxDropdown.hasToggle)
-            {
-                dropdownToggleElement = (angular.isString(dropdownToggle)) ? angular.element(dropdownToggle) : dropdownToggle;
-                dropdownToggleElement
-                    .css('z-index', LxDepthService.getDepth() + 1)
-                    .on('wheel', function preventDefault(e) {
-                        e.preventDefault();
-                    });
-            }
-
-            dropdownMenu
-                .addClass('dropdown-menu--is-open')
-                .css('z-index', LxDepthService.getDepth() + 1)
-                .appendTo('body');
-
-            if (lxDropdown.escapeClose)
-            {
-                idEventScheduler = LxEventSchedulerService.register('keyup', onKeyUp);
-            }
-
-            openTimeout = $timeout(function()
-            {
-                var availableHeight = initDropdownPosition() - ~~lxDropdown.offset;
-                var dropdownMenuHeight = dropdownMenu.outerHeight();
-                var dropdownMenuWidth = dropdownMenu.outerWidth();
-                var enoughHeight = true;
-
-                if (availableHeight < dropdownMenuHeight)
-                {
-                    enoughHeight = false;
-                    dropdownMenuHeight = availableHeight;
-                }
-
-                /*
-                 * Watch for any changes in the dropdown content.
-                 * Each time the content of the dropdown changes, recompute its height to be sure to stay inside of the
-                 * viewport (and make it scrollable when it overflows).
-                 */
-                dropdownContentWatcher = $scope.$watch(function watcherDropdownContent() {
-                    return dropdownMenu.find('.dropdown-menu__content').html();
-                }, function watchDropdownContent(newValue, oldValue) {
-                    if (newValue === oldValue) {
-                        return;
-                    }
-
-                    updateDropdownMenuHeight();
-                });
-
-                if (lxDropdown.effect === 'expand')
-                {
-                    dropdownMenu.css(
-                    {
-                        width: 0,
-                        height: 0,
-                        opacity: 1,
-                        overflow: 'hidden'
-                    });
-
-                    dropdownMenu.find('.dropdown-menu__content').css(
-                    {
-                        width: dropdownMenuWidth,
-                        height: dropdownMenuHeight
-                    });
-
-                    dropdownMenu.velocity(
-                    {
-                        width: dropdownMenuWidth
-                    },
-                    {
-                        duration: 200,
-                        easing: 'easeOutQuint',
-                        queue: false
-                    });
-
-                    dropdownMenu.velocity(
-                    {
-                        height: dropdownMenuHeight
-                    },
-                    {
-                        duration: 500,
-                        easing: 'easeOutQuint',
-                        queue: false,
-                        complete: function()
-                        {
-                            dropdownMenu.css(
-                            {
-                                overflow: 'auto'
-                            });
-
-                            if (angular.isUndefined(lxDropdown.width))
-                            {
-                                dropdownMenu.css(
-                                {
-                                    width: 'auto'
-                                });
-                            }
-
-                            $timeout(updateDropdownMenuHeight);
-
-                            dropdownMenu.find('.dropdown-menu__content').removeAttr('style');
-                        }
-                    });
-                }
-                else if (lxDropdown.effect === 'fade')
-                {
-                    dropdownMenu.css(
-                    {
-                        height: dropdownMenuHeight
-                    });
-
-                    dropdownMenu.velocity(
-                    {
-                        opacity: 1,
-                    },
-                    {
-                        duration: 200,
-                        easing: 'linear',
-                        queue: false,
-                        complete: function()
-                        {
-                            $timeout(updateDropdownMenuHeight);
-                        }
-                    });
-                }
-                else if (lxDropdown.effect === 'none')
-                {
-                    dropdownMenu.css(
-                    {
-                        opacity: 1
-                    });
-
-                    $timeout(updateDropdownMenuHeight);
-                }
-
-                dropdownMenu.on('scroll', checkScrollEnd);
-
-                $rootScope.$broadcast('lx-dropdown__open-end', $element.attr('id'));
-            });
-        }
-
-        function onKeyUp(_event)
-        {
-            if (_event.keyCode == 27)
-            {
-                closeDropdownMenu();
-            }
-
-            _event.stopPropagation();
-        }
-
-        function registerDropdownMenu(_dropdownMenu)
-        {
-            dropdownMenu = _dropdownMenu;
-        }
-
-        function registerDropdownToggle(_dropdownToggle)
-        {
-            if (!positionTarget)
-            {
-                lxDropdown.hasToggle = true;
-            }
-
-            dropdownToggle = _dropdownToggle;
-        }
-
-        function toggle()
-        {
-            if (!lxDropdown.isOpen)
-            {
-                openDropdownMenu();
-            }
-            else
-            {
-                closeDropdownMenu();
-            }
-        }
-
-        /**
-         * Update the height of the dropdown.
-         * If the content is too large to fit in the remaining size of the screen (to the top or the bottom), then make
-         * it scrollable.
-         * This function is called everytime the content inside of the dropdown changes.
-         */
-        function updateDropdownMenuHeight() {
-            if (positionTarget) {
-                registerDropdownToggle(angular.element(positionTarget));
-            }
-
-            if (!angular.element(dropdownToggle).is(':visible')) {
                 return;
             }
 
-            var availableHeight = getAvailableHeight();
-            var scrollPosition = dropdownMenu.scrollTop();
+            registerToggle(angular.element(params.target));
 
-            dropdownMenu.css({
-                height: 'auto',
-            });
-            dropdownMenu.css(availableHeight.direction, 'auto');
-
-            var dropdownMenuHeight = dropdownMenu.find('.dropdown-menu__content').outerHeight();
-
-            if ((availableHeight[availableHeight.direction] - ~~lxDropdown.offset) <= dropdownMenuHeight) {
-                if (availableHeight.direction === 'top') {
-                    dropdownMenu.css({
-                        top: 0,
-                    });
-                } else if (availableHeight.direction === 'bottom') {
-                    dropdownMenu.css({
-                        bottom: 0,
-                    });
-                }
+            if (angular.isDefined(params.source)) {
+                _registerSource(angular.element(params.source));
             } else {
-                if (availableHeight.direction === 'top') {
-                    dropdownMenu.css({
-                        top: 'auto',
-                    });
-                } else if (availableHeight.direction === 'bottom') {
-                    dropdownMenu.css({
-                        bottom: 'auto',
-                    });
-                }
+                _registerSource(angular.element(params.target));
             }
 
-            dropdownMenu.scrollTop(scrollPosition);
+            _open();
+        }
+    });
+
+    /**
+     * Close a given dropdown.
+     *
+     * @param {Event}  evt        The dropdown open event.
+     * @param {Object} dropdownId The dropdown identifier.
+     */
+    $scope.$on('lx-dropdown__close', (evt, dropdownId) => {
+        if (dropdownId === lx.uuid && lx.isOpen) {
+            _close();
+        }
+    });
+
+    /**
+     * Update the active dropdown position.
+     */
+    $scope.$on('lx-dropdown__update', () => {
+        if (LxDropdownService.isOpen(lx.uuid)) {
+            _initHorizontalPosition();
+            _initVerticalPosition();
+        }
+    });
+}
+
+/////////////////////////////
+
+function DropdownDirective() {
+    'ngInject';
+
+    function link(scope, el, attrs, ctrl, transclude) {
+        ctrl.registerToggle(el.find(`.${CSS_PREFIX}-dropdown__toggle`));
+        ctrl.registerMenu(el.find(`.${CSS_PREFIX}-dropdown__menu`));
+
+        if (transclude.isSlotFilled('toggle')) {
+            ctrl.hasToggle = true;
         }
 
-        /**
-        * Check if user has scrolled to the end of the dropdown.
-        */
-        function checkScrollEnd() {
-            if (
-                dropdownMenu.scrollTop() + dropdownMenu.innerHeight() >=
-                dropdownMenu[0].scrollHeight
-            ) {
-                $rootScope.$broadcast(
-                    'lx-dropdown__scroll-end',
-                    $element.attr('id')
-                );
-            }
-        }
+        attrs.$observe('id', (id) => {
+            ctrl.uuid = id;
+        });
     }
 
-    lxDropdownToggle.$inject = ['$timeout', '$window', 'LxDropdownService'];
+    return {
+        bindToController: true,
+        controller: DropdownController,
+        controllerAs: 'lx',
+        link,
+        replace: true,
+        restrict: 'E',
+        scope: {
+            closeOnClick: '=?lxCloseOnClick',
+            escapeClose: '=?lxEscapeClose',
+            offset: '@?lxOffset',
+            overToggle: '=?lxOverToggle',
+            position: '@?lxPosition',
+            width: '@?lxWidth',
+        },
+        template,
+        transclude: {
+            menu: 'lxDropdownMenu',
+            toggle: '?lxDropdownToggle',
+        },
+    };
+}
 
-    function lxDropdownToggle($timeout, $window, LxDropdownService)
-    {
-        return {
-            restrict: 'AE',
-            templateUrl: 'dropdown-toggle.html',
-            require: '^lxDropdown',
-            scope: true,
-            link: link,
-            replace: true,
-            transclude: true
-        };
+/////////////////////////////
 
-        function link(scope, element, attrs, ctrl)
-        {
-            var hoverTimeout = [];
-            var mouseEvent = ctrl.hover ? 'mouseenter' : 'click';
+angular.module('lumx.dropdown').directive('lxDropdown', DropdownDirective);
 
-            ctrl.registerDropdownToggle(element);
+/////////////////////////////
 
-            element.on(mouseEvent, function(_event)
-            {
-                // If we are in mobile, ignore the mouseenter event for hovering detection
-                if (mouseEvent === 'mouseenter' && ('ontouchstart' in window && angular.element($window).outerWidth() <= 480)) {
-                    return;
-                }
-
-                if (!ctrl.hover)
-                {
-                    _event.stopPropagation();
-                }
-
-                LxDropdownService.closeActiveDropdown();
-                LxDropdownService.registerActiveDropdownUuid(ctrl.uuid);
-
-                if (ctrl.hover)
-                {
-                    ctrl.mouseOnToggle = true;
-
-                    if (!ctrl.isOpen)
-                    {
-                        hoverTimeout[0] = $timeout(function()
-                        {
-                            scope.$apply(function()
-                            {
-                                ctrl.openDropdownMenu();
-                            });
-                        }, ctrl.hoverDelay);
-                    }
-                }
-                else
-                {
-                    scope.$apply(function()
-                    {
-                        ctrl.toggle();
-                    });
-                }
-            });
-
-            if (ctrl.hover)
-            {
-                element.on('mouseleave', function()
-                {
-                    ctrl.mouseOnToggle = false;
-
-                    $timeout.cancel(hoverTimeout[0]);
-
-                    hoverTimeout[1] = $timeout(function()
-                    {
-                        if (!ctrl.mouseOnMenu)
-                        {
-                            scope.$apply(function()
-                            {
-                                ctrl.closeDropdownMenu();
-                            });
-                        }
-                    }, ctrl.hoverDelay);
-                });
-            }
-
-            scope.$on('$destroy', function()
-            {
-                element.off();
-
-                if (ctrl.hover)
-                {
-                    $timeout.cancel(hoverTimeout[0]);
-                    $timeout.cancel(hoverTimeout[1]);
-                }
-            });
-        }
-    }
-
-    lxDropdownMenu.$inject = ['$timeout'];
-
-    function lxDropdownMenu($timeout)
-    {
-        return {
-            restrict: 'E',
-            templateUrl: 'dropdown-menu.html',
-            require: ['lxDropdownMenu', '^lxDropdown'],
-            scope: true,
-            link: link,
-            controller: LxDropdownMenuController,
-            controllerAs: 'lxDropdownMenu',
-            bindToController: true,
-            replace: true,
-            transclude: true
-        };
-
-        function link(scope, element, attrs, ctrls)
-        {
-            var hoverTimeout;
-
-            ctrls[1].registerDropdownMenu(element);
-            ctrls[0].setParentController(ctrls[1]);
-
-            if (ctrls[1].hover)
-            {
-                element.on('mouseenter', function()
-                {
-                    ctrls[1].mouseOnMenu = true;
-                });
-
-                element.on('mouseleave', function()
-                {
-                    ctrls[1].mouseOnMenu = false;
-
-                    hoverTimeout = $timeout(function()
-                    {
-                        if (!ctrls[1].mouseOnToggle)
-                        {
-                            scope.$apply(function()
-                            {
-                                ctrls[1].closeDropdownMenu();
-                            });
-                        }
-                    }, ctrls[1].hoverDelay);
-                });
-            }
-
-            scope.$on('$destroy', function()
-            {
-                if (ctrls[1].hover)
-                {
-                    element.off();
-                    $timeout.cancel(hoverTimeout);
-                }
-            });
-        }
-    }
-
-    LxDropdownMenuController.$inject = ['$element'];
-
-    function LxDropdownMenuController($element)
-    {
-        var lxDropdownMenu = this;
-
-        lxDropdownMenu.setParentController = setParentController;
-
-        ////////////
-
-        function setParentController(_parentCtrl)
-        {
-            lxDropdownMenu.parentCtrl = _parentCtrl;
-        }
-    }
-
-    lxDropdownFilter.$inject = ['$timeout'];
-
-    function lxDropdownFilter($timeout)
-    {
-        return {
-            restrict: 'A',
-            link: link
-        };
-
-        function link(scope, element)
-        {
-            var focusTimeout;
-
-            element.on('click', function(_event)
-            {
-                _event.stopPropagation();
-            });
-
-            focusTimeout = $timeout(function()
-            {
-                element.find('input').focus();
-            }, 200);
-
-            scope.$on('$destroy', function()
-            {
-                $timeout.cancel(focusTimeout);
-                element.off();
-            });
-        }
-    }
-})();
+export { DropdownDirective };

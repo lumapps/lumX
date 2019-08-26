@@ -1,70 +1,103 @@
-(function()
-{
-    'use strict';
+function DropdownService($rootScope) {
+    'ngInject';
 
-    angular
-        .module('lumx.dropdown')
-        .service('LxDropdownService', LxDropdownService);
+    const service = this;
 
-    LxDropdownService.$inject = ['$document', '$rootScope'];
+    /////////////////////////////
+    //                         //
+    //    Private attributes   //
+    //                         //
+    /////////////////////////////
 
-    function LxDropdownService($document, $rootScope)
-    {
-        var service = this;
-        var activeDropdownUuid;
+    /**
+     * The active dropdown identifier.
+     *
+     * @type {string}
+     */
+    let _activeDropdownId;
 
-        service.close = close;
-        service.closeActiveDropdown = closeActiveDropdown;
-        service.open = open;
-        service.isOpen = isOpen;
-        service.registerActiveDropdownUuid = registerActiveDropdownUuid;
-        service.resetActiveDropdownUuid = resetActiveDropdownUuid;
+    /////////////////////////////
+    //                         //
+    //     Public functions    //
+    //                         //
+    /////////////////////////////
 
-        ////////////
+    /**
+     * Close a given dropdown.
+     *
+     * @param {string} dropdownId The dropdown identifier.
+     */
+    function closeDropdown(dropdownId) {
+        $rootScope.$broadcast('lx-dropdown__close', dropdownId);
+    }
 
-        function close(_uuid, isDocumentClick)
-        {
-            isDocumentClick = isDocumentClick || false;
-            $rootScope.$broadcast('lx-dropdown__close',
-            {
-                documentClick: isDocumentClick,
-                uuid: _uuid
-            });
-        }
-
-        function closeActiveDropdown()
-        {
-            if (angular.isDefined(activeDropdownUuid) && activeDropdownUuid.length > 0) {
-                $rootScope.$broadcast('lx-dropdown__close',
-                {
-                    documentClick: true,
-                    uuid: activeDropdownUuid
-                });
-            }
-        }
-
-        function open(_uuid, _target)
-        {
-            $rootScope.$broadcast('lx-dropdown__open',
-            {
-                uuid: _uuid,
-                target: _target
-            });
-        }
-
-        function isOpen(_uuid)
-        {
-            return activeDropdownUuid === _uuid;
-        }
-
-        function registerActiveDropdownUuid(_uuid)
-        {
-            activeDropdownUuid = _uuid;
-        }
-
-        function resetActiveDropdownUuid()
-        {
-            activeDropdownUuid = undefined;
+    /**
+     * Close the active dropdown.
+     */
+    function closeActiveDropdown() {
+        if (angular.isDefined(_activeDropdownId)) {
+            closeDropdown(_activeDropdownId);
         }
     }
-})();
+
+    /**
+     * Check if a given dropdown is open.
+     *
+     * @param  {string}  dropdownId The dropdown identifier.
+     * @return {boolean} Whether the given dropdown is open or not.
+     */
+    function isOpen(dropdownId) {
+        return _activeDropdownId === dropdownId;
+    }
+
+    /**
+     * Open a given dropdown.
+     *
+     * @param {string} dropdownId The dropdown identifier.
+     * @param {Object} params     An optional object that holds extra parameters.
+     */
+    function openDropdown(dropdownId, params) {
+        $rootScope.$broadcast('lx-dropdown__open', dropdownId, params);
+    }
+
+    /**
+     * Register the active dropdown identifier.
+     *
+     * @param {string} dropdownId The dropdown identifier.
+     */
+    function registerActiveDropdownId(dropdownId) {
+        _activeDropdownId = dropdownId;
+    }
+
+    /**
+     * Reset the active dropdown identifier.
+     */
+    function resetActiveDropdownId() {
+        _activeDropdownId = undefined;
+    }
+
+    /**
+     * Update the active dropdown position.
+     */
+    function updateActiveDropdownPosition() {
+        $rootScope.$broadcast('lx-dropdown__update');
+    }
+
+    /////////////////////////////
+
+    service.close = closeDropdown;
+    service.closeActiveDropdown = closeActiveDropdown;
+    service.isOpen = isOpen;
+    service.open = openDropdown;
+    service.registerActiveDropdownId = registerActiveDropdownId;
+    service.resetActiveDropdownId = resetActiveDropdownId;
+    service.updateActiveDropdownPosition = updateActiveDropdownPosition;
+}
+
+/////////////////////////////
+
+angular.module('lumx.dropdown').service('LxDropdownService', DropdownService);
+
+/////////////////////////////
+
+export { DropdownService };
