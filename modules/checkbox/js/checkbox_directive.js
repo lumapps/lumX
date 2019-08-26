@@ -1,147 +1,185 @@
-(function()
-{
-    'use strict';
+import { CSS_PREFIX } from '@lumx/core/js/constants';
 
-    angular
-        .module('lumx.checkbox')
-        .directive('lxCheckbox', lxCheckbox)
-        .directive('lxCheckboxLabel', lxCheckboxLabel)
-        .directive('lxCheckboxHelp', lxCheckboxHelp);
+import { mdiCheck } from '@lumx/icons';
 
-    function lxCheckbox()
-    {
-        return {
-            restrict: 'E',
-            templateUrl: 'checkbox.html',
-            scope:
-            {
-                lxColor: '@?',
-                name: '@?',
-                ngChange: '&?',
-                ngDisabled: '=?',
-                ngFalseValue: '@?',
-                ngModel: '=',
-                ngTrueValue: '@?',
-                lxTheme: '@?'
-            },
-            controller: LxCheckboxController,
-            controllerAs: 'lxCheckbox',
-            bindToController: true,
-            transclude: true,
-            replace: true
+import template from '../views/checkbox.html';
+
+/////////////////////////////
+
+function CheckboxController(LxUtilsService) {
+    'ngInject';
+
+    // eslint-disable-next-line consistent-this
+    const lx = this;
+
+    /////////////////////////////
+    //                         //
+    //    Private attributes   //
+    //                         //
+    /////////////////////////////
+
+    /**
+     * The model controller.
+     *
+     * @type {Object}
+     */
+    let _modelController;
+
+    /////////////////////////////
+    //                         //
+    //    Public attributes    //
+    //                         //
+    /////////////////////////////
+
+    /**
+     * The checkbox id.
+     *
+     * @type {string}
+     */
+    lx.checkboxId = LxUtilsService.generateUUID();
+
+    /**
+     * Whether the directive has helper slot filled or not.
+     *
+     * @type {boolean}
+     */
+    lx.hasHelper = false;
+
+    /**
+     * Whether the directive has label slot filled or not.
+     *
+     * @type {boolean}
+     */
+    lx.hasLabel = false;
+
+    /**
+     * Whether the directive has transcluded content if no transclude slot.
+     *
+     * @type {boolean}
+     */
+    lx.hasTranscluded = false;
+
+    /**
+     * The checkbox icons.
+     *
+     * @type {Object}
+     */
+    lx.icons = {
+        mdiCheck,
+    };
+
+    /**
+     * The model view value.
+     *
+     * @type {string}
+     */
+    lx.viewValue = undefined;
+
+    /////////////////////////////
+    //                         //
+    //     Public functions    //
+    //                         //
+    /////////////////////////////
+
+    /**
+     * Set the model controller.
+     *
+     * @param {Object} modelController The model controller.
+     */
+    function setModelController(modelController) {
+        _modelController = modelController;
+
+        _modelController.$render = function onModelRender() {
+            lx.viewValue = _modelController.$viewValue;
         };
     }
 
-    LxCheckboxController.$inject = ['$scope', '$timeout', 'LxUtilsService'];
+    /**
+     * Update model controller view value on checkbox click.
+     */
+    function updateViewValue() {
+        if (angular.isUndefined(_modelController)) {
+            lx.viewValue = !lx.viewValue;
 
-    function LxCheckboxController($scope, $timeout, LxUtilsService)
-    {
-        var lxCheckbox = this;
-        var checkboxId;
-        var checkboxHasChildren;
-        var timer;
+            return;
+        }
 
-        lxCheckbox.getCheckboxId = getCheckboxId;
-        lxCheckbox.getCheckboxHasChildren = getCheckboxHasChildren;
-        lxCheckbox.setCheckboxId = setCheckboxId;
-        lxCheckbox.setCheckboxHasChildren = setCheckboxHasChildren;
-        lxCheckbox.triggerNgChange = triggerNgChange;
+        _modelController.$setViewValue(!_modelController.$viewValue);
+        _modelController.$render();
+    }
 
-        $scope.$on('$destroy', function()
-        {
-            $timeout.cancel(timer);
+    /////////////////////////////
+
+    lx.setModelController = setModelController;
+    lx.updateViewValue = updateViewValue;
+}
+
+/////////////////////////////
+
+function CheckboxDirective() {
+    'ngInject';
+
+    function link(scope, el, attrs, ctrls, transclude) {
+        if (ctrls[1]) {
+            ctrls[0].setModelController(ctrls[1]);
+        }
+
+        if (transclude.isSlotFilled('label')) {
+            ctrls[0].hasLabel = true;
+        }
+
+        if (transclude.isSlotFilled('helper')) {
+            ctrls[0].hasHelper = true;
+        }
+
+        if (!ctrls[0].hasLabel && !ctrls[0].hasHelper) {
+            transclude((clone) => {
+                if (clone.length > 0) {
+                    ctrls[0].hasTranscluded = true;
+                }
+            });
+        }
+
+        attrs.$observe('disabled', (isDisabled) => {
+            el.find('input').attr('disabled', isDisabled);
+
+            if (isDisabled) {
+                el.addClass(`${CSS_PREFIX}-checkbox--is-disabled`);
+            } else {
+                el.removeClass(`${CSS_PREFIX}-checkbox--is-disabled`);
+            }
         });
 
-        init();
+        attrs.$observe('checked', (isChecked) => {
+            el.find('input').attr('checked', isChecked);
 
-        ////////////
-
-        function getCheckboxId()
-        {
-            return checkboxId;
-        }
-
-        function getCheckboxHasChildren()
-        {
-            return checkboxHasChildren;
-        }
-
-        function init()
-        {
-            setCheckboxId(LxUtilsService.generateUUID());
-            setCheckboxHasChildren(false);
-
-            lxCheckbox.ngTrueValue = angular.isUndefined(lxCheckbox.ngTrueValue) ? true : lxCheckbox.ngTrueValue;
-            lxCheckbox.ngFalseValue = angular.isUndefined(lxCheckbox.ngFalseValue) ? false : lxCheckbox.ngFalseValue;
-            lxCheckbox.lxColor = angular.isUndefined(lxCheckbox.lxColor) ? 'accent' : lxCheckbox.lxColor;
-        }
-
-        function setCheckboxId(_checkboxId)
-        {
-            checkboxId = _checkboxId;
-        }
-
-        function setCheckboxHasChildren(_checkboxHasChildren)
-        {
-            checkboxHasChildren = _checkboxHasChildren;
-        }
-
-        function triggerNgChange()
-        {
-            timer = $timeout(lxCheckbox.ngChange);
-        }
+            ctrls[0].viewValue = isChecked;
+        });
     }
 
-    function lxCheckboxLabel()
-    {
-        return {
-            restrict: 'AE',
-            require: ['^lxCheckbox', '^lxCheckboxLabel'],
-            templateUrl: 'checkbox-label.html',
-            link: link,
-            controller: LxCheckboxLabelController,
-            controllerAs: 'lxCheckboxLabel',
-            bindToController: true,
-            transclude: true,
-            replace: true
-        };
+    return {
+        bindToController: true,
+        controller: CheckboxController,
+        controllerAs: 'lx',
+        link,
+        replace: true,
+        require: ['lxCheckbox', '?ngModel'],
+        restrict: 'E',
+        scope: {
+            theme: '@?lxTheme',
+        },
+        template,
+        transclude: {
+            helper: '?lxCheckboxHelp',
+            label: '?lxCheckboxLabel',
+        },
+    };
+}
 
-        function link(scope, element, attrs, ctrls)
-        {
-            ctrls[0].setCheckboxHasChildren(true);
-            ctrls[1].setCheckboxId(ctrls[0].getCheckboxId());
-        }
-    }
+/////////////////////////////
 
-    function LxCheckboxLabelController()
-    {
-        var lxCheckboxLabel = this;
-        var checkboxId;
+angular.module('lumx.checkbox').directive('lxCheckbox', CheckboxDirective);
 
-        lxCheckboxLabel.getCheckboxId = getCheckboxId;
-        lxCheckboxLabel.setCheckboxId = setCheckboxId;
+/////////////////////////////
 
-        ////////////
-
-        function getCheckboxId()
-        {
-            return checkboxId;
-        }
-
-        function setCheckboxId(_checkboxId)
-        {
-            checkboxId = _checkboxId;
-        }
-    }
-
-    function lxCheckboxHelp()
-    {
-        return {
-            restrict: 'AE',
-            require: '^lxCheckbox',
-            templateUrl: 'checkbox-help.html',
-            transclude: true,
-            replace: true
-        };
-    }
-})();
+export { CheckboxDirective };

@@ -15651,179 +15651,6 @@ table {
   padding: 8px;
   border-top: 1px solid rgba(0, 0, 0, 0.12); }
 
-.checkbox {
-  min-width: 24px;
-  min-height: 24px; }
-
-.checkbox--red .checkbox__input:checked + .checkbox__label:before {
-  color: #F44336; }
-
-.checkbox--pink .checkbox__input:checked + .checkbox__label:before {
-  color: #E91E63; }
-
-.checkbox--purple .checkbox__input:checked + .checkbox__label:before {
-  color: #9C27B0; }
-
-.checkbox--deep-purple .checkbox__input:checked + .checkbox__label:before {
-  color: #673AB7; }
-
-.checkbox--indigo .checkbox__input:checked + .checkbox__label:before {
-  color: #3F51B5; }
-
-.checkbox--blue .checkbox__input:checked + .checkbox__label:before {
-  color: #2196F3; }
-
-.checkbox--light-blue .checkbox__input:checked + .checkbox__label:before {
-  color: #03A9F4; }
-
-.checkbox--cyan .checkbox__input:checked + .checkbox__label:before {
-  color: #00BCD4; }
-
-.checkbox--teal .checkbox__input:checked + .checkbox__label:before {
-  color: #009688; }
-
-.checkbox--green .checkbox__input:checked + .checkbox__label:before {
-  color: #4CAF50; }
-
-.checkbox--light-green .checkbox__input:checked + .checkbox__label:before {
-  color: #8BC34A; }
-
-.checkbox--lime .checkbox__input:checked + .checkbox__label:before {
-  color: #CDDC39; }
-
-.checkbox--yellow .checkbox__input:checked + .checkbox__label:before {
-  color: #FFEB3B; }
-
-.checkbox--amber .checkbox__input:checked + .checkbox__label:before {
-  color: #FFC107; }
-
-.checkbox--orange .checkbox__input:checked + .checkbox__label:before {
-  color: #FF9800; }
-
-.checkbox--deep-orange .checkbox__input:checked + .checkbox__label:before {
-  color: #FF5722; }
-
-.checkbox--brown .checkbox__input:checked + .checkbox__label:before {
-  color: #795548; }
-
-.checkbox--grey .checkbox__input:checked + .checkbox__label:before {
-  color: #9E9E9E; }
-
-.checkbox--blue-grey .checkbox__input:checked + .checkbox__label:before {
-  color: #607D8B; }
-
-.checkbox--black .checkbox__input:checked + .checkbox__label:before {
-  color: #000000; }
-
-.checkbox--white .checkbox__input:checked + .checkbox__label:before {
-  color: #FFFFFF; }
-
-.checkbox--primary .checkbox__input:checked + .checkbox__label:before {
-  color: #3F51B5; }
-
-.checkbox--primary-hue-1 .checkbox__input:checked + .checkbox__label:before {
-  color: #C5CAE9; }
-
-.checkbox--primary-hue-2 .checkbox__input:checked + .checkbox__label:before {
-  color: #303F9F; }
-
-.checkbox--accent .checkbox__input:checked + .checkbox__label:before {
-  color: #FF4081; }
-
-.checkbox--accent-hue-1 .checkbox__input:checked + .checkbox__label:before {
-  color: #FF80AB; }
-
-.checkbox--accent-hue-2 .checkbox__input:checked + .checkbox__label:before {
-  color: #F50057; }
-
-.checkbox__input {
-  border: 0 !important;
-  clip: rect(0 0 0 0) !important;
-  height: 1px !important;
-  margin: -1px !important;
-  overflow: hidden !important;
-  padding: 0 !important;
-  position: absolute !important;
-  width: 1px !important; }
-  .checkbox__input:not(:checked) + .checkbox__label:before {
-    content: "\F131"; }
-    .checkbox--theme-light .checkbox__input:not(:checked) + .checkbox__label:before {
-      color: rgba(0, 0, 0, 0.54); }
-    .checkbox--theme-dark .checkbox__input:not(:checked) + .checkbox__label:before {
-      color: rgba(255, 255, 255, 0.7); }
-  .checkbox__input:checked + .checkbox__label:before {
-    content: "\F132";
-    color: #FF4081; }
-  .checkbox__input[disabled] + .checkbox__label {
-    cursor: not-allowed; }
-    .checkbox--theme-light .checkbox__input[disabled] + .checkbox__label, .checkbox--theme-light .checkbox__input[disabled] + .checkbox__label:before {
-      color: rgba(0, 0, 0, 0.38); }
-    .checkbox--theme-dark .checkbox__input[disabled] + .checkbox__label, .checkbox--theme-dark .checkbox__input[disabled] + .checkbox__label:before {
-      color: rgba(255, 255, 255, 0.3); }
-  .checkbox--theme-light .checkbox__input[disabled] ~ .checkbox__help {
-    color: rgba(0, 0, 0, 0.38); }
-  .checkbox--theme-dark .checkbox__input[disabled] ~ .checkbox__help {
-    color: rgba(255, 255, 255, 0.3); }
-
-.checkbox__label {
-  display: block;
-  position: relative;
-  padding-left: 32px;
-  font-weight: 400;
-  line-height: 24px;
-  cursor: pointer;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none; }
-  @media (max-width: 61.24em) {
-    .checkbox__label {
-      font-size: 16px;
-      font-size: 1rem; } }
-  @media (min-width: 61.25em) {
-    .checkbox__label {
-      font-size: 15px;
-      font-size: 0.9375rem; } }
-  .checkbox--theme-light .checkbox__label {
-    color: rgba(0, 0, 0, 0.87); }
-  .checkbox--theme-dark .checkbox__label {
-    color: #FFFFFF; }
-  .checkbox--standalone .checkbox__label {
-    padding-left: 0; }
-  .checkbox__label:before {
-    display: inline-block;
-    font: normal normal normal 24px/1 "Material Design Icons";
-    font-size: inherit;
-    text-rendering: auto;
-    line-height: inherit;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    position: absolute;
-    top: 0;
-    left: 0;
-    font-size: 24px;
-    font-size: 1.5rem;
-    line-height: 24px; }
-
-.checkbox__help {
-  display: block;
-  padding-left: 32px;
-  font-weight: 400;
-  line-height: 20px;
-  text-align: left; }
-  @media (max-width: 61.24em) {
-    .checkbox__help {
-      font-size: 14px;
-      font-size: 0.875rem; } }
-  @media (min-width: 61.25em) {
-    .checkbox__help {
-      font-size: 13px;
-      font-size: 0.8125rem; } }
-  .checkbox--theme-light .checkbox__help {
-    color: rgba(0, 0, 0, 0.54); }
-  .checkbox--theme-dark .checkbox__help {
-    color: rgba(255, 255, 255, 0.7); }
-
 .chip {
   display: -moz-flex;
   display: flex;
@@ -17060,10 +16887,13 @@ table {
   opacity: 0;
   cursor: pointer; }
 
+/* ==========================================================================
+   Icon
+   ========================================================================== */
 .icon {
   display: inline-block;
-  vertical-align: top;
-  text-align: center; }
+  text-align: center;
+  vertical-align: top; }
 
 .icon--xs.icon--circled {
   height: 24px;
@@ -17136,190 +16966,190 @@ table {
   font-size: 3.125rem; }
 
 .icon--circled.icon--red {
-  color: #FFFFFF;
-  background-color: #F44336; }
+  background-color: #F44336;
+  color: #FFFFFF; }
 
 .icon--flat.icon--red {
   color: #F44336; }
 
 .icon--circled.icon--pink {
-  color: #FFFFFF;
-  background-color: #E91E63; }
+  background-color: #E91E63;
+  color: #FFFFFF; }
 
 .icon--flat.icon--pink {
   color: #E91E63; }
 
 .icon--circled.icon--purple {
-  color: #FFFFFF;
-  background-color: #9C27B0; }
+  background-color: #9C27B0;
+  color: #FFFFFF; }
 
 .icon--flat.icon--purple {
   color: #9C27B0; }
 
 .icon--circled.icon--deep-purple {
-  color: #FFFFFF;
-  background-color: #673AB7; }
+  background-color: #673AB7;
+  color: #FFFFFF; }
 
 .icon--flat.icon--deep-purple {
   color: #673AB7; }
 
 .icon--circled.icon--indigo {
-  color: #FFFFFF;
-  background-color: #3F51B5; }
+  background-color: #3F51B5;
+  color: #FFFFFF; }
 
 .icon--flat.icon--indigo {
   color: #3F51B5; }
 
 .icon--circled.icon--blue {
-  color: #FFFFFF;
-  background-color: #2196F3; }
+  background-color: #2196F3;
+  color: #FFFFFF; }
 
 .icon--flat.icon--blue {
   color: #2196F3; }
 
 .icon--circled.icon--light-blue {
-  color: #FFFFFF;
-  background-color: #03A9F4; }
+  background-color: #03A9F4;
+  color: #FFFFFF; }
 
 .icon--flat.icon--light-blue {
   color: #03A9F4; }
 
 .icon--circled.icon--cyan {
-  color: #FFFFFF;
-  background-color: #00BCD4; }
+  background-color: #00BCD4;
+  color: #FFFFFF; }
 
 .icon--flat.icon--cyan {
   color: #00BCD4; }
 
 .icon--circled.icon--teal {
-  color: #FFFFFF;
-  background-color: #009688; }
+  background-color: #009688;
+  color: #FFFFFF; }
 
 .icon--flat.icon--teal {
   color: #009688; }
 
 .icon--circled.icon--green {
-  color: #FFFFFF;
-  background-color: #4CAF50; }
+  background-color: #4CAF50;
+  color: #FFFFFF; }
 
 .icon--flat.icon--green {
   color: #4CAF50; }
 
 .icon--circled.icon--light-green {
-  color: #FFFFFF;
-  background-color: #8BC34A; }
+  background-color: #8BC34A;
+  color: #FFFFFF; }
 
 .icon--flat.icon--light-green {
   color: #8BC34A; }
 
 .icon--circled.icon--lime {
-  color: #FFFFFF;
-  background-color: #CDDC39; }
+  background-color: #CDDC39;
+  color: #FFFFFF; }
 
 .icon--flat.icon--lime {
   color: #CDDC39; }
 
 .icon--circled.icon--yellow {
-  color: #FFFFFF;
-  background-color: #FFEB3B; }
+  background-color: #FFEB3B;
+  color: #FFFFFF; }
 
 .icon--flat.icon--yellow {
   color: #FFEB3B; }
 
 .icon--circled.icon--amber {
-  color: #FFFFFF;
-  background-color: #FFC107; }
+  background-color: #FFC107;
+  color: #FFFFFF; }
 
 .icon--flat.icon--amber {
   color: #FFC107; }
 
 .icon--circled.icon--orange {
-  color: #FFFFFF;
-  background-color: #FF9800; }
+  background-color: #FF9800;
+  color: #FFFFFF; }
 
 .icon--flat.icon--orange {
   color: #FF9800; }
 
 .icon--circled.icon--deep-orange {
-  color: #FFFFFF;
-  background-color: #FF5722; }
+  background-color: #FF5722;
+  color: #FFFFFF; }
 
 .icon--flat.icon--deep-orange {
   color: #FF5722; }
 
 .icon--circled.icon--brown {
-  color: #FFFFFF;
-  background-color: #795548; }
+  background-color: #795548;
+  color: #FFFFFF; }
 
 .icon--flat.icon--brown {
   color: #795548; }
 
 .icon--circled.icon--grey {
-  color: #FFFFFF;
-  background-color: #9E9E9E; }
+  background-color: #9E9E9E;
+  color: #FFFFFF; }
 
 .icon--flat.icon--grey {
   color: #9E9E9E; }
 
 .icon--circled.icon--blue-grey {
-  color: #FFFFFF;
-  background-color: #607D8B; }
+  background-color: #607D8B;
+  color: #FFFFFF; }
 
 .icon--flat.icon--blue-grey {
   color: #607D8B; }
 
 .icon--circled.icon--black {
-  color: #FFFFFF;
-  background-color: #000000; }
+  background-color: #000000;
+  color: #FFFFFF; }
 
 .icon--flat.icon--black {
   color: #000000; }
 
 .icon--circled.icon--white {
-  color: #FFFFFF;
-  background-color: #FFFFFF; }
+  background-color: #FFFFFF;
+  color: #FFFFFF; }
 
 .icon--flat.icon--white {
   color: #FFFFFF; }
 
 .icon--circled.icon--primary {
-  color: #FFFFFF;
-  background-color: #3F51B5; }
+  background-color: #3F51B5;
+  color: #FFFFFF; }
 
 .icon--flat.icon--primary {
   color: #3F51B5; }
 
 .icon--circled.icon--primary-hue-1 {
-  color: #FFFFFF;
-  background-color: #C5CAE9; }
+  background-color: #C5CAE9;
+  color: #FFFFFF; }
 
 .icon--flat.icon--primary-hue-1 {
   color: #C5CAE9; }
 
 .icon--circled.icon--primary-hue-2 {
-  color: #FFFFFF;
-  background-color: #303F9F; }
+  background-color: #303F9F;
+  color: #FFFFFF; }
 
 .icon--flat.icon--primary-hue-2 {
   color: #303F9F; }
 
 .icon--circled.icon--accent {
-  color: #FFFFFF;
-  background-color: #FF4081; }
+  background-color: #FF4081;
+  color: #FFFFFF; }
 
 .icon--flat.icon--accent {
   color: #FF4081; }
 
 .icon--circled.icon--accent-hue-1 {
-  color: #FFFFFF;
-  background-color: #FF80AB; }
+  background-color: #FF80AB;
+  color: #FFFFFF; }
 
 .icon--flat.icon--accent-hue-1 {
   color: #FF80AB; }
 
 .icon--circled.icon--accent-hue-2 {
-  color: #FFFFFF;
-  background-color: #F50057; }
+  background-color: #F50057;
+  color: #FFFFFF; }
 
 .icon--flat.icon--accent-hue-2 {
   color: #F50057; }
@@ -35867,179 +35697,6 @@ table {
   padding: 8px;
   border-top: 1px solid rgba(0, 0, 0, 0.12); }
 
-.checkbox {
-  min-width: 24px;
-  min-height: 24px; }
-
-.checkbox--red .checkbox__input:checked + .checkbox__label:before {
-  color: #F44336; }
-
-.checkbox--pink .checkbox__input:checked + .checkbox__label:before {
-  color: #E91E63; }
-
-.checkbox--purple .checkbox__input:checked + .checkbox__label:before {
-  color: #9C27B0; }
-
-.checkbox--deep-purple .checkbox__input:checked + .checkbox__label:before {
-  color: #673AB7; }
-
-.checkbox--indigo .checkbox__input:checked + .checkbox__label:before {
-  color: #3F51B5; }
-
-.checkbox--blue .checkbox__input:checked + .checkbox__label:before {
-  color: #2196F3; }
-
-.checkbox--light-blue .checkbox__input:checked + .checkbox__label:before {
-  color: #03A9F4; }
-
-.checkbox--cyan .checkbox__input:checked + .checkbox__label:before {
-  color: #00BCD4; }
-
-.checkbox--teal .checkbox__input:checked + .checkbox__label:before {
-  color: #009688; }
-
-.checkbox--green .checkbox__input:checked + .checkbox__label:before {
-  color: #4CAF50; }
-
-.checkbox--light-green .checkbox__input:checked + .checkbox__label:before {
-  color: #8BC34A; }
-
-.checkbox--lime .checkbox__input:checked + .checkbox__label:before {
-  color: #CDDC39; }
-
-.checkbox--yellow .checkbox__input:checked + .checkbox__label:before {
-  color: #FFEB3B; }
-
-.checkbox--amber .checkbox__input:checked + .checkbox__label:before {
-  color: #FFC107; }
-
-.checkbox--orange .checkbox__input:checked + .checkbox__label:before {
-  color: #FF9800; }
-
-.checkbox--deep-orange .checkbox__input:checked + .checkbox__label:before {
-  color: #FF5722; }
-
-.checkbox--brown .checkbox__input:checked + .checkbox__label:before {
-  color: #795548; }
-
-.checkbox--grey .checkbox__input:checked + .checkbox__label:before {
-  color: #9E9E9E; }
-
-.checkbox--blue-grey .checkbox__input:checked + .checkbox__label:before {
-  color: #607D8B; }
-
-.checkbox--black .checkbox__input:checked + .checkbox__label:before {
-  color: #000000; }
-
-.checkbox--white .checkbox__input:checked + .checkbox__label:before {
-  color: #FFFFFF; }
-
-.checkbox--primary .checkbox__input:checked + .checkbox__label:before {
-  color: #3F51B5; }
-
-.checkbox--primary-hue-1 .checkbox__input:checked + .checkbox__label:before {
-  color: #C5CAE9; }
-
-.checkbox--primary-hue-2 .checkbox__input:checked + .checkbox__label:before {
-  color: #303F9F; }
-
-.checkbox--accent .checkbox__input:checked + .checkbox__label:before {
-  color: #FF4081; }
-
-.checkbox--accent-hue-1 .checkbox__input:checked + .checkbox__label:before {
-  color: #FF80AB; }
-
-.checkbox--accent-hue-2 .checkbox__input:checked + .checkbox__label:before {
-  color: #F50057; }
-
-.checkbox__input {
-  border: 0 !important;
-  clip: rect(0 0 0 0) !important;
-  height: 1px !important;
-  margin: -1px !important;
-  overflow: hidden !important;
-  padding: 0 !important;
-  position: absolute !important;
-  width: 1px !important; }
-  .checkbox__input:not(:checked) + .checkbox__label:before {
-    content: "\F131"; }
-    .checkbox--theme-light .checkbox__input:not(:checked) + .checkbox__label:before {
-      color: rgba(0, 0, 0, 0.54); }
-    .checkbox--theme-dark .checkbox__input:not(:checked) + .checkbox__label:before {
-      color: rgba(255, 255, 255, 0.7); }
-  .checkbox__input:checked + .checkbox__label:before {
-    content: "\F132";
-    color: #FF4081; }
-  .checkbox__input[disabled] + .checkbox__label {
-    cursor: not-allowed; }
-    .checkbox--theme-light .checkbox__input[disabled] + .checkbox__label, .checkbox--theme-light .checkbox__input[disabled] + .checkbox__label:before {
-      color: rgba(0, 0, 0, 0.38); }
-    .checkbox--theme-dark .checkbox__input[disabled] + .checkbox__label, .checkbox--theme-dark .checkbox__input[disabled] + .checkbox__label:before {
-      color: rgba(255, 255, 255, 0.3); }
-  .checkbox--theme-light .checkbox__input[disabled] ~ .checkbox__help {
-    color: rgba(0, 0, 0, 0.38); }
-  .checkbox--theme-dark .checkbox__input[disabled] ~ .checkbox__help {
-    color: rgba(255, 255, 255, 0.3); }
-
-.checkbox__label {
-  display: block;
-  position: relative;
-  padding-left: 32px;
-  font-weight: 400;
-  line-height: 24px;
-  cursor: pointer;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none; }
-  @media (max-width: 61.24em) {
-    .checkbox__label {
-      font-size: 16px;
-      font-size: 1rem; } }
-  @media (min-width: 61.25em) {
-    .checkbox__label {
-      font-size: 15px;
-      font-size: 0.9375rem; } }
-  .checkbox--theme-light .checkbox__label {
-    color: rgba(0, 0, 0, 0.87); }
-  .checkbox--theme-dark .checkbox__label {
-    color: #FFFFFF; }
-  .checkbox--standalone .checkbox__label {
-    padding-left: 0; }
-  .checkbox__label:before {
-    display: inline-block;
-    font: normal normal normal 24px/1 "Material Design Icons";
-    font-size: inherit;
-    text-rendering: auto;
-    line-height: inherit;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    position: absolute;
-    top: 0;
-    left: 0;
-    font-size: 24px;
-    font-size: 1.5rem;
-    line-height: 24px; }
-
-.checkbox__help {
-  display: block;
-  padding-left: 32px;
-  font-weight: 400;
-  line-height: 20px;
-  text-align: left; }
-  @media (max-width: 61.24em) {
-    .checkbox__help {
-      font-size: 14px;
-      font-size: 0.875rem; } }
-  @media (min-width: 61.25em) {
-    .checkbox__help {
-      font-size: 13px;
-      font-size: 0.8125rem; } }
-  .checkbox--theme-light .checkbox__help {
-    color: rgba(0, 0, 0, 0.54); }
-  .checkbox--theme-dark .checkbox__help {
-    color: rgba(255, 255, 255, 0.7); }
-
 .chip {
   display: -moz-flex;
   display: flex;
@@ -37276,10 +36933,13 @@ table {
   opacity: 0;
   cursor: pointer; }
 
+/* ==========================================================================
+   Icon
+   ========================================================================== */
 .icon {
   display: inline-block;
-  vertical-align: top;
-  text-align: center; }
+  text-align: center;
+  vertical-align: top; }
 
 .icon--xs.icon--circled {
   height: 24px;
@@ -37352,190 +37012,190 @@ table {
   font-size: 3.125rem; }
 
 .icon--circled.icon--red {
-  color: #FFFFFF;
-  background-color: #F44336; }
+  background-color: #F44336;
+  color: #FFFFFF; }
 
 .icon--flat.icon--red {
   color: #F44336; }
 
 .icon--circled.icon--pink {
-  color: #FFFFFF;
-  background-color: #E91E63; }
+  background-color: #E91E63;
+  color: #FFFFFF; }
 
 .icon--flat.icon--pink {
   color: #E91E63; }
 
 .icon--circled.icon--purple {
-  color: #FFFFFF;
-  background-color: #9C27B0; }
+  background-color: #9C27B0;
+  color: #FFFFFF; }
 
 .icon--flat.icon--purple {
   color: #9C27B0; }
 
 .icon--circled.icon--deep-purple {
-  color: #FFFFFF;
-  background-color: #673AB7; }
+  background-color: #673AB7;
+  color: #FFFFFF; }
 
 .icon--flat.icon--deep-purple {
   color: #673AB7; }
 
 .icon--circled.icon--indigo {
-  color: #FFFFFF;
-  background-color: #3F51B5; }
+  background-color: #3F51B5;
+  color: #FFFFFF; }
 
 .icon--flat.icon--indigo {
   color: #3F51B5; }
 
 .icon--circled.icon--blue {
-  color: #FFFFFF;
-  background-color: #2196F3; }
+  background-color: #2196F3;
+  color: #FFFFFF; }
 
 .icon--flat.icon--blue {
   color: #2196F3; }
 
 .icon--circled.icon--light-blue {
-  color: #FFFFFF;
-  background-color: #03A9F4; }
+  background-color: #03A9F4;
+  color: #FFFFFF; }
 
 .icon--flat.icon--light-blue {
   color: #03A9F4; }
 
 .icon--circled.icon--cyan {
-  color: #FFFFFF;
-  background-color: #00BCD4; }
+  background-color: #00BCD4;
+  color: #FFFFFF; }
 
 .icon--flat.icon--cyan {
   color: #00BCD4; }
 
 .icon--circled.icon--teal {
-  color: #FFFFFF;
-  background-color: #009688; }
+  background-color: #009688;
+  color: #FFFFFF; }
 
 .icon--flat.icon--teal {
   color: #009688; }
 
 .icon--circled.icon--green {
-  color: #FFFFFF;
-  background-color: #4CAF50; }
+  background-color: #4CAF50;
+  color: #FFFFFF; }
 
 .icon--flat.icon--green {
   color: #4CAF50; }
 
 .icon--circled.icon--light-green {
-  color: #FFFFFF;
-  background-color: #8BC34A; }
+  background-color: #8BC34A;
+  color: #FFFFFF; }
 
 .icon--flat.icon--light-green {
   color: #8BC34A; }
 
 .icon--circled.icon--lime {
-  color: #FFFFFF;
-  background-color: #CDDC39; }
+  background-color: #CDDC39;
+  color: #FFFFFF; }
 
 .icon--flat.icon--lime {
   color: #CDDC39; }
 
 .icon--circled.icon--yellow {
-  color: #FFFFFF;
-  background-color: #FFEB3B; }
+  background-color: #FFEB3B;
+  color: #FFFFFF; }
 
 .icon--flat.icon--yellow {
   color: #FFEB3B; }
 
 .icon--circled.icon--amber {
-  color: #FFFFFF;
-  background-color: #FFC107; }
+  background-color: #FFC107;
+  color: #FFFFFF; }
 
 .icon--flat.icon--amber {
   color: #FFC107; }
 
 .icon--circled.icon--orange {
-  color: #FFFFFF;
-  background-color: #FF9800; }
+  background-color: #FF9800;
+  color: #FFFFFF; }
 
 .icon--flat.icon--orange {
   color: #FF9800; }
 
 .icon--circled.icon--deep-orange {
-  color: #FFFFFF;
-  background-color: #FF5722; }
+  background-color: #FF5722;
+  color: #FFFFFF; }
 
 .icon--flat.icon--deep-orange {
   color: #FF5722; }
 
 .icon--circled.icon--brown {
-  color: #FFFFFF;
-  background-color: #795548; }
+  background-color: #795548;
+  color: #FFFFFF; }
 
 .icon--flat.icon--brown {
   color: #795548; }
 
 .icon--circled.icon--grey {
-  color: #FFFFFF;
-  background-color: #9E9E9E; }
+  background-color: #9E9E9E;
+  color: #FFFFFF; }
 
 .icon--flat.icon--grey {
   color: #9E9E9E; }
 
 .icon--circled.icon--blue-grey {
-  color: #FFFFFF;
-  background-color: #607D8B; }
+  background-color: #607D8B;
+  color: #FFFFFF; }
 
 .icon--flat.icon--blue-grey {
   color: #607D8B; }
 
 .icon--circled.icon--black {
-  color: #FFFFFF;
-  background-color: #000000; }
+  background-color: #000000;
+  color: #FFFFFF; }
 
 .icon--flat.icon--black {
   color: #000000; }
 
 .icon--circled.icon--white {
-  color: #FFFFFF;
-  background-color: #FFFFFF; }
+  background-color: #FFFFFF;
+  color: #FFFFFF; }
 
 .icon--flat.icon--white {
   color: #FFFFFF; }
 
 .icon--circled.icon--primary {
-  color: #FFFFFF;
-  background-color: #3F51B5; }
+  background-color: #3F51B5;
+  color: #FFFFFF; }
 
 .icon--flat.icon--primary {
   color: #3F51B5; }
 
 .icon--circled.icon--primary-hue-1 {
-  color: #FFFFFF;
-  background-color: #C5CAE9; }
+  background-color: #C5CAE9;
+  color: #FFFFFF; }
 
 .icon--flat.icon--primary-hue-1 {
   color: #C5CAE9; }
 
 .icon--circled.icon--primary-hue-2 {
-  color: #FFFFFF;
-  background-color: #303F9F; }
+  background-color: #303F9F;
+  color: #FFFFFF; }
 
 .icon--flat.icon--primary-hue-2 {
   color: #303F9F; }
 
 .icon--circled.icon--accent {
-  color: #FFFFFF;
-  background-color: #FF4081; }
+  background-color: #FF4081;
+  color: #FFFFFF; }
 
 .icon--flat.icon--accent {
   color: #FF4081; }
 
 .icon--circled.icon--accent-hue-1 {
-  color: #FFFFFF;
-  background-color: #FF80AB; }
+  background-color: #FF80AB;
+  color: #FFFFFF; }
 
 .icon--flat.icon--accent-hue-1 {
   color: #FF80AB; }
 
 .icon--circled.icon--accent-hue-2 {
-  color: #FFFFFF;
-  background-color: #F50057; }
+  background-color: #F50057;
+  color: #FFFFFF; }
 
 .icon--flat.icon--accent-hue-2 {
   color: #F50057; }

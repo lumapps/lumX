@@ -1,60 +1,65 @@
-(function()
-{
-    'use strict';
+import { CSS_PREFIX } from '@lumx/core/js/constants';
 
-    angular
-        .module('lumx.icon')
-        .directive('lxIcon', lxIcon);
+import template from '../views/icon.html';
 
-    function lxIcon()
-    {
-        return {
-            restrict: 'E',
-            templateUrl: 'icon.html',
-            scope:
-            {
-                color: '@?lxColor',
-                id: '@lxId',
-                size: '@?lxSize',
-                type: '@?lxType'
-            },
-            controller: LxIconController,
-            controllerAs: 'lxIcon',
-            bindToController: true,
-            replace: true
-        };
+/////////////////////////////
+
+function IconDirective() {
+    'ngInject';
+
+    function link(scope, el, attrs) {
+        attrs.$observe('lxPath', (path) => {
+            el.addClass(`${CSS_PREFIX}-icon--path`);
+            el.find('path').attr('d', path);
+        });
+
+        attrs.$observe('lxId', (font) => {
+            el.addClass(`${CSS_PREFIX}-icon--font mdi mdi-${font}`);
+        });
+
+        attrs.$observe('lxColor', (color) => {
+            if (!color) {
+                return;
+            }
+
+            el.removeClass((index, className) => {
+                return (className.match(/(?:\S|-)*icon--color-\S+/g) || []).join(' ');
+            }).addClass(`${CSS_PREFIX}-icon--color-${color}`);
+        });
+
+        attrs.$observe('lxColorVariant', (colorVariant) => {
+            if (!colorVariant) {
+                return;
+            }
+
+            el.removeClass((index, className) => {
+                return (className.match(/(?:\S|-)*icon--color-variant-\S+/g) || []).join(' ');
+            }).addClass(`${CSS_PREFIX}-icon--color-variant-${colorVariant}`);
+        });
+
+        attrs.$observe('lxSize', (size) => {
+            if (!size) {
+                return;
+            }
+
+            el.removeClass((index, className) => {
+                return (className.match(/(?:\S|-)*icon--size-\S+/g) || []).join(' ');
+            }).addClass(`${CSS_PREFIX}-icon--size-${size}`);
+        });
     }
 
-    function LxIconController()
-    {
-        var lxIcon = this;
+    return {
+        link,
+        replace: true,
+        restrict: 'E',
+        template,
+    };
+}
 
-        lxIcon.getClass = getClass;
+/////////////////////////////
 
-        ////////////
+angular.module('lumx.icon').directive('lxIcon', IconDirective);
 
-        function getClass()
-        {
-            var iconClass = [];
+/////////////////////////////
 
-            iconClass.push('mdi-' + lxIcon.id);
-
-            if (angular.isDefined(lxIcon.size))
-            {
-                iconClass.push('icon--' + lxIcon.size);
-            }
-
-            if (angular.isDefined(lxIcon.color))
-            {
-                iconClass.push('icon--' + lxIcon.color);
-            }
-
-            if (angular.isDefined(lxIcon.type))
-            {
-                iconClass.push('icon--' + lxIcon.type);
-            }
-
-            return iconClass;
-        }
-    }
-})();
+export { IconDirective };

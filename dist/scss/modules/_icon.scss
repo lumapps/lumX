@@ -1,15 +1,15 @@
-///*------------------------------------*\
-//    #OBJECTS-ICON
-//\*------------------------------------*/
+/* ==========================================================================
+   Icon
+   ========================================================================== */
 
-// Icon vars
-$icon-font-size:   ('xs': 14px, 's': 16px, 'm': 18px, 'l': 20px, 'xl': 26px);
+$icon-font-size: (
+    'xs': 14px,
+    's': 16px,
+    'm': 18px,
+    'l': 20px,
+    'xl': 26px,
+);
 
-
-
-
-
-// Icon mixins
 @mixin icon($size, $color, $type) {
     @include icon-reset;
     @include icon-size($size, $type);
@@ -19,12 +19,13 @@ $icon-font-size:   ('xs': 14px, 's': 16px, 'm': 18px, 'l': 20px, 'xl': 26px);
 
 @mixin icon-reset() {
     display: inline-block;
-    vertical-align: top;
     text-align: center;
+    vertical-align: top;
 }
 
 @mixin icon-size($size, $type) {
     @include size(map-get($sizes, $size));
+
     line-height: map-get($sizes, $size) !important;
 
     @if $type == 'circled' {
@@ -38,8 +39,8 @@ $icon-font-size:   ('xs': 14px, 's': 16px, 'm': 18px, 'l': 20px, 'xl': 26px);
 
 @mixin icon-color($color, $type) {
     @if $type == 'circled' {
-        color: $white-1;
         background-color: map-get($colors, $color);
+        color: $white-1;
     }
 
     @if $type == 'flat' {
@@ -53,16 +54,10 @@ $icon-font-size:   ('xs': 14px, 's': 16px, 'm': 18px, 'l': 20px, 'xl': 26px);
     }
 }
 
-
-
-
-
-// Icon base styles
 .icon {
     @include icon-reset;
 }
 
-// Icon sizes
 @each $key, $size in $sizes {
     .icon--#{$key} {
         &.icon--circled {
@@ -75,7 +70,6 @@ $icon-font-size:   ('xs': 14px, 's': 16px, 'm': 18px, 'l': 20px, 'xl': 26px);
     }
 }
 
-// Icon colors
 @each $key, $color in $colors {
     .icon--circled.icon--#{$key} {
         @include icon-color($key, 'circled');
@@ -86,7 +80,6 @@ $icon-font-size:   ('xs': 14px, 's': 16px, 'm': 18px, 'l': 20px, 'xl': 26px);
     }
 }
 
-// Icon types
 .icon--circled {
     @include icon-type('circled');
 }
