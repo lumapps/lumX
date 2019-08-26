@@ -68,7 +68,7 @@ $btn-variant-fallback: (
         pointer-events: visible;
     } @else {
         i {
-            @include lumx-button-icon(variant-icon, position-left, map-get($btn-size-fallback, $size));
+            @include lumx-button-icon('variant-icon', 'position-left', map-get($btn-size-fallback, $size));
         }
     }
 
