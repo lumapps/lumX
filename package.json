@@ -46,7 +46,7 @@
         "webpack-defaults": "webpack-defaults"
     },
     "dependencies": {
-        "@lumx/core": "0.7.3",
+        "@lumx/core": "0.7.4",
         "@lumx/icons": "0.7.16",
         "angular": "^1.5.11",
         "bourbon": "^4.2.7",
