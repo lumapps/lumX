@@ -6,6 +6,7 @@ import template from '../views/dropdown.html';
 
 function DropdownController(
     $document,
+    $rootScope,
     $scope,
     $timeout,
     $window,
@@ -109,6 +110,15 @@ function DropdownController(
     }
 
     /**
+     * Check if user has scrolled to the end of the dropdown.
+     */
+    function _checkScrollEnd() {
+        if (_menuEl.scrollTop() + _menuEl.innerHeight() >= _menuEl[0].scrollHeight) {
+            $rootScope.$broadcast('lx-dropdown__scroll-end', lx.uuid);
+        }
+    }
+
+    /**
      * Close dropdown.
      */
     function _close() {
@@ -126,6 +136,7 @@ function DropdownController(
                 _idEventScheduler = undefined;
             }
 
+            _menuEl.off('scroll', _checkScrollEnd);
             $document.off('click keydown keypress', _onDocumentClick);
 
             if (angular.isDefined(_sourceEl)) {
@@ -278,6 +289,7 @@ function DropdownController(
             lx.isOpen = true;
             LxUtilsService.disableBodyScroll();
 
+            _menuEl.on('scroll', _checkScrollEnd);
             $document.on('click keydown keypress', _onDocumentClick);
         });
     }
