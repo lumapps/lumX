@@ -126,10 +126,6 @@
                 />
             </div>
 
-            <div class="lumx-select__loader" ng-if="lx.isLoading">
-                <lx-progress></lx-progress>
-            </div>
-
             <lx-list lx-focus-on-init="!lx.hasFilter" lx-is-clickable="true" ng-if="!lx.isLoading">
                 <lx-list-item
                     lx-is-selected="lx.isSelected(choice)"
@@ -145,6 +141,10 @@
             <span class="lumx-select__helper" ng-if="lx.hasHelper && !lx.isLoading">
                 {{ lx.helper }}
             </span>
+
+            <div class="lumx-select__loader" ng-if="lx.isLoading || lx.isInfiniteScrollLoading">
+                <lx-progress></lx-progress>
+            </div>
         </lx-dropdown-menu>
     </lx-dropdown>
 </div>

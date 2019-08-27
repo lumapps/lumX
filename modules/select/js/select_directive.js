@@ -459,6 +459,30 @@ function SelectController($document, $interpolate, $sce, $scope, $timeout, LxDro
             lx.isOpen = false;
         }
     });
+
+    /**
+     * When the end of the dropdown is reached and infinite scroll is specified,
+     * fetch new data.
+     *
+     * @param {Event}  evt        The scroll event.
+     * @param {string} dropdownId The id of the dropdown that scrolled to the end.
+     */
+    $scope.$on('lx-dropdown__scroll-end', (evt, dropdownId) => {
+        if (
+            dropdownId !== lx.dropdownUuid ||
+            !angular.isFunction(lx.infiniteScroll) ||
+            lx.isLoading ||
+            lx.isInfiniteScrollLoading
+        ) {
+            return;
+        }
+
+        lx.infiniteScroll()().then((newData) => {
+            if (newData && newData.length > 0) {
+                lx.choices = lx.choices.concat(newData);
+            }
+        });
+    });
 }
 
 /////////////////////////////
@@ -515,8 +539,10 @@ function SelectDirective() {
             hasFilter: '=?lxDisplayFilter',
             hasHelper: '=?lxHelper',
             helper: '@?lxHelperMessage',
+            infiniteScroll: '&?lxInfiniteScroll',
             isClearable: '=?lxAllowClear',
             isDisabled: '=?ngDisabled',
+            isInfiniteScrollLoading: '=?lxInfiniteScrollLoading',
             isLoading: '=?lxLoading',
             isValid: '=?lxValid',
             label: '@?lxLabel',
