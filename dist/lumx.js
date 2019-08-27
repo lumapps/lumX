@@ -91,7 +91,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 86);
+/******/ 	return __webpack_require__(__webpack_require__.s = 90);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -100,13 +100,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CSS_PREFIX; });
-/* unused harmony export DOWN_KEY_CODE */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return ENTER_KEY_CODE; });
-/* unused harmony export ESCAPE_KEY_CODE */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return DOWN_KEY_CODE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return ENTER_KEY_CODE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return ESCAPE_KEY_CODE; });
 /* unused harmony export LEFT_KEY_CODE */
 /* unused harmony export RIGHT_KEY_CODE */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return TAB_KEY_CODE; });
-/* unused harmony export UP_KEY_CODE */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return TAB_KEY_CODE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return UP_KEY_CODE; });
 /////////////////////////////
 //                         //
 //    Public attributes    //
@@ -202,19 +202,37 @@ module.exports =
   // eslint-disable-next-line no-new-func
   Function('return this')();
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(93)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(97)))
 
 /***/ }),
 /* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var global = __webpack_require__(1);
-var getOwnPropertyDescriptor = __webpack_require__(34).f;
+var shared = __webpack_require__(26);
+var uid = __webpack_require__(67);
+var NATIVE_SYMBOL = __webpack_require__(103);
+
+var Symbol = global.Symbol;
+var store = shared('wks');
+
+module.exports = function (name) {
+  return store[name] || (store[name] = NATIVE_SYMBOL && Symbol[name]
+    || (NATIVE_SYMBOL ? Symbol : uid)('Symbol.' + name));
+};
+
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var global = __webpack_require__(1);
+var getOwnPropertyDescriptor = __webpack_require__(31).f;
 var hide = __webpack_require__(14);
-var redefine = __webpack_require__(8);
-var setGlobal = __webpack_require__(39);
-var copyConstructorProperties = __webpack_require__(96);
-var isForced = __webpack_require__(44);
+var redefine = __webpack_require__(9);
+var setGlobal = __webpack_require__(36);
+var copyConstructorProperties = __webpack_require__(100);
+var isForced = __webpack_require__(41);
 
 /*
   options.target      - name of the target object
@@ -265,24 +283,6 @@ module.exports = function (options, source) {
 
 
 /***/ }),
-/* 3 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var global = __webpack_require__(1);
-var shared = __webpack_require__(26);
-var uid = __webpack_require__(63);
-var NATIVE_SYMBOL = __webpack_require__(99);
-
-var Symbol = global.Symbol;
-var store = shared('wks');
-
-module.exports = function (name) {
-  return store[name] || (store[name] = NATIVE_SYMBOL && Symbol[name]
-    || (NATIVE_SYMBOL ? Symbol : uid)('Symbol.' + name));
-};
-
-
-/***/ }),
 /* 4 */
 /***/ (function(module, exports) {
 
@@ -299,24 +299,11 @@ module.exports = function (exec) {
 /* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isObject = __webpack_require__(7);
-
-module.exports = function (it) {
-  if (!isObject(it)) {
-    throw TypeError(String(it) + ' is not an object');
-  } return it;
-};
-
-
-/***/ }),
-/* 6 */
-/***/ (function(module, exports, __webpack_require__) {
-
 "use strict";
 
-var $ = __webpack_require__(2);
-var $find = __webpack_require__(28).find;
-var addToUnscopables = __webpack_require__(102);
+var $ = __webpack_require__(3);
+var $find = __webpack_require__(45).find;
+var addToUnscopables = __webpack_require__(106);
 
 var FIND = 'find';
 var SKIPS_HOLES = true;
@@ -337,6 +324,19 @@ addToUnscopables(FIND);
 
 
 /***/ }),
+/* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var isObject = __webpack_require__(7);
+
+module.exports = function (it) {
+  if (!isObject(it)) {
+    throw TypeError(String(it) + ' is not an object');
+  } return it;
+};
+
+
+/***/ }),
 /* 7 */
 /***/ (function(module, exports) {
 
@@ -347,9612 +347,9 @@ module.exports = function (it) {
 
 /***/ }),
 /* 8 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var global = __webpack_require__(1);
-var shared = __webpack_require__(26);
-var hide = __webpack_require__(14);
-var has = __webpack_require__(16);
-var setGlobal = __webpack_require__(39);
-var nativeFunctionToString = __webpack_require__(60);
-var InternalStateModule = __webpack_require__(61);
-
-var getInternalState = InternalStateModule.get;
-var enforceInternalState = InternalStateModule.enforce;
-var TEMPLATE = String(nativeFunctionToString).split('toString');
-
-shared('inspectSource', function (it) {
-  return nativeFunctionToString.call(it);
-});
-
-(module.exports = function (O, key, value, options) {
-  var unsafe = options ? !!options.unsafe : false;
-  var simple = options ? !!options.enumerable : false;
-  var noTargetGet = options ? !!options.noTargetGet : false;
-  if (typeof value == 'function') {
-    if (typeof key == 'string' && !has(value, 'name')) hide(value, 'name', key);
-    enforceInternalState(value).source = TEMPLATE.join(typeof key == 'string' ? key : '');
-  }
-  if (O === global) {
-    if (simple) O[key] = value;
-    else setGlobal(key, value);
-    return;
-  } else if (!unsafe) {
-    delete O[key];
-  } else if (!noTargetGet && O[key]) {
-    simple = true;
-  }
-  if (simple) O[key] = value;
-  else hide(O, key, value);
-// add fake Function#toString for correct work wrapped methods / constructors with methods like LoDash isNative
-})(Function.prototype, 'toString', function toString() {
-  return typeof this == 'function' && getInternalState(this).source || nativeFunctionToString.call(this);
-});
-
-
-/***/ }),
-/* 9 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var toInteger = __webpack_require__(21);
-
-var min = Math.min;
-
-// `ToLength` abstract operation
-// https://tc39.github.io/ecma262/#sec-tolength
-module.exports = function (argument) {
-  return argument > 0 ? min(toInteger(argument), 0x1FFFFFFFFFFFFF) : 0; // 2 ** 53 - 1 == 9007199254740991
-};
-
-
-/***/ }),
-/* 10 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var fails = __webpack_require__(4);
-
-// Thank's IE8 for his funny defineProperty
-module.exports = !fails(function () {
-  return Object.defineProperty({}, 'a', { get: function () { return 7; } }).a != 7;
-});
-
-
-/***/ }),
-/* 11 */
-/***/ (function(module, exports) {
-
-var toString = {}.toString;
-
-module.exports = function (it) {
-  return toString.call(it).slice(8, -1);
-};
-
-
-/***/ }),
-/* 12 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var DESCRIPTORS = __webpack_require__(10);
-var IE8_DOM_DEFINE = __webpack_require__(59);
-var anObject = __webpack_require__(5);
-var toPrimitive = __webpack_require__(37);
-
-var nativeDefineProperty = Object.defineProperty;
-
-// `Object.defineProperty` method
-// https://tc39.github.io/ecma262/#sec-object.defineproperty
-exports.f = DESCRIPTORS ? nativeDefineProperty : function defineProperty(O, P, Attributes) {
-  anObject(O);
-  P = toPrimitive(P, true);
-  anObject(Attributes);
-  if (IE8_DOM_DEFINE) try {
-    return nativeDefineProperty(O, P, Attributes);
-  } catch (error) { /* empty */ }
-  if ('get' in Attributes || 'set' in Attributes) throw TypeError('Accessors not supported');
-  if ('value' in Attributes) O[P] = Attributes.value;
-  return O;
-};
-
-
-/***/ }),
-/* 13 */
-/***/ (function(module, exports) {
-
-// `RequireObjectCoercible` abstract operation
-// https://tc39.github.io/ecma262/#sec-requireobjectcoercible
-module.exports = function (it) {
-  if (it == undefined) throw TypeError("Can't call method on " + it);
-  return it;
-};
-
-
-/***/ }),
-/* 14 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var DESCRIPTORS = __webpack_require__(10);
-var definePropertyModule = __webpack_require__(12);
-var createPropertyDescriptor = __webpack_require__(35);
-
-module.exports = DESCRIPTORS ? function (object, key, value) {
-  return definePropertyModule.f(object, key, createPropertyDescriptor(1, value));
-} : function (object, key, value) {
-  object[key] = value;
-  return object;
-};
-
-
-/***/ }),
-/* 15 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var $ = __webpack_require__(2);
-var exec = __webpack_require__(29);
-
-$({ target: 'RegExp', proto: true, forced: /./.exec !== exec }, {
-  exec: exec
-});
-
-
-/***/ }),
-/* 16 */
-/***/ (function(module, exports) {
-
-var hasOwnProperty = {}.hasOwnProperty;
-
-module.exports = function (it, key) {
-  return hasOwnProperty.call(it, key);
-};
-
-
-/***/ }),
-/* 17 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var requireObjectCoercible = __webpack_require__(13);
-
-// `ToObject` abstract operation
-// https://tc39.github.io/ecma262/#sec-toobject
-module.exports = function (argument) {
-  return Object(requireObjectCoercible(argument));
-};
-
-
-/***/ }),
-/* 18 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var $ = __webpack_require__(2);
-var $indexOf = __webpack_require__(67).indexOf;
-var sloppyArrayMethod = __webpack_require__(22);
-
-var nativeIndexOf = [].indexOf;
-
-var NEGATIVE_ZERO = !!nativeIndexOf && 1 / [1].indexOf(1, -0) < 0;
-var SLOPPY_METHOD = sloppyArrayMethod('indexOf');
-
-// `Array.prototype.indexOf` method
-// https://tc39.github.io/ecma262/#sec-array.prototype.indexof
-$({ target: 'Array', proto: true, forced: NEGATIVE_ZERO || SLOPPY_METHOD }, {
-  indexOf: function indexOf(searchElement /* , fromIndex = 0 */) {
-    return NEGATIVE_ZERO
-      // convert -0 to +0
-      ? nativeIndexOf.apply(this, arguments) || 0
-      : $indexOf(this, searchElement, arguments.length > 1 ? arguments[1] : undefined);
-  }
-});
-
-
-/***/ }),
-/* 19 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// toObject with fallback for non-array-like ES3 strings
-var IndexedObject = __webpack_require__(36);
-var requireObjectCoercible = __webpack_require__(13);
-
-module.exports = function (it) {
-  return IndexedObject(requireObjectCoercible(it));
-};
-
-
-/***/ }),
-/* 20 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var path = __webpack_require__(64);
-var global = __webpack_require__(1);
-
-var aFunction = function (variable) {
-  return typeof variable == 'function' ? variable : undefined;
-};
-
-module.exports = function (namespace, method) {
-  return arguments.length < 2 ? aFunction(path[namespace]) || aFunction(global[namespace])
-    : path[namespace] && path[namespace][method] || global[namespace] && global[namespace][method];
-};
-
-
-/***/ }),
-/* 21 */
-/***/ (function(module, exports) {
-
-var ceil = Math.ceil;
-var floor = Math.floor;
-
-// `ToInteger` abstract operation
-// https://tc39.github.io/ecma262/#sec-tointeger
-module.exports = function (argument) {
-  return isNaN(argument = +argument) ? 0 : (argument > 0 ? floor : ceil)(argument);
-};
-
-
-/***/ }),
-/* 22 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var fails = __webpack_require__(4);
-
-module.exports = function (METHOD_NAME, argument) {
-  var method = [][METHOD_NAME];
-  return !method || !fails(function () {
-    // eslint-disable-next-line no-useless-call,no-throw-literal
-    method.call(null, argument || function () { throw 1; }, 1);
-  });
-};
-
-
-/***/ }),
-/* 23 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var $ = __webpack_require__(2);
-var toAbsoluteIndex = __webpack_require__(42);
-var toInteger = __webpack_require__(21);
-var toLength = __webpack_require__(9);
-var toObject = __webpack_require__(17);
-var arraySpeciesCreate = __webpack_require__(45);
-var createProperty = __webpack_require__(47);
-var arrayMethodHasSpeciesSupport = __webpack_require__(27);
-
-var max = Math.max;
-var min = Math.min;
-var MAX_SAFE_INTEGER = 0x1FFFFFFFFFFFFF;
-var MAXIMUM_ALLOWED_LENGTH_EXCEEDED = 'Maximum allowed length exceeded';
-
-// `Array.prototype.splice` method
-// https://tc39.github.io/ecma262/#sec-array.prototype.splice
-// with adding support of @@species
-$({ target: 'Array', proto: true, forced: !arrayMethodHasSpeciesSupport('splice') }, {
-  splice: function splice(start, deleteCount /* , ...items */) {
-    var O = toObject(this);
-    var len = toLength(O.length);
-    var actualStart = toAbsoluteIndex(start, len);
-    var argumentsLength = arguments.length;
-    var insertCount, actualDeleteCount, A, k, from, to;
-    if (argumentsLength === 0) {
-      insertCount = actualDeleteCount = 0;
-    } else if (argumentsLength === 1) {
-      insertCount = 0;
-      actualDeleteCount = len - actualStart;
-    } else {
-      insertCount = argumentsLength - 2;
-      actualDeleteCount = min(max(toInteger(deleteCount), 0), len - actualStart);
-    }
-    if (len + insertCount - actualDeleteCount > MAX_SAFE_INTEGER) {
-      throw TypeError(MAXIMUM_ALLOWED_LENGTH_EXCEEDED);
-    }
-    A = arraySpeciesCreate(O, actualDeleteCount);
-    for (k = 0; k < actualDeleteCount; k++) {
-      from = actualStart + k;
-      if (from in O) createProperty(A, k, O[from]);
-    }
-    A.length = actualDeleteCount;
-    if (insertCount < actualDeleteCount) {
-      for (k = actualStart; k < len - actualDeleteCount; k++) {
-        from = k + actualDeleteCount;
-        to = k + insertCount;
-        if (from in O) O[to] = O[from];
-        else delete O[to];
-      }
-      for (k = len; k > len - actualDeleteCount + insertCount; k--) delete O[k - 1];
-    } else if (insertCount > actualDeleteCount) {
-      for (k = len - actualDeleteCount; k > actualStart; k--) {
-        from = k + actualDeleteCount - 1;
-        to = k + insertCount - 1;
-        if (from in O) O[to] = O[from];
-        else delete O[to];
-      }
-    }
-    for (k = 0; k < insertCount; k++) {
-      O[k + actualStart] = arguments[k + 2];
-    }
-    O.length = len - actualDeleteCount + insertCount;
-    return A;
-  }
-});
-
-
-/***/ }),
-/* 24 */
-/***/ (function(module, exports) {
-
-module.exports = function (it) {
-  if (typeof it != 'function') {
-    throw TypeError(String(it) + ' is not a function');
-  } return it;
-};
-
-
-/***/ }),
-/* 25 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var $ = __webpack_require__(2);
-var parseIntImplementation = __webpack_require__(131);
-
-// `parseInt` method
-// https://tc39.github.io/ecma262/#sec-parseint-string-radix
-$({ global: true, forced: parseInt != parseIntImplementation }, {
-  parseInt: parseIntImplementation
-});
-
-
-/***/ }),
-/* 26 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var global = __webpack_require__(1);
-var setGlobal = __webpack_require__(39);
-var IS_PURE = __webpack_require__(40);
-
-var SHARED = '__core-js_shared__';
-var store = global[SHARED] || setGlobal(SHARED, {});
-
-(module.exports = function (key, value) {
-  return store[key] || (store[key] = value !== undefined ? value : {});
-})('versions', []).push({
-  version: '3.2.1',
-  mode: IS_PURE ? 'pure' : 'global',
-  copyright: '© 2019 Denis Pushkarev (zloirock.ru)'
-});
-
-
-/***/ }),
-/* 27 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var fails = __webpack_require__(4);
-var wellKnownSymbol = __webpack_require__(3);
-
-var SPECIES = wellKnownSymbol('species');
-
-module.exports = function (METHOD_NAME) {
-  return !fails(function () {
-    var array = [];
-    var constructor = array.constructor = {};
-    constructor[SPECIES] = function () {
-      return { foo: 1 };
-    };
-    return array[METHOD_NAME](Boolean).foo !== 1;
-  });
-};
-
-
-/***/ }),
-/* 28 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var bind = __webpack_require__(48);
-var IndexedObject = __webpack_require__(36);
-var toObject = __webpack_require__(17);
-var toLength = __webpack_require__(9);
-var arraySpeciesCreate = __webpack_require__(45);
-
-var push = [].push;
-
-// `Array.prototype.{ forEach, map, filter, some, every, find, findIndex }` methods implementation
-var createMethod = function (TYPE) {
-  var IS_MAP = TYPE == 1;
-  var IS_FILTER = TYPE == 2;
-  var IS_SOME = TYPE == 3;
-  var IS_EVERY = TYPE == 4;
-  var IS_FIND_INDEX = TYPE == 6;
-  var NO_HOLES = TYPE == 5 || IS_FIND_INDEX;
-  return function ($this, callbackfn, that, specificCreate) {
-    var O = toObject($this);
-    var self = IndexedObject(O);
-    var boundFunction = bind(callbackfn, that, 3);
-    var length = toLength(self.length);
-    var index = 0;
-    var create = specificCreate || arraySpeciesCreate;
-    var target = IS_MAP ? create($this, length) : IS_FILTER ? create($this, 0) : undefined;
-    var value, result;
-    for (;length > index; index++) if (NO_HOLES || index in self) {
-      value = self[index];
-      result = boundFunction(value, index, O);
-      if (TYPE) {
-        if (IS_MAP) target[index] = result; // map
-        else if (result) switch (TYPE) {
-          case 3: return true;              // some
-          case 5: return value;             // find
-          case 6: return index;             // findIndex
-          case 2: push.call(target, value); // filter
-        } else if (IS_EVERY) return false;  // every
-      }
-    }
-    return IS_FIND_INDEX ? -1 : IS_SOME || IS_EVERY ? IS_EVERY : target;
-  };
-};
-
-module.exports = {
-  // `Array.prototype.forEach` method
-  // https://tc39.github.io/ecma262/#sec-array.prototype.foreach
-  forEach: createMethod(0),
-  // `Array.prototype.map` method
-  // https://tc39.github.io/ecma262/#sec-array.prototype.map
-  map: createMethod(1),
-  // `Array.prototype.filter` method
-  // https://tc39.github.io/ecma262/#sec-array.prototype.filter
-  filter: createMethod(2),
-  // `Array.prototype.some` method
-  // https://tc39.github.io/ecma262/#sec-array.prototype.some
-  some: createMethod(3),
-  // `Array.prototype.every` method
-  // https://tc39.github.io/ecma262/#sec-array.prototype.every
-  every: createMethod(4),
-  // `Array.prototype.find` method
-  // https://tc39.github.io/ecma262/#sec-array.prototype.find
-  find: createMethod(5),
-  // `Array.prototype.findIndex` method
-  // https://tc39.github.io/ecma262/#sec-array.prototype.findIndex
-  findIndex: createMethod(6)
-};
-
-
-/***/ }),
-/* 29 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var regexpFlags = __webpack_require__(49);
-
-var nativeExec = RegExp.prototype.exec;
-// This always refers to the native implementation, because the
-// String#replace polyfill uses ./fix-regexp-well-known-symbol-logic.js,
-// which loads this file before patching the method.
-var nativeReplace = String.prototype.replace;
-
-var patchedExec = nativeExec;
-
-var UPDATES_LAST_INDEX_WRONG = (function () {
-  var re1 = /a/;
-  var re2 = /b*/g;
-  nativeExec.call(re1, 'a');
-  nativeExec.call(re2, 'a');
-  return re1.lastIndex !== 0 || re2.lastIndex !== 0;
-})();
-
-// nonparticipating capturing group, copied from es5-shim's String#split patch.
-var NPCG_INCLUDED = /()??/.exec('')[1] !== undefined;
-
-var PATCH = UPDATES_LAST_INDEX_WRONG || NPCG_INCLUDED;
-
-if (PATCH) {
-  patchedExec = function exec(str) {
-    var re = this;
-    var lastIndex, reCopy, match, i;
-
-    if (NPCG_INCLUDED) {
-      reCopy = new RegExp('^' + re.source + '$(?!\\s)', regexpFlags.call(re));
-    }
-    if (UPDATES_LAST_INDEX_WRONG) lastIndex = re.lastIndex;
-
-    match = nativeExec.call(re, str);
-
-    if (UPDATES_LAST_INDEX_WRONG && match) {
-      re.lastIndex = re.global ? match.index + match[0].length : lastIndex;
-    }
-    if (NPCG_INCLUDED && match && match.length > 1) {
-      // Fix browsers whose `exec` methods don't consistently return `undefined`
-      // for NPCG, like IE8. NOTE: This doesn' work for /(.?)?/
-      nativeReplace.call(match[0], reCopy, function () {
-        for (i = 1; i < arguments.length - 2; i++) {
-          if (arguments[i] === undefined) match[i] = undefined;
-        }
-      });
-    }
-
-    return match;
-  };
-}
-
-module.exports = patchedExec;
-
-
-/***/ }),
-/* 30 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var fixRegExpWellKnownSymbolLogic = __webpack_require__(51);
-var anObject = __webpack_require__(5);
-var toObject = __webpack_require__(17);
-var toLength = __webpack_require__(9);
-var toInteger = __webpack_require__(21);
-var requireObjectCoercible = __webpack_require__(13);
-var advanceStringIndex = __webpack_require__(52);
-var regExpExec = __webpack_require__(53);
-
-var max = Math.max;
-var min = Math.min;
-var floor = Math.floor;
-var SUBSTITUTION_SYMBOLS = /\$([$&'`]|\d\d?|<[^>]*>)/g;
-var SUBSTITUTION_SYMBOLS_NO_NAMED = /\$([$&'`]|\d\d?)/g;
-
-var maybeToString = function (it) {
-  return it === undefined ? it : String(it);
-};
-
-// @@replace logic
-fixRegExpWellKnownSymbolLogic('replace', 2, function (REPLACE, nativeReplace, maybeCallNative) {
-  return [
-    // `String.prototype.replace` method
-    // https://tc39.github.io/ecma262/#sec-string.prototype.replace
-    function replace(searchValue, replaceValue) {
-      var O = requireObjectCoercible(this);
-      var replacer = searchValue == undefined ? undefined : searchValue[REPLACE];
-      return replacer !== undefined
-        ? replacer.call(searchValue, O, replaceValue)
-        : nativeReplace.call(String(O), searchValue, replaceValue);
-    },
-    // `RegExp.prototype[@@replace]` method
-    // https://tc39.github.io/ecma262/#sec-regexp.prototype-@@replace
-    function (regexp, replaceValue) {
-      var res = maybeCallNative(nativeReplace, regexp, this, replaceValue);
-      if (res.done) return res.value;
-
-      var rx = anObject(regexp);
-      var S = String(this);
-
-      var functionalReplace = typeof replaceValue === 'function';
-      if (!functionalReplace) replaceValue = String(replaceValue);
-
-      var global = rx.global;
-      if (global) {
-        var fullUnicode = rx.unicode;
-        rx.lastIndex = 0;
-      }
-      var results = [];
-      while (true) {
-        var result = regExpExec(rx, S);
-        if (result === null) break;
-
-        results.push(result);
-        if (!global) break;
-
-        var matchStr = String(result[0]);
-        if (matchStr === '') rx.lastIndex = advanceStringIndex(S, toLength(rx.lastIndex), fullUnicode);
-      }
-
-      var accumulatedResult = '';
-      var nextSourcePosition = 0;
-      for (var i = 0; i < results.length; i++) {
-        result = results[i];
-
-        var matched = String(result[0]);
-        var position = max(min(toInteger(result.index), S.length), 0);
-        var captures = [];
-        // NOTE: This is equivalent to
-        //   captures = result.slice(1).map(maybeToString)
-        // but for some reason `nativeSlice.call(result, 1, result.length)` (called in
-        // the slice polyfill when slicing native arrays) "doesn't work" in safari 9 and
-        // causes a crash (https://pastebin.com/N21QzeQA) when trying to debug it.
-        for (var j = 1; j < result.length; j++) captures.push(maybeToString(result[j]));
-        var namedCaptures = result.groups;
-        if (functionalReplace) {
-          var replacerArgs = [matched].concat(captures, position, S);
-          if (namedCaptures !== undefined) replacerArgs.push(namedCaptures);
-          var replacement = String(replaceValue.apply(undefined, replacerArgs));
-        } else {
-          replacement = getSubstitution(matched, S, position, captures, namedCaptures, replaceValue);
-        }
-        if (position >= nextSourcePosition) {
-          accumulatedResult += S.slice(nextSourcePosition, position) + replacement;
-          nextSourcePosition = position + matched.length;
-        }
-      }
-      return accumulatedResult + S.slice(nextSourcePosition);
-    }
-  ];
-
-  // https://tc39.github.io/ecma262/#sec-getsubstitution
-  function getSubstitution(matched, str, position, captures, namedCaptures, replacement) {
-    var tailPos = position + matched.length;
-    var m = captures.length;
-    var symbols = SUBSTITUTION_SYMBOLS_NO_NAMED;
-    if (namedCaptures !== undefined) {
-      namedCaptures = toObject(namedCaptures);
-      symbols = SUBSTITUTION_SYMBOLS;
-    }
-    return nativeReplace.call(replacement, symbols, function (match, ch) {
-      var capture;
-      switch (ch.charAt(0)) {
-        case '$': return '$';
-        case '&': return matched;
-        case '`': return str.slice(0, position);
-        case "'": return str.slice(tailPos);
-        case '<':
-          capture = namedCaptures[ch.slice(1, -1)];
-          break;
-        default: // \d\d?
-          var n = +ch;
-          if (n === 0) return match;
-          if (n > m) {
-            var f = floor(n / 10);
-            if (f === 0) return match;
-            if (f <= m) return captures[f - 1] === undefined ? ch.charAt(1) : captures[f - 1] + ch.charAt(1);
-            return match;
-          }
-          capture = captures[n - 1];
-      }
-      return capture === undefined ? '' : capture;
-    });
-  }
-});
-
-
-/***/ }),
-/* 31 */
-/***/ (function(module, exports) {
-
-// a string of all valid unicode whitespaces
-// eslint-disable-next-line max-len
-module.exports = '\u0009\u000A\u000B\u000C\u000D\u0020\u00A0\u1680\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200A\u202F\u205F\u3000\u2028\u2029\uFEFF';
-
-
-/***/ }),
-/* 32 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var $ = __webpack_require__(2);
-var forEach = __webpack_require__(75);
-
-// `Array.prototype.forEach` method
-// https://tc39.github.io/ecma262/#sec-array.prototype.foreach
-$({ target: 'Array', proto: true, forced: [].forEach != forEach }, {
-  forEach: forEach
-});
-
-
-/***/ }),
-/* 33 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var global = __webpack_require__(1);
-var DOMIterables = __webpack_require__(122);
-var forEach = __webpack_require__(75);
-var hide = __webpack_require__(14);
-
-for (var COLLECTION_NAME in DOMIterables) {
-  var Collection = global[COLLECTION_NAME];
-  var CollectionPrototype = Collection && Collection.prototype;
-  // some Chrome versions have non-configurable methods on DOMTokenList
-  if (CollectionPrototype && CollectionPrototype.forEach !== forEach) try {
-    hide(CollectionPrototype, 'forEach', forEach);
-  } catch (error) {
-    CollectionPrototype.forEach = forEach;
-  }
-}
-
-
-/***/ }),
-/* 34 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var DESCRIPTORS = __webpack_require__(10);
-var propertyIsEnumerableModule = __webpack_require__(94);
-var createPropertyDescriptor = __webpack_require__(35);
-var toIndexedObject = __webpack_require__(19);
-var toPrimitive = __webpack_require__(37);
-var has = __webpack_require__(16);
-var IE8_DOM_DEFINE = __webpack_require__(59);
-
-var nativeGetOwnPropertyDescriptor = Object.getOwnPropertyDescriptor;
-
-// `Object.getOwnPropertyDescriptor` method
-// https://tc39.github.io/ecma262/#sec-object.getownpropertydescriptor
-exports.f = DESCRIPTORS ? nativeGetOwnPropertyDescriptor : function getOwnPropertyDescriptor(O, P) {
-  O = toIndexedObject(O);
-  P = toPrimitive(P, true);
-  if (IE8_DOM_DEFINE) try {
-    return nativeGetOwnPropertyDescriptor(O, P);
-  } catch (error) { /* empty */ }
-  if (has(O, P)) return createPropertyDescriptor(!propertyIsEnumerableModule.f.call(O, P), O[P]);
-};
-
-
-/***/ }),
-/* 35 */
-/***/ (function(module, exports) {
-
-module.exports = function (bitmap, value) {
-  return {
-    enumerable: !(bitmap & 1),
-    configurable: !(bitmap & 2),
-    writable: !(bitmap & 4),
-    value: value
-  };
-};
-
-
-/***/ }),
-/* 36 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var fails = __webpack_require__(4);
-var classof = __webpack_require__(11);
-
-var split = ''.split;
-
-// fallback for non-array-like ES3 and non-enumerable old V8 strings
-module.exports = fails(function () {
-  // throws an error in rhino, see https://github.com/mozilla/rhino/issues/346
-  // eslint-disable-next-line no-prototype-builtins
-  return !Object('z').propertyIsEnumerable(0);
-}) ? function (it) {
-  return classof(it) == 'String' ? split.call(it, '') : Object(it);
-} : Object;
-
-
-/***/ }),
-/* 37 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var isObject = __webpack_require__(7);
-
-// `ToPrimitive` abstract operation
-// https://tc39.github.io/ecma262/#sec-toprimitive
-// instead of the ES6 spec version, we didn't implement @@toPrimitive case
-// and the second argument - flag - preferred type is a string
-module.exports = function (input, PREFERRED_STRING) {
-  if (!isObject(input)) return input;
-  var fn, val;
-  if (PREFERRED_STRING && typeof (fn = input.toString) == 'function' && !isObject(val = fn.call(input))) return val;
-  if (typeof (fn = input.valueOf) == 'function' && !isObject(val = fn.call(input))) return val;
-  if (!PREFERRED_STRING && typeof (fn = input.toString) == 'function' && !isObject(val = fn.call(input))) return val;
-  throw TypeError("Can't convert object to primitive value");
-};
-
-
-/***/ }),
-/* 38 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var global = __webpack_require__(1);
-var isObject = __webpack_require__(7);
-
-var document = global.document;
-// typeof document.createElement is 'object' in old IE
-var EXISTS = isObject(document) && isObject(document.createElement);
-
-module.exports = function (it) {
-  return EXISTS ? document.createElement(it) : {};
-};
-
-
-/***/ }),
-/* 39 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var global = __webpack_require__(1);
-var hide = __webpack_require__(14);
-
-module.exports = function (key, value) {
-  try {
-    hide(global, key, value);
-  } catch (error) {
-    global[key] = value;
-  } return value;
-};
-
-
-/***/ }),
-/* 40 */
-/***/ (function(module, exports) {
-
-module.exports = false;
-
-
-/***/ }),
-/* 41 */
-/***/ (function(module, exports) {
-
-module.exports = {};
-
-
-/***/ }),
-/* 42 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var toInteger = __webpack_require__(21);
-
-var max = Math.max;
-var min = Math.min;
-
-// Helper for a popular repeating case of the spec:
-// Let integer be ? ToInteger(index).
-// If integer < 0, let result be max((length + integer), 0); else let result be min(length, length).
-module.exports = function (index, length) {
-  var integer = toInteger(index);
-  return integer < 0 ? max(integer + length, 0) : min(integer, length);
-};
-
-
-/***/ }),
-/* 43 */
-/***/ (function(module, exports) {
-
-// IE8- don't enum bug keys
-module.exports = [
-  'constructor',
-  'hasOwnProperty',
-  'isPrototypeOf',
-  'propertyIsEnumerable',
-  'toLocaleString',
-  'toString',
-  'valueOf'
-];
-
-
-/***/ }),
-/* 44 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var fails = __webpack_require__(4);
-
-var replacement = /#|\.prototype\./;
-
-var isForced = function (feature, detection) {
-  var value = data[normalize(feature)];
-  return value == POLYFILL ? true
-    : value == NATIVE ? false
-    : typeof detection == 'function' ? fails(detection)
-    : !!detection;
-};
-
-var normalize = isForced.normalize = function (string) {
-  return String(string).replace(replacement, '.').toLowerCase();
-};
-
-var data = isForced.data = {};
-var NATIVE = isForced.NATIVE = 'N';
-var POLYFILL = isForced.POLYFILL = 'P';
-
-module.exports = isForced;
-
-
-/***/ }),
-/* 45 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var isObject = __webpack_require__(7);
-var isArray = __webpack_require__(46);
-var wellKnownSymbol = __webpack_require__(3);
-
-var SPECIES = wellKnownSymbol('species');
-
-// `ArraySpeciesCreate` abstract operation
-// https://tc39.github.io/ecma262/#sec-arrayspeciescreate
-module.exports = function (originalArray, length) {
-  var C;
-  if (isArray(originalArray)) {
-    C = originalArray.constructor;
-    // cross-realm fallback
-    if (typeof C == 'function' && (C === Array || isArray(C.prototype))) C = undefined;
-    else if (isObject(C)) {
-      C = C[SPECIES];
-      if (C === null) C = undefined;
-    }
-  } return new (C === undefined ? Array : C)(length === 0 ? 0 : length);
-};
-
-
-/***/ }),
-/* 46 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var classof = __webpack_require__(11);
-
-// `IsArray` abstract operation
-// https://tc39.github.io/ecma262/#sec-isarray
-module.exports = Array.isArray || function isArray(arg) {
-  return classof(arg) == 'Array';
-};
-
-
-/***/ }),
-/* 47 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var toPrimitive = __webpack_require__(37);
-var definePropertyModule = __webpack_require__(12);
-var createPropertyDescriptor = __webpack_require__(35);
-
-module.exports = function (object, key, value) {
-  var propertyKey = toPrimitive(key);
-  if (propertyKey in object) definePropertyModule.f(object, propertyKey, createPropertyDescriptor(0, value));
-  else object[propertyKey] = value;
-};
-
-
-/***/ }),
-/* 48 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var aFunction = __webpack_require__(24);
-
-// optional / simple context binding
-module.exports = function (fn, that, length) {
-  aFunction(fn);
-  if (that === undefined) return fn;
-  switch (length) {
-    case 0: return function () {
-      return fn.call(that);
-    };
-    case 1: return function (a) {
-      return fn.call(that, a);
-    };
-    case 2: return function (a, b) {
-      return fn.call(that, a, b);
-    };
-    case 3: return function (a, b, c) {
-      return fn.call(that, a, b, c);
-    };
-  }
-  return function (/* ...args */) {
-    return fn.apply(that, arguments);
-  };
-};
-
-
-/***/ }),
-/* 49 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var anObject = __webpack_require__(5);
-
-// `RegExp.prototype.flags` getter implementation
-// https://tc39.github.io/ecma262/#sec-get-regexp.prototype.flags
-module.exports = function () {
-  var that = anObject(this);
-  var result = '';
-  if (that.global) result += 'g';
-  if (that.ignoreCase) result += 'i';
-  if (that.multiline) result += 'm';
-  if (that.dotAll) result += 's';
-  if (that.unicode) result += 'u';
-  if (that.sticky) result += 'y';
-  return result;
-};
-
-
-/***/ }),
-/* 50 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var redefine = __webpack_require__(8);
-var anObject = __webpack_require__(5);
-var fails = __webpack_require__(4);
-var flags = __webpack_require__(49);
-
-var TO_STRING = 'toString';
-var RegExpPrototype = RegExp.prototype;
-var nativeToString = RegExpPrototype[TO_STRING];
-
-var NOT_GENERIC = fails(function () { return nativeToString.call({ source: 'a', flags: 'b' }) != '/a/b'; });
-// FF44- RegExp#toString has a wrong name
-var INCORRECT_NAME = nativeToString.name != TO_STRING;
-
-// `RegExp.prototype.toString` method
-// https://tc39.github.io/ecma262/#sec-regexp.prototype.tostring
-if (NOT_GENERIC || INCORRECT_NAME) {
-  redefine(RegExp.prototype, TO_STRING, function toString() {
-    var R = anObject(this);
-    var p = String(R.source);
-    var rf = R.flags;
-    var f = String(rf === undefined && R instanceof RegExp && !('flags' in RegExpPrototype) ? flags.call(R) : rf);
-    return '/' + p + '/' + f;
-  }, { unsafe: true });
-}
-
-
-/***/ }),
-/* 51 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var hide = __webpack_require__(14);
-var redefine = __webpack_require__(8);
-var fails = __webpack_require__(4);
-var wellKnownSymbol = __webpack_require__(3);
-var regexpExec = __webpack_require__(29);
-
-var SPECIES = wellKnownSymbol('species');
-
-var REPLACE_SUPPORTS_NAMED_GROUPS = !fails(function () {
-  // #replace needs built-in support for named groups.
-  // #match works fine because it just return the exec results, even if it has
-  // a "grops" property.
-  var re = /./;
-  re.exec = function () {
-    var result = [];
-    result.groups = { a: '7' };
-    return result;
-  };
-  return ''.replace(re, '$<a>') !== '7';
-});
-
-// Chrome 51 has a buggy "split" implementation when RegExp#exec !== nativeExec
-// Weex JS has frozen built-in prototypes, so use try / catch wrapper
-var SPLIT_WORKS_WITH_OVERWRITTEN_EXEC = !fails(function () {
-  var re = /(?:)/;
-  var originalExec = re.exec;
-  re.exec = function () { return originalExec.apply(this, arguments); };
-  var result = 'ab'.split(re);
-  return result.length !== 2 || result[0] !== 'a' || result[1] !== 'b';
-});
-
-module.exports = function (KEY, length, exec, sham) {
-  var SYMBOL = wellKnownSymbol(KEY);
-
-  var DELEGATES_TO_SYMBOL = !fails(function () {
-    // String methods call symbol-named RegEp methods
-    var O = {};
-    O[SYMBOL] = function () { return 7; };
-    return ''[KEY](O) != 7;
-  });
-
-  var DELEGATES_TO_EXEC = DELEGATES_TO_SYMBOL && !fails(function () {
-    // Symbol-named RegExp methods call .exec
-    var execCalled = false;
-    var re = /a/;
-    re.exec = function () { execCalled = true; return null; };
-
-    if (KEY === 'split') {
-      // RegExp[@@split] doesn't call the regex's exec method, but first creates
-      // a new one. We need to return the patched regex when creating the new one.
-      re.constructor = {};
-      re.constructor[SPECIES] = function () { return re; };
-    }
-
-    re[SYMBOL]('');
-    return !execCalled;
-  });
-
-  if (
-    !DELEGATES_TO_SYMBOL ||
-    !DELEGATES_TO_EXEC ||
-    (KEY === 'replace' && !REPLACE_SUPPORTS_NAMED_GROUPS) ||
-    (KEY === 'split' && !SPLIT_WORKS_WITH_OVERWRITTEN_EXEC)
-  ) {
-    var nativeRegExpMethod = /./[SYMBOL];
-    var methods = exec(SYMBOL, ''[KEY], function (nativeMethod, regexp, str, arg2, forceStringMethod) {
-      if (regexp.exec === regexpExec) {
-        if (DELEGATES_TO_SYMBOL && !forceStringMethod) {
-          // The native String method already delegates to @@method (this
-          // polyfilled function), leasing to infinite recursion.
-          // We avoid it by directly calling the native @@method method.
-          return { done: true, value: nativeRegExpMethod.call(regexp, str, arg2) };
-        }
-        return { done: true, value: nativeMethod.call(str, regexp, arg2) };
-      }
-      return { done: false };
-    });
-    var stringMethod = methods[0];
-    var regexMethod = methods[1];
-
-    redefine(String.prototype, KEY, stringMethod);
-    redefine(RegExp.prototype, SYMBOL, length == 2
-      // 21.2.5.8 RegExp.prototype[@@replace](string, replaceValue)
-      // 21.2.5.11 RegExp.prototype[@@split](string, limit)
-      ? function (string, arg) { return regexMethod.call(string, this, arg); }
-      // 21.2.5.6 RegExp.prototype[@@match](string)
-      // 21.2.5.9 RegExp.prototype[@@search](string)
-      : function (string) { return regexMethod.call(string, this); }
-    );
-    if (sham) hide(RegExp.prototype[SYMBOL], 'sham', true);
-  }
-};
-
-
-/***/ }),
-/* 52 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var charAt = __webpack_require__(109).charAt;
-
-// `AdvanceStringIndex` abstract operation
-// https://tc39.github.io/ecma262/#sec-advancestringindex
-module.exports = function (S, index, unicode) {
-  return index + (unicode ? charAt(S, index).length : 1);
-};
-
-
-/***/ }),
-/* 53 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var classof = __webpack_require__(11);
-var regexpExec = __webpack_require__(29);
-
-// `RegExpExec` abstract operation
-// https://tc39.github.io/ecma262/#sec-regexpexec
-module.exports = function (R, S) {
-  var exec = R.exec;
-  if (typeof exec === 'function') {
-    var result = exec.call(R, S);
-    if (typeof result !== 'object') {
-      throw TypeError('RegExp exec method returned something other than an Object or null');
-    }
-    return result;
-  }
-
-  if (classof(R) !== 'RegExp') {
-    throw TypeError('RegExp#exec called on incompatible receiver');
-  }
-
-  return regexpExec.call(R, S);
-};
-
-
-
-/***/ }),
-/* 54 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var $ = __webpack_require__(2);
-var isObject = __webpack_require__(7);
-var isArray = __webpack_require__(46);
-var toAbsoluteIndex = __webpack_require__(42);
-var toLength = __webpack_require__(9);
-var toIndexedObject = __webpack_require__(19);
-var createProperty = __webpack_require__(47);
-var arrayMethodHasSpeciesSupport = __webpack_require__(27);
-var wellKnownSymbol = __webpack_require__(3);
-
-var SPECIES = wellKnownSymbol('species');
-var nativeSlice = [].slice;
-var max = Math.max;
-
-// `Array.prototype.slice` method
-// https://tc39.github.io/ecma262/#sec-array.prototype.slice
-// fallback for not array-like ES3 strings and DOM objects
-$({ target: 'Array', proto: true, forced: !arrayMethodHasSpeciesSupport('slice') }, {
-  slice: function slice(start, end) {
-    var O = toIndexedObject(this);
-    var length = toLength(O.length);
-    var k = toAbsoluteIndex(start, length);
-    var fin = toAbsoluteIndex(end === undefined ? length : end, length);
-    // inline `ArraySpeciesCreate` for usage native `Array#slice` where it's possible
-    var Constructor, result, n;
-    if (isArray(O)) {
-      Constructor = O.constructor;
-      // cross-realm fallback
-      if (typeof Constructor == 'function' && (Constructor === Array || isArray(Constructor.prototype))) {
-        Constructor = undefined;
-      } else if (isObject(Constructor)) {
-        Constructor = Constructor[SPECIES];
-        if (Constructor === null) Constructor = undefined;
-      }
-      if (Constructor === Array || Constructor === undefined) {
-        return nativeSlice.call(O, k, fin);
-      }
-    }
-    result = new (Constructor === undefined ? Array : Constructor)(max(fin - k, 0));
-    for (n = 0; k < fin; k++, n++) if (k in O) createProperty(result, n, O[k]);
-    result.length = n;
-    return result;
-  }
-});
-
-
-/***/ }),
-/* 55 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var requireObjectCoercible = __webpack_require__(13);
-var whitespaces = __webpack_require__(31);
-
-var whitespace = '[' + whitespaces + ']';
-var ltrim = RegExp('^' + whitespace + whitespace + '*');
-var rtrim = RegExp(whitespace + whitespace + '*$');
-
-// `String.prototype.{ trim, trimStart, trimEnd, trimLeft, trimRight }` methods implementation
-var createMethod = function (TYPE) {
-  return function ($this) {
-    var string = String(requireObjectCoercible($this));
-    if (TYPE & 1) string = string.replace(ltrim, '');
-    if (TYPE & 2) string = string.replace(rtrim, '');
-    return string;
-  };
-};
-
-module.exports = {
-  // `String.prototype.{ trimLeft, trimStart }` methods
-  // https://tc39.github.io/ecma262/#sec-string.prototype.trimstart
-  start: createMethod(1),
-  // `String.prototype.{ trimRight, trimEnd }` methods
-  // https://tc39.github.io/ecma262/#sec-string.prototype.trimend
-  end: createMethod(2),
-  // `String.prototype.trim` method
-  // https://tc39.github.io/ecma262/#sec-string.prototype.trim
-  trim: createMethod(3)
-};
-
-
-/***/ }),
-/* 56 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var anObject = __webpack_require__(5);
-var aFunction = __webpack_require__(24);
-var wellKnownSymbol = __webpack_require__(3);
-
-var SPECIES = wellKnownSymbol('species');
-
-// `SpeciesConstructor` abstract operation
-// https://tc39.github.io/ecma262/#sec-speciesconstructor
-module.exports = function (O, defaultConstructor) {
-  var C = anObject(O).constructor;
-  var S;
-  return C === undefined || (S = anObject(C)[SPECIES]) == undefined ? defaultConstructor : aFunction(S);
-};
-
-
-/***/ }),
-/* 57 */
-/***/ (function(module, exports) {
-
-var v1='<div class=lumx-checkbox ng-class="{ \'lumx-checkbox--is-checked\': lx.viewValue,\n                \'lumx-checkbox--is-unchecked\': !lx.viewValue,\n                \'lumx-checkbox--theme-light\': !lx.theme || lx.theme === \'light\',\n                \'lumx-checkbox--theme-dark\': lx.theme === \'dark\' }"><div class=lumx-checkbox__input-wrapper><input type=checkbox id="{{ lx.checkboxId }}" class=lumx-checkbox__input-native ng-checked=lx.viewValue ng-click="lx.updateViewValue()"><div class=lumx-checkbox__input-placeholder><div class=lumx-checkbox__input-background></div><div class=lumx-checkbox__input-indicator><lx-icon lx-path="{{ lx.icons.mdiCheck }}"></lx-icon></div></div></div><div class=lumx-checkbox__content ng-if="::!lx.hasLabel && !lx.hasHelper && lx.hasTranscluded"><label for="{{ lx.checkboxId }}" class=lumx-checkbox__label ng-transclude></label></div><div class=lumx-checkbox__content ng-if=::lx.hasLabel><label for="{{ lx.checkboxId }}" class=lumx-checkbox__label ng-transclude=label></label><span class=lumx-checkbox__helper ng-transclude=helper ng-if=::lx.hasHelper></span></div></div>';
-angular.module('lumx.checkbox').run(['$templateCache', function ($templateCache) {$templateCache.put('checkbox.html', v1);}]);
-module.exports=v1
-
-/***/ }),
-/* 58 */
-/***/ (function(module, exports) {
-
-var v1='<i class=lumx-icon><svg aria-hidden=true height=1em preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24" width=1em><path fill="currentColor"/></svg></i>';
-angular.module('lumx.icon').run(['$templateCache', function ($templateCache) {$templateCache.put('icon.html', v1);}]);
-module.exports=v1
-
-/***/ }),
-/* 59 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var DESCRIPTORS = __webpack_require__(10);
-var fails = __webpack_require__(4);
-var createElement = __webpack_require__(38);
-
-// Thank's IE8 for his funny defineProperty
-module.exports = !DESCRIPTORS && !fails(function () {
-  return Object.defineProperty(createElement('div'), 'a', {
-    get: function () { return 7; }
-  }).a != 7;
-});
-
-
-/***/ }),
-/* 60 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var shared = __webpack_require__(26);
-
-module.exports = shared('native-function-to-string', Function.toString);
-
-
-/***/ }),
-/* 61 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var NATIVE_WEAK_MAP = __webpack_require__(95);
-var global = __webpack_require__(1);
-var isObject = __webpack_require__(7);
-var hide = __webpack_require__(14);
-var objectHas = __webpack_require__(16);
-var sharedKey = __webpack_require__(62);
-var hiddenKeys = __webpack_require__(41);
-
-var WeakMap = global.WeakMap;
-var set, get, has;
-
-var enforce = function (it) {
-  return has(it) ? get(it) : set(it, {});
-};
-
-var getterFor = function (TYPE) {
-  return function (it) {
-    var state;
-    if (!isObject(it) || (state = get(it)).type !== TYPE) {
-      throw TypeError('Incompatible receiver, ' + TYPE + ' required');
-    } return state;
-  };
-};
-
-if (NATIVE_WEAK_MAP) {
-  var store = new WeakMap();
-  var wmget = store.get;
-  var wmhas = store.has;
-  var wmset = store.set;
-  set = function (it, metadata) {
-    wmset.call(store, it, metadata);
-    return metadata;
-  };
-  get = function (it) {
-    return wmget.call(store, it) || {};
-  };
-  has = function (it) {
-    return wmhas.call(store, it);
-  };
-} else {
-  var STATE = sharedKey('state');
-  hiddenKeys[STATE] = true;
-  set = function (it, metadata) {
-    hide(it, STATE, metadata);
-    return metadata;
-  };
-  get = function (it) {
-    return objectHas(it, STATE) ? it[STATE] : {};
-  };
-  has = function (it) {
-    return objectHas(it, STATE);
-  };
-}
-
-module.exports = {
-  set: set,
-  get: get,
-  has: has,
-  enforce: enforce,
-  getterFor: getterFor
-};
-
-
-/***/ }),
-/* 62 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var shared = __webpack_require__(26);
-var uid = __webpack_require__(63);
-
-var keys = shared('keys');
-
-module.exports = function (key) {
-  return keys[key] || (keys[key] = uid(key));
-};
-
-
-/***/ }),
-/* 63 */
-/***/ (function(module, exports) {
-
-var id = 0;
-var postfix = Math.random();
-
-module.exports = function (key) {
-  return 'Symbol(' + String(key === undefined ? '' : key) + ')_' + (++id + postfix).toString(36);
-};
-
-
-/***/ }),
-/* 64 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(1);
-
-
-/***/ }),
-/* 65 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var internalObjectKeys = __webpack_require__(66);
-var enumBugKeys = __webpack_require__(43);
-
-var hiddenKeys = enumBugKeys.concat('length', 'prototype');
-
-// `Object.getOwnPropertyNames` method
-// https://tc39.github.io/ecma262/#sec-object.getownpropertynames
-exports.f = Object.getOwnPropertyNames || function getOwnPropertyNames(O) {
-  return internalObjectKeys(O, hiddenKeys);
-};
-
-
-/***/ }),
-/* 66 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var has = __webpack_require__(16);
-var toIndexedObject = __webpack_require__(19);
-var indexOf = __webpack_require__(67).indexOf;
-var hiddenKeys = __webpack_require__(41);
-
-module.exports = function (object, names) {
-  var O = toIndexedObject(object);
-  var i = 0;
-  var result = [];
-  var key;
-  for (key in O) !has(hiddenKeys, key) && has(O, key) && result.push(key);
-  // Don't enum bug & hidden keys
-  while (names.length > i) if (has(O, key = names[i++])) {
-    ~indexOf(result, key) || result.push(key);
-  }
-  return result;
-};
-
-
-/***/ }),
-/* 67 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var toIndexedObject = __webpack_require__(19);
-var toLength = __webpack_require__(9);
-var toAbsoluteIndex = __webpack_require__(42);
-
-// `Array.prototype.{ indexOf, includes }` methods implementation
-var createMethod = function (IS_INCLUDES) {
-  return function ($this, el, fromIndex) {
-    var O = toIndexedObject($this);
-    var length = toLength(O.length);
-    var index = toAbsoluteIndex(fromIndex, length);
-    var value;
-    // Array#includes uses SameValueZero equality algorithm
-    // eslint-disable-next-line no-self-compare
-    if (IS_INCLUDES && el != el) while (length > index) {
-      value = O[index++];
-      // eslint-disable-next-line no-self-compare
-      if (value != value) return true;
-    // Array#indexOf ignores holes, Array#includes - not
-    } else for (;length > index; index++) {
-      if ((IS_INCLUDES || index in O) && O[index] === el) return IS_INCLUDES || index || 0;
-    } return !IS_INCLUDES && -1;
-  };
-};
-
-module.exports = {
-  // `Array.prototype.includes` method
-  // https://tc39.github.io/ecma262/#sec-array.prototype.includes
-  includes: createMethod(true),
-  // `Array.prototype.indexOf` method
-  // https://tc39.github.io/ecma262/#sec-array.prototype.indexof
-  indexOf: createMethod(false)
-};
-
-
-/***/ }),
-/* 68 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var internalObjectKeys = __webpack_require__(66);
-var enumBugKeys = __webpack_require__(43);
-
-// `Object.keys` method
-// https://tc39.github.io/ecma262/#sec-object.keys
-module.exports = Object.keys || function keys(O) {
-  return internalObjectKeys(O, enumBugKeys);
-};
-
-
-/***/ }),
-/* 69 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var getBuiltIn = __webpack_require__(20);
-
-module.exports = getBuiltIn('document', 'documentElement');
-
-
-/***/ }),
-/* 70 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var redefine = __webpack_require__(8);
-
-var DatePrototype = Date.prototype;
-var INVALID_DATE = 'Invalid Date';
-var TO_STRING = 'toString';
-var nativeDateToString = DatePrototype[TO_STRING];
-var getTime = DatePrototype.getTime;
-
-// `Date.prototype.toString` method
-// https://tc39.github.io/ecma262/#sec-date.prototype.tostring
-if (new Date(NaN) + '' != INVALID_DATE) {
-  redefine(DatePrototype, TO_STRING, function toString() {
-    var value = getTime.call(this);
-    // eslint-disable-next-line no-self-compare
-    return value === value ? nativeDateToString.call(this) : INVALID_DATE;
-  });
-}
-
-
-/***/ }),
-/* 71 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var redefine = __webpack_require__(8);
-var toString = __webpack_require__(108);
-
-var ObjectPrototype = Object.prototype;
-
-// `Object.prototype.toString` method
-// https://tc39.github.io/ecma262/#sec-object.prototype.tostring
-if (toString !== ObjectPrototype.toString) {
-  redefine(ObjectPrototype, 'toString', toString, { unsafe: true });
-}
-
-
-/***/ }),
-/* 72 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var classofRaw = __webpack_require__(11);
-var wellKnownSymbol = __webpack_require__(3);
-
-var TO_STRING_TAG = wellKnownSymbol('toStringTag');
-// ES3 wrong here
-var CORRECT_ARGUMENTS = classofRaw(function () { return arguments; }()) == 'Arguments';
-
-// fallback for IE11 Script Access Denied error
-var tryGet = function (it, key) {
-  try {
-    return it[key];
-  } catch (error) { /* empty */ }
-};
-
-// getting tag from ES6+ `Object.prototype.toString`
-module.exports = function (it) {
-  var O, tag, result;
-  return it === undefined ? 'Undefined' : it === null ? 'Null'
-    // @@toStringTag case
-    : typeof (tag = tryGet(O = Object(it), TO_STRING_TAG)) == 'string' ? tag
-    // builtinTag case
-    : CORRECT_ARGUMENTS ? classofRaw(O)
-    // ES3 arguments fallback
-    : (result = classofRaw(O)) == 'Object' && typeof O.callee == 'function' ? 'Arguments' : result;
-};
-
-
-/***/ }),
-/* 73 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var $ = __webpack_require__(2);
-var IndexedObject = __webpack_require__(36);
-var toIndexedObject = __webpack_require__(19);
-var sloppyArrayMethod = __webpack_require__(22);
-
-var nativeJoin = [].join;
-
-var ES3_STRINGS = IndexedObject != Object;
-var SLOPPY_METHOD = sloppyArrayMethod('join', ',');
-
-// `Array.prototype.join` method
-// https://tc39.github.io/ecma262/#sec-array.prototype.join
-$({ target: 'Array', proto: true, forced: ES3_STRINGS || SLOPPY_METHOD }, {
-  join: function join(separator) {
-    return nativeJoin.call(toIndexedObject(this), separator === undefined ? ',' : separator);
-  }
-});
-
-
-/***/ }),
-/* 74 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var fixRegExpWellKnownSymbolLogic = __webpack_require__(51);
-var anObject = __webpack_require__(5);
-var toLength = __webpack_require__(9);
-var requireObjectCoercible = __webpack_require__(13);
-var advanceStringIndex = __webpack_require__(52);
-var regExpExec = __webpack_require__(53);
-
-// @@match logic
-fixRegExpWellKnownSymbolLogic('match', 1, function (MATCH, nativeMatch, maybeCallNative) {
-  return [
-    // `String.prototype.match` method
-    // https://tc39.github.io/ecma262/#sec-string.prototype.match
-    function match(regexp) {
-      var O = requireObjectCoercible(this);
-      var matcher = regexp == undefined ? undefined : regexp[MATCH];
-      return matcher !== undefined ? matcher.call(regexp, O) : new RegExp(regexp)[MATCH](String(O));
-    },
-    // `RegExp.prototype[@@match]` method
-    // https://tc39.github.io/ecma262/#sec-regexp.prototype-@@match
-    function (regexp) {
-      var res = maybeCallNative(nativeMatch, regexp, this);
-      if (res.done) return res.value;
-
-      var rx = anObject(regexp);
-      var S = String(this);
-
-      if (!rx.global) return regExpExec(rx, S);
-
-      var fullUnicode = rx.unicode;
-      rx.lastIndex = 0;
-      var A = [];
-      var n = 0;
-      var result;
-      while ((result = regExpExec(rx, S)) !== null) {
-        var matchStr = String(result[0]);
-        A[n] = matchStr;
-        if (matchStr === '') rx.lastIndex = advanceStringIndex(S, toLength(rx.lastIndex), fullUnicode);
-        n++;
-      }
-      return n === 0 ? null : A;
-    }
-  ];
-});
-
-
-/***/ }),
-/* 75 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var $forEach = __webpack_require__(28).forEach;
-var sloppyArrayMethod = __webpack_require__(22);
-
-// `Array.prototype.forEach` method implementation
-// https://tc39.github.io/ecma262/#sec-array.prototype.foreach
-module.exports = sloppyArrayMethod('forEach') ? function forEach(callbackfn /* , thisArg */) {
-  return $forEach(this, callbackfn, arguments.length > 1 ? arguments[1] : undefined);
-} : [].forEach;
-
-
-/***/ }),
-/* 76 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var $ = __webpack_require__(2);
-var $filter = __webpack_require__(28).filter;
-var arrayMethodHasSpeciesSupport = __webpack_require__(27);
-
-// `Array.prototype.filter` method
-// https://tc39.github.io/ecma262/#sec-array.prototype.filter
-// with adding support of @@species
-$({ target: 'Array', proto: true, forced: !arrayMethodHasSpeciesSupport('filter') }, {
-  filter: function filter(callbackfn /* , thisArg */) {
-    return $filter(this, callbackfn, arguments.length > 1 ? arguments[1] : undefined);
-  }
-});
-
-
-/***/ }),
-/* 77 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var DESCRIPTORS = __webpack_require__(10);
-var global = __webpack_require__(1);
-var isForced = __webpack_require__(44);
-var inheritIfRequired = __webpack_require__(135);
-var defineProperty = __webpack_require__(12).f;
-var getOwnPropertyNames = __webpack_require__(65).f;
-var isRegExp = __webpack_require__(78);
-var getFlags = __webpack_require__(49);
-var redefine = __webpack_require__(8);
-var fails = __webpack_require__(4);
-var setSpecies = __webpack_require__(79);
-var wellKnownSymbol = __webpack_require__(3);
-
-var MATCH = wellKnownSymbol('match');
-var NativeRegExp = global.RegExp;
-var RegExpPrototype = NativeRegExp.prototype;
-var re1 = /a/g;
-var re2 = /a/g;
-
-// "new" should create a new object, old webkit bug
-var CORRECT_NEW = new NativeRegExp(re1) !== re1;
-
-var FORCED = DESCRIPTORS && isForced('RegExp', (!CORRECT_NEW || fails(function () {
-  re2[MATCH] = false;
-  // RegExp constructor can alter flags and IsRegExp works correct with @@match
-  return NativeRegExp(re1) != re1 || NativeRegExp(re2) == re2 || NativeRegExp(re1, 'i') != '/a/i';
-})));
-
-// `RegExp` constructor
-// https://tc39.github.io/ecma262/#sec-regexp-constructor
-if (FORCED) {
-  var RegExpWrapper = function RegExp(pattern, flags) {
-    var thisIsRegExp = this instanceof RegExpWrapper;
-    var patternIsRegExp = isRegExp(pattern);
-    var flagsAreUndefined = flags === undefined;
-    return !thisIsRegExp && patternIsRegExp && pattern.constructor === RegExpWrapper && flagsAreUndefined ? pattern
-      : inheritIfRequired(CORRECT_NEW
-        ? new NativeRegExp(patternIsRegExp && !flagsAreUndefined ? pattern.source : pattern, flags)
-        : NativeRegExp((patternIsRegExp = pattern instanceof RegExpWrapper)
-          ? pattern.source
-          : pattern, patternIsRegExp && flagsAreUndefined ? getFlags.call(pattern) : flags)
-      , thisIsRegExp ? this : RegExpPrototype, RegExpWrapper);
-  };
-  var proxy = function (key) {
-    key in RegExpWrapper || defineProperty(RegExpWrapper, key, {
-      configurable: true,
-      get: function () { return NativeRegExp[key]; },
-      set: function (it) { NativeRegExp[key] = it; }
-    });
-  };
-  var keys = getOwnPropertyNames(NativeRegExp);
-  var index = 0;
-  while (keys.length > index) proxy(keys[index++]);
-  RegExpPrototype.constructor = RegExpWrapper;
-  RegExpWrapper.prototype = RegExpPrototype;
-  redefine(global, 'RegExp', RegExpWrapper);
-}
-
-// https://tc39.github.io/ecma262/#sec-get-regexp-@@species
-setSpecies('RegExp');
-
-
-/***/ }),
-/* 78 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var isObject = __webpack_require__(7);
-var classof = __webpack_require__(11);
-var wellKnownSymbol = __webpack_require__(3);
-
-var MATCH = wellKnownSymbol('match');
-
-// `IsRegExp` abstract operation
-// https://tc39.github.io/ecma262/#sec-isregexp
-module.exports = function (it) {
-  var isRegExp;
-  return isObject(it) && ((isRegExp = it[MATCH]) !== undefined ? !!isRegExp : classof(it) == 'RegExp');
-};
-
-
-/***/ }),
-/* 79 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var getBuiltIn = __webpack_require__(20);
-var definePropertyModule = __webpack_require__(12);
-var wellKnownSymbol = __webpack_require__(3);
-var DESCRIPTORS = __webpack_require__(10);
-
-var SPECIES = wellKnownSymbol('species');
-
-module.exports = function (CONSTRUCTOR_NAME) {
-  var Constructor = getBuiltIn(CONSTRUCTOR_NAME);
-  var defineProperty = definePropertyModule.f;
-
-  if (DESCRIPTORS && Constructor && !Constructor[SPECIES]) {
-    defineProperty(Constructor, SPECIES, {
-      configurable: true,
-      get: function () { return this; }
-    });
-  }
-};
-
-
-/***/ }),
-/* 80 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var global = __webpack_require__(1);
-
-module.exports = global.Promise;
-
-
-/***/ }),
-/* 81 */
-/***/ (function(module, exports) {
-
-module.exports = {};
-
-
-/***/ }),
-/* 82 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var global = __webpack_require__(1);
-var fails = __webpack_require__(4);
-var classof = __webpack_require__(11);
-var bind = __webpack_require__(48);
-var html = __webpack_require__(69);
-var createElement = __webpack_require__(38);
-
-var location = global.location;
-var set = global.setImmediate;
-var clear = global.clearImmediate;
-var process = global.process;
-var MessageChannel = global.MessageChannel;
-var Dispatch = global.Dispatch;
-var counter = 0;
-var queue = {};
-var ONREADYSTATECHANGE = 'onreadystatechange';
-var defer, channel, port;
-
-var run = function (id) {
-  // eslint-disable-next-line no-prototype-builtins
-  if (queue.hasOwnProperty(id)) {
-    var fn = queue[id];
-    delete queue[id];
-    fn();
-  }
-};
-
-var runner = function (id) {
-  return function () {
-    run(id);
-  };
-};
-
-var listener = function (event) {
-  run(event.data);
-};
-
-var post = function (id) {
-  // old engines have not location.origin
-  global.postMessage(id + '', location.protocol + '//' + location.host);
-};
-
-// Node.js 0.9+ & IE10+ has setImmediate, otherwise:
-if (!set || !clear) {
-  set = function setImmediate(fn) {
-    var args = [];
-    var i = 1;
-    while (arguments.length > i) args.push(arguments[i++]);
-    queue[++counter] = function () {
-      // eslint-disable-next-line no-new-func
-      (typeof fn == 'function' ? fn : Function(fn)).apply(undefined, args);
-    };
-    defer(counter);
-    return counter;
-  };
-  clear = function clearImmediate(id) {
-    delete queue[id];
-  };
-  // Node.js 0.8-
-  if (classof(process) == 'process') {
-    defer = function (id) {
-      process.nextTick(runner(id));
-    };
-  // Sphere (JS game engine) Dispatch API
-  } else if (Dispatch && Dispatch.now) {
-    defer = function (id) {
-      Dispatch.now(runner(id));
-    };
-  // Browsers with MessageChannel, includes WebWorkers
-  } else if (MessageChannel) {
-    channel = new MessageChannel();
-    port = channel.port2;
-    channel.port1.onmessage = listener;
-    defer = bind(port.postMessage, port, 1);
-  // Browsers with postMessage, skip WebWorkers
-  // IE8 has postMessage, but it's sync & typeof its postMessage is 'object'
-  } else if (global.addEventListener && typeof postMessage == 'function' && !global.importScripts && !fails(post)) {
-    defer = post;
-    global.addEventListener('message', listener, false);
-  // IE8-
-  } else if (ONREADYSTATECHANGE in createElement('script')) {
-    defer = function (id) {
-      html.appendChild(createElement('script'))[ONREADYSTATECHANGE] = function () {
-        html.removeChild(this);
-        run(id);
-      };
-    };
-  // Rest old browsers
-  } else {
-    defer = function (id) {
-      setTimeout(runner(id), 0);
-    };
-  }
-}
-
-module.exports = {
-  set: set,
-  clear: clear
-};
-
-
-/***/ }),
-/* 83 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var getBuiltIn = __webpack_require__(20);
-
-module.exports = getBuiltIn('navigator', 'userAgent') || '';
-
-
-/***/ }),
-/* 84 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var anObject = __webpack_require__(5);
-var isObject = __webpack_require__(7);
-var newPromiseCapability = __webpack_require__(85);
-
-module.exports = function (C, x) {
-  anObject(C);
-  if (isObject(x) && x.constructor === C) return x;
-  var promiseCapability = newPromiseCapability.f(C);
-  var resolve = promiseCapability.resolve;
-  resolve(x);
-  return promiseCapability.promise;
-};
-
-
-/***/ }),
-/* 85 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var aFunction = __webpack_require__(24);
-
-var PromiseCapability = function (C) {
-  var resolve, reject;
-  this.promise = new C(function ($$resolve, $$reject) {
-    if (resolve !== undefined || reject !== undefined) throw TypeError('Bad Promise constructor');
-    resolve = $$resolve;
-    reject = $$reject;
-  });
-  this.resolve = aFunction(resolve);
-  this.reject = aFunction(reject);
-};
-
-// 25.4.1.5 NewPromiseCapability(C)
-module.exports.f = function (C) {
-  return new PromiseCapability(C);
-};
-
-
-/***/ }),
-/* 86 */
-/***/ (function(module, exports, __webpack_require__) {
-
-__webpack_require__(87);
-__webpack_require__(88);
-__webpack_require__(89);
-__webpack_require__(90);
-__webpack_require__(91);
-__webpack_require__(92);
-__webpack_require__(100);
-__webpack_require__(101);
-__webpack_require__(105);
-__webpack_require__(106);
-__webpack_require__(107);
-__webpack_require__(110);
-__webpack_require__(192);
-__webpack_require__(111);
-__webpack_require__(114);
-__webpack_require__(115);
-__webpack_require__(118);
-__webpack_require__(119);
-__webpack_require__(120);
-__webpack_require__(121);
-__webpack_require__(123);
-__webpack_require__(124);
-__webpack_require__(125);
-__webpack_require__(126);
-__webpack_require__(127);
-__webpack_require__(130);
-__webpack_require__(132);
-__webpack_require__(133);
-__webpack_require__(134);
-__webpack_require__(138);
-__webpack_require__(143);
-__webpack_require__(157);
-__webpack_require__(158);
-__webpack_require__(159);
-__webpack_require__(160);
-__webpack_require__(161);
-__webpack_require__(162);
-__webpack_require__(163);
-__webpack_require__(164);
-__webpack_require__(165);
-__webpack_require__(166);
-__webpack_require__(167);
-__webpack_require__(168);
-__webpack_require__(169);
-__webpack_require__(170);
-__webpack_require__(171);
-__webpack_require__(172);
-__webpack_require__(173);
-__webpack_require__(174);
-__webpack_require__(175);
-__webpack_require__(176);
-__webpack_require__(57);
-__webpack_require__(177);
-__webpack_require__(178);
-__webpack_require__(179);
-__webpack_require__(180);
-__webpack_require__(181);
-__webpack_require__(182);
-__webpack_require__(183);
-__webpack_require__(184);
-__webpack_require__(185);
-__webpack_require__(186);
-__webpack_require__(187);
-__webpack_require__(188);
-__webpack_require__(189);
-__webpack_require__(58);
-__webpack_require__(190);
-module.exports = __webpack_require__(191);
-
-
-/***/ }),
-/* 87 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// extracted by extract-css-chunks-webpack-plugin
-
-/***/ }),
-/* 88 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// extracted by extract-css-chunks-webpack-plugin
-
-/***/ }),
-/* 89 */
-/***/ (function(module, exports) {
-
-angular.module('lumx.utils.depth', []);
-angular.module('lumx.utils.enter-keypress', []);
-angular.module('lumx.utils.event-scheduler', []);
-angular.module('lumx.utils.focus-on-init', []);
-angular.module('lumx.utils.focus-trap', []);
-angular.module('lumx.utils.stop-propagation', []);
-angular.module('lumx.utils.transclude-replace', []);
-angular.module('lumx.utils.utils', []);
-angular.module('lumx.utils', ['lumx.utils.depth', 'lumx.utils.enter-keypress', 'lumx.utils.event-scheduler', 'lumx.utils.focus-on-init', 'lumx.utils.focus-trap', 'lumx.utils.stop-propagation', 'lumx.utils.transclude-replace', 'lumx.utils.utils']);
-angular.module('lumx.button', []);
-angular.module('lumx.checkbox', []);
-angular.module('lumx.data-table', []);
-angular.module('lumx.date-picker', []);
-angular.module('lumx.dialog', ['lumx.utils.event-scheduler']);
-angular.module('lumx.dropdown', ['lumx.utils.event-scheduler']);
-angular.module('lumx.fab', []);
-angular.module('lumx.file-input', []);
-angular.module('lumx.icon', []);
-angular.module('lumx.notification', ['lumx.utils.event-scheduler']);
-angular.module('lumx.progress', []);
-angular.module('lumx.radio-button', []);
-angular.module('lumx.ripple', []);
-angular.module('lumx.search-filter', []);
-angular.module('lumx.select', []);
-angular.module('lumx.stepper', []);
-angular.module('lumx.switch', []);
-angular.module('lumx.tabs', []);
-angular.module('lumx.text-field', []);
-angular.module('lumx.tooltip', []);
-angular.module('lumx', ['lumx.button', 'lumx.checkbox', 'lumx.data-table', 'lumx.date-picker', 'lumx.dialog', 'lumx.dropdown', 'lumx.fab', 'lumx.file-input', 'lumx.icon', 'lumx.notification', 'lumx.progress', 'lumx.radio-button', 'lumx.ripple', 'lumx.search-filter', 'lumx.select', 'lumx.stepper', 'lumx.switch', 'lumx.tabs', 'lumx.text-field', 'lumx.tooltip', 'lumx.utils']);
-
-/***/ }),
-/* 90 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DepthService", function() { return DepthService; });
-function DepthService() {
-  'ngInject';
-
-  var service = this;
-  var _depth = 1000;
-
-  function get() {
-    return _depth;
-  }
-
-  function increase() {
-    _depth++;
-  }
-
-  service.get = get;
-  service.increase = increase;
-  service.getDepth = get;
-  service.register = increase;
-}
-
-angular.module('lumx.utils.depth').service('LxDepthService', DepthService);
-
-
-/***/ }),
-/* 91 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "EnterKeypressDirective", function() { return EnterKeypressDirective; });
-/* harmony import */ var _lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
-
-
-function EnterKeypressDirective() {
-  'ngInject';
-
-  function link(scope, el, attrs) {
-    el.on('keydown keypress', function (evt) {
-      if (evt.which === _lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_0__[/* ENTER_KEY_CODE */ "b"]) {
-        scope.$apply(function evalExpression() {
-          scope.$eval(attrs.lxEnterKeypress, {
-            $event: evt
-          });
-        });
-        evt.preventDefault();
-      }
-    });
-  }
-
-  return {
-    link: link
-  };
-}
-
-angular.module('lumx.utils.enter-keypress').directive('lxEnterKeypress', EnterKeypressDirective);
-
-
-/***/ }),
-/* 92 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "EventSchedulerService", function() { return EventSchedulerService; });
-/* harmony import */ var core_js_modules_es_array_index_of__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(18);
-/* harmony import */ var core_js_modules_es_array_index_of__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_index_of__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var core_js_modules_es_array_splice__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(23);
-/* harmony import */ var core_js_modules_es_array_splice__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_splice__WEBPACK_IMPORTED_MODULE_1__);
-
-
-EventSchedulerService.$inject = ["$document", "LxUtilsService"];
-
-function EventSchedulerService($document, LxUtilsService) {
-  'ngInject';
-
-  var service = this;
-  var _handlers = {};
-  var _schedule = {};
-
-  function _handle(evt) {
-    var scheduler = _schedule[evt.type];
-
-    if (angular.isDefined(scheduler)) {
-      for (var i = 0, len = scheduler.length; i < len; i++) {
-        var handler = scheduler[i];
-
-        if (angular.isDefined(handler) && angular.isDefined(handler.cb) && angular.isFunction(handler.cb)) {
-          handler.cb(evt);
-
-          if (evt.isPropagationStopped()) {
-            break;
-          }
-        }
-      }
-    }
-  }
-
-  function register(eventName, cb) {
-    var handler = {
-      cb: cb,
-      eventName: eventName
-    };
-    var id = LxUtilsService.generateUUID();
-    _handlers[id] = handler;
-
-    if (angular.isUndefined(_schedule[eventName])) {
-      _schedule[eventName] = [];
-      $document.on(eventName, _handle);
-    }
-
-    _schedule[eventName].unshift(_handlers[id]);
-
-    return id;
-  }
-
-  function unregister(id) {
-    var found = false;
-    var handler = _handlers[id];
-
-    if (angular.isDefined(handler) && angular.isDefined(_schedule[handler.eventName])) {
-      var index = _schedule[handler.eventName].indexOf(handler);
-
-      if (angular.isDefined(index) && index > -1) {
-        _schedule[handler.eventName].splice(index, 1);
-
-        delete _handlers[id];
-        found = true;
-      }
-
-      if (_schedule[handler.eventName].length === 0) {
-        delete _schedule[handler.eventName];
-        $document.off(handler.eventName, _handle);
-      }
-    }
-
-    return found;
-  }
-
-  service.register = register;
-  service.unregister = unregister;
-}
-
-angular.module('lumx.utils.event-scheduler').service('LxEventSchedulerService', EventSchedulerService);
-
-
-/***/ }),
-/* 93 */
-/***/ (function(module, exports) {
-
-var g;
-
-// This works in non-strict mode
-g = (function() {
-	return this;
-})();
-
-try {
-	// This works if eval is allowed (see CSP)
-	g = g || new Function("return this")();
-} catch (e) {
-	// This works if the window reference is available
-	if (typeof window === "object") g = window;
-}
-
-// g can still be undefined, but nothing to do about it...
-// We return undefined, instead of nothing here, so it's
-// easier to handle this case. if(!global) { ...}
-
-module.exports = g;
-
-
-/***/ }),
-/* 94 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var nativePropertyIsEnumerable = {}.propertyIsEnumerable;
-var getOwnPropertyDescriptor = Object.getOwnPropertyDescriptor;
-
-// Nashorn ~ JDK8 bug
-var NASHORN_BUG = getOwnPropertyDescriptor && !nativePropertyIsEnumerable.call({ 1: 2 }, 1);
-
-// `Object.prototype.propertyIsEnumerable` method implementation
-// https://tc39.github.io/ecma262/#sec-object.prototype.propertyisenumerable
-exports.f = NASHORN_BUG ? function propertyIsEnumerable(V) {
-  var descriptor = getOwnPropertyDescriptor(this, V);
-  return !!descriptor && descriptor.enumerable;
-} : nativePropertyIsEnumerable;
-
-
-/***/ }),
-/* 95 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var global = __webpack_require__(1);
-var nativeFunctionToString = __webpack_require__(60);
-
-var WeakMap = global.WeakMap;
-
-module.exports = typeof WeakMap === 'function' && /native code/.test(nativeFunctionToString.call(WeakMap));
-
-
-/***/ }),
-/* 96 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var has = __webpack_require__(16);
-var ownKeys = __webpack_require__(97);
-var getOwnPropertyDescriptorModule = __webpack_require__(34);
-var definePropertyModule = __webpack_require__(12);
-
-module.exports = function (target, source) {
-  var keys = ownKeys(source);
-  var defineProperty = definePropertyModule.f;
-  var getOwnPropertyDescriptor = getOwnPropertyDescriptorModule.f;
-  for (var i = 0; i < keys.length; i++) {
-    var key = keys[i];
-    if (!has(target, key)) defineProperty(target, key, getOwnPropertyDescriptor(source, key));
-  }
-};
-
-
-/***/ }),
-/* 97 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var getBuiltIn = __webpack_require__(20);
-var getOwnPropertyNamesModule = __webpack_require__(65);
-var getOwnPropertySymbolsModule = __webpack_require__(98);
-var anObject = __webpack_require__(5);
-
-// all object keys, includes non-enumerable and symbols
-module.exports = getBuiltIn('Reflect', 'ownKeys') || function ownKeys(it) {
-  var keys = getOwnPropertyNamesModule.f(anObject(it));
-  var getOwnPropertySymbols = getOwnPropertySymbolsModule.f;
-  return getOwnPropertySymbols ? keys.concat(getOwnPropertySymbols(it)) : keys;
-};
-
-
-/***/ }),
-/* 98 */
-/***/ (function(module, exports) {
-
-exports.f = Object.getOwnPropertySymbols;
-
-
-/***/ }),
-/* 99 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var fails = __webpack_require__(4);
-
-module.exports = !!Object.getOwnPropertySymbols && !fails(function () {
-  // Chrome 38 Symbol has incorrect toString conversion
-  // eslint-disable-next-line no-undef
-  return !String(Symbol());
-});
-
-
-/***/ }),
-/* 100 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FocusOnInitDirective", function() { return FocusOnInitDirective; });
-FocusOnInitDirective.$inject = ["$timeout"];
-
-function FocusOnInitDirective($timeout) {
-  'ngInject';
-
-  function link(scope, el, attrs) {
-    if (angular.isDefined(attrs.lxFocusOnInit) && attrs.lxFocusOnInit && !scope.$eval(attrs.lxFocusOnInit)) {
-      return;
-    }
-
-    $timeout(function () {
-      el.focus();
-    });
-  }
-
-  return {
-    link: link
-  };
-}
-
-angular.module('lumx.utils.focus-on-init').directive('lxFocusOnInit', FocusOnInitDirective);
-
-
-/***/ }),
-/* 101 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FocusTrapService", function() { return FocusTrapService; });
-/* harmony import */ var core_js_modules_es_array_find__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(6);
-/* harmony import */ var core_js_modules_es_array_find__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_find__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(0);
-
-
-
-function FocusTrapService() {
-  'ngInject';
-
-  var service = this;
-
-  var _activeElement;
-
-  function _onKeyPress(evt) {
-    if (evt.keyCode !== _lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_1__[/* TAB_KEY_CODE */ "c"]) {
-      return;
-    }
-
-    var focusableEls = _activeElement.find('a[href]:not([tabindex="-1"]), button:not([tabindex="-1"]), textarea:not([tabindex="-1"]), input[type="text"]:not([tabindex="-1"]), input[type="radio"]:not([tabindex="-1"]), input[type="checkbox"]:not([tabindex="-1"]), [tabindex]:not([tabindex="-1"])');
-
-    var firstFocusableEl = focusableEls[0];
-    var lastFocusableEl = focusableEls[focusableEls.length - 1];
-
-    if (evt.shiftKey) {
-      if (document.activeElement === firstFocusableEl) {
-        lastFocusableEl.focus();
-        evt.preventDefault();
-      }
-    } else if (document.activeElement === lastFocusableEl) {
-      firstFocusableEl.focus();
-      evt.preventDefault();
-    }
-  }
-
-  function activate(el) {
-    _activeElement = el;
-
-    _activeElement.on('keydown keypress', _onKeyPress);
-  }
-
-  function disable() {
-    _activeElement.off('keydown keypress', _onKeyPress);
-
-    _activeElement = undefined;
-  }
-
-  service.activate = activate;
-  service.disable = disable;
-}
-
-angular.module('lumx.utils.focus-trap').service('LxFocusTrapService', FocusTrapService);
-
-
-/***/ }),
-/* 102 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var wellKnownSymbol = __webpack_require__(3);
-var create = __webpack_require__(103);
-var hide = __webpack_require__(14);
-
-var UNSCOPABLES = wellKnownSymbol('unscopables');
-var ArrayPrototype = Array.prototype;
-
-// Array.prototype[@@unscopables]
-// https://tc39.github.io/ecma262/#sec-array.prototype-@@unscopables
-if (ArrayPrototype[UNSCOPABLES] == undefined) {
-  hide(ArrayPrototype, UNSCOPABLES, create(null));
-}
-
-// add a key to Array.prototype[@@unscopables]
-module.exports = function (key) {
-  ArrayPrototype[UNSCOPABLES][key] = true;
-};
-
-
-/***/ }),
-/* 103 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var anObject = __webpack_require__(5);
-var defineProperties = __webpack_require__(104);
-var enumBugKeys = __webpack_require__(43);
-var hiddenKeys = __webpack_require__(41);
-var html = __webpack_require__(69);
-var documentCreateElement = __webpack_require__(38);
-var sharedKey = __webpack_require__(62);
-var IE_PROTO = sharedKey('IE_PROTO');
-
-var PROTOTYPE = 'prototype';
-var Empty = function () { /* empty */ };
-
-// Create object with fake `null` prototype: use iframe Object with cleared prototype
-var createDict = function () {
-  // Thrash, waste and sodomy: IE GC bug
-  var iframe = documentCreateElement('iframe');
-  var length = enumBugKeys.length;
-  var lt = '<';
-  var script = 'script';
-  var gt = '>';
-  var js = 'java' + script + ':';
-  var iframeDocument;
-  iframe.style.display = 'none';
-  html.appendChild(iframe);
-  iframe.src = String(js);
-  iframeDocument = iframe.contentWindow.document;
-  iframeDocument.open();
-  iframeDocument.write(lt + script + gt + 'document.F=Object' + lt + '/' + script + gt);
-  iframeDocument.close();
-  createDict = iframeDocument.F;
-  while (length--) delete createDict[PROTOTYPE][enumBugKeys[length]];
-  return createDict();
-};
-
-// `Object.create` method
-// https://tc39.github.io/ecma262/#sec-object.create
-module.exports = Object.create || function create(O, Properties) {
-  var result;
-  if (O !== null) {
-    Empty[PROTOTYPE] = anObject(O);
-    result = new Empty();
-    Empty[PROTOTYPE] = null;
-    // add "__proto__" for Object.getPrototypeOf polyfill
-    result[IE_PROTO] = O;
-  } else result = createDict();
-  return Properties === undefined ? result : defineProperties(result, Properties);
-};
-
-hiddenKeys[IE_PROTO] = true;
-
-
-/***/ }),
-/* 104 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var DESCRIPTORS = __webpack_require__(10);
-var definePropertyModule = __webpack_require__(12);
-var anObject = __webpack_require__(5);
-var objectKeys = __webpack_require__(68);
-
-// `Object.defineProperties` method
-// https://tc39.github.io/ecma262/#sec-object.defineproperties
-module.exports = DESCRIPTORS ? Object.defineProperties : function defineProperties(O, Properties) {
-  anObject(O);
-  var keys = objectKeys(Properties);
-  var length = keys.length;
-  var index = 0;
-  var key;
-  while (length > index) definePropertyModule.f(O, key = keys[index++], Properties[key]);
-  return O;
-};
-
-
-/***/ }),
-/* 105 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "StopPropagationDirective", function() { return StopPropagationDirective; });
-function StopPropagationDirective() {
-  'ngInject';
-
-  function link(scope, el, attrs) {
-    el.on(attrs.lxStopPropagation, function (evt) {
-      evt.stopPropagation();
-    });
-  }
-
-  return {
-    link: link
-  };
-}
-
-angular.module('lumx.utils.stop-propagation').directive('lxStopPropagation', StopPropagationDirective);
-
-
-/***/ }),
-/* 106 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TranscludeReplaceDirective", function() { return TranscludeReplaceDirective; });
-function TranscludeReplaceDirective() {
-  'ngInject';
-
-  function link(scope, el, attrs, ctrl, transclude) {
-    if (!transclude) {
-      return;
-    }
-
-    transclude(function (clone) {
-      if (clone.length > 0) {
-        el.replaceWith(clone);
-      } else {
-        el.remove();
-      }
-    });
-  }
-
-  return {
-    link: link,
-    restrict: 'EA',
-    terminal: true
-  };
-}
-
-angular.module('lumx.utils.transclude-replace').directive('ngTranscludeReplace', TranscludeReplaceDirective);
-
-
-/***/ }),
-/* 107 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UtilsService", function() { return UtilsService; });
-/* harmony import */ var core_js_modules_es_date_to_string__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(70);
-/* harmony import */ var core_js_modules_es_date_to_string__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_date_to_string__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var core_js_modules_es_object_to_string__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(71);
-/* harmony import */ var core_js_modules_es_object_to_string__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_object_to_string__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var core_js_modules_es_regexp_exec__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(15);
-/* harmony import */ var core_js_modules_es_regexp_exec__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_regexp_exec__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var core_js_modules_es_regexp_to_string__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(50);
-/* harmony import */ var core_js_modules_es_regexp_to_string__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_regexp_to_string__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var core_js_modules_es_string_replace__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(30);
-/* harmony import */ var core_js_modules_es_string_replace__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_string_replace__WEBPACK_IMPORTED_MODULE_4__);
-
-
-
-
-
-UtilsService.$inject = ["$rootScope"];
-
-function UtilsService($rootScope) {
-  'ngInject';
-
-  var service = this;
-
-  function debounce(func, wait, immediate) {
-    var _this = this,
-        _arguments = arguments;
-
-    var timeout;
-    return function () {
-      var context = _this;
-      var args = _arguments;
-
-      var later = function later() {
-        timeout = null;
-
-        if (!immediate) {
-          func.apply(context, args);
-        }
-      };
-
-      var callNow = immediate && !timeout;
-      clearTimeout(timeout);
-      timeout = setTimeout(later, wait);
-
-      if (callNow) {
-        func.apply(context, args);
-      }
-    };
-  }
-
-  function disableBodyScroll() {
-    $rootScope.$broadcast('lx-scroll__disable');
-  }
-
-  function escapeRegexp(strToEscape) {
-    return strToEscape.replace(/([.?*+^$[\]\\(){}|-])/g, '\\$1');
-  }
-
-  function generateUUID() {
-    var time = new Date().getTime();
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (char) {
-      var random = (time + Math.random() * 16) % 16 | 0;
-      time = Math.floor(time / 16);
-      return (char === 'x' ? random : random & 0x3 | 0x8).toString(16);
-    });
-  }
-
-  function restoreBodyScroll() {
-    $rootScope.$broadcast('lx-scroll__restore');
-  }
-
-  service.debounce = debounce;
-  service.disableBodyScroll = disableBodyScroll;
-  service.escapeRegexp = escapeRegexp;
-  service.generateUUID = generateUUID;
-  service.restoreBodyScroll = restoreBodyScroll;
-}
-
-angular.module('lumx.utils.utils').service('LxUtilsService', UtilsService);
-
-
-/***/ }),
-/* 108 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var classof = __webpack_require__(72);
-var wellKnownSymbol = __webpack_require__(3);
-
-var TO_STRING_TAG = wellKnownSymbol('toStringTag');
-var test = {};
-
-test[TO_STRING_TAG] = 'z';
-
-// `Object.prototype.toString` method implementation
-// https://tc39.github.io/ecma262/#sec-object.prototype.tostring
-module.exports = String(test) !== '[object z]' ? function toString() {
-  return '[object ' + classof(this) + ']';
-} : test.toString;
-
-
-/***/ }),
-/* 109 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var toInteger = __webpack_require__(21);
-var requireObjectCoercible = __webpack_require__(13);
-
-// `String.prototype.{ codePointAt, at }` methods implementation
-var createMethod = function (CONVERT_TO_STRING) {
-  return function ($this, pos) {
-    var S = String(requireObjectCoercible($this));
-    var position = toInteger(pos);
-    var size = S.length;
-    var first, second;
-    if (position < 0 || position >= size) return CONVERT_TO_STRING ? '' : undefined;
-    first = S.charCodeAt(position);
-    return first < 0xD800 || first > 0xDBFF || position + 1 === size
-      || (second = S.charCodeAt(position + 1)) < 0xDC00 || second > 0xDFFF
-        ? CONVERT_TO_STRING ? S.charAt(position) : first
-        : CONVERT_TO_STRING ? S.slice(position, position + 2) : (first - 0xD800 << 10) + (second - 0xDC00) + 0x10000;
-  };
-};
-
-module.exports = {
-  // `String.prototype.codePointAt` method
-  // https://tc39.github.io/ecma262/#sec-string.prototype.codepointat
-  codeAt: createMethod(false),
-  // `String.prototype.at` method
-  // https://github.com/mathiasbynens/String.prototype.at
-  charAt: createMethod(true)
-};
-
-
-/***/ }),
-/* 110 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ButtonDirective", function() { return ButtonDirective; });
-/* harmony import */ var core_js_modules_es_array_find__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(6);
-/* harmony import */ var core_js_modules_es_array_find__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_find__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var core_js_modules_es_array_join__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(73);
-/* harmony import */ var core_js_modules_es_array_join__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_join__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var core_js_modules_es_regexp_exec__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(15);
-/* harmony import */ var core_js_modules_es_regexp_exec__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_regexp_exec__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var core_js_modules_es_string_match__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(74);
-/* harmony import */ var core_js_modules_es_string_match__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_string_match__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(0);
-
-
-
-
-
-
-function ButtonDirective() {
-  'ngInject';
-
-  function isAnchor(attrs) {
-    return angular.isDefined(attrs.href) || angular.isDefined(attrs.ngHref) || angular.isDefined(attrs.ngLink) || angular.isDefined(attrs.uiSref);
-  }
-
-  function getTemplate(el, attrs) {
-    if (isAnchor(attrs)) {
-      return "<a class=\"" + _lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_4__[/* CSS_PREFIX */ "a"] + "-button\" ng-transclude></a>";
-    }
-
-    return "<button class=\"" + _lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_4__[/* CSS_PREFIX */ "a"] + "-button\" ng-transclude></button>";
-  }
-
-  function link(scope, el, attrs) {
-    if (!attrs.lxVariant && !attrs.lxType || attrs.lxVariant === 'button' || attrs.lxType === 'raised' || attrs.lxType === 'flat') {
-      var leftIcon = el.find('i:first-child');
-      var rightIcon = el.find('i:last-child');
-      var label = el.find('span');
-
-      if (leftIcon.length > 0) {
-        el.addClass(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_4__[/* CSS_PREFIX */ "a"] + "-button--has-left-icon");
-      }
-
-      if (rightIcon.length > 0) {
-        el.addClass(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_4__[/* CSS_PREFIX */ "a"] + "-button--has-right-icon");
-      }
-
-      if (label.length === 0) {
-        el.wrapInner('<span></span>');
-      }
-    }
-
-    var isDefaultEmphasis = !attrs.lxEmphasis || attrs.lxEmphasis === 'high';
-    var defaultProps = {
-      color: isDefaultEmphasis ? 'primary' : 'dark',
-      emphasis: 'high',
-      size: 'm',
-      theme: 'light',
-      variant: 'button'
-    };
-
-    if (!attrs.lxColor) {
-      el.addClass(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_4__[/* CSS_PREFIX */ "a"] + "-button--color-" + defaultProps.color);
-    }
-
-    attrs.$observe('lxColor', function (color) {
-      if (!color) {
-        return;
-      }
-
-      el.removeClass(function (index, className) {
-        return (className.match(/(?:\S|-)*button--color-\S+/g) || []).join(' ');
-      }).addClass(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_4__[/* CSS_PREFIX */ "a"] + "-button--color-" + color);
-    });
-
-    if (!attrs.lxEmphasis) {
-      el.addClass(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_4__[/* CSS_PREFIX */ "a"] + "-button--emphasis-" + defaultProps.emphasis);
-    }
-
-    attrs.$observe('lxEmphasis', function (emphasis) {
-      if (!emphasis) {
-        return;
-      }
-
-      el.removeClass(function (index, className) {
-        return (className.match(/(?:\S|-)*button--emphasis-\S+/g) || []).join(' ');
-      }).addClass(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_4__[/* CSS_PREFIX */ "a"] + "-button--emphasis-" + emphasis);
-    });
-
-    if (!attrs.lxSize) {
-      el.addClass(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_4__[/* CSS_PREFIX */ "a"] + "-button--size-" + defaultProps.size);
-    }
-
-    attrs.$observe('lxSize', function (size) {
-      if (!size) {
-        return;
-      }
-
-      var sizeFallback = {
-        xs: 's',
-        s: 's',
-        m: 'm',
-        l: 'm',
-        xl: 'm'
-      };
-      el.removeClass(function (index, className) {
-        return (className.match(/(?:\S|-)*button--size-\S+/g) || []).join(' ');
-      }).addClass(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_4__[/* CSS_PREFIX */ "a"] + "-button--size-" + sizeFallback[size]);
-    });
-
-    if (!attrs.lxTheme && isDefaultEmphasis) {
-      el.addClass(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_4__[/* CSS_PREFIX */ "a"] + "-button--theme-" + defaultProps.theme);
-    }
-
-    attrs.$observe('lxTheme', function (theme) {
-      if (!theme) {
-        return;
-      }
-
-      el.removeClass(function (index, className) {
-        return (className.match(/(?:\S|-)*button--theme-\S+/g) || []).join(' ');
-      }).addClass(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_4__[/* CSS_PREFIX */ "a"] + "-button--theme-" + theme);
-    });
-
-    if (!attrs.lxVariant) {
-      el.addClass(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_4__[/* CSS_PREFIX */ "a"] + "-button--variant-" + defaultProps.variant);
-    }
-
-    attrs.$observe('lxVariant', function (variant) {
-      if (!variant) {
-        return;
-      }
-
-      el.removeClass(function (index, className) {
-        return (className.match(/(?:\S|-)*button--variant-\S+/g) || []).join(' ');
-      }).addClass(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_4__[/* CSS_PREFIX */ "a"] + "-button--variant-" + variant);
-    });
-    attrs.$observe('lxType', function (type) {
-      if (!type) {
-        return;
-      }
-
-      var emphasisFallback = {
-        raised: 'high',
-        flat: 'low',
-        fab: 'high',
-        icon: 'low'
-      };
-      el.removeClass(function (index, className) {
-        return (className.match(/(?:\S|-)*button--emphasis-\S+/g) || []).join(' ');
-      }).addClass(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_4__[/* CSS_PREFIX */ "a"] + "-button--emphasis-" + emphasisFallback[type]);
-
-      if (type === 'fab' || type === 'icon') {
-        el.removeClass(function (index, className) {
-          return (className.match(/(?:\S|-)*button--variant-\S+/g) || []).join(' ');
-        }).addClass(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_4__[/* CSS_PREFIX */ "a"] + "-button--variant-icon");
-      }
-    });
-    scope.$watch(attrs.lxIsSelected, function (isSelected) {
-      if (isSelected) {
-        el.addClass(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_4__[/* CSS_PREFIX */ "a"] + "-button--is-selected");
-      } else {
-        el.removeClass(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_4__[/* CSS_PREFIX */ "a"] + "-button--is-selected");
-      }
-    });
-  }
-
-  return {
-    link: link,
-    replace: true,
-    restrict: 'E',
-    template: getTemplate,
-    transclude: true
-  };
-}
-
-angular.module('lumx.button').directive('lxButton', ButtonDirective);
-
-
-/***/ }),
-/* 111 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var core_js_modules_es_array_index_of__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(18);
-/* harmony import */ var core_js_modules_es_array_index_of__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_index_of__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var core_js_modules_es_array_sort__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(112);
-/* harmony import */ var core_js_modules_es_array_sort__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_sort__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var core_js_modules_es_array_splice__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(23);
-/* harmony import */ var core_js_modules_es_array_splice__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_splice__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var core_js_modules_es_function_name__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(113);
-/* harmony import */ var core_js_modules_es_function_name__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_function_name__WEBPACK_IMPORTED_MODULE_3__);
-
-
-
-
-
-(function () {
-  'use strict';
-
-  angular.module('lumx.data-table').directive('lxDataTable', lxDataTable);
-
-  function lxDataTable() {
-    return {
-      restrict: 'E',
-      templateUrl: 'data-table.html',
-      scope: {
-        activable: '=?lxActivable',
-        border: '=?lxBorder',
-        bulk: '=?lxBulk',
-        selectable: '=?lxSelectable',
-        thumbnail: '=?lxThumbnail',
-        tbody: '=lxTbody',
-        thead: '=lxThead'
-      },
-      link: link,
-      controller: LxDataTableController,
-      controllerAs: 'lxDataTable',
-      bindToController: true,
-      transclude: true,
-      replace: true
-    };
-
-    function link(scope, element, attrs, ctrl) {
-      attrs.$observe('id', function (_newId) {
-        ctrl.id = _newId;
-      });
-    }
-  }
-
-  LxDataTableController.$inject = ['$rootScope', '$sce', '$scope'];
-
-  function LxDataTableController($rootScope, $sce, $scope) {
-    var lxDataTable = this;
-    lxDataTable.areAllRowsSelected = areAllRowsSelected;
-    lxDataTable.border = angular.isUndefined(lxDataTable.border) ? true : lxDataTable.border;
-    lxDataTable.bulk = angular.isUndefined(lxDataTable.bulk) ? true : lxDataTable.bulk;
-    lxDataTable.sort = sort;
-    lxDataTable.toggleActivation = toggleActivation;
-    lxDataTable.toggleAllSelected = toggleAllSelected;
-    lxDataTable.toggleSelection = toggleSelection;
-    lxDataTable.$sce = $sce;
-    lxDataTable.allRowsSelected = false;
-    lxDataTable.selectedRows = [];
-    $scope.$on('lx-data-table__select', function (event, id, row) {
-      if (id === lxDataTable.id && angular.isDefined(row)) {
-        _select(angular.isArray(row) && row.length > 0 ? row[0] : row);
-      }
-    });
-    $scope.$on('lx-data-table__select-all', function (event, id) {
-      if (id === lxDataTable.id) {
-        _selectAll();
-      }
-    });
-    $scope.$on('lx-data-table__unselect', function (event, id, row) {
-      if (id === lxDataTable.id && angular.isDefined(row)) {
-        _unselect(angular.isArray(row) && row.length > 0 ? row[0] : row);
-      }
-    });
-    $scope.$on('lx-data-table__unselect-all', function (event, id) {
-      if (id === lxDataTable.id) {
-        _unselectAll();
-      }
-    });
-    $scope.$on('lx-data-table__activate', function (event, id, row) {
-      if (id === lxDataTable.id && angular.isDefined(row)) {
-        _activate(angular.isArray(row) && row.length > 0 ? row[0] : row);
-      }
-    });
-    $scope.$on('lx-data-table__deactivate', function (event, id, row) {
-      if (id === lxDataTable.id && angular.isDefined(row)) {
-        _deactivate(angular.isArray(row) && row.length > 0 ? row[0] : row);
-      }
-    });
-
-    function _activate(row) {
-      toggleActivation(row, true);
-    }
-
-    function _deactivate(row) {
-      toggleActivation(row, false);
-    }
-
-    function _select(row) {
-      toggleSelection(row, true);
-    }
-
-    function _selectAll() {
-      lxDataTable.selectedRows.length = 0;
-
-      for (var i = 0, len = lxDataTable.tbody.length; i < len; i++) {
-        if (!lxDataTable.tbody[i].lxDataTableDisabled) {
-          lxDataTable.tbody[i].lxDataTableSelected = true;
-          lxDataTable.selectedRows.push(lxDataTable.tbody[i]);
-        }
-      }
-
-      lxDataTable.allRowsSelected = true;
-      $rootScope.$broadcast('lx-data-table__unselected', lxDataTable.id, lxDataTable.selectedRows);
-    }
-
-    function _unselect(row) {
-      toggleSelection(row, false);
-    }
-
-    function _unselectAll() {
-      for (var i = 0, len = lxDataTable.tbody.length; i < len; i++) {
-        if (!lxDataTable.tbody[i].lxDataTableDisabled) {
-          lxDataTable.tbody[i].lxDataTableSelected = false;
-        }
-      }
-
-      lxDataTable.allRowsSelected = false;
-      lxDataTable.selectedRows.length = 0;
-      $rootScope.$broadcast('lx-data-table__selected', lxDataTable.id, lxDataTable.selectedRows);
-    }
-
-    function areAllRowsSelected() {
-      var displayedRows = 0;
-
-      for (var i = 0, len = lxDataTable.tbody.length; i < len; i++) {
-        if (!lxDataTable.tbody[i].lxDataTableDisabled) {
-          displayedRows++;
-        }
-      }
-
-      if (displayedRows === lxDataTable.selectedRows.length) {
-        lxDataTable.allRowsSelected = true;
-      } else {
-        lxDataTable.allRowsSelected = false;
-      }
-    }
-
-    function sort(_column) {
-      if (!_column.sortable) {
-        return;
-      }
-
-      for (var i = 0, len = lxDataTable.thead.length; i < len; i++) {
-        if (lxDataTable.thead[i].sortable && lxDataTable.thead[i].name !== _column.name) {
-          lxDataTable.thead[i].sort = undefined;
-        }
-      }
-
-      if (!_column.sort || _column.sort === 'desc') {
-        _column.sort = 'asc';
-      } else {
-        _column.sort = 'desc';
-      }
-
-      $rootScope.$broadcast('lx-data-table__sorted', lxDataTable.id, _column);
-    }
-
-    function toggleActivation(_row, _newActivatedStatus) {
-      if (_row.lxDataTableDisabled || !lxDataTable.activable) {
-        return;
-      }
-
-      for (var i = 0, len = lxDataTable.tbody.length; i < len; i++) {
-        if (lxDataTable.tbody.indexOf(_row) !== i) {
-          lxDataTable.tbody[i].lxDataTableActivated = false;
-        }
-      }
-
-      _row.lxDataTableActivated = !_row.lxDataTableActivated;
-
-      if (_row.lxDataTableActivated) {
-        $rootScope.$broadcast('lx-data-table__activated', lxDataTable.id, _row);
-      } else {
-        $rootScope.$broadcast('lx-data-table__deactivated', lxDataTable.id, _row);
-      }
-    }
-
-    function toggleAllSelected() {
-      if (!lxDataTable.bulk) {
-        return;
-      }
-
-      if (lxDataTable.allRowsSelected) {
-        _unselectAll();
-      } else {
-        _selectAll();
-      }
-    }
-
-    function toggleSelection(_row, _newSelectedStatus, _event) {
-      if (_row.lxDataTableDisabled || !lxDataTable.selectable) {
-        return;
-      }
-
-      if (angular.isDefined(_event)) {
-        _event.stopPropagation();
-      }
-
-      _row.lxDataTableSelected = angular.isDefined(_newSelectedStatus) ? _newSelectedStatus : !_row.lxDataTableSelected;
-
-      if (_row.lxDataTableSelected) {
-        if (lxDataTable.selectedRows.length === 0 || lxDataTable.selectedRows.length && lxDataTable.selectedRows.indexOf(_row) === -1) {
-          lxDataTable.selectedRows.push(_row);
-          lxDataTable.areAllRowsSelected();
-          $rootScope.$broadcast('lx-data-table__selected', lxDataTable.id, lxDataTable.selectedRows, _row);
-        }
-      } else {
-        if (lxDataTable.selectedRows.length && lxDataTable.selectedRows.indexOf(_row) > -1) {
-          lxDataTable.selectedRows.splice(lxDataTable.selectedRows.indexOf(_row), 1);
-          lxDataTable.allRowsSelected = false;
-          $rootScope.$broadcast('lx-data-table__unselected', lxDataTable.id, lxDataTable.selectedRows, _row);
-        }
-      }
-    }
-  }
-})();
-
-/***/ }),
-/* 112 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var $ = __webpack_require__(2);
-var aFunction = __webpack_require__(24);
-var toObject = __webpack_require__(17);
-var fails = __webpack_require__(4);
-var sloppyArrayMethod = __webpack_require__(22);
-
-var nativeSort = [].sort;
-var test = [1, 2, 3];
-
-// IE8-
-var FAILS_ON_UNDEFINED = fails(function () {
-  test.sort(undefined);
-});
-// V8 bug
-var FAILS_ON_NULL = fails(function () {
-  test.sort(null);
-});
-// Old WebKit
-var SLOPPY_METHOD = sloppyArrayMethod('sort');
-
-var FORCED = FAILS_ON_UNDEFINED || !FAILS_ON_NULL || SLOPPY_METHOD;
-
-// `Array.prototype.sort` method
-// https://tc39.github.io/ecma262/#sec-array.prototype.sort
-$({ target: 'Array', proto: true, forced: FORCED }, {
-  sort: function sort(comparefn) {
-    return comparefn === undefined
-      ? nativeSort.call(toObject(this))
-      : nativeSort.call(toObject(this), aFunction(comparefn));
-  }
-});
-
-
-/***/ }),
-/* 113 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var DESCRIPTORS = __webpack_require__(10);
-var defineProperty = __webpack_require__(12).f;
-
-var FunctionPrototype = Function.prototype;
-var FunctionPrototypeToString = FunctionPrototype.toString;
-var nameRE = /^\s*function ([^ (]*)/;
-var NAME = 'name';
-
-// Function instances `.name` property
-// https://tc39.github.io/ecma262/#sec-function-instances-name
-if (DESCRIPTORS && !(NAME in FunctionPrototype)) {
-  defineProperty(FunctionPrototype, NAME, {
-    configurable: true,
-    get: function () {
-      try {
-        return FunctionPrototypeToString.call(this).match(nameRE)[1];
-      } catch (error) {
-        return '';
-      }
-    }
-  });
-}
-
-
-/***/ }),
-/* 114 */
-/***/ (function(module, exports) {
-
-(function () {
-  'use strict';
-
-  angular.module('lumx.data-table').service('LxDataTableService', LxDataTableService);
-  LxDataTableService.$inject = ['$rootScope'];
-
-  function LxDataTableService($rootScope) {
-    var service = this;
-    service.select = select;
-    service.selectAll = selectAll;
-    service.unselect = unselect;
-    service.unselectAll = unselectAll;
-    service.activate = activate;
-    service.deactivate = deactivate;
-
-    function select(_dataTableId, row) {
-      $rootScope.$broadcast('lx-data-table__select', _dataTableId, row);
-    }
-
-    function selectAll(_dataTableId) {
-      $rootScope.$broadcast('lx-data-table__select-all', _dataTableId);
-    }
-
-    function unselect(_dataTableId, row) {
-      $rootScope.$broadcast('lx-data-table__unselect', _dataTableId, row);
-    }
-
-    function unselectAll(_dataTableId) {
-      $rootScope.$broadcast('lx-data-table__unselect-all', _dataTableId);
-    }
-
-    function activate(_dataTableId, row) {
-      $rootScope.$broadcast('lx-data-table__activate', _dataTableId, row);
-    }
-
-    function deactivate(_dataTableId, row) {
-      $rootScope.$broadcast('lx-data-table__deactivate', _dataTableId, row);
-    }
-  }
-})();
-
-/***/ }),
-/* 115 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var core_js_modules_es_array_find__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(6);
-/* harmony import */ var core_js_modules_es_array_find__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_find__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var core_js_modules_es_array_slice__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(54);
-/* harmony import */ var core_js_modules_es_array_slice__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_slice__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var core_js_modules_es_date_to_string__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(70);
-/* harmony import */ var core_js_modules_es_date_to_string__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_date_to_string__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var core_js_modules_es_regexp_exec__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(15);
-/* harmony import */ var core_js_modules_es_regexp_exec__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_regexp_exec__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var core_js_modules_es_string_replace__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(30);
-/* harmony import */ var core_js_modules_es_string_replace__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_string_replace__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var core_js_modules_es_string_trim__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(116);
-/* harmony import */ var core_js_modules_es_string_trim__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_string_trim__WEBPACK_IMPORTED_MODULE_5__);
-
-
-
-
-
-
-
-(function () {
-  'use strict';
-
-  angular.module('lumx.date-picker').directive('lxDatePicker', lxDatePicker);
-  lxDatePicker.$inject = ['LxDatePickerService', 'LxUtilsService'];
-
-  function lxDatePicker(LxDatePickerService, LxUtilsService) {
-    return {
-      restrict: 'AE',
-      templateUrl: 'date-picker.html',
-      scope: {
-        autoClose: '=?lxAutoClose',
-        callback: '&?lxCallback',
-        color: '@?lxColor',
-        escapeClose: '=?lxEscapeClose',
-        inputFormat: '@?lxInputFormat',
-        maxDate: '=?lxMaxDate',
-        ngModel: '=',
-        minDate: '=?lxMinDate',
-        locale: '@lxLocale'
-      },
-      link: link,
-      controller: LxDatePickerController,
-      controllerAs: 'lxDatePicker',
-      bindToController: true,
-      replace: true,
-      transclude: true
-    };
-
-    function link(scope, element, attrs) {
-      if (angular.isDefined(attrs.id)) {
-        attrs.$observe('id', function (_newId) {
-          scope.lxDatePicker.pickerId = _newId;
-          LxDatePickerService.registerScope(scope.lxDatePicker.pickerId, scope);
-        });
-      } else {
-        scope.lxDatePicker.pickerId = LxUtilsService.generateUUID();
-        LxDatePickerService.registerScope(scope.lxDatePicker.pickerId, scope);
-      }
-    }
-  }
-
-  LxDatePickerController.$inject = ['$element', '$scope', '$timeout', '$transclude', 'LxDatePickerService', 'LxUtilsService'];
-
-  function LxDatePickerController($element, $scope, $timeout, $transclude, LxDatePickerService, LxUtilsService) {
-    var lxDatePicker = this;
-    var input;
-    var modelController;
-    var timer1;
-    var timer2;
-    var watcher1;
-    var watcher2;
-    lxDatePicker.closeDatePicker = closeDatePicker;
-    lxDatePicker.displayYearSelection = displayYearSelection;
-    lxDatePicker.hideYearSelection = hideYearSelection;
-    lxDatePicker.getDateFormatted = getDateFormatted;
-    lxDatePicker.nextMonth = nextMonth;
-    lxDatePicker.openDatePicker = openDatePicker;
-    lxDatePicker.previousMonth = previousMonth;
-    lxDatePicker.select = select;
-    lxDatePicker.selectYear = selectYear;
-    lxDatePicker.autoClose = angular.isDefined(lxDatePicker.autoClose) ? lxDatePicker.autoClose : true;
-    lxDatePicker.color = angular.isDefined(lxDatePicker.color) ? lxDatePicker.color : 'primary';
-    lxDatePicker.element = $element.find('.lx-date-picker');
-    lxDatePicker.escapeClose = angular.isDefined(lxDatePicker.escapeClose) ? lxDatePicker.escapeClose : true;
-    lxDatePicker.isOpen = false;
-    lxDatePicker.moment = moment;
-    lxDatePicker.yearSelection = false;
-    lxDatePicker.uuid = LxUtilsService.generateUUID();
-    $transclude(function (clone) {
-      if (clone.length) {
-        lxDatePicker.hasInput = true;
-        timer1 = $timeout(function () {
-          input = $element.find('.lx-date-input input');
-          modelController = input.data('$ngModelController');
-          watcher2 = $scope.$watch(function () {
-            return modelController.$viewValue;
-          }, function (newValue, oldValue) {
-            if (angular.isUndefined(newValue)) {
-              lxDatePicker.ngModel = undefined;
-            }
-          });
-        });
-      }
-    });
-    watcher1 = $scope.$watch(function () {
-      return lxDatePicker.ngModel;
-    }, init);
-    $scope.$on('$destroy', function () {
-      $timeout.cancel(timer1);
-      $timeout.cancel(timer2);
-
-      if (angular.isFunction(watcher1)) {
-        watcher1();
-      }
-
-      if (angular.isFunction(watcher2)) {
-        watcher2();
-      }
-    });
-
-    function closeDatePicker() {
-      LxDatePickerService.close(lxDatePicker.pickerId);
-    }
-
-    function displayYearSelection() {
-      lxDatePicker.yearSelection = true;
-      timer2 = $timeout(function () {
-        var yearSelector = angular.element('.lx-date-picker__year-selector');
-        var activeYear = yearSelector.find('.lx-date-picker__year--is-active');
-        yearSelector.scrollTop(yearSelector.scrollTop() + activeYear.position().top - yearSelector.height() / 2 + activeYear.height() / 2);
-      });
-    }
-
-    function hideYearSelection() {
-      lxDatePicker.yearSelection = false;
-    }
-
-    function generateCalendar() {
-      lxDatePicker.days = [];
-      var previousDay = angular.copy(lxDatePicker.ngModelMoment).date(0);
-      var firstDayOfMonth = angular.copy(lxDatePicker.ngModelMoment).date(1);
-      var lastDayOfMonth = firstDayOfMonth.clone().endOf('month');
-      var maxDays = lastDayOfMonth.date();
-      lxDatePicker.emptyFirstDays = [];
-
-      for (var i = firstDayOfMonth.day() === 0 ? 6 : firstDayOfMonth.day() - 1; i > 0; i--) {
-        lxDatePicker.emptyFirstDays.push({});
-      }
-
-      for (var j = 0; j < maxDays; j++) {
-        var date = angular.copy(previousDay.add(1, 'days'));
-        date.selected = angular.isDefined(lxDatePicker.ngModel) && date.isSame(lxDatePicker.ngModel, 'day');
-        date.today = date.isSame(moment(), 'day');
-
-        if (angular.isDefined(lxDatePicker.minDate)) {
-          var minDate = angular.isString(lxDatePicker.minDate) ? new Date(lxDatePicker.minDate) : lxDatePicker.minDate;
-
-          if (date.toDate() < minDate) {
-            date.disabled = true;
-          }
-        }
-
-        if (angular.isDefined(lxDatePicker.maxDate)) {
-          var maxDate = angular.isString(lxDatePicker.maxDate) ? new Date(lxDatePicker.maxDate) : lxDatePicker.maxDate;
-
-          if (date.toDate() > maxDate) {
-            date.disabled = true;
-          }
-        }
-
-        lxDatePicker.days.push(date);
-      }
-
-      lxDatePicker.emptyLastDays = [];
-
-      for (var k = 7 - (lastDayOfMonth.day() === 0 ? 7 : lastDayOfMonth.day()); k > 0; k--) {
-        lxDatePicker.emptyLastDays.push({});
-      }
-    }
-
-    function getDateFormatted() {
-      var dateFormatted = lxDatePicker.ngModelMoment.format('llll').replace(lxDatePicker.ngModelMoment.format('LT'), '').trim().replace(lxDatePicker.ngModelMoment.format('YYYY'), '').trim();
-      var dateFormattedLastChar = dateFormatted.slice(-1);
-
-      if (dateFormattedLastChar === ',') {
-        dateFormatted = dateFormatted.slice(0, -1);
-      }
-
-      return dateFormatted;
-    }
-
-    function init() {
-      moment.locale(lxDatePicker.locale);
-      lxDatePicker.ngModelMoment = angular.isDefined(lxDatePicker.ngModel) ? moment(angular.copy(lxDatePicker.ngModel)) : moment();
-      lxDatePicker.days = [];
-      lxDatePicker.daysOfWeek = [moment.weekdaysMin(1), moment.weekdaysMin(2), moment.weekdaysMin(3), moment.weekdaysMin(4), moment.weekdaysMin(5), moment.weekdaysMin(6), moment.weekdaysMin(0)];
-      lxDatePicker.years = [];
-
-      for (var y = moment().year() - 100; y <= moment().year() + 100; y++) {
-        lxDatePicker.years.push(y);
-      }
-
-      generateCalendar();
-    }
-
-    function nextMonth() {
-      lxDatePicker.ngModelMoment = lxDatePicker.ngModelMoment.add(1, 'month');
-      generateCalendar();
-    }
-
-    function openDatePicker() {
-      LxDatePickerService.open(lxDatePicker.pickerId);
-      generateCalendar();
-    }
-
-    function previousMonth() {
-      lxDatePicker.ngModelMoment = lxDatePicker.ngModelMoment.subtract(1, 'month');
-      generateCalendar();
-    }
-
-    function select(_day) {
-      if (!_day.disabled) {
-        lxDatePicker.ngModel = _day.toDate();
-        lxDatePicker.ngModelMoment = angular.copy(_day);
-
-        if (angular.isDefined(lxDatePicker.callback)) {
-          lxDatePicker.callback({
-            newDate: lxDatePicker.ngModel
-          });
-        }
-
-        if (angular.isDefined(modelController) && lxDatePicker.inputFormat) {
-          modelController.$setViewValue(angular.copy(_day).format(lxDatePicker.inputFormat));
-          modelController.$render();
-        }
-
-        generateCalendar();
-      }
-    }
-
-    function selectYear(_year) {
-      lxDatePicker.yearSelection = false;
-      lxDatePicker.ngModelMoment = lxDatePicker.ngModelMoment.year(_year);
-      generateCalendar();
-    }
-  }
-})();
-
-/***/ }),
-/* 116 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var $ = __webpack_require__(2);
-var $trim = __webpack_require__(55).trim;
-var forcedStringTrimMethod = __webpack_require__(117);
-
-// `String.prototype.trim` method
-// https://tc39.github.io/ecma262/#sec-string.prototype.trim
-$({ target: 'String', proto: true, forced: forcedStringTrimMethod('trim') }, {
-  trim: function trim() {
-    return $trim(this);
-  }
-});
-
-
-/***/ }),
-/* 117 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var fails = __webpack_require__(4);
-var whitespaces = __webpack_require__(31);
-
-var non = '\u200B\u0085\u180E';
-
-// check that a method works with the correct list
-// of whitespaces and has a correct name
-module.exports = function (METHOD_NAME) {
-  return fails(function () {
-    return !!whitespaces[METHOD_NAME]() || non[METHOD_NAME]() != non || whitespaces[METHOD_NAME].name !== METHOD_NAME;
-  });
-};
-
-
-/***/ }),
-/* 118 */
-/***/ (function(module, exports) {
-
-(function () {
-  'use strict';
-
-  angular.module('lumx.date-picker').service('LxDatePickerService', LxDatePickerService);
-  LxDatePickerService.$inject = ['$rootScope', '$timeout', 'LxDepthService', 'LxEventSchedulerService'];
-
-  function LxDatePickerService($rootScope, $timeout, LxDepthService, LxEventSchedulerService) {
-    var service = this;
-    var activeDatePickerId;
-    var datePickerFilter;
-    var idEventScheduler;
-    var scopeMap = {};
-    service.close = closeDatePicker;
-    service.open = openDatePicker;
-    service.registerScope = registerScope;
-
-    function closeDatePicker(_datePickerId) {
-      if (angular.isDefined(idEventScheduler)) {
-        LxEventSchedulerService.unregister(idEventScheduler);
-        idEventScheduler = undefined;
-      }
-
-      activeDatePickerId = undefined;
-      $rootScope.$broadcast('lx-date-picker__close-start', _datePickerId);
-      datePickerFilter.removeClass('lx-date-picker-filter--is-shown');
-
-      scopeMap[_datePickerId].element.removeClass('lx-date-picker--is-shown');
-
-      $timeout(function () {
-        angular.element('body').removeClass('no-scroll-date-picker-' + scopeMap[_datePickerId].uuid);
-        datePickerFilter.remove();
-
-        scopeMap[_datePickerId].element.hide().appendTo(scopeMap[_datePickerId].elementParent);
-
-        scopeMap[_datePickerId].isOpen = false;
-        $rootScope.$broadcast('lx-date-picker__close-end', _datePickerId);
-      }, 600);
-    }
-
-    function onKeyUp(_event) {
-      if (_event.keyCode == 27 && angular.isDefined(activeDatePickerId)) {
-        closeDatePicker(activeDatePickerId);
-      }
-
-      _event.stopPropagation();
-    }
-
-    function openDatePicker(_datePickerId) {
-      LxDepthService.register();
-      activeDatePickerId = _datePickerId;
-      angular.element('body').addClass('no-scroll-date-picker-' + scopeMap[_datePickerId].uuid);
-      datePickerFilter = angular.element('<div/>', {
-        class: 'lx-date-picker-filter'
-      });
-      datePickerFilter.css('z-index', LxDepthService.getDepth()).appendTo('body');
-
-      if (scopeMap[activeDatePickerId].autoClose) {
-        datePickerFilter.on('click', function () {
-          closeDatePicker(activeDatePickerId);
-        });
-      }
-
-      if (scopeMap[activeDatePickerId].escapeClose) {
-        idEventScheduler = LxEventSchedulerService.register('keyup', onKeyUp);
-      }
-
-      scopeMap[activeDatePickerId].element.css('z-index', LxDepthService.getDepth() + 1).appendTo('body').show();
-      $timeout(function () {
-        $rootScope.$broadcast('lx-date-picker__open-start', activeDatePickerId);
-        scopeMap[activeDatePickerId].isOpen = true;
-        datePickerFilter.addClass('lx-date-picker-filter--is-shown');
-        scopeMap[activeDatePickerId].element.addClass('lx-date-picker--is-shown');
-      }, 100);
-      $timeout(function () {
-        $rootScope.$broadcast('lx-date-picker__open-end', activeDatePickerId);
-      }, 700);
-    }
-
-    function registerScope(_datePickerId, _datePickerScope) {
-      scopeMap[_datePickerId] = _datePickerScope.lxDatePicker;
-    }
-  }
-})();
-
-/***/ }),
-/* 119 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var core_js_modules_es_array_find__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(6);
-/* harmony import */ var core_js_modules_es_array_find__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_find__WEBPACK_IMPORTED_MODULE_0__);
-
-
-(function () {
-  'use strict';
-
-  angular.module('lumx.dialog').directive('lxDialog', lxDialog).directive('lxDialogHeader', lxDialogHeader).directive('lxDialogContent', lxDialogContent).directive('lxDialogFooter', lxDialogFooter).directive('lxDialogClose', lxDialogClose);
-
-  function lxDialog() {
-    return {
-      restrict: 'E',
-      template: '<div class="dialog" ng-class="{ \'dialog--l\': !lxDialog.size || lxDialog.size === \'l\', \'dialog--s\': lxDialog.size === \'s\', \'dialog--m\': lxDialog.size === \'m\' }"><div ng-if="lxDialog.isOpen" ng-transclude></div></div>',
-      scope: {
-        autoClose: '=?lxAutoClose',
-        escapeClose: '=?lxEscapeClose',
-        size: '@?lxSize'
-      },
-      link: link,
-      controller: LxDialogController,
-      controllerAs: 'lxDialog',
-      bindToController: true,
-      replace: true,
-      transclude: true
-    };
-
-    function link(scope, element, attrs, ctrl) {
-      attrs.$observe('id', function (_newId) {
-        ctrl.id = _newId;
-      });
-    }
-  }
-
-  LxDialogController.$inject = ['$element', '$interval', '$rootScope', '$scope', '$timeout', '$window', 'LxDepthService', 'LxEventSchedulerService', 'LxUtilsService'];
-
-  function LxDialogController($element, $interval, $rootScope, $scope, $timeout, $window, LxDepthService, LxEventSchedulerService, LxUtilsService) {
-    var lxDialog = this;
-    var dialogFilter = angular.element('<div/>', {
-      class: 'dialog-filter'
-    });
-    var dialogHeight;
-    var dialogInterval;
-    var dialogScrollable;
-    var elementParent = $element.parent();
-    var idEventScheduler;
-    var resizeDebounce;
-    var windowHeight;
-    lxDialog.autoClose = angular.isDefined(lxDialog.autoClose) ? lxDialog.autoClose : true;
-    lxDialog.escapeClose = angular.isDefined(lxDialog.escapeClose) ? lxDialog.escapeClose : true;
-    lxDialog.isOpen = false;
-    lxDialog.uuid = LxUtilsService.generateUUID();
-    $scope.$on('lx-dialog__open', function (event, id, params) {
-      if (id === lxDialog.id) {
-        open(params);
-      }
-    });
-    $scope.$on('lx-dialog__close', function (event, id, canceled, params) {
-      if (id === lxDialog.id || id === undefined) {
-        close(canceled, params);
-      }
-    });
-    $scope.$on('$destroy', function () {
-      close(true);
-    });
-
-    function checkDialogHeight() {
-      var dialog = $element;
-      var dialogHeader = dialog.find('.dialog__header');
-      var dialogContent = dialog.find('.dialog__content');
-      var dialogFooter = dialog.find('.dialog__footer');
-
-      if (!dialogFooter.length) {
-        dialogFooter = dialog.find('.dialog__actions');
-      }
-
-      if (angular.isUndefined(dialogHeader)) {
-        return;
-      }
-
-      var heightToCheck = 60 + dialogHeader.outerHeight() + dialogContent.outerHeight() + dialogFooter.outerHeight();
-
-      if (dialogHeight === heightToCheck && windowHeight === $window.innerHeight) {
-        return;
-      }
-
-      dialogHeight = heightToCheck;
-      windowHeight = $window.innerHeight;
-
-      if (heightToCheck >= $window.innerHeight) {
-        dialog.addClass('dialog--is-fixed');
-        dialogScrollable.css({
-          top: dialogHeader.outerHeight(),
-          bottom: dialogFooter.outerHeight()
-        }).off('scroll', checkScrollEnd).on('scroll', checkScrollEnd);
-      } else {
-        dialog.removeClass('dialog--is-fixed');
-        dialogScrollable.removeAttr('style').off('scroll', checkScrollEnd);
-      }
-    }
-
-    function checkDialogHeightOnResize() {
-      if (resizeDebounce) {
-        $timeout.cancel(resizeDebounce);
-      }
-
-      resizeDebounce = $timeout(function () {
-        checkDialogHeight();
-      }, 200);
-    }
-
-    function checkScrollEnd() {
-      if (dialogScrollable.scrollTop() + dialogScrollable.innerHeight() >= dialogScrollable[0].scrollHeight) {
-        $rootScope.$broadcast('lx-dialog__scroll-end', lxDialog.id);
-        dialogScrollable.off('scroll', checkScrollEnd);
-        $timeout(function () {
-          dialogScrollable.on('scroll', checkScrollEnd);
-        }, 500);
-      }
-    }
-
-    function onKeyUp(_event) {
-      if (_event.keyCode == 27) {
-        close(true);
-      }
-
-      _event.stopPropagation();
-    }
-
-    function open(_params) {
-      if (lxDialog.isOpen) {
-        return;
-      }
-
-      LxDepthService.register();
-      angular.element('body').addClass('no-scroll-dialog-' + lxDialog.uuid);
-      dialogFilter.css('z-index', LxDepthService.getDepth()).appendTo('body');
-
-      if (lxDialog.autoClose) {
-        dialogFilter.on('click', function () {
-          close(true);
-        });
-      }
-
-      if (lxDialog.escapeClose) {
-        idEventScheduler = LxEventSchedulerService.register('keyup', onKeyUp);
-      }
-
-      $element.css('z-index', LxDepthService.getDepth() + 1).appendTo('body').show();
-      $timeout(function () {
-        $rootScope.$broadcast('lx-dialog__open-start', lxDialog.id, _params);
-        lxDialog.isOpen = true;
-        dialogFilter.addClass('dialog-filter--is-shown');
-        $element.addClass('dialog--is-shown');
-      }, 100);
-      $timeout(function () {
-        if ($element.find('.dialog__scrollable').length === 0) {
-          $element.find('.dialog__content').wrap(angular.element('<div/>', {
-            class: 'dialog__scrollable'
-          }));
-        }
-
-        dialogScrollable = $element.find('.dialog__scrollable');
-      }, 200);
-      $timeout(function () {
-        $rootScope.$broadcast('lx-dialog__open-end', lxDialog.id, _params);
-      }, 700);
-      dialogInterval = $interval(function () {
-        checkDialogHeight();
-      }, 500);
-      angular.element($window).on('resize', checkDialogHeightOnResize);
-    }
-
-    function close(_canceled, _params) {
-      if (!lxDialog.isOpen) {
-        return;
-      }
-
-      _params = _params || {};
-
-      if (angular.isDefined(idEventScheduler)) {
-        LxEventSchedulerService.unregister(idEventScheduler);
-        idEventScheduler = undefined;
-      }
-
-      angular.element($window).off('resize', checkDialogHeightOnResize);
-      $element.find('.dialog__scrollable').off('scroll', checkScrollEnd);
-      $rootScope.$broadcast('lx-dialog__close-start', lxDialog.id, _canceled, _params);
-
-      if (resizeDebounce) {
-        $timeout.cancel(resizeDebounce);
-      }
-
-      $interval.cancel(dialogInterval);
-      dialogFilter.removeClass('dialog-filter--is-shown');
-      $element.removeClass('dialog--is-shown');
-      $timeout(function () {
-        angular.element('body').removeClass('no-scroll-dialog-' + lxDialog.uuid);
-        dialogFilter.remove();
-        $element.hide().removeClass('dialog--is-fixed').appendTo(elementParent);
-        lxDialog.isOpen = false;
-        dialogHeight = undefined;
-        $rootScope.$broadcast('lx-dialog__close-end', lxDialog.id, _canceled, _params);
-      }, 600);
-    }
-  }
-
-  function lxDialogHeader() {
-    return {
-      restrict: 'E',
-      template: '<div class="dialog__header" ng-transclude></div>',
-      replace: true,
-      transclude: true
-    };
-  }
-
-  function lxDialogContent() {
-    return {
-      restrict: 'E',
-      template: '<div class="dialog__scrollable"><div class="dialog__content" ng-transclude></div></div>',
-      replace: true,
-      transclude: true
-    };
-  }
-
-  function lxDialogFooter() {
-    return {
-      restrict: 'E',
-      template: '<div class="dialog__footer" ng-transclude></div>',
-      replace: true,
-      transclude: true
-    };
-  }
-
-  lxDialogClose.$inject = ['LxDialogService'];
-
-  function lxDialogClose(LxDialogService) {
-    return {
-      restrict: 'A',
-      link: function link(scope, element) {
-        element.on('click', function () {
-          LxDialogService.close(element.parents('.dialog').attr('id'), true);
-        });
-        scope.$on('$destroy', function () {
-          element.off();
-        });
-      }
-    };
-  }
-})();
-
-/***/ }),
-/* 120 */
-/***/ (function(module, exports) {
-
-(function () {
-  'use strict';
-
-  angular.module('lumx.dialog').service('LxDialogService', LxDialogService);
-  LxDialogService.$inject = ['$rootScope'];
-
-  function LxDialogService($rootScope) {
-    var service = this;
-    service.open = open;
-    service.close = close;
-
-    function open(_dialogId, _params) {
-      $rootScope.$broadcast('lx-dialog__open', _dialogId, _params);
-    }
-
-    function close(_dialogId, _canceled, _params) {
-      $rootScope.$broadcast('lx-dialog__close', _dialogId, _canceled, _params);
-    }
-  }
-})();
-
-/***/ }),
-/* 121 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var core_js_modules_es_array_find__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(6);
-/* harmony import */ var core_js_modules_es_array_find__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_find__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var core_js_modules_es_array_for_each__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(32);
-/* harmony import */ var core_js_modules_es_array_for_each__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_for_each__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var core_js_modules_es_array_index_of__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(18);
-/* harmony import */ var core_js_modules_es_array_index_of__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_index_of__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var core_js_modules_es_array_slice__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(54);
-/* harmony import */ var core_js_modules_es_array_slice__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_slice__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(33);
-/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_4__);
-
-
-
-
-
-
-(function () {
-  'use strict';
-
-  angular.module('lumx.dropdown').directive('lxDropdown', lxDropdown).directive('lxDropdownToggle', lxDropdownToggle).directive('lxDropdownMenu', lxDropdownMenu).directive('lxDropdownFilter', lxDropdownFilter);
-
-  function lxDropdown() {
-    return {
-      restrict: 'E',
-      templateUrl: 'dropdown.html',
-      scope: {
-        closeOnClick: '=?lxCloseOnClick',
-        effect: '@?lxEffect',
-        escapeClose: '=?lxEscapeClose',
-        hover: '=?lxHover',
-        hoverDelay: '=?lxHoverDelay',
-        minOffset: '=?lxMinOffset',
-        offset: '@?lxOffset',
-        overToggle: '=?lxOverToggle',
-        position: '@?lxPosition',
-        width: '@?lxWidth'
-      },
-      link: link,
-      controller: LxDropdownController,
-      controllerAs: 'lxDropdown',
-      bindToController: true,
-      transclude: true
-    };
-
-    function link(scope, element, attrs, ctrl) {
-      var backwardOneWay = ['position', 'width'];
-      var backwardTwoWay = ['escapeClose', 'overToggle'];
-      angular.forEach(backwardOneWay, function (attribute) {
-        if (angular.isDefined(attrs[attribute])) {
-          attrs.$observe(attribute, function (newValue) {
-            scope.lxDropdown[attribute] = newValue;
-          });
-        }
-      });
-      angular.forEach(backwardTwoWay, function (attribute) {
-        if (angular.isDefined(attrs[attribute])) {
-          scope.$watch(function () {
-            return scope.$parent.$eval(attrs[attribute]);
-          }, function (newValue) {
-            scope.lxDropdown[attribute] = newValue;
-          });
-        }
-      });
-      attrs.$observe('id', function (_newId) {
-        ctrl.uuid = _newId;
-      });
-      scope.$on('$destroy', function () {
-        if (ctrl.isOpen) {
-          ctrl.closeDropdownMenu();
-        }
-      });
-    }
-  }
-
-  LxDropdownController.$inject = ['$document', '$element', '$interval', '$rootScope', '$scope', '$timeout', '$window', 'LxDepthService', 'LxDropdownService', 'LxEventSchedulerService', 'LxUtilsService'];
-
-  function LxDropdownController($document, $element, $interval, $rootScope, $scope, $timeout, $window, LxDepthService, LxDropdownService, LxEventSchedulerService, LxUtilsService) {
-    var lxDropdown = this;
-    var dropdownContentWatcher;
-    var dropdownMenu;
-    var dropdownToggle;
-    var idEventScheduler;
-    var openTimeout;
-    var positionTarget;
-    var scrollMask = angular.element('<div/>', {
-      class: 'scroll-mask'
-    });
-    var enableBodyScroll;
-    lxDropdown.closeDropdownMenu = closeDropdownMenu;
-    lxDropdown.openDropdownMenu = openDropdownMenu;
-    lxDropdown.registerDropdownMenu = registerDropdownMenu;
-    lxDropdown.registerDropdownToggle = registerDropdownToggle;
-    lxDropdown.toggle = toggle;
-    lxDropdown.uuid = LxUtilsService.generateUUID();
-    lxDropdown.closeOnClick = angular.isDefined(lxDropdown.closeOnClick) ? lxDropdown.closeOnClick : true;
-    lxDropdown.effect = angular.isDefined(lxDropdown.effect) ? lxDropdown.effect : 'expand';
-    lxDropdown.escapeClose = angular.isDefined(lxDropdown.escapeClose) ? lxDropdown.escapeClose : true;
-    lxDropdown.hasToggle = false;
-    lxDropdown.isOpen = false;
-    lxDropdown.overToggle = angular.isDefined(lxDropdown.overToggle) ? lxDropdown.overToggle : false;
-    lxDropdown.position = angular.isDefined(lxDropdown.position) ? lxDropdown.position : 'left';
-    lxDropdown.minOffset = angular.isUndefined(lxDropdown.minOffset) || lxDropdown.minOffset < 0 ? 8 : lxDropdown.minOffset;
-    $scope.$on('lx-dropdown__open', function (_event, _params) {
-      if (_params.uuid === lxDropdown.uuid && !lxDropdown.isOpen) {
-        LxDropdownService.closeActiveDropdown();
-        LxDropdownService.registerActiveDropdownUuid(lxDropdown.uuid);
-        positionTarget = _params.target;
-        registerDropdownToggle(positionTarget);
-        openDropdownMenu();
-      }
-    });
-    $scope.$on('lx-dropdown__close', function (_event, _params) {
-      if (_params.uuid === lxDropdown.uuid && lxDropdown.isOpen && (!_params.documentClick || _params.documentClick && lxDropdown.closeOnClick)) {
-        closeDropdownMenu();
-      }
-    });
-    $scope.$on('$destroy', function () {
-      $timeout.cancel(openTimeout);
-    });
-
-    function closeDropdownMenu() {
-      $document.off('click touchend', onDocumentClick);
-      $rootScope.$broadcast('lx-dropdown__close-start', $element.attr('id'));
-      angular.element(window).off('resize', initDropdownPosition);
-
-      if (angular.isFunction(dropdownContentWatcher)) {
-        dropdownContentWatcher();
-        dropdownContentWatcher = undefined;
-      }
-
-      LxDropdownService.resetActiveDropdownUuid();
-      var velocityProperties;
-      var velocityEasing;
-
-      if (!lxDropdown.hover && angular.isDefined(scrollMask)) {
-        scrollMask.remove();
-      }
-
-      if (angular.isFunction(enableBodyScroll)) {
-        enableBodyScroll();
-      }
-
-      enableBodyScroll = undefined;
-      var dropdownToggleElement;
-
-      if (lxDropdown.hasToggle) {
-        dropdownToggleElement = angular.isString(dropdownToggle) ? angular.element(dropdownToggle) : dropdownToggle;
-        dropdownToggleElement.off('wheel').css('z-index', '');
-      }
-
-      dropdownMenu.css({
-        overflow: 'hidden'
-      });
-
-      if (lxDropdown.effect === 'expand') {
-        velocityProperties = {
-          width: 0,
-          height: 0
-        };
-        velocityEasing = 'easeOutQuint';
-      } else if (lxDropdown.effect === 'fade') {
-        velocityProperties = {
-          opacity: 0
-        };
-        velocityEasing = 'linear';
-      }
-
-      if (lxDropdown.effect === 'expand' || lxDropdown.effect === 'fade') {
-        dropdownMenu.velocity(velocityProperties, {
-          duration: 200,
-          easing: velocityEasing,
-          complete: function complete() {
-            dropdownMenu.removeAttr('style').removeClass('dropdown-menu--is-open').appendTo($element.find('.dropdown'));
-            $scope.$apply(function () {
-              lxDropdown.isOpen = false;
-
-              if (lxDropdown.escapeClose) {
-                LxEventSchedulerService.unregister(idEventScheduler);
-                idEventScheduler = undefined;
-              }
-            });
-          }
-        });
-      } else if (lxDropdown.effect === 'none') {
-        dropdownMenu.removeAttr('style').removeClass('dropdown-menu--is-open').appendTo($element.find('.dropdown'));
-        $scope.$apply(function () {
-          lxDropdown.isOpen = false;
-
-          if (lxDropdown.escapeClose) {
-            LxEventSchedulerService.unregister(idEventScheduler);
-            idEventScheduler = undefined;
-          }
-        });
-      }
-
-      dropdownMenu.off('scroll', checkScrollEnd);
-      $rootScope.$broadcast('lx-dropdown__close-end', $element.attr('id'));
-    }
-
-    function getAvailableHeight() {
-      var availableHeightOnTop;
-      var availableHeightOnBottom;
-      var direction;
-      var dropdownToggleElement = angular.isString(dropdownToggle) ? angular.element(dropdownToggle) : dropdownToggle;
-      var dropdownToggleHeight = dropdownToggleElement.outerHeight();
-      var dropdownToggleTop = dropdownToggleElement.offset().top - angular.element($window).scrollTop();
-      var windowHeight = $window.innerHeight;
-
-      if (lxDropdown.overToggle) {
-        availableHeightOnTop = dropdownToggleTop + dropdownToggleHeight;
-        availableHeightOnBottom = windowHeight - dropdownToggleTop;
-      } else {
-        availableHeightOnTop = dropdownToggleTop;
-        availableHeightOnBottom = windowHeight - (dropdownToggleTop + dropdownToggleHeight);
-      }
-
-      if (availableHeightOnTop > availableHeightOnBottom) {
-        direction = 'top';
-      } else {
-        direction = 'bottom';
-      }
-
-      return {
-        top: availableHeightOnTop,
-        bottom: availableHeightOnBottom,
-        direction: direction
-      };
-    }
-
-    function initDropdownPosition() {
-      var availableHeight = getAvailableHeight();
-      var dropdownMenuWidth;
-      var dropdownMenuLeft;
-      var dropdownMenuRight;
-      var dropdownToggleElement = angular.isString(dropdownToggle) ? angular.element(dropdownToggle) : dropdownToggle;
-      var dropdownToggleWidth = dropdownToggleElement.outerWidth();
-      var dropdownToggleHeight = dropdownToggleElement.outerHeight();
-      var dropdownToggleTop = dropdownToggleElement.offset().top - angular.element($window).scrollTop();
-      var windowWidth = $window.innerWidth;
-      var windowHeight = $window.innerHeight;
-      var cssProperties = {};
-
-      if (angular.isDefined(lxDropdown.width)) {
-        if (lxDropdown.width.indexOf('%') > -1) {
-          dropdownMenuWidth = dropdownToggleWidth * (lxDropdown.width.slice(0, -1) / 100);
-          angular.extend(cssProperties, {
-            minWidth: dropdownMenuWidth
-          });
-        } else {
-          dropdownMenuWidth = lxDropdown.width;
-          angular.extend(cssProperties, {
-            width: dropdownMenuWidth
-          });
-        }
-      } else {
-        dropdownMenuWidth = 'auto';
-        angular.extend(cssProperties, {
-          width: dropdownMenuWidth
-        });
-      }
-
-      if (lxDropdown.position === 'left') {
-        dropdownMenuLeft = dropdownToggleElement.offset().left;
-        dropdownMenuLeft = dropdownMenuLeft <= lxDropdown.minOffset ? lxDropdown.minOffset : dropdownMenuLeft;
-        dropdownMenuRight = 'auto';
-      } else if (lxDropdown.position === 'right') {
-        dropdownMenuLeft = 'auto';
-        dropdownMenuRight = windowWidth - dropdownToggleElement.offset().left - dropdownToggleWidth;
-        dropdownMenuRight = dropdownMenuRight > windowWidth - lxDropdown.minOffset ? windowWidth - lxDropdown.minOffset : dropdownMenuRight;
-      } else if (lxDropdown.position === 'center') {
-        dropdownMenuLeft = dropdownToggleElement.offset().left + dropdownToggleWidth / 2 - dropdownMenuWidth / 2;
-        dropdownMenuLeft = dropdownMenuLeft <= lxDropdown.minOffset ? lxDropdown.minOffset : dropdownMenuLeft;
-        dropdownMenuRight = 'auto';
-      }
-
-      angular.extend(cssProperties, {
-        left: dropdownMenuLeft,
-        right: dropdownMenuRight
-      });
-      dropdownMenu.css(cssProperties);
-
-      if (availableHeight.direction === 'top') {
-        dropdownMenu.css({
-          bottom: lxDropdown.overToggle ? windowHeight - dropdownToggleTop - dropdownToggleHeight : windowHeight - dropdownToggleTop + ~~lxDropdown.offset
-        });
-        return availableHeight.top;
-      } else if (availableHeight.direction === 'bottom') {
-        dropdownMenu.css({
-          top: lxDropdown.overToggle ? dropdownToggleTop : dropdownToggleTop + dropdownToggleHeight + ~~lxDropdown.offset
-        });
-        return availableHeight.bottom;
-      }
-    }
-
-    function onDocumentClick() {
-      $timeout(function nextDigest() {
-        LxDropdownService.close(lxDropdown.uuid, true);
-      });
-    }
-
-    function openDropdownMenu() {
-      $document.on('click touchend', onDocumentClick);
-      $document.on('touchmove', function onTouchMove(evt) {
-        $document.off('touchend', onDocumentClick);
-      });
-      $rootScope.$broadcast('lx-dropdown__open-start', $element.attr('id'));
-      lxDropdown.isOpen = true;
-      LxDepthService.register();
-
-      if (!lxDropdown.hover) {
-        scrollMask.css('z-index', LxDepthService.getDepth()).appendTo('body');
-        scrollMask.on('click wheel touchmove ontouchstart', closeDropdownMenu);
-      }
-
-      angular.element(window).on('resize', initDropdownPosition);
-      enableBodyScroll = LxUtilsService.disableBodyScroll();
-      var dropdownToggleElement;
-
-      if (lxDropdown.hasToggle) {
-        dropdownToggleElement = angular.isString(dropdownToggle) ? angular.element(dropdownToggle) : dropdownToggle;
-        dropdownToggleElement.css('z-index', LxDepthService.getDepth() + 1).on('wheel', function preventDefault(e) {
-          e.preventDefault();
-        });
-      }
-
-      dropdownMenu.addClass('dropdown-menu--is-open').css('z-index', LxDepthService.getDepth() + 1).appendTo('body');
-
-      if (lxDropdown.escapeClose) {
-        idEventScheduler = LxEventSchedulerService.register('keyup', onKeyUp);
-      }
-
-      openTimeout = $timeout(function () {
-        var availableHeight = initDropdownPosition() - ~~lxDropdown.offset;
-        var dropdownMenuHeight = dropdownMenu.outerHeight();
-        var dropdownMenuWidth = dropdownMenu.outerWidth();
-        var enoughHeight = true;
-
-        if (availableHeight < dropdownMenuHeight) {
-          enoughHeight = false;
-          dropdownMenuHeight = availableHeight;
-        }
-
-        dropdownContentWatcher = $scope.$watch(function watcherDropdownContent() {
-          return dropdownMenu.find('.dropdown-menu__content').html();
-        }, function watchDropdownContent(newValue, oldValue) {
-          if (newValue === oldValue) {
-            return;
-          }
-
-          updateDropdownMenuHeight();
-        });
-
-        if (lxDropdown.effect === 'expand') {
-          dropdownMenu.css({
-            width: 0,
-            height: 0,
-            opacity: 1,
-            overflow: 'hidden'
-          });
-          dropdownMenu.find('.dropdown-menu__content').css({
-            width: dropdownMenuWidth,
-            height: dropdownMenuHeight
-          });
-          dropdownMenu.velocity({
-            width: dropdownMenuWidth
-          }, {
-            duration: 200,
-            easing: 'easeOutQuint',
-            queue: false
-          });
-          dropdownMenu.velocity({
-            height: dropdownMenuHeight
-          }, {
-            duration: 500,
-            easing: 'easeOutQuint',
-            queue: false,
-            complete: function complete() {
-              dropdownMenu.css({
-                overflow: 'auto'
-              });
-
-              if (angular.isUndefined(lxDropdown.width)) {
-                dropdownMenu.css({
-                  width: 'auto'
-                });
-              }
-
-              $timeout(updateDropdownMenuHeight);
-              dropdownMenu.find('.dropdown-menu__content').removeAttr('style');
-            }
-          });
-        } else if (lxDropdown.effect === 'fade') {
-          dropdownMenu.css({
-            height: dropdownMenuHeight
-          });
-          dropdownMenu.velocity({
-            opacity: 1
-          }, {
-            duration: 200,
-            easing: 'linear',
-            queue: false,
-            complete: function complete() {
-              $timeout(updateDropdownMenuHeight);
-            }
-          });
-        } else if (lxDropdown.effect === 'none') {
-          dropdownMenu.css({
-            opacity: 1
-          });
-          $timeout(updateDropdownMenuHeight);
-        }
-
-        dropdownMenu.on('scroll', checkScrollEnd);
-        $rootScope.$broadcast('lx-dropdown__open-end', $element.attr('id'));
-      });
-    }
-
-    function onKeyUp(_event) {
-      if (_event.keyCode == 27) {
-        closeDropdownMenu();
-      }
-
-      _event.stopPropagation();
-    }
-
-    function registerDropdownMenu(_dropdownMenu) {
-      dropdownMenu = _dropdownMenu;
-    }
-
-    function registerDropdownToggle(_dropdownToggle) {
-      if (!positionTarget) {
-        lxDropdown.hasToggle = true;
-      }
-
-      dropdownToggle = _dropdownToggle;
-    }
-
-    function toggle() {
-      if (!lxDropdown.isOpen) {
-        openDropdownMenu();
-      } else {
-        closeDropdownMenu();
-      }
-    }
-
-    function updateDropdownMenuHeight() {
-      if (positionTarget) {
-        registerDropdownToggle(angular.element(positionTarget));
-      }
-
-      if (!angular.element(dropdownToggle).is(':visible')) {
-        return;
-      }
-
-      var availableHeight = getAvailableHeight();
-      var scrollPosition = dropdownMenu.scrollTop();
-      dropdownMenu.css({
-        height: 'auto'
-      });
-      dropdownMenu.css(availableHeight.direction, 'auto');
-      var dropdownMenuHeight = dropdownMenu.find('.dropdown-menu__content').outerHeight();
-
-      if (availableHeight[availableHeight.direction] - ~~lxDropdown.offset <= dropdownMenuHeight) {
-        if (availableHeight.direction === 'top') {
-          dropdownMenu.css({
-            top: 0
-          });
-        } else if (availableHeight.direction === 'bottom') {
-          dropdownMenu.css({
-            bottom: 0
-          });
-        }
-      } else {
-        if (availableHeight.direction === 'top') {
-          dropdownMenu.css({
-            top: 'auto'
-          });
-        } else if (availableHeight.direction === 'bottom') {
-          dropdownMenu.css({
-            bottom: 'auto'
-          });
-        }
-      }
-
-      dropdownMenu.scrollTop(scrollPosition);
-    }
-
-    function checkScrollEnd() {
-      if (dropdownMenu.scrollTop() + dropdownMenu.innerHeight() >= dropdownMenu[0].scrollHeight) {
-        $rootScope.$broadcast('lx-dropdown__scroll-end', $element.attr('id'));
-      }
-    }
-  }
-
-  lxDropdownToggle.$inject = ['$timeout', '$window', 'LxDropdownService'];
-
-  function lxDropdownToggle($timeout, $window, LxDropdownService) {
-    return {
-      restrict: 'AE',
-      templateUrl: 'dropdown-toggle.html',
-      require: '^lxDropdown',
-      scope: true,
-      link: link,
-      replace: true,
-      transclude: true
-    };
-
-    function link(scope, element, attrs, ctrl) {
-      var hoverTimeout = [];
-      var mouseEvent = ctrl.hover ? 'mouseenter' : 'click';
-      ctrl.registerDropdownToggle(element);
-      element.on(mouseEvent, function (_event) {
-        if (mouseEvent === 'mouseenter' && 'ontouchstart' in window && angular.element($window).outerWidth() <= 480) {
-          return;
-        }
-
-        if (!ctrl.hover) {
-          _event.stopPropagation();
-        }
-
-        LxDropdownService.closeActiveDropdown();
-        LxDropdownService.registerActiveDropdownUuid(ctrl.uuid);
-
-        if (ctrl.hover) {
-          ctrl.mouseOnToggle = true;
-
-          if (!ctrl.isOpen) {
-            hoverTimeout[0] = $timeout(function () {
-              scope.$apply(function () {
-                ctrl.openDropdownMenu();
-              });
-            }, ctrl.hoverDelay);
-          }
-        } else {
-          scope.$apply(function () {
-            ctrl.toggle();
-          });
-        }
-      });
-
-      if (ctrl.hover) {
-        element.on('mouseleave', function () {
-          ctrl.mouseOnToggle = false;
-          $timeout.cancel(hoverTimeout[0]);
-          hoverTimeout[1] = $timeout(function () {
-            if (!ctrl.mouseOnMenu) {
-              scope.$apply(function () {
-                ctrl.closeDropdownMenu();
-              });
-            }
-          }, ctrl.hoverDelay);
-        });
-      }
-
-      scope.$on('$destroy', function () {
-        element.off();
-
-        if (ctrl.hover) {
-          $timeout.cancel(hoverTimeout[0]);
-          $timeout.cancel(hoverTimeout[1]);
-        }
-      });
-    }
-  }
-
-  lxDropdownMenu.$inject = ['$timeout'];
-
-  function lxDropdownMenu($timeout) {
-    return {
-      restrict: 'E',
-      templateUrl: 'dropdown-menu.html',
-      require: ['lxDropdownMenu', '^lxDropdown'],
-      scope: true,
-      link: link,
-      controller: LxDropdownMenuController,
-      controllerAs: 'lxDropdownMenu',
-      bindToController: true,
-      replace: true,
-      transclude: true
-    };
-
-    function link(scope, element, attrs, ctrls) {
-      var hoverTimeout;
-      ctrls[1].registerDropdownMenu(element);
-      ctrls[0].setParentController(ctrls[1]);
-
-      if (ctrls[1].hover) {
-        element.on('mouseenter', function () {
-          ctrls[1].mouseOnMenu = true;
-        });
-        element.on('mouseleave', function () {
-          ctrls[1].mouseOnMenu = false;
-          hoverTimeout = $timeout(function () {
-            if (!ctrls[1].mouseOnToggle) {
-              scope.$apply(function () {
-                ctrls[1].closeDropdownMenu();
-              });
-            }
-          }, ctrls[1].hoverDelay);
-        });
-      }
-
-      scope.$on('$destroy', function () {
-        if (ctrls[1].hover) {
-          element.off();
-          $timeout.cancel(hoverTimeout);
-        }
-      });
-    }
-  }
-
-  LxDropdownMenuController.$inject = ['$element'];
-
-  function LxDropdownMenuController($element) {
-    var lxDropdownMenu = this;
-    lxDropdownMenu.setParentController = setParentController;
-
-    function setParentController(_parentCtrl) {
-      lxDropdownMenu.parentCtrl = _parentCtrl;
-    }
-  }
-
-  lxDropdownFilter.$inject = ['$timeout'];
-
-  function lxDropdownFilter($timeout) {
-    return {
-      restrict: 'A',
-      link: link
-    };
-
-    function link(scope, element) {
-      var focusTimeout;
-      element.on('click', function (_event) {
-        _event.stopPropagation();
-      });
-      focusTimeout = $timeout(function () {
-        element.find('input').focus();
-      }, 200);
-      scope.$on('$destroy', function () {
-        $timeout.cancel(focusTimeout);
-        element.off();
-      });
-    }
-  }
-})();
-
-/***/ }),
-/* 122 */
-/***/ (function(module, exports) {
-
-// iterable DOM collections
-// flag - `iterable` interface - 'entries', 'keys', 'values', 'forEach' methods
-module.exports = {
-  CSSRuleList: 0,
-  CSSStyleDeclaration: 0,
-  CSSValueList: 0,
-  ClientRectList: 0,
-  DOMRectList: 0,
-  DOMStringList: 0,
-  DOMTokenList: 1,
-  DataTransferItemList: 0,
-  FileList: 0,
-  HTMLAllCollection: 0,
-  HTMLCollection: 0,
-  HTMLFormElement: 0,
-  HTMLSelectElement: 0,
-  MediaList: 0,
-  MimeTypeArray: 0,
-  NamedNodeMap: 0,
-  NodeList: 1,
-  PaintRequestList: 0,
-  Plugin: 0,
-  PluginArray: 0,
-  SVGLengthList: 0,
-  SVGNumberList: 0,
-  SVGPathSegList: 0,
-  SVGPointList: 0,
-  SVGStringList: 0,
-  SVGTransformList: 0,
-  SourceBufferList: 0,
-  StyleSheetList: 0,
-  TextTrackCueList: 0,
-  TextTrackList: 0,
-  TouchList: 0
-};
-
-
-/***/ }),
-/* 123 */
-/***/ (function(module, exports) {
-
-(function () {
-  'use strict';
-
-  angular.module('lumx.dropdown').service('LxDropdownService', LxDropdownService);
-  LxDropdownService.$inject = ['$document', '$rootScope'];
-
-  function LxDropdownService($document, $rootScope) {
-    var service = this;
-    var activeDropdownUuid;
-    service.close = close;
-    service.closeActiveDropdown = closeActiveDropdown;
-    service.open = open;
-    service.isOpen = isOpen;
-    service.registerActiveDropdownUuid = registerActiveDropdownUuid;
-    service.resetActiveDropdownUuid = resetActiveDropdownUuid;
-
-    function close(_uuid, isDocumentClick) {
-      isDocumentClick = isDocumentClick || false;
-      $rootScope.$broadcast('lx-dropdown__close', {
-        documentClick: isDocumentClick,
-        uuid: _uuid
-      });
-    }
-
-    function closeActiveDropdown() {
-      if (angular.isDefined(activeDropdownUuid) && activeDropdownUuid.length > 0) {
-        $rootScope.$broadcast('lx-dropdown__close', {
-          documentClick: true,
-          uuid: activeDropdownUuid
-        });
-      }
-    }
-
-    function open(_uuid, _target) {
-      $rootScope.$broadcast('lx-dropdown__open', {
-        uuid: _uuid,
-        target: _target
-      });
-    }
-
-    function isOpen(_uuid) {
-      return activeDropdownUuid === _uuid;
-    }
-
-    function registerActiveDropdownUuid(_uuid) {
-      activeDropdownUuid = _uuid;
-    }
-
-    function resetActiveDropdownUuid() {
-      activeDropdownUuid = undefined;
-    }
-  }
-})();
-
-/***/ }),
-/* 124 */
-/***/ (function(module, exports) {
-
-(function () {
-  'use strict';
-
-  angular.module('lumx.fab').directive('lxFab', lxFab).directive('lxFabTrigger', lxFabTrigger).directive('lxFabActions', lxFabActions);
-
-  function lxFab() {
-    return {
-      restrict: 'E',
-      templateUrl: 'fab.html',
-      scope: true,
-      link: link,
-      controller: LxFabController,
-      controllerAs: 'lxFab',
-      bindToController: true,
-      transclude: true,
-      replace: true
-    };
-
-    function link(scope, element, attrs, ctrl) {
-      attrs.$observe('lxDirection', function (newDirection) {
-        ctrl.setFabDirection(newDirection);
-      });
-      attrs.$observe('lxTriggerOnClick', function (isTriggeredOnClick) {
-        ctrl.setFabTriggerMethod(scope.$eval(isTriggeredOnClick));
-      });
-    }
-  }
-
-  function LxFabController() {
-    var lxFab = this;
-    lxFab.setFabDirection = setFabDirection;
-    lxFab.setFabTriggerMethod = setFabTriggerMethod;
-    lxFab.toggleState = toggleState;
-    lxFab.isOpen = false;
-
-    function setFabDirection(_direction) {
-      lxFab.lxDirection = _direction;
-    }
-
-    function setFabTriggerMethod(_isTriggeredOnClick) {
-      lxFab.lxTriggerOnClick = _isTriggeredOnClick;
-    }
-
-    function toggleState() {
-      if (lxFab.lxTriggerOnClick) {
-        lxFab.isOpen = !lxFab.isOpen;
-      }
-    }
-  }
-
-  function lxFabTrigger() {
-    return {
-      restrict: 'E',
-      require: '^lxFab',
-      templateUrl: 'fab-trigger.html',
-      transclude: true,
-      replace: true
-    };
-  }
-
-  function lxFabActions() {
-    return {
-      restrict: 'E',
-      require: '^lxFab',
-      templateUrl: 'fab-actions.html',
-      link: link,
-      transclude: true,
-      replace: true
-    };
-
-    function link(scope, element, attrs, ctrl) {
-      scope.parentCtrl = ctrl;
-    }
-  }
-})();
-
-/***/ }),
-/* 125 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var core_js_modules_es_array_find__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(6);
-/* harmony import */ var core_js_modules_es_array_find__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_find__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var core_js_modules_es_regexp_exec__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(15);
-/* harmony import */ var core_js_modules_es_regexp_exec__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_regexp_exec__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var core_js_modules_es_string_replace__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(30);
-/* harmony import */ var core_js_modules_es_string_replace__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_string_replace__WEBPACK_IMPORTED_MODULE_2__);
-
-
-
-
-(function () {
-  'use strict';
-
-  angular.module('lumx.file-input').directive('lxFileInput', lxFileInput);
-
-  function lxFileInput() {
-    return {
-      restrict: 'E',
-      templateUrl: 'file-input.html',
-      scope: {
-        label: '@lxLabel',
-        accept: '@lxAccept',
-        callback: '&?lxCallback'
-      },
-      link: link,
-      controller: LxFileInputController,
-      controllerAs: 'lxFileInput',
-      bindToController: true,
-      replace: true
-    };
-
-    function link(scope, element, attrs, ctrl) {
-      var input = element.find('input');
-      input.on('change', ctrl.updateModel).on('blur', function () {
-        element.removeClass('input-file--is-focus');
-      });
-      scope.$on('$destroy', function () {
-        input.off();
-      });
-    }
-  }
-
-  LxFileInputController.$inject = ['$element', '$scope', '$timeout'];
-
-  function LxFileInputController($element, $scope, $timeout) {
-    var lxFileInput = this;
-    var input = $element.find('input');
-    var timer;
-    lxFileInput.updateModel = updateModel;
-    $scope.$on('$destroy', function () {
-      $timeout.cancel(timer);
-    });
-
-    function setFileName() {
-      if (input.val()) {
-        lxFileInput.fileName = input.val().replace(/C:\\fakepath\\/i, '');
-        $element.addClass('input-file--is-focus');
-        $element.addClass('input-file--is-active');
-      } else {
-        lxFileInput.fileName = undefined;
-        $element.removeClass('input-file--is-active');
-      }
-
-      input.val(undefined);
-    }
-
-    function updateModel() {
-      if (angular.isDefined(lxFileInput.callback)) {
-        lxFileInput.callback({
-          newFile: input[0].files[0]
-        });
-      }
-
-      timer = $timeout(setFileName);
-    }
-  }
-})();
-
-/***/ }),
-/* 126 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "IconDirective", function() { return IconDirective; });
-/* harmony import */ var core_js_modules_es_array_find__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(6);
-/* harmony import */ var core_js_modules_es_array_find__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_find__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var core_js_modules_es_array_join__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(73);
-/* harmony import */ var core_js_modules_es_array_join__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_join__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var core_js_modules_es_regexp_exec__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(15);
-/* harmony import */ var core_js_modules_es_regexp_exec__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_regexp_exec__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var core_js_modules_es_string_match__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(74);
-/* harmony import */ var core_js_modules_es_string_match__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_string_match__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(0);
-/* harmony import */ var _views_icon_html__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(58);
-/* harmony import */ var _views_icon_html__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_views_icon_html__WEBPACK_IMPORTED_MODULE_5__);
-
-
-
-
-
-
-
-function IconDirective() {
-  'ngInject';
-
-  function link(scope, el, attrs) {
-    attrs.$observe('lxPath', function (path) {
-      el.addClass(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_4__[/* CSS_PREFIX */ "a"] + "-icon--path");
-      el.find('path').attr('d', path);
-    });
-    attrs.$observe('lxId', function (font) {
-      el.addClass(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_4__[/* CSS_PREFIX */ "a"] + "-icon--font mdi mdi-" + font);
-    });
-    attrs.$observe('lxColor', function (color) {
-      if (!color) {
-        return;
-      }
-
-      el.removeClass(function (index, className) {
-        return (className.match(/(?:\S|-)*icon--color-\S+/g) || []).join(' ');
-      }).addClass(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_4__[/* CSS_PREFIX */ "a"] + "-icon--color-" + color);
-    });
-    attrs.$observe('lxColorVariant', function (colorVariant) {
-      if (!colorVariant) {
-        return;
-      }
-
-      el.removeClass(function (index, className) {
-        return (className.match(/(?:\S|-)*icon--color-variant-\S+/g) || []).join(' ');
-      }).addClass(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_4__[/* CSS_PREFIX */ "a"] + "-icon--color-variant-" + colorVariant);
-    });
-    attrs.$observe('lxSize', function (size) {
-      if (!size) {
-        return;
-      }
-
-      el.removeClass(function (index, className) {
-        return (className.match(/(?:\S|-)*icon--size-\S+/g) || []).join(' ');
-      }).addClass(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_4__[/* CSS_PREFIX */ "a"] + "-icon--size-" + size);
-    });
-  }
-
-  return {
-    link: link,
-    replace: true,
-    restrict: 'E',
-    template: _views_icon_html__WEBPACK_IMPORTED_MODULE_5___default.a
-  };
-}
-
-angular.module('lumx.icon').directive('lxIcon', IconDirective);
-
-
-/***/ }),
-/* 127 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var core_js_modules_es_array_index_of__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(18);
-/* harmony import */ var core_js_modules_es_array_index_of__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_index_of__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var core_js_modules_es_array_slice__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(54);
-/* harmony import */ var core_js_modules_es_array_slice__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_slice__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var core_js_modules_es_array_splice__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(23);
-/* harmony import */ var core_js_modules_es_array_splice__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_splice__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var core_js_modules_es_parse_float__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(128);
-/* harmony import */ var core_js_modules_es_parse_float__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_parse_float__WEBPACK_IMPORTED_MODULE_3__);
-
-
-
-
-
-(function () {
-  'use strict';
-
-  angular.module('lumx.notification').service('LxNotificationService', LxNotificationService);
-  LxNotificationService.$inject = ['$injector', '$rootScope', '$timeout', 'LxDepthService', 'LxEventSchedulerService'];
-
-  function LxNotificationService($injector, $rootScope, $timeout, LxDepthService, LxEventSchedulerService) {
-    var service = this;
-    var dialogFilter;
-    var dialog;
-    var idEventScheduler;
-    var notificationList = [];
-    var actionClicked = false;
-    service.alert = showAlertDialog;
-    service.confirm = showConfirmDialog;
-    service.error = notifyError;
-    service.info = notifyInfo;
-    service.notify = notify;
-    service.success = notifySuccess;
-    service.warning = notifyWarning;
-    service.getNotificationList = getNotificationList;
-    service.reComputeElementsPosition = reComputeElementsPosition;
-    service.deleteNotification = deleteNotification;
-    service.buildNotification = buildNotification;
-
-    function getElementHeight(_elem) {
-      return parseFloat(window.getComputedStyle(_elem, null).height);
-    }
-
-    function moveNotificationUp() {
-      var newNotifIndex = notificationList.length - 1;
-      notificationList[newNotifIndex].height = getElementHeight(notificationList[newNotifIndex].elem[0]);
-      var upOffset = 0;
-
-      for (var idx = newNotifIndex; idx >= 0; idx--) {
-        if (notificationList.length > 1 && idx !== newNotifIndex) {
-          upOffset = 24 + notificationList[newNotifIndex].height;
-          notificationList[idx].margin += upOffset;
-          notificationList[idx].elem.css('marginBottom', notificationList[idx].margin + 'px');
-        }
-      }
-    }
-
-    function deleteNotification(_notification, _callback) {
-      _callback = !angular.isFunction(_callback) ? angular.noop : _callback;
-      var notifIndex = notificationList.indexOf(_notification);
-      var dnOffset = angular.isDefined(notificationList[notifIndex]) ? 24 + notificationList[notifIndex].height : 24;
-
-      for (var idx = 0; idx < notifIndex; idx++) {
-        if (notificationList.length > 1) {
-          notificationList[idx].margin -= dnOffset;
-          notificationList[idx].elem.css('marginBottom', notificationList[idx].margin + 'px');
-        }
-      }
-
-      _notification.elem.removeClass('notification--is-shown');
-
-      $timeout(function () {
-        _notification.elem.remove();
-
-        notifIndex = notificationList.indexOf(_notification);
-
-        if (notifIndex != -1) {
-          notificationList.splice(notifIndex, 1);
-        }
-
-        _callback(actionClicked);
-
-        actionClicked = false;
-      }, 400);
-    }
-
-    function reComputeElementsPosition() {
-      var baseOffset = 0;
-
-      for (var idx = notificationList.length - 1; idx >= 0; idx--) {
-        notificationList[idx].height = getElementHeight(notificationList[idx].elem[0]);
-        notificationList[idx].margin = baseOffset;
-        notificationList[idx].elem.css('marginBottom', notificationList[idx].margin + 'px');
-        baseOffset += notificationList[idx].height + 24;
-      }
-    }
-
-    function buildNotification(_text, _icon, _color, _action) {
-      var notification = angular.element('<div/>', {
-        class: 'notification'
-      });
-      var notificationText = angular.element('<span/>', {
-        class: 'notification__content',
-        html: _text
-      });
-
-      if (angular.isDefined(_icon)) {
-        var notificationIcon = angular.element('<i/>', {
-          class: 'notification__icon mdi mdi-' + _icon
-        });
-        notification.addClass('notification--has-icon').append(notificationIcon);
-      }
-
-      if (angular.isDefined(_color)) {
-        notification.addClass('notification--' + _color);
-      }
-
-      notification.append(notificationText);
-
-      if (angular.isDefined(_action)) {
-        var $compile = $injector.get('$compile');
-        var notificationAction = angular.element('<button/>', {
-          class: 'notification__action btn btn--m btn--flat',
-          html: _action
-        });
-
-        if (angular.isDefined(_color)) {
-          notificationAction.addClass('btn--' + _color);
-        } else {
-          notificationAction.addClass('btn--white');
-        }
-
-        notificationAction.attr('lx-ripple', '');
-        $compile(notificationAction)($rootScope);
-        notificationAction.bind('click', function () {
-          actionClicked = true;
-        });
-        notification.addClass('notification--has-action').append(notificationAction);
-      }
-
-      return notification;
-    }
-
-    function notify(_text, _icon, _sticky, _color, _action, _callback, _delay) {
-      var notification = this.buildNotification(_text, _icon, _color, _action);
-      var notificationTimeout;
-      var notificationDelay = _delay || 6000;
-      LxDepthService.register();
-      notification.css('z-index', LxDepthService.getDepth()).appendTo('body');
-      $timeout(function () {
-        notification.addClass('notification--is-shown');
-      }, 100);
-      var data = {
-        elem: notification,
-        margin: 0
-      };
-      notificationList.push(data);
-      moveNotificationUp();
-      notification.bind('click', function () {
-        actionClicked = true;
-        deleteNotification(data, _callback);
-
-        if (angular.isDefined(notificationTimeout)) {
-          $timeout.cancel(notificationTimeout);
-        }
-      });
-
-      if (angular.isUndefined(_sticky) || !_sticky) {
-        notificationTimeout = $timeout(function () {
-          deleteNotification(data, _callback);
-        }, notificationDelay);
-      }
-    }
-
-    function notifyError(_text, _sticky) {
-      service.notify(_text, 'alert-circle', _sticky, 'red');
-    }
-
-    function notifyInfo(_text, _sticky) {
-      service.notify(_text, 'information-outline', _sticky, 'blue');
-    }
-
-    function notifySuccess(_text, _sticky) {
-      service.notify(_text, 'check', _sticky, 'green');
-    }
-
-    function notifyWarning(_text, _sticky) {
-      service.notify(_text, 'alert', _sticky, 'orange');
-    }
-
-    function buildDialogActions(_buttons, _callback, _unbind) {
-      var $compile = $injector.get('$compile');
-      var dialogActions = angular.element('<div/>', {
-        class: 'dialog__footer'
-      });
-      var dialogLastBtn = angular.element('<button/>', {
-        class: 'btn btn--m btn--blue btn--flat',
-        text: _buttons.ok
-      });
-
-      if (angular.isDefined(_buttons.cancel)) {
-        var dialogFirstBtn = angular.element('<button/>', {
-          class: 'btn btn--m btn--red btn--flat',
-          text: _buttons.cancel
-        });
-        dialogFirstBtn.attr('lx-ripple', '');
-        $compile(dialogFirstBtn)($rootScope);
-        dialogActions.append(dialogFirstBtn);
-        dialogFirstBtn.bind('click', function () {
-          _callback(false);
-
-          closeDialog();
-        });
-      }
-
-      dialogLastBtn.attr('lx-ripple', '');
-      $compile(dialogLastBtn)($rootScope);
-      dialogActions.append(dialogLastBtn);
-      dialogLastBtn.bind('click', function () {
-        _callback(true);
-
-        closeDialog();
-      });
-
-      if (!_unbind) {
-        idEventScheduler = LxEventSchedulerService.register('keyup', function (event) {
-          if (event.keyCode == 13) {
-            _callback(true);
-
-            closeDialog();
-          } else if (event.keyCode == 27) {
-            _callback(angular.isUndefined(_buttons.cancel));
-
-            closeDialog();
-          }
-
-          event.stopPropagation();
-        });
-      }
-
-      return dialogActions;
-    }
-
-    function buildDialogContent(_text) {
-      var dialogContent = angular.element('<div/>', {
-        class: 'dialog__content p++ pt0 tc-black-2',
-        text: _text
-      });
-      return dialogContent;
-    }
-
-    function buildDialogHeader(_title) {
-      var dialogHeader = angular.element('<div/>', {
-        class: 'dialog__header p++ fs-title',
-        text: _title
-      });
-      return dialogHeader;
-    }
-
-    function closeDialog() {
-      if (angular.isDefined(idEventScheduler)) {
-        $timeout(function () {
-          LxEventSchedulerService.unregister(idEventScheduler);
-          idEventScheduler = undefined;
-        }, 1);
-      }
-
-      dialogFilter.removeClass('dialog-filter--is-shown');
-      dialog.removeClass('dialog--is-shown');
-      $timeout(function () {
-        dialogFilter.remove();
-        dialog.remove();
-      }, 600);
-    }
-
-    function showAlertDialog(_title, _text, _button, _callback, _unbind) {
-      LxDepthService.register();
-      dialogFilter = angular.element('<div/>', {
-        class: 'dialog-filter'
-      });
-      dialog = angular.element('<div/>', {
-        class: 'dialog dialog--alert'
-      });
-      var dialogHeader = buildDialogHeader(_title);
-      var dialogContent = buildDialogContent(_text);
-      var dialogActions = buildDialogActions({
-        ok: _button
-      }, _callback, _unbind);
-      dialogFilter.css('z-index', LxDepthService.getDepth()).appendTo('body');
-      dialog.append(dialogHeader).append(dialogContent).append(dialogActions).css('z-index', LxDepthService.getDepth() + 1).appendTo('body').show().focus();
-      $timeout(function () {
-        angular.element(document.activeElement).blur();
-        dialogFilter.addClass('dialog-filter--is-shown');
-        dialog.addClass('dialog--is-shown');
-      }, 100);
-    }
-
-    function showConfirmDialog(_title, _text, _buttons, _callback, _unbind) {
-      LxDepthService.register();
-      dialogFilter = angular.element('<div/>', {
-        class: 'dialog-filter'
-      });
-      dialog = angular.element('<div/>', {
-        class: 'dialog dialog--alert'
-      });
-      var dialogHeader = buildDialogHeader(_title);
-      var dialogContent = buildDialogContent(_text);
-      var dialogActions = buildDialogActions(_buttons, _callback, _unbind);
-      dialogFilter.css('z-index', LxDepthService.getDepth()).appendTo('body');
-      dialog.append(dialogHeader).append(dialogContent).append(dialogActions).css('z-index', LxDepthService.getDepth() + 1).appendTo('body').show().focus();
-      $timeout(function () {
-        angular.element(document.activeElement).blur();
-        dialogFilter.addClass('dialog-filter--is-shown');
-        dialog.addClass('dialog--is-shown');
-      }, 100);
-    }
-
-    function getNotificationList() {
-      return notificationList.slice();
-    }
-  }
-})();
-
-/***/ }),
-/* 128 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var $ = __webpack_require__(2);
-var parseFloatImplementation = __webpack_require__(129);
-
-// `parseFloat` method
-// https://tc39.github.io/ecma262/#sec-parsefloat-string
-$({ global: true, forced: parseFloat != parseFloatImplementation }, {
-  parseFloat: parseFloatImplementation
-});
-
-
-/***/ }),
-/* 129 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var global = __webpack_require__(1);
-var trim = __webpack_require__(55).trim;
-var whitespaces = __webpack_require__(31);
-
-var nativeParseFloat = global.parseFloat;
-var FORCED = 1 / nativeParseFloat(whitespaces + '-0') !== -Infinity;
-
-// `parseFloat` method
-// https://tc39.github.io/ecma262/#sec-parsefloat-string
-module.exports = FORCED ? function parseFloat(string) {
-  var trimmedString = trim(String(string));
-  var result = nativeParseFloat(trimmedString);
-  return result === 0 && trimmedString.charAt(0) == '-' ? -0 : result;
-} : nativeParseFloat;
-
-
-/***/ }),
-/* 130 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var core_js_modules_es_parse_int__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(25);
-/* harmony import */ var core_js_modules_es_parse_int__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_parse_int__WEBPACK_IMPORTED_MODULE_0__);
-
-
-(function () {
-  'use strict';
-
-  angular.module('lumx.progress').directive('lxProgress', lxProgress);
-
-  function lxProgress() {
-    return {
-      restrict: 'E',
-      templateUrl: 'progress.html',
-      scope: {
-        lxColor: '@?',
-        lxDiameter: '@?',
-        lxType: '@',
-        lxValue: '@'
-      },
-      controller: LxProgressController,
-      controllerAs: 'lxProgress',
-      bindToController: true,
-      replace: true
-    };
-  }
-
-  function LxProgressController() {
-    var lxProgress = this;
-    lxProgress.getCircularProgressValue = getCircularProgressValue;
-    lxProgress.getLinearProgressValue = getLinearProgressValue;
-    lxProgress.getProgressDiameter = getProgressDiameter;
-
-    function getCircularProgressValue() {
-      if (angular.isDefined(lxProgress.lxValue)) {
-        return {
-          'stroke-dasharray': lxProgress.lxValue * 1.26 + ',200'
-        };
-      }
-    }
-
-    function getLinearProgressValue() {
-      if (angular.isDefined(lxProgress.lxValue)) {
-        return {
-          'transform': 'scale(' + lxProgress.lxValue / 100 + ', 1)'
-        };
-      }
-    }
-
-    function getProgressDiameter() {
-      if (lxProgress.lxType === 'circular') {
-        return {
-          'transform': 'scale(' + parseInt(lxProgress.lxDiameter) / 100 + ')'
-        };
-      }
-
-      return;
-    }
-
-    function init() {
-      lxProgress.lxDiameter = angular.isDefined(lxProgress.lxDiameter) ? lxProgress.lxDiameter : 100;
-      lxProgress.lxColor = angular.isDefined(lxProgress.lxColor) ? lxProgress.lxColor : 'primary';
-      lxProgress.lxClass = angular.isDefined(lxProgress.lxValue) ? 'progress-container--determinate' : 'progress-container--indeterminate';
-    }
-
-    this.$onInit = init;
-  }
-})();
-
-/***/ }),
-/* 131 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var global = __webpack_require__(1);
-var trim = __webpack_require__(55).trim;
-var whitespaces = __webpack_require__(31);
-
-var nativeParseInt = global.parseInt;
-var hex = /^[+-]?0[Xx]/;
-var FORCED = nativeParseInt(whitespaces + '08') !== 8 || nativeParseInt(whitespaces + '0x16') !== 22;
-
-// `parseInt` method
-// https://tc39.github.io/ecma262/#sec-parseint-string-radix
-module.exports = FORCED ? function parseInt(string, radix) {
-  var S = trim(String(string));
-  return nativeParseInt(S, (radix >>> 0) || (hex.test(S) ? 16 : 10));
-} : nativeParseInt;
-
-
-/***/ }),
-/* 132 */
-/***/ (function(module, exports) {
-
-(function () {
-  'use strict';
-
-  angular.module('lumx.radio-button').directive('lxRadioGroup', lxRadioGroup).directive('lxRadioButton', lxRadioButton).directive('lxRadioButtonLabel', lxRadioButtonLabel).directive('lxRadioButtonHelp', lxRadioButtonHelp);
-
-  function lxRadioGroup() {
-    return {
-      restrict: 'E',
-      templateUrl: 'radio-group.html',
-      transclude: true,
-      replace: true
-    };
-  }
-
-  function lxRadioButton() {
-    return {
-      restrict: 'E',
-      templateUrl: 'radio-button.html',
-      scope: {
-        lxColor: '@?',
-        name: '@',
-        ngChange: '&?',
-        ngDisabled: '=?',
-        ngModel: '=',
-        ngValue: '=?',
-        value: '@?',
-        lxTheme: '@?'
-      },
-      controller: LxRadioButtonController,
-      controllerAs: 'lxRadioButton',
-      bindToController: true,
-      transclude: true,
-      link: function link(scope, el, attrs, ctrl) {
-        ctrl.init();
-      },
-      replace: true
-    };
-  }
-
-  LxRadioButtonController.$inject = ['$scope', '$timeout', 'LxUtilsService'];
-
-  function LxRadioButtonController($scope, $timeout, LxUtilsService) {
-    var lxRadioButton = this;
-    var radioButtonId;
-    var radioButtonHasChildren;
-    var timer;
-    lxRadioButton.getRadioButtonId = getRadioButtonId;
-    lxRadioButton.getRadioButtonHasChildren = getRadioButtonHasChildren;
-    lxRadioButton.setRadioButtonId = setRadioButtonId;
-    lxRadioButton.setRadioButtonHasChildren = setRadioButtonHasChildren;
-    lxRadioButton.triggerNgChange = triggerNgChange;
-    lxRadioButton.init = init;
-    $scope.$on('$destroy', function () {
-      $timeout.cancel(timer);
-    });
-
-    function getRadioButtonId() {
-      return radioButtonId;
-    }
-
-    function getRadioButtonHasChildren() {
-      return radioButtonHasChildren;
-    }
-
-    function init() {
-      setRadioButtonId(LxUtilsService.generateUUID());
-      setRadioButtonHasChildren(false);
-
-      if (angular.isDefined(lxRadioButton.value) && angular.isUndefined(lxRadioButton.ngValue)) {
-        lxRadioButton.ngValue = lxRadioButton.value;
-      }
-
-      lxRadioButton.lxColor = angular.isUndefined(lxRadioButton.lxColor) ? 'accent' : lxRadioButton.lxColor;
-    }
-
-    function setRadioButtonId(_radioButtonId) {
-      radioButtonId = _radioButtonId;
-    }
-
-    function setRadioButtonHasChildren(_radioButtonHasChildren) {
-      radioButtonHasChildren = _radioButtonHasChildren;
-    }
-
-    function triggerNgChange() {
-      timer = $timeout(lxRadioButton.ngChange);
-    }
-  }
-
-  function lxRadioButtonLabel() {
-    return {
-      restrict: 'AE',
-      require: ['^lxRadioButton', '^lxRadioButtonLabel'],
-      templateUrl: 'radio-button-label.html',
-      link: link,
-      controller: LxRadioButtonLabelController,
-      controllerAs: 'lxRadioButtonLabel',
-      bindToController: true,
-      transclude: true,
-      replace: true
-    };
-
-    function link(scope, element, attrs, ctrls) {
-      ctrls[0].setRadioButtonHasChildren(true);
-      ctrls[1].setRadioButtonId(ctrls[0].getRadioButtonId());
-    }
-  }
-
-  function LxRadioButtonLabelController() {
-    var lxRadioButtonLabel = this;
-    var radioButtonId;
-    lxRadioButtonLabel.getRadioButtonId = getRadioButtonId;
-    lxRadioButtonLabel.setRadioButtonId = setRadioButtonId;
-
-    function getRadioButtonId() {
-      return radioButtonId;
-    }
-
-    function setRadioButtonId(_radioButtonId) {
-      radioButtonId = _radioButtonId;
-    }
-  }
-
-  function lxRadioButtonHelp() {
-    return {
-      restrict: 'AE',
-      require: '^lxRadioButton',
-      templateUrl: 'radio-button-help.html',
-      transclude: true,
-      replace: true
-    };
-  }
-})();
-
-/***/ }),
-/* 133 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var core_js_modules_es_array_find__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(6);
-/* harmony import */ var core_js_modules_es_array_find__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_find__WEBPACK_IMPORTED_MODULE_0__);
-
-
-(function () {
-  'use strict';
-
-  angular.module('lumx.ripple').directive('lxRipple', lxRipple);
-  lxRipple.$inject = ['$timeout'];
-
-  function lxRipple($timeout) {
-    return {
-      restrict: 'A',
-      link: link
-    };
-
-    function link(scope, element, attrs) {
-      var timer;
-      element.css({
-        position: 'relative',
-        overflow: 'hidden'
-      }).on('mousedown', function (e) {
-        var ripple;
-
-        if (element.find('.ripple').length === 0) {
-          ripple = angular.element('<span/>', {
-            class: 'ripple'
-          });
-
-          if (attrs.lxRipple) {
-            ripple.addClass('bgc-' + attrs.lxRipple);
-          }
-
-          element.prepend(ripple);
-        } else {
-          ripple = element.find('.ripple');
-        }
-
-        ripple.removeClass('ripple--is-animated');
-
-        if (!ripple.height() && !ripple.width()) {
-          var diameter = Math.max(element.outerWidth(), element.outerHeight());
-          ripple.css({
-            height: diameter,
-            width: diameter
-          });
-        }
-
-        var x = e.pageX - element.offset().left - ripple.width() / 2;
-        var y = e.pageY - element.offset().top - ripple.height() / 2;
-        ripple.css({
-          top: y + 'px',
-          left: x + 'px'
-        }).addClass('ripple--is-animated');
-        timer = $timeout(function () {
-          ripple.removeClass('ripple--is-animated');
-        }, 651);
-      });
-      scope.$on('$destroy', function () {
-        $timeout.cancel(timer);
-        element.off();
-      });
-    }
-  }
-})();
-
-/***/ }),
-/* 134 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var core_js_modules_es_array_filter__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(76);
-/* harmony import */ var core_js_modules_es_array_filter__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_filter__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var core_js_modules_es_array_find__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(6);
-/* harmony import */ var core_js_modules_es_array_find__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_find__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var core_js_modules_es_parse_int__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(25);
-/* harmony import */ var core_js_modules_es_parse_int__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_parse_int__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var core_js_modules_es_regexp_constructor__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(77);
-/* harmony import */ var core_js_modules_es_regexp_constructor__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_regexp_constructor__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var core_js_modules_es_regexp_exec__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(15);
-/* harmony import */ var core_js_modules_es_regexp_exec__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_regexp_exec__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var core_js_modules_es_regexp_to_string__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(50);
-/* harmony import */ var core_js_modules_es_regexp_to_string__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_regexp_to_string__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var core_js_modules_es_string_replace__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(30);
-/* harmony import */ var core_js_modules_es_string_replace__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_string_replace__WEBPACK_IMPORTED_MODULE_6__);
-
-
-
-
-
-
-
-
-(function () {
-  'use strict';
-
-  angular.module('lumx.search-filter').filter('lxSearchHighlight', lxSearchHighlight).directive('lxSearchFilter', lxSearchFilter);
-  lxSearchHighlight.$inject = ['$sce'];
-
-  function lxSearchHighlight($sce) {
-    function escapeRegexp(queryToEscape) {
-      return queryToEscape.replace(/([.?*+^$[\]\\(){}|-])/g, '\\$1');
-    }
-
-    return function (matchItem, query, icon) {
-      var string = '';
-
-      if (icon) {
-        string += '<i class="mdi mdi-' + icon + '"></i>';
-      }
-
-      string += query && matchItem ? matchItem.replace(new RegExp(escapeRegexp(query), 'gi'), '<strong>$&</strong>') : matchItem;
-      return $sce.trustAsHtml(string);
-    };
-  }
-
-  function lxSearchFilter() {
-    return {
-      restrict: 'E',
-      templateUrl: 'search-filter.html',
-      scope: {
-        autocomplete: '&?lxAutocomplete',
-        closed: '=?lxClosed',
-        color: '@?lxColor',
-        icon: '@?lxIcon',
-        onInit: '&?lxOnInit',
-        onSelect: '=?lxOnSelect',
-        searchOnFocus: '=?lxSearchOnFocus',
-        theme: '@?lxTheme',
-        width: '@?lxWidth'
-      },
-      link: link,
-      controller: LxSearchFilterController,
-      controllerAs: 'lxSearchFilter',
-      bindToController: true,
-      replace: true,
-      transclude: true
-    };
-
-    function link(scope, element, attrs, ctrl, transclude) {
-      var input;
-      attrs.$observe('lxWidth', function (newWidth) {
-        if (angular.isDefined(scope.lxSearchFilter.closed) && scope.lxSearchFilter.closed) {
-          element.find('.search-filter__container').css('width', newWidth);
-        }
-      });
-      transclude(function () {
-        input = element.find('input');
-        ctrl.setInput(input);
-        ctrl.setModel(input.data('$ngModelController'));
-        input.on('focus', ctrl.focusInput);
-        input.on('blur', ctrl.blurInput);
-        input.on('keydown', ctrl.keyEvent);
-      });
-      scope.$on('$destroy', function () {
-        input.off();
-      });
-
-      if (angular.isDefined(scope.lxSearchFilter.onInit)) {
-        scope.lxSearchFilter.onInit()(scope.lxSearchFilter.dropdownId);
-      }
-    }
-  }
-
-  LxSearchFilterController.$inject = ['$element', '$scope', '$timeout', 'LxDropdownService', 'LxNotificationService', 'LxUtilsService'];
-
-  function LxSearchFilterController($element, $scope, $timeout, LxDropdownService, LxNotificationService, LxUtilsService) {
-    var lxSearchFilter = this;
-    var debouncedAutocomplete;
-    var input;
-    var itemSelected = false;
-    lxSearchFilter.blurInput = blurInput;
-    lxSearchFilter.clearInput = clearInput;
-    lxSearchFilter.focusInput = focusInput;
-    lxSearchFilter.getClass = getClass;
-    lxSearchFilter.keyEvent = keyEvent;
-    lxSearchFilter.openInput = openInput;
-    lxSearchFilter.selectItem = selectItem;
-    lxSearchFilter.setInput = setInput;
-    lxSearchFilter.setModel = setModel;
-    lxSearchFilter.activeChoiceIndex = -1;
-    lxSearchFilter.color = angular.isDefined(lxSearchFilter.color) ? lxSearchFilter.color : 'black';
-    lxSearchFilter.dropdownId = LxUtilsService.generateUUID();
-    lxSearchFilter.theme = angular.isDefined(lxSearchFilter.theme) ? lxSearchFilter.theme : 'light';
-
-    function blurInput() {
-      if (angular.isDefined(lxSearchFilter.closed) && lxSearchFilter.closed && !input.val()) {
-        $element.velocity({
-          width: 40
-        }, {
-          duration: 400,
-          easing: 'easeOutQuint',
-          queue: false
-        });
-      }
-
-      if (!input.val()) {
-        $timeout(function () {
-          lxSearchFilter.modelController.$setViewValue(undefined);
-        }, 500);
-      }
-    }
-
-    function clearInput() {
-      lxSearchFilter.modelController.$setViewValue(undefined);
-      lxSearchFilter.modelController.$render();
-      var searchOnFocus = lxSearchFilter.searchOnFocus;
-      lxSearchFilter.searchOnFocus = false;
-      input.focus();
-      lxSearchFilter.searchOnFocus = searchOnFocus;
-    }
-
-    function focusInput() {
-      if (!lxSearchFilter.searchOnFocus) {
-        return;
-      }
-
-      updateAutocomplete(lxSearchFilter.modelController.$viewValue, true);
-    }
-
-    function getClass() {
-      var searchFilterClass = [];
-
-      if (angular.isUndefined(lxSearchFilter.closed) || !lxSearchFilter.closed) {
-        searchFilterClass.push('search-filter--opened-mode');
-      }
-
-      if (angular.isDefined(lxSearchFilter.closed) && lxSearchFilter.closed) {
-        searchFilterClass.push('search-filter--closed-mode');
-      }
-
-      if (input.val()) {
-        searchFilterClass.push('search-filter--has-clear-button');
-      }
-
-      if (angular.isDefined(lxSearchFilter.color)) {
-        searchFilterClass.push('search-filter--' + lxSearchFilter.color);
-      }
-
-      if (angular.isDefined(lxSearchFilter.theme)) {
-        searchFilterClass.push('search-filter--theme-' + lxSearchFilter.theme);
-      }
-
-      if (angular.isFunction(lxSearchFilter.autocomplete)) {
-        searchFilterClass.push('search-filter--autocomplete');
-      }
-
-      if (LxDropdownService.isOpen(lxSearchFilter.dropdownId)) {
-        searchFilterClass.push('search-filter--is-open');
-      }
-
-      return searchFilterClass;
-    }
-
-    function keyEvent(_event) {
-      if (!angular.isFunction(lxSearchFilter.autocomplete)) {
-        return;
-      }
-
-      if (!LxDropdownService.isOpen(lxSearchFilter.dropdownId)) {
-        lxSearchFilter.activeChoiceIndex = -1;
-      }
-
-      switch (_event.keyCode) {
-        case 13:
-          keySelect();
-
-          if (lxSearchFilter.activeChoiceIndex > -1) {
-            _event.preventDefault();
-          }
-
-          break;
-
-        case 38:
-          keyUp();
-
-          _event.preventDefault();
-
-          break;
-
-        case 40:
-          keyDown();
-
-          _event.preventDefault();
-
-          break;
-      }
-
-      $scope.$apply();
-    }
-
-    function keyDown() {
-      if (lxSearchFilter.autocompleteList.length) {
-        lxSearchFilter.activeChoiceIndex += 1;
-
-        if (lxSearchFilter.activeChoiceIndex >= lxSearchFilter.autocompleteList.length) {
-          lxSearchFilter.activeChoiceIndex = 0;
-        }
-      }
-    }
-
-    function keySelect() {
-      if (!lxSearchFilter.autocompleteList || lxSearchFilter.activeChoiceIndex === -1) {
-        return;
-      }
-
-      selectItem(lxSearchFilter.autocompleteList[lxSearchFilter.activeChoiceIndex]);
-    }
-
-    function keyUp() {
-      if (lxSearchFilter.autocompleteList.length) {
-        lxSearchFilter.activeChoiceIndex -= 1;
-
-        if (lxSearchFilter.activeChoiceIndex < 0) {
-          lxSearchFilter.activeChoiceIndex = lxSearchFilter.autocompleteList.length - 1;
-        }
-      }
-    }
-
-    function openDropdown() {
-      LxDropdownService.open(lxSearchFilter.dropdownId, $element);
-    }
-
-    function closeDropdown() {
-      LxDropdownService.close(lxSearchFilter.dropdownId);
-    }
-
-    function onAutocompleteSuccess(autocompleteList) {
-      lxSearchFilter.autocompleteList = autocompleteList;
-      lxSearchFilter.autocompleteList.length ? openDropdown() : closeDropdown();
-      lxSearchFilter.isLoading = false;
-    }
-
-    function onAutocompleteError(error) {
-      LxNotificationService.error(error);
-      lxSearchFilter.isLoading = false;
-    }
-
-    function openInput() {
-      if (angular.isDefined(lxSearchFilter.closed) && lxSearchFilter.closed) {
-        $element.velocity({
-          width: angular.isDefined(lxSearchFilter.width) ? parseInt(lxSearchFilter.width) : 240
-        }, {
-          duration: 400,
-          easing: 'easeOutQuint',
-          queue: false,
-          complete: function complete() {
-            input.focus();
-          }
-        });
-      } else {
-        input.focus();
-      }
-    }
-
-    function selectItem(_item) {
-      itemSelected = true;
-      closeDropdown();
-      lxSearchFilter.modelController.$setViewValue(_item);
-      lxSearchFilter.modelController.$render();
-
-      if (angular.isFunction(lxSearchFilter.onSelect)) {
-        lxSearchFilter.onSelect(_item);
-      }
-    }
-
-    function setInput(_input) {
-      input = _input;
-    }
-
-    function setModel(_modelController) {
-      lxSearchFilter.modelController = _modelController;
-
-      if (angular.isFunction(lxSearchFilter.autocomplete) && angular.isFunction(lxSearchFilter.autocomplete())) {
-        debouncedAutocomplete = LxUtilsService.debounce(function () {
-          lxSearchFilter.isLoading = true;
-          lxSearchFilter.autocomplete().apply(this, arguments);
-        }, 500);
-        lxSearchFilter.modelController.$parsers.push(updateAutocomplete);
-      }
-    }
-
-    function updateAutocomplete(_newValue, _immediate) {
-      if ((_newValue || angular.isUndefined(_newValue) && lxSearchFilter.searchOnFocus) && !itemSelected) {
-        if (_immediate) {
-          lxSearchFilter.isLoading = true;
-          lxSearchFilter.autocomplete()(_newValue, onAutocompleteSuccess, onAutocompleteError);
-        } else {
-          debouncedAutocomplete(_newValue, onAutocompleteSuccess, onAutocompleteError);
-        }
-      } else {
-        debouncedAutocomplete.clear();
-        closeDropdown();
-      }
-
-      itemSelected = false;
-      return _newValue;
-    }
-  }
-})();
-
-/***/ }),
-/* 135 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var isObject = __webpack_require__(7);
-var setPrototypeOf = __webpack_require__(136);
-
-// makes subclassing work correct for wrapped built-ins
-module.exports = function ($this, dummy, Wrapper) {
-  var NewTarget, NewTargetPrototype;
-  if (
-    // it can work only with native `setPrototypeOf`
-    setPrototypeOf &&
-    // we haven't completely correct pre-ES6 way for getting `new.target`, so use this
-    typeof (NewTarget = dummy.constructor) == 'function' &&
-    NewTarget !== Wrapper &&
-    isObject(NewTargetPrototype = NewTarget.prototype) &&
-    NewTargetPrototype !== Wrapper.prototype
-  ) setPrototypeOf($this, NewTargetPrototype);
-  return $this;
-};
-
-
-/***/ }),
-/* 136 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var anObject = __webpack_require__(5);
-var aPossiblePrototype = __webpack_require__(137);
-
-// `Object.setPrototypeOf` method
-// https://tc39.github.io/ecma262/#sec-object.setprototypeof
-// Works with __proto__ only. Old v8 can't work with null proto objects.
-/* eslint-disable no-proto */
-module.exports = Object.setPrototypeOf || ('__proto__' in {} ? function () {
-  var CORRECT_SETTER = false;
-  var test = {};
-  var setter;
-  try {
-    setter = Object.getOwnPropertyDescriptor(Object.prototype, '__proto__').set;
-    setter.call(test, []);
-    CORRECT_SETTER = test instanceof Array;
-  } catch (error) { /* empty */ }
-  return function setPrototypeOf(O, proto) {
-    anObject(O);
-    aPossiblePrototype(proto);
-    if (CORRECT_SETTER) setter.call(O, proto);
-    else O.__proto__ = proto;
-    return O;
-  };
-}() : undefined);
-
-
-/***/ }),
-/* 137 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var isObject = __webpack_require__(7);
-
-module.exports = function (it) {
-  if (!isObject(it) && it !== null) {
-    throw TypeError("Can't set " + String(it) + ' as a prototype');
-  } return it;
-};
-
-
-/***/ }),
-/* 138 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var core_js_modules_es_array_concat__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(139);
-/* harmony import */ var core_js_modules_es_array_concat__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_concat__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var core_js_modules_es_array_filter__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(76);
-/* harmony import */ var core_js_modules_es_array_filter__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_filter__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var core_js_modules_es_array_find__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(6);
-/* harmony import */ var core_js_modules_es_array_find__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_find__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var core_js_modules_es_array_for_each__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(32);
-/* harmony import */ var core_js_modules_es_array_for_each__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_for_each__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var core_js_modules_es_array_index_of__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(18);
-/* harmony import */ var core_js_modules_es_array_index_of__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_index_of__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var core_js_modules_es_array_some__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(140);
-/* harmony import */ var core_js_modules_es_array_some__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_some__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var core_js_modules_es_array_splice__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(23);
-/* harmony import */ var core_js_modules_es_array_splice__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_splice__WEBPACK_IMPORTED_MODULE_6__);
-/* harmony import */ var core_js_modules_es_object_keys__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(141);
-/* harmony import */ var core_js_modules_es_object_keys__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_object_keys__WEBPACK_IMPORTED_MODULE_7__);
-/* harmony import */ var core_js_modules_es_parse_int__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(25);
-/* harmony import */ var core_js_modules_es_parse_int__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_parse_int__WEBPACK_IMPORTED_MODULE_8__);
-/* harmony import */ var core_js_modules_es_regexp_constructor__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(77);
-/* harmony import */ var core_js_modules_es_regexp_constructor__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_regexp_constructor__WEBPACK_IMPORTED_MODULE_9__);
-/* harmony import */ var core_js_modules_es_regexp_exec__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(15);
-/* harmony import */ var core_js_modules_es_regexp_exec__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_regexp_exec__WEBPACK_IMPORTED_MODULE_10__);
-/* harmony import */ var core_js_modules_es_regexp_to_string__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(50);
-/* harmony import */ var core_js_modules_es_regexp_to_string__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_regexp_to_string__WEBPACK_IMPORTED_MODULE_11__);
-/* harmony import */ var core_js_modules_es_string_split__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(142);
-/* harmony import */ var core_js_modules_es_string_split__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_string_split__WEBPACK_IMPORTED_MODULE_12__);
-/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(33);
-/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_13__);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-(function () {
-  'use strict';
-
-  angular.module('lumx.select').filter('filterChoices', filterChoices).directive('lxSelect', lxSelect).directive('lxSelectSelected', lxSelectSelected).directive('lxSelectChoices', lxSelectChoices);
-  filterChoices.$inject = ['$filter'];
-
-  function filterChoices($filter) {
-    return function (choices, externalFilter, textFilter) {
-      if (externalFilter) {
-        return choices;
-      }
-
-      var toFilter = [];
-
-      if (!angular.isArray(choices)) {
-        if (angular.isObject(choices)) {
-          for (var idx in choices) {
-            if (angular.isArray(choices[idx])) {
-              toFilter = toFilter.concat(choices[idx]);
-            }
-          }
-        }
-      } else {
-        toFilter = choices;
-      }
-
-      return $filter('filter')(toFilter, textFilter);
-    };
-  }
-
-  function lxSelect() {
-    return {
-      restrict: 'E',
-      templateUrl: 'select.html',
-      scope: {
-        allowClear: '=?lxAllowClear',
-        allowNewValue: '=?lxAllowNewValue',
-        autocomplete: '=?lxAutocomplete',
-        newValueTransform: '=?lxNewValueTransform',
-        choices: '=?lxChoices',
-        choicesCustomStyle: '=?lxChoicesCustomStyle',
-        choicesViewMode: '@?lxChoicesViewMode',
-        customStyle: '=?lxCustomStyle',
-        displayFilter: '=?lxDisplayFilter',
-        error: '=?lxError',
-        filter: '&?lxFilter',
-        filterFields: '=?lxFilterFields',
-        fixedLabel: '=?lxFixedLabel',
-        helper: '=?lxHelper',
-        helperMessage: '@?lxHelperMessage',
-        infiniteScroll: '&?lxInfiniteScroll',
-        label: '@?lxLabel',
-        loading: '=?lxLoading',
-        max: '=?lxMax',
-        modelToSelection: '&?lxModelToSelection',
-        multiple: '=?lxMultiple',
-        ngChange: '&?',
-        ngDisabled: '=?',
-        ngModel: '=',
-        selectionToModel: '&?lxSelectionToModel',
-        theme: '@?lxTheme',
-        valid: '=?lxValid',
-        viewMode: '@?lxViewMode'
-      },
-      link: link,
-      controller: LxSelectController,
-      controllerAs: 'lxSelect',
-      bindToController: true,
-      replace: true,
-      transclude: true
-    };
-
-    function link(scope, element, attrs) {
-      var backwardOneWay = ['customStyle'];
-      var backwardTwoWay = ['allowClear', 'choices', 'error', 'loading', 'multiple', 'valid'];
-      angular.forEach(backwardOneWay, function (attribute) {
-        if (angular.isDefined(attrs[attribute])) {
-          attrs.$observe(attribute, function (newValue) {
-            scope.lxSelect[attribute] = newValue;
-          });
-        }
-      });
-      angular.forEach(backwardTwoWay, function (attribute) {
-        if (angular.isDefined(attrs[attribute])) {
-          scope.$watch(function () {
-            return scope.$parent.$eval(attrs[attribute]);
-          }, function (newValue) {
-            if (attribute === 'multiple' && angular.isUndefined(newValue)) {
-              scope.lxSelect[attribute] = true;
-            } else {
-              scope.lxSelect[attribute] = newValue;
-            }
-          });
-        }
-      });
-      attrs.$observe('placeholder', function (newValue) {
-        scope.lxSelect.label = newValue;
-      });
-      attrs.$observe('change', function (newValue) {
-        scope.lxSelect.ngChange = function (data) {
-          return scope.$parent.$eval(newValue, data);
-        };
-      });
-      attrs.$observe('filter', function (newValue) {
-        scope.lxSelect.filter = function (data) {
-          return scope.$parent.$eval(newValue, data);
-        };
-
-        scope.lxSelect.displayFilter = true;
-      });
-      attrs.$observe('modelToSelection', function (newValue) {
-        scope.lxSelect.modelToSelection = function (data) {
-          return scope.$parent.$eval(newValue, data);
-        };
-      });
-      attrs.$observe('selectionToModel', function (newValue) {
-        scope.lxSelect.selectionToModel = function (data) {
-          return scope.$parent.$eval(newValue, data);
-        };
-      });
-      attrs.$observe('infiniteScroll', function (newValue) {
-        scope.lxSelect.infiniteScroll = function (data) {
-          return scope.$parent.$eval(newValue, data);
-        };
-      });
-    }
-  }
-
-  LxSelectController.$inject = ['$interpolate', '$element', '$filter', '$sce', '$scope', '$timeout', 'LxDepthService', 'LxDropdownService', 'LxUtilsService'];
-
-  function LxSelectController($interpolate, $element, $filter, $sce, $scope, $timeout, LxDepthService, LxDropdownService, LxUtilsService) {
-    var lxSelect = this;
-    var choiceTemplate;
-    var selectedTemplate;
-    var toggledPanes = {};
-    lxSelect.activeChoiceIndex = -1;
-    lxSelect.activeSelectedIndex = -1;
-    lxSelect.uuid = LxUtilsService.generateUUID();
-    lxSelect.filterModel = undefined;
-    lxSelect.ngModel = angular.isUndefined(lxSelect.ngModel) && lxSelect.multiple ? [] : lxSelect.ngModel;
-    lxSelect.unconvertedModel = lxSelect.multiple ? [] : undefined;
-    lxSelect.viewMode = angular.isUndefined(lxSelect.viewMode) ? 'field' : lxSelect.viewMode;
-    lxSelect.choicesViewMode = angular.isUndefined(lxSelect.choicesViewMode) ? 'list' : lxSelect.choicesViewMode;
-    lxSelect.panes = [];
-    lxSelect.matchingPaths = undefined;
-
-    function _closePane(index) {
-      if (index === 0) {
-        _closePanes();
-
-        return;
-      }
-
-      if (angular.isUndefined(toggledPanes[index])) {
-        return;
-      }
-
-      _closePane(index + 1);
-
-      if (lxSelect.choicesViewSize === 'large') {
-        lxSelect.panes.splice(toggledPanes[index].position, 1);
-      } else {
-        lxSelect.openedPanes.splice(toggledPanes[index].position, 1);
-      }
-
-      delete toggledPanes[index];
-    }
-
-    function _closePanes() {
-      toggledPanes = {};
-
-      if (lxSelect.choicesViewSize === 'large') {
-        if (angular.isDefined(lxSelect.choices) && lxSelect.choices !== null) {
-          lxSelect.panes = [lxSelect.choices];
-        } else {
-          lxSelect.panes = [];
-        }
-      } else {
-        if (angular.isDefined(lxSelect.choices) && lxSelect.choices !== null) {
-          lxSelect.openedPanes = [lxSelect.choices];
-        } else {
-          lxSelect.openedPanes = [];
-        }
-      }
-    }
-
-    function _findIndex(haystack, needle) {
-      if (angular.isUndefined(haystack) || haystack.length === 0) {
-        return -1;
-      }
-
-      for (var i = 0, len = haystack.length; i < len; i++) {
-        if (haystack[i] === needle) {
-          return i;
-        }
-      }
-
-      return -1;
-    }
-
-    function _getLongestMatchingPath(containing) {
-      if (angular.isUndefined(lxSelect.matchingPaths) || lxSelect.matchingPaths.length === 0) {
-        return undefined;
-      }
-
-      containing = containing || lxSelect.matchingPaths[0];
-      var longest = lxSelect.matchingPaths[0];
-      var longestSize = longest.split('.').length;
-
-      for (var i = 1, len = lxSelect.matchingPaths.length; i < len; i++) {
-        var matchingPath = lxSelect.matchingPaths[i];
-
-        if (!matchingPath) {
-          continue;
-        }
-
-        if (matchingPath.indexOf(containing) === -1) {
-          break;
-        }
-
-        var size = matchingPath.split('.').length;
-
-        if (size > longestSize) {
-          longest = matchingPath;
-          longestSize = size;
-        }
-      }
-
-      return longest;
-    }
-
-    function _keyDown() {
-      var filteredChoices;
-
-      if (lxSelect.choicesViewMode === 'panes') {
-        filteredChoices = Object.keys(lxSelect.panes[lxSelect.panes.length - 1]);
-      } else {
-        filteredChoices = $filter('filterChoices')(lxSelect.choices, lxSelect.filter, lxSelect.filterModel);
-      }
-
-      if (filteredChoices.length) {
-        lxSelect.activeChoiceIndex += 1;
-
-        if (lxSelect.activeChoiceIndex >= filteredChoices.length) {
-          lxSelect.activeChoiceIndex = 0;
-        }
-      }
-
-      if (lxSelect.autocomplete) {
-        LxDropdownService.open('dropdown-' + lxSelect.uuid, '#lx-select-selected-wrapper-' + lxSelect.uuid);
-      }
-    }
-
-    function _keyLeft() {
-      if (lxSelect.choicesViewMode !== 'panes' || lxSelect.panes.length < 2) {
-        return;
-      }
-
-      var previousPaneIndex = lxSelect.panes.length - 2;
-      lxSelect.activeChoiceIndex = (Object.keys(lxSelect.panes[previousPaneIndex]) || []).indexOf((toggledPanes[previousPaneIndex] || {}).key);
-
-      _closePane(previousPaneIndex);
-    }
-
-    function _keyRemove() {
-      if (lxSelect.filterModel || angular.isUndefined(lxSelect.getSelectedModel()) || !lxSelect.getSelectedModel().length) {
-        return;
-      }
-
-      if (lxSelect.activeSelectedIndex === -1) {
-        lxSelect.activeSelectedIndex = lxSelect.getSelectedModel().length - 1;
-      } else {
-        unselect(lxSelect.getSelectedModel()[lxSelect.activeSelectedIndex]);
-      }
-    }
-
-    function _keyRight() {
-      if (lxSelect.choicesViewMode !== 'panes' || lxSelect.activeChoiceIndex === -1) {
-        return;
-      }
-
-      var paneOpened = _openPane(lxSelect.panes.length - 1, lxSelect.activeChoiceIndex, true);
-
-      if (paneOpened) {
-        lxSelect.activeChoiceIndex = 0;
-      } else {
-        _keySelect();
-      }
-    }
-
-    function _keySelect() {
-      var filteredChoices;
-
-      if (lxSelect.choicesViewMode === 'panes') {
-        filteredChoices = lxSelect.panes[lxSelect.panes.length - 1];
-
-        if (!lxSelect.isLeaf(filteredChoices[lxSelect.activeChoiceIndex])) {
-          return;
-        }
-      } else {
-        filteredChoices = $filter('filterChoices')(lxSelect.choices, lxSelect.filter, lxSelect.filterModel);
-      }
-
-      if (filteredChoices.length && filteredChoices[lxSelect.activeChoiceIndex]) {
-        lxSelect.toggleChoice(filteredChoices[lxSelect.activeChoiceIndex]);
-      } else if (lxSelect.filterModel && lxSelect.allowNewValue) {
-        if (angular.isArray(getSelectedModel())) {
-          var value = angular.isFunction(lxSelect.newValueTransform) ? lxSelect.newValueTransform(lxSelect.filterModel) : lxSelect.filterModel;
-          var identical = getSelectedModel().some(function (item) {
-            return angular.equals(item, value);
-          });
-
-          if (!identical) {
-            lxSelect.getSelectedModel().push(value);
-          }
-        }
-
-        lxSelect.filterModel = undefined;
-        LxDropdownService.close('dropdown-' + lxSelect.uuid);
-      }
-    }
-
-    function _keyUp() {
-      var filteredChoices;
-
-      if (lxSelect.choicesViewMode === 'panes') {
-        filteredChoices = Object.keys(lxSelect.panes[lxSelect.panes.length - 1]);
-      } else {
-        filteredChoices = $filter('filterChoices')(lxSelect.choices, lxSelect.filter, lxSelect.filterModel);
-      }
-
-      if (filteredChoices.length) {
-        lxSelect.activeChoiceIndex -= 1;
-
-        if (lxSelect.activeChoiceIndex < 0) {
-          lxSelect.activeChoiceIndex = filteredChoices.length - 1;
-        }
-      }
-
-      if (lxSelect.autocomplete) {
-        LxDropdownService.open('dropdown-' + lxSelect.uuid, '#lx-select-selected-wrapper-' + lxSelect.uuid);
-      }
-    }
-
-    function _onKeyDown(evt) {
-      $scope.$apply(function applyKeyEvent() {
-        lxSelect.keyEvent(evt);
-      });
-    }
-
-    function _openPane(parentIndex, indexOrKey, checkIsLeaf) {
-      if (angular.isDefined(toggledPanes[parentIndex])) {
-        return false;
-      }
-
-      var pane = pane || lxSelect.choicesViewSize === 'large' ? lxSelect.panes[parentIndex] : lxSelect.openedPanes[parentIndex];
-
-      if (angular.isUndefined(pane)) {
-        return false;
-      }
-
-      var key = indexOrKey;
-
-      if (angular.isObject(pane) && angular.isNumber(key)) {
-        key = (Object.keys(pane) || [])[key];
-      }
-
-      if (checkIsLeaf && lxSelect.isLeaf(pane[key])) {
-        return false;
-      }
-
-      if (lxSelect.choicesViewSize === 'large') {
-        lxSelect.panes.push(pane[key]);
-      } else {
-        lxSelect.openedPanes.push(pane[key]);
-      }
-
-      toggledPanes[parentIndex] = {
-        key: key,
-        position: lxSelect.choicesViewSize === 'large' ? lxSelect.panes.length - 1 : lxSelect.openedPanes.length - 1,
-        path: parentIndex === 0 ? key : toggledPanes[parentIndex - 1].path + '.' + key
-      };
-      return true;
-    }
-
-    function _searchPath(container, regexp, previousKey, limitToFields) {
-      limitToFields = limitToFields || [];
-      limitToFields = angular.isArray(limitToFields) ? limitToFields : [limitToFields];
-      var results = [];
-      angular.forEach(container, function forEachItemsInContainer(items, key) {
-        if (limitToFields.length > 0 && limitToFields.indexOf(key) === -1) {
-          return;
-        }
-
-        var pathToMatching = previousKey ? previousKey + '.' + key : key;
-        var previousKeyAdded = false;
-        var isLeaf = lxSelect.isLeaf(items);
-
-        if (!isLeaf && angular.isString(key) && regexp.test(key) || angular.isString(items) && regexp.test(items)) {
-          if (!previousKeyAdded && previousKey) {
-            results.push(previousKey);
-          }
-
-          if (!isLeaf) {
-            results.push(pathToMatching);
-          }
-        }
-
-        if (angular.isArray(items) || angular.isObject(items)) {
-          var newPaths = _searchPath(items, regexp, pathToMatching, isLeaf ? lxSelect.filterFields : []);
-
-          if (angular.isDefined(newPaths) && newPaths.length > 0) {
-            if (previousKey) {
-              results.push(previousKey);
-              previousKeyAdded = true;
-            }
-
-            results = results.concat(newPaths);
-          }
-        }
-      });
-      return results;
-    }
-
-    function arrayObjectIndexOf(arr, obj) {
-      for (var i = 0; i < arr.length; i++) {
-        if (angular.equals(arr[i], obj)) {
-          return i;
-        }
-      }
-
-      return -1;
-    }
-
-    function areChoicesOpened() {
-      return LxDropdownService.isOpen('dropdown-' + lxSelect.uuid);
-    }
-
-    function displayChoice(_choice) {
-      var choiceScope = {
-        $choice: _choice
-      };
-      var interpolatedChoice = $interpolate(choiceTemplate)(choiceScope);
-      interpolatedChoice = '<span>' + interpolatedChoice + '</span>';
-      return $sce.trustAsHtml(lxSelect.matchingPaths ? $filter('lxHighlight')(interpolatedChoice, lxSelect.filterModel, true) : interpolatedChoice);
-    }
-
-    function displaySelected(_selected) {
-      var selectedScope = {};
-
-      if (!angular.isArray(lxSelect.choices)) {
-        var found = false;
-
-        for (var header in lxSelect.choices) {
-          if (found) {
-            break;
-          }
-
-          if (lxSelect.choices.hasOwnProperty(header)) {
-            for (var idx = 0, len = lxSelect.choices[header].length; idx < len; idx++) {
-              if (angular.equals(_selected, lxSelect.choices[header][idx])) {
-                selectedScope.$selectedSubheader = header;
-                found = true;
-                break;
-              }
-            }
-          }
-        }
-      }
-
-      if (angular.isDefined(_selected)) {
-        selectedScope.$selected = _selected;
-      } else {
-        selectedScope.$selected = getSelectedModel();
-      }
-
-      return $sce.trustAsHtml($interpolate(selectedTemplate)(selectedScope));
-    }
-
-    function displaySubheader(_subheader) {
-      return $sce.trustAsHtml(lxSelect.matchingPaths ? $filter('lxHighlight')(_subheader, lxSelect.filterModel, true) : _subheader);
-    }
-
-    function getFilteredChoices() {
-      return $filter('filterChoices')(lxSelect.choices, lxSelect.filter, lxSelect.filterModel);
-    }
-
-    function getSelectedModel() {
-      if (angular.isDefined(lxSelect.modelToSelection) || angular.isDefined(lxSelect.selectionToModel)) {
-        return lxSelect.unconvertedModel;
-      } else {
-        return lxSelect.ngModel;
-      }
-    }
-
-    function isLeaf(obj) {
-      if (angular.isUndefined(obj)) {
-        return false;
-      }
-
-      if (angular.isArray(obj)) {
-        return false;
-      }
-
-      if (!angular.isObject(obj)) {
-        return true;
-      }
-
-      if (obj.isLeaf) {
-        return true;
-      }
-
-      var isLeaf = false;
-      var keys = Object.keys(obj);
-
-      for (var i = 0, len = keys.length; i < len; i++) {
-        var property = keys[i];
-
-        if (property.charAt(0) === '$') {
-          continue;
-        }
-
-        if (!angular.isArray(obj[property]) && !angular.isObject(obj[property])) {
-          isLeaf = true;
-          break;
-        }
-      }
-
-      return isLeaf;
-    }
-
-    function isPaneToggled(parentIndex, indexOrKey) {
-      var pane = lxSelect.choicesViewSize === 'large' ? lxSelect.panes[parentIndex] : lxSelect.openedPanes[parentIndex];
-
-      if (angular.isUndefined(pane)) {
-        return false;
-      }
-
-      var key = indexOrKey;
-
-      if (angular.isObject(pane) && angular.isNumber(indexOrKey)) {
-        key = (Object.keys(pane) || [])[indexOrKey];
-      }
-
-      return angular.isDefined(toggledPanes[parentIndex]) && toggledPanes[parentIndex].key === key;
-    }
-
-    function isMatchingPath(parentIndex, indexOrKey) {
-      var pane = lxSelect.choicesViewSize === 'large' ? lxSelect.panes[parentIndex] : lxSelect.openedPanes[parentIndex];
-
-      if (angular.isUndefined(pane)) {
-        return;
-      }
-
-      var key = indexOrKey;
-
-      if (angular.isObject(pane) && angular.isNumber(indexOrKey)) {
-        key = (Object.keys(pane) || [])[indexOrKey];
-      }
-
-      if (parentIndex === 0) {
-        return _findIndex(lxSelect.matchingPaths, key) !== -1;
-      }
-
-      var previous = toggledPanes[parentIndex - 1];
-
-      if (angular.isUndefined(previous)) {
-        return false;
-      }
-
-      return _findIndex(lxSelect.matchingPaths, previous.path + '.' + key) !== -1;
-    }
-
-    function isSelected(_choice) {
-      if (lxSelect.multiple && angular.isDefined(getSelectedModel())) {
-        return arrayObjectIndexOf(getSelectedModel(), _choice) !== -1;
-      } else if (angular.isDefined(getSelectedModel())) {
-        return angular.equals(getSelectedModel(), _choice);
-      }
-    }
-
-    function isMaxSelected() {
-      if (lxSelect.multiple && angular.isDefined(lxSelect.max)) {
-        return lxSelect.ngModel.length >= parseInt(lxSelect.max, 10);
-      }
-
-      return false;
-    }
-
-    function keyEvent(evt) {
-      if (evt.keyCode !== 8) {
-        lxSelect.activeSelectedIndex = -1;
-      }
-
-      if (!LxDropdownService.isOpen('dropdown-' + lxSelect.uuid)) {
-        lxSelect.activeChoiceIndex = -1;
-      }
-
-      switch (evt.keyCode) {
-        case 8:
-          _keyRemove();
-
-          break;
-
-        case 13:
-          _keySelect();
-
-          evt.preventDefault();
-          break;
-
-        case 37:
-          if (lxSelect.activeChoiceIndex > -1) {
-            _keyLeft();
-
-            evt.preventDefault();
-          }
-
-          break;
-
-        case 38:
-          _keyUp();
-
-          evt.preventDefault();
-          break;
-
-        case 39:
-          if (lxSelect.activeChoiceIndex > -1) {
-            _keyRight();
-
-            evt.preventDefault();
-          }
-
-          break;
-
-        case 40:
-          _keyDown();
-
-          evt.preventDefault();
-          break;
-
-        default:
-          break;
-      }
-    }
-
-    function registerChoiceTemplate(_choiceTemplate) {
-      choiceTemplate = _choiceTemplate;
-    }
-
-    function registerSelectedTemplate(_selectedTemplate) {
-      selectedTemplate = _selectedTemplate;
-    }
-
-    function select(_choice, cb) {
-      cb = cb || angular.noop;
-
-      if (lxSelect.multiple) {
-        if (angular.isUndefined(lxSelect.ngModel)) {
-          lxSelect.ngModel = [];
-        }
-
-        if (isMaxSelected()) {
-          cb();
-          return;
-        }
-      }
-
-      if (angular.isDefined(lxSelect.selectionToModel)) {
-        lxSelect.selectionToModel({
-          data: _choice,
-          callback: function callback(resp) {
-            if (lxSelect.multiple) {
-              lxSelect.ngModel.push(resp);
-            } else {
-              lxSelect.ngModel = resp;
-            }
-
-            if (lxSelect.autocomplete) {
-              $element.find('.lx-select-selected__filter').focus();
-            }
-
-            if (lxSelect.choicesViewMode === 'panes' && lxSelect.displayFilter && lxSelect.multiple) {
-              $element.find('.lx-select-selected__filter input').focus();
-            }
-
-            if (angular.isFunction(cb)) {
-              $timeout(cb);
-            }
-          }
-        });
-      } else {
-        if (lxSelect.multiple) {
-          lxSelect.ngModel.push(_choice);
-        } else {
-          lxSelect.ngModel = _choice;
-        }
-
-        if (lxSelect.autocomplete) {
-          $element.find('.lx-select-selected__filter').focus();
-        }
-
-        if (lxSelect.choicesViewMode === 'panes' && lxSelect.displayFilter && lxSelect.multiple) {
-          $element.find('.lx-select-selected__filter input').focus();
-        }
-
-        if (angular.isFunction(cb)) {
-          $timeout(cb);
-        }
-      }
-    }
-
-    function toggleChoice(choice, evt) {
-      if (lxSelect.multiple && !lxSelect.autocomplete && angular.isDefined(evt)) {
-        evt.stopPropagation();
-      }
-
-      if (lxSelect.areChoicesOpened() && lxSelect.multiple) {
-        var dropdownElement = angular.element(angular.element(evt.target).closest('.dropdown-menu--is-open')[0]);
-
-        if (dropdownElement.scrollTop() > 0) {
-          var dropdownContentElement = angular.element(dropdownElement.find('.dropdown-menu__content')[0]);
-          var dropdownFilterElement = angular.element(dropdownContentElement.find('.lx-select-choices__filter')[0]);
-          var newHeight = dropdownContentElement.height();
-          newHeight -= dropdownFilterElement.length ? dropdownFilterElement.outerHeight() : 0;
-          var dropdownListElement = angular.element(dropdownContentElement.find('ul > div')[0]);
-          dropdownListElement.css('height', newHeight + 'px');
-
-          lxSelect.resetDropdownSize = function () {
-            dropdownListElement.css('height', 'auto');
-            lxSelect.resetDropdownSize = undefined;
-          };
-        }
-      }
-
-      if (lxSelect.multiple && isSelected(choice)) {
-        lxSelect.unselect(choice);
-      } else {
-        lxSelect.select(choice);
-      }
-
-      if (lxSelect.autocomplete) {
-        lxSelect.activeChoiceIndex = -1;
-        lxSelect.filterModel = undefined;
-      }
-
-      if (lxSelect.autocomplete || lxSelect.choicesViewMode === 'panes' && !lxSelect.multiple) {
-        LxDropdownService.close('dropdown-' + lxSelect.uuid);
-      }
-    }
-
-    function togglePane(evt, parentIndex, indexOrKey, selectLeaf) {
-      selectLeaf = angular.isUndefined(selectLeaf) ? true : selectLeaf;
-      var pane = lxSelect.choicesViewSize === 'large' ? lxSelect.panes[parentIndex] : lxSelect.openedPanes[parentIndex];
-
-      if (angular.isUndefined(pane)) {
-        return;
-      }
-
-      var key = indexOrKey;
-
-      if (angular.isObject(pane) && angular.isNumber(indexOrKey)) {
-        key = (Object.keys(pane) || [])[indexOrKey];
-      }
-
-      if (angular.isDefined(toggledPanes[parentIndex])) {
-        var previousKey = toggledPanes[parentIndex].key;
-
-        _closePane(parentIndex);
-
-        if (previousKey === key) {
-          return;
-        }
-      }
-
-      var isLeaf = lxSelect.isLeaf(pane[key]);
-
-      if (isLeaf) {
-        if (selectLeaf) {
-          lxSelect.toggleChoice(pane[key], evt);
-        }
-
-        return;
-      }
-
-      _openPane(parentIndex, key, false);
-    }
-
-    function unselect(_choice, cb) {
-      cb = cb || angular.noop;
-
-      if (angular.isDefined(lxSelect.selectionToModel)) {
-        lxSelect.selectionToModel({
-          data: _choice,
-          callback: function callback(resp) {
-            removeElement(lxSelect.ngModel, resp);
-
-            if (lxSelect.autocomplete) {
-              $element.find('.lx-select-selected__filter').focus();
-              lxSelect.activeSelectedIndex = -1;
-            }
-
-            if (lxSelect.choicesViewMode === 'panes' && lxSelect.displayFilter && (lxSelect.ngModel.length === 0 || lxSelect.multiple)) {
-              $element.find('.lx-select-selected__filter input').focus();
-            }
-
-            if (angular.isFunction(cb)) {
-              $timeout(cb);
-            }
-          }
-        });
-        removeElement(lxSelect.unconvertedModel, _choice);
-      } else {
-        removeElement(lxSelect.ngModel, _choice);
-
-        if (lxSelect.autocomplete) {
-          $element.find('.lx-select-selected__filter').focus();
-          lxSelect.activeSelectedIndex = -1;
-        }
-
-        if (lxSelect.choicesViewMode === 'panes' && lxSelect.displayFilter && (lxSelect.ngModel.length === 0 || lxSelect.multiple)) {
-          $element.find('.lx-select-selected__filter input').focus();
-        }
-
-        if (angular.isFunction(cb)) {
-          $timeout(cb);
-        }
-      }
-    }
-
-    function updateFilter() {
-      if (angular.isFunction(lxSelect.resetDropdownSize)) {
-        lxSelect.resetDropdownSize();
-      }
-
-      if (angular.isDefined(lxSelect.filter)) {
-        lxSelect.matchingPaths = lxSelect.filter({
-          newValue: lxSelect.filterModel
-        });
-      } else if (lxSelect.choicesViewMode === 'panes') {
-        lxSelect.matchingPaths = lxSelect.searchPath(lxSelect.filterModel);
-
-        _closePanes();
-      }
-
-      if (lxSelect.autocomplete) {
-        lxSelect.activeChoiceIndex = -1;
-
-        if (lxSelect.filterModel) {
-          LxDropdownService.open('dropdown-' + lxSelect.uuid, '#lx-select-selected-wrapper-' + lxSelect.uuid);
-        } else {
-          LxDropdownService.close('dropdown-' + lxSelect.uuid);
-        }
-      }
-
-      if (lxSelect.choicesViewMode === 'panes' && angular.isDefined(lxSelect.matchingPaths) && lxSelect.matchingPaths.length > 0) {
-        var longest = _getLongestMatchingPath();
-
-        if (!longest) {
-          return;
-        }
-
-        var longestPath = longest.split('.');
-
-        if (longestPath.length === 0) {
-          return;
-        }
-
-        angular.forEach(longestPath, function forEachPartOfTheLongestPath(part, index) {
-          _openPane(index, part, index === longestPath.length - 1);
-        });
-      }
-    }
-
-    function helperDisplayable() {
-      if (angular.isUndefined(lxSelect.helperMessage)) {
-        return false;
-      }
-
-      if (angular.isDefined(lxSelect.helper)) {
-        return lxSelect.helper;
-      }
-
-      var choices = lxSelect.getFilteredChoices();
-
-      if (angular.isArray(choices)) {
-        return !choices.length;
-      } else if (angular.isObject(choices)) {
-        return !(Object.keys(choices) || []).length;
-      }
-
-      return true;
-    }
-
-    function removeElement(model, element) {
-      var index = -1;
-
-      for (var i = 0, len = model.length; i < len; i++) {
-        if (angular.equals(element, model[i])) {
-          index = i;
-          break;
-        }
-      }
-
-      if (index > -1) {
-        model.splice(index, 1);
-      }
-    }
-
-    function searchPath(newValue) {
-      if (!newValue || newValue.length < 2) {
-        return undefined;
-      }
-
-      var regexp = new RegExp(LxUtilsService.escapeRegexp(newValue), 'ig');
-      return _searchPath(lxSelect.choices, regexp);
-    }
-
-    lxSelect.areChoicesOpened = areChoicesOpened;
-    lxSelect.displayChoice = displayChoice;
-    lxSelect.displaySelected = displaySelected;
-    lxSelect.displaySubheader = displaySubheader;
-    lxSelect.getFilteredChoices = getFilteredChoices;
-    lxSelect.getSelectedModel = getSelectedModel;
-    lxSelect.helperDisplayable = helperDisplayable;
-    lxSelect.isLeaf = isLeaf;
-    lxSelect.isMatchingPath = isMatchingPath;
-    lxSelect.isPaneToggled = isPaneToggled;
-    lxSelect.isSelected = isSelected;
-    lxSelect.isMaxSelected = isMaxSelected;
-    lxSelect.keyEvent = keyEvent;
-    lxSelect.registerChoiceTemplate = registerChoiceTemplate;
-    lxSelect.registerSelectedTemplate = registerSelectedTemplate;
-    lxSelect.searchPath = searchPath;
-    lxSelect.select = select;
-    lxSelect.toggleChoice = toggleChoice;
-    lxSelect.togglePane = togglePane;
-    lxSelect.unselect = unselect;
-    lxSelect.updateFilter = updateFilter;
-    $scope.$watch(function watcherChoices() {
-      return lxSelect.choices;
-    }, function watchChoices(newChoices, oldChoices) {
-      if (angular.isUndefined(lxSelect.choices) || lxSelect.choices === null) {
-        lxSelect.panes = [];
-        return;
-      }
-
-      lxSelect.panes = [lxSelect.choices];
-      lxSelect.openedPanes = [lxSelect.choices];
-    }, true);
-    $scope.$on('lx-dropdown__close-end', function onDropdownClose(evt, dropdownId) {
-      if (lxSelect.choicesViewMode !== 'panes' || dropdownId !== 'dropdown-' + lxSelect.uuid) {
-        return;
-      }
-
-      angular.element(document).off('keydown', _onKeyDown);
-      lxSelect.filterModel = undefined;
-      lxSelect.matchingPaths = undefined;
-      lxSelect.activeChoiceIndex = -1;
-
-      _closePanes();
-    });
-    $scope.$on('lx-dropdown__open-start', function onDropdownOpen(evt, dropdownId) {
-      if (lxSelect.choicesViewMode !== 'panes' || dropdownId !== 'dropdown-' + lxSelect.uuid) {
-        return;
-      }
-
-      angular.element(document).on('keydown', _onKeyDown);
-      $timeout(function delayFocusSearchFilter() {
-        $element.find('.lx-select-selected__filter input').focus();
-      });
-    });
-    $scope.$on('lx-dropdown__scroll-end', function (evt, dropdownId) {
-      if (typeof lxSelect.infiniteScroll !== 'function' || dropdownId !== 'dropdown-' + lxSelect.uuid || lxSelect.loading) {
-        return;
-      }
-
-      lxSelect.infiniteScroll()().then(function fetchNewData(newData) {
-        if (newData && newData.length) {
-          lxSelect.choices = lxSelect.choices.concat(newData);
-        }
-      }).catch(function () {});
-    });
-  }
-
-  function lxSelectSelected() {
-    return {
-      restrict: 'E',
-      require: ['lxSelectSelected', '^lxSelect'],
-      templateUrl: 'select-selected.html',
-      link: link,
-      controller: LxSelectSelectedController,
-      controllerAs: 'lxSelectSelected',
-      bindToController: true,
-      transclude: true
-    };
-
-    function link(scope, element, attrs, ctrls, transclude) {
-      ctrls[0].setParentController(ctrls[1]);
-      transclude(scope, function (clone) {
-        var template = '';
-
-        for (var i = 0; i < clone.length; i++) {
-          template += clone[i].data || clone[i].outerHTML || '';
-        }
-
-        ctrls[1].registerSelectedTemplate(template);
-      });
-    }
-  }
-
-  function LxSelectSelectedController() {
-    var lxSelectSelected = this;
-    lxSelectSelected.clearModel = clearModel;
-    lxSelectSelected.setParentController = setParentController;
-    lxSelectSelected.removeSelected = removeSelected;
-
-    function clearModel(_event) {
-      _event.stopPropagation();
-
-      lxSelectSelected.parentCtrl.ngModel = undefined;
-      lxSelectSelected.parentCtrl.unconvertedModel = undefined;
-    }
-
-    function setParentController(_parentCtrl) {
-      lxSelectSelected.parentCtrl = _parentCtrl;
-    }
-
-    function removeSelected(_selected, _event) {
-      _event.stopPropagation();
-
-      lxSelectSelected.parentCtrl.unselect(_selected);
-    }
-  }
-
-  function lxSelectChoices() {
-    return {
-      restrict: 'E',
-      require: ['lxSelectChoices', '^lxSelect'],
-      templateUrl: 'select-choices.html',
-      link: link,
-      controller: LxSelectChoicesController,
-      controllerAs: 'lxSelectChoices',
-      bindToController: true,
-      transclude: true
-    };
-
-    function link(scope, element, attrs, ctrls, transclude) {
-      ctrls[0].setParentController(ctrls[1]);
-      transclude(scope, function (clone) {
-        var template = '';
-
-        for (var i = 0; i < clone.length; i++) {
-          template += clone[i].data || clone[i].outerHTML || '';
-        }
-
-        ctrls[1].registerChoiceTemplate(template);
-      });
-    }
-  }
-
-  LxSelectChoicesController.$inject = ['$scope', '$timeout', '$window'];
-
-  function LxSelectChoicesController($scope, $timeout, $window) {
-    var lxSelectChoices = this;
-    var timer;
-    lxSelectChoices.isArray = isArray;
-    lxSelectChoices.setParentController = setParentController;
-    $scope.$on('$destroy', function () {
-      $timeout.cancel(timer);
-    });
-
-    function isArray(choices) {
-      choices = angular.isUndefined(choices) ? lxSelectChoices.parentCtrl.choices : choices;
-      return angular.isArray(choices);
-    }
-
-    function setParentController(_parentCtrl) {
-      lxSelectChoices.parentCtrl = _parentCtrl;
-      $scope.$watch(function () {
-        return lxSelectChoices.parentCtrl.ngModel;
-      }, function (newModel, oldModel) {
-        timer = $timeout(function () {
-          if (newModel !== oldModel && angular.isDefined(lxSelectChoices.parentCtrl.ngChange)) {
-            lxSelectChoices.parentCtrl.ngChange({
-              newValue: newModel,
-              oldValue: oldModel
-            });
-          }
-
-          if (angular.isDefined(lxSelectChoices.parentCtrl.modelToSelection) || angular.isDefined(lxSelectChoices.parentCtrl.selectionToModel)) {
-            toSelection();
-          }
-        });
-      }, true);
-      lxSelectChoices.parentCtrl.choicesViewSize = $window.innerWidth < 980 ? 'small' : 'large';
-      angular.element($window).on('resize', function onResize(evt) {
-        if (evt.target.innerWidth < 980) {
-          lxSelectChoices.parentCtrl.choicesViewSize = 'small';
-        } else {
-          lxSelectChoices.parentCtrl.choicesViewSize = 'large';
-        }
-      });
-    }
-
-    function toSelection() {
-      if (lxSelectChoices.parentCtrl.multiple) {
-        lxSelectChoices.parentCtrl.unconvertedModel = [];
-        angular.forEach(lxSelectChoices.parentCtrl.ngModel, function (item) {
-          lxSelectChoices.parentCtrl.modelToSelection({
-            data: item,
-            callback: function callback(resp) {
-              lxSelectChoices.parentCtrl.unconvertedModel.push(resp);
-            }
-          });
-        });
-      } else {
-        lxSelectChoices.parentCtrl.modelToSelection({
-          data: lxSelectChoices.parentCtrl.ngModel,
-          callback: function callback(resp) {
-            lxSelectChoices.parentCtrl.unconvertedModel = resp;
-          }
-        });
-      }
-    }
-  }
-})();
-
-/***/ }),
-/* 139 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var $ = __webpack_require__(2);
-var fails = __webpack_require__(4);
-var isArray = __webpack_require__(46);
-var isObject = __webpack_require__(7);
-var toObject = __webpack_require__(17);
-var toLength = __webpack_require__(9);
-var createProperty = __webpack_require__(47);
-var arraySpeciesCreate = __webpack_require__(45);
-var arrayMethodHasSpeciesSupport = __webpack_require__(27);
-var wellKnownSymbol = __webpack_require__(3);
-
-var IS_CONCAT_SPREADABLE = wellKnownSymbol('isConcatSpreadable');
-var MAX_SAFE_INTEGER = 0x1FFFFFFFFFFFFF;
-var MAXIMUM_ALLOWED_INDEX_EXCEEDED = 'Maximum allowed index exceeded';
-
-var IS_CONCAT_SPREADABLE_SUPPORT = !fails(function () {
-  var array = [];
-  array[IS_CONCAT_SPREADABLE] = false;
-  return array.concat()[0] !== array;
-});
-
-var SPECIES_SUPPORT = arrayMethodHasSpeciesSupport('concat');
-
-var isConcatSpreadable = function (O) {
-  if (!isObject(O)) return false;
-  var spreadable = O[IS_CONCAT_SPREADABLE];
-  return spreadable !== undefined ? !!spreadable : isArray(O);
-};
-
-var FORCED = !IS_CONCAT_SPREADABLE_SUPPORT || !SPECIES_SUPPORT;
-
-// `Array.prototype.concat` method
-// https://tc39.github.io/ecma262/#sec-array.prototype.concat
-// with adding support of @@isConcatSpreadable and @@species
-$({ target: 'Array', proto: true, forced: FORCED }, {
-  concat: function concat(arg) { // eslint-disable-line no-unused-vars
-    var O = toObject(this);
-    var A = arraySpeciesCreate(O, 0);
-    var n = 0;
-    var i, k, length, len, E;
-    for (i = -1, length = arguments.length; i < length; i++) {
-      E = i === -1 ? O : arguments[i];
-      if (isConcatSpreadable(E)) {
-        len = toLength(E.length);
-        if (n + len > MAX_SAFE_INTEGER) throw TypeError(MAXIMUM_ALLOWED_INDEX_EXCEEDED);
-        for (k = 0; k < len; k++, n++) if (k in E) createProperty(A, n, E[k]);
-      } else {
-        if (n >= MAX_SAFE_INTEGER) throw TypeError(MAXIMUM_ALLOWED_INDEX_EXCEEDED);
-        createProperty(A, n++, E);
-      }
-    }
-    A.length = n;
-    return A;
-  }
-});
-
-
-/***/ }),
-/* 140 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var $ = __webpack_require__(2);
-var $some = __webpack_require__(28).some;
-var sloppyArrayMethod = __webpack_require__(22);
-
-// `Array.prototype.some` method
-// https://tc39.github.io/ecma262/#sec-array.prototype.some
-$({ target: 'Array', proto: true, forced: sloppyArrayMethod('some') }, {
-  some: function some(callbackfn /* , thisArg */) {
-    return $some(this, callbackfn, arguments.length > 1 ? arguments[1] : undefined);
-  }
-});
-
-
-/***/ }),
-/* 141 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var $ = __webpack_require__(2);
-var toObject = __webpack_require__(17);
-var nativeKeys = __webpack_require__(68);
-var fails = __webpack_require__(4);
-
-var FAILS_ON_PRIMITIVES = fails(function () { nativeKeys(1); });
-
-// `Object.keys` method
-// https://tc39.github.io/ecma262/#sec-object.keys
-$({ target: 'Object', stat: true, forced: FAILS_ON_PRIMITIVES }, {
-  keys: function keys(it) {
-    return nativeKeys(toObject(it));
-  }
-});
-
-
-/***/ }),
-/* 142 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var fixRegExpWellKnownSymbolLogic = __webpack_require__(51);
-var isRegExp = __webpack_require__(78);
-var anObject = __webpack_require__(5);
-var requireObjectCoercible = __webpack_require__(13);
-var speciesConstructor = __webpack_require__(56);
-var advanceStringIndex = __webpack_require__(52);
-var toLength = __webpack_require__(9);
-var callRegExpExec = __webpack_require__(53);
-var regexpExec = __webpack_require__(29);
-var fails = __webpack_require__(4);
-
-var arrayPush = [].push;
-var min = Math.min;
-var MAX_UINT32 = 0xFFFFFFFF;
-
-// babel-minify transpiles RegExp('x', 'y') -> /x/y and it causes SyntaxError
-var SUPPORTS_Y = !fails(function () { return !RegExp(MAX_UINT32, 'y'); });
-
-// @@split logic
-fixRegExpWellKnownSymbolLogic('split', 2, function (SPLIT, nativeSplit, maybeCallNative) {
-  var internalSplit;
-  if (
-    'abbc'.split(/(b)*/)[1] == 'c' ||
-    'test'.split(/(?:)/, -1).length != 4 ||
-    'ab'.split(/(?:ab)*/).length != 2 ||
-    '.'.split(/(.?)(.?)/).length != 4 ||
-    '.'.split(/()()/).length > 1 ||
-    ''.split(/.?/).length
-  ) {
-    // based on es5-shim implementation, need to rework it
-    internalSplit = function (separator, limit) {
-      var string = String(requireObjectCoercible(this));
-      var lim = limit === undefined ? MAX_UINT32 : limit >>> 0;
-      if (lim === 0) return [];
-      if (separator === undefined) return [string];
-      // If `separator` is not a regex, use native split
-      if (!isRegExp(separator)) {
-        return nativeSplit.call(string, separator, lim);
-      }
-      var output = [];
-      var flags = (separator.ignoreCase ? 'i' : '') +
-                  (separator.multiline ? 'm' : '') +
-                  (separator.unicode ? 'u' : '') +
-                  (separator.sticky ? 'y' : '');
-      var lastLastIndex = 0;
-      // Make `global` and avoid `lastIndex` issues by working with a copy
-      var separatorCopy = new RegExp(separator.source, flags + 'g');
-      var match, lastIndex, lastLength;
-      while (match = regexpExec.call(separatorCopy, string)) {
-        lastIndex = separatorCopy.lastIndex;
-        if (lastIndex > lastLastIndex) {
-          output.push(string.slice(lastLastIndex, match.index));
-          if (match.length > 1 && match.index < string.length) arrayPush.apply(output, match.slice(1));
-          lastLength = match[0].length;
-          lastLastIndex = lastIndex;
-          if (output.length >= lim) break;
-        }
-        if (separatorCopy.lastIndex === match.index) separatorCopy.lastIndex++; // Avoid an infinite loop
-      }
-      if (lastLastIndex === string.length) {
-        if (lastLength || !separatorCopy.test('')) output.push('');
-      } else output.push(string.slice(lastLastIndex));
-      return output.length > lim ? output.slice(0, lim) : output;
-    };
-  // Chakra, V8
-  } else if ('0'.split(undefined, 0).length) {
-    internalSplit = function (separator, limit) {
-      return separator === undefined && limit === 0 ? [] : nativeSplit.call(this, separator, limit);
-    };
-  } else internalSplit = nativeSplit;
-
-  return [
-    // `String.prototype.split` method
-    // https://tc39.github.io/ecma262/#sec-string.prototype.split
-    function split(separator, limit) {
-      var O = requireObjectCoercible(this);
-      var splitter = separator == undefined ? undefined : separator[SPLIT];
-      return splitter !== undefined
-        ? splitter.call(separator, O, limit)
-        : internalSplit.call(String(O), separator, limit);
-    },
-    // `RegExp.prototype[@@split]` method
-    // https://tc39.github.io/ecma262/#sec-regexp.prototype-@@split
-    //
-    // NOTE: This cannot be properly polyfilled in engines that don't support
-    // the 'y' flag.
-    function (regexp, limit) {
-      var res = maybeCallNative(internalSplit, regexp, this, limit, internalSplit !== nativeSplit);
-      if (res.done) return res.value;
-
-      var rx = anObject(regexp);
-      var S = String(this);
-      var C = speciesConstructor(rx, RegExp);
-
-      var unicodeMatching = rx.unicode;
-      var flags = (rx.ignoreCase ? 'i' : '') +
-                  (rx.multiline ? 'm' : '') +
-                  (rx.unicode ? 'u' : '') +
-                  (SUPPORTS_Y ? 'y' : 'g');
-
-      // ^(? + rx + ) is needed, in combination with some S slicing, to
-      // simulate the 'y' flag.
-      var splitter = new C(SUPPORTS_Y ? rx : '^(?:' + rx.source + ')', flags);
-      var lim = limit === undefined ? MAX_UINT32 : limit >>> 0;
-      if (lim === 0) return [];
-      if (S.length === 0) return callRegExpExec(splitter, S) === null ? [S] : [];
-      var p = 0;
-      var q = 0;
-      var A = [];
-      while (q < S.length) {
-        splitter.lastIndex = SUPPORTS_Y ? q : 0;
-        var z = callRegExpExec(splitter, SUPPORTS_Y ? S : S.slice(q));
-        var e;
-        if (
-          z === null ||
-          (e = min(toLength(splitter.lastIndex + (SUPPORTS_Y ? 0 : q)), S.length)) === p
-        ) {
-          q = advanceStringIndex(S, q, unicodeMatching);
-        } else {
-          A.push(S.slice(p, q));
-          if (A.length === lim) return A;
-          for (var i = 1; i <= z.length - 1; i++) {
-            A.push(z[i]);
-            if (A.length === lim) return A;
-          }
-          q = p = e;
-        }
-      }
-      A.push(S.slice(p));
-      return A;
-    }
-  ];
-}, !SUPPORTS_Y);
-
-
-/***/ }),
-/* 143 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var core_js_modules_es_object_to_string__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(71);
-/* harmony import */ var core_js_modules_es_object_to_string__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_object_to_string__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var core_js_modules_es_parse_int__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(25);
-/* harmony import */ var core_js_modules_es_parse_int__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_parse_int__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var core_js_modules_es_promise__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(144);
-/* harmony import */ var core_js_modules_es_promise__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_promise__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var core_js_modules_es_promise_finally__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(156);
-/* harmony import */ var core_js_modules_es_promise_finally__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_promise_finally__WEBPACK_IMPORTED_MODULE_3__);
-
-
-
-
-
-(function () {
-  'use strict';
-
-  angular.module('lumx.stepper').directive('lxStepper', lxStepper).directive('lxStep', lxStep).directive('lxStepNav', lxStepNav);
-
-  function lxStepper() {
-    return {
-      restrict: 'E',
-      templateUrl: 'stepper.html',
-      scope: {
-        cancel: '&?lxCancel',
-        complete: '&lxComplete',
-        controls: '=?lxShowControls',
-        id: '@?lxId',
-        isLinear: '=?lxIsLinear',
-        labels: '=?lxLabels',
-        layout: '@?lxLayout'
-      },
-      controller: LxStepperController,
-      controllerAs: 'lxStepper',
-      bindToController: true,
-      transclude: true
-    };
-  }
-
-  LxStepperController.$inject = ['$scope'];
-
-  function LxStepperController($scope) {
-    var lxStepper = this;
-    var _classes = [];
-    var _defaultValues = {
-      isLinear: true,
-      labels: {
-        'back': 'Back',
-        'cancel': 'Cancel',
-        'continue': 'Continue',
-        'optional': 'Optional'
-      },
-      layout: 'horizontal'
-    };
-    lxStepper.addStep = addStep;
-    lxStepper.getClasses = getClasses;
-    lxStepper.goToStep = goToStep;
-    lxStepper.isComplete = isComplete;
-    lxStepper.updateStep = updateStep;
-    lxStepper.controls = angular.isDefined(lxStepper.controls) ? lxStepper.controls : true;
-    lxStepper.activeIndex = 0;
-    lxStepper.isLinear = angular.isDefined(lxStepper.isLinear) ? lxStepper.isLinear : _defaultValues.isLinear;
-    lxStepper.labels = angular.isDefined(lxStepper.labels) ? lxStepper.labels : _defaultValues.labels;
-    lxStepper.layout = angular.isDefined(lxStepper.layout) ? lxStepper.layout : _defaultValues.layout;
-    lxStepper.steps = [];
-
-    function addStep(step) {
-      lxStepper.steps.push(step);
-    }
-
-    function getClasses() {
-      _classes.length = 0;
-
-      _classes.push('lx-stepper--layout-' + lxStepper.layout);
-
-      if (lxStepper.isLinear) {
-        _classes.push('lx-stepper--is-linear');
-      }
-
-      var step = lxStepper.steps[lxStepper.activeIndex];
-
-      if (angular.isDefined(step)) {
-        if (step.feedback) {
-          _classes.push('lx-stepper--step-has-feedback');
-        }
-
-        if (step.isLoading) {
-          _classes.push('lx-stepper--step-is-loading');
-        }
-      }
-
-      return _classes;
-    }
-
-    function goToStep(index, bypass) {
-      var stepBeforeLastOptionalStep;
-
-      if (!bypass && lxStepper.isLinear) {
-        for (var i = index - 1; i >= 0; i--) {
-          if (angular.isDefined(lxStepper.steps[i]) && !lxStepper.steps[i].isOptional) {
-            stepBeforeLastOptionalStep = lxStepper.steps[i];
-            break;
-          }
-        }
-
-        if (angular.isDefined(stepBeforeLastOptionalStep)) {
-          if (!stepBeforeLastOptionalStep.pristine && angular.isFunction(stepBeforeLastOptionalStep.validator) && stepBeforeLastOptionalStep.isEditable) {
-            var validity = stepBeforeLastOptionalStep.validator();
-
-            if (validity === true) {
-              stepBeforeLastOptionalStep.isValid = true;
-            } else {
-              stepBeforeLastOptionalStep.isValid = false;
-              stepBeforeLastOptionalStep.errorMessage = validity;
-            }
-          }
-
-          if (stepBeforeLastOptionalStep.isValid === true) {
-            bypass = true;
-          }
-        }
-      }
-
-      if (!bypass && lxStepper.isLinear && angular.isDefined(lxStepper.steps[index - 1]) && (angular.isUndefined(lxStepper.steps[index - 1].isValid) || lxStepper.steps[index - 1].isValid === false)) {
-        return;
-      }
-
-      if (index < lxStepper.steps.length) {
-        lxStepper.activeIndex = parseInt(index);
-        lxStepper.steps[lxStepper.activeIndex].pristine = false;
-        $scope.$emit('lx-stepper__step', lxStepper.id, index, index === 0, index === lxStepper.steps.length - 1);
-      }
-    }
-
-    function isComplete() {
-      var countMandatory = 0;
-      var countValid = 0;
-
-      for (var i = 0, len = lxStepper.steps.length; i < len; i++) {
-        if (!lxStepper.steps[i].isOptional) {
-          countMandatory++;
-
-          if (lxStepper.steps[i].isValid === true) {
-            countValid++;
-          }
-        }
-      }
-
-      if (countValid === countMandatory) {
-        lxStepper.complete();
-        return true;
-      }
-    }
-
-    function updateStep(step) {
-      for (var i = 0, len = lxStepper.steps.length; i < len; i++) {
-        if (lxStepper.steps[i].uuid === step.uuid) {
-          lxStepper.steps[i].index = step.index;
-          lxStepper.steps[i].label = step.label;
-          return;
-        }
-      }
-    }
-
-    $scope.$on('lx-stepper__go-to-step', function (event, id, stepIndex, bypass) {
-      if (angular.isDefined(id) && id !== lxStepper.id) {
-        return;
-      }
-
-      goToStep(stepIndex, bypass);
-    });
-    $scope.$on('lx-stepper__cancel', function (event, id) {
-      if (angular.isDefined(id) && id !== lxStepper.id || !angular.isFunction(lxStepper.cancel)) {
-        return;
-      }
-
-      lxStepper.cancel();
-    });
-  }
-
-  function lxStep() {
-    return {
-      restrict: 'E',
-      require: ['lxStep', '^lxStepper'],
-      templateUrl: 'step.html',
-      scope: {
-        feedback: '@?lxFeedback',
-        isEditable: '=?lxIsEditable',
-        isOptional: '=?lxIsOptional',
-        isValid: '=?lxIsValid',
-        label: '@lxLabel',
-        submit: '&?lxSubmit',
-        validate: '&?lxValidate'
-      },
-      link: link,
-      controller: LxStepController,
-      controllerAs: 'lxStep',
-      bindToController: true,
-      replace: true,
-      transclude: true
-    };
-
-    function link(scope, element, attrs, ctrls) {
-      ctrls[0].init(ctrls[1], element.index());
-      attrs.$observe('lxFeedback', function (feedback) {
-        ctrls[0].setFeedback(feedback);
-      });
-      attrs.$observe('lxLabel', function (label) {
-        ctrls[0].setLabel(label);
-      });
-      attrs.$observe('lxIsEditable', function (isEditable) {
-        ctrls[0].setIsEditable(isEditable);
-      });
-      attrs.$observe('lxIsOptional', function (isOptional) {
-        ctrls[0].setIsOptional(isOptional);
-      });
-    }
-  }
-
-  LxStepController.$inject = ['$q', '$scope', 'LxNotificationService', 'LxUtilsService'];
-
-  function LxStepController($q, $scope, LxNotificationService, LxUtilsService) {
-    var lxStep = this;
-    var _classes = [];
-
-    var _nextStepIndex;
-
-    lxStep.getClasses = getClasses;
-    lxStep.init = init;
-    lxStep.previousStep = previousStep;
-    lxStep.setFeedback = setFeedback;
-    lxStep.setLabel = setLabel;
-    lxStep.setIsEditable = setIsEditable;
-    lxStep.setIsOptional = setIsOptional;
-    lxStep.submitStep = submitStep;
-    lxStep.step = {
-      errorMessage: undefined,
-      feedback: undefined,
-      index: undefined,
-      isEditable: false,
-      isLoading: false,
-      isOptional: false,
-      isValid: lxStep.isValid,
-      label: undefined,
-      pristine: true,
-      uuid: LxUtilsService.generateUUID(),
-      validator: undefined
-    };
-
-    function getClasses() {
-      _classes.length = 0;
-
-      if (lxStep.step.index === lxStep.parent.activeIndex) {
-        _classes.push('lx-step--is-active');
-      }
-
-      return _classes;
-    }
-
-    function init(parent, index) {
-      lxStep.parent = parent;
-      lxStep.step.index = index;
-      lxStep.step.validator = lxStep.validate;
-      lxStep.parent.addStep(lxStep.step);
-    }
-
-    function previousStep() {
-      if (lxStep.step.index > 0) {
-        lxStep.parent.goToStep(lxStep.step.index - 1);
-      }
-    }
-
-    function setFeedback(feedback) {
-      lxStep.step.feedback = feedback;
-      updateParentStep();
-    }
-
-    function setLabel(label) {
-      lxStep.step.label = label;
-      updateParentStep();
-    }
-
-    function setIsEditable(isEditable) {
-      lxStep.step.isEditable = isEditable;
-      updateParentStep();
-    }
-
-    function setIsOptional(isOptional) {
-      lxStep.step.isOptional = isOptional;
-      updateParentStep();
-    }
-
-    function submitStep() {
-      if (lxStep.step.isValid === true && !lxStep.step.isEditable) {
-        lxStep.parent.goToStep(_nextStepIndex, true);
-        return;
-      }
-
-      var validateFunction = lxStep.validate;
-      var validity = true;
-
-      if (angular.isFunction(validateFunction)) {
-        validity = validateFunction();
-      }
-
-      if (validity === true) {
-        $scope.$emit('lx-stepper__step-loading', lxStep.parent.id, lxStep.step.index);
-        lxStep.step.isLoading = true;
-        updateParentStep();
-        var submitFunction = lxStep.submit;
-
-        if (!angular.isFunction(submitFunction)) {
-          submitFunction = function submitFunction() {
-            return $q(function (resolve) {
-              resolve();
-            });
-          };
-        }
-
-        var promise = submitFunction();
-        promise.then(function (nextStepIndex) {
-          lxStep.step.isValid = true;
-          updateParentStep();
-          var isComplete = lxStep.parent.isComplete();
-
-          if (!isComplete) {
-            _nextStepIndex = angular.isDefined(nextStepIndex) && nextStepIndex > lxStep.parent.activeIndex && (!lxStep.parent.isLinear || lxStep.parent.isLinear && lxStep.parent.steps[nextStepIndex - 1].isOptional) ? nextStepIndex : lxStep.step.index + 1;
-            lxStep.parent.goToStep(_nextStepIndex, true);
-          } else {
-            $scope.$emit('lx-stepper__completed', lxStepper.id);
-          }
-        }).catch(function (error) {
-          LxNotificationService.error(error);
-        }).finally(function () {
-          $scope.$emit('lx-stepper__step-loaded', lxStep.parent.id, lxStep.step.index);
-          lxStep.step.isLoading = false;
-          updateParentStep();
-        });
-      } else {
-        lxStep.step.isValid = false;
-        lxStep.step.errorMessage = validity;
-        updateParentStep();
-      }
-    }
-
-    function updateParentStep() {
-      lxStep.parent.updateStep(lxStep.step);
-    }
-
-    $scope.$on('lx-stepper__submit-step', function (event, id, index) {
-      if (angular.isDefined(id) && id !== lxStep.parent.id || index !== lxStep.step.index) {
-        return;
-      }
-
-      submitStep();
-    });
-    $scope.$on('lx-stepper__previous-step', function (event, id, index) {
-      if (angular.isDefined(id) && id !== lxStep.parent.id || index !== lxStep.step.index) {
-        return;
-      }
-
-      previousStep();
-    });
-  }
-
-  function lxStepNav() {
-    return {
-      restrict: 'E',
-      require: ['lxStepNav', '^lxStepper'],
-      templateUrl: 'step-nav.html',
-      scope: {
-        activeIndex: '@lxActiveIndex',
-        step: '=lxStep'
-      },
-      link: link,
-      controller: LxStepNavController,
-      controllerAs: 'lxStepNav',
-      bindToController: true,
-      replace: true,
-      transclude: false
-    };
-
-    function link(scope, element, attrs, ctrls) {
-      ctrls[0].init(ctrls[1]);
-    }
-  }
-
-  function LxStepNavController() {
-    var lxStepNav = this;
-    var _classes = [];
-    lxStepNav.getClasses = getClasses;
-    lxStepNav.init = init;
-
-    function getClasses() {
-      _classes.length = 0;
-
-      if (parseInt(lxStepNav.step.index) === parseInt(lxStepNav.activeIndex)) {
-        _classes.push('lx-step-nav--is-active');
-      }
-
-      if (lxStepNav.step.isValid === true) {
-        _classes.push('lx-step-nav--is-valid');
-      } else if (lxStepNav.step.isValid === false) {
-        _classes.push('lx-step-nav--has-error');
-      }
-
-      if (lxStepNav.step.isEditable) {
-        _classes.push('lx-step-nav--is-editable');
-      }
-
-      if (lxStepNav.step.isOptional) {
-        _classes.push('lx-step-nav--is-optional');
-      }
-
-      return _classes;
-    }
-
-    function init(parent, index) {
-      lxStepNav.parent = parent;
-    }
-  }
-})();
-
-/***/ }),
-/* 144 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var $ = __webpack_require__(2);
-var IS_PURE = __webpack_require__(40);
-var global = __webpack_require__(1);
-var path = __webpack_require__(64);
-var NativePromise = __webpack_require__(80);
-var redefine = __webpack_require__(8);
-var redefineAll = __webpack_require__(145);
-var setToStringTag = __webpack_require__(146);
-var setSpecies = __webpack_require__(79);
-var isObject = __webpack_require__(7);
-var aFunction = __webpack_require__(24);
-var anInstance = __webpack_require__(147);
-var classof = __webpack_require__(11);
-var iterate = __webpack_require__(148);
-var checkCorrectnessOfIteration = __webpack_require__(152);
-var speciesConstructor = __webpack_require__(56);
-var task = __webpack_require__(82).set;
-var microtask = __webpack_require__(153);
-var promiseResolve = __webpack_require__(84);
-var hostReportErrors = __webpack_require__(154);
-var newPromiseCapabilityModule = __webpack_require__(85);
-var perform = __webpack_require__(155);
-var userAgent = __webpack_require__(83);
-var InternalStateModule = __webpack_require__(61);
-var isForced = __webpack_require__(44);
-var wellKnownSymbol = __webpack_require__(3);
-
-var SPECIES = wellKnownSymbol('species');
-var PROMISE = 'Promise';
-var getInternalState = InternalStateModule.get;
-var setInternalState = InternalStateModule.set;
-var getInternalPromiseState = InternalStateModule.getterFor(PROMISE);
-var PromiseConstructor = NativePromise;
-var TypeError = global.TypeError;
-var document = global.document;
-var process = global.process;
-var $fetch = global.fetch;
-var versions = process && process.versions;
-var v8 = versions && versions.v8 || '';
-var newPromiseCapability = newPromiseCapabilityModule.f;
-var newGenericPromiseCapability = newPromiseCapability;
-var IS_NODE = classof(process) == 'process';
-var DISPATCH_EVENT = !!(document && document.createEvent && global.dispatchEvent);
-var UNHANDLED_REJECTION = 'unhandledrejection';
-var REJECTION_HANDLED = 'rejectionhandled';
-var PENDING = 0;
-var FULFILLED = 1;
-var REJECTED = 2;
-var HANDLED = 1;
-var UNHANDLED = 2;
-var Internal, OwnPromiseCapability, PromiseWrapper, nativeThen;
-
-var FORCED = isForced(PROMISE, function () {
-  // correct subclassing with @@species support
-  var promise = PromiseConstructor.resolve(1);
-  var empty = function () { /* empty */ };
-  var FakePromise = (promise.constructor = {})[SPECIES] = function (exec) {
-    exec(empty, empty);
-  };
-  // unhandled rejections tracking support, NodeJS Promise without it fails @@species test
-  return !((IS_NODE || typeof PromiseRejectionEvent == 'function')
-    && (!IS_PURE || promise['finally'])
-    && promise.then(empty) instanceof FakePromise
-    // v8 6.6 (Node 10 and Chrome 66) have a bug with resolving custom thenables
-    // https://bugs.chromium.org/p/chromium/issues/detail?id=830565
-    // we can't detect it synchronously, so just check versions
-    && v8.indexOf('6.6') !== 0
-    && userAgent.indexOf('Chrome/66') === -1);
-});
-
-var INCORRECT_ITERATION = FORCED || !checkCorrectnessOfIteration(function (iterable) {
-  PromiseConstructor.all(iterable)['catch'](function () { /* empty */ });
-});
-
-// helpers
-var isThenable = function (it) {
-  var then;
-  return isObject(it) && typeof (then = it.then) == 'function' ? then : false;
-};
-
-var notify = function (promise, state, isReject) {
-  if (state.notified) return;
-  state.notified = true;
-  var chain = state.reactions;
-  microtask(function () {
-    var value = state.value;
-    var ok = state.state == FULFILLED;
-    var index = 0;
-    // variable length - can't use forEach
-    while (chain.length > index) {
-      var reaction = chain[index++];
-      var handler = ok ? reaction.ok : reaction.fail;
-      var resolve = reaction.resolve;
-      var reject = reaction.reject;
-      var domain = reaction.domain;
-      var result, then, exited;
-      try {
-        if (handler) {
-          if (!ok) {
-            if (state.rejection === UNHANDLED) onHandleUnhandled(promise, state);
-            state.rejection = HANDLED;
-          }
-          if (handler === true) result = value;
-          else {
-            if (domain) domain.enter();
-            result = handler(value); // can throw
-            if (domain) {
-              domain.exit();
-              exited = true;
-            }
-          }
-          if (result === reaction.promise) {
-            reject(TypeError('Promise-chain cycle'));
-          } else if (then = isThenable(result)) {
-            then.call(result, resolve, reject);
-          } else resolve(result);
-        } else reject(value);
-      } catch (error) {
-        if (domain && !exited) domain.exit();
-        reject(error);
-      }
-    }
-    state.reactions = [];
-    state.notified = false;
-    if (isReject && !state.rejection) onUnhandled(promise, state);
-  });
-};
-
-var dispatchEvent = function (name, promise, reason) {
-  var event, handler;
-  if (DISPATCH_EVENT) {
-    event = document.createEvent('Event');
-    event.promise = promise;
-    event.reason = reason;
-    event.initEvent(name, false, true);
-    global.dispatchEvent(event);
-  } else event = { promise: promise, reason: reason };
-  if (handler = global['on' + name]) handler(event);
-  else if (name === UNHANDLED_REJECTION) hostReportErrors('Unhandled promise rejection', reason);
-};
-
-var onUnhandled = function (promise, state) {
-  task.call(global, function () {
-    var value = state.value;
-    var IS_UNHANDLED = isUnhandled(state);
-    var result;
-    if (IS_UNHANDLED) {
-      result = perform(function () {
-        if (IS_NODE) {
-          process.emit('unhandledRejection', value, promise);
-        } else dispatchEvent(UNHANDLED_REJECTION, promise, value);
-      });
-      // Browsers should not trigger `rejectionHandled` event if it was handled here, NodeJS - should
-      state.rejection = IS_NODE || isUnhandled(state) ? UNHANDLED : HANDLED;
-      if (result.error) throw result.value;
-    }
-  });
-};
-
-var isUnhandled = function (state) {
-  return state.rejection !== HANDLED && !state.parent;
-};
-
-var onHandleUnhandled = function (promise, state) {
-  task.call(global, function () {
-    if (IS_NODE) {
-      process.emit('rejectionHandled', promise);
-    } else dispatchEvent(REJECTION_HANDLED, promise, state.value);
-  });
-};
-
-var bind = function (fn, promise, state, unwrap) {
-  return function (value) {
-    fn(promise, state, value, unwrap);
-  };
-};
-
-var internalReject = function (promise, state, value, unwrap) {
-  if (state.done) return;
-  state.done = true;
-  if (unwrap) state = unwrap;
-  state.value = value;
-  state.state = REJECTED;
-  notify(promise, state, true);
-};
-
-var internalResolve = function (promise, state, value, unwrap) {
-  if (state.done) return;
-  state.done = true;
-  if (unwrap) state = unwrap;
-  try {
-    if (promise === value) throw TypeError("Promise can't be resolved itself");
-    var then = isThenable(value);
-    if (then) {
-      microtask(function () {
-        var wrapper = { done: false };
-        try {
-          then.call(value,
-            bind(internalResolve, promise, wrapper, state),
-            bind(internalReject, promise, wrapper, state)
-          );
-        } catch (error) {
-          internalReject(promise, wrapper, error, state);
-        }
-      });
-    } else {
-      state.value = value;
-      state.state = FULFILLED;
-      notify(promise, state, false);
-    }
-  } catch (error) {
-    internalReject(promise, { done: false }, error, state);
-  }
-};
-
-// constructor polyfill
-if (FORCED) {
-  // 25.4.3.1 Promise(executor)
-  PromiseConstructor = function Promise(executor) {
-    anInstance(this, PromiseConstructor, PROMISE);
-    aFunction(executor);
-    Internal.call(this);
-    var state = getInternalState(this);
-    try {
-      executor(bind(internalResolve, this, state), bind(internalReject, this, state));
-    } catch (error) {
-      internalReject(this, state, error);
-    }
-  };
-  // eslint-disable-next-line no-unused-vars
-  Internal = function Promise(executor) {
-    setInternalState(this, {
-      type: PROMISE,
-      done: false,
-      notified: false,
-      parent: false,
-      reactions: [],
-      rejection: false,
-      state: PENDING,
-      value: undefined
-    });
-  };
-  Internal.prototype = redefineAll(PromiseConstructor.prototype, {
-    // `Promise.prototype.then` method
-    // https://tc39.github.io/ecma262/#sec-promise.prototype.then
-    then: function then(onFulfilled, onRejected) {
-      var state = getInternalPromiseState(this);
-      var reaction = newPromiseCapability(speciesConstructor(this, PromiseConstructor));
-      reaction.ok = typeof onFulfilled == 'function' ? onFulfilled : true;
-      reaction.fail = typeof onRejected == 'function' && onRejected;
-      reaction.domain = IS_NODE ? process.domain : undefined;
-      state.parent = true;
-      state.reactions.push(reaction);
-      if (state.state != PENDING) notify(this, state, false);
-      return reaction.promise;
-    },
-    // `Promise.prototype.catch` method
-    // https://tc39.github.io/ecma262/#sec-promise.prototype.catch
-    'catch': function (onRejected) {
-      return this.then(undefined, onRejected);
-    }
-  });
-  OwnPromiseCapability = function () {
-    var promise = new Internal();
-    var state = getInternalState(promise);
-    this.promise = promise;
-    this.resolve = bind(internalResolve, promise, state);
-    this.reject = bind(internalReject, promise, state);
-  };
-  newPromiseCapabilityModule.f = newPromiseCapability = function (C) {
-    return C === PromiseConstructor || C === PromiseWrapper
-      ? new OwnPromiseCapability(C)
-      : newGenericPromiseCapability(C);
-  };
-
-  if (!IS_PURE && typeof NativePromise == 'function') {
-    nativeThen = NativePromise.prototype.then;
-
-    // wrap native Promise#then for native async functions
-    redefine(NativePromise.prototype, 'then', function then(onFulfilled, onRejected) {
-      var that = this;
-      return new PromiseConstructor(function (resolve, reject) {
-        nativeThen.call(that, resolve, reject);
-      }).then(onFulfilled, onRejected);
-    });
-
-    // wrap fetch result
-    if (typeof $fetch == 'function') $({ global: true, enumerable: true, forced: true }, {
-      // eslint-disable-next-line no-unused-vars
-      fetch: function fetch(input) {
-        return promiseResolve(PromiseConstructor, $fetch.apply(global, arguments));
-      }
-    });
-  }
-}
-
-$({ global: true, wrap: true, forced: FORCED }, {
-  Promise: PromiseConstructor
-});
-
-setToStringTag(PromiseConstructor, PROMISE, false, true);
-setSpecies(PROMISE);
-
-PromiseWrapper = path[PROMISE];
-
-// statics
-$({ target: PROMISE, stat: true, forced: FORCED }, {
-  // `Promise.reject` method
-  // https://tc39.github.io/ecma262/#sec-promise.reject
-  reject: function reject(r) {
-    var capability = newPromiseCapability(this);
-    capability.reject.call(undefined, r);
-    return capability.promise;
-  }
-});
-
-$({ target: PROMISE, stat: true, forced: IS_PURE || FORCED }, {
-  // `Promise.resolve` method
-  // https://tc39.github.io/ecma262/#sec-promise.resolve
-  resolve: function resolve(x) {
-    return promiseResolve(IS_PURE && this === PromiseWrapper ? PromiseConstructor : this, x);
-  }
-});
-
-$({ target: PROMISE, stat: true, forced: INCORRECT_ITERATION }, {
-  // `Promise.all` method
-  // https://tc39.github.io/ecma262/#sec-promise.all
-  all: function all(iterable) {
-    var C = this;
-    var capability = newPromiseCapability(C);
-    var resolve = capability.resolve;
-    var reject = capability.reject;
-    var result = perform(function () {
-      var $promiseResolve = aFunction(C.resolve);
-      var values = [];
-      var counter = 0;
-      var remaining = 1;
-      iterate(iterable, function (promise) {
-        var index = counter++;
-        var alreadyCalled = false;
-        values.push(undefined);
-        remaining++;
-        $promiseResolve.call(C, promise).then(function (value) {
-          if (alreadyCalled) return;
-          alreadyCalled = true;
-          values[index] = value;
-          --remaining || resolve(values);
-        }, reject);
-      });
-      --remaining || resolve(values);
-    });
-    if (result.error) reject(result.value);
-    return capability.promise;
-  },
-  // `Promise.race` method
-  // https://tc39.github.io/ecma262/#sec-promise.race
-  race: function race(iterable) {
-    var C = this;
-    var capability = newPromiseCapability(C);
-    var reject = capability.reject;
-    var result = perform(function () {
-      var $promiseResolve = aFunction(C.resolve);
-      iterate(iterable, function (promise) {
-        $promiseResolve.call(C, promise).then(capability.resolve, reject);
-      });
-    });
-    if (result.error) reject(result.value);
-    return capability.promise;
-  }
-});
-
-
-/***/ }),
-/* 145 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var redefine = __webpack_require__(8);
-
-module.exports = function (target, src, options) {
-  for (var key in src) redefine(target, key, src[key], options);
-  return target;
-};
-
-
-/***/ }),
-/* 146 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var defineProperty = __webpack_require__(12).f;
-var has = __webpack_require__(16);
-var wellKnownSymbol = __webpack_require__(3);
-
-var TO_STRING_TAG = wellKnownSymbol('toStringTag');
-
-module.exports = function (it, TAG, STATIC) {
-  if (it && !has(it = STATIC ? it : it.prototype, TO_STRING_TAG)) {
-    defineProperty(it, TO_STRING_TAG, { configurable: true, value: TAG });
-  }
-};
-
-
-/***/ }),
-/* 147 */
-/***/ (function(module, exports) {
-
-module.exports = function (it, Constructor, name) {
-  if (!(it instanceof Constructor)) {
-    throw TypeError('Incorrect ' + (name ? name + ' ' : '') + 'invocation');
-  } return it;
-};
-
-
-/***/ }),
-/* 148 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var anObject = __webpack_require__(5);
-var isArrayIteratorMethod = __webpack_require__(149);
-var toLength = __webpack_require__(9);
-var bind = __webpack_require__(48);
-var getIteratorMethod = __webpack_require__(150);
-var callWithSafeIterationClosing = __webpack_require__(151);
-
-var Result = function (stopped, result) {
-  this.stopped = stopped;
-  this.result = result;
-};
-
-var iterate = module.exports = function (iterable, fn, that, AS_ENTRIES, IS_ITERATOR) {
-  var boundFunction = bind(fn, that, AS_ENTRIES ? 2 : 1);
-  var iterator, iterFn, index, length, result, step;
-
-  if (IS_ITERATOR) {
-    iterator = iterable;
-  } else {
-    iterFn = getIteratorMethod(iterable);
-    if (typeof iterFn != 'function') throw TypeError('Target is not iterable');
-    // optimisation for array iterators
-    if (isArrayIteratorMethod(iterFn)) {
-      for (index = 0, length = toLength(iterable.length); length > index; index++) {
-        result = AS_ENTRIES
-          ? boundFunction(anObject(step = iterable[index])[0], step[1])
-          : boundFunction(iterable[index]);
-        if (result && result instanceof Result) return result;
-      } return new Result(false);
-    }
-    iterator = iterFn.call(iterable);
-  }
-
-  while (!(step = iterator.next()).done) {
-    result = callWithSafeIterationClosing(iterator, boundFunction, step.value, AS_ENTRIES);
-    if (result && result instanceof Result) return result;
-  } return new Result(false);
-};
-
-iterate.stop = function (result) {
-  return new Result(true, result);
-};
-
-
-/***/ }),
-/* 149 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var wellKnownSymbol = __webpack_require__(3);
-var Iterators = __webpack_require__(81);
-
-var ITERATOR = wellKnownSymbol('iterator');
-var ArrayPrototype = Array.prototype;
-
-// check on default Array iterator
-module.exports = function (it) {
-  return it !== undefined && (Iterators.Array === it || ArrayPrototype[ITERATOR] === it);
-};
-
-
-/***/ }),
-/* 150 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var classof = __webpack_require__(72);
-var Iterators = __webpack_require__(81);
-var wellKnownSymbol = __webpack_require__(3);
-
-var ITERATOR = wellKnownSymbol('iterator');
-
-module.exports = function (it) {
-  if (it != undefined) return it[ITERATOR]
-    || it['@@iterator']
-    || Iterators[classof(it)];
-};
-
-
-/***/ }),
-/* 151 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var anObject = __webpack_require__(5);
-
-// call something on iterator step with safe closing on error
-module.exports = function (iterator, fn, value, ENTRIES) {
-  try {
-    return ENTRIES ? fn(anObject(value)[0], value[1]) : fn(value);
-  // 7.4.6 IteratorClose(iterator, completion)
-  } catch (error) {
-    var returnMethod = iterator['return'];
-    if (returnMethod !== undefined) anObject(returnMethod.call(iterator));
-    throw error;
-  }
-};
-
-
-/***/ }),
-/* 152 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var wellKnownSymbol = __webpack_require__(3);
-
-var ITERATOR = wellKnownSymbol('iterator');
-var SAFE_CLOSING = false;
-
-try {
-  var called = 0;
-  var iteratorWithReturn = {
-    next: function () {
-      return { done: !!called++ };
-    },
-    'return': function () {
-      SAFE_CLOSING = true;
-    }
-  };
-  iteratorWithReturn[ITERATOR] = function () {
-    return this;
-  };
-  // eslint-disable-next-line no-throw-literal
-  Array.from(iteratorWithReturn, function () { throw 2; });
-} catch (error) { /* empty */ }
-
-module.exports = function (exec, SKIP_CLOSING) {
-  if (!SKIP_CLOSING && !SAFE_CLOSING) return false;
-  var ITERATION_SUPPORT = false;
-  try {
-    var object = {};
-    object[ITERATOR] = function () {
-      return {
-        next: function () {
-          return { done: ITERATION_SUPPORT = true };
-        }
-      };
-    };
-    exec(object);
-  } catch (error) { /* empty */ }
-  return ITERATION_SUPPORT;
-};
-
-
-/***/ }),
-/* 153 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var global = __webpack_require__(1);
-var getOwnPropertyDescriptor = __webpack_require__(34).f;
-var classof = __webpack_require__(11);
-var macrotask = __webpack_require__(82).set;
-var userAgent = __webpack_require__(83);
-
-var MutationObserver = global.MutationObserver || global.WebKitMutationObserver;
-var process = global.process;
-var Promise = global.Promise;
-var IS_NODE = classof(process) == 'process';
-// Node.js 11 shows ExperimentalWarning on getting `queueMicrotask`
-var queueMicrotaskDescriptor = getOwnPropertyDescriptor(global, 'queueMicrotask');
-var queueMicrotask = queueMicrotaskDescriptor && queueMicrotaskDescriptor.value;
-
-var flush, head, last, notify, toggle, node, promise, then;
-
-// modern engines have queueMicrotask method
-if (!queueMicrotask) {
-  flush = function () {
-    var parent, fn;
-    if (IS_NODE && (parent = process.domain)) parent.exit();
-    while (head) {
-      fn = head.fn;
-      head = head.next;
-      try {
-        fn();
-      } catch (error) {
-        if (head) notify();
-        else last = undefined;
-        throw error;
-      }
-    } last = undefined;
-    if (parent) parent.enter();
-  };
-
-  // Node.js
-  if (IS_NODE) {
-    notify = function () {
-      process.nextTick(flush);
-    };
-  // browsers with MutationObserver, except iOS - https://github.com/zloirock/core-js/issues/339
-  } else if (MutationObserver && !/(iphone|ipod|ipad).*applewebkit/i.test(userAgent)) {
-    toggle = true;
-    node = document.createTextNode('');
-    new MutationObserver(flush).observe(node, { characterData: true }); // eslint-disable-line no-new
-    notify = function () {
-      node.data = toggle = !toggle;
-    };
-  // environments with maybe non-completely correct, but existent Promise
-  } else if (Promise && Promise.resolve) {
-    // Promise.resolve without an argument throws an error in LG WebOS 2
-    promise = Promise.resolve(undefined);
-    then = promise.then;
-    notify = function () {
-      then.call(promise, flush);
-    };
-  // for other environments - macrotask based on:
-  // - setImmediate
-  // - MessageChannel
-  // - window.postMessag
-  // - onreadystatechange
-  // - setTimeout
-  } else {
-    notify = function () {
-      // strange IE + webpack dev server bug - use .call(global)
-      macrotask.call(global, flush);
-    };
-  }
-}
-
-module.exports = queueMicrotask || function (fn) {
-  var task = { fn: fn, next: undefined };
-  if (last) last.next = task;
-  if (!head) {
-    head = task;
-    notify();
-  } last = task;
-};
-
-
-/***/ }),
-/* 154 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var global = __webpack_require__(1);
-
-module.exports = function (a, b) {
-  var console = global.console;
-  if (console && console.error) {
-    arguments.length === 1 ? console.error(a) : console.error(a, b);
-  }
-};
-
-
-/***/ }),
-/* 155 */
-/***/ (function(module, exports) {
-
-module.exports = function (exec) {
-  try {
-    return { error: false, value: exec() };
-  } catch (error) {
-    return { error: true, value: error };
-  }
-};
-
-
-/***/ }),
-/* 156 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var $ = __webpack_require__(2);
-var IS_PURE = __webpack_require__(40);
-var NativePromise = __webpack_require__(80);
-var getBuiltIn = __webpack_require__(20);
-var speciesConstructor = __webpack_require__(56);
-var promiseResolve = __webpack_require__(84);
-var redefine = __webpack_require__(8);
-
-// `Promise.prototype.finally` method
-// https://tc39.github.io/ecma262/#sec-promise.prototype.finally
-$({ target: 'Promise', proto: true, real: true }, {
-  'finally': function (onFinally) {
-    var C = speciesConstructor(this, getBuiltIn('Promise'));
-    var isFunction = typeof onFinally == 'function';
-    return this.then(
-      isFunction ? function (x) {
-        return promiseResolve(C, onFinally()).then(function () { return x; });
-      } : onFinally,
-      isFunction ? function (e) {
-        return promiseResolve(C, onFinally()).then(function () { throw e; });
-      } : onFinally
-    );
-  }
-});
-
-// patch native Promise.prototype for native async functions
-if (!IS_PURE && typeof NativePromise == 'function' && !NativePromise.prototype['finally']) {
-  redefine(NativePromise.prototype, 'finally', getBuiltIn('Promise').prototype['finally']);
-}
-
-
-/***/ }),
-/* 157 */
-/***/ (function(module, exports) {
-
-(function () {
-  'use strict';
-
-  angular.module('lumx.switch').directive('lxSwitch', lxSwitch).directive('lxSwitchLabel', lxSwitchLabel).directive('lxSwitchHelp', lxSwitchHelp);
-
-  function lxSwitch() {
-    return {
-      restrict: 'E',
-      templateUrl: 'switch.html',
-      scope: {
-        ngModel: '=',
-        name: '@?',
-        ngTrueValue: '@?',
-        ngFalseValue: '@?',
-        ngChange: '&?',
-        ngDisabled: '=?',
-        lxColor: '@?',
-        lxPosition: '@?',
-        lxTheme: '@?'
-      },
-      controller: LxSwitchController,
-      controllerAs: 'lxSwitch',
-      bindToController: true,
-      transclude: true,
-      replace: true
-    };
-  }
-
-  LxSwitchController.$inject = ['$scope', '$timeout', 'LxUtilsService'];
-
-  function LxSwitchController($scope, $timeout, LxUtilsService) {
-    var lxSwitch = this;
-    var switchId;
-    var switchHasChildren;
-    var timer;
-    lxSwitch.getSwitchId = getSwitchId;
-    lxSwitch.getSwitchHasChildren = getSwitchHasChildren;
-    lxSwitch.setSwitchId = setSwitchId;
-    lxSwitch.setSwitchHasChildren = setSwitchHasChildren;
-    lxSwitch.triggerNgChange = triggerNgChange;
-    $scope.$on('$destroy', function () {
-      $timeout.cancel(timer);
-    });
-    init();
-
-    function getSwitchId() {
-      return switchId;
-    }
-
-    function getSwitchHasChildren() {
-      return switchHasChildren;
-    }
-
-    function init() {
-      setSwitchId(LxUtilsService.generateUUID());
-      setSwitchHasChildren(false);
-      lxSwitch.ngTrueValue = angular.isUndefined(lxSwitch.ngTrueValue) ? true : lxSwitch.ngTrueValue;
-      lxSwitch.ngFalseValue = angular.isUndefined(lxSwitch.ngFalseValue) ? false : lxSwitch.ngFalseValue;
-      lxSwitch.lxColor = angular.isUndefined(lxSwitch.lxColor) ? 'accent' : lxSwitch.lxColor;
-      lxSwitch.lxPosition = angular.isUndefined(lxSwitch.lxPosition) ? 'left' : lxSwitch.lxPosition;
-    }
-
-    function setSwitchId(_switchId) {
-      switchId = _switchId;
-    }
-
-    function setSwitchHasChildren(_switchHasChildren) {
-      switchHasChildren = _switchHasChildren;
-    }
-
-    function triggerNgChange() {
-      timer = $timeout(lxSwitch.ngChange);
-    }
-  }
-
-  function lxSwitchLabel() {
-    return {
-      restrict: 'AE',
-      require: ['^lxSwitch', '^lxSwitchLabel'],
-      templateUrl: 'switch-label.html',
-      link: link,
-      controller: LxSwitchLabelController,
-      controllerAs: 'lxSwitchLabel',
-      bindToController: true,
-      transclude: true,
-      replace: true
-    };
-
-    function link(scope, element, attrs, ctrls) {
-      ctrls[0].setSwitchHasChildren(true);
-      ctrls[1].setSwitchId(ctrls[0].getSwitchId());
-    }
-  }
-
-  function LxSwitchLabelController() {
-    var lxSwitchLabel = this;
-    var switchId;
-    lxSwitchLabel.getSwitchId = getSwitchId;
-    lxSwitchLabel.setSwitchId = setSwitchId;
-
-    function getSwitchId() {
-      return switchId;
-    }
-
-    function setSwitchId(_switchId) {
-      switchId = _switchId;
-    }
-  }
-
-  function lxSwitchHelp() {
-    return {
-      restrict: 'AE',
-      require: '^lxSwitch',
-      templateUrl: 'switch-help.html',
-      transclude: true,
-      replace: true
-    };
-  }
-})();
-
-/***/ }),
-/* 158 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var core_js_modules_es_array_find__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(6);
-/* harmony import */ var core_js_modules_es_array_find__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_find__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var core_js_modules_es_array_for_each__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(32);
-/* harmony import */ var core_js_modules_es_array_for_each__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_for_each__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var core_js_modules_es_array_splice__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(23);
-/* harmony import */ var core_js_modules_es_array_splice__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_splice__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(33);
-/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_3__);
-
-
-
-
-
-(function () {
-  'use strict';
-
-  angular.module('lumx.tabs').directive('lxTabs', lxTabs).directive('lxTab', lxTab).directive('lxTabsPanes', lxTabsPanes).directive('lxTabPane', lxTabPane);
-
-  function lxTabs() {
-    return {
-      restrict: 'E',
-      templateUrl: 'tabs.html',
-      scope: {
-        layout: '@?lxLayout',
-        theme: '@?lxTheme',
-        color: '@?lxColor',
-        indicator: '@?lxIndicator',
-        activeTab: '=?lxActiveTab',
-        panesId: '@?lxPanesId',
-        links: '=?lxLinks',
-        position: '@?lxPosition'
-      },
-      controller: LxTabsController,
-      controllerAs: 'lxTabs',
-      bindToController: true,
-      replace: true,
-      transclude: true
-    };
-  }
-
-  LxTabsController.$inject = ['LxUtilsService', '$element', '$scope', '$timeout'];
-
-  function LxTabsController(LxUtilsService, $element, $scope, $timeout) {
-    var lxTabs = this;
-    var tabsLength;
-    var timer1;
-    var timer2;
-    var timer3;
-    var timer4;
-    lxTabs.removeTab = removeTab;
-    lxTabs.setActiveTab = setActiveTab;
-    lxTabs.setViewMode = setViewMode;
-    lxTabs.tabIsActive = tabIsActive;
-    lxTabs.updateTabs = updateTabs;
-    lxTabs.activeTab = angular.isDefined(lxTabs.activeTab) ? lxTabs.activeTab : 0;
-    lxTabs.color = angular.isDefined(lxTabs.color) ? lxTabs.color : 'primary';
-    lxTabs.indicator = angular.isDefined(lxTabs.indicator) ? lxTabs.indicator : 'accent';
-    lxTabs.layout = angular.isDefined(lxTabs.layout) ? lxTabs.layout : 'full';
-    lxTabs.tabs = [];
-    lxTabs.theme = angular.isDefined(lxTabs.theme) ? lxTabs.theme : 'light';
-    lxTabs.viewMode = angular.isDefined(lxTabs.links) ? 'separate' : 'gather';
-    $scope.$watch(function () {
-      return lxTabs.activeTab;
-    }, function (_newActiveTab, _oldActiveTab) {
-      timer1 = $timeout(function () {
-        setIndicatorPosition(_oldActiveTab);
-
-        if (lxTabs.viewMode === 'separate') {
-          angular.element('#' + lxTabs.panesId).find('.tabs__pane').hide();
-          angular.element('#' + lxTabs.panesId).find('.tabs__pane').eq(lxTabs.activeTab).show();
-        }
-      });
-    });
-    $scope.$watch(function () {
-      return lxTabs.position;
-    }, function (_newPosition) {
-      lxTabs.bottomPosition = angular.isDefined(_newPosition) && _newPosition === 'bottom';
-    });
-    $scope.$watch(function () {
-      return lxTabs.links;
-    }, function (_newLinks) {
-      lxTabs.viewMode = angular.isDefined(_newLinks) ? 'separate' : 'gather';
-      angular.forEach(_newLinks, function (link, index) {
-        var tab = {
-          uuid: angular.isUndefined(link.uuid) || link.uuid.length === 0 ? LxUtilsService.generateUUID() : link.uuid,
-          index: index,
-          label: link.label,
-          icon: link.icon,
-          disabled: link.disabled
-        };
-        updateTabs(tab);
-      });
-    });
-    timer2 = $timeout(function () {
-      tabsLength = lxTabs.tabs.length;
-    });
-    $scope.$on('$destroy', function () {
-      $timeout.cancel(timer1);
-      $timeout.cancel(timer2);
-      $timeout.cancel(timer3);
-      $timeout.cancel(timer4);
-    });
-
-    function removeTab(_tab) {
-      lxTabs.tabs.splice(_tab.index, 1);
-      angular.forEach(lxTabs.tabs, function (tab, index) {
-        tab.index = index;
-      });
-
-      if (lxTabs.activeTab === 0) {
-        timer3 = $timeout(function () {
-          setIndicatorPosition();
-        });
-      } else {
-        setActiveTab(lxTabs.tabs[0]);
-      }
-    }
-
-    function setActiveTab(_tab) {
-      if (!_tab.disabled) {
-        lxTabs.activeTab = _tab.index;
-      }
-    }
-
-    function setIndicatorPosition(_previousActiveTab) {
-      var direction = lxTabs.activeTab > _previousActiveTab ? 'right' : 'left';
-      var indicator = $element.find('.tabs__indicator');
-      var activeTab = $element.find('.tabs__link').eq(lxTabs.activeTab);
-      var indicatorLeft = activeTab.position().left;
-      var indicatorRight = $element.outerWidth() - (indicatorLeft + activeTab.outerWidth());
-
-      if (angular.isUndefined(_previousActiveTab)) {
-        indicator.css({
-          left: indicatorLeft,
-          right: indicatorRight
-        });
-      } else {
-        var animationProperties = {
-          duration: 200,
-          easing: 'easeOutQuint'
-        };
-
-        if (direction === 'left') {
-          indicator.velocity({
-            left: indicatorLeft
-          }, animationProperties);
-          indicator.velocity({
-            right: indicatorRight
-          }, animationProperties);
-        } else {
-          indicator.velocity({
-            right: indicatorRight
-          }, animationProperties);
-          indicator.velocity({
-            left: indicatorLeft
-          }, animationProperties);
-        }
-      }
-    }
-
-    function setViewMode(_viewMode) {
-      lxTabs.viewMode = _viewMode;
-    }
-
-    function tabIsActive(_index) {
-      return lxTabs.activeTab === _index;
-    }
-
-    function updateTabs(_tab) {
-      var newTab = true;
-      angular.forEach(lxTabs.tabs, function (tab) {
-        if (tab.index === _tab.index) {
-          newTab = false;
-          tab.uuid = _tab.uuid;
-          tab.icon = _tab.icon;
-          tab.label = _tab.label;
-        }
-      });
-
-      if (newTab) {
-        lxTabs.tabs.push(_tab);
-
-        if (angular.isDefined(tabsLength)) {
-          timer4 = $timeout(function () {
-            setIndicatorPosition();
-          });
-        }
-      }
-    }
-  }
-
-  function lxTab() {
-    return {
-      restrict: 'E',
-      require: ['lxTab', '^lxTabs'],
-      templateUrl: 'tab.html',
-      scope: {
-        ngDisabled: '=?'
-      },
-      link: link,
-      controller: LxTabController,
-      controllerAs: 'lxTab',
-      bindToController: true,
-      replace: true,
-      transclude: true
-    };
-
-    function link(scope, element, attrs, ctrls) {
-      ctrls[0].init(ctrls[1], element.index());
-      attrs.$observe('lxLabel', function (_newLabel) {
-        ctrls[0].setLabel(_newLabel);
-      });
-      attrs.$observe('lxIcon', function (_newIcon) {
-        ctrls[0].setIcon(_newIcon);
-      });
-    }
-  }
-
-  LxTabController.$inject = ['$scope', 'LxUtilsService'];
-
-  function LxTabController($scope, LxUtilsService) {
-    var lxTab = this;
-    var parentCtrl;
-    var tab = {
-      uuid: LxUtilsService.generateUUID(),
-      index: undefined,
-      label: undefined,
-      icon: undefined,
-      disabled: false
-    };
-    lxTab.init = init;
-    lxTab.setIcon = setIcon;
-    lxTab.setLabel = setLabel;
-    lxTab.tabIsActive = tabIsActive;
-    $scope.$watch(function () {
-      return lxTab.ngDisabled;
-    }, function (_isDisabled) {
-      if (_isDisabled) {
-        tab.disabled = true;
-      } else {
-        tab.disabled = false;
-      }
-
-      parentCtrl.updateTabs(tab);
-    });
-    $scope.$on('$destroy', function () {
-      parentCtrl.removeTab(tab);
-    });
-
-    function init(_parentCtrl, _index) {
-      parentCtrl = _parentCtrl;
-      tab.index = _index;
-      parentCtrl.updateTabs(tab);
-    }
-
-    function setIcon(_icon) {
-      tab.icon = _icon;
-      parentCtrl.updateTabs(tab);
-    }
-
-    function setLabel(_label) {
-      tab.label = _label;
-      parentCtrl.updateTabs(tab);
-    }
-
-    function tabIsActive() {
-      return parentCtrl.tabIsActive(tab.index);
-    }
-  }
-
-  function lxTabsPanes() {
-    return {
-      restrict: 'E',
-      templateUrl: 'tabs-panes.html',
-      scope: true,
-      replace: true,
-      transclude: true
-    };
-  }
-
-  function lxTabPane() {
-    return {
-      restrict: 'E',
-      templateUrl: 'tab-pane.html',
-      scope: true,
-      replace: true,
-      transclude: true
-    };
-  }
-})();
-
-/***/ }),
-/* 159 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var core_js_modules_es_array_find__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(6);
-/* harmony import */ var core_js_modules_es_array_find__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_find__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var core_js_modules_es_array_for_each__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(32);
-/* harmony import */ var core_js_modules_es_array_for_each__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_for_each__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(33);
-/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_2__);
-
-
-
-
-(function () {
-  'use strict';
-
-  angular.module('lumx.text-field').directive('lxTextField', lxTextField);
-  lxTextField.$inject = ['$timeout'];
-
-  function lxTextField($timeout) {
-    return {
-      restrict: 'E',
-      templateUrl: 'text-field.html',
-      scope: {
-        allowClear: '=?lxAllowClear',
-        error: '=?lxError',
-        fixedLabel: '=?lxFixedLabel',
-        focus: '<?lxFocus',
-        icon: '@?lxIcon',
-        label: '@lxLabel',
-        ngDisabled: '=?',
-        hasPlaceholder: '=?lxHasPlaceholder',
-        theme: '@?lxTheme',
-        valid: '=?lxValid'
-      },
-      link: link,
-      controller: LxTextFieldController,
-      controllerAs: 'lxTextField',
-      bindToController: true,
-      replace: true,
-      transclude: true
-    };
-
-    function link(scope, element, attrs, ctrl, transclude) {
-      var backwardOneWay = ['icon', 'label', 'theme'];
-      var backwardTwoWay = ['error', 'fixedLabel', 'valid'];
-      var input;
-      var timer;
-      angular.forEach(backwardOneWay, function (attribute) {
-        if (angular.isDefined(attrs[attribute])) {
-          attrs.$observe(attribute, function (newValue) {
-            scope.lxTextField[attribute] = newValue;
-          });
-        }
-      });
-      angular.forEach(backwardTwoWay, function (attribute) {
-        if (angular.isDefined(attrs[attribute])) {
-          scope.$watch(function () {
-            return scope.$parent.$eval(attrs[attribute]);
-          }, function (newValue) {
-            scope.lxTextField[attribute] = newValue;
-          });
-        }
-      });
-      transclude(function () {
-        input = element.find('textarea');
-
-        if (input[0]) {
-          input.on('cut paste drop keydown', function () {
-            timer = $timeout(ctrl.updateTextareaHeight);
-          });
-        } else {
-          input = element.find('input');
-        }
-
-        input.addClass('text-field__input');
-        ctrl.setInput(input);
-        ctrl.setModel(input.data('$ngModelController'));
-        input.on('focus', function () {
-          var phase = scope.$root.$$phase;
-
-          if (phase === '$apply' || phase === '$digest') {
-            ctrl.focusInput();
-          } else {
-            scope.$apply(ctrl.focusInput);
-          }
-        });
-        input.on('blur', ctrl.blurInput);
-      });
-      scope.$on('$destroy', function () {
-        $timeout.cancel(timer);
-        input.off();
-      });
-    }
-  }
-
-  LxTextFieldController.$inject = ['$scope', '$timeout'];
-
-  function LxTextFieldController($scope, $timeout) {
-    var lxTextField = this;
-    var input;
-    var modelController;
-    var timer;
-    lxTextField.blurInput = blurInput;
-    lxTextField.clearInput = clearInput;
-    lxTextField.focusInput = focusInput;
-    lxTextField.hasValue = hasValue;
-    lxTextField.setInput = setInput;
-    lxTextField.setModel = setModel;
-    lxTextField.updateTextareaHeight = updateTextareaHeight;
-    $scope.$watch(function () {
-      return modelController.$viewValue;
-    }, function (newValue, oldValue) {
-      if (angular.isDefined(newValue) && newValue) {
-        lxTextField.isActive = true;
-      } else {
-        lxTextField.isActive = false;
-      }
-
-      if (newValue !== oldValue && newValue) {
-        updateTextareaHeight();
-      }
-    });
-    $scope.$watch(function () {
-      return lxTextField.focus;
-    }, function (newValue, oldValue) {
-      if (angular.isDefined(newValue) && newValue) {
-        $timeout(function () {
-          input.focus();
-          lxTextField.focus = false;
-        });
-      }
-    });
-    $scope.$on('$destroy', function () {
-      $timeout.cancel(timer);
-    });
-
-    function blurInput() {
-      if (!hasValue()) {
-        $scope.$apply(function () {
-          lxTextField.isActive = false;
-        });
-      }
-
-      $scope.$apply(function () {
-        lxTextField.isFocus = false;
-      });
-    }
-
-    function clearInput(_event) {
-      _event.stopPropagation();
-
-      modelController.$setViewValue(undefined);
-      modelController.$render();
-    }
-
-    function focusInput() {
-      lxTextField.isActive = true;
-      lxTextField.isFocus = true;
-    }
-
-    function hasValue() {
-      return angular.isDefined(input.val()) && input.val().length > 0;
-    }
-
-    function init() {
-      lxTextField.isActive = hasValue();
-      lxTextField.focus = angular.isDefined(lxTextField.focus) ? lxTextField.focus : false;
-      lxTextField.isFocus = lxTextField.focus;
-    }
-
-    function setInput(_input) {
-      input = _input;
-      timer = $timeout(init);
-    }
-
-    function setModel(_modelControler) {
-      modelController = _modelControler;
-    }
-
-    function updateTextareaHeight() {
-      if (!input.is('textarea')) {
-        return;
-      }
-
-      var tmpTextArea = angular.element('<textarea class="text-field__input" style="width: ' + input.width() + 'px;">' + input.val() + '</textarea>');
-      tmpTextArea.appendTo('body');
-      input.css({
-        height: tmpTextArea[0].scrollHeight + 'px'
-      });
-      tmpTextArea.remove();
-    }
-  }
-})();
-
-/***/ }),
-/* 160 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var core_js_modules_es_parse_int__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(25);
-/* harmony import */ var core_js_modules_es_parse_int__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_parse_int__WEBPACK_IMPORTED_MODULE_0__);
-
-
-(function () {
-  'use strict';
-
-  angular.module('lumx.tooltip').directive('lxTooltip', lxTooltip);
-
-  function lxTooltip() {
-    return {
-      restrict: 'A',
-      scope: {
-        tooltip: '@lxTooltip',
-        position: '@?lxTooltipPosition'
-      },
-      link: link,
-      controller: LxTooltipController,
-      controllerAs: 'lxTooltip',
-      bindToController: true
-    };
-
-    function link(scope, element, attrs, ctrl) {
-      if (angular.isDefined(attrs.lxTooltip)) {
-        attrs.$observe('lxTooltip', function (newValue) {
-          ctrl.updateTooltipText(newValue);
-        });
-      }
-
-      if (angular.isDefined(attrs.lxTooltipPosition)) {
-        attrs.$observe('lxTooltipPosition', function (newValue) {
-          scope.lxTooltip.position = newValue;
-        });
-      }
-
-      if (angular.element(window).outerWidth() > 768) {
-        element.on('mouseenter', ctrl.showTooltip);
-        element.on('mouseleave', ctrl.hideTooltip);
-      }
-
-      scope.$on('$destroy', function () {
-        element.off();
-      });
-    }
-  }
-
-  LxTooltipController.$inject = ['$element', '$scope', '$timeout', 'LxDepthService', 'LxUtilsService'];
-
-  function LxTooltipController($element, $scope, $timeout, LxDepthService, LxUtilsService) {
-    var lxTooltip = this;
-    var timer1;
-    var timer2;
-    var tooltip;
-    var tooltipBackground;
-    var tooltipLabel;
-    lxTooltip.hideTooltip = hideTooltip;
-    lxTooltip.showTooltip = showTooltip;
-    lxTooltip.updateTooltipText = updateTooltipText;
-    lxTooltip.position = angular.isDefined(lxTooltip.position) ? lxTooltip.position : 'top';
-    $scope.$on('$destroy', function () {
-      if (angular.isDefined(tooltip)) {
-        tooltip.remove();
-        tooltip = undefined;
-      }
-
-      $timeout.cancel(timer1);
-      $timeout.cancel(timer2);
-    });
-
-    function hideTooltip() {
-      if (angular.isDefined(tooltip)) {
-        tooltip.removeClass('tooltip--is-active');
-        timer1 = $timeout(function () {
-          if (angular.isDefined(tooltip)) {
-            angular.element(document).off('scroll', _debouncedSetPosition);
-            tooltip.remove();
-            tooltip = undefined;
-          }
-        }, 200);
-      }
-    }
-
-    function setTooltipPosition() {
-      var topOffset = $('.scroll-mask') ? $('body').css('top') : 0;
-      topOffset = topOffset ? parseInt(topOffset, 10) : 0;
-      topOffset = isNaN(topOffset) ? 0 : topOffset;
-      var width = $element.outerWidth(),
-          height = $element.outerHeight(),
-          top = $element.offset().top - topOffset,
-          left = $element.offset().left;
-      tooltip.append(tooltipBackground).append(tooltipLabel).appendTo('body');
-
-      if (lxTooltip.position === 'top') {
-        tooltip.css({
-          left: left - tooltip.outerWidth() / 2 + width / 2,
-          top: top - tooltip.outerHeight()
-        });
-      } else if (lxTooltip.position === 'bottom') {
-        tooltip.css({
-          left: left - tooltip.outerWidth() / 2 + width / 2,
-          top: top + height
-        });
-      } else if (lxTooltip.position === 'left') {
-        tooltip.css({
-          left: left - tooltip.outerWidth(),
-          top: top + height / 2 - tooltip.outerHeight() / 2
-        });
-      } else if (lxTooltip.position === 'right') {
-        tooltip.css({
-          left: left + width,
-          top: top + height / 2 - tooltip.outerHeight() / 2
-        });
-      }
-    }
-
-    var _debouncedSetPosition = LxUtilsService.debounce(setTooltipPosition, 250);
-
-    function showTooltip() {
-      if (angular.isUndefined(tooltip)) {
-        LxDepthService.register();
-        tooltip = angular.element('<div/>', {
-          class: 'tooltip tooltip--' + lxTooltip.position
-        });
-        tooltipBackground = angular.element('<div/>', {
-          class: 'tooltip__background'
-        });
-        tooltipLabel = angular.element('<span/>', {
-          class: 'tooltip__label',
-          text: lxTooltip.tooltip
-        });
-        setTooltipPosition();
-        angular.element(document).on('scroll', _debouncedSetPosition);
-        tooltip.append(tooltipBackground).append(tooltipLabel).css('z-index', LxDepthService.getDepth()).appendTo('body');
-        timer2 = $timeout(function () {
-          tooltip.addClass('tooltip--is-active');
-        });
-      }
-    }
-
-    function updateTooltipText(_newValue) {
-      if (angular.isDefined(tooltipLabel)) {
-        tooltipLabel.text(_newValue);
-      }
-    }
-  }
-})();
-
-/***/ }),
-/* 161 */
-/***/ (function(module, exports) {
-
-var v1='<div class=dropdown-menu><div class=dropdown-menu__content ng-transclude ng-if=lxDropdownMenu.parentCtrl.isOpen></div></div>';
-angular.module('lumx.dropdown').run(['$templateCache', function ($templateCache) {$templateCache.put('dropdown-menu.html', v1);}]);
-module.exports=v1
-
-/***/ }),
-/* 162 */
-/***/ (function(module, exports) {
-
-var v1='<div class=dropdown-toggle ng-transclude></div>';
-angular.module('lumx.dropdown').run(['$templateCache', function ($templateCache) {$templateCache.put('dropdown-toggle.html', v1);}]);
-module.exports=v1
-
-/***/ }),
-/* 163 */
-/***/ (function(module, exports) {
-
-var v1='<div class=dropdown ng-class="{ \'dropdown--has-toggle\': lxDropdown.hasToggle,\n                 \'dropdown--is-open\': lxDropdown.isOpen }" ng-transclude></div>';
-angular.module('lumx.dropdown').run(['$templateCache', function ($templateCache) {$templateCache.put('dropdown.html', v1);}]);
-module.exports=v1
-
-/***/ }),
-/* 164 */
-/***/ (function(module, exports) {
-
-var v1='<div class=input-file><span class=input-file__label>{{ lxFileInput.label }}</span> <span class=input-file__filename>{{ lxFileInput.fileName }}</span> <input type=file class=input-file__input accept="{{ lxFileInput.accept }}"></div>';
-angular.module('lumx.file-input').run(['$templateCache', function ($templateCache) {$templateCache.put('file-input.html', v1);}]);
-module.exports=v1
-
-/***/ }),
-/* 165 */
-/***/ (function(module, exports) {
-
-var v1='<div class=text-field ng-class="{ \'text-field--error\': lxTextField.error,\n                 \'text-field--fixed-label\': lxTextField.fixedLabel && !lxTextField.hasPlaceholder,\n                 \'text-field--has-icon\': lxTextField.icon,\n                 \'text-field--has-value\': lxTextField.hasValue(),\n                 \'text-field--is-active\': lxTextField.isActive || lxTextField.hasPlaceholder,\n                 \'text-field--is-disabled\': lxTextField.ngDisabled,\n                 \'text-field--is-focus\': lxTextField.isFocus,\n                 \'text-field--theme-light\': !lxTextField.theme || lxTextField.theme === \'light\',\n                 \'text-field--theme-dark\': lxTextField.theme === \'dark\',\n                 \'text-field--valid\': lxTextField.valid }"><div class=text-field__icon ng-if=lxTextField.icon><i class="mdi mdi-{{ lxTextField.icon }}"></i></div><label class=text-field__label>{{ lxTextField.label }}</label><div ng-transclude></div><span class=text-field__clear ng-click=lxTextField.clearInput($event) ng-if=lxTextField.allowClear><i class="mdi mdi-close-circle"></i></span></div>';
-angular.module('lumx.text-field').run(['$templateCache', function ($templateCache) {$templateCache.put('text-field.html', v1);}]);
-module.exports=v1
-
-/***/ }),
-/* 166 */
-/***/ (function(module, exports) {
-
-var v1='<div class=search-filter ng-class=lxSearchFilter.getClass()><div class=search-filter__container><div class=search-filter__button><lx-button type=submit lx-size=l lx-color="{{ lxSearchFilter.color }}" lx-type=icon ng-click=lxSearchFilter.openInput()><i class="mdi mdi-magnify"></i></lx-button></div><div class=search-filter__input ng-transclude></div><div class=search-filter__clear><lx-button type=button lx-size=l lx-color="{{ lxSearchFilter.color }}" lx-type=icon ng-click=lxSearchFilter.clearInput()><i class="mdi mdi-close"></i></lx-button></div></div><div class=search-filter__loader ng-if=lxSearchFilter.isLoading><lx-progress lx-type=linear></lx-progress></div><lx-dropdown id="{{ lxSearchFilter.dropdownId }}" lx-effect=none lx-width=100% ng-if=lxSearchFilter.autocomplete><lx-dropdown-menu class=search-filter__autocomplete-list><ul><li ng-repeat="item in lxSearchFilter.autocompleteList track by $index"><a class=search-filter__autocomplete-item ng-class="{ \'search-filter__autocomplete-item--is-active\': lxSearchFilter.activeChoiceIndex === $index }" ng-click=lxSearchFilter.selectItem(item) ng-bind-html="item | lxSearchHighlight:lxSearchFilter.modelController.$viewValue:lxSearchFilter.icon"></a></li></ul></lx-dropdown-menu></lx-dropdown></div>';
-angular.module('lumx.search-filter').run(['$templateCache', function ($templateCache) {$templateCache.put('search-filter.html', v1);}]);
-module.exports=v1
-
-/***/ }),
-/* 167 */
-/***/ (function(module, exports) {
-
-var v1='<div ng-repeat="(label, items) in pane"><div class="lx-select-choices__pane-choice lx-select-choices__pane-{{ level }}" ng-class="{ \'lx-select-choices__pane-choice--is-selected\': lxSelectChoices.parentCtrl.isPaneToggled(level, label) || lxSelectChoices.parentCtrl.isSelected(items),\n                \'lx-select-choices__pane-choice--is-matching\': lxSelectChoices.parentCtrl.isMatchingPath(level, label),\n                \'lx-select-choices__pane-choice--is-leaf\': lxSelectChoices.isArray(pane) }" ng-bind-html="(lxSelectChoices.isArray(pane)) ? lxSelectChoices.parentCtrl.displayChoice(items) : lxSelectChoices.parentCtrl.displaySubheader(label)" ng-click="lxSelectChoices.parentCtrl.togglePane($event, level, label, true)"></div><div ng-include="\'select-choices-accordion.html\'" ng-if="!lxSelectChoices.isArray(pane) && lxSelectChoices.parentCtrl.isPaneToggled(level,label)" ng-init="pane = items; level = level + 1"></div></div>';
-angular.module('lumx.select').run(['$templateCache', function ($templateCache) {$templateCache.put('select-choices-accordion.html', v1);}]);
-module.exports=v1
-
-/***/ }),
-/* 168 */
-/***/ (function(module, exports) {
-
-var v1='<lx-dropdown-menu class=lx-select-choices ng-class="{ \'lx-select-choices--custom-style\': lxSelectChoices.parentCtrl.choicesCustomStyle,\n                              \'lx-select-choices--default-style\': !lxSelectChoices.parentCtrl.choicesCustomStyle,\n                              \'lx-select-choices--is-multiple\': lxSelectChoices.parentCtrl.multiple,\n                              \'lx-select-choices--is-unique\': !lxSelectChoices.parentCtrl.multiple,\n                              \'lx-select-choices--list\': lxSelectChoices.parentCtrl.choicesViewMode === \'list\',\n                              \'lx-select-choices--multi-panes\': lxSelectChoices.parentCtrl.choicesViewMode === \'panes\' }"><ul ng-if="::lxSelectChoices.parentCtrl.choicesViewMode === \'list\'"><li class=lx-select-choices__filter ng-if="::lxSelectChoices.parentCtrl.displayFilter && !lxSelectChoices.parentCtrl.autocomplete"><lx-search-filter lx-dropdown-filter><input type=text ng-model=lxSelectChoices.parentCtrl.filterModel ng-change=lxSelectChoices.parentCtrl.updateFilter()></lx-search-filter></li><div ng-if=::lxSelectChoices.isArray()><li class=lx-select-choices__choice ng-class="{ \'lx-select-choices__choice--is-selected\': lxSelectChoices.parentCtrl.isSelected(choice),\n                            \'lx-select-choices__choice--is-disabled\': !lxSelectChoices.parentCtrl.isSelected(choice) && lxSelectChoices.parentCtrl.isMaxSelected(),\n                            \'lx-select-choices__choice--is-focus\': lxSelectChoices.parentCtrl.activeChoiceIndex === $index }" ng-repeat="choice in lxSelectChoices.parentCtrl.choices | filterChoices:lxSelectChoices.parentCtrl.filter:lxSelectChoices.parentCtrl.filterModel" ng-bind-html=::lxSelectChoices.parentCtrl.displayChoice(choice) ng-click="lxSelectChoices.parentCtrl.toggleChoice(choice, $event)"></li></div><div ng-if=::!lxSelectChoices.isArray()><li class=lx-select-choices__subheader ng-repeat-start="(subheader, children) in lxSelectChoices.parentCtrl.choices" ng-bind-html=::lxSelectChoices.parentCtrl.displaySubheader(subheader)></li><li class=lx-select-choices__choice ng-class="{ \'lx-select-choices__choice--is-selected\': lxSelectChoices.parentCtrl.isSelected(choice),\n                            \'lx-select-choices__choice--is-focus\': lxSelectChoices.parentCtrl.activeChoiceIndex === $index }" ng-repeat-end ng-repeat="choice in children | filterChoices:lxSelectChoices.parentCtrl.filter:lxSelectChoices.parentCtrl.filterModel" ng-bind-html=::lxSelectChoices.parentCtrl.displayChoice(choice) ng-click="lxSelectChoices.parentCtrl.toggleChoice(choice, $event)"></li></div><li class=lx-select-choices__subheader ng-if=lxSelectChoices.parentCtrl.helperDisplayable()>{{ lxSelectChoices.parentCtrl.helperMessage }}</li></ul><div class=lx-select-choices__panes-wrapper ng-if="lxSelectChoices.parentCtrl.choicesViewMode === \'panes\' && lxSelectChoices.parentCtrl.choicesViewSize === \'large\'" lx-stop-propagation=click><div class=lx-select-choices__loader ng-if=lxSelectChoices.parentCtrl.loading><lx-progress lx-type=circular lx-color=white lx-diameter=60></lx-progress></div><div class=lx-select-choices__panes-container ng-if=!lxSelectChoices.parentCtrl.loading><div class="lx-select-choices__pane lx-select-choices__pane-{{ $index }}" ng-class="{ \'lx-select-choices__pane--is-filtering\': lxSelectChoices.parentCtrl.matchingPaths !== undefined,\n                             \'lx-select-choices__pane--first\': $first,\n                             \'lx-select-choices__pane--last\': $last }" ng-repeat="pane in lxSelectChoices.parentCtrl.panes"><div ng-repeat="(label, items) in pane" class=lx-select-choices__pane-choice ng-class="{ \'lx-select-choices__pane-choice--is-selected\': lxSelectChoices.parentCtrl.isPaneToggled($parent.$index, label) || lxSelectChoices.parentCtrl.isSelected(items) || ($parent.$last && lxSelectChoices.parentCtrl.activeChoiceIndex === $index),\n                               \'lx-select-choices__pane-choice--is-matching\': lxSelectChoices.parentCtrl.isMatchingPath($parent.$index, label),\n                               \'lx-select-choices__pane-choice--is-leaf\': lxSelectChoices.isArray(pane) }" ng-bind-html="(lxSelectChoices.isArray(pane)) ? lxSelectChoices.parentCtrl.displayChoice(items) : lxSelectChoices.parentCtrl.displaySubheader(label)" ng-click="lxSelectChoices.parentCtrl.togglePane($event, $parent.$index, label, true)"></div></div></div></div><div class=lx-select-choices__panes-wrapper ng-if="lxSelectChoices.parentCtrl.choicesViewMode === \'panes\' && lxSelectChoices.parentCtrl.choicesViewSize === \'small\'" lx-stop-propagation=click><div class=lx-select-choices__loader ng-if=lxSelectChoices.parentCtrl.loading><lx-progress lx-type=circular lx-color=white lx-diameter=60></lx-progress></div><div class=lx-select-choices__panes-container ng-if=!lxSelectChoices.parentCtrl.loading><div class="lx-select-choices__pane lx-select-choices__pane" ng-class="{ \'lx-select-choices__pane--is-filtering\': lxSelectChoices.parentCtrl.matchingPaths !== undefined,\n                            \'lx-select-choices__pane--first\': $first,\n                            \'lx-select-choices__pane--last\': $last }" ng-repeat="pane in lxSelectChoices.parentCtrl.panes"><div ng-include="\'select-choices-accordion.html\'" ng-init="level = 0"></div></div></div></div><lx-progress lx-type=linear lx-color=primary ng-if=lxSelectChoices.parentCtrl.loading></lx-progress></lx-dropdown-menu>';
-angular.module('lumx.select').run(['$templateCache', function ($templateCache) {$templateCache.put('select-choices.html', v1);}]);
-module.exports=v1
-
-/***/ }),
-/* 169 */
-/***/ (function(module, exports) {
-
-var v1='<div class=lx-select-selected-wrapper ng-class="{ \'lx-select-selected-wrapper--with-filter\': !lxSelectSelected.parentCtrl.ngDisabled && lxSelectSelected.parentCtrl.areChoicesOpened() && (lxSelectSelected.parentCtrl.multiple || !lxSelectSelected.parentCtrl.getSelectedModel()) }" id="lx-select-selected-wrapper-{{ lxSelectSelected.parentCtrl.uuid }}"><div class=lx-select-selected ng-if=!lxSelectSelected.parentCtrl.multiple><span class=lx-select-selected__value ng-bind-html=lxSelectSelected.parentCtrl.displaySelected() ng-if=lxSelectSelected.parentCtrl.getSelectedModel()></span> <a class=lx-select-selected__clear ng-click=lxSelectSelected.clearModel($event) ng-if="lxSelectSelected.parentCtrl.allowClear && lxSelectSelected.parentCtrl.getSelectedModel()"><i class="mdi mdi-close-circle"></i></a></div><div class=lx-select-selected ng-if=lxSelectSelected.parentCtrl.multiple><span class=lx-select-selected__tag ng-class="{ \'lx-select-selected__tag--is-active\': lxSelectSelected.parentCtrl.activeSelectedIndex === $index }" ng-click="lxSelectSelected.removeSelected(selected, $event)" ng-repeat="selected in lxSelectSelected.parentCtrl.getSelectedModel()" ng-bind-html=lxSelectSelected.parentCtrl.displaySelected(selected)></span> <input type=text placeholder="{{ ::lxSelectSelected.parentCtrl.label }}" class=lx-select-selected__filter ng-model=lxSelectSelected.parentCtrl.filterModel ng-change=lxSelectSelected.parentCtrl.updateFilter() ng-keydown=lxSelectSelected.parentCtrl.keyEvent($event) ng-if="lxSelectSelected.parentCtrl.autocomplete && !lxSelectSelected.parentCtrl.ngDisabled"></div><lx-search-filter lx-dropdown-filter class=lx-select-selected__filter ng-if="lxSelectSelected.parentCtrl.choicesViewMode === \'panes\' && !lxSelectSelected.parentCtrl.ngDisabled && lxSelectSelected.parentCtrl.areChoicesOpened() && (lxSelectSelected.parentCtrl.multiple || !lxSelectSelected.parentCtrl.getSelectedModel())"><input type=text ng-model=lxSelectSelected.parentCtrl.filterModel ng-change=lxSelectSelected.parentCtrl.updateFilter() lx-stop-propagation=click></lx-search-filter></div>';
-angular.module('lumx.select').run(['$templateCache', function ($templateCache) {$templateCache.put('select-selected-content.html', v1);}]);
-module.exports=v1
-
-/***/ }),
-/* 170 */
-/***/ (function(module, exports) {
-
-var v1='<div><lx-dropdown-toggle ng-if=::!lxSelectSelected.parentCtrl.autocomplete><ng-include src="\'select-selected-content.html\'"></ng-include></lx-dropdown-toggle><ng-include src="\'select-selected-content.html\'" ng-if=::lxSelectSelected.parentCtrl.autocomplete></ng-include></div>';
-angular.module('lumx.select').run(['$templateCache', function ($templateCache) {$templateCache.put('select-selected.html', v1);}]);
-module.exports=v1
-
-/***/ }),
-/* 171 */
-/***/ (function(module, exports) {
-
-var v1='<div class=lx-select ng-class="{ \'lx-select--error\': lxSelect.error,\n                 \'lx-select--fixed-label\': lxSelect.fixedLabel && lxSelect.viewMode === \'field\',\n                 \'lx-select--is-active\': (!lxSelect.multiple && lxSelect.getSelectedModel()) || (lxSelect.multiple && lxSelect.getSelectedModel().length) || (lxSelect.choicesViewMode === \'panes\' && lxSelect.areChoicesOpened()),\n                 \'lx-select--is-disabled\': lxSelect.ngDisabled,\n                 \'lx-select--is-multiple\': lxSelect.multiple,\n                 \'lx-select--is-unique\': !lxSelect.multiple,\n                 \'lx-select--theme-light\': !lxSelect.theme || lxSelect.theme === \'light\',\n                 \'lx-select--theme-dark\': lxSelect.theme === \'dark\',\n                 \'lx-select--valid\': lxSelect.valid,\n                 \'lx-select--custom-style\': lxSelect.customStyle,\n                 \'lx-select--default-style\': !lxSelect.customStyle,\n                 \'lx-select--view-mode-field\': !lxSelect.multiple || (lxSelect.multiple && lxSelect.viewMode === \'field\'),\n                 \'lx-select--view-mode-chips\': lxSelect.multiple && lxSelect.viewMode === \'chips\',\n                 \'lx-select--panes\': lxSelect.choicesViewMode === \'panes\',\n                 \'lx-select--with-filter\': lxSelect.displayFilter,\n                 \'lx-select--autocomplete\': lxSelect.autocomplete }"><span class=lx-select-label ng-if=!lxSelect.autocomplete>{{ lxSelect.label }}</span><lx-dropdown id="dropdown-{{ lxSelect.uuid }}" lx-width="{{ (lxSelect.choicesViewMode === \'panes\') ? \'\' : \'100%\' }}" lx-effect="{{ lxSelect.autocomplete ? \'none\' : \'expand\' }}"><ng-transclude></ng-transclude></lx-dropdown></div>';
-angular.module('lumx.select').run(['$templateCache', function ($templateCache) {$templateCache.put('select.html', v1);}]);
-module.exports=v1
-
-/***/ }),
-/* 172 */
-/***/ (function(module, exports) {
-
-var v1='<div class=tabs__pane ng-transclude></div>';
-angular.module('lumx.tabs').run(['$templateCache', function ($templateCache) {$templateCache.put('tab-pane.html', v1);}]);
-module.exports=v1
-
-/***/ }),
-/* 173 */
-/***/ (function(module, exports) {
-
-var v1='<div class=tabs__pane ng-class="{ \'tabs__pane--is-disabled\': lxTab.ngDisabled }"><div ng-if=lxTab.tabIsActive() ng-transclude></div></div>';
-angular.module('lumx.tabs').run(['$templateCache', function ($templateCache) {$templateCache.put('tab.html', v1);}]);
-module.exports=v1
-
-/***/ }),
-/* 174 */
-/***/ (function(module, exports) {
-
-var v1='<div class="tabs tabs--separate"><div class=tabs__panes ng-transclude></div></div>';
-angular.module('lumx.tabs').run(['$templateCache', function ($templateCache) {$templateCache.put('tabs-panes.html', v1);}]);
-module.exports=v1
-
-/***/ }),
-/* 175 */
-/***/ (function(module, exports) {
-
-var v1='<div class="tabs tabs--layout-{{ lxTabs.layout }} tabs--theme-{{ lxTabs.theme }} tabs--color-{{ lxTabs.color }} tabs--indicator-{{ lxTabs.indicator }}"><div class=tabs__panes ng-if="lxTabs.viewMode === \'gather\' && lxTabs.bottomPosition" ng-transclude></div><div class=tabs__links><a class=tabs__link ng-class="{ \'tabs__link--is-active\': lxTabs.tabIsActive(tab.index),\n                       \'tabs__link--is-disabled\': tab.disabled }" ng-repeat="tab in lxTabs.tabs" ng-click=lxTabs.setActiveTab(tab) lx-ripple><i class="mdi mdi-{{ tab.icon }}" ng-if=tab.icon></i> <span ng-if=tab.label>{{ tab.label }}</span></a></div><div class=tabs__panes ng-if="lxTabs.viewMode === \'gather\' && !lxTabs.bottomPosition" ng-transclude></div><div class=tabs__indicator ng-class="{\'tabs__indicator--top\': !lxTabs.bottomPosition, \'tabs__indicator--bottom\': lxTabs.bottomPosition}"></div></div>';
-angular.module('lumx.tabs').run(['$templateCache', function ($templateCache) {$templateCache.put('tabs.html', v1);}]);
-module.exports=v1
-
-/***/ }),
-/* 176 */
-/***/ (function(module, exports) {
-
-var v1='<div class=lx-date><div class=lx-date-input ng-click=lxDatePicker.openDatePicker() ng-if=lxDatePicker.hasInput><ng-transclude></ng-transclude></div><div class="lx-date-picker lx-date-picker--{{ lxDatePicker.color }}"><div ng-if=lxDatePicker.isOpen><div class=lx-date-picker__header><a class=lx-date-picker__current-year ng-class="{ \'lx-date-picker__current-year--is-active\': lxDatePicker.yearSelection }" ng-click=lxDatePicker.displayYearSelection()>{{ lxDatePicker.moment(lxDatePicker.ngModel).format(\'YYYY\') }}</a> <a class=lx-date-picker__current-date ng-class="{ \'lx-date-picker__current-date--is-active\': !lxDatePicker.yearSelection }" ng-click=lxDatePicker.hideYearSelection()>{{ lxDatePicker.getDateFormatted() }}</a></div><div class=lx-date-picker__content><div class=lx-date-picker__calendar ng-if=!lxDatePicker.yearSelection><div class=lx-date-picker__nav><lx-button lx-size=l lx-color=black lx-type=icon ng-click=lxDatePicker.previousMonth()><i class="mdi mdi-chevron-left"></i></lx-button><span>{{ lxDatePicker.ngModelMoment.format(\'MMMM YYYY\') }}</span><lx-button lx-size=l lx-color=black lx-type=icon ng-click=lxDatePicker.nextMonth()><i class="mdi mdi-chevron-right"></i></lx-button></div><div class=lx-date-picker__days-of-week><span ng-repeat="day in lxDatePicker.daysOfWeek">{{ day }}</span></div><div class=lx-date-picker__days><span class="lx-date-picker__day lx-date-picker__day--is-empty" ng-repeat="x in lxDatePicker.emptyFirstDays">&nbsp;</span><div class=lx-date-picker__day ng-class="{ \'lx-date-picker__day--is-selected\': day.selected,\n                                         \'lx-date-picker__day--is-today\': day.today && !day.selected,\n                                         \'lx-date-picker__day--is-disabled\': day.disabled }" ng-repeat="day in lxDatePicker.days"><a ng-click=lxDatePicker.select(day)>{{ day ? day.format(\'D\') : \'\' }}</a></div><span class="lx-date-picker__day lx-date-picker__day--is-empty" ng-repeat="x in lxDatePicker.emptyLastDays">&nbsp;</span></div></div><div class=lx-date-picker__year-selector ng-if=lxDatePicker.yearSelection><a class=lx-date-picker__year ng-class="{ \'lx-date-picker__year--is-active\': year == lxDatePicker.moment(lxDatePicker.ngModel).format(\'YYYY\') }" ng-repeat="year in lxDatePicker.years" ng-click=lxDatePicker.selectYear(year) ng-if=lxDatePicker.yearSelection>{{ year }}</a></div></div><div class=lx-date-picker__actions><lx-button lx-color="{{ lxDatePicker.color }}" lx-type=flat ng-click=lxDatePicker.closeDatePicker()>Ok</lx-button></div></div></div></div>';
-angular.module('lumx.date-picker').run(['$templateCache', function ($templateCache) {$templateCache.put('date-picker.html', v1);}]);
-module.exports=v1
-
-/***/ }),
-/* 177 */
-/***/ (function(module, exports) {
-
-var v1='<span class=radio-button__help ng-transclude></span>';
-angular.module('lumx.radio-button').run(['$templateCache', function ($templateCache) {$templateCache.put('radio-button-help.html', v1);}]);
-module.exports=v1
-
-/***/ }),
-/* 178 */
-/***/ (function(module, exports) {
-
-var v1='<label for="{{ lxRadioButtonLabel.getRadioButtonId() }}" class=radio-button__label ng-transclude></label>';
-angular.module('lumx.radio-button').run(['$templateCache', function ($templateCache) {$templateCache.put('radio-button-label.html', v1);}]);
-module.exports=v1
-
-/***/ }),
-/* 179 */
-/***/ (function(module, exports) {
-
-var v1='<div class="radio-button radio-button--{{ lxRadioButton.lxColor }}" ng-class="{ \'radio-button--theme-light\': !lxRadioButton.lxTheme || lxRadioButton.lxTheme === \'light\',\n                 \'radio-button--theme-dark\': lxRadioButton.lxTheme === \'dark\' }"><input id="{{ lxRadioButton.getRadioButtonId() }}" type=radio class=radio-button__input name="{{ lxRadioButton.name }}" ng-model=lxRadioButton.ngModel ng-value=lxRadioButton.ngValue ng-change=lxRadioButton.triggerNgChange() ng-disabled=lxRadioButton.ngDisabled><label for="{{ lxRadioButton.getRadioButtonId() }}" class=radio-button__label ng-transclude ng-if=!lxRadioButton.getRadioButtonHasChildren()></label><ng-transclude-replace ng-if=lxRadioButton.getRadioButtonHasChildren()></ng-transclude-replace></div>';
-angular.module('lumx.radio-button').run(['$templateCache', function ($templateCache) {$templateCache.put('radio-button.html', v1);}]);
-module.exports=v1
-
-/***/ }),
-/* 180 */
-/***/ (function(module, exports) {
-
-var v1='<div class=radio-group ng-transclude></div>';
-angular.module('lumx.radio-button').run(['$templateCache', function ($templateCache) {$templateCache.put('radio-group.html', v1);}]);
-module.exports=v1
-
-/***/ }),
-/* 181 */
-/***/ (function(module, exports) {
-
-var v1='<div class=lx-step-nav ng-click=lxStepNav.parent.goToStep(lxStepNav.step.index) ng-class=lxStepNav.getClasses() lx-ripple><div class="lx-step-nav__indicator lx-step-nav__indicator--index" ng-if="lxStepNav.step.isValid === undefined"><span>{{ lxStepNav.step.index + 1 }}</span></div><div class="lx-step-nav__indicator lx-step-nav__indicator--icon" ng-if="lxStepNav.step.isValid === true"><lx-icon lx-id=check ng-if=!lxStepNav.step.isEditable></lx-icon><lx-icon lx-id=pencil ng-if=lxStepNav.step.isEditable></lx-icon></div><div class="lx-step-nav__indicator lx-step-nav__indicator--error" ng-if="lxStepNav.step.isValid === false"><lx-icon lx-id=alert></lx-icon></div><div class=lx-step-nav__wrapper><div class=lx-step-nav__label><span>{{ lxStepNav.step.label }}</span></div><div class=lx-step-nav__state><span ng-if="(lxStepNav.step.isValid === undefined || lxStepNav.step.isValid === true) && lxStepNav.step.isOptional">{{ lxStepNav.parent.labels.optional }}</span> <span ng-if="lxStepNav.step.isValid === false">{{ lxStepNav.step.errorMessage }}</span></div></div></div>';
-angular.module('lumx.stepper').run(['$templateCache', function ($templateCache) {$templateCache.put('step-nav.html', v1);}]);
-module.exports=v1
-
-/***/ }),
-/* 182 */
-/***/ (function(module, exports) {
-
-var v1='<div class=lx-step ng-class=lxStep.getClasses()><div class=lx-step__nav ng-if="lxStep.parent.layout === \'vertical\'"><lx-step-nav lx-active-index="{{ lxStep.parent.activeIndex }}" lx-step=lxStep.step></lx-step-nav></div><div class=lx-step__wrapper ng-if="lxStep.parent.activeIndex === lxStep.step.index"><div class=lx-step__content><ng-transclude></ng-transclude><div class=lx-step__progress ng-if=lxStep.step.isLoading><lx-progress lx-type=circular></lx-progress></div></div><div class=lx-step__actions ng-if="lxStep.parent.activeIndex === lxStep.step.index && lxStep.parent.controls"><div class="lx-step__action lx-step__action--continue"><lx-button ng-click=lxStep.submitStep() ng-disabled=lxStep.isLoading>{{ lxStep.parent.labels.continue }}</lx-button></div><div class="lx-step__action lx-step__action--cancel" ng-if=lxStep.parent.cancel><lx-button lx-color=black lx-type=flat ng-click=lxStep.parent.cancel() ng-disabled=lxStep.isLoading>{{ lxStep.parent.labels.cancel }}</lx-button></div><div class="lx-step__action lx-step__action--back" ng-if=lxStep.parent.isLinear><lx-button lx-color=black lx-type=flat ng-click=lxStep.previousStep() ng-disabled="lxStep.isLoading || lxStep.step.index === 0">{{ lxStep.parent.labels.back }}</lx-button></div></div></div></div>';
-angular.module('lumx.stepper').run(['$templateCache', function ($templateCache) {$templateCache.put('step.html', v1);}]);
-module.exports=v1
-
-/***/ }),
-/* 183 */
-/***/ (function(module, exports) {
-
-var v1='<div class=lx-stepper ng-class=lxStepper.getClasses()><div class=lx-stepper__header ng-if="lxStepper.layout === \'horizontal\'"><div class=lx-stepper__nav><lx-step-nav lx-active-index="{{ lxStepper.activeIndex }}" lx-step=step ng-repeat="step in lxStepper.steps"></lx-step-nav></div><div class=lx-stepper__feedback ng-if=lxStepper.steps[lxStepper.activeIndex].feedback><span>{{ lxStepper.steps[lxStepper.activeIndex].feedback }}</span></div></div><div class=lx-stepper__steps ng-transclude></div></div>';
-angular.module('lumx.stepper').run(['$templateCache', function ($templateCache) {$templateCache.put('stepper.html', v1);}]);
-module.exports=v1
-
-/***/ }),
-/* 184 */
-/***/ (function(module, exports) {
-
-var v1='<span class=switch__help ng-transclude></span>';
-angular.module('lumx.switch').run(['$templateCache', function ($templateCache) {$templateCache.put('switch-help.html', v1);}]);
-module.exports=v1
-
-/***/ }),
-/* 185 */
-/***/ (function(module, exports) {
-
-var v1='<label for="{{ lxSwitchLabel.getSwitchId() }}" class=switch__label ng-transclude></label>';
-angular.module('lumx.switch').run(['$templateCache', function ($templateCache) {$templateCache.put('switch-label.html', v1);}]);
-module.exports=v1
-
-/***/ }),
-/* 186 */
-/***/ (function(module, exports) {
-
-var v1='<div class="switch switch--{{ lxSwitch.lxColor }} switch--{{ lxSwitch.lxPosition }}" ng-class="{ \'switch--theme-light\': !lxSwitch.lxTheme || lxSwitch.lxTheme === \'light\',\n                 \'switch--theme-dark\': lxSwitch.lxTheme === \'dark\' }"><input id="{{ lxSwitch.getSwitchId() }}" type=checkbox class=switch__input name="{{ lxSwitch.name }}" ng-model=lxSwitch.ngModel ng-true-value="{{ lxSwitch.ngTrueValue }}" ng-false-value="{{ lxSwitch.ngFalseValue }}" ng-change=lxSwitch.triggerNgChange() ng-disabled=lxSwitch.ngDisabled><label for="{{ lxSwitch.getSwitchId() }}" class=switch__label ng-transclude ng-if=!lxSwitch.getSwitchHasChildren()></label><ng-transclude-replace ng-if=lxSwitch.getSwitchHasChildren()></ng-transclude-replace></div>';
-angular.module('lumx.switch').run(['$templateCache', function ($templateCache) {$templateCache.put('switch.html', v1);}]);
-module.exports=v1
-
-/***/ }),
-/* 187 */
-/***/ (function(module, exports) {
-
-var v1='<div class="fab__actions fab__actions--{{ parentCtrl.lxDirection }}" ng-transclude></div>';
-angular.module('lumx.fab').run(['$templateCache', function ($templateCache) {$templateCache.put('fab-actions.html', v1);}]);
-module.exports=v1
-
-/***/ }),
-/* 188 */
-/***/ (function(module, exports) {
-
-var v1='<div class=fab__primary ng-transclude></div>';
-angular.module('lumx.fab').run(['$templateCache', function ($templateCache) {$templateCache.put('fab-trigger.html', v1);}]);
-module.exports=v1
-
-/***/ }),
-/* 189 */
-/***/ (function(module, exports) {
-
-var v1='<div class=fab ng-class="{ \'lx-fab--trigger-on-hover\': !lxFab.lxTriggerOnClick,\n                 \'lx-fab--trigger-on-click\': lxFab.lxTriggerOnClick,\n                 \'lx-fab--is-open\': lxFab.lxTriggerOnClick && lxFab.isOpen,\n                 \'lx-fab--is-close\': lxFab.lxTriggerOnClick && !lxFab.isOpen }" ng-click=lxFab.toggleState()><ng-transclude-replace></ng-transclude-replace></div>';
-angular.module('lumx.fab').run(['$templateCache', function ($templateCache) {$templateCache.put('fab.html', v1);}]);
-module.exports=v1
-
-/***/ }),
-/* 190 */
-/***/ (function(module, exports) {
-
-var v1='<div class=data-table-container><table class=data-table ng-class="{ \'data-table--bulk\': lxDataTable.bulk,\n                       \'data-table--border\': lxDataTable.border,\n                       \'data-table--thumbnail\': lxDataTable.thumbnail }"><thead><tr ng-class="{ \'data-table__selectable-row\': lxDataTable.selectable,\n                            \'data-table__selectable-row--is-selected\': lxDataTable.selectable && lxDataTable.allRowsSelected, }"><th align=center ng-if=lxDataTable.thumbnail><lx-button class=data-table__checkbox lx-type=icon lx-color="{{ lxDataTable.allRowsSelected ? \'accent\' : \'grey\' }}" ng-click=lxDataTable.toggleAllSelected() ng-if=lxDataTable.selectable><lx-icon lx-id=checkbox-blank-outline ng-if=!lxDataTable.allRowsSelected></lx-icon><lx-icon lx-id=checkbox-marked ng-if=lxDataTable.allRowsSelected></lx-icon></lx-button><th align=center ng-if="lxDataTable.selectable && !lxDataTable.thumbnail"><lx-button class=data-table__checkbox lx-type=icon lx-color="{{ lxDataTable.allRowsSelected ? \'accent\' : \'grey\' }}" ng-click=lxDataTable.toggleAllSelected()><lx-icon lx-id=checkbox-blank-outline ng-if=!lxDataTable.allRowsSelected></lx-icon><lx-icon lx-id=checkbox-marked ng-if=lxDataTable.allRowsSelected></lx-icon></lx-button><th align=left ng-class=" { \'data-table__sortable-cell\': th.sortable,\n                                 \'data-table__sortable-cell--asc\': th.sortable && th.sort === \'asc\',\n                                 \'data-table__sortable-cell--desc\': th.sortable && th.sort === \'desc\' }" ng-click=lxDataTable.sort(th) ng-repeat="th in lxDataTable.thead track by $index" ng-if="!lxDataTable.thumbnail || (lxDataTable.thumbnail && $index != 0)"><lx-icon lx-id="{{ th.icon }}" ng-if=th.icon></lx-icon><span>{{ th.label }}</span><tbody><tr ng-class="{ \'data-table__selectable-row\': lxDataTable.selectable,\n                            \'data-table__selectable-row--is-disabled\': lxDataTable.selectable && tr.lxDataTableDisabled,\n                            \'data-table__selectable-row--is-selected\': lxDataTable.selectable && tr.lxDataTableSelected,\n                            \'data-table__activable-row\': lxDataTable.activable,\n                            \'data-table__activable-row--is-activated\': lxDataTable.activable && tr.lxDataTableActivated }" ng-repeat="tr in lxDataTable.tbody" ng-click=lxDataTable.toggleActivation(tr)><td align=center ng-if=lxDataTable.thumbnail><div class=data-table__thumbnail ng-if=lxDataTable.thead[0].format ng-bind-html=lxDataTable.$sce.trustAsHtml(lxDataTable.thead[0].format(tr))></div><lx-button class=data-table__checkbox lx-type=icon lx-color="{{ tr.lxDataTableSelected ? \'accent\' : \'black\' }}" ng-click="lxDataTable.toggleSelection(tr, undefined, $event)" ng-if="lxDataTable.selectable && !tr.lxDataTableDisabled"><lx-icon lx-id=checkbox-blank-outline ng-if=!tr.lxDataTableSelected></lx-icon><lx-icon lx-id=checkbox-marked ng-if=tr.lxDataTableSelected></lx-icon></lx-button><td align=center ng-if="lxDataTable.selectable && !lxDataTable.thumbnail"><lx-button class=data-table__checkbox lx-type=icon lx-color="{{ tr.lxDataTableSelected ? \'accent\' : \'black\' }}" ng-click="lxDataTable.toggleSelection(tr, undefined, $event)" ng-disabled=tr.lxDataTableDisabled><lx-icon lx-id=checkbox-blank-outline ng-if=!tr.lxDataTableSelected></lx-icon><lx-icon lx-id=checkbox-marked ng-if=tr.lxDataTableSelected></lx-icon></lx-button><td align=left ng-repeat="th in lxDataTable.thead track by $index" ng-if="!lxDataTable.thumbnail || (lxDataTable.thumbnail && $index != 0)"><span ng-if=!th.format>{{ tr[th.name] }}</span><div ng-if=th.format ng-bind-html=lxDataTable.$sce.trustAsHtml(th.format(tr))></div></table></div>';
-angular.module('lumx.data-table').run(['$templateCache', function ($templateCache) {$templateCache.put('data-table.html', v1);}]);
-module.exports=v1
-
-/***/ }),
-/* 191 */
-/***/ (function(module, exports) {
-
-var v1='<div class="progress-container progress-container--{{ lxProgress.lxType }} progress-container--{{ lxProgress.lxColor }} {{ lxProgress.lxClass }}"><div class=progress-circular ng-if="lxProgress.lxType === \'circular\'" ng-style=lxProgress.getProgressDiameter()><svg class=progress-circular__svg><g transform="translate(50 50)"><g class=progress-circular__g><circle class=progress-circular__path cx=0 cy=0 r=20 fill=none stroke-width=4 stroke-miterlimit=10 ng-style=lxProgress.getCircularProgressValue()></circle></g></g></svg></div><div class=progress-linear ng-if="lxProgress.lxType === \'linear\'"><div class=progress-linear__background></div><div class="progress-linear__bar progress-linear__bar--first" ng-style=lxProgress.getLinearProgressValue()></div><div class="progress-linear__bar progress-linear__bar--second"></div></div></div>';
-angular.module('lumx.progress').run(['$templateCache', function ($templateCache) {$templateCache.put('progress.html', v1);}]);
-module.exports=v1
-
-/***/ }),
-/* 192 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.find.js
-var es_array_find = __webpack_require__(6);
-
-// EXTERNAL MODULE: ./node_modules/@lumx/core/js/constants.js
-var constants = __webpack_require__(0);
 
 // CONCATENATED MODULE: ./node_modules/@mdi/js/mdi.js
 // Material Design Icons v3.7.95
@@ -13753,14 +4150,6796 @@ var mdiZodiacTaurus = "M15.59,9C17.7,7.74 19,5.46 19,3H17C17,5.76 14.76,8 12,8C9
 var mdiZodiacVirgo = "M18.5,19.13C20,17.77 20,15.18 20,14C20,11.79 18.21,10 16,10C15.3,10 14.6,10.2 14,10.56V6C14,4.34 12.66,3 11,3C10.25,3 9.55,3.29 9,3.78C7.86,2.76 6.14,2.76 5,3.78C4.45,3.28 3.74,3 3,3V5C3.55,5 4,5.45 4,6V16H6V6C6,5.45 6.45,5 7,5C7.55,5 8,5.45 8,6V16H10V6C10,5.45 10.45,5 11,5C11.55,5 12,5.45 12,6V14C12,15.18 12,17.77 13.5,19.13C12.72,19.54 11.88,19.84 11,20V22C12.29,22 14.84,20.74 16,20.13C17.16,20.74 19.71,22 21,22V20C20.12,19.84 19.28,19.54 18.5,19.13M16,12C17.1,12 18,12.9 18,14C18,16.92 17.46,18 16,18C14.54,18 14,16.92 14,14C14,12.9 14.9,12 16,12Z";
 
 // CONCATENATED MODULE: ./node_modules/@lumx/icons/index.js
+/* unused concated harmony import mdiAccessPoint */
+/* unused concated harmony import mdiAccessPointNetwork */
+/* unused concated harmony import mdiAccessPointNetworkOff */
+/* unused concated harmony import mdiAccount */
+/* unused concated harmony import mdiAccountAlert */
+/* unused concated harmony import mdiAccountAlertOutline */
+/* unused concated harmony import mdiAccountArrowLeft */
+/* unused concated harmony import mdiAccountArrowLeftOutline */
+/* unused concated harmony import mdiAccountArrowRight */
+/* unused concated harmony import mdiAccountArrowRightOutline */
+/* unused concated harmony import mdiAccountBadge */
+/* unused concated harmony import mdiAccountBadgeAlert */
+/* unused concated harmony import mdiAccountBadgeAlertOutline */
+/* unused concated harmony import mdiAccountBadgeHorizontal */
+/* unused concated harmony import mdiAccountBadgeHorizontalOutline */
+/* unused concated harmony import mdiAccountBadgeOutline */
+/* unused concated harmony import mdiAccountBox */
+/* unused concated harmony import mdiAccountBoxMultiple */
+/* unused concated harmony import mdiAccountBoxOutline */
+/* unused concated harmony import mdiAccountCardDetails */
+/* unused concated harmony import mdiAccountCardDetailsOutline */
+/* unused concated harmony import mdiAccountCheck */
+/* unused concated harmony import mdiAccountCheckOutline */
+/* unused concated harmony import mdiAccountChild */
+/* unused concated harmony import mdiAccountChildCircle */
+/* unused concated harmony import mdiAccountCircle */
+/* unused concated harmony import mdiAccountCircleOutline */
+/* unused concated harmony import mdiAccountClock */
+/* unused concated harmony import mdiAccountClockOutline */
+/* unused concated harmony import mdiAccountConvert */
+/* unused concated harmony import mdiAccountDetails */
+/* unused concated harmony import mdiAccountEdit */
+/* unused concated harmony import mdiAccountGroup */
+/* unused concated harmony import mdiAccountGroupOutline */
+/* unused concated harmony import mdiAccountHeart */
+/* unused concated harmony import mdiAccountHeartOutline */
+/* unused concated harmony import mdiAccountKey */
+/* unused concated harmony import mdiAccountKeyOutline */
+/* unused concated harmony import mdiAccountMinus */
+/* unused concated harmony import mdiAccountMinusOutline */
+/* unused concated harmony import mdiAccountMultiple */
+/* unused concated harmony import mdiAccountMultipleCheck */
+/* unused concated harmony import mdiAccountMultipleMinus */
+/* unused concated harmony import mdiAccountMultipleMinusOutline */
+/* unused concated harmony import mdiAccountMultipleOutline */
+/* unused concated harmony import mdiAccountMultiplePlus */
+/* unused concated harmony import mdiAccountMultiplePlusOutline */
+/* unused concated harmony import mdiAccountNetwork */
+/* unused concated harmony import mdiAccountNetworkOutline */
+/* unused concated harmony import mdiAccountOff */
+/* unused concated harmony import mdiAccountOffOutline */
+/* unused concated harmony import mdiAccountOutline */
+/* unused concated harmony import mdiAccountPlus */
+/* unused concated harmony import mdiAccountPlusOutline */
+/* unused concated harmony import mdiAccountQuestion */
+/* unused concated harmony import mdiAccountQuestionOutline */
+/* unused concated harmony import mdiAccountRemove */
+/* unused concated harmony import mdiAccountRemoveOutline */
+/* unused concated harmony import mdiAccountSearch */
+/* unused concated harmony import mdiAccountSearchOutline */
+/* unused concated harmony import mdiAccountSettings */
+/* unused concated harmony import mdiAccountStar */
+/* unused concated harmony import mdiAccountStarOutline */
+/* unused concated harmony import mdiAccountSupervisor */
+/* unused concated harmony import mdiAccountSupervisorCircle */
+/* unused concated harmony import mdiAccountSwitch */
+/* unused concated harmony import mdiAccountTie */
+/* unused concated harmony import mdiAccusoft */
+/* unused concated harmony import mdiAdchoices */
+/* unused concated harmony import mdiAdjust */
+/* unused concated harmony import mdiAdobe */
+/* unused concated harmony import mdiAirConditioner */
+/* unused concated harmony import mdiAirFilter */
+/* unused concated harmony import mdiAirHorn */
+/* unused concated harmony import mdiAirPurifier */
+/* unused concated harmony import mdiAirbag */
+/* unused concated harmony import mdiAirballoon */
+/* unused concated harmony import mdiAirplane */
+/* unused concated harmony import mdiAirplaneLanding */
+/* unused concated harmony import mdiAirplaneOff */
+/* unused concated harmony import mdiAirplaneTakeoff */
+/* unused concated harmony import mdiAirplay */
+/* unused concated harmony import mdiAirport */
+/* unused concated harmony import mdiAlarm */
+/* unused concated harmony import mdiAlarmBell */
+/* unused concated harmony import mdiAlarmCheck */
+/* unused concated harmony import mdiAlarmLight */
+/* unused concated harmony import mdiAlarmLightOutline */
+/* unused concated harmony import mdiAlarmMultiple */
+/* unused concated harmony import mdiAlarmNote */
+/* unused concated harmony import mdiAlarmNoteOff */
+/* unused concated harmony import mdiAlarmOff */
+/* unused concated harmony import mdiAlarmPlus */
+/* unused concated harmony import mdiAlarmSnooze */
+/* unused concated harmony import mdiAlbum */
+/* unused concated harmony import mdiAlert */
+/* unused concated harmony import mdiAlertBox */
+/* unused concated harmony import mdiAlertBoxOutline */
+/* concated harmony reexport mdiAlertCircle */__webpack_require__.d(__webpack_exports__, "a", function() { return mdiAlertCircle; });
+/* unused concated harmony import mdiAlertCircleOutline */
+/* unused concated harmony import mdiAlertDecagram */
+/* unused concated harmony import mdiAlertDecagramOutline */
+/* unused concated harmony import mdiAlertOctagon */
+/* unused concated harmony import mdiAlertOctagonOutline */
+/* unused concated harmony import mdiAlertOctagram */
+/* unused concated harmony import mdiAlertOctagramOutline */
+/* unused concated harmony import mdiAlertOutline */
+/* unused concated harmony import mdiAlien */
+/* unused concated harmony import mdiAllInclusive */
+/* unused concated harmony import mdiAlpha */
+/* unused concated harmony import mdiAlphaA */
+/* unused concated harmony import mdiAlphaABox */
+/* unused concated harmony import mdiAlphaABoxOutline */
+/* unused concated harmony import mdiAlphaACircle */
+/* unused concated harmony import mdiAlphaACircleOutline */
+/* unused concated harmony import mdiAlphaB */
+/* unused concated harmony import mdiAlphaBBox */
+/* unused concated harmony import mdiAlphaBBoxOutline */
+/* unused concated harmony import mdiAlphaBCircle */
+/* unused concated harmony import mdiAlphaBCircleOutline */
+/* unused concated harmony import mdiAlphaC */
+/* unused concated harmony import mdiAlphaCBox */
+/* unused concated harmony import mdiAlphaCBoxOutline */
+/* unused concated harmony import mdiAlphaCCircle */
+/* unused concated harmony import mdiAlphaCCircleOutline */
+/* unused concated harmony import mdiAlphaD */
+/* unused concated harmony import mdiAlphaDBox */
+/* unused concated harmony import mdiAlphaDBoxOutline */
+/* unused concated harmony import mdiAlphaDCircle */
+/* unused concated harmony import mdiAlphaDCircleOutline */
+/* unused concated harmony import mdiAlphaE */
+/* unused concated harmony import mdiAlphaEBox */
+/* unused concated harmony import mdiAlphaEBoxOutline */
+/* unused concated harmony import mdiAlphaECircle */
+/* unused concated harmony import mdiAlphaECircleOutline */
+/* unused concated harmony import mdiAlphaF */
+/* unused concated harmony import mdiAlphaFBox */
+/* unused concated harmony import mdiAlphaFBoxOutline */
+/* unused concated harmony import mdiAlphaFCircle */
+/* unused concated harmony import mdiAlphaFCircleOutline */
+/* unused concated harmony import mdiAlphaG */
+/* unused concated harmony import mdiAlphaGBox */
+/* unused concated harmony import mdiAlphaGBoxOutline */
+/* unused concated harmony import mdiAlphaGCircle */
+/* unused concated harmony import mdiAlphaGCircleOutline */
+/* unused concated harmony import mdiAlphaH */
+/* unused concated harmony import mdiAlphaHBox */
+/* unused concated harmony import mdiAlphaHBoxOutline */
+/* unused concated harmony import mdiAlphaHCircle */
+/* unused concated harmony import mdiAlphaHCircleOutline */
+/* unused concated harmony import mdiAlphaI */
+/* unused concated harmony import mdiAlphaIBox */
+/* unused concated harmony import mdiAlphaIBoxOutline */
+/* unused concated harmony import mdiAlphaICircle */
+/* unused concated harmony import mdiAlphaICircleOutline */
+/* unused concated harmony import mdiAlphaJ */
+/* unused concated harmony import mdiAlphaJBox */
+/* unused concated harmony import mdiAlphaJBoxOutline */
+/* unused concated harmony import mdiAlphaJCircle */
+/* unused concated harmony import mdiAlphaJCircleOutline */
+/* unused concated harmony import mdiAlphaK */
+/* unused concated harmony import mdiAlphaKBox */
+/* unused concated harmony import mdiAlphaKBoxOutline */
+/* unused concated harmony import mdiAlphaKCircle */
+/* unused concated harmony import mdiAlphaKCircleOutline */
+/* unused concated harmony import mdiAlphaL */
+/* unused concated harmony import mdiAlphaLBox */
+/* unused concated harmony import mdiAlphaLBoxOutline */
+/* unused concated harmony import mdiAlphaLCircle */
+/* unused concated harmony import mdiAlphaLCircleOutline */
+/* unused concated harmony import mdiAlphaM */
+/* unused concated harmony import mdiAlphaMBox */
+/* unused concated harmony import mdiAlphaMBoxOutline */
+/* unused concated harmony import mdiAlphaMCircle */
+/* unused concated harmony import mdiAlphaMCircleOutline */
+/* unused concated harmony import mdiAlphaN */
+/* unused concated harmony import mdiAlphaNBox */
+/* unused concated harmony import mdiAlphaNBoxOutline */
+/* unused concated harmony import mdiAlphaNCircle */
+/* unused concated harmony import mdiAlphaNCircleOutline */
+/* unused concated harmony import mdiAlphaO */
+/* unused concated harmony import mdiAlphaOBox */
+/* unused concated harmony import mdiAlphaOBoxOutline */
+/* unused concated harmony import mdiAlphaOCircle */
+/* unused concated harmony import mdiAlphaOCircleOutline */
+/* unused concated harmony import mdiAlphaP */
+/* unused concated harmony import mdiAlphaPBox */
+/* unused concated harmony import mdiAlphaPBoxOutline */
+/* unused concated harmony import mdiAlphaPCircle */
+/* unused concated harmony import mdiAlphaPCircleOutline */
+/* unused concated harmony import mdiAlphaQ */
+/* unused concated harmony import mdiAlphaQBox */
+/* unused concated harmony import mdiAlphaQBoxOutline */
+/* unused concated harmony import mdiAlphaQCircle */
+/* unused concated harmony import mdiAlphaQCircleOutline */
+/* unused concated harmony import mdiAlphaR */
+/* unused concated harmony import mdiAlphaRBox */
+/* unused concated harmony import mdiAlphaRBoxOutline */
+/* unused concated harmony import mdiAlphaRCircle */
+/* unused concated harmony import mdiAlphaRCircleOutline */
+/* unused concated harmony import mdiAlphaS */
+/* unused concated harmony import mdiAlphaSBox */
+/* unused concated harmony import mdiAlphaSBoxOutline */
+/* unused concated harmony import mdiAlphaSCircle */
+/* unused concated harmony import mdiAlphaSCircleOutline */
+/* unused concated harmony import mdiAlphaT */
+/* unused concated harmony import mdiAlphaTBox */
+/* unused concated harmony import mdiAlphaTBoxOutline */
+/* unused concated harmony import mdiAlphaTCircle */
+/* unused concated harmony import mdiAlphaTCircleOutline */
+/* unused concated harmony import mdiAlphaU */
+/* unused concated harmony import mdiAlphaUBox */
+/* unused concated harmony import mdiAlphaUBoxOutline */
+/* unused concated harmony import mdiAlphaUCircle */
+/* unused concated harmony import mdiAlphaUCircleOutline */
+/* unused concated harmony import mdiAlphaV */
+/* unused concated harmony import mdiAlphaVBox */
+/* unused concated harmony import mdiAlphaVBoxOutline */
+/* unused concated harmony import mdiAlphaVCircle */
+/* unused concated harmony import mdiAlphaVCircleOutline */
+/* unused concated harmony import mdiAlphaW */
+/* unused concated harmony import mdiAlphaWBox */
+/* unused concated harmony import mdiAlphaWBoxOutline */
+/* unused concated harmony import mdiAlphaWCircle */
+/* unused concated harmony import mdiAlphaWCircleOutline */
+/* unused concated harmony import mdiAlphaX */
+/* unused concated harmony import mdiAlphaXBox */
+/* unused concated harmony import mdiAlphaXBoxOutline */
+/* unused concated harmony import mdiAlphaXCircle */
+/* unused concated harmony import mdiAlphaXCircleOutline */
+/* unused concated harmony import mdiAlphaY */
+/* unused concated harmony import mdiAlphaYBox */
+/* unused concated harmony import mdiAlphaYBoxOutline */
+/* unused concated harmony import mdiAlphaYCircle */
+/* unused concated harmony import mdiAlphaYCircleOutline */
+/* unused concated harmony import mdiAlphaZ */
+/* unused concated harmony import mdiAlphaZBox */
+/* unused concated harmony import mdiAlphaZBoxOutline */
+/* unused concated harmony import mdiAlphaZCircle */
+/* unused concated harmony import mdiAlphaZCircleOutline */
+/* unused concated harmony import mdiAlphabetical */
+/* unused concated harmony import mdiAltimeter */
+/* unused concated harmony import mdiAmazon */
+/* unused concated harmony import mdiAmazonAlexa */
+/* unused concated harmony import mdiAmazonDrive */
+/* unused concated harmony import mdiAmbulance */
+/* unused concated harmony import mdiAmmunition */
+/* unused concated harmony import mdiAmpersand */
+/* unused concated harmony import mdiAmplifier */
+/* unused concated harmony import mdiAnchor */
+/* unused concated harmony import mdiAndroid */
+/* unused concated harmony import mdiAndroidAuto */
+/* unused concated harmony import mdiAndroidDebugBridge */
+/* unused concated harmony import mdiAndroidHead */
+/* unused concated harmony import mdiAndroidMessages */
+/* unused concated harmony import mdiAndroidStudio */
+/* unused concated harmony import mdiAngleAcute */
+/* unused concated harmony import mdiAngleObtuse */
+/* unused concated harmony import mdiAngleRight */
+/* unused concated harmony import mdiAngular */
+/* unused concated harmony import mdiAngularjs */
+/* unused concated harmony import mdiAnimation */
+/* unused concated harmony import mdiAnimationOutline */
+/* unused concated harmony import mdiAnimationPlay */
+/* unused concated harmony import mdiAnimationPlayOutline */
+/* unused concated harmony import mdiAnvil */
+/* unused concated harmony import mdiApple */
+/* unused concated harmony import mdiAppleFinder */
+/* unused concated harmony import mdiAppleIcloud */
+/* unused concated harmony import mdiAppleIos */
+/* unused concated harmony import mdiAppleKeyboardCaps */
+/* unused concated harmony import mdiAppleKeyboardCommand */
+/* unused concated harmony import mdiAppleKeyboardControl */
+/* unused concated harmony import mdiAppleKeyboardOption */
+/* unused concated harmony import mdiAppleKeyboardShift */
+/* unused concated harmony import mdiAppleSafari */
+/* unused concated harmony import mdiApplication */
+/* unused concated harmony import mdiApplicationExport */
+/* unused concated harmony import mdiApplicationImport */
+/* unused concated harmony import mdiApps */
+/* unused concated harmony import mdiAppsBox */
+/* unused concated harmony import mdiArch */
+/* unused concated harmony import mdiArchive */
+/* unused concated harmony import mdiArrangeBringForward */
+/* unused concated harmony import mdiArrangeBringToFront */
+/* unused concated harmony import mdiArrangeSendBackward */
+/* unused concated harmony import mdiArrangeSendToBack */
+/* unused concated harmony import mdiArrowAll */
+/* unused concated harmony import mdiArrowBottomLeft */
+/* unused concated harmony import mdiArrowBottomLeftBoldOutline */
+/* unused concated harmony import mdiArrowBottomLeftThick */
+/* unused concated harmony import mdiArrowBottomRight */
+/* unused concated harmony import mdiArrowBottomRightBoldOutline */
+/* unused concated harmony import mdiArrowBottomRightThick */
+/* unused concated harmony import mdiArrowCollapse */
+/* unused concated harmony import mdiArrowCollapseAll */
+/* unused concated harmony import mdiArrowCollapseDown */
+/* unused concated harmony import mdiArrowCollapseHorizontal */
+/* unused concated harmony import mdiArrowCollapseLeft */
+/* unused concated harmony import mdiArrowCollapseRight */
+/* unused concated harmony import mdiArrowCollapseUp */
+/* unused concated harmony import mdiArrowCollapseVertical */
+/* unused concated harmony import mdiArrowDecision */
+/* unused concated harmony import mdiArrowDecisionAuto */
+/* unused concated harmony import mdiArrowDecisionAutoOutline */
+/* unused concated harmony import mdiArrowDecisionOutline */
+/* unused concated harmony import mdiArrowDown */
+/* unused concated harmony import mdiArrowDownBold */
+/* unused concated harmony import mdiArrowDownBoldBox */
+/* unused concated harmony import mdiArrowDownBoldBoxOutline */
+/* unused concated harmony import mdiArrowDownBoldCircle */
+/* unused concated harmony import mdiArrowDownBoldCircleOutline */
+/* unused concated harmony import mdiArrowDownBoldHexagonOutline */
+/* unused concated harmony import mdiArrowDownBoldOutline */
+/* unused concated harmony import mdiArrowDownBox */
+/* unused concated harmony import mdiArrowDownCircle */
+/* unused concated harmony import mdiArrowDownCircleOutline */
+/* unused concated harmony import mdiArrowDownDropCircle */
+/* unused concated harmony import mdiArrowDownDropCircleOutline */
+/* unused concated harmony import mdiArrowDownThick */
+/* unused concated harmony import mdiArrowExpand */
+/* unused concated harmony import mdiArrowExpandAll */
+/* unused concated harmony import mdiArrowExpandDown */
+/* unused concated harmony import mdiArrowExpandHorizontal */
+/* unused concated harmony import mdiArrowExpandLeft */
+/* unused concated harmony import mdiArrowExpandRight */
+/* unused concated harmony import mdiArrowExpandUp */
+/* unused concated harmony import mdiArrowExpandVertical */
+/* unused concated harmony import mdiArrowLeft */
+/* unused concated harmony import mdiArrowLeftBold */
+/* unused concated harmony import mdiArrowLeftBoldBox */
+/* unused concated harmony import mdiArrowLeftBoldBoxOutline */
+/* unused concated harmony import mdiArrowLeftBoldCircle */
+/* unused concated harmony import mdiArrowLeftBoldCircleOutline */
+/* unused concated harmony import mdiArrowLeftBoldHexagonOutline */
+/* unused concated harmony import mdiArrowLeftBoldOutline */
+/* unused concated harmony import mdiArrowLeftBox */
+/* unused concated harmony import mdiArrowLeftCircle */
+/* unused concated harmony import mdiArrowLeftCircleOutline */
+/* unused concated harmony import mdiArrowLeftDropCircle */
+/* unused concated harmony import mdiArrowLeftDropCircleOutline */
+/* unused concated harmony import mdiArrowLeftRight */
+/* unused concated harmony import mdiArrowLeftRightBold */
+/* unused concated harmony import mdiArrowLeftRightBoldOutline */
+/* unused concated harmony import mdiArrowLeftThick */
+/* unused concated harmony import mdiArrowRight */
+/* unused concated harmony import mdiArrowRightBold */
+/* unused concated harmony import mdiArrowRightBoldBox */
+/* unused concated harmony import mdiArrowRightBoldBoxOutline */
+/* unused concated harmony import mdiArrowRightBoldCircle */
+/* unused concated harmony import mdiArrowRightBoldCircleOutline */
+/* unused concated harmony import mdiArrowRightBoldHexagonOutline */
+/* unused concated harmony import mdiArrowRightBoldOutline */
+/* unused concated harmony import mdiArrowRightBox */
+/* unused concated harmony import mdiArrowRightCircle */
+/* unused concated harmony import mdiArrowRightCircleOutline */
+/* unused concated harmony import mdiArrowRightDropCircle */
+/* unused concated harmony import mdiArrowRightDropCircleOutline */
+/* unused concated harmony import mdiArrowRightThick */
+/* unused concated harmony import mdiArrowSplitHorizontal */
+/* unused concated harmony import mdiArrowSplitVertical */
+/* unused concated harmony import mdiArrowTopLeft */
+/* unused concated harmony import mdiArrowTopLeftBoldOutline */
+/* unused concated harmony import mdiArrowTopLeftBottomRight */
+/* unused concated harmony import mdiArrowTopLeftBottomRightBold */
+/* unused concated harmony import mdiArrowTopLeftThick */
+/* unused concated harmony import mdiArrowTopRight */
+/* unused concated harmony import mdiArrowTopRightBoldOutline */
+/* unused concated harmony import mdiArrowTopRightBottomLeft */
+/* unused concated harmony import mdiArrowTopRightBottomLeftBold */
+/* unused concated harmony import mdiArrowTopRightThick */
+/* unused concated harmony import mdiArrowUp */
+/* unused concated harmony import mdiArrowUpBold */
+/* unused concated harmony import mdiArrowUpBoldBox */
+/* unused concated harmony import mdiArrowUpBoldBoxOutline */
+/* unused concated harmony import mdiArrowUpBoldCircle */
+/* unused concated harmony import mdiArrowUpBoldCircleOutline */
+/* unused concated harmony import mdiArrowUpBoldHexagonOutline */
+/* unused concated harmony import mdiArrowUpBoldOutline */
+/* unused concated harmony import mdiArrowUpBox */
+/* unused concated harmony import mdiArrowUpCircle */
+/* unused concated harmony import mdiArrowUpCircleOutline */
+/* unused concated harmony import mdiArrowUpDown */
+/* unused concated harmony import mdiArrowUpDownBold */
+/* unused concated harmony import mdiArrowUpDownBoldOutline */
+/* unused concated harmony import mdiArrowUpDropCircle */
+/* unused concated harmony import mdiArrowUpDropCircleOutline */
+/* unused concated harmony import mdiArrowUpThick */
+/* unused concated harmony import mdiArtist */
+/* unused concated harmony import mdiArtistOutline */
+/* unused concated harmony import mdiArtstation */
+/* unused concated harmony import mdiAspectRatio */
+/* unused concated harmony import mdiAssistant */
+/* unused concated harmony import mdiAsterisk */
+/* unused concated harmony import mdiAt */
+/* unused concated harmony import mdiAtlassian */
+/* unused concated harmony import mdiAtm */
+/* unused concated harmony import mdiAtom */
+/* unused concated harmony import mdiAtomVariant */
+/* unused concated harmony import mdiAttachment */
+/* unused concated harmony import mdiAudioVideo */
+/* unused concated harmony import mdiAudiobook */
+/* unused concated harmony import mdiAugmentedReality */
+/* unused concated harmony import mdiAutoFix */
+/* unused concated harmony import mdiAutoUpload */
+/* unused concated harmony import mdiAutorenew */
+/* unused concated harmony import mdiAvTimer */
+/* unused concated harmony import mdiAws */
+/* unused concated harmony import mdiAxe */
+/* unused concated harmony import mdiAxis */
+/* unused concated harmony import mdiAxisArrow */
+/* unused concated harmony import mdiAxisArrowLock */
+/* unused concated harmony import mdiAxisLock */
+/* unused concated harmony import mdiAxisXArrow */
+/* unused concated harmony import mdiAxisXArrowLock */
+/* unused concated harmony import mdiAxisXRotateClockwise */
+/* unused concated harmony import mdiAxisXRotateCounterclockwise */
+/* unused concated harmony import mdiAxisXYArrowLock */
+/* unused concated harmony import mdiAxisYArrow */
+/* unused concated harmony import mdiAxisYArrowLock */
+/* unused concated harmony import mdiAxisYRotateClockwise */
+/* unused concated harmony import mdiAxisYRotateCounterclockwise */
+/* unused concated harmony import mdiAxisZArrow */
+/* unused concated harmony import mdiAxisZArrowLock */
+/* unused concated harmony import mdiAxisZRotateClockwise */
+/* unused concated harmony import mdiAxisZRotateCounterclockwise */
+/* unused concated harmony import mdiAzure */
+/* unused concated harmony import mdiBabel */
+/* unused concated harmony import mdiBaby */
+/* unused concated harmony import mdiBabyBuggy */
+/* unused concated harmony import mdiBabyFace */
+/* unused concated harmony import mdiBabyFaceOutline */
+/* unused concated harmony import mdiBackburger */
+/* unused concated harmony import mdiBackspace */
+/* unused concated harmony import mdiBackspaceOutline */
+/* unused concated harmony import mdiBackspaceReverse */
+/* unused concated harmony import mdiBackspaceReverseOutline */
+/* unused concated harmony import mdiBackupRestore */
+/* unused concated harmony import mdiBadminton */
+/* unused concated harmony import mdiBagPersonal */
+/* unused concated harmony import mdiBagPersonalOff */
+/* unused concated harmony import mdiBagPersonalOffOutline */
+/* unused concated harmony import mdiBagPersonalOutline */
+/* unused concated harmony import mdiBalloon */
+/* unused concated harmony import mdiBallot */
+/* unused concated harmony import mdiBallotOutline */
+/* unused concated harmony import mdiBallotRecount */
+/* unused concated harmony import mdiBallotRecountOutline */
+/* unused concated harmony import mdiBandage */
+/* unused concated harmony import mdiBandcamp */
+/* unused concated harmony import mdiBank */
+/* unused concated harmony import mdiBankMinus */
+/* unused concated harmony import mdiBankOutline */
+/* unused concated harmony import mdiBankPlus */
+/* unused concated harmony import mdiBankRemove */
+/* unused concated harmony import mdiBankTransfer */
+/* unused concated harmony import mdiBankTransferIn */
+/* unused concated harmony import mdiBankTransferOut */
+/* unused concated harmony import mdiBarcode */
+/* unused concated harmony import mdiBarcodeScan */
+/* unused concated harmony import mdiBarley */
+/* unused concated harmony import mdiBarleyOff */
+/* unused concated harmony import mdiBarn */
+/* unused concated harmony import mdiBarrel */
+/* unused concated harmony import mdiBaseball */
+/* unused concated harmony import mdiBaseballBat */
+/* unused concated harmony import mdiBasecamp */
+/* unused concated harmony import mdiBasket */
+/* unused concated harmony import mdiBasketFill */
+/* unused concated harmony import mdiBasketUnfill */
+/* unused concated harmony import mdiBasketball */
+/* unused concated harmony import mdiBasketballHoop */
+/* unused concated harmony import mdiBasketballHoopOutline */
+/* unused concated harmony import mdiBat */
+/* unused concated harmony import mdiBattery */
+/* unused concated harmony import mdiBattery10 */
+/* unused concated harmony import mdiBattery10Bluetooth */
+/* unused concated harmony import mdiBattery20 */
+/* unused concated harmony import mdiBattery20Bluetooth */
+/* unused concated harmony import mdiBattery30 */
+/* unused concated harmony import mdiBattery30Bluetooth */
+/* unused concated harmony import mdiBattery40 */
+/* unused concated harmony import mdiBattery40Bluetooth */
+/* unused concated harmony import mdiBattery50 */
+/* unused concated harmony import mdiBattery50Bluetooth */
+/* unused concated harmony import mdiBattery60 */
+/* unused concated harmony import mdiBattery60Bluetooth */
+/* unused concated harmony import mdiBattery70 */
+/* unused concated harmony import mdiBattery70Bluetooth */
+/* unused concated harmony import mdiBattery80 */
+/* unused concated harmony import mdiBattery80Bluetooth */
+/* unused concated harmony import mdiBattery90 */
+/* unused concated harmony import mdiBattery90Bluetooth */
+/* unused concated harmony import mdiBatteryAlert */
+/* unused concated harmony import mdiBatteryAlertBluetooth */
+/* unused concated harmony import mdiBatteryBluetooth */
+/* unused concated harmony import mdiBatteryBluetoothVariant */
+/* unused concated harmony import mdiBatteryCharging */
+/* unused concated harmony import mdiBatteryCharging10 */
+/* unused concated harmony import mdiBatteryCharging100 */
+/* unused concated harmony import mdiBatteryCharging20 */
+/* unused concated harmony import mdiBatteryCharging30 */
+/* unused concated harmony import mdiBatteryCharging40 */
+/* unused concated harmony import mdiBatteryCharging50 */
+/* unused concated harmony import mdiBatteryCharging60 */
+/* unused concated harmony import mdiBatteryCharging70 */
+/* unused concated harmony import mdiBatteryCharging80 */
+/* unused concated harmony import mdiBatteryCharging90 */
+/* unused concated harmony import mdiBatteryChargingOutline */
+/* unused concated harmony import mdiBatteryChargingWireless */
+/* unused concated harmony import mdiBatteryChargingWireless10 */
+/* unused concated harmony import mdiBatteryChargingWireless20 */
+/* unused concated harmony import mdiBatteryChargingWireless30 */
+/* unused concated harmony import mdiBatteryChargingWireless40 */
+/* unused concated harmony import mdiBatteryChargingWireless50 */
+/* unused concated harmony import mdiBatteryChargingWireless60 */
+/* unused concated harmony import mdiBatteryChargingWireless70 */
+/* unused concated harmony import mdiBatteryChargingWireless80 */
+/* unused concated harmony import mdiBatteryChargingWireless90 */
+/* unused concated harmony import mdiBatteryChargingWirelessAlert */
+/* unused concated harmony import mdiBatteryChargingWirelessOutline */
+/* unused concated harmony import mdiBatteryMinus */
+/* unused concated harmony import mdiBatteryNegative */
+/* unused concated harmony import mdiBatteryOutline */
+/* unused concated harmony import mdiBatteryPlus */
+/* unused concated harmony import mdiBatteryPositive */
+/* unused concated harmony import mdiBatteryUnknown */
+/* unused concated harmony import mdiBatteryUnknownBluetooth */
+/* unused concated harmony import mdiBattlenet */
+/* unused concated harmony import mdiBeach */
+/* unused concated harmony import mdiBeaker */
+/* unused concated harmony import mdiBeakerOutline */
+/* unused concated harmony import mdiBeats */
+/* unused concated harmony import mdiBedEmpty */
+/* unused concated harmony import mdiBeer */
+/* unused concated harmony import mdiBehance */
+/* unused concated harmony import mdiBell */
+/* unused concated harmony import mdiBellAlert */
+/* unused concated harmony import mdiBellAlertOutline */
+/* unused concated harmony import mdiBellCircle */
+/* unused concated harmony import mdiBellCircleOutline */
+/* unused concated harmony import mdiBellOff */
+/* unused concated harmony import mdiBellOffOutline */
+/* unused concated harmony import mdiBellOutline */
+/* unused concated harmony import mdiBellPlus */
+/* unused concated harmony import mdiBellPlusOutline */
+/* unused concated harmony import mdiBellRing */
+/* unused concated harmony import mdiBellRingOutline */
+/* unused concated harmony import mdiBellSleep */
+/* unused concated harmony import mdiBellSleepOutline */
+/* unused concated harmony import mdiBeta */
+/* unused concated harmony import mdiBetamax */
+/* unused concated harmony import mdiBiathlon */
+/* unused concated harmony import mdiBible */
+/* unused concated harmony import mdiBike */
+/* unused concated harmony import mdiBilliards */
+/* unused concated harmony import mdiBilliardsRack */
+/* unused concated harmony import mdiBing */
+/* unused concated harmony import mdiBinoculars */
+/* unused concated harmony import mdiBio */
+/* unused concated harmony import mdiBiohazard */
+/* unused concated harmony import mdiBitbucket */
+/* unused concated harmony import mdiBitcoin */
+/* unused concated harmony import mdiBlackMesa */
+/* unused concated harmony import mdiBlackberry */
+/* unused concated harmony import mdiBlender */
+/* unused concated harmony import mdiBlenderSoftware */
+/* unused concated harmony import mdiBlinds */
+/* unused concated harmony import mdiBlockHelper */
+/* unused concated harmony import mdiBlogger */
+/* unused concated harmony import mdiBloodBag */
+/* unused concated harmony import mdiBluetooth */
+/* unused concated harmony import mdiBluetoothAudio */
+/* unused concated harmony import mdiBluetoothConnect */
+/* unused concated harmony import mdiBluetoothOff */
+/* unused concated harmony import mdiBluetoothSettings */
+/* unused concated harmony import mdiBluetoothTransfer */
+/* unused concated harmony import mdiBlur */
+/* unused concated harmony import mdiBlurLinear */
+/* unused concated harmony import mdiBlurOff */
+/* unused concated harmony import mdiBlurRadial */
+/* unused concated harmony import mdiBolnisiCross */
+/* unused concated harmony import mdiBolt */
+/* unused concated harmony import mdiBomb */
+/* unused concated harmony import mdiBombOff */
+/* unused concated harmony import mdiBone */
+/* unused concated harmony import mdiBook */
+/* unused concated harmony import mdiBookLock */
+/* unused concated harmony import mdiBookLockOpen */
+/* unused concated harmony import mdiBookMinus */
+/* unused concated harmony import mdiBookMultiple */
+/* unused concated harmony import mdiBookMultipleMinus */
+/* unused concated harmony import mdiBookMultiplePlus */
+/* unused concated harmony import mdiBookMultipleRemove */
+/* unused concated harmony import mdiBookMultipleVariant */
+/* unused concated harmony import mdiBookOpen */
+/* unused concated harmony import mdiBookOpenOutline */
+/* unused concated harmony import mdiBookOpenPageVariant */
+/* unused concated harmony import mdiBookOpenVariant */
+/* unused concated harmony import mdiBookOutline */
+/* unused concated harmony import mdiBookPlay */
+/* unused concated harmony import mdiBookPlayOutline */
+/* unused concated harmony import mdiBookPlus */
+/* unused concated harmony import mdiBookRemove */
+/* unused concated harmony import mdiBookSearch */
+/* unused concated harmony import mdiBookSearchOutline */
+/* unused concated harmony import mdiBookVariant */
+/* unused concated harmony import mdiBookmark */
+/* unused concated harmony import mdiBookmarkCheck */
+/* unused concated harmony import mdiBookmarkMinus */
+/* unused concated harmony import mdiBookmarkMinusOutline */
+/* unused concated harmony import mdiBookmarkMultiple */
+/* unused concated harmony import mdiBookmarkMultipleOutline */
+/* unused concated harmony import mdiBookmarkMusic */
+/* unused concated harmony import mdiBookmarkOff */
+/* unused concated harmony import mdiBookmarkOffOutline */
+/* unused concated harmony import mdiBookmarkOutline */
+/* unused concated harmony import mdiBookmarkPlus */
+/* unused concated harmony import mdiBookmarkPlusOutline */
+/* unused concated harmony import mdiBookmarkRemove */
+/* unused concated harmony import mdiBoomGate */
+/* unused concated harmony import mdiBoomGateAlert */
+/* unused concated harmony import mdiBoomGateAlertOutline */
+/* unused concated harmony import mdiBoomGateDown */
+/* unused concated harmony import mdiBoomGateDownOutline */
+/* unused concated harmony import mdiBoomGateOutline */
+/* unused concated harmony import mdiBoomGateUp */
+/* unused concated harmony import mdiBoomGateUpOutline */
+/* unused concated harmony import mdiBoombox */
+/* unused concated harmony import mdiBootstrap */
+/* unused concated harmony import mdiBorderAll */
+/* unused concated harmony import mdiBorderAllVariant */
+/* unused concated harmony import mdiBorderBottom */
+/* unused concated harmony import mdiBorderBottomVariant */
+/* unused concated harmony import mdiBorderColor */
+/* unused concated harmony import mdiBorderHorizontal */
+/* unused concated harmony import mdiBorderInside */
+/* unused concated harmony import mdiBorderLeft */
+/* unused concated harmony import mdiBorderLeftVariant */
+/* unused concated harmony import mdiBorderNone */
+/* unused concated harmony import mdiBorderNoneVariant */
+/* unused concated harmony import mdiBorderOutside */
+/* unused concated harmony import mdiBorderRight */
+/* unused concated harmony import mdiBorderRightVariant */
+/* unused concated harmony import mdiBorderStyle */
+/* unused concated harmony import mdiBorderTop */
+/* unused concated harmony import mdiBorderTopVariant */
+/* unused concated harmony import mdiBorderVertical */
+/* unused concated harmony import mdiBottleWine */
+/* unused concated harmony import mdiBowTie */
+/* unused concated harmony import mdiBowl */
+/* unused concated harmony import mdiBowling */
+/* unused concated harmony import mdiBox */
+/* unused concated harmony import mdiBoxCutter */
+/* unused concated harmony import mdiBoxShadow */
+/* unused concated harmony import mdiBoxingGlove */
+/* unused concated harmony import mdiBraille */
+/* unused concated harmony import mdiBrain */
+/* unused concated harmony import mdiBreadSlice */
+/* unused concated harmony import mdiBreadSliceOutline */
+/* unused concated harmony import mdiBridge */
+/* unused concated harmony import mdiBriefcase */
+/* unused concated harmony import mdiBriefcaseAccount */
+/* unused concated harmony import mdiBriefcaseAccountOutline */
+/* unused concated harmony import mdiBriefcaseCheck */
+/* unused concated harmony import mdiBriefcaseDownload */
+/* unused concated harmony import mdiBriefcaseDownloadOutline */
+/* unused concated harmony import mdiBriefcaseEdit */
+/* unused concated harmony import mdiBriefcaseEditOutline */
+/* unused concated harmony import mdiBriefcaseMinus */
+/* unused concated harmony import mdiBriefcaseMinusOutline */
+/* unused concated harmony import mdiBriefcaseOutline */
+/* unused concated harmony import mdiBriefcasePlus */
+/* unused concated harmony import mdiBriefcasePlusOutline */
+/* unused concated harmony import mdiBriefcaseRemove */
+/* unused concated harmony import mdiBriefcaseRemoveOutline */
+/* unused concated harmony import mdiBriefcaseSearch */
+/* unused concated harmony import mdiBriefcaseSearchOutline */
+/* unused concated harmony import mdiBriefcaseUpload */
+/* unused concated harmony import mdiBriefcaseUploadOutline */
+/* unused concated harmony import mdiBrightness1 */
+/* unused concated harmony import mdiBrightness2 */
+/* unused concated harmony import mdiBrightness3 */
+/* unused concated harmony import mdiBrightness4 */
+/* unused concated harmony import mdiBrightness5 */
+/* unused concated harmony import mdiBrightness6 */
+/* unused concated harmony import mdiBrightness7 */
+/* unused concated harmony import mdiBrightnessAuto */
+/* unused concated harmony import mdiBrightnessPercent */
+/* unused concated harmony import mdiBroom */
+/* unused concated harmony import mdiBrush */
+/* unused concated harmony import mdiBuddhism */
+/* unused concated harmony import mdiBuffer */
+/* unused concated harmony import mdiBug */
+/* unused concated harmony import mdiBugCheck */
+/* unused concated harmony import mdiBugCheckOutline */
+/* unused concated harmony import mdiBugOutline */
+/* unused concated harmony import mdiBugle */
+/* unused concated harmony import mdiBulldozer */
+/* unused concated harmony import mdiBullet */
+/* unused concated harmony import mdiBulletinBoard */
+/* unused concated harmony import mdiBullhorn */
+/* unused concated harmony import mdiBullhornOutline */
+/* unused concated harmony import mdiBullseye */
+/* unused concated harmony import mdiBullseyeArrow */
+/* unused concated harmony import mdiBus */
+/* unused concated harmony import mdiBusAlert */
+/* unused concated harmony import mdiBusArticulatedEnd */
+/* unused concated harmony import mdiBusArticulatedFront */
+/* unused concated harmony import mdiBusClock */
+/* unused concated harmony import mdiBusDoubleDecker */
+/* unused concated harmony import mdiBusSchool */
+/* unused concated harmony import mdiBusSide */
+/* unused concated harmony import mdiCached */
+/* unused concated harmony import mdiCactus */
+/* unused concated harmony import mdiCake */
+/* unused concated harmony import mdiCakeLayered */
+/* unused concated harmony import mdiCakeVariant */
+/* unused concated harmony import mdiCalculator */
+/* unused concated harmony import mdiCalculatorVariant */
+/* unused concated harmony import mdiCalendar */
+/* unused concated harmony import mdiCalendarAlert */
+/* unused concated harmony import mdiCalendarBlank */
+/* unused concated harmony import mdiCalendarBlankOutline */
+/* unused concated harmony import mdiCalendarCheck */
+/* unused concated harmony import mdiCalendarCheckOutline */
+/* unused concated harmony import mdiCalendarClock */
+/* unused concated harmony import mdiCalendarEdit */
+/* unused concated harmony import mdiCalendarExport */
+/* unused concated harmony import mdiCalendarHeart */
+/* unused concated harmony import mdiCalendarImport */
+/* unused concated harmony import mdiCalendarMinus */
+/* unused concated harmony import mdiCalendarMonth */
+/* unused concated harmony import mdiCalendarMonthOutline */
+/* unused concated harmony import mdiCalendarMultiple */
+/* unused concated harmony import mdiCalendarMultipleCheck */
+/* unused concated harmony import mdiCalendarMultiselect */
+/* unused concated harmony import mdiCalendarOutline */
+/* unused concated harmony import mdiCalendarPlus */
+/* unused concated harmony import mdiCalendarQuestion */
+/* unused concated harmony import mdiCalendarRange */
+/* unused concated harmony import mdiCalendarRangeOutline */
+/* unused concated harmony import mdiCalendarRemove */
+/* unused concated harmony import mdiCalendarRemoveOutline */
+/* unused concated harmony import mdiCalendarRepeat */
+/* unused concated harmony import mdiCalendarRepeatOutline */
+/* unused concated harmony import mdiCalendarSearch */
+/* unused concated harmony import mdiCalendarStar */
+/* unused concated harmony import mdiCalendarText */
+/* unused concated harmony import mdiCalendarTextOutline */
+/* unused concated harmony import mdiCalendarToday */
+/* unused concated harmony import mdiCalendarWeek */
+/* unused concated harmony import mdiCalendarWeekBegin */
+/* unused concated harmony import mdiCallMade */
+/* unused concated harmony import mdiCallMerge */
+/* unused concated harmony import mdiCallMissed */
+/* unused concated harmony import mdiCallReceived */
+/* unused concated harmony import mdiCallSplit */
+/* unused concated harmony import mdiCamcorder */
+/* unused concated harmony import mdiCamcorderBox */
+/* unused concated harmony import mdiCamcorderBoxOff */
+/* unused concated harmony import mdiCamcorderOff */
+/* unused concated harmony import mdiCamera */
+/* unused concated harmony import mdiCameraAccount */
+/* unused concated harmony import mdiCameraBurst */
+/* unused concated harmony import mdiCameraControl */
+/* unused concated harmony import mdiCameraEnhance */
+/* unused concated harmony import mdiCameraEnhanceOutline */
+/* unused concated harmony import mdiCameraFront */
+/* unused concated harmony import mdiCameraFrontVariant */
+/* unused concated harmony import mdiCameraGopro */
+/* unused concated harmony import mdiCameraImage */
+/* unused concated harmony import mdiCameraIris */
+/* unused concated harmony import mdiCameraMeteringCenter */
+/* unused concated harmony import mdiCameraMeteringMatrix */
+/* unused concated harmony import mdiCameraMeteringPartial */
+/* unused concated harmony import mdiCameraMeteringSpot */
+/* unused concated harmony import mdiCameraOff */
+/* unused concated harmony import mdiCameraOutline */
+/* unused concated harmony import mdiCameraPartyMode */
+/* unused concated harmony import mdiCameraRear */
+/* unused concated harmony import mdiCameraRearVariant */
+/* unused concated harmony import mdiCameraRetake */
+/* unused concated harmony import mdiCameraRetakeOutline */
+/* unused concated harmony import mdiCameraSwitch */
+/* unused concated harmony import mdiCameraTimer */
+/* unused concated harmony import mdiCameraWireless */
+/* unused concated harmony import mdiCameraWirelessOutline */
+/* unused concated harmony import mdiCancel */
+/* unused concated harmony import mdiCandle */
+/* unused concated harmony import mdiCandycane */
+/* unused concated harmony import mdiCannabis */
+/* unused concated harmony import mdiCapsLock */
+/* unused concated harmony import mdiCar */
+/* unused concated harmony import mdiCarBack */
+/* unused concated harmony import mdiCarBattery */
+/* unused concated harmony import mdiCarBrakeAbs */
+/* unused concated harmony import mdiCarBrakeAlert */
+/* unused concated harmony import mdiCarBrakeHold */
+/* unused concated harmony import mdiCarBrakeParking */
+/* unused concated harmony import mdiCarConnected */
+/* unused concated harmony import mdiCarConvertible */
+/* unused concated harmony import mdiCarCruiseControl */
+/* unused concated harmony import mdiCarDefrostFront */
+/* unused concated harmony import mdiCarDefrostRear */
+/* unused concated harmony import mdiCarDoor */
+/* unused concated harmony import mdiCarElectric */
+/* unused concated harmony import mdiCarEsp */
+/* unused concated harmony import mdiCarEstate */
+/* unused concated harmony import mdiCarHatchback */
+/* unused concated harmony import mdiCarKey */
+/* unused concated harmony import mdiCarLightDimmed */
+/* unused concated harmony import mdiCarLightFog */
+/* unused concated harmony import mdiCarLightHigh */
+/* unused concated harmony import mdiCarLimousine */
+/* unused concated harmony import mdiCarMultiple */
+/* unused concated harmony import mdiCarOff */
+/* unused concated harmony import mdiCarParkingLights */
+/* unused concated harmony import mdiCarPickup */
+/* unused concated harmony import mdiCarSide */
+/* unused concated harmony import mdiCarSports */
+/* unused concated harmony import mdiCarTireAlert */
+/* unused concated harmony import mdiCarTractionControl */
+/* unused concated harmony import mdiCarWash */
+/* unused concated harmony import mdiCaravan */
+/* unused concated harmony import mdiCard */
+/* unused concated harmony import mdiCardBulleted */
+/* unused concated harmony import mdiCardBulletedOff */
+/* unused concated harmony import mdiCardBulletedOffOutline */
+/* unused concated harmony import mdiCardBulletedOutline */
+/* unused concated harmony import mdiCardBulletedSettings */
+/* unused concated harmony import mdiCardBulletedSettingsOutline */
+/* unused concated harmony import mdiCardOutline */
+/* unused concated harmony import mdiCardText */
+/* unused concated harmony import mdiCardTextOutline */
+/* unused concated harmony import mdiCards */
+/* unused concated harmony import mdiCardsClub */
+/* unused concated harmony import mdiCardsDiamond */
+/* unused concated harmony import mdiCardsHeart */
+/* unused concated harmony import mdiCardsOutline */
+/* unused concated harmony import mdiCardsPlayingOutline */
+/* unused concated harmony import mdiCardsSpade */
+/* unused concated harmony import mdiCardsVariant */
+/* unused concated harmony import mdiCarrot */
+/* unused concated harmony import mdiCarryOnBagCheck */
+/* unused concated harmony import mdiCart */
+/* unused concated harmony import mdiCartArrowDown */
+/* unused concated harmony import mdiCartArrowRight */
+/* unused concated harmony import mdiCartArrowUp */
+/* unused concated harmony import mdiCartMinus */
+/* unused concated harmony import mdiCartOff */
+/* unused concated harmony import mdiCartOutline */
+/* unused concated harmony import mdiCartPlus */
+/* unused concated harmony import mdiCartRemove */
+/* unused concated harmony import mdiCaseSensitiveAlt */
+/* unused concated harmony import mdiCash */
+/* unused concated harmony import mdiCash100 */
+/* unused concated harmony import mdiCashMarker */
+/* unused concated harmony import mdiCashMultiple */
+/* unused concated harmony import mdiCashRefund */
+/* unused concated harmony import mdiCashRegister */
+/* unused concated harmony import mdiCashUsd */
+/* unused concated harmony import mdiCassette */
+/* unused concated harmony import mdiCast */
+/* unused concated harmony import mdiCastConnected */
+/* unused concated harmony import mdiCastEducation */
+/* unused concated harmony import mdiCastOff */
+/* unused concated harmony import mdiCastle */
+/* unused concated harmony import mdiCat */
+/* unused concated harmony import mdiCctv */
+/* unused concated harmony import mdiCeilingLight */
+/* unused concated harmony import mdiCellphone */
+/* unused concated harmony import mdiCellphoneAndroid */
+/* unused concated harmony import mdiCellphoneArrowDown */
+/* unused concated harmony import mdiCellphoneBasic */
+/* unused concated harmony import mdiCellphoneDock */
+/* unused concated harmony import mdiCellphoneErase */
+/* unused concated harmony import mdiCellphoneIphone */
+/* unused concated harmony import mdiCellphoneKey */
+/* unused concated harmony import mdiCellphoneLink */
+/* unused concated harmony import mdiCellphoneLinkOff */
+/* unused concated harmony import mdiCellphoneLock */
+/* unused concated harmony import mdiCellphoneMessage */
+/* unused concated harmony import mdiCellphoneNfc */
+/* unused concated harmony import mdiCellphoneOff */
+/* unused concated harmony import mdiCellphoneScreenshot */
+/* unused concated harmony import mdiCellphoneSettings */
+/* unused concated harmony import mdiCellphoneSettingsVariant */
+/* unused concated harmony import mdiCellphoneSound */
+/* unused concated harmony import mdiCellphoneText */
+/* unused concated harmony import mdiCellphoneWireless */
+/* unused concated harmony import mdiCelticCross */
+/* unused concated harmony import mdiCertificate */
+/* unused concated harmony import mdiChairSchool */
+/* unused concated harmony import mdiCharity */
+/* unused concated harmony import mdiChartArc */
+/* unused concated harmony import mdiChartAreaspline */
+/* unused concated harmony import mdiChartAreasplineVariant */
+/* unused concated harmony import mdiChartBar */
+/* unused concated harmony import mdiChartBarStacked */
+/* unused concated harmony import mdiChartBellCurve */
+/* unused concated harmony import mdiChartBubble */
+/* unused concated harmony import mdiChartDonut */
+/* unused concated harmony import mdiChartDonutVariant */
+/* unused concated harmony import mdiChartGantt */
+/* unused concated harmony import mdiChartHistogram */
+/* unused concated harmony import mdiChartLine */
+/* unused concated harmony import mdiChartLineStacked */
+/* unused concated harmony import mdiChartLineVariant */
+/* unused concated harmony import mdiChartMultiline */
+/* unused concated harmony import mdiChartPie */
+/* unused concated harmony import mdiChartScatterPlot */
+/* unused concated harmony import mdiChartScatterPlotHexbin */
+/* unused concated harmony import mdiChartTimeline */
+/* unused concated harmony import mdiChartTimelineVariant */
+/* unused concated harmony import mdiChartTree */
+/* unused concated harmony import mdiChat */
+/* unused concated harmony import mdiChatAlert */
+/* unused concated harmony import mdiChatProcessing */
+/* concated harmony reexport mdiCheck */__webpack_require__.d(__webpack_exports__, "b", function() { return mdiCheck; });
+/* unused concated harmony import mdiCheckAll */
+/* unused concated harmony import mdiCheckBold */
+/* unused concated harmony import mdiCheckBoxMultipleOutline */
+/* unused concated harmony import mdiCheckBoxOutline */
+/* concated harmony reexport mdiCheckCircle */__webpack_require__.d(__webpack_exports__, "c", function() { return mdiCheckCircle; });
+/* unused concated harmony import mdiCheckCircleOutline */
+/* unused concated harmony import mdiCheckDecagram */
+/* unused concated harmony import mdiCheckNetwork */
+/* unused concated harmony import mdiCheckNetworkOutline */
+/* unused concated harmony import mdiCheckOutline */
+/* unused concated harmony import mdiCheckUnderline */
+/* unused concated harmony import mdiCheckUnderlineCircle */
+/* unused concated harmony import mdiCheckUnderlineCircleOutline */
+/* unused concated harmony import mdiCheckbook */
+/* unused concated harmony import mdiCheckboxBlank */
+/* unused concated harmony import mdiCheckboxBlankCircle */
+/* unused concated harmony import mdiCheckboxBlankCircleOutline */
+/* unused concated harmony import mdiCheckboxBlankOutline */
+/* unused concated harmony import mdiCheckboxIntermediate */
+/* unused concated harmony import mdiCheckboxMarked */
+/* unused concated harmony import mdiCheckboxMarkedCircle */
+/* unused concated harmony import mdiCheckboxMarkedCircleOutline */
+/* unused concated harmony import mdiCheckboxMarkedOutline */
+/* unused concated harmony import mdiCheckboxMultipleBlank */
+/* unused concated harmony import mdiCheckboxMultipleBlankCircle */
+/* unused concated harmony import mdiCheckboxMultipleBlankCircleOutline */
+/* unused concated harmony import mdiCheckboxMultipleBlankOutline */
+/* unused concated harmony import mdiCheckboxMultipleMarked */
+/* unused concated harmony import mdiCheckboxMultipleMarkedCircle */
+/* unused concated harmony import mdiCheckboxMultipleMarkedCircleOutline */
+/* unused concated harmony import mdiCheckboxMultipleMarkedOutline */
+/* unused concated harmony import mdiCheckerboard */
+/* unused concated harmony import mdiChefHat */
+/* unused concated harmony import mdiChemicalWeapon */
+/* unused concated harmony import mdiChessBishop */
+/* unused concated harmony import mdiChessKing */
+/* unused concated harmony import mdiChessKnight */
+/* unused concated harmony import mdiChessPawn */
+/* unused concated harmony import mdiChessQueen */
+/* unused concated harmony import mdiChessRook */
+/* unused concated harmony import mdiChevronDoubleDown */
+/* unused concated harmony import mdiChevronDoubleLeft */
+/* unused concated harmony import mdiChevronDoubleRight */
+/* unused concated harmony import mdiChevronDoubleUp */
+/* unused concated harmony import mdiChevronDown */
+/* unused concated harmony import mdiChevronDownBox */
+/* unused concated harmony import mdiChevronDownBoxOutline */
+/* unused concated harmony import mdiChevronDownCircle */
+/* unused concated harmony import mdiChevronDownCircleOutline */
+/* unused concated harmony import mdiChevronLeft */
+/* unused concated harmony import mdiChevronLeftBox */
+/* unused concated harmony import mdiChevronLeftBoxOutline */
+/* unused concated harmony import mdiChevronLeftCircle */
+/* unused concated harmony import mdiChevronLeftCircleOutline */
+/* unused concated harmony import mdiChevronRight */
+/* unused concated harmony import mdiChevronRightBox */
+/* unused concated harmony import mdiChevronRightBoxOutline */
+/* unused concated harmony import mdiChevronRightCircle */
+/* unused concated harmony import mdiChevronRightCircleOutline */
+/* unused concated harmony import mdiChevronTripleDown */
+/* unused concated harmony import mdiChevronTripleLeft */
+/* unused concated harmony import mdiChevronTripleRight */
+/* unused concated harmony import mdiChevronTripleUp */
+/* unused concated harmony import mdiChevronUp */
+/* unused concated harmony import mdiChevronUpBox */
+/* unused concated harmony import mdiChevronUpBoxOutline */
+/* unused concated harmony import mdiChevronUpCircle */
+/* unused concated harmony import mdiChevronUpCircleOutline */
+/* unused concated harmony import mdiChiliHot */
+/* unused concated harmony import mdiChiliMedium */
+/* unused concated harmony import mdiChiliMild */
+/* unused concated harmony import mdiChip */
+/* unused concated harmony import mdiChristianity */
+/* unused concated harmony import mdiChristianityOutline */
+/* unused concated harmony import mdiChurch */
+/* unused concated harmony import mdiCircle */
+/* unused concated harmony import mdiCircleDouble */
+/* unused concated harmony import mdiCircleEditOutline */
+/* unused concated harmony import mdiCircleExpand */
+/* unused concated harmony import mdiCircleMedium */
+/* unused concated harmony import mdiCircleOutline */
+/* unused concated harmony import mdiCircleSlice1 */
+/* unused concated harmony import mdiCircleSlice2 */
+/* unused concated harmony import mdiCircleSlice3 */
+/* unused concated harmony import mdiCircleSlice4 */
+/* unused concated harmony import mdiCircleSlice5 */
+/* unused concated harmony import mdiCircleSlice6 */
+/* unused concated harmony import mdiCircleSlice7 */
+/* unused concated harmony import mdiCircleSlice8 */
+/* unused concated harmony import mdiCircleSmall */
+/* unused concated harmony import mdiCircularSaw */
+/* unused concated harmony import mdiCiscoWebex */
+/* unused concated harmony import mdiCity */
+/* unused concated harmony import mdiCityVariant */
+/* unused concated harmony import mdiCityVariantOutline */
+/* unused concated harmony import mdiClipboard */
+/* unused concated harmony import mdiClipboardAccount */
+/* unused concated harmony import mdiClipboardAccountOutline */
+/* unused concated harmony import mdiClipboardAlert */
+/* unused concated harmony import mdiClipboardAlertOutline */
+/* unused concated harmony import mdiClipboardArrowDown */
+/* unused concated harmony import mdiClipboardArrowDownOutline */
+/* unused concated harmony import mdiClipboardArrowLeft */
+/* unused concated harmony import mdiClipboardArrowLeftOutline */
+/* unused concated harmony import mdiClipboardArrowRight */
+/* unused concated harmony import mdiClipboardArrowRightOutline */
+/* unused concated harmony import mdiClipboardArrowUp */
+/* unused concated harmony import mdiClipboardArrowUpOutline */
+/* unused concated harmony import mdiClipboardCheck */
+/* unused concated harmony import mdiClipboardCheckOutline */
+/* unused concated harmony import mdiClipboardFlow */
+/* unused concated harmony import mdiClipboardOutline */
+/* unused concated harmony import mdiClipboardPlay */
+/* unused concated harmony import mdiClipboardPlayOutline */
+/* unused concated harmony import mdiClipboardPlus */
+/* unused concated harmony import mdiClipboardPulse */
+/* unused concated harmony import mdiClipboardPulseOutline */
+/* unused concated harmony import mdiClipboardText */
+/* unused concated harmony import mdiClipboardTextOutline */
+/* unused concated harmony import mdiClipboardTextPlay */
+/* unused concated harmony import mdiClipboardTextPlayOutline */
+/* unused concated harmony import mdiClippy */
+/* unused concated harmony import mdiClock */
+/* unused concated harmony import mdiClockAlert */
+/* unused concated harmony import mdiClockAlertOutline */
+/* unused concated harmony import mdiClockDigital */
+/* unused concated harmony import mdiClockEnd */
+/* unused concated harmony import mdiClockFast */
+/* unused concated harmony import mdiClockIn */
+/* unused concated harmony import mdiClockOut */
+/* unused concated harmony import mdiClockOutline */
+/* unused concated harmony import mdiClockStart */
+/* concated harmony reexport mdiClose */__webpack_require__.d(__webpack_exports__, "d", function() { return mdiClose; });
+/* unused concated harmony import mdiCloseBox */
+/* unused concated harmony import mdiCloseBoxMultiple */
+/* unused concated harmony import mdiCloseBoxMultipleOutline */
+/* unused concated harmony import mdiCloseBoxOutline */
+/* concated harmony reexport mdiCloseCircle */__webpack_require__.d(__webpack_exports__, "e", function() { return mdiCloseCircle; });
+/* unused concated harmony import mdiCloseCircleOutline */
+/* unused concated harmony import mdiCloseNetwork */
+/* unused concated harmony import mdiCloseNetworkOutline */
+/* unused concated harmony import mdiCloseOctagon */
+/* unused concated harmony import mdiCloseOctagonOutline */
+/* unused concated harmony import mdiCloseOutline */
+/* unused concated harmony import mdiClosedCaption */
+/* unused concated harmony import mdiClosedCaptionOutline */
+/* unused concated harmony import mdiCloud */
+/* unused concated harmony import mdiCloudAlert */
+/* unused concated harmony import mdiCloudBraces */
+/* unused concated harmony import mdiCloudCheck */
+/* unused concated harmony import mdiCloudCircle */
+/* unused concated harmony import mdiCloudDownload */
+/* unused concated harmony import mdiCloudDownloadOutline */
+/* unused concated harmony import mdiCloudOffOutline */
+/* unused concated harmony import mdiCloudOutline */
+/* unused concated harmony import mdiCloudPrint */
+/* unused concated harmony import mdiCloudPrintOutline */
+/* unused concated harmony import mdiCloudQuestion */
+/* unused concated harmony import mdiCloudSearch */
+/* unused concated harmony import mdiCloudSearchOutline */
+/* unused concated harmony import mdiCloudSync */
+/* unused concated harmony import mdiCloudTags */
+/* unused concated harmony import mdiCloudUpload */
+/* unused concated harmony import mdiCloudUploadOutline */
+/* unused concated harmony import mdiClover */
+/* unused concated harmony import mdiCodeArray */
+/* unused concated harmony import mdiCodeBraces */
+/* unused concated harmony import mdiCodeBrackets */
+/* unused concated harmony import mdiCodeEqual */
+/* unused concated harmony import mdiCodeGreaterThan */
+/* unused concated harmony import mdiCodeGreaterThanOrEqual */
+/* unused concated harmony import mdiCodeLessThan */
+/* unused concated harmony import mdiCodeLessThanOrEqual */
+/* unused concated harmony import mdiCodeNotEqual */
+/* unused concated harmony import mdiCodeNotEqualVariant */
+/* unused concated harmony import mdiCodeParentheses */
+/* unused concated harmony import mdiCodeString */
+/* unused concated harmony import mdiCodeTags */
+/* unused concated harmony import mdiCodeTagsCheck */
+/* unused concated harmony import mdiCodepen */
+/* unused concated harmony import mdiCoffee */
+/* unused concated harmony import mdiCoffeeOutline */
+/* unused concated harmony import mdiCoffeeToGo */
+/* unused concated harmony import mdiCoffin */
+/* unused concated harmony import mdiCogs */
+/* unused concated harmony import mdiCoin */
+/* unused concated harmony import mdiCoins */
+/* unused concated harmony import mdiCollage */
+/* unused concated harmony import mdiCollapseAll */
+/* unused concated harmony import mdiCollapseAllOutline */
+/* unused concated harmony import mdiColorHelper */
+/* unused concated harmony import mdiComma */
+/* unused concated harmony import mdiCommaBox */
+/* unused concated harmony import mdiCommaBoxOutline */
+/* unused concated harmony import mdiCommaCircle */
+/* unused concated harmony import mdiCommaCircleOutline */
+/* unused concated harmony import mdiComment */
+/* unused concated harmony import mdiCommentAccount */
+/* unused concated harmony import mdiCommentAccountOutline */
+/* unused concated harmony import mdiCommentAlert */
+/* unused concated harmony import mdiCommentAlertOutline */
+/* unused concated harmony import mdiCommentArrowLeft */
+/* unused concated harmony import mdiCommentArrowLeftOutline */
+/* unused concated harmony import mdiCommentArrowRight */
+/* unused concated harmony import mdiCommentArrowRightOutline */
+/* unused concated harmony import mdiCommentCheck */
+/* unused concated harmony import mdiCommentCheckOutline */
+/* unused concated harmony import mdiCommentEye */
+/* unused concated harmony import mdiCommentEyeOutline */
+/* unused concated harmony import mdiCommentMultiple */
+/* unused concated harmony import mdiCommentMultipleOutline */
+/* unused concated harmony import mdiCommentOutline */
+/* unused concated harmony import mdiCommentPlus */
+/* unused concated harmony import mdiCommentPlusOutline */
+/* unused concated harmony import mdiCommentProcessing */
+/* unused concated harmony import mdiCommentProcessingOutline */
+/* unused concated harmony import mdiCommentQuestion */
+/* unused concated harmony import mdiCommentQuestionOutline */
+/* unused concated harmony import mdiCommentRemove */
+/* unused concated harmony import mdiCommentRemoveOutline */
+/* unused concated harmony import mdiCommentSearch */
+/* unused concated harmony import mdiCommentSearchOutline */
+/* unused concated harmony import mdiCommentText */
+/* unused concated harmony import mdiCommentTextMultiple */
+/* unused concated harmony import mdiCommentTextMultipleOutline */
+/* unused concated harmony import mdiCommentTextOutline */
+/* unused concated harmony import mdiCompare */
+/* unused concated harmony import mdiCompass */
+/* unused concated harmony import mdiCompassOff */
+/* unused concated harmony import mdiCompassOffOutline */
+/* unused concated harmony import mdiCompassOutline */
+/* unused concated harmony import mdiConsole */
+/* unused concated harmony import mdiConsoleLine */
+/* unused concated harmony import mdiConsoleNetwork */
+/* unused concated harmony import mdiConsoleNetworkOutline */
+/* unused concated harmony import mdiContactMail */
+/* unused concated harmony import mdiContactMailOutline */
+/* unused concated harmony import mdiContactPhone */
+/* unused concated harmony import mdiContactPhoneOutline */
+/* unused concated harmony import mdiContactlessPayment */
+/* unused concated harmony import mdiContacts */
+/* unused concated harmony import mdiContain */
+/* unused concated harmony import mdiContainEnd */
+/* unused concated harmony import mdiContainStart */
+/* unused concated harmony import mdiContentCopy */
+/* unused concated harmony import mdiContentCut */
+/* unused concated harmony import mdiContentDuplicate */
+/* unused concated harmony import mdiContentPaste */
+/* unused concated harmony import mdiContentSave */
+/* unused concated harmony import mdiContentSaveAll */
+/* unused concated harmony import mdiContentSaveEdit */
+/* unused concated harmony import mdiContentSaveEditOutline */
+/* unused concated harmony import mdiContentSaveMove */
+/* unused concated harmony import mdiContentSaveMoveOutline */
+/* unused concated harmony import mdiContentSaveOutline */
+/* unused concated harmony import mdiContentSaveSettings */
+/* unused concated harmony import mdiContentSaveSettingsOutline */
+/* unused concated harmony import mdiContrast */
+/* unused concated harmony import mdiContrastBox */
+/* unused concated harmony import mdiContrastCircle */
+/* unused concated harmony import mdiControllerClassic */
+/* unused concated harmony import mdiControllerClassicOutline */
+/* unused concated harmony import mdiCookie */
+/* unused concated harmony import mdiCopyright */
+/* unused concated harmony import mdiCordova */
+/* unused concated harmony import mdiCorn */
+/* unused concated harmony import mdiCounter */
+/* unused concated harmony import mdiCow */
+/* unused concated harmony import mdiCowboy */
+/* unused concated harmony import mdiCrane */
+/* unused concated harmony import mdiCreation */
+/* unused concated harmony import mdiCreativeCommons */
+/* unused concated harmony import mdiCreditCard */
+/* unused concated harmony import mdiCreditCardMarker */
+/* unused concated harmony import mdiCreditCardMultiple */
+/* unused concated harmony import mdiCreditCardOff */
+/* unused concated harmony import mdiCreditCardPlus */
+/* unused concated harmony import mdiCreditCardRefund */
+/* unused concated harmony import mdiCreditCardScan */
+/* unused concated harmony import mdiCreditCardSettings */
+/* unused concated harmony import mdiCreditCardWireless */
+/* unused concated harmony import mdiCricket */
+/* unused concated harmony import mdiCrop */
+/* unused concated harmony import mdiCropFree */
+/* unused concated harmony import mdiCropLandscape */
+/* unused concated harmony import mdiCropPortrait */
+/* unused concated harmony import mdiCropRotate */
+/* unused concated harmony import mdiCropSquare */
+/* unused concated harmony import mdiCrosshairs */
+/* unused concated harmony import mdiCrosshairsGps */
+/* unused concated harmony import mdiCrown */
+/* unused concated harmony import mdiCryengine */
+/* unused concated harmony import mdiCrystalBall */
+/* unused concated harmony import mdiCube */
+/* unused concated harmony import mdiCubeOutline */
+/* unused concated harmony import mdiCubeScan */
+/* unused concated harmony import mdiCubeSend */
+/* unused concated harmony import mdiCubeUnfolded */
+/* unused concated harmony import mdiCup */
+/* unused concated harmony import mdiCupOff */
+/* unused concated harmony import mdiCupWater */
+/* unused concated harmony import mdiCupcake */
+/* unused concated harmony import mdiCurling */
+/* unused concated harmony import mdiCurrencyBdt */
+/* unused concated harmony import mdiCurrencyBrl */
+/* unused concated harmony import mdiCurrencyBtc */
+/* unused concated harmony import mdiCurrencyChf */
+/* unused concated harmony import mdiCurrencyCny */
+/* unused concated harmony import mdiCurrencyEth */
+/* unused concated harmony import mdiCurrencyEur */
+/* unused concated harmony import mdiCurrencyGbp */
+/* unused concated harmony import mdiCurrencyIls */
+/* unused concated harmony import mdiCurrencyInr */
+/* unused concated harmony import mdiCurrencyJpy */
+/* unused concated harmony import mdiCurrencyKrw */
+/* unused concated harmony import mdiCurrencyKzt */
+/* unused concated harmony import mdiCurrencyNgn */
+/* unused concated harmony import mdiCurrencyPhp */
+/* unused concated harmony import mdiCurrencyRial */
+/* unused concated harmony import mdiCurrencyRub */
+/* unused concated harmony import mdiCurrencySign */
+/* unused concated harmony import mdiCurrencyTry */
+/* unused concated harmony import mdiCurrencyTwd */
+/* unused concated harmony import mdiCurrencyUsd */
+/* unused concated harmony import mdiCurrencyUsdOff */
+/* unused concated harmony import mdiCurrentAc */
+/* unused concated harmony import mdiCurrentDc */
+/* unused concated harmony import mdiCursorDefault */
+/* unused concated harmony import mdiCursorDefaultClick */
+/* unused concated harmony import mdiCursorDefaultClickOutline */
+/* unused concated harmony import mdiCursorDefaultOutline */
+/* unused concated harmony import mdiCursorMove */
+/* unused concated harmony import mdiCursorPointer */
+/* unused concated harmony import mdiCursorText */
+/* unused concated harmony import mdiDatabase */
+/* unused concated harmony import mdiDatabaseCheck */
+/* unused concated harmony import mdiDatabaseEdit */
+/* unused concated harmony import mdiDatabaseExport */
+/* unused concated harmony import mdiDatabaseImport */
+/* unused concated harmony import mdiDatabaseLock */
+/* unused concated harmony import mdiDatabaseMinus */
+/* unused concated harmony import mdiDatabasePlus */
+/* unused concated harmony import mdiDatabaseRefresh */
+/* unused concated harmony import mdiDatabaseRemove */
+/* unused concated harmony import mdiDatabaseSearch */
+/* unused concated harmony import mdiDatabaseSettings */
+/* unused concated harmony import mdiDeathStar */
+/* unused concated harmony import mdiDeathStarVariant */
+/* unused concated harmony import mdiDeathlyHallows */
+/* unused concated harmony import mdiDebian */
+/* unused concated harmony import mdiDebugStepInto */
+/* unused concated harmony import mdiDebugStepOut */
+/* unused concated harmony import mdiDebugStepOver */
+/* unused concated harmony import mdiDecagram */
+/* unused concated harmony import mdiDecagramOutline */
+/* unused concated harmony import mdiDecimalDecrease */
+/* unused concated harmony import mdiDecimalIncrease */
+/* unused concated harmony import mdiDelete */
+/* unused concated harmony import mdiDeleteCircle */
+/* unused concated harmony import mdiDeleteCircleOutline */
+/* unused concated harmony import mdiDeleteEmpty */
+/* unused concated harmony import mdiDeleteEmptyOutline */
+/* unused concated harmony import mdiDeleteForever */
+/* unused concated harmony import mdiDeleteForeverOutline */
+/* unused concated harmony import mdiDeleteOutline */
+/* unused concated harmony import mdiDeleteRestore */
+/* unused concated harmony import mdiDeleteSweep */
+/* unused concated harmony import mdiDeleteSweepOutline */
+/* unused concated harmony import mdiDeleteVariant */
+/* unused concated harmony import mdiDelta */
+/* unused concated harmony import mdiDeskLamp */
+/* unused concated harmony import mdiDeskphone */
+/* unused concated harmony import mdiDesktopClassic */
+/* unused concated harmony import mdiDesktopMac */
+/* unused concated harmony import mdiDesktopMacDashboard */
+/* unused concated harmony import mdiDesktopTower */
+/* unused concated harmony import mdiDesktopTowerMonitor */
+/* unused concated harmony import mdiDetails */
+/* unused concated harmony import mdiDevTo */
+/* unused concated harmony import mdiDeveloperBoard */
+/* unused concated harmony import mdiDeviantart */
+/* unused concated harmony import mdiDialpad */
+/* unused concated harmony import mdiDiameter */
+/* unused concated harmony import mdiDiameterOutline */
+/* unused concated harmony import mdiDiameterVariant */
+/* unused concated harmony import mdiDiamond */
+/* unused concated harmony import mdiDiamondOutline */
+/* unused concated harmony import mdiDiamondStone */
+/* unused concated harmony import mdiDice1 */
+/* unused concated harmony import mdiDice2 */
+/* unused concated harmony import mdiDice3 */
+/* unused concated harmony import mdiDice4 */
+/* unused concated harmony import mdiDice5 */
+/* unused concated harmony import mdiDice6 */
+/* unused concated harmony import mdiDiceD10 */
+/* unused concated harmony import mdiDiceD12 */
+/* unused concated harmony import mdiDiceD20 */
+/* unused concated harmony import mdiDiceD4 */
+/* unused concated harmony import mdiDiceD6 */
+/* unused concated harmony import mdiDiceD8 */
+/* unused concated harmony import mdiDiceMultiple */
+/* unused concated harmony import mdiDictionary */
+/* unused concated harmony import mdiDipSwitch */
+/* unused concated harmony import mdiDirections */
+/* unused concated harmony import mdiDirectionsFork */
+/* unused concated harmony import mdiDisc */
+/* unused concated harmony import mdiDiscAlert */
+/* unused concated harmony import mdiDiscPlayer */
+/* unused concated harmony import mdiDiscord */
+/* unused concated harmony import mdiDishwasher */
+/* unused concated harmony import mdiDisqus */
+/* unused concated harmony import mdiDisqusOutline */
+/* unused concated harmony import mdiDivingFlippers */
+/* unused concated harmony import mdiDivingHelmet */
+/* unused concated harmony import mdiDivingScuba */
+/* unused concated harmony import mdiDivingScubaFlag */
+/* unused concated harmony import mdiDivingScubaTank */
+/* unused concated harmony import mdiDivingScubaTankMultiple */
+/* unused concated harmony import mdiDivingSnorkel */
+/* unused concated harmony import mdiDivision */
+/* unused concated harmony import mdiDivisionBox */
+/* unused concated harmony import mdiDlna */
+/* unused concated harmony import mdiDna */
+/* unused concated harmony import mdiDns */
+/* unused concated harmony import mdiDnsOutline */
+/* unused concated harmony import mdiDoNotDisturb */
+/* unused concated harmony import mdiDoNotDisturbOff */
+/* unused concated harmony import mdiDocker */
+/* unused concated harmony import mdiDoctor */
+/* unused concated harmony import mdiDog */
+/* unused concated harmony import mdiDogService */
+/* unused concated harmony import mdiDogSide */
+/* unused concated harmony import mdiDolby */
+/* unused concated harmony import mdiDolly */
+/* unused concated harmony import mdiDomain */
+/* unused concated harmony import mdiDomainOff */
+/* unused concated harmony import mdiDonkey */
+/* unused concated harmony import mdiDoor */
+/* unused concated harmony import mdiDoorClosed */
+/* unused concated harmony import mdiDoorOpen */
+/* unused concated harmony import mdiDoorbellVideo */
+/* unused concated harmony import mdiDotNet */
+/* unused concated harmony import mdiDotsHorizontal */
+/* unused concated harmony import mdiDotsHorizontalCircle */
+/* unused concated harmony import mdiDotsHorizontalCircleOutline */
+/* unused concated harmony import mdiDotsVertical */
+/* unused concated harmony import mdiDotsVerticalCircle */
+/* unused concated harmony import mdiDotsVerticalCircleOutline */
+/* unused concated harmony import mdiDouban */
+/* unused concated harmony import mdiDownload */
+/* unused concated harmony import mdiDownloadMultiple */
+/* unused concated harmony import mdiDownloadNetwork */
+/* unused concated harmony import mdiDownloadNetworkOutline */
+/* unused concated harmony import mdiDownloadOutline */
+/* unused concated harmony import mdiDrag */
+/* unused concated harmony import mdiDragHorizontal */
+/* unused concated harmony import mdiDragVariant */
+/* unused concated harmony import mdiDragVertical */
+/* unused concated harmony import mdiDramaMasks */
+/* unused concated harmony import mdiDrawing */
+/* unused concated harmony import mdiDrawingBox */
+/* unused concated harmony import mdiDribbble */
+/* unused concated harmony import mdiDribbbleBox */
+/* unused concated harmony import mdiDrone */
+/* unused concated harmony import mdiDropbox */
+/* unused concated harmony import mdiDrupal */
+/* unused concated harmony import mdiDuck */
+/* unused concated harmony import mdiDumbbell */
+/* unused concated harmony import mdiDumpTruck */
+/* unused concated harmony import mdiEarHearing */
+/* unused concated harmony import mdiEarHearingOff */
+/* unused concated harmony import mdiEarth */
+/* unused concated harmony import mdiEarthBox */
+/* unused concated harmony import mdiEarthBoxOff */
+/* unused concated harmony import mdiEarthOff */
+/* unused concated harmony import mdiEdge */
+/* unused concated harmony import mdiEgg */
+/* unused concated harmony import mdiEggEaster */
+/* unused concated harmony import mdiEightTrack */
+/* unused concated harmony import mdiEject */
+/* unused concated harmony import mdiEjectOutline */
+/* unused concated harmony import mdiElectricSwitch */
+/* unused concated harmony import mdiElephant */
+/* unused concated harmony import mdiElevationDecline */
+/* unused concated harmony import mdiElevationRise */
+/* unused concated harmony import mdiElevator */
+/* unused concated harmony import mdiEllipse */
+/* unused concated harmony import mdiEllipseOutline */
+/* unused concated harmony import mdiEmail */
+/* unused concated harmony import mdiEmailAlert */
+/* unused concated harmony import mdiEmailBox */
+/* unused concated harmony import mdiEmailCheck */
+/* unused concated harmony import mdiEmailCheckOutline */
+/* unused concated harmony import mdiEmailLock */
+/* unused concated harmony import mdiEmailMarkAsUnread */
+/* unused concated harmony import mdiEmailOpen */
+/* unused concated harmony import mdiEmailOpenOutline */
+/* unused concated harmony import mdiEmailOutline */
+/* unused concated harmony import mdiEmailPlus */
+/* unused concated harmony import mdiEmailPlusOutline */
+/* unused concated harmony import mdiEmailSearch */
+/* unused concated harmony import mdiEmailSearchOutline */
+/* unused concated harmony import mdiEmailVariant */
+/* unused concated harmony import mdiEmber */
+/* unused concated harmony import mdiEmby */
+/* unused concated harmony import mdiEmoticon */
+/* unused concated harmony import mdiEmoticonAngry */
+/* unused concated harmony import mdiEmoticonAngryOutline */
+/* unused concated harmony import mdiEmoticonCool */
+/* unused concated harmony import mdiEmoticonCoolOutline */
+/* unused concated harmony import mdiEmoticonCry */
+/* unused concated harmony import mdiEmoticonCryOutline */
+/* unused concated harmony import mdiEmoticonDead */
+/* unused concated harmony import mdiEmoticonDeadOutline */
+/* unused concated harmony import mdiEmoticonDevil */
+/* unused concated harmony import mdiEmoticonDevilOutline */
+/* unused concated harmony import mdiEmoticonExcited */
+/* unused concated harmony import mdiEmoticonExcitedOutline */
+/* unused concated harmony import mdiEmoticonHappy */
+/* unused concated harmony import mdiEmoticonHappyOutline */
+/* unused concated harmony import mdiEmoticonKiss */
+/* unused concated harmony import mdiEmoticonKissOutline */
+/* unused concated harmony import mdiEmoticonNeutral */
+/* unused concated harmony import mdiEmoticonNeutralOutline */
+/* unused concated harmony import mdiEmoticonOutline */
+/* unused concated harmony import mdiEmoticonPoop */
+/* unused concated harmony import mdiEmoticonPoopOutline */
+/* unused concated harmony import mdiEmoticonSad */
+/* unused concated harmony import mdiEmoticonSadOutline */
+/* unused concated harmony import mdiEmoticonTongue */
+/* unused concated harmony import mdiEmoticonTongueOutline */
+/* unused concated harmony import mdiEmoticonWink */
+/* unused concated harmony import mdiEmoticonWinkOutline */
+/* unused concated harmony import mdiEngine */
+/* unused concated harmony import mdiEngineOff */
+/* unused concated harmony import mdiEngineOffOutline */
+/* unused concated harmony import mdiEngineOutline */
+/* unused concated harmony import mdiEqual */
+/* unused concated harmony import mdiEqualBox */
+/* unused concated harmony import mdiEqualizer */
+/* unused concated harmony import mdiEqualizerOutline */
+/* unused concated harmony import mdiEraser */
+/* unused concated harmony import mdiEraserVariant */
+/* unused concated harmony import mdiEscalator */
+/* unused concated harmony import mdiEslint */
+/* unused concated harmony import mdiEt */
+/* unused concated harmony import mdiEthereum */
+/* unused concated harmony import mdiEthernet */
+/* unused concated harmony import mdiEthernetCable */
+/* unused concated harmony import mdiEthernetCableOff */
+/* unused concated harmony import mdiEtsy */
+/* unused concated harmony import mdiEvStation */
+/* unused concated harmony import mdiEventbrite */
+/* unused concated harmony import mdiEvernote */
+/* unused concated harmony import mdiExclamation */
+/* unused concated harmony import mdiExitRun */
+/* unused concated harmony import mdiExitToApp */
+/* unused concated harmony import mdiExpandAll */
+/* unused concated harmony import mdiExpandAllOutline */
+/* unused concated harmony import mdiExponent */
+/* unused concated harmony import mdiExponentBox */
+/* unused concated harmony import mdiExport */
+/* unused concated harmony import mdiExportVariant */
+/* unused concated harmony import mdiEye */
+/* unused concated harmony import mdiEyeCheck */
+/* unused concated harmony import mdiEyeCheckOutline */
+/* unused concated harmony import mdiEyeCircle */
+/* unused concated harmony import mdiEyeCircleOutline */
+/* unused concated harmony import mdiEyeOff */
+/* unused concated harmony import mdiEyeOffOutline */
+/* unused concated harmony import mdiEyeOutline */
+/* unused concated harmony import mdiEyePlus */
+/* unused concated harmony import mdiEyePlusOutline */
+/* unused concated harmony import mdiEyeSettings */
+/* unused concated harmony import mdiEyeSettingsOutline */
+/* unused concated harmony import mdiEyedropper */
+/* unused concated harmony import mdiEyedropperVariant */
+/* unused concated harmony import mdiFace */
+/* unused concated harmony import mdiFaceAgent */
+/* unused concated harmony import mdiFaceOutline */
+/* unused concated harmony import mdiFaceProfile */
+/* unused concated harmony import mdiFaceRecognition */
+/* unused concated harmony import mdiFacebook */
+/* unused concated harmony import mdiFacebookBox */
+/* unused concated harmony import mdiFacebookMessenger */
+/* unused concated harmony import mdiFacebookWorkplace */
+/* unused concated harmony import mdiFactory */
+/* unused concated harmony import mdiFan */
+/* unused concated harmony import mdiFanOff */
+/* unused concated harmony import mdiFastForward */
+/* unused concated harmony import mdiFastForward10 */
+/* unused concated harmony import mdiFastForward30 */
+/* unused concated harmony import mdiFastForwardOutline */
+/* unused concated harmony import mdiFax */
+/* unused concated harmony import mdiFeather */
+/* unused concated harmony import mdiFeatureSearch */
+/* unused concated harmony import mdiFeatureSearchOutline */
+/* unused concated harmony import mdiFedora */
+/* unused concated harmony import mdiFerrisWheel */
+/* unused concated harmony import mdiFerry */
+/* unused concated harmony import mdiFile */
+/* unused concated harmony import mdiFileAccount */
+/* unused concated harmony import mdiFileAlert */
+/* unused concated harmony import mdiFileAlertOutline */
+/* unused concated harmony import mdiFileCabinet */
+/* unused concated harmony import mdiFileCancel */
+/* unused concated harmony import mdiFileCancelOutline */
+/* unused concated harmony import mdiFileChart */
+/* unused concated harmony import mdiFileCheck */
+/* unused concated harmony import mdiFileCheckOutline */
+/* unused concated harmony import mdiFileCloud */
+/* unused concated harmony import mdiFileCompare */
+/* unused concated harmony import mdiFileDelimited */
+/* unused concated harmony import mdiFileDelimitedOutline */
+/* unused concated harmony import mdiFileDocument */
+/* unused concated harmony import mdiFileDocumentBox */
+/* unused concated harmony import mdiFileDocumentBoxCheck */
+/* unused concated harmony import mdiFileDocumentBoxCheckOutline */
+/* unused concated harmony import mdiFileDocumentBoxMinus */
+/* unused concated harmony import mdiFileDocumentBoxMinusOutline */
+/* unused concated harmony import mdiFileDocumentBoxMultiple */
+/* unused concated harmony import mdiFileDocumentBoxMultipleOutline */
+/* unused concated harmony import mdiFileDocumentBoxOutline */
+/* unused concated harmony import mdiFileDocumentBoxPlus */
+/* unused concated harmony import mdiFileDocumentBoxPlusOutline */
+/* unused concated harmony import mdiFileDocumentBoxRemove */
+/* unused concated harmony import mdiFileDocumentBoxRemoveOutline */
+/* unused concated harmony import mdiFileDocumentBoxSearch */
+/* unused concated harmony import mdiFileDocumentBoxSearchOutline */
+/* unused concated harmony import mdiFileDocumentEdit */
+/* unused concated harmony import mdiFileDocumentEditOutline */
+/* unused concated harmony import mdiFileDocumentOutline */
+/* unused concated harmony import mdiFileDownload */
+/* unused concated harmony import mdiFileDownloadOutline */
+/* unused concated harmony import mdiFileExcel */
+/* unused concated harmony import mdiFileExcelBox */
+/* unused concated harmony import mdiFileExport */
+/* unused concated harmony import mdiFileEye */
+/* unused concated harmony import mdiFileEyeOutline */
+/* unused concated harmony import mdiFileFind */
+/* unused concated harmony import mdiFileFindOutline */
+/* unused concated harmony import mdiFileHidden */
+/* unused concated harmony import mdiFileImage */
+/* unused concated harmony import mdiFileImageOutline */
+/* unused concated harmony import mdiFileImport */
+/* unused concated harmony import mdiFileLock */
+/* unused concated harmony import mdiFileMove */
+/* unused concated harmony import mdiFileMultiple */
+/* unused concated harmony import mdiFileMusic */
+/* unused concated harmony import mdiFileMusicOutline */
+/* unused concated harmony import mdiFileOutline */
+/* unused concated harmony import mdiFilePdf */
+/* unused concated harmony import mdiFilePdfBox */
+/* unused concated harmony import mdiFilePdfOutline */
+/* unused concated harmony import mdiFilePercent */
+/* unused concated harmony import mdiFilePlus */
+/* unused concated harmony import mdiFilePowerpoint */
+/* unused concated harmony import mdiFilePowerpointBox */
+/* unused concated harmony import mdiFilePresentationBox */
+/* unused concated harmony import mdiFileQuestion */
+/* unused concated harmony import mdiFileRemove */
+/* unused concated harmony import mdiFileReplace */
+/* unused concated harmony import mdiFileReplaceOutline */
+/* unused concated harmony import mdiFileRestore */
+/* unused concated harmony import mdiFileSearch */
+/* unused concated harmony import mdiFileSearchOutline */
+/* unused concated harmony import mdiFileSend */
+/* unused concated harmony import mdiFileTable */
+/* unused concated harmony import mdiFileTableOutline */
+/* unused concated harmony import mdiFileTree */
+/* unused concated harmony import mdiFileUndo */
+/* unused concated harmony import mdiFileUpload */
+/* unused concated harmony import mdiFileUploadOutline */
+/* unused concated harmony import mdiFileVideo */
+/* unused concated harmony import mdiFileVideoOutline */
+/* unused concated harmony import mdiFileWord */
+/* unused concated harmony import mdiFileWordBox */
+/* unused concated harmony import mdiFileXml */
+/* unused concated harmony import mdiFilm */
+/* unused concated harmony import mdiFilmstrip */
+/* unused concated harmony import mdiFilmstripOff */
+/* unused concated harmony import mdiFilter */
+/* unused concated harmony import mdiFilterOutline */
+/* unused concated harmony import mdiFilterRemove */
+/* unused concated harmony import mdiFilterRemoveOutline */
+/* unused concated harmony import mdiFilterVariant */
+/* unused concated harmony import mdiFinance */
+/* unused concated harmony import mdiFindReplace */
+/* unused concated harmony import mdiFingerprint */
+/* unused concated harmony import mdiFingerprintOff */
+/* unused concated harmony import mdiFire */
+/* unused concated harmony import mdiFireTruck */
+/* unused concated harmony import mdiFirebase */
+/* unused concated harmony import mdiFirefox */
+/* unused concated harmony import mdiFireplace */
+/* unused concated harmony import mdiFireplaceOff */
+/* unused concated harmony import mdiFirework */
+/* unused concated harmony import mdiFish */
+/* unused concated harmony import mdiFlag */
+/* unused concated harmony import mdiFlagCheckered */
+/* unused concated harmony import mdiFlagMinus */
+/* unused concated harmony import mdiFlagOutline */
+/* unused concated harmony import mdiFlagPlus */
+/* unused concated harmony import mdiFlagRemove */
+/* unused concated harmony import mdiFlagTriangle */
+/* unused concated harmony import mdiFlagVariant */
+/* unused concated harmony import mdiFlagVariantOutline */
+/* unused concated harmony import mdiFlare */
+/* unused concated harmony import mdiFlash */
+/* unused concated harmony import mdiFlashAuto */
+/* unused concated harmony import mdiFlashCircle */
+/* unused concated harmony import mdiFlashOff */
+/* unused concated harmony import mdiFlashOutline */
+/* unused concated harmony import mdiFlashRedEye */
+/* unused concated harmony import mdiFlashlight */
+/* unused concated harmony import mdiFlashlightOff */
+/* unused concated harmony import mdiFlask */
+/* unused concated harmony import mdiFlaskEmpty */
+/* unused concated harmony import mdiFlaskEmptyOutline */
+/* unused concated harmony import mdiFlaskOutline */
+/* unused concated harmony import mdiFlattr */
+/* unused concated harmony import mdiFlickr */
+/* unused concated harmony import mdiFlipToBack */
+/* unused concated harmony import mdiFlipToFront */
+/* unused concated harmony import mdiFloorLamp */
+/* unused concated harmony import mdiFloorPlan */
+/* unused concated harmony import mdiFloppy */
+/* unused concated harmony import mdiFloppyVariant */
+/* unused concated harmony import mdiFlower */
+/* unused concated harmony import mdiFlowerOutline */
+/* unused concated harmony import mdiFlowerPoppy */
+/* unused concated harmony import mdiFlowerTulip */
+/* unused concated harmony import mdiFlowerTulipOutline */
+/* unused concated harmony import mdiFolder */
+/* unused concated harmony import mdiFolderAccount */
+/* unused concated harmony import mdiFolderAccountOutline */
+/* unused concated harmony import mdiFolderAlert */
+/* unused concated harmony import mdiFolderAlertOutline */
+/* unused concated harmony import mdiFolderClock */
+/* unused concated harmony import mdiFolderClockOutline */
+/* unused concated harmony import mdiFolderDownload */
+/* unused concated harmony import mdiFolderEdit */
+/* unused concated harmony import mdiFolderEditOutline */
+/* unused concated harmony import mdiFolderGoogleDrive */
+/* unused concated harmony import mdiFolderImage */
+/* unused concated harmony import mdiFolderKey */
+/* unused concated harmony import mdiFolderKeyNetwork */
+/* unused concated harmony import mdiFolderKeyNetworkOutline */
+/* unused concated harmony import mdiFolderLock */
+/* unused concated harmony import mdiFolderLockOpen */
+/* unused concated harmony import mdiFolderMove */
+/* unused concated harmony import mdiFolderMultiple */
+/* unused concated harmony import mdiFolderMultipleImage */
+/* unused concated harmony import mdiFolderMultipleOutline */
+/* unused concated harmony import mdiFolderNetwork */
+/* unused concated harmony import mdiFolderNetworkOutline */
+/* unused concated harmony import mdiFolderOpen */
+/* unused concated harmony import mdiFolderOpenOutline */
+/* unused concated harmony import mdiFolderOutline */
+/* unused concated harmony import mdiFolderPlus */
+/* unused concated harmony import mdiFolderPlusOutline */
+/* unused concated harmony import mdiFolderPound */
+/* unused concated harmony import mdiFolderPoundOutline */
+/* unused concated harmony import mdiFolderRemove */
+/* unused concated harmony import mdiFolderRemoveOutline */
+/* unused concated harmony import mdiFolderSearch */
+/* unused concated harmony import mdiFolderSearchOutline */
+/* unused concated harmony import mdiFolderStar */
+/* unused concated harmony import mdiFolderStarOutline */
+/* unused concated harmony import mdiFolderSync */
+/* unused concated harmony import mdiFolderSyncOutline */
+/* unused concated harmony import mdiFolderText */
+/* unused concated harmony import mdiFolderTextOutline */
+/* unused concated harmony import mdiFolderUpload */
+/* unused concated harmony import mdiFontAwesome */
+/* unused concated harmony import mdiFood */
+/* unused concated harmony import mdiFoodApple */
+/* unused concated harmony import mdiFoodAppleOutline */
+/* unused concated harmony import mdiFoodCroissant */
+/* unused concated harmony import mdiFoodForkDrink */
+/* unused concated harmony import mdiFoodOff */
+/* unused concated harmony import mdiFoodVariant */
+/* unused concated harmony import mdiFootball */
+/* unused concated harmony import mdiFootballAustralian */
+/* unused concated harmony import mdiFootballHelmet */
+/* unused concated harmony import mdiForklift */
+/* unused concated harmony import mdiFormatAlignBottom */
+/* unused concated harmony import mdiFormatAlignCenter */
+/* unused concated harmony import mdiFormatAlignJustify */
+/* unused concated harmony import mdiFormatAlignLeft */
+/* unused concated harmony import mdiFormatAlignMiddle */
+/* unused concated harmony import mdiFormatAlignRight */
+/* unused concated harmony import mdiFormatAlignTop */
+/* unused concated harmony import mdiFormatAnnotationMinus */
+/* unused concated harmony import mdiFormatAnnotationPlus */
+/* unused concated harmony import mdiFormatBold */
+/* unused concated harmony import mdiFormatClear */
+/* unused concated harmony import mdiFormatColorFill */
+/* unused concated harmony import mdiFormatColorHighlight */
+/* unused concated harmony import mdiFormatColorText */
+/* unused concated harmony import mdiFormatColumns */
+/* unused concated harmony import mdiFormatFloatCenter */
+/* unused concated harmony import mdiFormatFloatLeft */
+/* unused concated harmony import mdiFormatFloatNone */
+/* unused concated harmony import mdiFormatFloatRight */
+/* unused concated harmony import mdiFormatFont */
+/* unused concated harmony import mdiFormatFontSizeDecrease */
+/* unused concated harmony import mdiFormatFontSizeIncrease */
+/* unused concated harmony import mdiFormatHeader1 */
+/* unused concated harmony import mdiFormatHeader2 */
+/* unused concated harmony import mdiFormatHeader3 */
+/* unused concated harmony import mdiFormatHeader4 */
+/* unused concated harmony import mdiFormatHeader5 */
+/* unused concated harmony import mdiFormatHeader6 */
+/* unused concated harmony import mdiFormatHeaderDecrease */
+/* unused concated harmony import mdiFormatHeaderEqual */
+/* unused concated harmony import mdiFormatHeaderIncrease */
+/* unused concated harmony import mdiFormatHeaderPound */
+/* unused concated harmony import mdiFormatHorizontalAlignCenter */
+/* unused concated harmony import mdiFormatHorizontalAlignLeft */
+/* unused concated harmony import mdiFormatHorizontalAlignRight */
+/* unused concated harmony import mdiFormatIndentDecrease */
+/* unused concated harmony import mdiFormatIndentIncrease */
+/* unused concated harmony import mdiFormatItalic */
+/* unused concated harmony import mdiFormatLetterCase */
+/* unused concated harmony import mdiFormatLetterCaseLower */
+/* unused concated harmony import mdiFormatLetterCaseUpper */
+/* unused concated harmony import mdiFormatLineSpacing */
+/* unused concated harmony import mdiFormatLineStyle */
+/* unused concated harmony import mdiFormatLineWeight */
+/* unused concated harmony import mdiFormatListBulleted */
+/* unused concated harmony import mdiFormatListBulletedSquare */
+/* unused concated harmony import mdiFormatListBulletedType */
+/* unused concated harmony import mdiFormatListCheckbox */
+/* unused concated harmony import mdiFormatListChecks */
+/* unused concated harmony import mdiFormatListNumbered */
+/* unused concated harmony import mdiFormatListNumberedRtl */
+/* unused concated harmony import mdiFormatListTriangle */
+/* unused concated harmony import mdiFormatOverline */
+/* unused concated harmony import mdiFormatPageBreak */
+/* unused concated harmony import mdiFormatPaint */
+/* unused concated harmony import mdiFormatParagraph */
+/* unused concated harmony import mdiFormatPilcrow */
+/* unused concated harmony import mdiFormatQuoteClose */
+/* unused concated harmony import mdiFormatQuoteOpen */
+/* unused concated harmony import mdiFormatRotate90 */
+/* unused concated harmony import mdiFormatSection */
+/* unused concated harmony import mdiFormatSize */
+/* unused concated harmony import mdiFormatStrikethrough */
+/* unused concated harmony import mdiFormatStrikethroughVariant */
+/* unused concated harmony import mdiFormatSubscript */
+/* unused concated harmony import mdiFormatSuperscript */
+/* unused concated harmony import mdiFormatText */
+/* unused concated harmony import mdiFormatTextRotationDown */
+/* unused concated harmony import mdiFormatTextRotationNone */
+/* unused concated harmony import mdiFormatTextVariant */
+/* unused concated harmony import mdiFormatTextWrappingClip */
+/* unused concated harmony import mdiFormatTextWrappingOverflow */
+/* unused concated harmony import mdiFormatTextWrappingWrap */
+/* unused concated harmony import mdiFormatTextbox */
+/* unused concated harmony import mdiFormatTextdirectionLToR */
+/* unused concated harmony import mdiFormatTextdirectionRToL */
+/* unused concated harmony import mdiFormatTitle */
+/* unused concated harmony import mdiFormatUnderline */
+/* unused concated harmony import mdiFormatVerticalAlignBottom */
+/* unused concated harmony import mdiFormatVerticalAlignCenter */
+/* unused concated harmony import mdiFormatVerticalAlignTop */
+/* unused concated harmony import mdiFormatWrapInline */
+/* unused concated harmony import mdiFormatWrapSquare */
+/* unused concated harmony import mdiFormatWrapTight */
+/* unused concated harmony import mdiFormatWrapTopBottom */
+/* unused concated harmony import mdiForum */
+/* unused concated harmony import mdiForumOutline */
+/* unused concated harmony import mdiForward */
+/* unused concated harmony import mdiForwardburger */
+/* unused concated harmony import mdiFountain */
+/* unused concated harmony import mdiFountainPen */
+/* unused concated harmony import mdiFountainPenTip */
+/* unused concated harmony import mdiFoursquare */
+/* unused concated harmony import mdiFreebsd */
+/* unused concated harmony import mdiFrequentlyAskedQuestions */
+/* unused concated harmony import mdiFridge */
+/* unused concated harmony import mdiFridgeBottom */
+/* unused concated harmony import mdiFridgeOutline */
+/* unused concated harmony import mdiFridgeTop */
+/* unused concated harmony import mdiFuel */
+/* unused concated harmony import mdiFullscreen */
+/* unused concated harmony import mdiFullscreenExit */
+/* unused concated harmony import mdiFunction */
+/* unused concated harmony import mdiFunctionVariant */
+/* unused concated harmony import mdiFuse */
+/* unused concated harmony import mdiFuseBlade */
+/* unused concated harmony import mdiGamepad */
+/* unused concated harmony import mdiGamepadCircle */
+/* unused concated harmony import mdiGamepadCircleDown */
+/* unused concated harmony import mdiGamepadCircleLeft */
+/* unused concated harmony import mdiGamepadCircleOutline */
+/* unused concated harmony import mdiGamepadCircleRight */
+/* unused concated harmony import mdiGamepadCircleUp */
+/* unused concated harmony import mdiGamepadDown */
+/* unused concated harmony import mdiGamepadLeft */
+/* unused concated harmony import mdiGamepadRight */
+/* unused concated harmony import mdiGamepadRound */
+/* unused concated harmony import mdiGamepadRoundDown */
+/* unused concated harmony import mdiGamepadRoundLeft */
+/* unused concated harmony import mdiGamepadRoundOutline */
+/* unused concated harmony import mdiGamepadRoundRight */
+/* unused concated harmony import mdiGamepadRoundUp */
+/* unused concated harmony import mdiGamepadSquare */
+/* unused concated harmony import mdiGamepadSquareOutline */
+/* unused concated harmony import mdiGamepadUp */
+/* unused concated harmony import mdiGamepadVariant */
+/* unused concated harmony import mdiGamepadVariantOutline */
+/* unused concated harmony import mdiGantryCrane */
+/* unused concated harmony import mdiGarage */
+/* unused concated harmony import mdiGarageAlert */
+/* unused concated harmony import mdiGarageOpen */
+/* unused concated harmony import mdiGasCylinder */
+/* unused concated harmony import mdiGasStation */
+/* unused concated harmony import mdiGasStationOutline */
+/* unused concated harmony import mdiGate */
+/* unused concated harmony import mdiGateAnd */
+/* unused concated harmony import mdiGateNand */
+/* unused concated harmony import mdiGateNor */
+/* unused concated harmony import mdiGateNot */
+/* unused concated harmony import mdiGateOr */
+/* unused concated harmony import mdiGateXnor */
+/* unused concated harmony import mdiGateXor */
+/* unused concated harmony import mdiGatsby */
+/* unused concated harmony import mdiGauge */
+/* unused concated harmony import mdiGaugeEmpty */
+/* unused concated harmony import mdiGaugeFull */
+/* unused concated harmony import mdiGaugeLow */
+/* unused concated harmony import mdiGavel */
+/* unused concated harmony import mdiGenderFemale */
+/* unused concated harmony import mdiGenderMale */
+/* unused concated harmony import mdiGenderMaleFemale */
+/* unused concated harmony import mdiGenderTransgender */
+/* unused concated harmony import mdiGentoo */
+/* unused concated harmony import mdiGesture */
+/* unused concated harmony import mdiGestureDoubleTap */
+/* unused concated harmony import mdiGesturePinch */
+/* unused concated harmony import mdiGestureSpread */
+/* unused concated harmony import mdiGestureSwipe */
+/* unused concated harmony import mdiGestureSwipeDown */
+/* unused concated harmony import mdiGestureSwipeHorizontal */
+/* unused concated harmony import mdiGestureSwipeLeft */
+/* unused concated harmony import mdiGestureSwipeRight */
+/* unused concated harmony import mdiGestureSwipeUp */
+/* unused concated harmony import mdiGestureSwipeVertical */
+/* unused concated harmony import mdiGestureTap */
+/* unused concated harmony import mdiGestureTapHold */
+/* unused concated harmony import mdiGestureTwoDoubleTap */
+/* unused concated harmony import mdiGestureTwoTap */
+/* unused concated harmony import mdiGhost */
+/* unused concated harmony import mdiGhostOff */
+/* unused concated harmony import mdiGif */
+/* unused concated harmony import mdiGift */
+/* unused concated harmony import mdiGiftOutline */
+/* unused concated harmony import mdiGit */
+/* unused concated harmony import mdiGithubBox */
+/* unused concated harmony import mdiGithubCircle */
+/* unused concated harmony import mdiGithubFace */
+/* unused concated harmony import mdiGitlab */
+/* unused concated harmony import mdiGlassCocktail */
+/* unused concated harmony import mdiGlassFlute */
+/* unused concated harmony import mdiGlassMug */
+/* unused concated harmony import mdiGlassStange */
+/* unused concated harmony import mdiGlassTulip */
+/* unused concated harmony import mdiGlassWine */
+/* unused concated harmony import mdiGlassdoor */
+/* unused concated harmony import mdiGlasses */
+/* unused concated harmony import mdiGlobeModel */
+/* unused concated harmony import mdiGmail */
+/* unused concated harmony import mdiGnome */
+/* unused concated harmony import mdiGoKart */
+/* unused concated harmony import mdiGoKartTrack */
+/* unused concated harmony import mdiGog */
+/* unused concated harmony import mdiGolf */
+/* unused concated harmony import mdiGondola */
+/* unused concated harmony import mdiGoodreads */
+/* unused concated harmony import mdiGoogle */
+/* unused concated harmony import mdiGoogleAdwords */
+/* unused concated harmony import mdiGoogleAllo */
+/* unused concated harmony import mdiGoogleAnalytics */
+/* unused concated harmony import mdiGoogleAssistant */
+/* unused concated harmony import mdiGoogleCardboard */
+/* unused concated harmony import mdiGoogleChrome */
+/* unused concated harmony import mdiGoogleCircles */
+/* unused concated harmony import mdiGoogleCirclesCommunities */
+/* unused concated harmony import mdiGoogleCirclesExtended */
+/* unused concated harmony import mdiGoogleCirclesGroup */
+/* unused concated harmony import mdiGoogleClassroom */
+/* unused concated harmony import mdiGoogleController */
+/* unused concated harmony import mdiGoogleControllerOff */
+/* unused concated harmony import mdiGoogleDrive */
+/* unused concated harmony import mdiGoogleEarth */
+/* unused concated harmony import mdiGoogleFit */
+/* unused concated harmony import mdiGoogleGlass */
+/* unused concated harmony import mdiGoogleHangouts */
+/* unused concated harmony import mdiGoogleHome */
+/* unused concated harmony import mdiGoogleKeep */
+/* unused concated harmony import mdiGoogleLens */
+/* unused concated harmony import mdiGoogleMaps */
+/* unused concated harmony import mdiGoogleNearby */
+/* unused concated harmony import mdiGooglePages */
+/* unused concated harmony import mdiGooglePhotos */
+/* unused concated harmony import mdiGooglePhysicalWeb */
+/* unused concated harmony import mdiGooglePlay */
+/* unused concated harmony import mdiGooglePlus */
+/* unused concated harmony import mdiGooglePlusBox */
+/* unused concated harmony import mdiGooglePodcast */
+/* unused concated harmony import mdiGoogleSpreadsheet */
+/* unused concated harmony import mdiGoogleStreetView */
+/* unused concated harmony import mdiGoogleTranslate */
+/* unused concated harmony import mdiGpu */
+/* unused concated harmony import mdiGradient */
+/* unused concated harmony import mdiGrain */
+/* unused concated harmony import mdiGraphql */
+/* unused concated harmony import mdiGraveStone */
+/* unused concated harmony import mdiGreasePencil */
+/* unused concated harmony import mdiGreaterThan */
+/* unused concated harmony import mdiGreaterThanOrEqual */
+/* unused concated harmony import mdiGrid */
+/* unused concated harmony import mdiGridLarge */
+/* unused concated harmony import mdiGridOff */
+/* unused concated harmony import mdiGrill */
+/* unused concated harmony import mdiGroup */
+/* unused concated harmony import mdiGuitarAcoustic */
+/* unused concated harmony import mdiGuitarElectric */
+/* unused concated harmony import mdiGuitarPick */
+/* unused concated harmony import mdiGuitarPickOutline */
+/* unused concated harmony import mdiGuyFawkesMask */
+/* unused concated harmony import mdiHackernews */
+/* unused concated harmony import mdiHail */
+/* unused concated harmony import mdiHalloween */
+/* unused concated harmony import mdiHamburger */
+/* unused concated harmony import mdiHammer */
+/* unused concated harmony import mdiHand */
+/* unused concated harmony import mdiHandLeft */
+/* unused concated harmony import mdiHandOkay */
+/* unused concated harmony import mdiHandPeace */
+/* unused concated harmony import mdiHandPeaceVariant */
+/* unused concated harmony import mdiHandPointingDown */
+/* unused concated harmony import mdiHandPointingLeft */
+/* unused concated harmony import mdiHandPointingRight */
+/* unused concated harmony import mdiHandPointingUp */
+/* unused concated harmony import mdiHandRight */
+/* unused concated harmony import mdiHandSaw */
+/* unused concated harmony import mdiHanger */
+/* unused concated harmony import mdiHardHat */
+/* unused concated harmony import mdiHarddisk */
+/* unused concated harmony import mdiHatFedora */
+/* unused concated harmony import mdiHazardLights */
+/* unused concated harmony import mdiHdr */
+/* unused concated harmony import mdiHdrOff */
+/* unused concated harmony import mdiHeadphones */
+/* unused concated harmony import mdiHeadphonesBluetooth */
+/* unused concated harmony import mdiHeadphonesBox */
+/* unused concated harmony import mdiHeadphonesOff */
+/* unused concated harmony import mdiHeadphonesSettings */
+/* unused concated harmony import mdiHeadset */
+/* unused concated harmony import mdiHeadsetDock */
+/* unused concated harmony import mdiHeadsetOff */
+/* unused concated harmony import mdiHeart */
+/* unused concated harmony import mdiHeartBox */
+/* unused concated harmony import mdiHeartBoxOutline */
+/* unused concated harmony import mdiHeartBroken */
+/* unused concated harmony import mdiHeartBrokenOutline */
+/* unused concated harmony import mdiHeartCircle */
+/* unused concated harmony import mdiHeartCircleOutline */
+/* unused concated harmony import mdiHeartHalf */
+/* unused concated harmony import mdiHeartHalfFull */
+/* unused concated harmony import mdiHeartHalfOutline */
+/* unused concated harmony import mdiHeartMultiple */
+/* unused concated harmony import mdiHeartMultipleOutline */
+/* unused concated harmony import mdiHeartOff */
+/* unused concated harmony import mdiHeartOutline */
+/* unused concated harmony import mdiHeartPulse */
+/* unused concated harmony import mdiHelicopter */
+/* unused concated harmony import mdiHelp */
+/* unused concated harmony import mdiHelpBox */
+/* unused concated harmony import mdiHelpCircle */
+/* unused concated harmony import mdiHelpCircleOutline */
+/* unused concated harmony import mdiHelpNetwork */
+/* unused concated harmony import mdiHelpNetworkOutline */
+/* unused concated harmony import mdiHelpRhombus */
+/* unused concated harmony import mdiHelpRhombusOutline */
+/* unused concated harmony import mdiHexagon */
+/* unused concated harmony import mdiHexagonMultiple */
+/* unused concated harmony import mdiHexagonOutline */
+/* unused concated harmony import mdiHexagonSlice1 */
+/* unused concated harmony import mdiHexagonSlice2 */
+/* unused concated harmony import mdiHexagonSlice3 */
+/* unused concated harmony import mdiHexagonSlice4 */
+/* unused concated harmony import mdiHexagonSlice5 */
+/* unused concated harmony import mdiHexagonSlice6 */
+/* unused concated harmony import mdiHexagram */
+/* unused concated harmony import mdiHexagramOutline */
+/* unused concated harmony import mdiHighDefinition */
+/* unused concated harmony import mdiHighDefinitionBox */
+/* unused concated harmony import mdiHighway */
+/* unused concated harmony import mdiHiking */
+/* unused concated harmony import mdiHinduism */
+/* unused concated harmony import mdiHistory */
+/* unused concated harmony import mdiHockeyPuck */
+/* unused concated harmony import mdiHockeySticks */
+/* unused concated harmony import mdiHololens */
+/* unused concated harmony import mdiHome */
+/* unused concated harmony import mdiHomeAccount */
+/* unused concated harmony import mdiHomeAlert */
+/* unused concated harmony import mdiHomeAnalytics */
+/* unused concated harmony import mdiHomeAssistant */
+/* unused concated harmony import mdiHomeAutomation */
+/* unused concated harmony import mdiHomeCircle */
+/* unused concated harmony import mdiHomeCity */
+/* unused concated harmony import mdiHomeCityOutline */
+/* unused concated harmony import mdiHomeCurrencyUsd */
+/* unused concated harmony import mdiHomeFloor0 */
+/* unused concated harmony import mdiHomeFloor1 */
+/* unused concated harmony import mdiHomeFloor2 */
+/* unused concated harmony import mdiHomeFloor3 */
+/* unused concated harmony import mdiHomeFloorA */
+/* unused concated harmony import mdiHomeFloorB */
+/* unused concated harmony import mdiHomeFloorG */
+/* unused concated harmony import mdiHomeFloorL */
+/* unused concated harmony import mdiHomeFloorNegative1 */
+/* unused concated harmony import mdiHomeGroup */
+/* unused concated harmony import mdiHomeHeart */
+/* unused concated harmony import mdiHomeLock */
+/* unused concated harmony import mdiHomeLockOpen */
+/* unused concated harmony import mdiHomeMapMarker */
+/* unused concated harmony import mdiHomeMinus */
+/* unused concated harmony import mdiHomeModern */
+/* unused concated harmony import mdiHomeOutline */
+/* unused concated harmony import mdiHomePlus */
+/* unused concated harmony import mdiHomeVariant */
+/* unused concated harmony import mdiHomeVariantOutline */
+/* unused concated harmony import mdiHook */
+/* unused concated harmony import mdiHookOff */
+/* unused concated harmony import mdiHops */
+/* unused concated harmony import mdiHorseshoe */
+/* unused concated harmony import mdiHospital */
+/* unused concated harmony import mdiHospitalBuilding */
+/* unused concated harmony import mdiHospitalMarker */
+/* unused concated harmony import mdiHotTub */
+/* unused concated harmony import mdiHotel */
+/* unused concated harmony import mdiHouzz */
+/* unused concated harmony import mdiHouzzBox */
+/* unused concated harmony import mdiHubspot */
+/* unused concated harmony import mdiHulu */
+/* unused concated harmony import mdiHuman */
+/* unused concated harmony import mdiHumanChild */
+/* unused concated harmony import mdiHumanFemale */
+/* unused concated harmony import mdiHumanFemaleBoy */
+/* unused concated harmony import mdiHumanFemaleFemale */
+/* unused concated harmony import mdiHumanFemaleGirl */
+/* unused concated harmony import mdiHumanGreeting */
+/* unused concated harmony import mdiHumanHandsdown */
+/* unused concated harmony import mdiHumanHandsup */
+/* unused concated harmony import mdiHumanMale */
+/* unused concated harmony import mdiHumanMaleBoy */
+/* unused concated harmony import mdiHumanMaleFemale */
+/* unused concated harmony import mdiHumanMaleGirl */
+/* unused concated harmony import mdiHumanMaleMale */
+/* unused concated harmony import mdiHumanPregnant */
+/* unused concated harmony import mdiHumbleBundle */
+/* unused concated harmony import mdiIceCream */
+/* unused concated harmony import mdiIframe */
+/* unused concated harmony import mdiIframeOutline */
+/* unused concated harmony import mdiImage */
+/* unused concated harmony import mdiImageAlbum */
+/* unused concated harmony import mdiImageArea */
+/* unused concated harmony import mdiImageAreaClose */
+/* unused concated harmony import mdiImageBroken */
+/* unused concated harmony import mdiImageBrokenVariant */
+/* unused concated harmony import mdiImageFilter */
+/* unused concated harmony import mdiImageFilterBlackWhite */
+/* unused concated harmony import mdiImageFilterCenterFocus */
+/* unused concated harmony import mdiImageFilterCenterFocusWeak */
+/* unused concated harmony import mdiImageFilterDrama */
+/* unused concated harmony import mdiImageFilterFrames */
+/* unused concated harmony import mdiImageFilterHdr */
+/* unused concated harmony import mdiImageFilterNone */
+/* unused concated harmony import mdiImageFilterTiltShift */
+/* unused concated harmony import mdiImageFilterVintage */
+/* unused concated harmony import mdiImageFrame */
+/* unused concated harmony import mdiImageMove */
+/* unused concated harmony import mdiImageMultiple */
+/* unused concated harmony import mdiImageOff */
+/* unused concated harmony import mdiImageOutline */
+/* unused concated harmony import mdiImagePlus */
+/* unused concated harmony import mdiImageSearch */
+/* unused concated harmony import mdiImageSearchOutline */
+/* unused concated harmony import mdiImageSizeSelectActual */
+/* unused concated harmony import mdiImageSizeSelectLarge */
+/* unused concated harmony import mdiImageSizeSelectSmall */
+/* unused concated harmony import mdiImport */
+/* unused concated harmony import mdiInbox */
+/* unused concated harmony import mdiInboxArrowDown */
+/* unused concated harmony import mdiInboxArrowUp */
+/* unused concated harmony import mdiInboxMultiple */
+/* unused concated harmony import mdiInboxMultipleOutline */
+/* unused concated harmony import mdiIncognito */
+/* unused concated harmony import mdiInfinity */
+/* unused concated harmony import mdiInformation */
+/* unused concated harmony import mdiInformationOutline */
+/* unused concated harmony import mdiInformationVariant */
+/* unused concated harmony import mdiInstagram */
+/* unused concated harmony import mdiInstapaper */
+/* unused concated harmony import mdiInternetExplorer */
+/* unused concated harmony import mdiInvertColors */
+/* unused concated harmony import mdiInvertColorsOff */
+/* unused concated harmony import mdiIp */
+/* unused concated harmony import mdiIpNetwork */
+/* unused concated harmony import mdiIpNetworkOutline */
+/* unused concated harmony import mdiIpod */
+/* unused concated harmony import mdiIslam */
+/* unused concated harmony import mdiItunes */
+/* unused concated harmony import mdiJabber */
+/* unused concated harmony import mdiJeepney */
+/* unused concated harmony import mdiJira */
+/* unused concated harmony import mdiJquery */
+/* unused concated harmony import mdiJsfiddle */
+/* unused concated harmony import mdiJson */
+/* unused concated harmony import mdiJudaism */
+/* unused concated harmony import mdiKabaddi */
+/* unused concated harmony import mdiKarate */
+/* unused concated harmony import mdiKeg */
+/* unused concated harmony import mdiKettle */
+/* unused concated harmony import mdiKey */
+/* unused concated harmony import mdiKeyChange */
+/* unused concated harmony import mdiKeyMinus */
+/* unused concated harmony import mdiKeyOutline */
+/* unused concated harmony import mdiKeyPlus */
+/* unused concated harmony import mdiKeyRemove */
+/* unused concated harmony import mdiKeyVariant */
+/* unused concated harmony import mdiKeyboard */
+/* unused concated harmony import mdiKeyboardBackspace */
+/* unused concated harmony import mdiKeyboardCaps */
+/* unused concated harmony import mdiKeyboardClose */
+/* unused concated harmony import mdiKeyboardOff */
+/* unused concated harmony import mdiKeyboardOffOutline */
+/* unused concated harmony import mdiKeyboardOutline */
+/* unused concated harmony import mdiKeyboardReturn */
+/* unused concated harmony import mdiKeyboardSettings */
+/* unused concated harmony import mdiKeyboardSettingsOutline */
+/* unused concated harmony import mdiKeyboardTab */
+/* unused concated harmony import mdiKeyboardVariant */
+/* unused concated harmony import mdiKickstarter */
+/* unused concated harmony import mdiKnife */
+/* unused concated harmony import mdiKnifeMilitary */
+/* unused concated harmony import mdiKodi */
+/* unused concated harmony import mdiLabel */
+/* unused concated harmony import mdiLabelOff */
+/* unused concated harmony import mdiLabelOffOutline */
+/* unused concated harmony import mdiLabelOutline */
+/* unused concated harmony import mdiLabelVariant */
+/* unused concated harmony import mdiLabelVariantOutline */
+/* unused concated harmony import mdiLadybug */
+/* unused concated harmony import mdiLambda */
+/* unused concated harmony import mdiLamp */
+/* unused concated harmony import mdiLan */
+/* unused concated harmony import mdiLanConnect */
+/* unused concated harmony import mdiLanDisconnect */
+/* unused concated harmony import mdiLanPending */
+/* unused concated harmony import mdiLanguageC */
+/* unused concated harmony import mdiLanguageCpp */
+/* unused concated harmony import mdiLanguageCsharp */
+/* unused concated harmony import mdiLanguageCss3 */
+/* unused concated harmony import mdiLanguageGo */
+/* unused concated harmony import mdiLanguageHaskell */
+/* unused concated harmony import mdiLanguageHtml5 */
+/* unused concated harmony import mdiLanguageJava */
+/* unused concated harmony import mdiLanguageJavascript */
+/* unused concated harmony import mdiLanguageLua */
+/* unused concated harmony import mdiLanguagePhp */
+/* unused concated harmony import mdiLanguagePython */
+/* unused concated harmony import mdiLanguagePythonText */
+/* unused concated harmony import mdiLanguageR */
+/* unused concated harmony import mdiLanguageRubyOnRails */
+/* unused concated harmony import mdiLanguageSwift */
+/* unused concated harmony import mdiLanguageTypescript */
+/* unused concated harmony import mdiLaptop */
+/* unused concated harmony import mdiLaptopChromebook */
+/* unused concated harmony import mdiLaptopMac */
+/* unused concated harmony import mdiLaptopOff */
+/* unused concated harmony import mdiLaptopWindows */
+/* unused concated harmony import mdiLaravel */
+/* unused concated harmony import mdiLastfm */
+/* unused concated harmony import mdiLastpass */
+/* unused concated harmony import mdiLaunch */
+/* unused concated harmony import mdiLavaLamp */
+/* unused concated harmony import mdiLayers */
+/* unused concated harmony import mdiLayersMinus */
+/* unused concated harmony import mdiLayersOff */
+/* unused concated harmony import mdiLayersOffOutline */
+/* unused concated harmony import mdiLayersOutline */
+/* unused concated harmony import mdiLayersPlus */
+/* unused concated harmony import mdiLayersRemove */
+/* unused concated harmony import mdiLeadPencil */
+/* unused concated harmony import mdiLeaf */
+/* unused concated harmony import mdiLeafMaple */
+/* unused concated harmony import mdiLeak */
+/* unused concated harmony import mdiLeakOff */
+/* unused concated harmony import mdiLedOff */
+/* unused concated harmony import mdiLedOn */
+/* unused concated harmony import mdiLedOutline */
+/* unused concated harmony import mdiLedStrip */
+/* unused concated harmony import mdiLedVariantOff */
+/* unused concated harmony import mdiLedVariantOn */
+/* unused concated harmony import mdiLedVariantOutline */
+/* unused concated harmony import mdiLessThan */
+/* unused concated harmony import mdiLessThanOrEqual */
+/* unused concated harmony import mdiLibrary */
+/* unused concated harmony import mdiLibraryBooks */
+/* unused concated harmony import mdiLibraryMovie */
+/* unused concated harmony import mdiLibraryMusic */
+/* unused concated harmony import mdiLibraryPlus */
+/* unused concated harmony import mdiLibraryShelves */
+/* unused concated harmony import mdiLibraryVideo */
+/* unused concated harmony import mdiLifebuoy */
+/* unused concated harmony import mdiLightSwitch */
+/* unused concated harmony import mdiLightbulb */
+/* unused concated harmony import mdiLightbulbOff */
+/* unused concated harmony import mdiLightbulbOffOutline */
+/* unused concated harmony import mdiLightbulbOn */
+/* unused concated harmony import mdiLightbulbOnOutline */
+/* unused concated harmony import mdiLightbulbOutline */
+/* unused concated harmony import mdiLighthouse */
+/* unused concated harmony import mdiLighthouseOn */
+/* unused concated harmony import mdiLink */
+/* unused concated harmony import mdiLinkBox */
+/* unused concated harmony import mdiLinkBoxOutline */
+/* unused concated harmony import mdiLinkBoxVariant */
+/* unused concated harmony import mdiLinkBoxVariantOutline */
+/* unused concated harmony import mdiLinkOff */
+/* unused concated harmony import mdiLinkPlus */
+/* unused concated harmony import mdiLinkVariant */
+/* unused concated harmony import mdiLinkVariantOff */
+/* unused concated harmony import mdiLinkedin */
+/* unused concated harmony import mdiLinkedinBox */
+/* unused concated harmony import mdiLinux */
+/* unused concated harmony import mdiLinuxMint */
+/* unused concated harmony import mdiLitecoin */
+/* unused concated harmony import mdiLoading */
+/* unused concated harmony import mdiLock */
+/* unused concated harmony import mdiLockAlert */
+/* unused concated harmony import mdiLockClock */
+/* unused concated harmony import mdiLockOpen */
+/* unused concated harmony import mdiLockOpenOutline */
+/* unused concated harmony import mdiLockOutline */
+/* unused concated harmony import mdiLockPattern */
+/* unused concated harmony import mdiLockPlus */
+/* unused concated harmony import mdiLockQuestion */
+/* unused concated harmony import mdiLockReset */
+/* unused concated harmony import mdiLockSmart */
+/* unused concated harmony import mdiLocker */
+/* unused concated harmony import mdiLockerMultiple */
+/* unused concated harmony import mdiLogin */
+/* unused concated harmony import mdiLoginVariant */
+/* unused concated harmony import mdiLogout */
+/* unused concated harmony import mdiLogoutVariant */
+/* unused concated harmony import mdiLooks */
+/* unused concated harmony import mdiLoop */
+/* unused concated harmony import mdiLoupe */
+/* unused concated harmony import mdiLumx */
+/* unused concated harmony import mdiLyft */
+/* unused concated harmony import mdiMagnet */
+/* unused concated harmony import mdiMagnetOn */
+/* concated harmony reexport mdiMagnify */__webpack_require__.d(__webpack_exports__, "f", function() { return mdiMagnify; });
+/* unused concated harmony import mdiMagnifyClose */
+/* unused concated harmony import mdiMagnifyMinus */
+/* unused concated harmony import mdiMagnifyMinusCursor */
+/* unused concated harmony import mdiMagnifyMinusOutline */
+/* unused concated harmony import mdiMagnifyPlus */
+/* unused concated harmony import mdiMagnifyPlusCursor */
+/* unused concated harmony import mdiMagnifyPlusOutline */
+/* unused concated harmony import mdiMail */
+/* unused concated harmony import mdiMailRu */
+/* unused concated harmony import mdiMailbox */
+/* unused concated harmony import mdiMailboxOpen */
+/* unused concated harmony import mdiMailboxOpenOutline */
+/* unused concated harmony import mdiMailboxOpenUp */
+/* unused concated harmony import mdiMailboxOpenUpOutline */
+/* unused concated harmony import mdiMailboxOutline */
+/* unused concated harmony import mdiMailboxUp */
+/* unused concated harmony import mdiMailboxUpOutline */
+/* unused concated harmony import mdiMap */
+/* unused concated harmony import mdiMapCheck */
+/* unused concated harmony import mdiMapCheckOutline */
+/* unused concated harmony import mdiMapClock */
+/* unused concated harmony import mdiMapClockOutline */
+/* unused concated harmony import mdiMapLegend */
+/* unused concated harmony import mdiMapMarker */
+/* unused concated harmony import mdiMapMarkerCheck */
+/* unused concated harmony import mdiMapMarkerCircle */
+/* unused concated harmony import mdiMapMarkerDistance */
+/* unused concated harmony import mdiMapMarkerMinus */
+/* unused concated harmony import mdiMapMarkerMultiple */
+/* unused concated harmony import mdiMapMarkerOff */
+/* unused concated harmony import mdiMapMarkerOutline */
+/* unused concated harmony import mdiMapMarkerPath */
+/* unused concated harmony import mdiMapMarkerPlus */
+/* unused concated harmony import mdiMapMarkerRadius */
+/* unused concated harmony import mdiMapMinus */
+/* unused concated harmony import mdiMapOutline */
+/* unused concated harmony import mdiMapPlus */
+/* unused concated harmony import mdiMapSearch */
+/* unused concated harmony import mdiMapSearchOutline */
+/* unused concated harmony import mdiMapbox */
+/* unused concated harmony import mdiMargin */
+/* unused concated harmony import mdiMarkdown */
+/* unused concated harmony import mdiMarker */
+/* unused concated harmony import mdiMarkerCancel */
+/* unused concated harmony import mdiMarkerCheck */
+/* unused concated harmony import mdiMastodon */
+/* unused concated harmony import mdiMastodonVariant */
+/* unused concated harmony import mdiMaterialDesign */
+/* unused concated harmony import mdiMaterialUi */
+/* unused concated harmony import mdiMathCompass */
+/* unused concated harmony import mdiMathCos */
+/* unused concated harmony import mdiMathSin */
+/* unused concated harmony import mdiMathTan */
+/* unused concated harmony import mdiMatrix */
+/* unused concated harmony import mdiMaxcdn */
+/* unused concated harmony import mdiMedal */
+/* unused concated harmony import mdiMedicalBag */
+/* unused concated harmony import mdiMedium */
+/* unused concated harmony import mdiMeetup */
+/* unused concated harmony import mdiMemory */
+/* unused concated harmony import mdiMenu */
+/* concated harmony reexport mdiMenuDown */__webpack_require__.d(__webpack_exports__, "g", function() { return mdiMenuDown; });
+/* unused concated harmony import mdiMenuDownOutline */
+/* unused concated harmony import mdiMenuLeft */
+/* unused concated harmony import mdiMenuLeftOutline */
+/* unused concated harmony import mdiMenuOpen */
+/* unused concated harmony import mdiMenuRight */
+/* unused concated harmony import mdiMenuRightOutline */
+/* unused concated harmony import mdiMenuSwap */
+/* unused concated harmony import mdiMenuSwapOutline */
+/* unused concated harmony import mdiMenuUp */
+/* unused concated harmony import mdiMenuUpOutline */
+/* unused concated harmony import mdiMessage */
+/* unused concated harmony import mdiMessageAlert */
+/* unused concated harmony import mdiMessageAlertOutline */
+/* unused concated harmony import mdiMessageBulleted */
+/* unused concated harmony import mdiMessageBulletedOff */
+/* unused concated harmony import mdiMessageDraw */
+/* unused concated harmony import mdiMessageImage */
+/* unused concated harmony import mdiMessageOutline */
+/* unused concated harmony import mdiMessagePlus */
+/* unused concated harmony import mdiMessageProcessing */
+/* unused concated harmony import mdiMessageReply */
+/* unused concated harmony import mdiMessageReplyText */
+/* unused concated harmony import mdiMessageSettings */
+/* unused concated harmony import mdiMessageSettingsVariant */
+/* unused concated harmony import mdiMessageText */
+/* unused concated harmony import mdiMessageTextOutline */
+/* unused concated harmony import mdiMessageVideo */
+/* unused concated harmony import mdiMeteor */
+/* unused concated harmony import mdiMetronome */
+/* unused concated harmony import mdiMetronomeTick */
+/* unused concated harmony import mdiMicroSd */
+/* unused concated harmony import mdiMicrophone */
+/* unused concated harmony import mdiMicrophoneMinus */
+/* unused concated harmony import mdiMicrophoneOff */
+/* unused concated harmony import mdiMicrophoneOutline */
+/* unused concated harmony import mdiMicrophonePlus */
+/* unused concated harmony import mdiMicrophoneSettings */
+/* unused concated harmony import mdiMicrophoneVariant */
+/* unused concated harmony import mdiMicrophoneVariantOff */
+/* unused concated harmony import mdiMicroscope */
+/* unused concated harmony import mdiMicrosoft */
+/* unused concated harmony import mdiMicrosoftDynamics */
+/* unused concated harmony import mdiMicrowave */
+/* unused concated harmony import mdiMidi */
+/* unused concated harmony import mdiMidiPort */
+/* unused concated harmony import mdiMine */
+/* unused concated harmony import mdiMinecraft */
+/* unused concated harmony import mdiMiniSd */
+/* unused concated harmony import mdiMinidisc */
+/* unused concated harmony import mdiMinus */
+/* unused concated harmony import mdiMinusBox */
+/* unused concated harmony import mdiMinusBoxOutline */
+/* unused concated harmony import mdiMinusCircle */
+/* unused concated harmony import mdiMinusCircleOutline */
+/* unused concated harmony import mdiMinusNetwork */
+/* unused concated harmony import mdiMinusNetworkOutline */
+/* unused concated harmony import mdiMixcloud */
+/* unused concated harmony import mdiMixedMartialArts */
+/* unused concated harmony import mdiMixedReality */
+/* unused concated harmony import mdiMixer */
+/* unused concated harmony import mdiMolecule */
+/* unused concated harmony import mdiMonitor */
+/* unused concated harmony import mdiMonitorCellphone */
+/* unused concated harmony import mdiMonitorCellphoneStar */
+/* unused concated harmony import mdiMonitorDashboard */
+/* unused concated harmony import mdiMonitorLock */
+/* unused concated harmony import mdiMonitorMultiple */
+/* unused concated harmony import mdiMonitorOff */
+/* unused concated harmony import mdiMonitorScreenshot */
+/* unused concated harmony import mdiMonitorStar */
+/* unused concated harmony import mdiMore */
+/* unused concated harmony import mdiMotherNurse */
+/* unused concated harmony import mdiMotionSensor */
+/* unused concated harmony import mdiMotorbike */
+/* unused concated harmony import mdiMouse */
+/* unused concated harmony import mdiMouseBluetooth */
+/* unused concated harmony import mdiMouseOff */
+/* unused concated harmony import mdiMouseVariant */
+/* unused concated harmony import mdiMouseVariantOff */
+/* unused concated harmony import mdiMoveResize */
+/* unused concated harmony import mdiMoveResizeVariant */
+/* unused concated harmony import mdiMovie */
+/* unused concated harmony import mdiMovieOutline */
+/* unused concated harmony import mdiMovieRoll */
+/* unused concated harmony import mdiMuffin */
+/* unused concated harmony import mdiMultiplication */
+/* unused concated harmony import mdiMultiplicationBox */
+/* unused concated harmony import mdiMushroom */
+/* unused concated harmony import mdiMushroomOutline */
+/* unused concated harmony import mdiMusic */
+/* unused concated harmony import mdiMusicBox */
+/* unused concated harmony import mdiMusicBoxOutline */
+/* unused concated harmony import mdiMusicCircle */
+/* unused concated harmony import mdiMusicCircleOutline */
+/* unused concated harmony import mdiMusicNote */
+/* unused concated harmony import mdiMusicNoteBluetooth */
+/* unused concated harmony import mdiMusicNoteBluetoothOff */
+/* unused concated harmony import mdiMusicNoteEighth */
+/* unused concated harmony import mdiMusicNoteHalf */
+/* unused concated harmony import mdiMusicNoteOff */
+/* unused concated harmony import mdiMusicNotePlus */
+/* unused concated harmony import mdiMusicNoteQuarter */
+/* unused concated harmony import mdiMusicNoteSixteenth */
+/* unused concated harmony import mdiMusicNoteWhole */
+/* unused concated harmony import mdiMusicOff */
+/* unused concated harmony import mdiNail */
+/* unused concated harmony import mdiNas */
+/* unused concated harmony import mdiNativescript */
+/* unused concated harmony import mdiNature */
+/* unused concated harmony import mdiNaturePeople */
+/* unused concated harmony import mdiNavigation */
+/* unused concated harmony import mdiNearMe */
+/* unused concated harmony import mdiNeedle */
+/* unused concated harmony import mdiNetflix */
+/* unused concated harmony import mdiNetwork */
+/* unused concated harmony import mdiNetworkOff */
+/* unused concated harmony import mdiNetworkOffOutline */
+/* unused concated harmony import mdiNetworkOutline */
+/* unused concated harmony import mdiNetworkStrength1 */
+/* unused concated harmony import mdiNetworkStrength1Alert */
+/* unused concated harmony import mdiNetworkStrength2 */
+/* unused concated harmony import mdiNetworkStrength2Alert */
+/* unused concated harmony import mdiNetworkStrength3 */
+/* unused concated harmony import mdiNetworkStrength3Alert */
+/* unused concated harmony import mdiNetworkStrength4 */
+/* unused concated harmony import mdiNetworkStrength4Alert */
+/* unused concated harmony import mdiNetworkStrengthOff */
+/* unused concated harmony import mdiNetworkStrengthOffOutline */
+/* unused concated harmony import mdiNetworkStrengthOutline */
+/* unused concated harmony import mdiNewBox */
+/* unused concated harmony import mdiNewspaper */
+/* unused concated harmony import mdiNfc */
+/* unused concated harmony import mdiNfcOff */
+/* unused concated harmony import mdiNfcSearchVariant */
+/* unused concated harmony import mdiNfcTap */
+/* unused concated harmony import mdiNfcVariant */
+/* unused concated harmony import mdiNfcVariantOff */
+/* unused concated harmony import mdiNinja */
+/* unused concated harmony import mdiNintendoSwitch */
+/* unused concated harmony import mdiNodejs */
+/* unused concated harmony import mdiNotEqual */
+/* unused concated harmony import mdiNotEqualVariant */
+/* unused concated harmony import mdiNote */
+/* unused concated harmony import mdiNoteCircle */
+/* unused concated harmony import mdiNoteMultiple */
+/* unused concated harmony import mdiNoteMultipleOutline */
+/* unused concated harmony import mdiNoteOutline */
+/* unused concated harmony import mdiNotePlus */
+/* unused concated harmony import mdiNotePlusOutline */
+/* unused concated harmony import mdiNoteText */
+/* unused concated harmony import mdiNotebook */
+/* unused concated harmony import mdiNotebookMultiple */
+/* unused concated harmony import mdiNotebookOutline */
+/* unused concated harmony import mdiNotificationClearAll */
+/* unused concated harmony import mdiNpm */
+/* unused concated harmony import mdiNpmVariant */
+/* unused concated harmony import mdiNpmVariantOutline */
+/* unused concated harmony import mdiNuke */
+/* unused concated harmony import mdiNull */
+/* unused concated harmony import mdiNumeric */
+/* unused concated harmony import mdiNumeric0 */
+/* unused concated harmony import mdiNumeric0Box */
+/* unused concated harmony import mdiNumeric0BoxMultipleOutline */
+/* unused concated harmony import mdiNumeric0BoxOutline */
+/* unused concated harmony import mdiNumeric0Circle */
+/* unused concated harmony import mdiNumeric0CircleOutline */
+/* unused concated harmony import mdiNumeric1 */
+/* unused concated harmony import mdiNumeric1Box */
+/* unused concated harmony import mdiNumeric1BoxMultipleOutline */
+/* unused concated harmony import mdiNumeric1BoxOutline */
+/* unused concated harmony import mdiNumeric1Circle */
+/* unused concated harmony import mdiNumeric1CircleOutline */
+/* unused concated harmony import mdiNumeric2 */
+/* unused concated harmony import mdiNumeric2Box */
+/* unused concated harmony import mdiNumeric2BoxMultipleOutline */
+/* unused concated harmony import mdiNumeric2BoxOutline */
+/* unused concated harmony import mdiNumeric2Circle */
+/* unused concated harmony import mdiNumeric2CircleOutline */
+/* unused concated harmony import mdiNumeric3 */
+/* unused concated harmony import mdiNumeric3Box */
+/* unused concated harmony import mdiNumeric3BoxMultipleOutline */
+/* unused concated harmony import mdiNumeric3BoxOutline */
+/* unused concated harmony import mdiNumeric3Circle */
+/* unused concated harmony import mdiNumeric3CircleOutline */
+/* unused concated harmony import mdiNumeric4 */
+/* unused concated harmony import mdiNumeric4Box */
+/* unused concated harmony import mdiNumeric4BoxMultipleOutline */
+/* unused concated harmony import mdiNumeric4BoxOutline */
+/* unused concated harmony import mdiNumeric4Circle */
+/* unused concated harmony import mdiNumeric4CircleOutline */
+/* unused concated harmony import mdiNumeric5 */
+/* unused concated harmony import mdiNumeric5Box */
+/* unused concated harmony import mdiNumeric5BoxMultipleOutline */
+/* unused concated harmony import mdiNumeric5BoxOutline */
+/* unused concated harmony import mdiNumeric5Circle */
+/* unused concated harmony import mdiNumeric5CircleOutline */
+/* unused concated harmony import mdiNumeric6 */
+/* unused concated harmony import mdiNumeric6Box */
+/* unused concated harmony import mdiNumeric6BoxMultipleOutline */
+/* unused concated harmony import mdiNumeric6BoxOutline */
+/* unused concated harmony import mdiNumeric6Circle */
+/* unused concated harmony import mdiNumeric6CircleOutline */
+/* unused concated harmony import mdiNumeric7 */
+/* unused concated harmony import mdiNumeric7Box */
+/* unused concated harmony import mdiNumeric7BoxMultipleOutline */
+/* unused concated harmony import mdiNumeric7BoxOutline */
+/* unused concated harmony import mdiNumeric7Circle */
+/* unused concated harmony import mdiNumeric7CircleOutline */
+/* unused concated harmony import mdiNumeric8 */
+/* unused concated harmony import mdiNumeric8Box */
+/* unused concated harmony import mdiNumeric8BoxMultipleOutline */
+/* unused concated harmony import mdiNumeric8BoxOutline */
+/* unused concated harmony import mdiNumeric8Circle */
+/* unused concated harmony import mdiNumeric8CircleOutline */
+/* unused concated harmony import mdiNumeric9 */
+/* unused concated harmony import mdiNumeric9Box */
+/* unused concated harmony import mdiNumeric9BoxMultipleOutline */
+/* unused concated harmony import mdiNumeric9BoxOutline */
+/* unused concated harmony import mdiNumeric9Circle */
+/* unused concated harmony import mdiNumeric9CircleOutline */
+/* unused concated harmony import mdiNumeric9PlusBox */
+/* unused concated harmony import mdiNumeric9PlusBoxMultipleOutline */
+/* unused concated harmony import mdiNumeric9PlusBoxOutline */
+/* unused concated harmony import mdiNumeric9PlusCircle */
+/* unused concated harmony import mdiNumeric9PlusCircleOutline */
+/* unused concated harmony import mdiNut */
+/* unused concated harmony import mdiNutrition */
+/* unused concated harmony import mdiOar */
+/* unused concated harmony import mdiOcarina */
+/* unused concated harmony import mdiOctagon */
+/* unused concated harmony import mdiOctagonOutline */
+/* unused concated harmony import mdiOctagram */
+/* unused concated harmony import mdiOctagramOutline */
+/* unused concated harmony import mdiOdnoklassniki */
+/* unused concated harmony import mdiOffice */
+/* unused concated harmony import mdiOfficeBuilding */
+/* unused concated harmony import mdiOil */
+/* unused concated harmony import mdiOilTemperature */
+/* unused concated harmony import mdiOmega */
+/* unused concated harmony import mdiOneUp */
+/* unused concated harmony import mdiOnedrive */
+/* unused concated harmony import mdiOnenote */
+/* unused concated harmony import mdiOnepassword */
+/* unused concated harmony import mdiOpacity */
+/* unused concated harmony import mdiOpenInApp */
+/* unused concated harmony import mdiOpenInNew */
+/* unused concated harmony import mdiOpenSourceInitiative */
+/* unused concated harmony import mdiOpenid */
+/* unused concated harmony import mdiOpera */
+/* unused concated harmony import mdiOrbit */
+/* unused concated harmony import mdiOrigin */
+/* unused concated harmony import mdiOrnament */
+/* unused concated harmony import mdiOrnamentVariant */
+/* unused concated harmony import mdiOutlook */
+/* unused concated harmony import mdiOwl */
+/* unused concated harmony import mdiPacMan */
+/* unused concated harmony import mdiPackage */
+/* unused concated harmony import mdiPackageDown */
+/* unused concated harmony import mdiPackageUp */
+/* unused concated harmony import mdiPackageVariant */
+/* unused concated harmony import mdiPackageVariantClosed */
+/* unused concated harmony import mdiPageFirst */
+/* unused concated harmony import mdiPageLast */
+/* unused concated harmony import mdiPageLayoutBody */
+/* unused concated harmony import mdiPageLayoutFooter */
+/* unused concated harmony import mdiPageLayoutHeader */
+/* unused concated harmony import mdiPageLayoutSidebarLeft */
+/* unused concated harmony import mdiPageLayoutSidebarRight */
+/* unused concated harmony import mdiPageNext */
+/* unused concated harmony import mdiPageNextOutline */
+/* unused concated harmony import mdiPagePrevious */
+/* unused concated harmony import mdiPagePreviousOutline */
+/* unused concated harmony import mdiPalette */
+/* unused concated harmony import mdiPaletteAdvanced */
+/* unused concated harmony import mdiPaletteOutline */
+/* unused concated harmony import mdiPaletteSwatch */
+/* unused concated harmony import mdiPan */
+/* unused concated harmony import mdiPanBottomLeft */
+/* unused concated harmony import mdiPanBottomRight */
+/* unused concated harmony import mdiPanDown */
+/* unused concated harmony import mdiPanHorizontal */
+/* unused concated harmony import mdiPanLeft */
+/* unused concated harmony import mdiPanRight */
+/* unused concated harmony import mdiPanTopLeft */
+/* unused concated harmony import mdiPanTopRight */
+/* unused concated harmony import mdiPanUp */
+/* unused concated harmony import mdiPanVertical */
+/* unused concated harmony import mdiPanda */
+/* unused concated harmony import mdiPandora */
+/* unused concated harmony import mdiPanorama */
+/* unused concated harmony import mdiPanoramaFisheye */
+/* unused concated harmony import mdiPanoramaHorizontal */
+/* unused concated harmony import mdiPanoramaVertical */
+/* unused concated harmony import mdiPanoramaWideAngle */
+/* unused concated harmony import mdiPaperCutVertical */
+/* unused concated harmony import mdiPaperclip */
+/* unused concated harmony import mdiParachute */
+/* unused concated harmony import mdiParachuteOutline */
+/* unused concated harmony import mdiParking */
+/* unused concated harmony import mdiPassport */
+/* unused concated harmony import mdiPassportBiometric */
+/* unused concated harmony import mdiPatreon */
+/* unused concated harmony import mdiPause */
+/* unused concated harmony import mdiPauseCircle */
+/* unused concated harmony import mdiPauseCircleOutline */
+/* unused concated harmony import mdiPauseOctagon */
+/* unused concated harmony import mdiPauseOctagonOutline */
+/* unused concated harmony import mdiPaw */
+/* unused concated harmony import mdiPawOff */
+/* unused concated harmony import mdiPaypal */
+/* unused concated harmony import mdiPdfBox */
+/* unused concated harmony import mdiPeace */
+/* unused concated harmony import mdiPen */
+/* unused concated harmony import mdiPenLock */
+/* unused concated harmony import mdiPenMinus */
+/* unused concated harmony import mdiPenOff */
+/* unused concated harmony import mdiPenPlus */
+/* unused concated harmony import mdiPenRemove */
+/* unused concated harmony import mdiPencil */
+/* unused concated harmony import mdiPencilBox */
+/* unused concated harmony import mdiPencilBoxOutline */
+/* unused concated harmony import mdiPencilCircle */
+/* unused concated harmony import mdiPencilCircleOutline */
+/* unused concated harmony import mdiPencilLock */
+/* unused concated harmony import mdiPencilLockOutline */
+/* unused concated harmony import mdiPencilMinus */
+/* unused concated harmony import mdiPencilMinusOutline */
+/* unused concated harmony import mdiPencilOff */
+/* unused concated harmony import mdiPencilOffOutline */
+/* unused concated harmony import mdiPencilOutline */
+/* unused concated harmony import mdiPencilPlus */
+/* unused concated harmony import mdiPencilPlusOutline */
+/* unused concated harmony import mdiPencilRemove */
+/* unused concated harmony import mdiPencilRemoveOutline */
+/* unused concated harmony import mdiPenguin */
+/* unused concated harmony import mdiPentagon */
+/* unused concated harmony import mdiPentagonOutline */
+/* unused concated harmony import mdiPercent */
+/* unused concated harmony import mdiPeriodicTable */
+/* unused concated harmony import mdiPeriodicTableCo2 */
+/* unused concated harmony import mdiPeriscope */
+/* unused concated harmony import mdiPerspectiveLess */
+/* unused concated harmony import mdiPerspectiveMore */
+/* unused concated harmony import mdiPharmacy */
+/* unused concated harmony import mdiPhone */
+/* unused concated harmony import mdiPhoneBluetooth */
+/* unused concated harmony import mdiPhoneClassic */
+/* unused concated harmony import mdiPhoneForward */
+/* unused concated harmony import mdiPhoneHangup */
+/* unused concated harmony import mdiPhoneInTalk */
+/* unused concated harmony import mdiPhoneIncoming */
+/* unused concated harmony import mdiPhoneLock */
+/* unused concated harmony import mdiPhoneLog */
+/* unused concated harmony import mdiPhoneMinus */
+/* unused concated harmony import mdiPhoneMissed */
+/* unused concated harmony import mdiPhoneOff */
+/* unused concated harmony import mdiPhoneOutgoing */
+/* unused concated harmony import mdiPhoneOutline */
+/* unused concated harmony import mdiPhonePaused */
+/* unused concated harmony import mdiPhonePlus */
+/* unused concated harmony import mdiPhoneReturn */
+/* unused concated harmony import mdiPhoneRotateLandscape */
+/* unused concated harmony import mdiPhoneRotatePortrait */
+/* unused concated harmony import mdiPhoneSettings */
+/* unused concated harmony import mdiPhoneVoip */
+/* unused concated harmony import mdiPi */
+/* unused concated harmony import mdiPiBox */
+/* unused concated harmony import mdiPiHole */
+/* unused concated harmony import mdiPiano */
+/* unused concated harmony import mdiPickaxe */
+/* unused concated harmony import mdiPictureInPictureBottomRight */
+/* unused concated harmony import mdiPictureInPictureBottomRightOutline */
+/* unused concated harmony import mdiPictureInPictureTopRight */
+/* unused concated harmony import mdiPictureInPictureTopRightOutline */
+/* unused concated harmony import mdiPier */
+/* unused concated harmony import mdiPierCrane */
+/* unused concated harmony import mdiPig */
+/* unused concated harmony import mdiPill */
+/* unused concated harmony import mdiPillar */
+/* unused concated harmony import mdiPin */
+/* unused concated harmony import mdiPinOff */
+/* unused concated harmony import mdiPinOffOutline */
+/* unused concated harmony import mdiPinOutline */
+/* unused concated harmony import mdiPineTree */
+/* unused concated harmony import mdiPineTreeBox */
+/* unused concated harmony import mdiPinterest */
+/* unused concated harmony import mdiPinterestBox */
+/* unused concated harmony import mdiPinwheel */
+/* unused concated harmony import mdiPinwheelOutline */
+/* unused concated harmony import mdiPipe */
+/* unused concated harmony import mdiPipeDisconnected */
+/* unused concated harmony import mdiPipeLeak */
+/* unused concated harmony import mdiPirate */
+/* unused concated harmony import mdiPistol */
+/* unused concated harmony import mdiPiston */
+/* unused concated harmony import mdiPizza */
+/* unused concated harmony import mdiPlay */
+/* unused concated harmony import mdiPlayBoxOutline */
+/* unused concated harmony import mdiPlayCircle */
+/* unused concated harmony import mdiPlayCircleOutline */
+/* unused concated harmony import mdiPlayNetwork */
+/* unused concated harmony import mdiPlayNetworkOutline */
+/* unused concated harmony import mdiPlayPause */
+/* unused concated harmony import mdiPlayProtectedContent */
+/* unused concated harmony import mdiPlaySpeed */
+/* unused concated harmony import mdiPlaylistCheck */
+/* unused concated harmony import mdiPlaylistEdit */
+/* unused concated harmony import mdiPlaylistMinus */
+/* unused concated harmony import mdiPlaylistMusic */
+/* unused concated harmony import mdiPlaylistMusicOutline */
+/* unused concated harmony import mdiPlaylistPlay */
+/* unused concated harmony import mdiPlaylistPlus */
+/* unused concated harmony import mdiPlaylistRemove */
+/* unused concated harmony import mdiPlaylistStar */
+/* unused concated harmony import mdiPlaystation */
+/* unused concated harmony import mdiPlex */
+/* unused concated harmony import mdiPlus */
+/* unused concated harmony import mdiPlusBox */
+/* unused concated harmony import mdiPlusBoxOutline */
+/* unused concated harmony import mdiPlusCircle */
+/* unused concated harmony import mdiPlusCircleMultipleOutline */
+/* unused concated harmony import mdiPlusCircleOutline */
+/* unused concated harmony import mdiPlusMinus */
+/* unused concated harmony import mdiPlusMinusBox */
+/* unused concated harmony import mdiPlusNetwork */
+/* unused concated harmony import mdiPlusNetworkOutline */
+/* unused concated harmony import mdiPlusOne */
+/* unused concated harmony import mdiPlusOutline */
+/* unused concated harmony import mdiPocket */
+/* unused concated harmony import mdiPodcast */
+/* unused concated harmony import mdiPodium */
+/* unused concated harmony import mdiPodiumBronze */
+/* unused concated harmony import mdiPodiumGold */
+/* unused concated harmony import mdiPodiumSilver */
+/* unused concated harmony import mdiPointOfSale */
+/* unused concated harmony import mdiPokeball */
+/* unused concated harmony import mdiPokemonGo */
+/* unused concated harmony import mdiPokerChip */
+/* unused concated harmony import mdiPolaroid */
+/* unused concated harmony import mdiPoll */
+/* unused concated harmony import mdiPollBox */
+/* unused concated harmony import mdiPolymer */
+/* unused concated harmony import mdiPool */
+/* unused concated harmony import mdiPopcorn */
+/* unused concated harmony import mdiPostageStamp */
+/* unused concated harmony import mdiPot */
+/* unused concated harmony import mdiPotMix */
+/* unused concated harmony import mdiPound */
+/* unused concated harmony import mdiPoundBox */
+/* unused concated harmony import mdiPower */
+/* unused concated harmony import mdiPowerCycle */
+/* unused concated harmony import mdiPowerOff */
+/* unused concated harmony import mdiPowerOn */
+/* unused concated harmony import mdiPowerPlug */
+/* unused concated harmony import mdiPowerPlugOff */
+/* unused concated harmony import mdiPowerSettings */
+/* unused concated harmony import mdiPowerSleep */
+/* unused concated harmony import mdiPowerSocket */
+/* unused concated harmony import mdiPowerSocketAu */
+/* unused concated harmony import mdiPowerSocketEu */
+/* unused concated harmony import mdiPowerSocketUk */
+/* unused concated harmony import mdiPowerSocketUs */
+/* unused concated harmony import mdiPowerStandby */
+/* unused concated harmony import mdiPowershell */
+/* unused concated harmony import mdiPrescription */
+/* unused concated harmony import mdiPresentation */
+/* unused concated harmony import mdiPresentationPlay */
+/* unused concated harmony import mdiPrinter */
+/* unused concated harmony import mdiPrinter3d */
+/* unused concated harmony import mdiPrinter3dNozzle */
+/* unused concated harmony import mdiPrinter3dNozzleOutline */
+/* unused concated harmony import mdiPrinterAlert */
+/* unused concated harmony import mdiPrinterOff */
+/* unused concated harmony import mdiPrinterSettings */
+/* unused concated harmony import mdiPrinterWireless */
+/* unused concated harmony import mdiPriorityHigh */
+/* unused concated harmony import mdiPriorityLow */
+/* unused concated harmony import mdiProfessionalHexagon */
+/* unused concated harmony import mdiProgressAlert */
+/* unused concated harmony import mdiProgressCheck */
+/* unused concated harmony import mdiProgressClock */
+/* unused concated harmony import mdiProgressDownload */
+/* unused concated harmony import mdiProgressUpload */
+/* unused concated harmony import mdiProgressWrench */
+/* unused concated harmony import mdiProjector */
+/* unused concated harmony import mdiProjectorScreen */
+/* unused concated harmony import mdiPublish */
+/* unused concated harmony import mdiPulse */
+/* unused concated harmony import mdiPumpkin */
+/* unused concated harmony import mdiPuzzle */
+/* unused concated harmony import mdiPuzzleOutline */
+/* unused concated harmony import mdiQi */
+/* unused concated harmony import mdiQqchat */
+/* unused concated harmony import mdiQrcode */
+/* unused concated harmony import mdiQrcodeEdit */
+/* unused concated harmony import mdiQrcodeScan */
+/* unused concated harmony import mdiQuadcopter */
+/* unused concated harmony import mdiQualityHigh */
+/* unused concated harmony import mdiQualityLow */
+/* unused concated harmony import mdiQualityMedium */
+/* unused concated harmony import mdiQuicktime */
+/* unused concated harmony import mdiQuora */
+/* unused concated harmony import mdiRabbit */
+/* unused concated harmony import mdiRacingHelmet */
+/* unused concated harmony import mdiRacquetball */
+/* unused concated harmony import mdiRadar */
+/* unused concated harmony import mdiRadiator */
+/* unused concated harmony import mdiRadiatorDisabled */
+/* unused concated harmony import mdiRadiatorOff */
+/* unused concated harmony import mdiRadio */
+/* unused concated harmony import mdiRadioAm */
+/* unused concated harmony import mdiRadioFm */
+/* unused concated harmony import mdiRadioHandheld */
+/* unused concated harmony import mdiRadioTower */
+/* unused concated harmony import mdiRadioactive */
+/* unused concated harmony import mdiRadioactiveOff */
+/* unused concated harmony import mdiRadioboxBlank */
+/* unused concated harmony import mdiRadioboxMarked */
+/* unused concated harmony import mdiRadius */
+/* unused concated harmony import mdiRadiusOutline */
+/* unused concated harmony import mdiRaspberryPi */
+/* unused concated harmony import mdiRayEnd */
+/* unused concated harmony import mdiRayEndArrow */
+/* unused concated harmony import mdiRayStart */
+/* unused concated harmony import mdiRayStartArrow */
+/* unused concated harmony import mdiRayStartEnd */
+/* unused concated harmony import mdiRayVertex */
+/* unused concated harmony import mdiReact */
+/* unused concated harmony import mdiRead */
+/* unused concated harmony import mdiReceipt */
+/* unused concated harmony import mdiRecord */
+/* unused concated harmony import mdiRecordCircle */
+/* unused concated harmony import mdiRecordCircleOutline */
+/* unused concated harmony import mdiRecordPlayer */
+/* unused concated harmony import mdiRecordRec */
+/* unused concated harmony import mdiRectangle */
+/* unused concated harmony import mdiRectangleOutline */
+/* unused concated harmony import mdiRecycle */
+/* unused concated harmony import mdiReddit */
+/* unused concated harmony import mdiRedo */
+/* unused concated harmony import mdiRedoVariant */
+/* unused concated harmony import mdiReflectHorizontal */
+/* unused concated harmony import mdiReflectVertical */
+/* unused concated harmony import mdiRefresh */
+/* unused concated harmony import mdiRegex */
+/* unused concated harmony import mdiRegisteredTrademark */
+/* unused concated harmony import mdiRelativeScale */
+/* unused concated harmony import mdiReload */
+/* unused concated harmony import mdiReminder */
+/* unused concated harmony import mdiRemote */
+/* unused concated harmony import mdiRemoteDesktop */
+/* unused concated harmony import mdiRemoteOff */
+/* unused concated harmony import mdiRemoteTv */
+/* unused concated harmony import mdiRemoteTvOff */
+/* unused concated harmony import mdiRenameBox */
+/* unused concated harmony import mdiReorderHorizontal */
+/* unused concated harmony import mdiReorderVertical */
+/* unused concated harmony import mdiRepeat */
+/* unused concated harmony import mdiRepeatOff */
+/* unused concated harmony import mdiRepeatOnce */
+/* unused concated harmony import mdiReplay */
+/* unused concated harmony import mdiReply */
+/* unused concated harmony import mdiReplyAll */
+/* unused concated harmony import mdiReproduction */
+/* unused concated harmony import mdiResistor */
+/* unused concated harmony import mdiResistorNodes */
+/* unused concated harmony import mdiResize */
+/* unused concated harmony import mdiResizeBottomRight */
+/* unused concated harmony import mdiResponsive */
+/* unused concated harmony import mdiRestart */
+/* unused concated harmony import mdiRestartOff */
+/* unused concated harmony import mdiRestore */
+/* unused concated harmony import mdiRestoreClock */
+/* unused concated harmony import mdiRewind */
+/* unused concated harmony import mdiRewind10 */
+/* unused concated harmony import mdiRewind30 */
+/* unused concated harmony import mdiRewindOutline */
+/* unused concated harmony import mdiRhombus */
+/* unused concated harmony import mdiRhombusMedium */
+/* unused concated harmony import mdiRhombusOutline */
+/* unused concated harmony import mdiRhombusSplit */
+/* unused concated harmony import mdiRibbon */
+/* unused concated harmony import mdiRice */
+/* unused concated harmony import mdiRing */
+/* unused concated harmony import mdiRivet */
+/* unused concated harmony import mdiRoad */
+/* unused concated harmony import mdiRoadVariant */
+/* unused concated harmony import mdiRobot */
+/* unused concated harmony import mdiRobotIndustrial */
+/* unused concated harmony import mdiRobotVacuum */
+/* unused concated harmony import mdiRobotVacuumVariant */
+/* unused concated harmony import mdiRocket */
+/* unused concated harmony import mdiRollerSkate */
+/* unused concated harmony import mdiRollerblade */
+/* unused concated harmony import mdiRollupjs */
+/* unused concated harmony import mdiRoomService */
+/* unused concated harmony import mdiRoomServiceOutline */
+/* unused concated harmony import mdiRotate3d */
+/* unused concated harmony import mdiRotate3dVariant */
+/* unused concated harmony import mdiRotateLeft */
+/* unused concated harmony import mdiRotateLeftVariant */
+/* unused concated harmony import mdiRotateOrbit */
+/* unused concated harmony import mdiRotateRight */
+/* unused concated harmony import mdiRotateRightVariant */
+/* unused concated harmony import mdiRoundedCorner */
+/* unused concated harmony import mdiRouterWireless */
+/* unused concated harmony import mdiRouterWirelessSettings */
+/* unused concated harmony import mdiRoutes */
+/* unused concated harmony import mdiRowing */
+/* unused concated harmony import mdiRss */
+/* unused concated harmony import mdiRssBox */
+/* unused concated harmony import mdiRuby */
+/* unused concated harmony import mdiRugby */
+/* unused concated harmony import mdiRuler */
+/* unused concated harmony import mdiRulerSquare */
+/* unused concated harmony import mdiRun */
+/* unused concated harmony import mdiRunFast */
+/* unused concated harmony import mdiSack */
+/* unused concated harmony import mdiSackPercent */
+/* unused concated harmony import mdiSafe */
+/* unused concated harmony import mdiSafetyGoggles */
+/* unused concated harmony import mdiSailing */
+/* unused concated harmony import mdiSale */
+/* unused concated harmony import mdiSalesforce */
+/* unused concated harmony import mdiSass */
+/* unused concated harmony import mdiSatellite */
+/* unused concated harmony import mdiSatelliteUplink */
+/* unused concated harmony import mdiSatelliteVariant */
+/* unused concated harmony import mdiSausage */
+/* unused concated harmony import mdiSawBlade */
+/* unused concated harmony import mdiSaxophone */
+/* unused concated harmony import mdiScale */
+/* unused concated harmony import mdiScaleBalance */
+/* unused concated harmony import mdiScaleBathroom */
+/* unused concated harmony import mdiScanner */
+/* unused concated harmony import mdiScannerOff */
+/* unused concated harmony import mdiScatterPlot */
+/* unused concated harmony import mdiScatterPlotOutline */
+/* unused concated harmony import mdiSchool */
+/* unused concated harmony import mdiScissorsCutting */
+/* unused concated harmony import mdiScreenRotation */
+/* unused concated harmony import mdiScreenRotationLock */
+/* unused concated harmony import mdiScrewFlatTop */
+/* unused concated harmony import mdiScrewLag */
+/* unused concated harmony import mdiScrewMachineFlatTop */
+/* unused concated harmony import mdiScrewMachineRoundTop */
+/* unused concated harmony import mdiScrewRoundTop */
+/* unused concated harmony import mdiScrewdriver */
+/* unused concated harmony import mdiScript */
+/* unused concated harmony import mdiScriptOutline */
+/* unused concated harmony import mdiScriptText */
+/* unused concated harmony import mdiScriptTextOutline */
+/* unused concated harmony import mdiSd */
+/* unused concated harmony import mdiSeal */
+/* unused concated harmony import mdiSearchWeb */
+/* unused concated harmony import mdiSeat */
+/* unused concated harmony import mdiSeatFlat */
+/* unused concated harmony import mdiSeatFlatAngled */
+/* unused concated harmony import mdiSeatIndividualSuite */
+/* unused concated harmony import mdiSeatLegroomExtra */
+/* unused concated harmony import mdiSeatLegroomNormal */
+/* unused concated harmony import mdiSeatLegroomReduced */
+/* unused concated harmony import mdiSeatOutline */
+/* unused concated harmony import mdiSeatReclineExtra */
+/* unused concated harmony import mdiSeatReclineNormal */
+/* unused concated harmony import mdiSeatbelt */
+/* unused concated harmony import mdiSecurity */
+/* unused concated harmony import mdiSecurityNetwork */
+/* unused concated harmony import mdiSeed */
+/* unused concated harmony import mdiSeedOutline */
+/* unused concated harmony import mdiSegment */
+/* unused concated harmony import mdiSelect */
+/* unused concated harmony import mdiSelectAll */
+/* unused concated harmony import mdiSelectColor */
+/* unused concated harmony import mdiSelectCompare */
+/* unused concated harmony import mdiSelectDrag */
+/* unused concated harmony import mdiSelectInverse */
+/* unused concated harmony import mdiSelectOff */
+/* unused concated harmony import mdiSelection */
+/* unused concated harmony import mdiSelectionDrag */
+/* unused concated harmony import mdiSelectionEllipse */
+/* unused concated harmony import mdiSelectionOff */
+/* unused concated harmony import mdiSend */
+/* unused concated harmony import mdiSendCircle */
+/* unused concated harmony import mdiSendCircleOutline */
+/* unused concated harmony import mdiSendLock */
+/* unused concated harmony import mdiSerialPort */
+/* unused concated harmony import mdiServer */
+/* unused concated harmony import mdiServerMinus */
+/* unused concated harmony import mdiServerNetwork */
+/* unused concated harmony import mdiServerNetworkOff */
+/* unused concated harmony import mdiServerOff */
+/* unused concated harmony import mdiServerPlus */
+/* unused concated harmony import mdiServerRemove */
+/* unused concated harmony import mdiServerSecurity */
+/* unused concated harmony import mdiSetAll */
+/* unused concated harmony import mdiSetCenter */
+/* unused concated harmony import mdiSetCenterRight */
+/* unused concated harmony import mdiSetLeft */
+/* unused concated harmony import mdiSetLeftCenter */
+/* unused concated harmony import mdiSetLeftRight */
+/* unused concated harmony import mdiSetNone */
+/* unused concated harmony import mdiSetRight */
+/* unused concated harmony import mdiSetTopBox */
+/* unused concated harmony import mdiSettings */
+/* unused concated harmony import mdiSettingsBox */
+/* unused concated harmony import mdiSettingsHelper */
+/* unused concated harmony import mdiSettingsOutline */
+/* unused concated harmony import mdiShape */
+/* unused concated harmony import mdiShapeCirclePlus */
+/* unused concated harmony import mdiShapeOutline */
+/* unused concated harmony import mdiShapePlus */
+/* unused concated harmony import mdiShapePolygonPlus */
+/* unused concated harmony import mdiShapeRectanglePlus */
+/* unused concated harmony import mdiShapeSquarePlus */
+/* unused concated harmony import mdiShare */
+/* unused concated harmony import mdiShareOutline */
+/* unused concated harmony import mdiShareVariant */
+/* unused concated harmony import mdiSheep */
+/* unused concated harmony import mdiShield */
+/* unused concated harmony import mdiShieldAccount */
+/* unused concated harmony import mdiShieldAccountOutline */
+/* unused concated harmony import mdiShieldAirplane */
+/* unused concated harmony import mdiShieldAirplaneOutline */
+/* unused concated harmony import mdiShieldAlert */
+/* unused concated harmony import mdiShieldAlertOutline */
+/* unused concated harmony import mdiShieldCheck */
+/* unused concated harmony import mdiShieldCheckOutline */
+/* unused concated harmony import mdiShieldCross */
+/* unused concated harmony import mdiShieldCrossOutline */
+/* unused concated harmony import mdiShieldHalfFull */
+/* unused concated harmony import mdiShieldHome */
+/* unused concated harmony import mdiShieldHomeOutline */
+/* unused concated harmony import mdiShieldKey */
+/* unused concated harmony import mdiShieldKeyOutline */
+/* unused concated harmony import mdiShieldLinkVariant */
+/* unused concated harmony import mdiShieldLinkVariantOutline */
+/* unused concated harmony import mdiShieldLock */
+/* unused concated harmony import mdiShieldLockOutline */
+/* unused concated harmony import mdiShieldOff */
+/* unused concated harmony import mdiShieldOffOutline */
+/* unused concated harmony import mdiShieldOutline */
+/* unused concated harmony import mdiShieldPlus */
+/* unused concated harmony import mdiShieldPlusOutline */
+/* unused concated harmony import mdiShieldRemove */
+/* unused concated harmony import mdiShieldRemoveOutline */
+/* unused concated harmony import mdiShieldSearch */
+/* unused concated harmony import mdiShipWheel */
+/* unused concated harmony import mdiShoeFormal */
+/* unused concated harmony import mdiShoeHeel */
+/* unused concated harmony import mdiShoePrint */
+/* unused concated harmony import mdiShopify */
+/* unused concated harmony import mdiShopping */
+/* unused concated harmony import mdiShoppingMusic */
+/* unused concated harmony import mdiShovel */
+/* unused concated harmony import mdiShovelOff */
+/* unused concated harmony import mdiShower */
+/* unused concated harmony import mdiShowerHead */
+/* unused concated harmony import mdiShredder */
+/* unused concated harmony import mdiShuffle */
+/* unused concated harmony import mdiShuffleDisabled */
+/* unused concated harmony import mdiShuffleVariant */
+/* unused concated harmony import mdiSigma */
+/* unused concated harmony import mdiSigmaLower */
+/* unused concated harmony import mdiSignCaution */
+/* unused concated harmony import mdiSignDirection */
+/* unused concated harmony import mdiSignText */
+/* unused concated harmony import mdiSignal */
+/* unused concated harmony import mdiSignal2g */
+/* unused concated harmony import mdiSignal3g */
+/* unused concated harmony import mdiSignal4g */
+/* unused concated harmony import mdiSignal5g */
+/* unused concated harmony import mdiSignalCellular1 */
+/* unused concated harmony import mdiSignalCellular2 */
+/* unused concated harmony import mdiSignalCellular3 */
+/* unused concated harmony import mdiSignalCellularOutline */
+/* unused concated harmony import mdiSignalDistanceVariant */
+/* unused concated harmony import mdiSignalHspa */
+/* unused concated harmony import mdiSignalHspaPlus */
+/* unused concated harmony import mdiSignalOff */
+/* unused concated harmony import mdiSignalVariant */
+/* unused concated harmony import mdiSignature */
+/* unused concated harmony import mdiSignatureFreehand */
+/* unused concated harmony import mdiSignatureImage */
+/* unused concated harmony import mdiSignatureText */
+/* unused concated harmony import mdiSilo */
+/* unused concated harmony import mdiSilverware */
+/* unused concated harmony import mdiSilverwareFork */
+/* unused concated harmony import mdiSilverwareForkKnife */
+/* unused concated harmony import mdiSilverwareSpoon */
+/* unused concated harmony import mdiSilverwareVariant */
+/* unused concated harmony import mdiSim */
+/* unused concated harmony import mdiSimAlert */
+/* unused concated harmony import mdiSimOff */
+/* unused concated harmony import mdiSinaWeibo */
+/* unused concated harmony import mdiSitemap */
+/* unused concated harmony import mdiSkate */
+/* unused concated harmony import mdiSkewLess */
+/* unused concated harmony import mdiSkewMore */
+/* unused concated harmony import mdiSkipBackward */
+/* unused concated harmony import mdiSkipForward */
+/* unused concated harmony import mdiSkipNext */
+/* unused concated harmony import mdiSkipNextCircle */
+/* unused concated harmony import mdiSkipNextCircleOutline */
+/* unused concated harmony import mdiSkipPrevious */
+/* unused concated harmony import mdiSkipPreviousCircle */
+/* unused concated harmony import mdiSkipPreviousCircleOutline */
+/* unused concated harmony import mdiSkull */
+/* unused concated harmony import mdiSkullCrossbones */
+/* unused concated harmony import mdiSkullCrossbonesOutline */
+/* unused concated harmony import mdiSkullOutline */
+/* unused concated harmony import mdiSkype */
+/* unused concated harmony import mdiSkypeBusiness */
+/* unused concated harmony import mdiSlack */
+/* unused concated harmony import mdiSlackware */
+/* unused concated harmony import mdiSleep */
+/* unused concated harmony import mdiSleepOff */
+/* unused concated harmony import mdiSlopeDownhill */
+/* unused concated harmony import mdiSlopeUphill */
+/* unused concated harmony import mdiSmog */
+/* unused concated harmony import mdiSmokeDetector */
+/* unused concated harmony import mdiSmoking */
+/* unused concated harmony import mdiSmokingOff */
+/* unused concated harmony import mdiSnapchat */
+/* unused concated harmony import mdiSnowflake */
+/* unused concated harmony import mdiSnowman */
+/* unused concated harmony import mdiSoccer */
+/* unused concated harmony import mdiSoccerField */
+/* unused concated harmony import mdiSofa */
+/* unused concated harmony import mdiSolarPanel */
+/* unused concated harmony import mdiSolarPanelLarge */
+/* unused concated harmony import mdiSolarPower */
+/* unused concated harmony import mdiSolid */
+/* unused concated harmony import mdiSort */
+/* unused concated harmony import mdiSortAlphabetical */
+/* unused concated harmony import mdiSortAscending */
+/* unused concated harmony import mdiSortDescending */
+/* unused concated harmony import mdiSortNumeric */
+/* unused concated harmony import mdiSortVariant */
+/* unused concated harmony import mdiSortVariantLock */
+/* unused concated harmony import mdiSortVariantLockOpen */
+/* unused concated harmony import mdiSoundcloud */
+/* unused concated harmony import mdiSourceBranch */
+/* unused concated harmony import mdiSourceCommit */
+/* unused concated harmony import mdiSourceCommitEnd */
+/* unused concated harmony import mdiSourceCommitEndLocal */
+/* unused concated harmony import mdiSourceCommitLocal */
+/* unused concated harmony import mdiSourceCommitNextLocal */
+/* unused concated harmony import mdiSourceCommitStart */
+/* unused concated harmony import mdiSourceCommitStartNextLocal */
+/* unused concated harmony import mdiSourceFork */
+/* unused concated harmony import mdiSourceMerge */
+/* unused concated harmony import mdiSourcePull */
+/* unused concated harmony import mdiSourceRepository */
+/* unused concated harmony import mdiSourceRepositoryMultiple */
+/* unused concated harmony import mdiSoySauce */
+/* unused concated harmony import mdiSpa */
+/* unused concated harmony import mdiSpaOutline */
+/* unused concated harmony import mdiSpaceInvaders */
+/* unused concated harmony import mdiSpade */
+/* unused concated harmony import mdiSpeaker */
+/* unused concated harmony import mdiSpeakerBluetooth */
+/* unused concated harmony import mdiSpeakerMultiple */
+/* unused concated harmony import mdiSpeakerOff */
+/* unused concated harmony import mdiSpeakerWireless */
+/* unused concated harmony import mdiSpeedometer */
+/* unused concated harmony import mdiSpellcheck */
+/* unused concated harmony import mdiSpiderWeb */
+/* unused concated harmony import mdiSpotify */
+/* unused concated harmony import mdiSpotlight */
+/* unused concated harmony import mdiSpotlightBeam */
+/* unused concated harmony import mdiSpray */
+/* unused concated harmony import mdiSprayBottle */
+/* unused concated harmony import mdiSprout */
+/* unused concated harmony import mdiSproutOutline */
+/* unused concated harmony import mdiSquare */
+/* unused concated harmony import mdiSquareEditOutline */
+/* unused concated harmony import mdiSquareInc */
+/* unused concated harmony import mdiSquareIncCash */
+/* unused concated harmony import mdiSquareMedium */
+/* unused concated harmony import mdiSquareMediumOutline */
+/* unused concated harmony import mdiSquareOutline */
+/* unused concated harmony import mdiSquareRoot */
+/* unused concated harmony import mdiSquareRootBox */
+/* unused concated harmony import mdiSquareSmall */
+/* unused concated harmony import mdiSqueegee */
+/* unused concated harmony import mdiSsh */
+/* unused concated harmony import mdiStackExchange */
+/* unused concated harmony import mdiStackOverflow */
+/* unused concated harmony import mdiStadium */
+/* unused concated harmony import mdiStairs */
+/* unused concated harmony import mdiStamper */
+/* unused concated harmony import mdiStandardDefinition */
+/* unused concated harmony import mdiStar */
+/* unused concated harmony import mdiStarBox */
+/* unused concated harmony import mdiStarBoxOutline */
+/* unused concated harmony import mdiStarCircle */
+/* unused concated harmony import mdiStarCircleOutline */
+/* unused concated harmony import mdiStarFace */
+/* unused concated harmony import mdiStarFourPoints */
+/* unused concated harmony import mdiStarFourPointsOutline */
+/* unused concated harmony import mdiStarHalf */
+/* unused concated harmony import mdiStarOff */
+/* unused concated harmony import mdiStarOutline */
+/* unused concated harmony import mdiStarThreePoints */
+/* unused concated harmony import mdiStarThreePointsOutline */
+/* unused concated harmony import mdiSteam */
+/* unused concated harmony import mdiSteamBox */
+/* unused concated harmony import mdiSteering */
+/* unused concated harmony import mdiSteeringOff */
+/* unused concated harmony import mdiStepBackward */
+/* unused concated harmony import mdiStepBackward2 */
+/* unused concated harmony import mdiStepForward */
+/* unused concated harmony import mdiStepForward2 */
+/* unused concated harmony import mdiStethoscope */
+/* unused concated harmony import mdiSticker */
+/* unused concated harmony import mdiStickerEmoji */
+/* unused concated harmony import mdiStocking */
+/* unused concated harmony import mdiStop */
+/* unused concated harmony import mdiStopCircle */
+/* unused concated harmony import mdiStopCircleOutline */
+/* unused concated harmony import mdiStore */
+/* unused concated harmony import mdiStore24Hour */
+/* unused concated harmony import mdiStove */
+/* unused concated harmony import mdiStrava */
+/* unused concated harmony import mdiSubdirectoryArrowLeft */
+/* unused concated harmony import mdiSubdirectoryArrowRight */
+/* unused concated harmony import mdiSubtitles */
+/* unused concated harmony import mdiSubtitlesOutline */
+/* unused concated harmony import mdiSubway */
+/* unused concated harmony import mdiSubwayAlertVariant */
+/* unused concated harmony import mdiSubwayVariant */
+/* unused concated harmony import mdiSummit */
+/* unused concated harmony import mdiSunglasses */
+/* unused concated harmony import mdiSurroundSound */
+/* unused concated harmony import mdiSurroundSound20 */
+/* unused concated harmony import mdiSurroundSound31 */
+/* unused concated harmony import mdiSurroundSound51 */
+/* unused concated harmony import mdiSurroundSound71 */
+/* unused concated harmony import mdiSvg */
+/* unused concated harmony import mdiSwapHorizontal */
+/* unused concated harmony import mdiSwapHorizontalBold */
+/* unused concated harmony import mdiSwapHorizontalVariant */
+/* unused concated harmony import mdiSwapVertical */
+/* unused concated harmony import mdiSwapVerticalBold */
+/* unused concated harmony import mdiSwapVerticalVariant */
+/* unused concated harmony import mdiSwim */
+/* unused concated harmony import mdiSwitch */
+/* unused concated harmony import mdiSword */
+/* unused concated harmony import mdiSwordCross */
+/* unused concated harmony import mdiSymfony */
+/* unused concated harmony import mdiSync */
+/* unused concated harmony import mdiSyncAlert */
+/* unused concated harmony import mdiSyncOff */
+/* unused concated harmony import mdiTab */
+/* unused concated harmony import mdiTabMinus */
+/* unused concated harmony import mdiTabPlus */
+/* unused concated harmony import mdiTabRemove */
+/* unused concated harmony import mdiTabUnselected */
+/* unused concated harmony import mdiTable */
+/* unused concated harmony import mdiTableBorder */
+/* unused concated harmony import mdiTableColumn */
+/* unused concated harmony import mdiTableColumnPlusAfter */
+/* unused concated harmony import mdiTableColumnPlusBefore */
+/* unused concated harmony import mdiTableColumnRemove */
+/* unused concated harmony import mdiTableColumnWidth */
+/* unused concated harmony import mdiTableEdit */
+/* unused concated harmony import mdiTableLarge */
+/* unused concated harmony import mdiTableMergeCells */
+/* unused concated harmony import mdiTableOfContents */
+/* unused concated harmony import mdiTablePlus */
+/* unused concated harmony import mdiTableRemove */
+/* unused concated harmony import mdiTableRow */
+/* unused concated harmony import mdiTableRowHeight */
+/* unused concated harmony import mdiTableRowPlusAfter */
+/* unused concated harmony import mdiTableRowPlusBefore */
+/* unused concated harmony import mdiTableRowRemove */
+/* unused concated harmony import mdiTableSearch */
+/* unused concated harmony import mdiTableSettings */
+/* unused concated harmony import mdiTableTennis */
+/* unused concated harmony import mdiTablet */
+/* unused concated harmony import mdiTabletAndroid */
+/* unused concated harmony import mdiTabletCellphone */
+/* unused concated harmony import mdiTabletDashboard */
+/* unused concated harmony import mdiTabletIpad */
+/* unused concated harmony import mdiTaco */
+/* unused concated harmony import mdiTag */
+/* unused concated harmony import mdiTagFaces */
+/* unused concated harmony import mdiTagHeart */
+/* unused concated harmony import mdiTagHeartOutline */
+/* unused concated harmony import mdiTagMinus */
+/* unused concated harmony import mdiTagMultiple */
+/* unused concated harmony import mdiTagOutline */
+/* unused concated harmony import mdiTagPlus */
+/* unused concated harmony import mdiTagRemove */
+/* unused concated harmony import mdiTagTextOutline */
+/* unused concated harmony import mdiTank */
+/* unused concated harmony import mdiTapeMeasure */
+/* unused concated harmony import mdiTarget */
+/* unused concated harmony import mdiTargetAccount */
+/* unused concated harmony import mdiTargetVariant */
+/* unused concated harmony import mdiTaxi */
+/* unused concated harmony import mdiTea */
+/* unused concated harmony import mdiTeaOutline */
+/* unused concated harmony import mdiTeach */
+/* unused concated harmony import mdiTeamviewer */
+/* unused concated harmony import mdiTelegram */
+/* unused concated harmony import mdiTelescope */
+/* unused concated harmony import mdiTelevision */
+/* unused concated harmony import mdiTelevisionBox */
+/* unused concated harmony import mdiTelevisionClassic */
+/* unused concated harmony import mdiTelevisionClassicOff */
+/* unused concated harmony import mdiTelevisionGuide */
+/* unused concated harmony import mdiTelevisionOff */
+/* unused concated harmony import mdiTelevisionPlay */
+/* unused concated harmony import mdiTemperatureCelsius */
+/* unused concated harmony import mdiTemperatureFahrenheit */
+/* unused concated harmony import mdiTemperatureKelvin */
+/* unused concated harmony import mdiTennis */
+/* unused concated harmony import mdiTennisBall */
+/* unused concated harmony import mdiTent */
+/* unused concated harmony import mdiTerrain */
+/* unused concated harmony import mdiTestTube */
+/* unused concated harmony import mdiTestTubeEmpty */
+/* unused concated harmony import mdiTestTubeOff */
+/* unused concated harmony import mdiText */
+/* unused concated harmony import mdiTextShadow */
+/* unused concated harmony import mdiTextShort */
+/* unused concated harmony import mdiTextSubject */
+/* unused concated harmony import mdiTextToSpeech */
+/* unused concated harmony import mdiTextToSpeechOff */
+/* unused concated harmony import mdiTextbox */
+/* unused concated harmony import mdiTextboxPassword */
+/* unused concated harmony import mdiTexture */
+/* unused concated harmony import mdiTheater */
+/* unused concated harmony import mdiThemeLightDark */
+/* unused concated harmony import mdiThermometer */
+/* unused concated harmony import mdiThermometerAlert */
+/* unused concated harmony import mdiThermometerChevronDown */
+/* unused concated harmony import mdiThermometerChevronUp */
+/* unused concated harmony import mdiThermometerLines */
+/* unused concated harmony import mdiThermometerMinus */
+/* unused concated harmony import mdiThermometerPlus */
+/* unused concated harmony import mdiThermostat */
+/* unused concated harmony import mdiThermostatBox */
+/* unused concated harmony import mdiThoughtBubble */
+/* unused concated harmony import mdiThoughtBubbleOutline */
+/* unused concated harmony import mdiThumbDown */
+/* unused concated harmony import mdiThumbDownOutline */
+/* unused concated harmony import mdiThumbUp */
+/* unused concated harmony import mdiThumbUpOutline */
+/* unused concated harmony import mdiThumbsUpDown */
+/* unused concated harmony import mdiTicket */
+/* unused concated harmony import mdiTicketAccount */
+/* unused concated harmony import mdiTicketConfirmation */
+/* unused concated harmony import mdiTicketOutline */
+/* unused concated harmony import mdiTicketPercent */
+/* unused concated harmony import mdiTie */
+/* unused concated harmony import mdiTilde */
+/* unused concated harmony import mdiTimelapse */
+/* unused concated harmony import mdiTimeline */
+/* unused concated harmony import mdiTimelineOutline */
+/* unused concated harmony import mdiTimelineText */
+/* unused concated harmony import mdiTimelineTextOutline */
+/* unused concated harmony import mdiTimer */
+/* unused concated harmony import mdiTimer10 */
+/* unused concated harmony import mdiTimer3 */
+/* unused concated harmony import mdiTimerOff */
+/* unused concated harmony import mdiTimerSand */
+/* unused concated harmony import mdiTimerSandEmpty */
+/* unused concated harmony import mdiTimerSandFull */
+/* unused concated harmony import mdiTimetable */
+/* unused concated harmony import mdiToasterOven */
+/* unused concated harmony import mdiToggleSwitch */
+/* unused concated harmony import mdiToggleSwitchOff */
+/* unused concated harmony import mdiToggleSwitchOffOutline */
+/* unused concated harmony import mdiToggleSwitchOutline */
+/* unused concated harmony import mdiToilet */
+/* unused concated harmony import mdiToolbox */
+/* unused concated harmony import mdiToolboxOutline */
+/* unused concated harmony import mdiTooltip */
+/* unused concated harmony import mdiTooltipAccount */
+/* unused concated harmony import mdiTooltipEdit */
+/* unused concated harmony import mdiTooltipImage */
+/* unused concated harmony import mdiTooltipImageOutline */
+/* unused concated harmony import mdiTooltipOutline */
+/* unused concated harmony import mdiTooltipPlus */
+/* unused concated harmony import mdiTooltipPlusOutline */
+/* unused concated harmony import mdiTooltipText */
+/* unused concated harmony import mdiTooltipTextOutline */
+/* unused concated harmony import mdiTooth */
+/* unused concated harmony import mdiToothOutline */
+/* unused concated harmony import mdiTor */
+/* unused concated harmony import mdiTortoise */
+/* unused concated harmony import mdiTournament */
+/* unused concated harmony import mdiTowerBeach */
+/* unused concated harmony import mdiTowerFire */
+/* unused concated harmony import mdiTowing */
+/* unused concated harmony import mdiTrackLight */
+/* unused concated harmony import mdiTrackpad */
+/* unused concated harmony import mdiTrackpadLock */
+/* unused concated harmony import mdiTractor */
+/* unused concated harmony import mdiTrademark */
+/* unused concated harmony import mdiTrafficLight */
+/* unused concated harmony import mdiTrain */
+/* unused concated harmony import mdiTrainCar */
+/* unused concated harmony import mdiTrainVariant */
+/* unused concated harmony import mdiTram */
+/* unused concated harmony import mdiTranscribe */
+/* unused concated harmony import mdiTranscribeClose */
+/* unused concated harmony import mdiTransferDown */
+/* unused concated harmony import mdiTransferLeft */
+/* unused concated harmony import mdiTransferRight */
+/* unused concated harmony import mdiTransferUp */
+/* unused concated harmony import mdiTransitConnection */
+/* unused concated harmony import mdiTransitConnectionVariant */
+/* unused concated harmony import mdiTransitTransfer */
+/* unused concated harmony import mdiTransition */
+/* unused concated harmony import mdiTransitionMasked */
+/* unused concated harmony import mdiTranslate */
+/* unused concated harmony import mdiTranslateOff */
+/* unused concated harmony import mdiTransmissionTower */
+/* unused concated harmony import mdiTrashCan */
+/* unused concated harmony import mdiTrashCanOutline */
+/* unused concated harmony import mdiTreasureChest */
+/* unused concated harmony import mdiTree */
+/* unused concated harmony import mdiTreeOutline */
+/* unused concated harmony import mdiTrello */
+/* unused concated harmony import mdiTrendingDown */
+/* unused concated harmony import mdiTrendingNeutral */
+/* unused concated harmony import mdiTrendingUp */
+/* unused concated harmony import mdiTriangle */
+/* unused concated harmony import mdiTriangleOutline */
+/* unused concated harmony import mdiTriforce */
+/* unused concated harmony import mdiTrophy */
+/* unused concated harmony import mdiTrophyAward */
+/* unused concated harmony import mdiTrophyBroken */
+/* unused concated harmony import mdiTrophyOutline */
+/* unused concated harmony import mdiTrophyVariant */
+/* unused concated harmony import mdiTrophyVariantOutline */
+/* unused concated harmony import mdiTruck */
+/* unused concated harmony import mdiTruckCheck */
+/* unused concated harmony import mdiTruckDelivery */
+/* unused concated harmony import mdiTruckFast */
+/* unused concated harmony import mdiTruckTrailer */
+/* unused concated harmony import mdiTshirtCrew */
+/* unused concated harmony import mdiTshirtCrewOutline */
+/* unused concated harmony import mdiTshirtV */
+/* unused concated harmony import mdiTshirtVOutline */
+/* unused concated harmony import mdiTumbleDryer */
+/* unused concated harmony import mdiTumblr */
+/* unused concated harmony import mdiTumblrBox */
+/* unused concated harmony import mdiTumblrReblog */
+/* unused concated harmony import mdiTune */
+/* unused concated harmony import mdiTuneVertical */
+/* unused concated harmony import mdiTurnstile */
+/* unused concated harmony import mdiTurnstileOutline */
+/* unused concated harmony import mdiTurtle */
+/* unused concated harmony import mdiTwitch */
+/* unused concated harmony import mdiTwitter */
+/* unused concated harmony import mdiTwitterBox */
+/* unused concated harmony import mdiTwitterCircle */
+/* unused concated harmony import mdiTwitterRetweet */
+/* unused concated harmony import mdiTwoFactorAuthentication */
+/* unused concated harmony import mdiUber */
+/* unused concated harmony import mdiUbisoft */
+/* unused concated harmony import mdiUbuntu */
+/* unused concated harmony import mdiUltraHighDefinition */
+/* unused concated harmony import mdiUmbraco */
+/* unused concated harmony import mdiUmbrella */
+/* unused concated harmony import mdiUmbrellaClosed */
+/* unused concated harmony import mdiUmbrellaOutline */
+/* unused concated harmony import mdiUndo */
+/* unused concated harmony import mdiUndoVariant */
+/* unused concated harmony import mdiUnfoldLessHorizontal */
+/* unused concated harmony import mdiUnfoldLessVertical */
+/* unused concated harmony import mdiUnfoldMoreHorizontal */
+/* unused concated harmony import mdiUnfoldMoreVertical */
+/* unused concated harmony import mdiUngroup */
+/* unused concated harmony import mdiUnicode */
+/* unused concated harmony import mdiUnity */
+/* unused concated harmony import mdiUnreal */
+/* unused concated harmony import mdiUntappd */
+/* unused concated harmony import mdiUpdate */
+/* unused concated harmony import mdiUpload */
+/* unused concated harmony import mdiUploadMultiple */
+/* unused concated harmony import mdiUploadNetwork */
+/* unused concated harmony import mdiUploadNetworkOutline */
+/* unused concated harmony import mdiUploadOutline */
+/* unused concated harmony import mdiUsb */
+/* unused concated harmony import mdiVanPassenger */
+/* unused concated harmony import mdiVanUtility */
+/* unused concated harmony import mdiVanish */
+/* unused concated harmony import mdiVariable */
+/* unused concated harmony import mdiVectorArrangeAbove */
+/* unused concated harmony import mdiVectorArrangeBelow */
+/* unused concated harmony import mdiVectorBezier */
+/* unused concated harmony import mdiVectorCircle */
+/* unused concated harmony import mdiVectorCircleVariant */
+/* unused concated harmony import mdiVectorCombine */
+/* unused concated harmony import mdiVectorCurve */
+/* unused concated harmony import mdiVectorDifference */
+/* unused concated harmony import mdiVectorDifferenceAb */
+/* unused concated harmony import mdiVectorDifferenceBa */
+/* unused concated harmony import mdiVectorEllipse */
+/* unused concated harmony import mdiVectorIntersection */
+/* unused concated harmony import mdiVectorLine */
+/* unused concated harmony import mdiVectorPoint */
+/* unused concated harmony import mdiVectorPolygon */
+/* unused concated harmony import mdiVectorPolyline */
+/* unused concated harmony import mdiVectorRadius */
+/* unused concated harmony import mdiVectorRectangle */
+/* unused concated harmony import mdiVectorSelection */
+/* unused concated harmony import mdiVectorSquare */
+/* unused concated harmony import mdiVectorTriangle */
+/* unused concated harmony import mdiVectorUnion */
+/* unused concated harmony import mdiVenmo */
+/* unused concated harmony import mdiVhs */
+/* unused concated harmony import mdiVibrate */
+/* unused concated harmony import mdiVibrateOff */
+/* unused concated harmony import mdiVideo */
+/* unused concated harmony import mdiVideo3d */
+/* unused concated harmony import mdiVideo3dVariant */
+/* unused concated harmony import mdiVideo4kBox */
+/* unused concated harmony import mdiVideoAccount */
+/* unused concated harmony import mdiVideoImage */
+/* unused concated harmony import mdiVideoInputAntenna */
+/* unused concated harmony import mdiVideoInputComponent */
+/* unused concated harmony import mdiVideoInputHdmi */
+/* unused concated harmony import mdiVideoInputSvideo */
+/* unused concated harmony import mdiVideoMinus */
+/* unused concated harmony import mdiVideoOff */
+/* unused concated harmony import mdiVideoOffOutline */
+/* unused concated harmony import mdiVideoOutline */
+/* unused concated harmony import mdiVideoPlus */
+/* unused concated harmony import mdiVideoStabilization */
+/* unused concated harmony import mdiVideoSwitch */
+/* unused concated harmony import mdiVideoVintage */
+/* unused concated harmony import mdiVideoWireless */
+/* unused concated harmony import mdiVideoWirelessOutline */
+/* unused concated harmony import mdiViewAgenda */
+/* unused concated harmony import mdiViewArray */
+/* unused concated harmony import mdiViewCarousel */
+/* unused concated harmony import mdiViewColumn */
+/* unused concated harmony import mdiViewComfy */
+/* unused concated harmony import mdiViewCompact */
+/* unused concated harmony import mdiViewCompactOutline */
+/* unused concated harmony import mdiViewDashboard */
+/* unused concated harmony import mdiViewDashboardOutline */
+/* unused concated harmony import mdiViewDashboardVariant */
+/* unused concated harmony import mdiViewDay */
+/* unused concated harmony import mdiViewGrid */
+/* unused concated harmony import mdiViewHeadline */
+/* unused concated harmony import mdiViewList */
+/* unused concated harmony import mdiViewModule */
+/* unused concated harmony import mdiViewParallel */
+/* unused concated harmony import mdiViewQuilt */
+/* unused concated harmony import mdiViewSequential */
+/* unused concated harmony import mdiViewSplitHorizontal */
+/* unused concated harmony import mdiViewSplitVertical */
+/* unused concated harmony import mdiViewStream */
+/* unused concated harmony import mdiViewWeek */
+/* unused concated harmony import mdiVimeo */
+/* unused concated harmony import mdiViolin */
+/* unused concated harmony import mdiVirtualReality */
+/* unused concated harmony import mdiVisualStudio */
+/* unused concated harmony import mdiVisualStudioCode */
+/* unused concated harmony import mdiVk */
+/* unused concated harmony import mdiVkBox */
+/* unused concated harmony import mdiVkCircle */
+/* unused concated harmony import mdiVlc */
+/* unused concated harmony import mdiVoice */
+/* unused concated harmony import mdiVoiceOff */
+/* unused concated harmony import mdiVoicemail */
+/* unused concated harmony import mdiVolleyball */
+/* unused concated harmony import mdiVolumeHigh */
+/* unused concated harmony import mdiVolumeLow */
+/* unused concated harmony import mdiVolumeMedium */
+/* unused concated harmony import mdiVolumeMinus */
+/* unused concated harmony import mdiVolumeMute */
+/* unused concated harmony import mdiVolumeOff */
+/* unused concated harmony import mdiVolumePlus */
+/* unused concated harmony import mdiVolumeVariantOff */
+/* unused concated harmony import mdiVote */
+/* unused concated harmony import mdiVoteOutline */
+/* unused concated harmony import mdiVpn */
+/* unused concated harmony import mdiVuejs */
+/* unused concated harmony import mdiVuetify */
+/* unused concated harmony import mdiWalk */
+/* unused concated harmony import mdiWall */
+/* unused concated harmony import mdiWallSconce */
+/* unused concated harmony import mdiWallSconceFlat */
+/* unused concated harmony import mdiWallSconceVariant */
+/* unused concated harmony import mdiWallet */
+/* unused concated harmony import mdiWalletGiftcard */
+/* unused concated harmony import mdiWalletMembership */
+/* unused concated harmony import mdiWalletOutline */
+/* unused concated harmony import mdiWalletTravel */
+/* unused concated harmony import mdiWallpaper */
+/* unused concated harmony import mdiWan */
+/* unused concated harmony import mdiWashingMachine */
+/* unused concated harmony import mdiWatch */
+/* unused concated harmony import mdiWatchExport */
+/* unused concated harmony import mdiWatchExportVariant */
+/* unused concated harmony import mdiWatchImport */
+/* unused concated harmony import mdiWatchImportVariant */
+/* unused concated harmony import mdiWatchVariant */
+/* unused concated harmony import mdiWatchVibrate */
+/* unused concated harmony import mdiWatchVibrateOff */
+/* unused concated harmony import mdiWater */
+/* unused concated harmony import mdiWaterOff */
+/* unused concated harmony import mdiWaterOutline */
+/* unused concated harmony import mdiWaterPercent */
+/* unused concated harmony import mdiWaterPump */
+/* unused concated harmony import mdiWatermark */
+/* unused concated harmony import mdiWaves */
+/* unused concated harmony import mdiWaze */
+/* unused concated harmony import mdiWeatherCloudy */
+/* unused concated harmony import mdiWeatherCloudyArrowRight */
+/* unused concated harmony import mdiWeatherFog */
+/* unused concated harmony import mdiWeatherHail */
+/* unused concated harmony import mdiWeatherHurricane */
+/* unused concated harmony import mdiWeatherLightning */
+/* unused concated harmony import mdiWeatherLightningRainy */
+/* unused concated harmony import mdiWeatherNight */
+/* unused concated harmony import mdiWeatherPartlycloudy */
+/* unused concated harmony import mdiWeatherPouring */
+/* unused concated harmony import mdiWeatherRainy */
+/* unused concated harmony import mdiWeatherSnowy */
+/* unused concated harmony import mdiWeatherSnowyRainy */
+/* unused concated harmony import mdiWeatherSunny */
+/* unused concated harmony import mdiWeatherSunset */
+/* unused concated harmony import mdiWeatherSunsetDown */
+/* unused concated harmony import mdiWeatherSunsetUp */
+/* unused concated harmony import mdiWeatherWindy */
+/* unused concated harmony import mdiWeatherWindyVariant */
+/* unused concated harmony import mdiWeb */
+/* unused concated harmony import mdiWebcam */
+/* unused concated harmony import mdiWebhook */
+/* unused concated harmony import mdiWebpack */
+/* unused concated harmony import mdiWechat */
+/* unused concated harmony import mdiWeight */
+/* unused concated harmony import mdiWeightGram */
+/* unused concated harmony import mdiWeightKilogram */
+/* unused concated harmony import mdiWeightPound */
+/* unused concated harmony import mdiWhatsapp */
+/* unused concated harmony import mdiWheelchairAccessibility */
+/* unused concated harmony import mdiWhistle */
+/* unused concated harmony import mdiWhiteBalanceAuto */
+/* unused concated harmony import mdiWhiteBalanceIncandescent */
+/* unused concated harmony import mdiWhiteBalanceIridescent */
+/* unused concated harmony import mdiWhiteBalanceSunny */
+/* unused concated harmony import mdiWidgets */
+/* unused concated harmony import mdiWifi */
+/* unused concated harmony import mdiWifiOff */
+/* unused concated harmony import mdiWifiStar */
+/* unused concated harmony import mdiWifiStrength1 */
+/* unused concated harmony import mdiWifiStrength1Alert */
+/* unused concated harmony import mdiWifiStrength1Lock */
+/* unused concated harmony import mdiWifiStrength2 */
+/* unused concated harmony import mdiWifiStrength2Alert */
+/* unused concated harmony import mdiWifiStrength2Lock */
+/* unused concated harmony import mdiWifiStrength3 */
+/* unused concated harmony import mdiWifiStrength3Alert */
+/* unused concated harmony import mdiWifiStrength3Lock */
+/* unused concated harmony import mdiWifiStrength4 */
+/* unused concated harmony import mdiWifiStrength4Alert */
+/* unused concated harmony import mdiWifiStrength4Lock */
+/* unused concated harmony import mdiWifiStrengthAlertOutline */
+/* unused concated harmony import mdiWifiStrengthLockOutline */
+/* unused concated harmony import mdiWifiStrengthOff */
+/* unused concated harmony import mdiWifiStrengthOffOutline */
+/* unused concated harmony import mdiWifiStrengthOutline */
+/* unused concated harmony import mdiWii */
+/* unused concated harmony import mdiWiiu */
+/* unused concated harmony import mdiWikipedia */
+/* unused concated harmony import mdiWindTurbine */
+/* unused concated harmony import mdiWindowClose */
+/* unused concated harmony import mdiWindowClosed */
+/* unused concated harmony import mdiWindowMaximize */
+/* unused concated harmony import mdiWindowMinimize */
+/* unused concated harmony import mdiWindowOpen */
+/* unused concated harmony import mdiWindowRestore */
+/* unused concated harmony import mdiWindows */
+/* unused concated harmony import mdiWindowsClassic */
+/* unused concated harmony import mdiWiper */
+/* unused concated harmony import mdiWiperWash */
+/* unused concated harmony import mdiWordpress */
+/* unused concated harmony import mdiWorker */
+/* unused concated harmony import mdiWrap */
+/* unused concated harmony import mdiWrapDisabled */
+/* unused concated harmony import mdiWrench */
+/* unused concated harmony import mdiWrenchOutline */
+/* unused concated harmony import mdiWunderlist */
+/* unused concated harmony import mdiXamarin */
+/* unused concated harmony import mdiXamarinOutline */
+/* unused concated harmony import mdiXaml */
+/* unused concated harmony import mdiXbox */
+/* unused concated harmony import mdiXboxController */
+/* unused concated harmony import mdiXboxControllerBatteryAlert */
+/* unused concated harmony import mdiXboxControllerBatteryCharging */
+/* unused concated harmony import mdiXboxControllerBatteryEmpty */
+/* unused concated harmony import mdiXboxControllerBatteryFull */
+/* unused concated harmony import mdiXboxControllerBatteryLow */
+/* unused concated harmony import mdiXboxControllerBatteryMedium */
+/* unused concated harmony import mdiXboxControllerBatteryUnknown */
+/* unused concated harmony import mdiXboxControllerMenu */
+/* unused concated harmony import mdiXboxControllerOff */
+/* unused concated harmony import mdiXboxControllerView */
+/* unused concated harmony import mdiXda */
+/* unused concated harmony import mdiXing */
+/* unused concated harmony import mdiXingBox */
+/* unused concated harmony import mdiXingCircle */
+/* unused concated harmony import mdiXml */
+/* unused concated harmony import mdiXmpp */
+/* unused concated harmony import mdiYahoo */
+/* unused concated harmony import mdiYammer */
+/* unused concated harmony import mdiYeast */
+/* unused concated harmony import mdiYelp */
+/* unused concated harmony import mdiYinYang */
+/* unused concated harmony import mdiYoutube */
+/* unused concated harmony import mdiYoutubeCreatorStudio */
+/* unused concated harmony import mdiYoutubeGaming */
+/* unused concated harmony import mdiYoutubeSubscription */
+/* unused concated harmony import mdiYoutubeTv */
+/* unused concated harmony import mdiZWave */
+/* unused concated harmony import mdiZend */
+/* unused concated harmony import mdiZigbee */
+/* unused concated harmony import mdiZipBox */
+/* unused concated harmony import mdiZipDisk */
+/* unused concated harmony import mdiZodiacAquarius */
+/* unused concated harmony import mdiZodiacAries */
+/* unused concated harmony import mdiZodiacCancer */
+/* unused concated harmony import mdiZodiacCapricorn */
+/* unused concated harmony import mdiZodiacGemini */
+/* unused concated harmony import mdiZodiacLeo */
+/* unused concated harmony import mdiZodiacLibra */
+/* unused concated harmony import mdiZodiacPisces */
+/* unused concated harmony import mdiZodiacSagittarius */
+/* unused concated harmony import mdiZodiacScorpio */
+/* unused concated harmony import mdiZodiacTaurus */
+/* unused concated harmony import mdiZodiacVirgo */
 
 
-// EXTERNAL MODULE: ./modules/checkbox/views/checkbox.html
-var views_checkbox = __webpack_require__(57);
-var checkbox_default = /*#__PURE__*/__webpack_require__.n(views_checkbox);
 
-// CONCATENATED MODULE: ./modules/checkbox/js/checkbox_directive.js
+/***/ }),
+/* 9 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var global = __webpack_require__(1);
+var shared = __webpack_require__(26);
+var hide = __webpack_require__(14);
+var has = __webpack_require__(17);
+var setGlobal = __webpack_require__(36);
+var nativeFunctionToString = __webpack_require__(64);
+var InternalStateModule = __webpack_require__(65);
+
+var getInternalState = InternalStateModule.get;
+var enforceInternalState = InternalStateModule.enforce;
+var TEMPLATE = String(nativeFunctionToString).split('toString');
+
+shared('inspectSource', function (it) {
+  return nativeFunctionToString.call(it);
+});
+
+(module.exports = function (O, key, value, options) {
+  var unsafe = options ? !!options.unsafe : false;
+  var simple = options ? !!options.enumerable : false;
+  var noTargetGet = options ? !!options.noTargetGet : false;
+  if (typeof value == 'function') {
+    if (typeof key == 'string' && !has(value, 'name')) hide(value, 'name', key);
+    enforceInternalState(value).source = TEMPLATE.join(typeof key == 'string' ? key : '');
+  }
+  if (O === global) {
+    if (simple) O[key] = value;
+    else setGlobal(key, value);
+    return;
+  } else if (!unsafe) {
+    delete O[key];
+  } else if (!noTargetGet && O[key]) {
+    simple = true;
+  }
+  if (simple) O[key] = value;
+  else hide(O, key, value);
+// add fake Function#toString for correct work wrapped methods / constructors with methods like LoDash isNative
+})(Function.prototype, 'toString', function toString() {
+  return typeof this == 'function' && getInternalState(this).source || nativeFunctionToString.call(this);
+});
+
+
+/***/ }),
+/* 10 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var fails = __webpack_require__(4);
+
+// Thank's IE8 for his funny defineProperty
+module.exports = !fails(function () {
+  return Object.defineProperty({}, 'a', { get: function () { return 7; } }).a != 7;
+});
+
+
+/***/ }),
+/* 11 */
+/***/ (function(module, exports) {
+
+var toString = {}.toString;
+
+module.exports = function (it) {
+  return toString.call(it).slice(8, -1);
+};
+
+
+/***/ }),
+/* 12 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var DESCRIPTORS = __webpack_require__(10);
+var IE8_DOM_DEFINE = __webpack_require__(63);
+var anObject = __webpack_require__(6);
+var toPrimitive = __webpack_require__(34);
+
+var nativeDefineProperty = Object.defineProperty;
+
+// `Object.defineProperty` method
+// https://tc39.github.io/ecma262/#sec-object.defineproperty
+exports.f = DESCRIPTORS ? nativeDefineProperty : function defineProperty(O, P, Attributes) {
+  anObject(O);
+  P = toPrimitive(P, true);
+  anObject(Attributes);
+  if (IE8_DOM_DEFINE) try {
+    return nativeDefineProperty(O, P, Attributes);
+  } catch (error) { /* empty */ }
+  if ('get' in Attributes || 'set' in Attributes) throw TypeError('Accessors not supported');
+  if ('value' in Attributes) O[P] = Attributes.value;
+  return O;
+};
+
+
+/***/ }),
+/* 13 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var toInteger = __webpack_require__(20);
+
+var min = Math.min;
+
+// `ToLength` abstract operation
+// https://tc39.github.io/ecma262/#sec-tolength
+module.exports = function (argument) {
+  return argument > 0 ? min(toInteger(argument), 0x1FFFFFFFFFFFFF) : 0; // 2 ** 53 - 1 == 9007199254740991
+};
+
+
+/***/ }),
+/* 14 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var DESCRIPTORS = __webpack_require__(10);
+var definePropertyModule = __webpack_require__(12);
+var createPropertyDescriptor = __webpack_require__(32);
+
+module.exports = DESCRIPTORS ? function (object, key, value) {
+  return definePropertyModule.f(object, key, createPropertyDescriptor(1, value));
+} : function (object, key, value) {
+  object[key] = value;
+  return object;
+};
+
+
+/***/ }),
+/* 15 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var $ = __webpack_require__(3);
+var exec = __webpack_require__(47);
+
+$({ target: 'RegExp', proto: true, forced: /./.exec !== exec }, {
+  exec: exec
+});
+
+
+/***/ }),
+/* 16 */
+/***/ (function(module, exports) {
+
+// `RequireObjectCoercible` abstract operation
+// https://tc39.github.io/ecma262/#sec-requireobjectcoercible
+module.exports = function (it) {
+  if (it == undefined) throw TypeError("Can't call method on " + it);
+  return it;
+};
+
+
+/***/ }),
+/* 17 */
+/***/ (function(module, exports) {
+
+var hasOwnProperty = {}.hasOwnProperty;
+
+module.exports = function (it, key) {
+  return hasOwnProperty.call(it, key);
+};
+
+
+/***/ }),
+/* 18 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// toObject with fallback for non-array-like ES3 strings
+var IndexedObject = __webpack_require__(33);
+var requireObjectCoercible = __webpack_require__(16);
+
+module.exports = function (it) {
+  return IndexedObject(requireObjectCoercible(it));
+};
+
+
+/***/ }),
+/* 19 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var path = __webpack_require__(68);
+var global = __webpack_require__(1);
+
+var aFunction = function (variable) {
+  return typeof variable == 'function' ? variable : undefined;
+};
+
+module.exports = function (namespace, method) {
+  return arguments.length < 2 ? aFunction(path[namespace]) || aFunction(global[namespace])
+    : path[namespace] && path[namespace][method] || global[namespace] && global[namespace][method];
+};
+
+
+/***/ }),
+/* 20 */
+/***/ (function(module, exports) {
+
+var ceil = Math.ceil;
+var floor = Math.floor;
+
+// `ToInteger` abstract operation
+// https://tc39.github.io/ecma262/#sec-tointeger
+module.exports = function (argument) {
+  return isNaN(argument = +argument) ? 0 : (argument > 0 ? floor : ceil)(argument);
+};
+
+
+/***/ }),
+/* 21 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var $ = __webpack_require__(3);
+var toAbsoluteIndex = __webpack_require__(39);
+var toInteger = __webpack_require__(20);
+var toLength = __webpack_require__(13);
+var toObject = __webpack_require__(22);
+var arraySpeciesCreate = __webpack_require__(42);
+var createProperty = __webpack_require__(44);
+var arrayMethodHasSpeciesSupport = __webpack_require__(28);
+
+var max = Math.max;
+var min = Math.min;
+var MAX_SAFE_INTEGER = 0x1FFFFFFFFFFFFF;
+var MAXIMUM_ALLOWED_LENGTH_EXCEEDED = 'Maximum allowed length exceeded';
+
+// `Array.prototype.splice` method
+// https://tc39.github.io/ecma262/#sec-array.prototype.splice
+// with adding support of @@species
+$({ target: 'Array', proto: true, forced: !arrayMethodHasSpeciesSupport('splice') }, {
+  splice: function splice(start, deleteCount /* , ...items */) {
+    var O = toObject(this);
+    var len = toLength(O.length);
+    var actualStart = toAbsoluteIndex(start, len);
+    var argumentsLength = arguments.length;
+    var insertCount, actualDeleteCount, A, k, from, to;
+    if (argumentsLength === 0) {
+      insertCount = actualDeleteCount = 0;
+    } else if (argumentsLength === 1) {
+      insertCount = 0;
+      actualDeleteCount = len - actualStart;
+    } else {
+      insertCount = argumentsLength - 2;
+      actualDeleteCount = min(max(toInteger(deleteCount), 0), len - actualStart);
+    }
+    if (len + insertCount - actualDeleteCount > MAX_SAFE_INTEGER) {
+      throw TypeError(MAXIMUM_ALLOWED_LENGTH_EXCEEDED);
+    }
+    A = arraySpeciesCreate(O, actualDeleteCount);
+    for (k = 0; k < actualDeleteCount; k++) {
+      from = actualStart + k;
+      if (from in O) createProperty(A, k, O[from]);
+    }
+    A.length = actualDeleteCount;
+    if (insertCount < actualDeleteCount) {
+      for (k = actualStart; k < len - actualDeleteCount; k++) {
+        from = k + actualDeleteCount;
+        to = k + insertCount;
+        if (from in O) O[to] = O[from];
+        else delete O[to];
+      }
+      for (k = len; k > len - actualDeleteCount + insertCount; k--) delete O[k - 1];
+    } else if (insertCount > actualDeleteCount) {
+      for (k = len - actualDeleteCount; k > actualStart; k--) {
+        from = k + actualDeleteCount - 1;
+        to = k + insertCount - 1;
+        if (from in O) O[to] = O[from];
+        else delete O[to];
+      }
+    }
+    for (k = 0; k < insertCount; k++) {
+      O[k + actualStart] = arguments[k + 2];
+    }
+    O.length = len - actualDeleteCount + insertCount;
+    return A;
+  }
+});
+
+
+/***/ }),
+/* 22 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var requireObjectCoercible = __webpack_require__(16);
+
+// `ToObject` abstract operation
+// https://tc39.github.io/ecma262/#sec-toobject
+module.exports = function (argument) {
+  return Object(requireObjectCoercible(argument));
+};
+
+
+/***/ }),
+/* 23 */
+/***/ (function(module, exports) {
+
+module.exports = function (it) {
+  if (typeof it != 'function') {
+    throw TypeError(String(it) + ' is not a function');
+  } return it;
+};
+
+
+/***/ }),
+/* 24 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var $ = __webpack_require__(3);
+var parseIntImplementation = __webpack_require__(141);
+
+// `parseInt` method
+// https://tc39.github.io/ecma262/#sec-parseint-string-radix
+$({ global: true, forced: parseInt != parseIntImplementation }, {
+  parseInt: parseIntImplementation
+});
+
+
+/***/ }),
+/* 25 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var $ = __webpack_require__(3);
+var $indexOf = __webpack_require__(71).indexOf;
+var sloppyArrayMethod = __webpack_require__(27);
+
+var nativeIndexOf = [].indexOf;
+
+var NEGATIVE_ZERO = !!nativeIndexOf && 1 / [1].indexOf(1, -0) < 0;
+var SLOPPY_METHOD = sloppyArrayMethod('indexOf');
+
+// `Array.prototype.indexOf` method
+// https://tc39.github.io/ecma262/#sec-array.prototype.indexof
+$({ target: 'Array', proto: true, forced: NEGATIVE_ZERO || SLOPPY_METHOD }, {
+  indexOf: function indexOf(searchElement /* , fromIndex = 0 */) {
+    return NEGATIVE_ZERO
+      // convert -0 to +0
+      ? nativeIndexOf.apply(this, arguments) || 0
+      : $indexOf(this, searchElement, arguments.length > 1 ? arguments[1] : undefined);
+  }
+});
+
+
+/***/ }),
+/* 26 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var global = __webpack_require__(1);
+var setGlobal = __webpack_require__(36);
+var IS_PURE = __webpack_require__(37);
+
+var SHARED = '__core-js_shared__';
+var store = global[SHARED] || setGlobal(SHARED, {});
+
+(module.exports = function (key, value) {
+  return store[key] || (store[key] = value !== undefined ? value : {});
+})('versions', []).push({
+  version: '3.2.1',
+  mode: IS_PURE ? 'pure' : 'global',
+  copyright: '© 2019 Denis Pushkarev (zloirock.ru)'
+});
+
+
+/***/ }),
+/* 27 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var fails = __webpack_require__(4);
+
+module.exports = function (METHOD_NAME, argument) {
+  var method = [][METHOD_NAME];
+  return !method || !fails(function () {
+    // eslint-disable-next-line no-useless-call,no-throw-literal
+    method.call(null, argument || function () { throw 1; }, 1);
+  });
+};
+
+
+/***/ }),
+/* 28 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var fails = __webpack_require__(4);
+var wellKnownSymbol = __webpack_require__(2);
+
+var SPECIES = wellKnownSymbol('species');
+
+module.exports = function (METHOD_NAME) {
+  return !fails(function () {
+    var array = [];
+    var constructor = array.constructor = {};
+    constructor[SPECIES] = function () {
+      return { foo: 1 };
+    };
+    return array[METHOD_NAME](Boolean).foo !== 1;
+  });
+};
+
+
+/***/ }),
+/* 29 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var fixRegExpWellKnownSymbolLogic = __webpack_require__(77);
+var anObject = __webpack_require__(6);
+var toObject = __webpack_require__(22);
+var toLength = __webpack_require__(13);
+var toInteger = __webpack_require__(20);
+var requireObjectCoercible = __webpack_require__(16);
+var advanceStringIndex = __webpack_require__(78);
+var regExpExec = __webpack_require__(79);
+
+var max = Math.max;
+var min = Math.min;
+var floor = Math.floor;
+var SUBSTITUTION_SYMBOLS = /\$([$&'`]|\d\d?|<[^>]*>)/g;
+var SUBSTITUTION_SYMBOLS_NO_NAMED = /\$([$&'`]|\d\d?)/g;
+
+var maybeToString = function (it) {
+  return it === undefined ? it : String(it);
+};
+
+// @@replace logic
+fixRegExpWellKnownSymbolLogic('replace', 2, function (REPLACE, nativeReplace, maybeCallNative) {
+  return [
+    // `String.prototype.replace` method
+    // https://tc39.github.io/ecma262/#sec-string.prototype.replace
+    function replace(searchValue, replaceValue) {
+      var O = requireObjectCoercible(this);
+      var replacer = searchValue == undefined ? undefined : searchValue[REPLACE];
+      return replacer !== undefined
+        ? replacer.call(searchValue, O, replaceValue)
+        : nativeReplace.call(String(O), searchValue, replaceValue);
+    },
+    // `RegExp.prototype[@@replace]` method
+    // https://tc39.github.io/ecma262/#sec-regexp.prototype-@@replace
+    function (regexp, replaceValue) {
+      var res = maybeCallNative(nativeReplace, regexp, this, replaceValue);
+      if (res.done) return res.value;
+
+      var rx = anObject(regexp);
+      var S = String(this);
+
+      var functionalReplace = typeof replaceValue === 'function';
+      if (!functionalReplace) replaceValue = String(replaceValue);
+
+      var global = rx.global;
+      if (global) {
+        var fullUnicode = rx.unicode;
+        rx.lastIndex = 0;
+      }
+      var results = [];
+      while (true) {
+        var result = regExpExec(rx, S);
+        if (result === null) break;
+
+        results.push(result);
+        if (!global) break;
+
+        var matchStr = String(result[0]);
+        if (matchStr === '') rx.lastIndex = advanceStringIndex(S, toLength(rx.lastIndex), fullUnicode);
+      }
+
+      var accumulatedResult = '';
+      var nextSourcePosition = 0;
+      for (var i = 0; i < results.length; i++) {
+        result = results[i];
+
+        var matched = String(result[0]);
+        var position = max(min(toInteger(result.index), S.length), 0);
+        var captures = [];
+        // NOTE: This is equivalent to
+        //   captures = result.slice(1).map(maybeToString)
+        // but for some reason `nativeSlice.call(result, 1, result.length)` (called in
+        // the slice polyfill when slicing native arrays) "doesn't work" in safari 9 and
+        // causes a crash (https://pastebin.com/N21QzeQA) when trying to debug it.
+        for (var j = 1; j < result.length; j++) captures.push(maybeToString(result[j]));
+        var namedCaptures = result.groups;
+        if (functionalReplace) {
+          var replacerArgs = [matched].concat(captures, position, S);
+          if (namedCaptures !== undefined) replacerArgs.push(namedCaptures);
+          var replacement = String(replaceValue.apply(undefined, replacerArgs));
+        } else {
+          replacement = getSubstitution(matched, S, position, captures, namedCaptures, replaceValue);
+        }
+        if (position >= nextSourcePosition) {
+          accumulatedResult += S.slice(nextSourcePosition, position) + replacement;
+          nextSourcePosition = position + matched.length;
+        }
+      }
+      return accumulatedResult + S.slice(nextSourcePosition);
+    }
+  ];
+
+  // https://tc39.github.io/ecma262/#sec-getsubstitution
+  function getSubstitution(matched, str, position, captures, namedCaptures, replacement) {
+    var tailPos = position + matched.length;
+    var m = captures.length;
+    var symbols = SUBSTITUTION_SYMBOLS_NO_NAMED;
+    if (namedCaptures !== undefined) {
+      namedCaptures = toObject(namedCaptures);
+      symbols = SUBSTITUTION_SYMBOLS;
+    }
+    return nativeReplace.call(replacement, symbols, function (match, ch) {
+      var capture;
+      switch (ch.charAt(0)) {
+        case '$': return '$';
+        case '&': return matched;
+        case '`': return str.slice(0, position);
+        case "'": return str.slice(tailPos);
+        case '<':
+          capture = namedCaptures[ch.slice(1, -1)];
+          break;
+        default: // \d\d?
+          var n = +ch;
+          if (n === 0) return match;
+          if (n > m) {
+            var f = floor(n / 10);
+            if (f === 0) return match;
+            if (f <= m) return captures[f - 1] === undefined ? ch.charAt(1) : captures[f - 1] + ch.charAt(1);
+            return match;
+          }
+          capture = captures[n - 1];
+      }
+      return capture === undefined ? '' : capture;
+    });
+  }
+});
+
+
+/***/ }),
+/* 30 */
+/***/ (function(module, exports) {
+
+// a string of all valid unicode whitespaces
+// eslint-disable-next-line max-len
+module.exports = '\u0009\u000A\u000B\u000C\u000D\u0020\u00A0\u1680\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200A\u202F\u205F\u3000\u2028\u2029\uFEFF';
+
+
+/***/ }),
+/* 31 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var DESCRIPTORS = __webpack_require__(10);
+var propertyIsEnumerableModule = __webpack_require__(98);
+var createPropertyDescriptor = __webpack_require__(32);
+var toIndexedObject = __webpack_require__(18);
+var toPrimitive = __webpack_require__(34);
+var has = __webpack_require__(17);
+var IE8_DOM_DEFINE = __webpack_require__(63);
+
+var nativeGetOwnPropertyDescriptor = Object.getOwnPropertyDescriptor;
+
+// `Object.getOwnPropertyDescriptor` method
+// https://tc39.github.io/ecma262/#sec-object.getownpropertydescriptor
+exports.f = DESCRIPTORS ? nativeGetOwnPropertyDescriptor : function getOwnPropertyDescriptor(O, P) {
+  O = toIndexedObject(O);
+  P = toPrimitive(P, true);
+  if (IE8_DOM_DEFINE) try {
+    return nativeGetOwnPropertyDescriptor(O, P);
+  } catch (error) { /* empty */ }
+  if (has(O, P)) return createPropertyDescriptor(!propertyIsEnumerableModule.f.call(O, P), O[P]);
+};
+
+
+/***/ }),
+/* 32 */
+/***/ (function(module, exports) {
+
+module.exports = function (bitmap, value) {
+  return {
+    enumerable: !(bitmap & 1),
+    configurable: !(bitmap & 2),
+    writable: !(bitmap & 4),
+    value: value
+  };
+};
+
+
+/***/ }),
+/* 33 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var fails = __webpack_require__(4);
+var classof = __webpack_require__(11);
+
+var split = ''.split;
+
+// fallback for non-array-like ES3 and non-enumerable old V8 strings
+module.exports = fails(function () {
+  // throws an error in rhino, see https://github.com/mozilla/rhino/issues/346
+  // eslint-disable-next-line no-prototype-builtins
+  return !Object('z').propertyIsEnumerable(0);
+}) ? function (it) {
+  return classof(it) == 'String' ? split.call(it, '') : Object(it);
+} : Object;
+
+
+/***/ }),
+/* 34 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var isObject = __webpack_require__(7);
+
+// `ToPrimitive` abstract operation
+// https://tc39.github.io/ecma262/#sec-toprimitive
+// instead of the ES6 spec version, we didn't implement @@toPrimitive case
+// and the second argument - flag - preferred type is a string
+module.exports = function (input, PREFERRED_STRING) {
+  if (!isObject(input)) return input;
+  var fn, val;
+  if (PREFERRED_STRING && typeof (fn = input.toString) == 'function' && !isObject(val = fn.call(input))) return val;
+  if (typeof (fn = input.valueOf) == 'function' && !isObject(val = fn.call(input))) return val;
+  if (!PREFERRED_STRING && typeof (fn = input.toString) == 'function' && !isObject(val = fn.call(input))) return val;
+  throw TypeError("Can't convert object to primitive value");
+};
+
+
+/***/ }),
+/* 35 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var global = __webpack_require__(1);
+var isObject = __webpack_require__(7);
+
+var document = global.document;
+// typeof document.createElement is 'object' in old IE
+var EXISTS = isObject(document) && isObject(document.createElement);
+
+module.exports = function (it) {
+  return EXISTS ? document.createElement(it) : {};
+};
+
+
+/***/ }),
+/* 36 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var global = __webpack_require__(1);
+var hide = __webpack_require__(14);
+
+module.exports = function (key, value) {
+  try {
+    hide(global, key, value);
+  } catch (error) {
+    global[key] = value;
+  } return value;
+};
+
+
+/***/ }),
+/* 37 */
+/***/ (function(module, exports) {
+
+module.exports = false;
+
+
+/***/ }),
+/* 38 */
+/***/ (function(module, exports) {
+
+module.exports = {};
+
+
+/***/ }),
+/* 39 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var toInteger = __webpack_require__(20);
+
+var max = Math.max;
+var min = Math.min;
+
+// Helper for a popular repeating case of the spec:
+// Let integer be ? ToInteger(index).
+// If integer < 0, let result be max((length + integer), 0); else let result be min(length, length).
+module.exports = function (index, length) {
+  var integer = toInteger(index);
+  return integer < 0 ? max(integer + length, 0) : min(integer, length);
+};
+
+
+/***/ }),
+/* 40 */
+/***/ (function(module, exports) {
+
+// IE8- don't enum bug keys
+module.exports = [
+  'constructor',
+  'hasOwnProperty',
+  'isPrototypeOf',
+  'propertyIsEnumerable',
+  'toLocaleString',
+  'toString',
+  'valueOf'
+];
+
+
+/***/ }),
+/* 41 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var fails = __webpack_require__(4);
+
+var replacement = /#|\.prototype\./;
+
+var isForced = function (feature, detection) {
+  var value = data[normalize(feature)];
+  return value == POLYFILL ? true
+    : value == NATIVE ? false
+    : typeof detection == 'function' ? fails(detection)
+    : !!detection;
+};
+
+var normalize = isForced.normalize = function (string) {
+  return String(string).replace(replacement, '.').toLowerCase();
+};
+
+var data = isForced.data = {};
+var NATIVE = isForced.NATIVE = 'N';
+var POLYFILL = isForced.POLYFILL = 'P';
+
+module.exports = isForced;
+
+
+/***/ }),
+/* 42 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var isObject = __webpack_require__(7);
+var isArray = __webpack_require__(43);
+var wellKnownSymbol = __webpack_require__(2);
+
+var SPECIES = wellKnownSymbol('species');
+
+// `ArraySpeciesCreate` abstract operation
+// https://tc39.github.io/ecma262/#sec-arrayspeciescreate
+module.exports = function (originalArray, length) {
+  var C;
+  if (isArray(originalArray)) {
+    C = originalArray.constructor;
+    // cross-realm fallback
+    if (typeof C == 'function' && (C === Array || isArray(C.prototype))) C = undefined;
+    else if (isObject(C)) {
+      C = C[SPECIES];
+      if (C === null) C = undefined;
+    }
+  } return new (C === undefined ? Array : C)(length === 0 ? 0 : length);
+};
+
+
+/***/ }),
+/* 43 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var classof = __webpack_require__(11);
+
+// `IsArray` abstract operation
+// https://tc39.github.io/ecma262/#sec-isarray
+module.exports = Array.isArray || function isArray(arg) {
+  return classof(arg) == 'Array';
+};
+
+
+/***/ }),
+/* 44 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var toPrimitive = __webpack_require__(34);
+var definePropertyModule = __webpack_require__(12);
+var createPropertyDescriptor = __webpack_require__(32);
+
+module.exports = function (object, key, value) {
+  var propertyKey = toPrimitive(key);
+  if (propertyKey in object) definePropertyModule.f(object, propertyKey, createPropertyDescriptor(0, value));
+  else object[propertyKey] = value;
+};
+
+
+/***/ }),
+/* 45 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var bind = __webpack_require__(46);
+var IndexedObject = __webpack_require__(33);
+var toObject = __webpack_require__(22);
+var toLength = __webpack_require__(13);
+var arraySpeciesCreate = __webpack_require__(42);
+
+var push = [].push;
+
+// `Array.prototype.{ forEach, map, filter, some, every, find, findIndex }` methods implementation
+var createMethod = function (TYPE) {
+  var IS_MAP = TYPE == 1;
+  var IS_FILTER = TYPE == 2;
+  var IS_SOME = TYPE == 3;
+  var IS_EVERY = TYPE == 4;
+  var IS_FIND_INDEX = TYPE == 6;
+  var NO_HOLES = TYPE == 5 || IS_FIND_INDEX;
+  return function ($this, callbackfn, that, specificCreate) {
+    var O = toObject($this);
+    var self = IndexedObject(O);
+    var boundFunction = bind(callbackfn, that, 3);
+    var length = toLength(self.length);
+    var index = 0;
+    var create = specificCreate || arraySpeciesCreate;
+    var target = IS_MAP ? create($this, length) : IS_FILTER ? create($this, 0) : undefined;
+    var value, result;
+    for (;length > index; index++) if (NO_HOLES || index in self) {
+      value = self[index];
+      result = boundFunction(value, index, O);
+      if (TYPE) {
+        if (IS_MAP) target[index] = result; // map
+        else if (result) switch (TYPE) {
+          case 3: return true;              // some
+          case 5: return value;             // find
+          case 6: return index;             // findIndex
+          case 2: push.call(target, value); // filter
+        } else if (IS_EVERY) return false;  // every
+      }
+    }
+    return IS_FIND_INDEX ? -1 : IS_SOME || IS_EVERY ? IS_EVERY : target;
+  };
+};
+
+module.exports = {
+  // `Array.prototype.forEach` method
+  // https://tc39.github.io/ecma262/#sec-array.prototype.foreach
+  forEach: createMethod(0),
+  // `Array.prototype.map` method
+  // https://tc39.github.io/ecma262/#sec-array.prototype.map
+  map: createMethod(1),
+  // `Array.prototype.filter` method
+  // https://tc39.github.io/ecma262/#sec-array.prototype.filter
+  filter: createMethod(2),
+  // `Array.prototype.some` method
+  // https://tc39.github.io/ecma262/#sec-array.prototype.some
+  some: createMethod(3),
+  // `Array.prototype.every` method
+  // https://tc39.github.io/ecma262/#sec-array.prototype.every
+  every: createMethod(4),
+  // `Array.prototype.find` method
+  // https://tc39.github.io/ecma262/#sec-array.prototype.find
+  find: createMethod(5),
+  // `Array.prototype.findIndex` method
+  // https://tc39.github.io/ecma262/#sec-array.prototype.findIndex
+  findIndex: createMethod(6)
+};
+
+
+/***/ }),
+/* 46 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var aFunction = __webpack_require__(23);
+
+// optional / simple context binding
+module.exports = function (fn, that, length) {
+  aFunction(fn);
+  if (that === undefined) return fn;
+  switch (length) {
+    case 0: return function () {
+      return fn.call(that);
+    };
+    case 1: return function (a) {
+      return fn.call(that, a);
+    };
+    case 2: return function (a, b) {
+      return fn.call(that, a, b);
+    };
+    case 3: return function (a, b, c) {
+      return fn.call(that, a, b, c);
+    };
+  }
+  return function (/* ...args */) {
+    return fn.apply(that, arguments);
+  };
+};
+
+
+/***/ }),
+/* 47 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var regexpFlags = __webpack_require__(48);
+
+var nativeExec = RegExp.prototype.exec;
+// This always refers to the native implementation, because the
+// String#replace polyfill uses ./fix-regexp-well-known-symbol-logic.js,
+// which loads this file before patching the method.
+var nativeReplace = String.prototype.replace;
+
+var patchedExec = nativeExec;
+
+var UPDATES_LAST_INDEX_WRONG = (function () {
+  var re1 = /a/;
+  var re2 = /b*/g;
+  nativeExec.call(re1, 'a');
+  nativeExec.call(re2, 'a');
+  return re1.lastIndex !== 0 || re2.lastIndex !== 0;
+})();
+
+// nonparticipating capturing group, copied from es5-shim's String#split patch.
+var NPCG_INCLUDED = /()??/.exec('')[1] !== undefined;
+
+var PATCH = UPDATES_LAST_INDEX_WRONG || NPCG_INCLUDED;
+
+if (PATCH) {
+  patchedExec = function exec(str) {
+    var re = this;
+    var lastIndex, reCopy, match, i;
+
+    if (NPCG_INCLUDED) {
+      reCopy = new RegExp('^' + re.source + '$(?!\\s)', regexpFlags.call(re));
+    }
+    if (UPDATES_LAST_INDEX_WRONG) lastIndex = re.lastIndex;
+
+    match = nativeExec.call(re, str);
+
+    if (UPDATES_LAST_INDEX_WRONG && match) {
+      re.lastIndex = re.global ? match.index + match[0].length : lastIndex;
+    }
+    if (NPCG_INCLUDED && match && match.length > 1) {
+      // Fix browsers whose `exec` methods don't consistently return `undefined`
+      // for NPCG, like IE8. NOTE: This doesn' work for /(.?)?/
+      nativeReplace.call(match[0], reCopy, function () {
+        for (i = 1; i < arguments.length - 2; i++) {
+          if (arguments[i] === undefined) match[i] = undefined;
+        }
+      });
+    }
+
+    return match;
+  };
+}
+
+module.exports = patchedExec;
+
+
+/***/ }),
+/* 48 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var anObject = __webpack_require__(6);
+
+// `RegExp.prototype.flags` getter implementation
+// https://tc39.github.io/ecma262/#sec-get-regexp.prototype.flags
+module.exports = function () {
+  var that = anObject(this);
+  var result = '';
+  if (that.global) result += 'g';
+  if (that.ignoreCase) result += 'i';
+  if (that.multiline) result += 'm';
+  if (that.dotAll) result += 's';
+  if (that.unicode) result += 'u';
+  if (that.sticky) result += 'y';
+  return result;
+};
+
+
+/***/ }),
+/* 49 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var $ = __webpack_require__(3);
+var IndexedObject = __webpack_require__(33);
+var toIndexedObject = __webpack_require__(18);
+var sloppyArrayMethod = __webpack_require__(27);
+
+var nativeJoin = [].join;
+
+var ES3_STRINGS = IndexedObject != Object;
+var SLOPPY_METHOD = sloppyArrayMethod('join', ',');
+
+// `Array.prototype.join` method
+// https://tc39.github.io/ecma262/#sec-array.prototype.join
+$({ target: 'Array', proto: true, forced: ES3_STRINGS || SLOPPY_METHOD }, {
+  join: function join(separator) {
+    return nativeJoin.call(toIndexedObject(this), separator === undefined ? ',' : separator);
+  }
+});
+
+
+/***/ }),
+/* 50 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var fixRegExpWellKnownSymbolLogic = __webpack_require__(77);
+var anObject = __webpack_require__(6);
+var toLength = __webpack_require__(13);
+var requireObjectCoercible = __webpack_require__(16);
+var advanceStringIndex = __webpack_require__(78);
+var regExpExec = __webpack_require__(79);
+
+// @@match logic
+fixRegExpWellKnownSymbolLogic('match', 1, function (MATCH, nativeMatch, maybeCallNative) {
+  return [
+    // `String.prototype.match` method
+    // https://tc39.github.io/ecma262/#sec-string.prototype.match
+    function match(regexp) {
+      var O = requireObjectCoercible(this);
+      var matcher = regexp == undefined ? undefined : regexp[MATCH];
+      return matcher !== undefined ? matcher.call(regexp, O) : new RegExp(regexp)[MATCH](String(O));
+    },
+    // `RegExp.prototype[@@match]` method
+    // https://tc39.github.io/ecma262/#sec-regexp.prototype-@@match
+    function (regexp) {
+      var res = maybeCallNative(nativeMatch, regexp, this);
+      if (res.done) return res.value;
+
+      var rx = anObject(regexp);
+      var S = String(this);
+
+      if (!rx.global) return regExpExec(rx, S);
+
+      var fullUnicode = rx.unicode;
+      rx.lastIndex = 0;
+      var A = [];
+      var n = 0;
+      var result;
+      while ((result = regExpExec(rx, S)) !== null) {
+        var matchStr = String(result[0]);
+        A[n] = matchStr;
+        if (matchStr === '') rx.lastIndex = advanceStringIndex(S, toLength(rx.lastIndex), fullUnicode);
+        n++;
+      }
+      return n === 0 ? null : A;
+    }
+  ];
+});
+
+
+/***/ }),
+/* 51 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var $ = __webpack_require__(3);
+var isObject = __webpack_require__(7);
+var isArray = __webpack_require__(43);
+var toAbsoluteIndex = __webpack_require__(39);
+var toLength = __webpack_require__(13);
+var toIndexedObject = __webpack_require__(18);
+var createProperty = __webpack_require__(44);
+var arrayMethodHasSpeciesSupport = __webpack_require__(28);
+var wellKnownSymbol = __webpack_require__(2);
+
+var SPECIES = wellKnownSymbol('species');
+var nativeSlice = [].slice;
+var max = Math.max;
+
+// `Array.prototype.slice` method
+// https://tc39.github.io/ecma262/#sec-array.prototype.slice
+// fallback for not array-like ES3 strings and DOM objects
+$({ target: 'Array', proto: true, forced: !arrayMethodHasSpeciesSupport('slice') }, {
+  slice: function slice(start, end) {
+    var O = toIndexedObject(this);
+    var length = toLength(O.length);
+    var k = toAbsoluteIndex(start, length);
+    var fin = toAbsoluteIndex(end === undefined ? length : end, length);
+    // inline `ArraySpeciesCreate` for usage native `Array#slice` where it's possible
+    var Constructor, result, n;
+    if (isArray(O)) {
+      Constructor = O.constructor;
+      // cross-realm fallback
+      if (typeof Constructor == 'function' && (Constructor === Array || isArray(Constructor.prototype))) {
+        Constructor = undefined;
+      } else if (isObject(Constructor)) {
+        Constructor = Constructor[SPECIES];
+        if (Constructor === null) Constructor = undefined;
+      }
+      if (Constructor === Array || Constructor === undefined) {
+        return nativeSlice.call(O, k, fin);
+      }
+    }
+    result = new (Constructor === undefined ? Array : Constructor)(max(fin - k, 0));
+    for (n = 0; k < fin; k++, n++) if (k in O) createProperty(result, n, O[k]);
+    result.length = n;
+    return result;
+  }
+});
+
+
+/***/ }),
+/* 52 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var requireObjectCoercible = __webpack_require__(16);
+var whitespaces = __webpack_require__(30);
+
+var whitespace = '[' + whitespaces + ']';
+var ltrim = RegExp('^' + whitespace + whitespace + '*');
+var rtrim = RegExp(whitespace + whitespace + '*$');
+
+// `String.prototype.{ trim, trimStart, trimEnd, trimLeft, trimRight }` methods implementation
+var createMethod = function (TYPE) {
+  return function ($this) {
+    var string = String(requireObjectCoercible($this));
+    if (TYPE & 1) string = string.replace(ltrim, '');
+    if (TYPE & 2) string = string.replace(rtrim, '');
+    return string;
+  };
+};
+
+module.exports = {
+  // `String.prototype.{ trimLeft, trimStart }` methods
+  // https://tc39.github.io/ecma262/#sec-string.prototype.trimstart
+  start: createMethod(1),
+  // `String.prototype.{ trimRight, trimEnd }` methods
+  // https://tc39.github.io/ecma262/#sec-string.prototype.trimend
+  end: createMethod(2),
+  // `String.prototype.trim` method
+  // https://tc39.github.io/ecma262/#sec-string.prototype.trim
+  trim: createMethod(3)
+};
+
+
+/***/ }),
+/* 53 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var $ = __webpack_require__(3);
+var $filter = __webpack_require__(45).filter;
+var arrayMethodHasSpeciesSupport = __webpack_require__(28);
+
+// `Array.prototype.filter` method
+// https://tc39.github.io/ecma262/#sec-array.prototype.filter
+// with adding support of @@species
+$({ target: 'Array', proto: true, forced: !arrayMethodHasSpeciesSupport('filter') }, {
+  filter: function filter(callbackfn /* , thisArg */) {
+    return $filter(this, callbackfn, arguments.length > 1 ? arguments[1] : undefined);
+  }
+});
+
+
+/***/ }),
+/* 54 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var $ = __webpack_require__(3);
+var forEach = __webpack_require__(82);
+
+// `Array.prototype.forEach` method
+// https://tc39.github.io/ecma262/#sec-array.prototype.foreach
+$({ target: 'Array', proto: true, forced: [].forEach != forEach }, {
+  forEach: forEach
+});
+
+
+/***/ }),
+/* 55 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var global = __webpack_require__(1);
+var DOMIterables = __webpack_require__(151);
+var forEach = __webpack_require__(82);
+var hide = __webpack_require__(14);
+
+for (var COLLECTION_NAME in DOMIterables) {
+  var Collection = global[COLLECTION_NAME];
+  var CollectionPrototype = Collection && Collection.prototype;
+  // some Chrome versions have non-configurable methods on DOMTokenList
+  if (CollectionPrototype && CollectionPrototype.forEach !== forEach) try {
+    hide(CollectionPrototype, 'forEach', forEach);
+  } catch (error) {
+    CollectionPrototype.forEach = forEach;
+  }
+}
+
+
+/***/ }),
+/* 56 */
+/***/ (function(module, exports) {
+
+var v1='<div class=lumx-checkbox ng-class="{ \'lumx-checkbox--is-checked\': lx.viewValue,\n                \'lumx-checkbox--is-unchecked\': !lx.viewValue,\n                \'lumx-checkbox--theme-light\': !lx.theme || lx.theme === \'light\',\n                \'lumx-checkbox--theme-dark\': lx.theme === \'dark\' }"><div class=lumx-checkbox__input-wrapper><input type=checkbox id="{{ lx.checkboxId }}" class=lumx-checkbox__input-native ng-checked=lx.viewValue ng-click="lx.updateViewValue()"><div class=lumx-checkbox__input-placeholder><div class=lumx-checkbox__input-background></div><div class=lumx-checkbox__input-indicator><lx-icon lx-path="{{ lx.icons.mdiCheck }}"></lx-icon></div></div></div><div class=lumx-checkbox__content ng-if="::!lx.hasLabel && !lx.hasHelper && lx.hasTranscluded"><label for="{{ lx.checkboxId }}" class=lumx-checkbox__label ng-transclude></label></div><div class=lumx-checkbox__content ng-if=::lx.hasLabel><label for="{{ lx.checkboxId }}" class=lumx-checkbox__label ng-transclude=label></label><span class=lumx-checkbox__helper ng-transclude=helper ng-if=::lx.hasHelper></span></div></div>';
+angular.module('lumx.checkbox').run(['$templateCache', function ($templateCache) {$templateCache.put('checkbox.html', v1);}]);
+module.exports=v1
+
+/***/ }),
+/* 57 */
+/***/ (function(module, exports) {
+
+var v1='<a class=lumx-chip ng-class="{ \'lumx-chip--has-before\': lx.hasBefore,\n                \'lumx-chip--has-after\': lx.hasAfter || lx.hasDropdownIndicator,\n                \'lumx-chip--is-unselected\': !lx.isSelected,\n                \'lumx-chip--is-selected\': lx.isSelected,\n                \'lumx-chip--is-clickable\': lx.onClick,\n                \'lumx-chip--is-disabled\': lx.isDisabled,\n                \'lumx-chip--size-m\': !lx.size || lx.size === \'m\',\n                \'lumx-chip--size-s\': lx.size === \'s\',\n                \'lumx-chip--theme-light\': lx.theme === \'light\',\n                \'lumx-chip--theme-dark\': lx.theme === \'dark\' }" ng-click=lx.handleOnClick($event) lx-enter-keypress=lx.handleOnClick($event) tabindex="{{ lx.isDisabled || !lx.onClick ? -1 : 0 }}"><div class=lumx-chip__before ng-class="{ \'lumx-chip__before--is-clickable\': lx.onBeforeClick }" ng-click=lx.handleOnBeforeClick($event) ng-transclude=before ng-if=::lx.hasBefore></div><div class=lumx-chip__label ng-transclude=label></div><div class=lumx-chip__after ng-class="{ \'lumx-chip__after--is-clickable\': lx.onAfterClick }" ng-click=lx.handleOnAfterClick($event) ng-transclude=after ng-if="lx.hasAfter && !lx.hasDropdownIndicator"></div><div class=lumx-chip__after ng-if=lx.hasDropdownIndicator><lx-icon lx-path="{{ lx.icons.mdiMenuDown }}" lx-size=xs></lx-icon></div></a>';
+angular.module('lumx.chip').run(['$templateCache', function ($templateCache) {$templateCache.put('chip.html', v1);}]);
+module.exports=v1
+
+/***/ }),
+/* 58 */
+/***/ (function(module, exports) {
+
+var v1='<div class=lumx-dropdown ng-class="{ \'lumx-dropdown--has-toggle\': lx.hasToggle }"><div class=lumx-dropdown__toggle ng-click=lx.toggle($event) ng-transclude=toggle></div><div class=lumx-dropdown__menu><div class=lumx-dropdown__content ng-transclude=menu ng-if=lx.isOpen></div></div></div>';
+angular.module('lumx.dropdown').run(['$templateCache', function ($templateCache) {$templateCache.put('dropdown.html', v1);}]);
+module.exports=v1
+
+/***/ }),
+/* 59 */
+/***/ (function(module, exports) {
+
+var v1='<i class=lumx-icon><svg aria-hidden=true height=1em preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24" width=1em><path fill="currentColor"/></svg></i>';
+angular.module('lumx.icon').run(['$templateCache', function ($templateCache) {$templateCache.put('icon.html', v1);}]);
+module.exports=v1
+
+/***/ }),
+/* 60 */
+/***/ (function(module, exports) {
+
+var v1='<ul class=lumx-list ng-class="{ \'lumx-list--is-clickable\': lx.isClickable }" tabindex="{{ lx.isClickable ? 0 : -1 }}" ng-transclude></ul>';
+angular.module('lumx.list').run(['$templateCache', function ($templateCache) {$templateCache.put('list.html', v1);}]);
+module.exports=v1
+
+/***/ }),
+/* 61 */
+/***/ (function(module, exports) {
+
+var v1='<li class=lumx-list-item ng-class="{ \'lumx-list-item--is-clickable\': lx.parentController.isClickable,\n                \'lumx-list-item--is-selected\': lx.isSelected,\n                \'lumx-list-item--size-tiny\': lx.size === \'tiny\',\n                \'lumx-list-item--size-regular\': !lx.size || lx.size === \'regular\',\n                \'lumx-list-item--size-big\': lx.size === \'big\',\n                \'lumx-list-item--size-huge\': lx.size === \'huge\' }" tabindex="{{ lx.parentController.isClickable ? 0 : -1 }}"><div class=lumx-list-item__content ng-transclude ng-if="::!lx.hasBefore && !lx.hasContent && !lx.hasAfter"></div><div class=lumx-list-item__before ng-transclude=before ng-if=::lx.hasBefore></div><div class=lumx-list-item__content ng-transclude=content ng-if=::lx.hasContent></div><div class=lumx-list-item__after ng-transclude=after ng-if=::lx.hasAfter></div></li>';
+angular.module('lumx.list').run(['$templateCache', function ($templateCache) {$templateCache.put('list-item.html', v1);}]);
+module.exports=v1
+
+/***/ }),
+/* 62 */
+/***/ (function(module, exports) {
+
+var v1='<div class=lumx-select ng-class="{ \'lumx-select--has-value\': !lx.isModelEmpty(),\n                \'lumx-select--is-empty\': lx.isModelEmpty(),\n                \'lumx-select--unique\': !lx.multiple,\n                \'lumx-select--has-unique\': !lx.isModelEmpty() && !lx.multiple,\n                \'lumx-select--multiple\': lx.multiple,\n                \'lumx-select--has-multiple\': !lx.isModelEmpty() && lx.multiple,\n                \'lumx-select--is-open\': lx.isOpen,\n                \'lumx-select--theme-light\': !lx.theme || lx.theme === \'light\',\n                \'lumx-select--theme-dark\': lx.theme === \'dark\',\n                \'lumx-select--has-label\': lx.label,\n                \'lumx-select--is-disabled\': lx.isDisabled,\n                \'lumx-select--is-valid\': lx.isValid,\n                \'lumx-select--has-error\': lx.hasError,\n                \'lumx-select--has-placeholder\': lx.placeholder,\n                \'lumx-select--is-focus\': lx.isFocus }"><span class=lumx-select__label ng-if="::lx.label && (!lx.variant || lx.variant === \'input\')">{{ lx.label }}</span><div class=lumx-select__input-wrapper id="{{ lx.targetUuid }}" tabindex=0 ng-click=lx.openDropdown() ng-focus=lx.enableKeyEvents() ng-blur=lx.disableKeyEvents() ng-if="!lx.variant || lx.variant === \'input\'"><div class="lumx-select__input-native lumx-select__input-native--placeholder" ng-if="lx.isModelEmpty() && lx.placeholder"><span>{{ lx.placeholder }}</span></div><div class=lumx-select__input-native ng-if="!lx.isModelEmpty() && !lx.multiple"><span ng-bind-html=lx.displaySelected()></span></div><div class=lumx-select__input-chips><div class=lumx-select__input-chip ng-repeat="selected in lx.viewValue" ng-if="!lx.isModelEmpty() && lx.multiple"><lx-chip lx-on-click="lx.select(selected, $event)" lx-size=s lx-theme="{{ lx.theme === \'dark\' ? \'dark\' : \'light\' }}" ng-disabled=lx.isDisabled><lx-chip-label ng-bind-html=lx.displaySelected(selected)></lx-chip-label><lx-chip-after><lx-icon lx-path="{{ lx.icons.mdiClose }}" lx-size=xxs></lx-icon></lx-chip-after></lx-chip></div></div><div class=lumx-select__input-validity ng-if="lx.isValid || lx.hasError"><lx-icon lx-path="{{ lx.isValid ? lx.icons.mdiCheckCircle : lx.icons.mdiAlertCircle }}" lx-size=xs></lx-icon></div><div class=lumx-select__input-clear ng-if="lx.isClearable && !lx.multiple && !lx.isModelEmpty()" ng-click=lx.clearModel($event)><lx-icon lx-path="{{ lx.icons.mdiCloseCircle }}" lx-size=xs></lx-icon></div><div class=lumx-select__input-indicator><lx-icon lx-path="{{ lx.icons.mdiMenuDown }}" lx-size=s></lx-icon></div></div><lx-chip id="{{ lx.targetUuid }}" lx-has-dropdown-indicator=lx.isModelEmpty() lx-on-click=lx.openDropdown() lx-on-after-click=lx.clearModel() lx-is-selected=!lx.isModelEmpty() lx-theme="{{ lx.theme }}" ng-focus=lx.enableKeyEvents() ng-blur=lx.disableKeyEvents() ng-if="lx.variant === \'chip\'"><lx-chip-label><span ng-if=lx.isModelEmpty()>{{ lx.label }}</span> <span ng-if="!lx.isModelEmpty() && !lx.multiple" ng-bind-html=lx.displaySelected()></span> <span ng-if="!lx.isModelEmpty() && lx.multiple"><span ng-bind-html=lx.displaySelected(lx.viewValue[0])></span> <span ng-if="lx.viewValue.length > 1">+{{ lx.viewValue.length - 1 }}</span></span></lx-chip-label><lx-chip-after><lx-icon lx-path="{{ lx.isModelEmpty() ? lx.icons.mdiMenuDown : lx.icons.mdiCloseCircle }}" lx-size=xs></lx-icon></lx-chip-after></lx-chip><lx-dropdown lx-position=left lx-width=100% id="{{ lx.dropdownUuid }}"><lx-dropdown-menu><div class=lumx-select__filter ng-if=::lx.hasFilter><lx-icon lx-path="{{ lx.icons.mdiMagnify }}" lx-size=xs></lx-icon><input type=text placeholder=Search ng-model=lx.filterModel ng-model-options="{ debounce: 500 }" ng-change=lx.updateFilter() lx-select-filter></div><lx-list lx-focus-on-init=!lx.hasFilter lx-is-clickable=true ng-if=!lx.isLoading><lx-list-item lx-is-selected=lx.isSelected(choice) lx-size=tiny ng-repeat="choice in lx.choices | lxSelectChoicesFilter:lx.filter:lx.filterModel" ng-click="lx.select(choice, $event)" lx-enter-keypress="lx.select(choice, $event)" ng-if=::lx.isChoicesArray()><lx-list-item-content ng-bind-html=lx.displayChoice(choice)></lx-list-item-content></lx-list-item><lx-list-subheader ng-repeat-start="(subheader, children) in lx.choices" ng-bind-html=lx.displaySubheader(subheader) ng-if=::!lx.isChoicesArray()></lx-list-subheader><lx-list-item lx-is-selected=lx.isSelected(choice) lx-size=tiny ng-repeat="choice in children | lxSelectChoicesFilter:lx.filter:lx.filterModel" ng-repeat-end ng-click="lx.select(choice, $event)" lx-enter-keypress="lx.select(choice, $event)" ng-if=::!lx.isChoicesArray()><lx-list-item-content ng-bind-html=lx.displayChoice(choice)></lx-list-item-content></lx-list-item></lx-list><span class=lumx-select__helper ng-if="lx.hasHelper && !lx.isLoading">{{ lx.helper }}</span><div class=lumx-select__loader ng-if="lx.isLoading || lx.isInfiniteScrollLoading"><lx-progress></lx-progress></div></lx-dropdown-menu></lx-dropdown></div>';
+angular.module('lumx.select').run(['$templateCache', function ($templateCache) {$templateCache.put('select.html', v1);}]);
+module.exports=v1
+
+/***/ }),
+/* 63 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var DESCRIPTORS = __webpack_require__(10);
+var fails = __webpack_require__(4);
+var createElement = __webpack_require__(35);
+
+// Thank's IE8 for his funny defineProperty
+module.exports = !DESCRIPTORS && !fails(function () {
+  return Object.defineProperty(createElement('div'), 'a', {
+    get: function () { return 7; }
+  }).a != 7;
+});
+
+
+/***/ }),
+/* 64 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var shared = __webpack_require__(26);
+
+module.exports = shared('native-function-to-string', Function.toString);
+
+
+/***/ }),
+/* 65 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var NATIVE_WEAK_MAP = __webpack_require__(99);
+var global = __webpack_require__(1);
+var isObject = __webpack_require__(7);
+var hide = __webpack_require__(14);
+var objectHas = __webpack_require__(17);
+var sharedKey = __webpack_require__(66);
+var hiddenKeys = __webpack_require__(38);
+
+var WeakMap = global.WeakMap;
+var set, get, has;
+
+var enforce = function (it) {
+  return has(it) ? get(it) : set(it, {});
+};
+
+var getterFor = function (TYPE) {
+  return function (it) {
+    var state;
+    if (!isObject(it) || (state = get(it)).type !== TYPE) {
+      throw TypeError('Incompatible receiver, ' + TYPE + ' required');
+    } return state;
+  };
+};
+
+if (NATIVE_WEAK_MAP) {
+  var store = new WeakMap();
+  var wmget = store.get;
+  var wmhas = store.has;
+  var wmset = store.set;
+  set = function (it, metadata) {
+    wmset.call(store, it, metadata);
+    return metadata;
+  };
+  get = function (it) {
+    return wmget.call(store, it) || {};
+  };
+  has = function (it) {
+    return wmhas.call(store, it);
+  };
+} else {
+  var STATE = sharedKey('state');
+  hiddenKeys[STATE] = true;
+  set = function (it, metadata) {
+    hide(it, STATE, metadata);
+    return metadata;
+  };
+  get = function (it) {
+    return objectHas(it, STATE) ? it[STATE] : {};
+  };
+  has = function (it) {
+    return objectHas(it, STATE);
+  };
+}
+
+module.exports = {
+  set: set,
+  get: get,
+  has: has,
+  enforce: enforce,
+  getterFor: getterFor
+};
+
+
+/***/ }),
+/* 66 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var shared = __webpack_require__(26);
+var uid = __webpack_require__(67);
+
+var keys = shared('keys');
+
+module.exports = function (key) {
+  return keys[key] || (keys[key] = uid(key));
+};
+
+
+/***/ }),
+/* 67 */
+/***/ (function(module, exports) {
+
+var id = 0;
+var postfix = Math.random();
+
+module.exports = function (key) {
+  return 'Symbol(' + String(key === undefined ? '' : key) + ')_' + (++id + postfix).toString(36);
+};
+
+
+/***/ }),
+/* 68 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(1);
+
+
+/***/ }),
+/* 69 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var internalObjectKeys = __webpack_require__(70);
+var enumBugKeys = __webpack_require__(40);
+
+var hiddenKeys = enumBugKeys.concat('length', 'prototype');
+
+// `Object.getOwnPropertyNames` method
+// https://tc39.github.io/ecma262/#sec-object.getownpropertynames
+exports.f = Object.getOwnPropertyNames || function getOwnPropertyNames(O) {
+  return internalObjectKeys(O, hiddenKeys);
+};
+
+
+/***/ }),
+/* 70 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var has = __webpack_require__(17);
+var toIndexedObject = __webpack_require__(18);
+var indexOf = __webpack_require__(71).indexOf;
+var hiddenKeys = __webpack_require__(38);
+
+module.exports = function (object, names) {
+  var O = toIndexedObject(object);
+  var i = 0;
+  var result = [];
+  var key;
+  for (key in O) !has(hiddenKeys, key) && has(O, key) && result.push(key);
+  // Don't enum bug & hidden keys
+  while (names.length > i) if (has(O, key = names[i++])) {
+    ~indexOf(result, key) || result.push(key);
+  }
+  return result;
+};
+
+
+/***/ }),
+/* 71 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var toIndexedObject = __webpack_require__(18);
+var toLength = __webpack_require__(13);
+var toAbsoluteIndex = __webpack_require__(39);
+
+// `Array.prototype.{ indexOf, includes }` methods implementation
+var createMethod = function (IS_INCLUDES) {
+  return function ($this, el, fromIndex) {
+    var O = toIndexedObject($this);
+    var length = toLength(O.length);
+    var index = toAbsoluteIndex(fromIndex, length);
+    var value;
+    // Array#includes uses SameValueZero equality algorithm
+    // eslint-disable-next-line no-self-compare
+    if (IS_INCLUDES && el != el) while (length > index) {
+      value = O[index++];
+      // eslint-disable-next-line no-self-compare
+      if (value != value) return true;
+    // Array#indexOf ignores holes, Array#includes - not
+    } else for (;length > index; index++) {
+      if ((IS_INCLUDES || index in O) && O[index] === el) return IS_INCLUDES || index || 0;
+    } return !IS_INCLUDES && -1;
+  };
+};
+
+module.exports = {
+  // `Array.prototype.includes` method
+  // https://tc39.github.io/ecma262/#sec-array.prototype.includes
+  includes: createMethod(true),
+  // `Array.prototype.indexOf` method
+  // https://tc39.github.io/ecma262/#sec-array.prototype.indexof
+  indexOf: createMethod(false)
+};
+
+
+/***/ }),
+/* 72 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var getBuiltIn = __webpack_require__(19);
+
+module.exports = getBuiltIn('document', 'documentElement');
+
+
+/***/ }),
+/* 73 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var redefine = __webpack_require__(9);
+
+var DatePrototype = Date.prototype;
+var INVALID_DATE = 'Invalid Date';
+var TO_STRING = 'toString';
+var nativeDateToString = DatePrototype[TO_STRING];
+var getTime = DatePrototype.getTime;
+
+// `Date.prototype.toString` method
+// https://tc39.github.io/ecma262/#sec-date.prototype.tostring
+if (new Date(NaN) + '' != INVALID_DATE) {
+  redefine(DatePrototype, TO_STRING, function toString() {
+    var value = getTime.call(this);
+    // eslint-disable-next-line no-self-compare
+    return value === value ? nativeDateToString.call(this) : INVALID_DATE;
+  });
+}
+
+
+/***/ }),
+/* 74 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var redefine = __webpack_require__(9);
+var toString = __webpack_require__(113);
+
+var ObjectPrototype = Object.prototype;
+
+// `Object.prototype.toString` method
+// https://tc39.github.io/ecma262/#sec-object.prototype.tostring
+if (toString !== ObjectPrototype.toString) {
+  redefine(ObjectPrototype, 'toString', toString, { unsafe: true });
+}
+
+
+/***/ }),
+/* 75 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var classofRaw = __webpack_require__(11);
+var wellKnownSymbol = __webpack_require__(2);
+
+var TO_STRING_TAG = wellKnownSymbol('toStringTag');
+// ES3 wrong here
+var CORRECT_ARGUMENTS = classofRaw(function () { return arguments; }()) == 'Arguments';
+
+// fallback for IE11 Script Access Denied error
+var tryGet = function (it, key) {
+  try {
+    return it[key];
+  } catch (error) { /* empty */ }
+};
+
+// getting tag from ES6+ `Object.prototype.toString`
+module.exports = function (it) {
+  var O, tag, result;
+  return it === undefined ? 'Undefined' : it === null ? 'Null'
+    // @@toStringTag case
+    : typeof (tag = tryGet(O = Object(it), TO_STRING_TAG)) == 'string' ? tag
+    // builtinTag case
+    : CORRECT_ARGUMENTS ? classofRaw(O)
+    // ES3 arguments fallback
+    : (result = classofRaw(O)) == 'Object' && typeof O.callee == 'function' ? 'Arguments' : result;
+};
+
+
+/***/ }),
+/* 76 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var redefine = __webpack_require__(9);
+var anObject = __webpack_require__(6);
+var fails = __webpack_require__(4);
+var flags = __webpack_require__(48);
+
+var TO_STRING = 'toString';
+var RegExpPrototype = RegExp.prototype;
+var nativeToString = RegExpPrototype[TO_STRING];
+
+var NOT_GENERIC = fails(function () { return nativeToString.call({ source: 'a', flags: 'b' }) != '/a/b'; });
+// FF44- RegExp#toString has a wrong name
+var INCORRECT_NAME = nativeToString.name != TO_STRING;
+
+// `RegExp.prototype.toString` method
+// https://tc39.github.io/ecma262/#sec-regexp.prototype.tostring
+if (NOT_GENERIC || INCORRECT_NAME) {
+  redefine(RegExp.prototype, TO_STRING, function toString() {
+    var R = anObject(this);
+    var p = String(R.source);
+    var rf = R.flags;
+    var f = String(rf === undefined && R instanceof RegExp && !('flags' in RegExpPrototype) ? flags.call(R) : rf);
+    return '/' + p + '/' + f;
+  }, { unsafe: true });
+}
+
+
+/***/ }),
+/* 77 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var hide = __webpack_require__(14);
+var redefine = __webpack_require__(9);
+var fails = __webpack_require__(4);
+var wellKnownSymbol = __webpack_require__(2);
+var regexpExec = __webpack_require__(47);
+
+var SPECIES = wellKnownSymbol('species');
+
+var REPLACE_SUPPORTS_NAMED_GROUPS = !fails(function () {
+  // #replace needs built-in support for named groups.
+  // #match works fine because it just return the exec results, even if it has
+  // a "grops" property.
+  var re = /./;
+  re.exec = function () {
+    var result = [];
+    result.groups = { a: '7' };
+    return result;
+  };
+  return ''.replace(re, '$<a>') !== '7';
+});
+
+// Chrome 51 has a buggy "split" implementation when RegExp#exec !== nativeExec
+// Weex JS has frozen built-in prototypes, so use try / catch wrapper
+var SPLIT_WORKS_WITH_OVERWRITTEN_EXEC = !fails(function () {
+  var re = /(?:)/;
+  var originalExec = re.exec;
+  re.exec = function () { return originalExec.apply(this, arguments); };
+  var result = 'ab'.split(re);
+  return result.length !== 2 || result[0] !== 'a' || result[1] !== 'b';
+});
+
+module.exports = function (KEY, length, exec, sham) {
+  var SYMBOL = wellKnownSymbol(KEY);
+
+  var DELEGATES_TO_SYMBOL = !fails(function () {
+    // String methods call symbol-named RegEp methods
+    var O = {};
+    O[SYMBOL] = function () { return 7; };
+    return ''[KEY](O) != 7;
+  });
+
+  var DELEGATES_TO_EXEC = DELEGATES_TO_SYMBOL && !fails(function () {
+    // Symbol-named RegExp methods call .exec
+    var execCalled = false;
+    var re = /a/;
+    re.exec = function () { execCalled = true; return null; };
+
+    if (KEY === 'split') {
+      // RegExp[@@split] doesn't call the regex's exec method, but first creates
+      // a new one. We need to return the patched regex when creating the new one.
+      re.constructor = {};
+      re.constructor[SPECIES] = function () { return re; };
+    }
+
+    re[SYMBOL]('');
+    return !execCalled;
+  });
+
+  if (
+    !DELEGATES_TO_SYMBOL ||
+    !DELEGATES_TO_EXEC ||
+    (KEY === 'replace' && !REPLACE_SUPPORTS_NAMED_GROUPS) ||
+    (KEY === 'split' && !SPLIT_WORKS_WITH_OVERWRITTEN_EXEC)
+  ) {
+    var nativeRegExpMethod = /./[SYMBOL];
+    var methods = exec(SYMBOL, ''[KEY], function (nativeMethod, regexp, str, arg2, forceStringMethod) {
+      if (regexp.exec === regexpExec) {
+        if (DELEGATES_TO_SYMBOL && !forceStringMethod) {
+          // The native String method already delegates to @@method (this
+          // polyfilled function), leasing to infinite recursion.
+          // We avoid it by directly calling the native @@method method.
+          return { done: true, value: nativeRegExpMethod.call(regexp, str, arg2) };
+        }
+        return { done: true, value: nativeMethod.call(str, regexp, arg2) };
+      }
+      return { done: false };
+    });
+    var stringMethod = methods[0];
+    var regexMethod = methods[1];
+
+    redefine(String.prototype, KEY, stringMethod);
+    redefine(RegExp.prototype, SYMBOL, length == 2
+      // 21.2.5.8 RegExp.prototype[@@replace](string, replaceValue)
+      // 21.2.5.11 RegExp.prototype[@@split](string, limit)
+      ? function (string, arg) { return regexMethod.call(string, this, arg); }
+      // 21.2.5.6 RegExp.prototype[@@match](string)
+      // 21.2.5.9 RegExp.prototype[@@search](string)
+      : function (string) { return regexMethod.call(string, this); }
+    );
+    if (sham) hide(RegExp.prototype[SYMBOL], 'sham', true);
+  }
+};
+
+
+/***/ }),
+/* 78 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var charAt = __webpack_require__(114).charAt;
+
+// `AdvanceStringIndex` abstract operation
+// https://tc39.github.io/ecma262/#sec-advancestringindex
+module.exports = function (S, index, unicode) {
+  return index + (unicode ? charAt(S, index).length : 1);
+};
+
+
+/***/ }),
+/* 79 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var classof = __webpack_require__(11);
+var regexpExec = __webpack_require__(47);
+
+// `RegExpExec` abstract operation
+// https://tc39.github.io/ecma262/#sec-regexpexec
+module.exports = function (R, S) {
+  var exec = R.exec;
+  if (typeof exec === 'function') {
+    var result = exec.call(R, S);
+    if (typeof result !== 'object') {
+      throw TypeError('RegExp exec method returned something other than an Object or null');
+    }
+    return result;
+  }
+
+  if (classof(R) !== 'RegExp') {
+    throw TypeError('RegExp#exec called on incompatible receiver');
+  }
+
+  return regexpExec.call(R, S);
+};
+
+
+
+/***/ }),
+/* 80 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var getBuiltIn = __webpack_require__(19);
+var definePropertyModule = __webpack_require__(12);
+var wellKnownSymbol = __webpack_require__(2);
+var DESCRIPTORS = __webpack_require__(10);
+
+var SPECIES = wellKnownSymbol('species');
+
+module.exports = function (CONSTRUCTOR_NAME) {
+  var Constructor = getBuiltIn(CONSTRUCTOR_NAME);
+  var defineProperty = definePropertyModule.f;
+
+  if (DESCRIPTORS && Constructor && !Constructor[SPECIES]) {
+    defineProperty(Constructor, SPECIES, {
+      configurable: true,
+      get: function () { return this; }
+    });
+  }
+};
+
+
+/***/ }),
+/* 81 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var $ = __webpack_require__(3);
+var fails = __webpack_require__(4);
+var isArray = __webpack_require__(43);
+var isObject = __webpack_require__(7);
+var toObject = __webpack_require__(22);
+var toLength = __webpack_require__(13);
+var createProperty = __webpack_require__(44);
+var arraySpeciesCreate = __webpack_require__(42);
+var arrayMethodHasSpeciesSupport = __webpack_require__(28);
+var wellKnownSymbol = __webpack_require__(2);
+
+var IS_CONCAT_SPREADABLE = wellKnownSymbol('isConcatSpreadable');
+var MAX_SAFE_INTEGER = 0x1FFFFFFFFFFFFF;
+var MAXIMUM_ALLOWED_INDEX_EXCEEDED = 'Maximum allowed index exceeded';
+
+var IS_CONCAT_SPREADABLE_SUPPORT = !fails(function () {
+  var array = [];
+  array[IS_CONCAT_SPREADABLE] = false;
+  return array.concat()[0] !== array;
+});
+
+var SPECIES_SUPPORT = arrayMethodHasSpeciesSupport('concat');
+
+var isConcatSpreadable = function (O) {
+  if (!isObject(O)) return false;
+  var spreadable = O[IS_CONCAT_SPREADABLE];
+  return spreadable !== undefined ? !!spreadable : isArray(O);
+};
+
+var FORCED = !IS_CONCAT_SPREADABLE_SUPPORT || !SPECIES_SUPPORT;
+
+// `Array.prototype.concat` method
+// https://tc39.github.io/ecma262/#sec-array.prototype.concat
+// with adding support of @@isConcatSpreadable and @@species
+$({ target: 'Array', proto: true, forced: FORCED }, {
+  concat: function concat(arg) { // eslint-disable-line no-unused-vars
+    var O = toObject(this);
+    var A = arraySpeciesCreate(O, 0);
+    var n = 0;
+    var i, k, length, len, E;
+    for (i = -1, length = arguments.length; i < length; i++) {
+      E = i === -1 ? O : arguments[i];
+      if (isConcatSpreadable(E)) {
+        len = toLength(E.length);
+        if (n + len > MAX_SAFE_INTEGER) throw TypeError(MAXIMUM_ALLOWED_INDEX_EXCEEDED);
+        for (k = 0; k < len; k++, n++) if (k in E) createProperty(A, n, E[k]);
+      } else {
+        if (n >= MAX_SAFE_INTEGER) throw TypeError(MAXIMUM_ALLOWED_INDEX_EXCEEDED);
+        createProperty(A, n++, E);
+      }
+    }
+    A.length = n;
+    return A;
+  }
+});
+
+
+/***/ }),
+/* 82 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var $forEach = __webpack_require__(45).forEach;
+var sloppyArrayMethod = __webpack_require__(27);
+
+// `Array.prototype.forEach` method implementation
+// https://tc39.github.io/ecma262/#sec-array.prototype.foreach
+module.exports = sloppyArrayMethod('forEach') ? function forEach(callbackfn /* , thisArg */) {
+  return $forEach(this, callbackfn, arguments.length > 1 ? arguments[1] : undefined);
+} : [].forEach;
+
+
+/***/ }),
+/* 83 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var global = __webpack_require__(1);
+
+module.exports = global.Promise;
+
+
+/***/ }),
+/* 84 */
+/***/ (function(module, exports) {
+
+module.exports = {};
+
+
+/***/ }),
+/* 85 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var anObject = __webpack_require__(6);
+var aFunction = __webpack_require__(23);
+var wellKnownSymbol = __webpack_require__(2);
+
+var SPECIES = wellKnownSymbol('species');
+
+// `SpeciesConstructor` abstract operation
+// https://tc39.github.io/ecma262/#sec-speciesconstructor
+module.exports = function (O, defaultConstructor) {
+  var C = anObject(O).constructor;
+  var S;
+  return C === undefined || (S = anObject(C)[SPECIES]) == undefined ? defaultConstructor : aFunction(S);
+};
+
+
+/***/ }),
+/* 86 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var global = __webpack_require__(1);
+var fails = __webpack_require__(4);
+var classof = __webpack_require__(11);
+var bind = __webpack_require__(46);
+var html = __webpack_require__(72);
+var createElement = __webpack_require__(35);
+
+var location = global.location;
+var set = global.setImmediate;
+var clear = global.clearImmediate;
+var process = global.process;
+var MessageChannel = global.MessageChannel;
+var Dispatch = global.Dispatch;
+var counter = 0;
+var queue = {};
+var ONREADYSTATECHANGE = 'onreadystatechange';
+var defer, channel, port;
+
+var run = function (id) {
+  // eslint-disable-next-line no-prototype-builtins
+  if (queue.hasOwnProperty(id)) {
+    var fn = queue[id];
+    delete queue[id];
+    fn();
+  }
+};
+
+var runner = function (id) {
+  return function () {
+    run(id);
+  };
+};
+
+var listener = function (event) {
+  run(event.data);
+};
+
+var post = function (id) {
+  // old engines have not location.origin
+  global.postMessage(id + '', location.protocol + '//' + location.host);
+};
+
+// Node.js 0.9+ & IE10+ has setImmediate, otherwise:
+if (!set || !clear) {
+  set = function setImmediate(fn) {
+    var args = [];
+    var i = 1;
+    while (arguments.length > i) args.push(arguments[i++]);
+    queue[++counter] = function () {
+      // eslint-disable-next-line no-new-func
+      (typeof fn == 'function' ? fn : Function(fn)).apply(undefined, args);
+    };
+    defer(counter);
+    return counter;
+  };
+  clear = function clearImmediate(id) {
+    delete queue[id];
+  };
+  // Node.js 0.8-
+  if (classof(process) == 'process') {
+    defer = function (id) {
+      process.nextTick(runner(id));
+    };
+  // Sphere (JS game engine) Dispatch API
+  } else if (Dispatch && Dispatch.now) {
+    defer = function (id) {
+      Dispatch.now(runner(id));
+    };
+  // Browsers with MessageChannel, includes WebWorkers
+  } else if (MessageChannel) {
+    channel = new MessageChannel();
+    port = channel.port2;
+    channel.port1.onmessage = listener;
+    defer = bind(port.postMessage, port, 1);
+  // Browsers with postMessage, skip WebWorkers
+  // IE8 has postMessage, but it's sync & typeof its postMessage is 'object'
+  } else if (global.addEventListener && typeof postMessage == 'function' && !global.importScripts && !fails(post)) {
+    defer = post;
+    global.addEventListener('message', listener, false);
+  // IE8-
+  } else if (ONREADYSTATECHANGE in createElement('script')) {
+    defer = function (id) {
+      html.appendChild(createElement('script'))[ONREADYSTATECHANGE] = function () {
+        html.removeChild(this);
+        run(id);
+      };
+    };
+  // Rest old browsers
+  } else {
+    defer = function (id) {
+      setTimeout(runner(id), 0);
+    };
+  }
+}
+
+module.exports = {
+  set: set,
+  clear: clear
+};
+
+
+/***/ }),
+/* 87 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var getBuiltIn = __webpack_require__(19);
+
+module.exports = getBuiltIn('navigator', 'userAgent') || '';
+
+
+/***/ }),
+/* 88 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var anObject = __webpack_require__(6);
+var isObject = __webpack_require__(7);
+var newPromiseCapability = __webpack_require__(89);
+
+module.exports = function (C, x) {
+  anObject(C);
+  if (isObject(x) && x.constructor === C) return x;
+  var promiseCapability = newPromiseCapability.f(C);
+  var resolve = promiseCapability.resolve;
+  resolve(x);
+  return promiseCapability.promise;
+};
+
+
+/***/ }),
+/* 89 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var aFunction = __webpack_require__(23);
+
+var PromiseCapability = function (C) {
+  var resolve, reject;
+  this.promise = new C(function ($$resolve, $$reject) {
+    if (resolve !== undefined || reject !== undefined) throw TypeError('Bad Promise constructor');
+    resolve = $$resolve;
+    reject = $$reject;
+  });
+  this.resolve = aFunction(resolve);
+  this.reject = aFunction(reject);
+};
+
+// 25.4.1.5 NewPromiseCapability(C)
+module.exports.f = function (C) {
+  return new PromiseCapability(C);
+};
+
+
+/***/ }),
+/* 90 */
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(91);
+__webpack_require__(92);
+__webpack_require__(93);
+__webpack_require__(94);
+__webpack_require__(95);
+__webpack_require__(96);
+__webpack_require__(104);
+__webpack_require__(105);
+__webpack_require__(110);
+__webpack_require__(111);
+__webpack_require__(112);
+__webpack_require__(115);
+__webpack_require__(116);
+__webpack_require__(117);
+__webpack_require__(118);
+__webpack_require__(121);
+__webpack_require__(122);
+__webpack_require__(125);
+__webpack_require__(126);
+__webpack_require__(127);
+__webpack_require__(128);
+__webpack_require__(129);
+__webpack_require__(130);
+__webpack_require__(131);
+__webpack_require__(132);
+__webpack_require__(133);
+__webpack_require__(134);
+__webpack_require__(135);
+__webpack_require__(136);
+__webpack_require__(137);
+__webpack_require__(140);
+__webpack_require__(142);
+__webpack_require__(143);
+__webpack_require__(144);
+__webpack_require__(150);
+__webpack_require__(152);
+__webpack_require__(153);
+__webpack_require__(154);
+__webpack_require__(168);
+__webpack_require__(169);
+__webpack_require__(170);
+__webpack_require__(171);
+__webpack_require__(57);
+__webpack_require__(58);
+__webpack_require__(172);
+__webpack_require__(61);
+__webpack_require__(60);
+__webpack_require__(173);
+__webpack_require__(174);
+__webpack_require__(62);
+__webpack_require__(175);
+__webpack_require__(176);
+__webpack_require__(177);
+__webpack_require__(178);
+__webpack_require__(179);
+__webpack_require__(56);
+__webpack_require__(180);
+__webpack_require__(181);
+__webpack_require__(182);
+__webpack_require__(183);
+__webpack_require__(184);
+__webpack_require__(185);
+__webpack_require__(186);
+__webpack_require__(187);
+__webpack_require__(188);
+__webpack_require__(189);
+__webpack_require__(190);
+__webpack_require__(191);
+__webpack_require__(192);
+__webpack_require__(59);
+__webpack_require__(193);
+module.exports = __webpack_require__(194);
+
+
+/***/ }),
+/* 91 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by extract-css-chunks-webpack-plugin
+
+/***/ }),
+/* 92 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by extract-css-chunks-webpack-plugin
+
+/***/ }),
+/* 93 */
+/***/ (function(module, exports) {
+
+angular.module('lumx.utils.depth', []);
+angular.module('lumx.utils.enter-keypress', []);
+angular.module('lumx.utils.event-scheduler', []);
+angular.module('lumx.utils.focus-on-init', []);
+angular.module('lumx.utils.focus-trap', []);
+angular.module('lumx.utils.stop-propagation', []);
+angular.module('lumx.utils.transclude-replace', []);
+angular.module('lumx.utils.utils', []);
+angular.module('lumx.utils', ['lumx.utils.depth', 'lumx.utils.enter-keypress', 'lumx.utils.event-scheduler', 'lumx.utils.focus-on-init', 'lumx.utils.focus-trap', 'lumx.utils.stop-propagation', 'lumx.utils.transclude-replace', 'lumx.utils.utils']);
+angular.module('lumx.button', []);
+angular.module('lumx.checkbox', []);
+angular.module('lumx.chip', []);
+angular.module('lumx.data-table', []);
+angular.module('lumx.date-picker', []);
+angular.module('lumx.dialog', ['lumx.utils.event-scheduler']);
+angular.module('lumx.dropdown', ['lumx.utils.event-scheduler']);
+angular.module('lumx.fab', []);
+angular.module('lumx.file-input', []);
+angular.module('lumx.icon', []);
+angular.module('lumx.list', []);
+angular.module('lumx.notification', ['lumx.utils.event-scheduler']);
+angular.module('lumx.progress', []);
+angular.module('lumx.radio-button', []);
+angular.module('lumx.ripple', []);
+angular.module('lumx.search-filter', []);
+angular.module('lumx.select', []);
+angular.module('lumx.stepper', []);
+angular.module('lumx.switch', []);
+angular.module('lumx.tabs', []);
+angular.module('lumx.text-field', []);
+angular.module('lumx.tooltip', []);
+angular.module('lumx', ['lumx.button', 'lumx.checkbox', 'lumx.chip', 'lumx.data-table', 'lumx.date-picker', 'lumx.dialog', 'lumx.dropdown', 'lumx.fab', 'lumx.file-input', 'lumx.icon', 'lumx.list', 'lumx.notification', 'lumx.progress', 'lumx.radio-button', 'lumx.ripple', 'lumx.search-filter', 'lumx.select', 'lumx.stepper', 'lumx.switch', 'lumx.tabs', 'lumx.text-field', 'lumx.tooltip', 'lumx.utils']);
+
+/***/ }),
+/* 94 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DepthService", function() { return DepthService; });
+function DepthService() {
+  'ngInject';
+
+  var service = this;
+  var _depth = 1000;
+
+  function get() {
+    return _depth;
+  }
+
+  function increase() {
+    _depth++;
+  }
+
+  service.get = get;
+  service.increase = increase;
+  service.getDepth = get;
+  service.register = increase;
+}
+
+angular.module('lumx.utils.depth').service('LxDepthService', DepthService);
+
+
+/***/ }),
+/* 95 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "EnterKeypressDirective", function() { return EnterKeypressDirective; });
+/* harmony import */ var _lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+
+
+function EnterKeypressDirective() {
+  'ngInject';
+
+  function link(scope, el, attrs) {
+    el.on('keydown keypress', function (evt) {
+      if (evt.which === _lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_0__[/* ENTER_KEY_CODE */ "c"]) {
+        scope.$apply(function evalExpression() {
+          scope.$eval(attrs.lxEnterKeypress, {
+            $event: evt
+          });
+        });
+        evt.preventDefault();
+      }
+    });
+  }
+
+  return {
+    link: link
+  };
+}
+
+angular.module('lumx.utils.enter-keypress').directive('lxEnterKeypress', EnterKeypressDirective);
+
+
+/***/ }),
+/* 96 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "EventSchedulerService", function() { return EventSchedulerService; });
+/* harmony import */ var core_js_modules_es_array_index_of__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(25);
+/* harmony import */ var core_js_modules_es_array_index_of__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_index_of__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var core_js_modules_es_array_splice__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(21);
+/* harmony import */ var core_js_modules_es_array_splice__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_splice__WEBPACK_IMPORTED_MODULE_1__);
+
+
+EventSchedulerService.$inject = ["$document", "LxUtilsService"];
+
+function EventSchedulerService($document, LxUtilsService) {
+  'ngInject';
+
+  var service = this;
+  var _handlers = {};
+  var _schedule = {};
+
+  function _handle(evt) {
+    var scheduler = _schedule[evt.type];
+
+    if (angular.isDefined(scheduler)) {
+      for (var i = 0, len = scheduler.length; i < len; i++) {
+        var handler = scheduler[i];
+
+        if (angular.isDefined(handler) && angular.isDefined(handler.cb) && angular.isFunction(handler.cb)) {
+          handler.cb(evt);
+
+          if (evt.isPropagationStopped()) {
+            break;
+          }
+        }
+      }
+    }
+  }
+
+  function register(eventName, cb) {
+    var handler = {
+      cb: cb,
+      eventName: eventName
+    };
+    var id = LxUtilsService.generateUUID();
+    _handlers[id] = handler;
+
+    if (angular.isUndefined(_schedule[eventName])) {
+      _schedule[eventName] = [];
+      $document.on(eventName, _handle);
+    }
+
+    _schedule[eventName].unshift(_handlers[id]);
+
+    return id;
+  }
+
+  function unregister(id) {
+    var found = false;
+    var handler = _handlers[id];
+
+    if (angular.isDefined(handler) && angular.isDefined(_schedule[handler.eventName])) {
+      var index = _schedule[handler.eventName].indexOf(handler);
+
+      if (angular.isDefined(index) && index > -1) {
+        _schedule[handler.eventName].splice(index, 1);
+
+        delete _handlers[id];
+        found = true;
+      }
+
+      if (_schedule[handler.eventName].length === 0) {
+        delete _schedule[handler.eventName];
+        $document.off(handler.eventName, _handle);
+      }
+    }
+
+    return found;
+  }
+
+  service.register = register;
+  service.unregister = unregister;
+}
+
+angular.module('lumx.utils.event-scheduler').service('LxEventSchedulerService', EventSchedulerService);
+
+
+/***/ }),
+/* 97 */
+/***/ (function(module, exports) {
+
+var g;
+
+// This works in non-strict mode
+g = (function() {
+	return this;
+})();
+
+try {
+	// This works if eval is allowed (see CSP)
+	g = g || new Function("return this")();
+} catch (e) {
+	// This works if the window reference is available
+	if (typeof window === "object") g = window;
+}
+
+// g can still be undefined, but nothing to do about it...
+// We return undefined, instead of nothing here, so it's
+// easier to handle this case. if(!global) { ...}
+
+module.exports = g;
+
+
+/***/ }),
+/* 98 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var nativePropertyIsEnumerable = {}.propertyIsEnumerable;
+var getOwnPropertyDescriptor = Object.getOwnPropertyDescriptor;
+
+// Nashorn ~ JDK8 bug
+var NASHORN_BUG = getOwnPropertyDescriptor && !nativePropertyIsEnumerable.call({ 1: 2 }, 1);
+
+// `Object.prototype.propertyIsEnumerable` method implementation
+// https://tc39.github.io/ecma262/#sec-object.prototype.propertyisenumerable
+exports.f = NASHORN_BUG ? function propertyIsEnumerable(V) {
+  var descriptor = getOwnPropertyDescriptor(this, V);
+  return !!descriptor && descriptor.enumerable;
+} : nativePropertyIsEnumerable;
+
+
+/***/ }),
+/* 99 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var global = __webpack_require__(1);
+var nativeFunctionToString = __webpack_require__(64);
+
+var WeakMap = global.WeakMap;
+
+module.exports = typeof WeakMap === 'function' && /native code/.test(nativeFunctionToString.call(WeakMap));
+
+
+/***/ }),
+/* 100 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var has = __webpack_require__(17);
+var ownKeys = __webpack_require__(101);
+var getOwnPropertyDescriptorModule = __webpack_require__(31);
+var definePropertyModule = __webpack_require__(12);
+
+module.exports = function (target, source) {
+  var keys = ownKeys(source);
+  var defineProperty = definePropertyModule.f;
+  var getOwnPropertyDescriptor = getOwnPropertyDescriptorModule.f;
+  for (var i = 0; i < keys.length; i++) {
+    var key = keys[i];
+    if (!has(target, key)) defineProperty(target, key, getOwnPropertyDescriptor(source, key));
+  }
+};
+
+
+/***/ }),
+/* 101 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var getBuiltIn = __webpack_require__(19);
+var getOwnPropertyNamesModule = __webpack_require__(69);
+var getOwnPropertySymbolsModule = __webpack_require__(102);
+var anObject = __webpack_require__(6);
+
+// all object keys, includes non-enumerable and symbols
+module.exports = getBuiltIn('Reflect', 'ownKeys') || function ownKeys(it) {
+  var keys = getOwnPropertyNamesModule.f(anObject(it));
+  var getOwnPropertySymbols = getOwnPropertySymbolsModule.f;
+  return getOwnPropertySymbols ? keys.concat(getOwnPropertySymbols(it)) : keys;
+};
+
+
+/***/ }),
+/* 102 */
+/***/ (function(module, exports) {
+
+exports.f = Object.getOwnPropertySymbols;
+
+
+/***/ }),
+/* 103 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var fails = __webpack_require__(4);
+
+module.exports = !!Object.getOwnPropertySymbols && !fails(function () {
+  // Chrome 38 Symbol has incorrect toString conversion
+  // eslint-disable-next-line no-undef
+  return !String(Symbol());
+});
+
+
+/***/ }),
+/* 104 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FocusOnInitDirective", function() { return FocusOnInitDirective; });
+FocusOnInitDirective.$inject = ["$timeout"];
+
+function FocusOnInitDirective($timeout) {
+  'ngInject';
+
+  function link(scope, el, attrs) {
+    if (angular.isDefined(attrs.lxFocusOnInit) && attrs.lxFocusOnInit && !scope.$eval(attrs.lxFocusOnInit)) {
+      return;
+    }
+
+    $timeout(function () {
+      el.focus();
+    });
+  }
+
+  return {
+    link: link
+  };
+}
+
+angular.module('lumx.utils.focus-on-init').directive('lxFocusOnInit', FocusOnInitDirective);
+
+
+/***/ }),
+/* 105 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FocusTrapService", function() { return FocusTrapService; });
+/* harmony import */ var core_js_modules_es_array_find__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(5);
+/* harmony import */ var core_js_modules_es_array_find__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_find__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(0);
+
+
+
+function FocusTrapService() {
+  'ngInject';
+
+  var service = this;
+
+  var _activeElement;
+
+  function _onKeyPress(evt) {
+    if (evt.keyCode !== _lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_1__[/* TAB_KEY_CODE */ "e"]) {
+      return;
+    }
+
+    var focusableEls = _activeElement.find('a[href]:not([tabindex="-1"]), button:not([tabindex="-1"]), textarea:not([tabindex="-1"]), input[type="text"]:not([tabindex="-1"]), input[type="radio"]:not([tabindex="-1"]), input[type="checkbox"]:not([tabindex="-1"]), [tabindex]:not([tabindex="-1"])');
+
+    var firstFocusableEl = focusableEls[0];
+    var lastFocusableEl = focusableEls[focusableEls.length - 1];
+
+    if (evt.shiftKey) {
+      if (document.activeElement === firstFocusableEl) {
+        lastFocusableEl.focus();
+        evt.preventDefault();
+      }
+    } else if (document.activeElement === lastFocusableEl) {
+      firstFocusableEl.focus();
+      evt.preventDefault();
+    }
+  }
+
+  function activate(el) {
+    _activeElement = el;
+
+    _activeElement.on('keydown keypress', _onKeyPress);
+  }
+
+  function disable() {
+    _activeElement.off('keydown keypress', _onKeyPress);
+
+    _activeElement = undefined;
+  }
+
+  service.activate = activate;
+  service.disable = disable;
+}
+
+angular.module('lumx.utils.focus-trap').service('LxFocusTrapService', FocusTrapService);
+
+
+/***/ }),
+/* 106 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var wellKnownSymbol = __webpack_require__(2);
+var create = __webpack_require__(107);
+var hide = __webpack_require__(14);
+
+var UNSCOPABLES = wellKnownSymbol('unscopables');
+var ArrayPrototype = Array.prototype;
+
+// Array.prototype[@@unscopables]
+// https://tc39.github.io/ecma262/#sec-array.prototype-@@unscopables
+if (ArrayPrototype[UNSCOPABLES] == undefined) {
+  hide(ArrayPrototype, UNSCOPABLES, create(null));
+}
+
+// add a key to Array.prototype[@@unscopables]
+module.exports = function (key) {
+  ArrayPrototype[UNSCOPABLES][key] = true;
+};
+
+
+/***/ }),
+/* 107 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var anObject = __webpack_require__(6);
+var defineProperties = __webpack_require__(108);
+var enumBugKeys = __webpack_require__(40);
+var hiddenKeys = __webpack_require__(38);
+var html = __webpack_require__(72);
+var documentCreateElement = __webpack_require__(35);
+var sharedKey = __webpack_require__(66);
+var IE_PROTO = sharedKey('IE_PROTO');
+
+var PROTOTYPE = 'prototype';
+var Empty = function () { /* empty */ };
+
+// Create object with fake `null` prototype: use iframe Object with cleared prototype
+var createDict = function () {
+  // Thrash, waste and sodomy: IE GC bug
+  var iframe = documentCreateElement('iframe');
+  var length = enumBugKeys.length;
+  var lt = '<';
+  var script = 'script';
+  var gt = '>';
+  var js = 'java' + script + ':';
+  var iframeDocument;
+  iframe.style.display = 'none';
+  html.appendChild(iframe);
+  iframe.src = String(js);
+  iframeDocument = iframe.contentWindow.document;
+  iframeDocument.open();
+  iframeDocument.write(lt + script + gt + 'document.F=Object' + lt + '/' + script + gt);
+  iframeDocument.close();
+  createDict = iframeDocument.F;
+  while (length--) delete createDict[PROTOTYPE][enumBugKeys[length]];
+  return createDict();
+};
+
+// `Object.create` method
+// https://tc39.github.io/ecma262/#sec-object.create
+module.exports = Object.create || function create(O, Properties) {
+  var result;
+  if (O !== null) {
+    Empty[PROTOTYPE] = anObject(O);
+    result = new Empty();
+    Empty[PROTOTYPE] = null;
+    // add "__proto__" for Object.getPrototypeOf polyfill
+    result[IE_PROTO] = O;
+  } else result = createDict();
+  return Properties === undefined ? result : defineProperties(result, Properties);
+};
+
+hiddenKeys[IE_PROTO] = true;
+
+
+/***/ }),
+/* 108 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var DESCRIPTORS = __webpack_require__(10);
+var definePropertyModule = __webpack_require__(12);
+var anObject = __webpack_require__(6);
+var objectKeys = __webpack_require__(109);
+
+// `Object.defineProperties` method
+// https://tc39.github.io/ecma262/#sec-object.defineproperties
+module.exports = DESCRIPTORS ? Object.defineProperties : function defineProperties(O, Properties) {
+  anObject(O);
+  var keys = objectKeys(Properties);
+  var length = keys.length;
+  var index = 0;
+  var key;
+  while (length > index) definePropertyModule.f(O, key = keys[index++], Properties[key]);
+  return O;
+};
+
+
+/***/ }),
+/* 109 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var internalObjectKeys = __webpack_require__(70);
+var enumBugKeys = __webpack_require__(40);
+
+// `Object.keys` method
+// https://tc39.github.io/ecma262/#sec-object.keys
+module.exports = Object.keys || function keys(O) {
+  return internalObjectKeys(O, enumBugKeys);
+};
+
+
+/***/ }),
+/* 110 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "StopPropagationDirective", function() { return StopPropagationDirective; });
+function StopPropagationDirective() {
+  'ngInject';
+
+  function link(scope, el, attrs) {
+    el.on(attrs.lxStopPropagation, function (evt) {
+      evt.stopPropagation();
+    });
+  }
+
+  return {
+    link: link
+  };
+}
+
+angular.module('lumx.utils.stop-propagation').directive('lxStopPropagation', StopPropagationDirective);
+
+
+/***/ }),
+/* 111 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TranscludeReplaceDirective", function() { return TranscludeReplaceDirective; });
+function TranscludeReplaceDirective() {
+  'ngInject';
+
+  function link(scope, el, attrs, ctrl, transclude) {
+    if (!transclude) {
+      return;
+    }
+
+    transclude(function (clone) {
+      if (clone.length > 0) {
+        el.replaceWith(clone);
+      } else {
+        el.remove();
+      }
+    });
+  }
+
+  return {
+    link: link,
+    restrict: 'EA',
+    terminal: true
+  };
+}
+
+angular.module('lumx.utils.transclude-replace').directive('ngTranscludeReplace', TranscludeReplaceDirective);
+
+
+/***/ }),
+/* 112 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UtilsService", function() { return UtilsService; });
+/* harmony import */ var core_js_modules_es_date_to_string__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(73);
+/* harmony import */ var core_js_modules_es_date_to_string__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_date_to_string__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var core_js_modules_es_object_to_string__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(74);
+/* harmony import */ var core_js_modules_es_object_to_string__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_object_to_string__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var core_js_modules_es_regexp_exec__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(15);
+/* harmony import */ var core_js_modules_es_regexp_exec__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_regexp_exec__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var core_js_modules_es_regexp_to_string__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(76);
+/* harmony import */ var core_js_modules_es_regexp_to_string__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_regexp_to_string__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var core_js_modules_es_string_replace__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(29);
+/* harmony import */ var core_js_modules_es_string_replace__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_string_replace__WEBPACK_IMPORTED_MODULE_4__);
+
+
+
+
+
+UtilsService.$inject = ["$rootScope"];
+
+function UtilsService($rootScope) {
+  'ngInject';
+
+  var service = this;
+
+  function debounce(func, wait, immediate) {
+    var _this = this,
+        _arguments = arguments;
+
+    var timeout;
+    return function () {
+      var context = _this;
+      var args = _arguments;
+
+      var later = function later() {
+        timeout = null;
+
+        if (!immediate) {
+          func.apply(context, args);
+        }
+      };
+
+      var callNow = immediate && !timeout;
+      clearTimeout(timeout);
+      timeout = setTimeout(later, wait);
+
+      if (callNow) {
+        func.apply(context, args);
+      }
+    };
+  }
+
+  function disableBodyScroll() {
+    $rootScope.$broadcast('lx-scroll__disable');
+  }
+
+  function escapeRegexp(strToEscape) {
+    return strToEscape.replace(/([.?*+^$[\]\\(){}|-])/g, '\\$1');
+  }
+
+  function generateUUID() {
+    var time = new Date().getTime();
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (char) {
+      var random = (time + Math.random() * 16) % 16 | 0;
+      time = Math.floor(time / 16);
+      return (char === 'x' ? random : random & 0x3 | 0x8).toString(16);
+    });
+  }
+
+  function restoreBodyScroll() {
+    $rootScope.$broadcast('lx-scroll__restore');
+  }
+
+  service.debounce = debounce;
+  service.disableBodyScroll = disableBodyScroll;
+  service.escapeRegexp = escapeRegexp;
+  service.generateUUID = generateUUID;
+  service.restoreBodyScroll = restoreBodyScroll;
+}
+
+angular.module('lumx.utils.utils').service('LxUtilsService', UtilsService);
+
+
+/***/ }),
+/* 113 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var classof = __webpack_require__(75);
+var wellKnownSymbol = __webpack_require__(2);
+
+var TO_STRING_TAG = wellKnownSymbol('toStringTag');
+var test = {};
+
+test[TO_STRING_TAG] = 'z';
+
+// `Object.prototype.toString` method implementation
+// https://tc39.github.io/ecma262/#sec-object.prototype.tostring
+module.exports = String(test) !== '[object z]' ? function toString() {
+  return '[object ' + classof(this) + ']';
+} : test.toString;
+
+
+/***/ }),
+/* 114 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var toInteger = __webpack_require__(20);
+var requireObjectCoercible = __webpack_require__(16);
+
+// `String.prototype.{ codePointAt, at }` methods implementation
+var createMethod = function (CONVERT_TO_STRING) {
+  return function ($this, pos) {
+    var S = String(requireObjectCoercible($this));
+    var position = toInteger(pos);
+    var size = S.length;
+    var first, second;
+    if (position < 0 || position >= size) return CONVERT_TO_STRING ? '' : undefined;
+    first = S.charCodeAt(position);
+    return first < 0xD800 || first > 0xDBFF || position + 1 === size
+      || (second = S.charCodeAt(position + 1)) < 0xDC00 || second > 0xDFFF
+        ? CONVERT_TO_STRING ? S.charAt(position) : first
+        : CONVERT_TO_STRING ? S.slice(position, position + 2) : (first - 0xD800 << 10) + (second - 0xDC00) + 0x10000;
+  };
+};
+
+module.exports = {
+  // `String.prototype.codePointAt` method
+  // https://tc39.github.io/ecma262/#sec-string.prototype.codepointat
+  codeAt: createMethod(false),
+  // `String.prototype.at` method
+  // https://github.com/mathiasbynens/String.prototype.at
+  charAt: createMethod(true)
+};
+
+
+/***/ }),
+/* 115 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ButtonDirective", function() { return ButtonDirective; });
+/* harmony import */ var core_js_modules_es_array_find__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(5);
+/* harmony import */ var core_js_modules_es_array_find__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_find__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var core_js_modules_es_array_join__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(49);
+/* harmony import */ var core_js_modules_es_array_join__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_join__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var core_js_modules_es_regexp_exec__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(15);
+/* harmony import */ var core_js_modules_es_regexp_exec__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_regexp_exec__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var core_js_modules_es_string_match__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(50);
+/* harmony import */ var core_js_modules_es_string_match__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_string_match__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(0);
+
+
+
+
+
+
+function ButtonDirective() {
+  'ngInject';
+
+  function isAnchor(attrs) {
+    return angular.isDefined(attrs.href) || angular.isDefined(attrs.ngHref) || angular.isDefined(attrs.ngLink) || angular.isDefined(attrs.uiSref);
+  }
+
+  function getTemplate(el, attrs) {
+    if (isAnchor(attrs)) {
+      return "<a class=\"" + _lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_4__[/* CSS_PREFIX */ "a"] + "-button\" ng-transclude></a>";
+    }
+
+    return "<button class=\"" + _lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_4__[/* CSS_PREFIX */ "a"] + "-button\" ng-transclude></button>";
+  }
+
+  function link(scope, el, attrs) {
+    if (!attrs.lxVariant && !attrs.lxType || attrs.lxVariant === 'button' || attrs.lxType === 'raised' || attrs.lxType === 'flat') {
+      var leftIcon = el.find('i:first-child');
+      var rightIcon = el.find('i:last-child');
+      var label = el.find('span');
+
+      if (leftIcon.length > 0) {
+        el.addClass(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_4__[/* CSS_PREFIX */ "a"] + "-button--has-left-icon");
+      }
+
+      if (rightIcon.length > 0) {
+        el.addClass(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_4__[/* CSS_PREFIX */ "a"] + "-button--has-right-icon");
+      }
+
+      if (label.length === 0) {
+        el.wrapInner('<span></span>');
+      }
+    }
+
+    var isDefaultEmphasis = !attrs.lxEmphasis || attrs.lxEmphasis === 'high';
+    var defaultProps = {
+      color: isDefaultEmphasis ? 'primary' : 'dark',
+      emphasis: 'high',
+      size: 'm',
+      theme: 'light',
+      variant: 'button'
+    };
+
+    if (!attrs.lxColor) {
+      el.addClass(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_4__[/* CSS_PREFIX */ "a"] + "-button--color-" + defaultProps.color);
+    }
+
+    attrs.$observe('lxColor', function (color) {
+      if (!color) {
+        return;
+      }
+
+      el.removeClass(function (index, className) {
+        return (className.match(/(?:\S|-)*button--color-\S+/g) || []).join(' ');
+      }).addClass(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_4__[/* CSS_PREFIX */ "a"] + "-button--color-" + color);
+    });
+
+    if (!attrs.lxEmphasis) {
+      el.addClass(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_4__[/* CSS_PREFIX */ "a"] + "-button--emphasis-" + defaultProps.emphasis);
+    }
+
+    attrs.$observe('lxEmphasis', function (emphasis) {
+      if (!emphasis) {
+        return;
+      }
+
+      el.removeClass(function (index, className) {
+        return (className.match(/(?:\S|-)*button--emphasis-\S+/g) || []).join(' ');
+      }).addClass(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_4__[/* CSS_PREFIX */ "a"] + "-button--emphasis-" + emphasis);
+    });
+
+    if (!attrs.lxSize) {
+      el.addClass(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_4__[/* CSS_PREFIX */ "a"] + "-button--size-" + defaultProps.size);
+    }
+
+    attrs.$observe('lxSize', function (size) {
+      if (!size) {
+        return;
+      }
+
+      var sizeFallback = {
+        xs: 's',
+        s: 's',
+        m: 'm',
+        l: 'm',
+        xl: 'm'
+      };
+      el.removeClass(function (index, className) {
+        return (className.match(/(?:\S|-)*button--size-\S+/g) || []).join(' ');
+      }).addClass(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_4__[/* CSS_PREFIX */ "a"] + "-button--size-" + sizeFallback[size]);
+    });
+
+    if (!attrs.lxTheme && isDefaultEmphasis) {
+      el.addClass(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_4__[/* CSS_PREFIX */ "a"] + "-button--theme-" + defaultProps.theme);
+    }
+
+    attrs.$observe('lxTheme', function (theme) {
+      if (!theme) {
+        return;
+      }
+
+      el.removeClass(function (index, className) {
+        return (className.match(/(?:\S|-)*button--theme-\S+/g) || []).join(' ');
+      }).addClass(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_4__[/* CSS_PREFIX */ "a"] + "-button--theme-" + theme);
+    });
+
+    if (!attrs.lxVariant) {
+      el.addClass(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_4__[/* CSS_PREFIX */ "a"] + "-button--variant-" + defaultProps.variant);
+    }
+
+    attrs.$observe('lxVariant', function (variant) {
+      if (!variant) {
+        return;
+      }
+
+      el.removeClass(function (index, className) {
+        return (className.match(/(?:\S|-)*button--variant-\S+/g) || []).join(' ');
+      }).addClass(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_4__[/* CSS_PREFIX */ "a"] + "-button--variant-" + variant);
+    });
+    attrs.$observe('lxType', function (type) {
+      if (!type) {
+        return;
+      }
+
+      var emphasisFallback = {
+        raised: 'high',
+        flat: 'low',
+        fab: 'high',
+        icon: 'low'
+      };
+      el.removeClass(function (index, className) {
+        return (className.match(/(?:\S|-)*button--emphasis-\S+/g) || []).join(' ');
+      }).addClass(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_4__[/* CSS_PREFIX */ "a"] + "-button--emphasis-" + emphasisFallback[type]);
+
+      if (type === 'fab' || type === 'icon') {
+        el.removeClass(function (index, className) {
+          return (className.match(/(?:\S|-)*button--variant-\S+/g) || []).join(' ');
+        }).addClass(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_4__[/* CSS_PREFIX */ "a"] + "-button--variant-icon");
+      }
+    });
+    scope.$watch(attrs.lxIsSelected, function (isSelected) {
+      if (isSelected) {
+        el.addClass(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_4__[/* CSS_PREFIX */ "a"] + "-button--is-selected");
+      } else {
+        el.removeClass(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_4__[/* CSS_PREFIX */ "a"] + "-button--is-selected");
+      }
+    });
+  }
+
+  return {
+    link: link,
+    replace: true,
+    restrict: 'E',
+    template: getTemplate,
+    transclude: true
+  };
+}
+
+angular.module('lumx.button').directive('lxButton', ButtonDirective);
+
+
+/***/ }),
+/* 116 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CheckboxDirective", function() { return CheckboxDirective; });
+/* harmony import */ var core_js_modules_es_array_find__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(5);
+/* harmony import */ var core_js_modules_es_array_find__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_find__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(0);
+/* harmony import */ var _lumx_icons__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(8);
+/* harmony import */ var _views_checkbox_html__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(56);
+/* harmony import */ var _views_checkbox_html__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_views_checkbox_html__WEBPACK_IMPORTED_MODULE_3__);
 
 CheckboxController.$inject = ["LxUtilsService"];
 
@@ -13779,7 +10958,7 @@ function CheckboxController(LxUtilsService) {
   lx.hasLabel = false;
   lx.hasTranscluded = false;
   lx.icons = {
-    mdiCheck: mdiCheck
+    mdiCheck: _lumx_icons__WEBPACK_IMPORTED_MODULE_2__[/* mdiCheck */ "b"]
   };
   lx.viewValue = undefined;
 
@@ -13834,9 +11013,9 @@ function CheckboxDirective() {
       el.find('input').attr('disabled', isDisabled);
 
       if (isDisabled) {
-        el.addClass(constants["a" /* CSS_PREFIX */] + "-checkbox--is-disabled");
+        el.addClass(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_1__[/* CSS_PREFIX */ "a"] + "-checkbox--is-disabled");
       } else {
-        el.removeClass(constants["a" /* CSS_PREFIX */] + "-checkbox--is-disabled");
+        el.removeClass(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_1__[/* CSS_PREFIX */ "a"] + "-checkbox--is-disabled");
       }
     });
     attrs.$observe('checked', function (isChecked) {
@@ -13856,7 +11035,7 @@ function CheckboxDirective() {
     scope: {
       theme: '@?lxTheme'
     },
-    template: checkbox_default.a,
+    template: _views_checkbox_html__WEBPACK_IMPORTED_MODULE_3___default.a,
     transclude: {
       helper: '?lxCheckboxHelp',
       label: '?lxCheckboxLabel'
@@ -13866,6 +11045,5719 @@ function CheckboxDirective() {
 
 angular.module('lumx.checkbox').directive('lxCheckbox', CheckboxDirective);
 
+
+/***/ }),
+/* 117 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ChipDirective", function() { return ChipDirective; });
+/* harmony import */ var core_js_modules_es_array_join__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(49);
+/* harmony import */ var core_js_modules_es_array_join__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_join__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var core_js_modules_es_regexp_exec__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(15);
+/* harmony import */ var core_js_modules_es_regexp_exec__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_regexp_exec__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var core_js_modules_es_string_match__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(50);
+/* harmony import */ var core_js_modules_es_string_match__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_string_match__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(0);
+/* harmony import */ var _lumx_icons__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(8);
+/* harmony import */ var _views_chip_html__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(57);
+/* harmony import */ var _views_chip_html__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_views_chip_html__WEBPACK_IMPORTED_MODULE_5__);
+
+
+
+
+
+
+
+function ChipController() {
+  'ngInject';
+
+  var lx = this;
+  lx.hasAfter = false;
+  lx.hasBefore = false;
+  lx.hasLabel = false;
+  lx.icons = {
+    mdiMenuDown: _lumx_icons__WEBPACK_IMPORTED_MODULE_4__[/* mdiMenuDown */ "g"]
+  };
+
+  function handleOnAfterClick(evt) {
+    if (!angular.isFunction(lx.onAfterClick)) {
+      return;
+    }
+
+    evt.stopPropagation();
+    lx.onAfterClick();
+  }
+
+  function handleOnBeforeClick(evt) {
+    if (!angular.isFunction(lx.onBeforeClick)) {
+      return;
+    }
+
+    evt.stopPropagation();
+    lx.onBeforeClick();
+  }
+
+  function handleOnClick(evt) {
+    if (!angular.isFunction(lx.onClick)) {
+      return;
+    }
+
+    lx.onClick({
+      $event: evt
+    });
+  }
+
+  lx.handleOnAfterClick = handleOnAfterClick;
+  lx.handleOnBeforeClick = handleOnBeforeClick;
+  lx.handleOnClick = handleOnClick;
+}
+
+function ChipDirective() {
+  'ngInject';
+
+  function link(scope, el, attrs, ctrl, transclude) {
+    if (transclude.isSlotFilled('after')) {
+      ctrl.hasAfter = true;
+    }
+
+    if (transclude.isSlotFilled('before')) {
+      ctrl.hasBefore = true;
+    }
+
+    if (transclude.isSlotFilled('label')) {
+      ctrl.hasLabel = true;
+    }
+
+    var defaultProps = {
+      color: 'dark'
+    };
+
+    if (!attrs.lxColor) {
+      el.addClass(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_3__[/* CSS_PREFIX */ "a"] + "-chip--color-" + defaultProps.color);
+    }
+
+    attrs.$observe('lxColor', function (color) {
+      if (!color) {
+        return;
+      }
+
+      el.removeClass(function (index, className) {
+        return (className.match(/(?:\S|-)*chip--color-\S+/g) || []).join(' ');
+      }).addClass(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_3__[/* CSS_PREFIX */ "a"] + "-chip--color-" + color);
+    });
+  }
+
+  return {
+    bindToController: true,
+    controller: ChipController,
+    controllerAs: 'lx',
+    link: link,
+    replace: true,
+    restrict: 'E',
+    scope: {
+      color: '@?lxColor',
+      hasDropdownIndicator: '=?lxHasDropdownIndicator',
+      isDisabled: '=?ngDisabled',
+      isSelected: '=?lxIsSelected',
+      onAfterClick: '&?lxOnAfterClick',
+      onBeforeClick: '&?lxOnBeforeClick',
+      onClick: '&?lxOnClick',
+      size: '@?lxSize',
+      theme: '@?lxTheme'
+    },
+    template: _views_chip_html__WEBPACK_IMPORTED_MODULE_5___default.a,
+    transclude: {
+      after: '?lxChipAfter',
+      before: '?lxChipBefore',
+      label: 'lxChipLabel'
+    }
+  };
+}
+
+angular.module('lumx.chip').directive('lxChip', ChipDirective);
+
+
+/***/ }),
+/* 118 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var core_js_modules_es_array_index_of__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(25);
+/* harmony import */ var core_js_modules_es_array_index_of__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_index_of__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var core_js_modules_es_array_sort__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(119);
+/* harmony import */ var core_js_modules_es_array_sort__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_sort__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var core_js_modules_es_array_splice__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(21);
+/* harmony import */ var core_js_modules_es_array_splice__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_splice__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var core_js_modules_es_function_name__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(120);
+/* harmony import */ var core_js_modules_es_function_name__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_function_name__WEBPACK_IMPORTED_MODULE_3__);
+
+
+
+
+
+(function () {
+  'use strict';
+
+  angular.module('lumx.data-table').directive('lxDataTable', lxDataTable);
+
+  function lxDataTable() {
+    return {
+      restrict: 'E',
+      templateUrl: 'data-table.html',
+      scope: {
+        activable: '=?lxActivable',
+        border: '=?lxBorder',
+        bulk: '=?lxBulk',
+        selectable: '=?lxSelectable',
+        thumbnail: '=?lxThumbnail',
+        tbody: '=lxTbody',
+        thead: '=lxThead'
+      },
+      link: link,
+      controller: LxDataTableController,
+      controllerAs: 'lxDataTable',
+      bindToController: true,
+      transclude: true,
+      replace: true
+    };
+
+    function link(scope, element, attrs, ctrl) {
+      attrs.$observe('id', function (_newId) {
+        ctrl.id = _newId;
+      });
+    }
+  }
+
+  LxDataTableController.$inject = ['$rootScope', '$sce', '$scope'];
+
+  function LxDataTableController($rootScope, $sce, $scope) {
+    var lxDataTable = this;
+    lxDataTable.areAllRowsSelected = areAllRowsSelected;
+    lxDataTable.border = angular.isUndefined(lxDataTable.border) ? true : lxDataTable.border;
+    lxDataTable.bulk = angular.isUndefined(lxDataTable.bulk) ? true : lxDataTable.bulk;
+    lxDataTable.sort = sort;
+    lxDataTable.toggleActivation = toggleActivation;
+    lxDataTable.toggleAllSelected = toggleAllSelected;
+    lxDataTable.toggleSelection = toggleSelection;
+    lxDataTable.$sce = $sce;
+    lxDataTable.allRowsSelected = false;
+    lxDataTable.selectedRows = [];
+    $scope.$on('lx-data-table__select', function (event, id, row) {
+      if (id === lxDataTable.id && angular.isDefined(row)) {
+        _select(angular.isArray(row) && row.length > 0 ? row[0] : row);
+      }
+    });
+    $scope.$on('lx-data-table__select-all', function (event, id) {
+      if (id === lxDataTable.id) {
+        _selectAll();
+      }
+    });
+    $scope.$on('lx-data-table__unselect', function (event, id, row) {
+      if (id === lxDataTable.id && angular.isDefined(row)) {
+        _unselect(angular.isArray(row) && row.length > 0 ? row[0] : row);
+      }
+    });
+    $scope.$on('lx-data-table__unselect-all', function (event, id) {
+      if (id === lxDataTable.id) {
+        _unselectAll();
+      }
+    });
+    $scope.$on('lx-data-table__activate', function (event, id, row) {
+      if (id === lxDataTable.id && angular.isDefined(row)) {
+        _activate(angular.isArray(row) && row.length > 0 ? row[0] : row);
+      }
+    });
+    $scope.$on('lx-data-table__deactivate', function (event, id, row) {
+      if (id === lxDataTable.id && angular.isDefined(row)) {
+        _deactivate(angular.isArray(row) && row.length > 0 ? row[0] : row);
+      }
+    });
+
+    function _activate(row) {
+      toggleActivation(row, true);
+    }
+
+    function _deactivate(row) {
+      toggleActivation(row, false);
+    }
+
+    function _select(row) {
+      toggleSelection(row, true);
+    }
+
+    function _selectAll() {
+      lxDataTable.selectedRows.length = 0;
+
+      for (var i = 0, len = lxDataTable.tbody.length; i < len; i++) {
+        if (!lxDataTable.tbody[i].lxDataTableDisabled) {
+          lxDataTable.tbody[i].lxDataTableSelected = true;
+          lxDataTable.selectedRows.push(lxDataTable.tbody[i]);
+        }
+      }
+
+      lxDataTable.allRowsSelected = true;
+      $rootScope.$broadcast('lx-data-table__unselected', lxDataTable.id, lxDataTable.selectedRows);
+    }
+
+    function _unselect(row) {
+      toggleSelection(row, false);
+    }
+
+    function _unselectAll() {
+      for (var i = 0, len = lxDataTable.tbody.length; i < len; i++) {
+        if (!lxDataTable.tbody[i].lxDataTableDisabled) {
+          lxDataTable.tbody[i].lxDataTableSelected = false;
+        }
+      }
+
+      lxDataTable.allRowsSelected = false;
+      lxDataTable.selectedRows.length = 0;
+      $rootScope.$broadcast('lx-data-table__selected', lxDataTable.id, lxDataTable.selectedRows);
+    }
+
+    function areAllRowsSelected() {
+      var displayedRows = 0;
+
+      for (var i = 0, len = lxDataTable.tbody.length; i < len; i++) {
+        if (!lxDataTable.tbody[i].lxDataTableDisabled) {
+          displayedRows++;
+        }
+      }
+
+      if (displayedRows === lxDataTable.selectedRows.length) {
+        lxDataTable.allRowsSelected = true;
+      } else {
+        lxDataTable.allRowsSelected = false;
+      }
+    }
+
+    function sort(_column) {
+      if (!_column.sortable) {
+        return;
+      }
+
+      for (var i = 0, len = lxDataTable.thead.length; i < len; i++) {
+        if (lxDataTable.thead[i].sortable && lxDataTable.thead[i].name !== _column.name) {
+          lxDataTable.thead[i].sort = undefined;
+        }
+      }
+
+      if (!_column.sort || _column.sort === 'desc') {
+        _column.sort = 'asc';
+      } else {
+        _column.sort = 'desc';
+      }
+
+      $rootScope.$broadcast('lx-data-table__sorted', lxDataTable.id, _column);
+    }
+
+    function toggleActivation(_row, _newActivatedStatus) {
+      if (_row.lxDataTableDisabled || !lxDataTable.activable) {
+        return;
+      }
+
+      for (var i = 0, len = lxDataTable.tbody.length; i < len; i++) {
+        if (lxDataTable.tbody.indexOf(_row) !== i) {
+          lxDataTable.tbody[i].lxDataTableActivated = false;
+        }
+      }
+
+      _row.lxDataTableActivated = !_row.lxDataTableActivated;
+
+      if (_row.lxDataTableActivated) {
+        $rootScope.$broadcast('lx-data-table__activated', lxDataTable.id, _row);
+      } else {
+        $rootScope.$broadcast('lx-data-table__deactivated', lxDataTable.id, _row);
+      }
+    }
+
+    function toggleAllSelected() {
+      if (!lxDataTable.bulk) {
+        return;
+      }
+
+      if (lxDataTable.allRowsSelected) {
+        _unselectAll();
+      } else {
+        _selectAll();
+      }
+    }
+
+    function toggleSelection(_row, _newSelectedStatus, _event) {
+      if (_row.lxDataTableDisabled || !lxDataTable.selectable) {
+        return;
+      }
+
+      if (angular.isDefined(_event)) {
+        _event.stopPropagation();
+      }
+
+      _row.lxDataTableSelected = angular.isDefined(_newSelectedStatus) ? _newSelectedStatus : !_row.lxDataTableSelected;
+
+      if (_row.lxDataTableSelected) {
+        if (lxDataTable.selectedRows.length === 0 || lxDataTable.selectedRows.length && lxDataTable.selectedRows.indexOf(_row) === -1) {
+          lxDataTable.selectedRows.push(_row);
+          lxDataTable.areAllRowsSelected();
+          $rootScope.$broadcast('lx-data-table__selected', lxDataTable.id, lxDataTable.selectedRows, _row);
+        }
+      } else {
+        if (lxDataTable.selectedRows.length && lxDataTable.selectedRows.indexOf(_row) > -1) {
+          lxDataTable.selectedRows.splice(lxDataTable.selectedRows.indexOf(_row), 1);
+          lxDataTable.allRowsSelected = false;
+          $rootScope.$broadcast('lx-data-table__unselected', lxDataTable.id, lxDataTable.selectedRows, _row);
+        }
+      }
+    }
+  }
+})();
+
+/***/ }),
+/* 119 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var $ = __webpack_require__(3);
+var aFunction = __webpack_require__(23);
+var toObject = __webpack_require__(22);
+var fails = __webpack_require__(4);
+var sloppyArrayMethod = __webpack_require__(27);
+
+var nativeSort = [].sort;
+var test = [1, 2, 3];
+
+// IE8-
+var FAILS_ON_UNDEFINED = fails(function () {
+  test.sort(undefined);
+});
+// V8 bug
+var FAILS_ON_NULL = fails(function () {
+  test.sort(null);
+});
+// Old WebKit
+var SLOPPY_METHOD = sloppyArrayMethod('sort');
+
+var FORCED = FAILS_ON_UNDEFINED || !FAILS_ON_NULL || SLOPPY_METHOD;
+
+// `Array.prototype.sort` method
+// https://tc39.github.io/ecma262/#sec-array.prototype.sort
+$({ target: 'Array', proto: true, forced: FORCED }, {
+  sort: function sort(comparefn) {
+    return comparefn === undefined
+      ? nativeSort.call(toObject(this))
+      : nativeSort.call(toObject(this), aFunction(comparefn));
+  }
+});
+
+
+/***/ }),
+/* 120 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var DESCRIPTORS = __webpack_require__(10);
+var defineProperty = __webpack_require__(12).f;
+
+var FunctionPrototype = Function.prototype;
+var FunctionPrototypeToString = FunctionPrototype.toString;
+var nameRE = /^\s*function ([^ (]*)/;
+var NAME = 'name';
+
+// Function instances `.name` property
+// https://tc39.github.io/ecma262/#sec-function-instances-name
+if (DESCRIPTORS && !(NAME in FunctionPrototype)) {
+  defineProperty(FunctionPrototype, NAME, {
+    configurable: true,
+    get: function () {
+      try {
+        return FunctionPrototypeToString.call(this).match(nameRE)[1];
+      } catch (error) {
+        return '';
+      }
+    }
+  });
+}
+
+
+/***/ }),
+/* 121 */
+/***/ (function(module, exports) {
+
+(function () {
+  'use strict';
+
+  angular.module('lumx.data-table').service('LxDataTableService', LxDataTableService);
+  LxDataTableService.$inject = ['$rootScope'];
+
+  function LxDataTableService($rootScope) {
+    var service = this;
+    service.select = select;
+    service.selectAll = selectAll;
+    service.unselect = unselect;
+    service.unselectAll = unselectAll;
+    service.activate = activate;
+    service.deactivate = deactivate;
+
+    function select(_dataTableId, row) {
+      $rootScope.$broadcast('lx-data-table__select', _dataTableId, row);
+    }
+
+    function selectAll(_dataTableId) {
+      $rootScope.$broadcast('lx-data-table__select-all', _dataTableId);
+    }
+
+    function unselect(_dataTableId, row) {
+      $rootScope.$broadcast('lx-data-table__unselect', _dataTableId, row);
+    }
+
+    function unselectAll(_dataTableId) {
+      $rootScope.$broadcast('lx-data-table__unselect-all', _dataTableId);
+    }
+
+    function activate(_dataTableId, row) {
+      $rootScope.$broadcast('lx-data-table__activate', _dataTableId, row);
+    }
+
+    function deactivate(_dataTableId, row) {
+      $rootScope.$broadcast('lx-data-table__deactivate', _dataTableId, row);
+    }
+  }
+})();
+
+/***/ }),
+/* 122 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var core_js_modules_es_array_find__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(5);
+/* harmony import */ var core_js_modules_es_array_find__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_find__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var core_js_modules_es_array_slice__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(51);
+/* harmony import */ var core_js_modules_es_array_slice__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_slice__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var core_js_modules_es_date_to_string__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(73);
+/* harmony import */ var core_js_modules_es_date_to_string__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_date_to_string__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var core_js_modules_es_regexp_exec__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(15);
+/* harmony import */ var core_js_modules_es_regexp_exec__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_regexp_exec__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var core_js_modules_es_string_replace__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(29);
+/* harmony import */ var core_js_modules_es_string_replace__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_string_replace__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var core_js_modules_es_string_trim__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(123);
+/* harmony import */ var core_js_modules_es_string_trim__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_string_trim__WEBPACK_IMPORTED_MODULE_5__);
+
+
+
+
+
+
+
+(function () {
+  'use strict';
+
+  angular.module('lumx.date-picker').directive('lxDatePicker', lxDatePicker);
+  lxDatePicker.$inject = ['LxDatePickerService', 'LxUtilsService'];
+
+  function lxDatePicker(LxDatePickerService, LxUtilsService) {
+    return {
+      restrict: 'AE',
+      templateUrl: 'date-picker.html',
+      scope: {
+        autoClose: '=?lxAutoClose',
+        callback: '&?lxCallback',
+        color: '@?lxColor',
+        escapeClose: '=?lxEscapeClose',
+        inputFormat: '@?lxInputFormat',
+        maxDate: '=?lxMaxDate',
+        ngModel: '=',
+        minDate: '=?lxMinDate',
+        locale: '@lxLocale'
+      },
+      link: link,
+      controller: LxDatePickerController,
+      controllerAs: 'lxDatePicker',
+      bindToController: true,
+      replace: true,
+      transclude: true
+    };
+
+    function link(scope, element, attrs) {
+      if (angular.isDefined(attrs.id)) {
+        attrs.$observe('id', function (_newId) {
+          scope.lxDatePicker.pickerId = _newId;
+          LxDatePickerService.registerScope(scope.lxDatePicker.pickerId, scope);
+        });
+      } else {
+        scope.lxDatePicker.pickerId = LxUtilsService.generateUUID();
+        LxDatePickerService.registerScope(scope.lxDatePicker.pickerId, scope);
+      }
+    }
+  }
+
+  LxDatePickerController.$inject = ['$element', '$scope', '$timeout', '$transclude', 'LxDatePickerService', 'LxUtilsService'];
+
+  function LxDatePickerController($element, $scope, $timeout, $transclude, LxDatePickerService, LxUtilsService) {
+    var lxDatePicker = this;
+    var input;
+    var modelController;
+    var timer1;
+    var timer2;
+    var watcher1;
+    var watcher2;
+    lxDatePicker.closeDatePicker = closeDatePicker;
+    lxDatePicker.displayYearSelection = displayYearSelection;
+    lxDatePicker.hideYearSelection = hideYearSelection;
+    lxDatePicker.getDateFormatted = getDateFormatted;
+    lxDatePicker.nextMonth = nextMonth;
+    lxDatePicker.openDatePicker = openDatePicker;
+    lxDatePicker.previousMonth = previousMonth;
+    lxDatePicker.select = select;
+    lxDatePicker.selectYear = selectYear;
+    lxDatePicker.autoClose = angular.isDefined(lxDatePicker.autoClose) ? lxDatePicker.autoClose : true;
+    lxDatePicker.color = angular.isDefined(lxDatePicker.color) ? lxDatePicker.color : 'primary';
+    lxDatePicker.element = $element.find('.lx-date-picker');
+    lxDatePicker.escapeClose = angular.isDefined(lxDatePicker.escapeClose) ? lxDatePicker.escapeClose : true;
+    lxDatePicker.isOpen = false;
+    lxDatePicker.moment = moment;
+    lxDatePicker.yearSelection = false;
+    lxDatePicker.uuid = LxUtilsService.generateUUID();
+    $transclude(function (clone) {
+      if (clone.length) {
+        lxDatePicker.hasInput = true;
+        timer1 = $timeout(function () {
+          input = $element.find('.lx-date-input input');
+          modelController = input.data('$ngModelController');
+          watcher2 = $scope.$watch(function () {
+            return modelController.$viewValue;
+          }, function (newValue, oldValue) {
+            if (angular.isUndefined(newValue)) {
+              lxDatePicker.ngModel = undefined;
+            }
+          });
+        });
+      }
+    });
+    watcher1 = $scope.$watch(function () {
+      return lxDatePicker.ngModel;
+    }, init);
+    $scope.$on('$destroy', function () {
+      $timeout.cancel(timer1);
+      $timeout.cancel(timer2);
+
+      if (angular.isFunction(watcher1)) {
+        watcher1();
+      }
+
+      if (angular.isFunction(watcher2)) {
+        watcher2();
+      }
+    });
+
+    function closeDatePicker() {
+      LxDatePickerService.close(lxDatePicker.pickerId);
+    }
+
+    function displayYearSelection() {
+      lxDatePicker.yearSelection = true;
+      timer2 = $timeout(function () {
+        var yearSelector = angular.element('.lx-date-picker__year-selector');
+        var activeYear = yearSelector.find('.lx-date-picker__year--is-active');
+        yearSelector.scrollTop(yearSelector.scrollTop() + activeYear.position().top - yearSelector.height() / 2 + activeYear.height() / 2);
+      });
+    }
+
+    function hideYearSelection() {
+      lxDatePicker.yearSelection = false;
+    }
+
+    function generateCalendar() {
+      lxDatePicker.days = [];
+      var previousDay = angular.copy(lxDatePicker.ngModelMoment).date(0);
+      var firstDayOfMonth = angular.copy(lxDatePicker.ngModelMoment).date(1);
+      var lastDayOfMonth = firstDayOfMonth.clone().endOf('month');
+      var maxDays = lastDayOfMonth.date();
+      lxDatePicker.emptyFirstDays = [];
+
+      for (var i = firstDayOfMonth.day() === 0 ? 6 : firstDayOfMonth.day() - 1; i > 0; i--) {
+        lxDatePicker.emptyFirstDays.push({});
+      }
+
+      for (var j = 0; j < maxDays; j++) {
+        var date = angular.copy(previousDay.add(1, 'days'));
+        date.selected = angular.isDefined(lxDatePicker.ngModel) && date.isSame(lxDatePicker.ngModel, 'day');
+        date.today = date.isSame(moment(), 'day');
+
+        if (angular.isDefined(lxDatePicker.minDate)) {
+          var minDate = angular.isString(lxDatePicker.minDate) ? new Date(lxDatePicker.minDate) : lxDatePicker.minDate;
+
+          if (date.toDate() < minDate) {
+            date.disabled = true;
+          }
+        }
+
+        if (angular.isDefined(lxDatePicker.maxDate)) {
+          var maxDate = angular.isString(lxDatePicker.maxDate) ? new Date(lxDatePicker.maxDate) : lxDatePicker.maxDate;
+
+          if (date.toDate() > maxDate) {
+            date.disabled = true;
+          }
+        }
+
+        lxDatePicker.days.push(date);
+      }
+
+      lxDatePicker.emptyLastDays = [];
+
+      for (var k = 7 - (lastDayOfMonth.day() === 0 ? 7 : lastDayOfMonth.day()); k > 0; k--) {
+        lxDatePicker.emptyLastDays.push({});
+      }
+    }
+
+    function getDateFormatted() {
+      var dateFormatted = lxDatePicker.ngModelMoment.format('llll').replace(lxDatePicker.ngModelMoment.format('LT'), '').trim().replace(lxDatePicker.ngModelMoment.format('YYYY'), '').trim();
+      var dateFormattedLastChar = dateFormatted.slice(-1);
+
+      if (dateFormattedLastChar === ',') {
+        dateFormatted = dateFormatted.slice(0, -1);
+      }
+
+      return dateFormatted;
+    }
+
+    function init() {
+      moment.locale(lxDatePicker.locale);
+      lxDatePicker.ngModelMoment = angular.isDefined(lxDatePicker.ngModel) ? moment(angular.copy(lxDatePicker.ngModel)) : moment();
+      lxDatePicker.days = [];
+      lxDatePicker.daysOfWeek = [moment.weekdaysMin(1), moment.weekdaysMin(2), moment.weekdaysMin(3), moment.weekdaysMin(4), moment.weekdaysMin(5), moment.weekdaysMin(6), moment.weekdaysMin(0)];
+      lxDatePicker.years = [];
+
+      for (var y = moment().year() - 100; y <= moment().year() + 100; y++) {
+        lxDatePicker.years.push(y);
+      }
+
+      generateCalendar();
+    }
+
+    function nextMonth() {
+      lxDatePicker.ngModelMoment = lxDatePicker.ngModelMoment.add(1, 'month');
+      generateCalendar();
+    }
+
+    function openDatePicker() {
+      LxDatePickerService.open(lxDatePicker.pickerId);
+      generateCalendar();
+    }
+
+    function previousMonth() {
+      lxDatePicker.ngModelMoment = lxDatePicker.ngModelMoment.subtract(1, 'month');
+      generateCalendar();
+    }
+
+    function select(_day) {
+      if (!_day.disabled) {
+        lxDatePicker.ngModel = _day.toDate();
+        lxDatePicker.ngModelMoment = angular.copy(_day);
+
+        if (angular.isDefined(lxDatePicker.callback)) {
+          lxDatePicker.callback({
+            newDate: lxDatePicker.ngModel
+          });
+        }
+
+        if (angular.isDefined(modelController) && lxDatePicker.inputFormat) {
+          modelController.$setViewValue(angular.copy(_day).format(lxDatePicker.inputFormat));
+          modelController.$render();
+        }
+
+        generateCalendar();
+      }
+    }
+
+    function selectYear(_year) {
+      lxDatePicker.yearSelection = false;
+      lxDatePicker.ngModelMoment = lxDatePicker.ngModelMoment.year(_year);
+      generateCalendar();
+    }
+  }
+})();
+
+/***/ }),
+/* 123 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var $ = __webpack_require__(3);
+var $trim = __webpack_require__(52).trim;
+var forcedStringTrimMethod = __webpack_require__(124);
+
+// `String.prototype.trim` method
+// https://tc39.github.io/ecma262/#sec-string.prototype.trim
+$({ target: 'String', proto: true, forced: forcedStringTrimMethod('trim') }, {
+  trim: function trim() {
+    return $trim(this);
+  }
+});
+
+
+/***/ }),
+/* 124 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var fails = __webpack_require__(4);
+var whitespaces = __webpack_require__(30);
+
+var non = '\u200B\u0085\u180E';
+
+// check that a method works with the correct list
+// of whitespaces and has a correct name
+module.exports = function (METHOD_NAME) {
+  return fails(function () {
+    return !!whitespaces[METHOD_NAME]() || non[METHOD_NAME]() != non || whitespaces[METHOD_NAME].name !== METHOD_NAME;
+  });
+};
+
+
+/***/ }),
+/* 125 */
+/***/ (function(module, exports) {
+
+(function () {
+  'use strict';
+
+  angular.module('lumx.date-picker').service('LxDatePickerService', LxDatePickerService);
+  LxDatePickerService.$inject = ['$rootScope', '$timeout', 'LxDepthService', 'LxEventSchedulerService'];
+
+  function LxDatePickerService($rootScope, $timeout, LxDepthService, LxEventSchedulerService) {
+    var service = this;
+    var activeDatePickerId;
+    var datePickerFilter;
+    var idEventScheduler;
+    var scopeMap = {};
+    service.close = closeDatePicker;
+    service.open = openDatePicker;
+    service.registerScope = registerScope;
+
+    function closeDatePicker(_datePickerId) {
+      if (angular.isDefined(idEventScheduler)) {
+        LxEventSchedulerService.unregister(idEventScheduler);
+        idEventScheduler = undefined;
+      }
+
+      activeDatePickerId = undefined;
+      $rootScope.$broadcast('lx-date-picker__close-start', _datePickerId);
+      datePickerFilter.removeClass('lx-date-picker-filter--is-shown');
+
+      scopeMap[_datePickerId].element.removeClass('lx-date-picker--is-shown');
+
+      $timeout(function () {
+        angular.element('body').removeClass('no-scroll-date-picker-' + scopeMap[_datePickerId].uuid);
+        datePickerFilter.remove();
+
+        scopeMap[_datePickerId].element.hide().appendTo(scopeMap[_datePickerId].elementParent);
+
+        scopeMap[_datePickerId].isOpen = false;
+        $rootScope.$broadcast('lx-date-picker__close-end', _datePickerId);
+      }, 600);
+    }
+
+    function onKeyUp(_event) {
+      if (_event.keyCode == 27 && angular.isDefined(activeDatePickerId)) {
+        closeDatePicker(activeDatePickerId);
+      }
+
+      _event.stopPropagation();
+    }
+
+    function openDatePicker(_datePickerId) {
+      LxDepthService.register();
+      activeDatePickerId = _datePickerId;
+      angular.element('body').addClass('no-scroll-date-picker-' + scopeMap[_datePickerId].uuid);
+      datePickerFilter = angular.element('<div/>', {
+        class: 'lx-date-picker-filter'
+      });
+      datePickerFilter.css('z-index', LxDepthService.getDepth()).appendTo('body');
+
+      if (scopeMap[activeDatePickerId].autoClose) {
+        datePickerFilter.on('click', function () {
+          closeDatePicker(activeDatePickerId);
+        });
+      }
+
+      if (scopeMap[activeDatePickerId].escapeClose) {
+        idEventScheduler = LxEventSchedulerService.register('keyup', onKeyUp);
+      }
+
+      scopeMap[activeDatePickerId].element.css('z-index', LxDepthService.getDepth() + 1).appendTo('body').show();
+      $timeout(function () {
+        $rootScope.$broadcast('lx-date-picker__open-start', activeDatePickerId);
+        scopeMap[activeDatePickerId].isOpen = true;
+        datePickerFilter.addClass('lx-date-picker-filter--is-shown');
+        scopeMap[activeDatePickerId].element.addClass('lx-date-picker--is-shown');
+      }, 100);
+      $timeout(function () {
+        $rootScope.$broadcast('lx-date-picker__open-end', activeDatePickerId);
+      }, 700);
+    }
+
+    function registerScope(_datePickerId, _datePickerScope) {
+      scopeMap[_datePickerId] = _datePickerScope.lxDatePicker;
+    }
+  }
+})();
+
+/***/ }),
+/* 126 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var core_js_modules_es_array_find__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(5);
+/* harmony import */ var core_js_modules_es_array_find__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_find__WEBPACK_IMPORTED_MODULE_0__);
+
+
+(function () {
+  'use strict';
+
+  angular.module('lumx.dialog').directive('lxDialog', lxDialog).directive('lxDialogHeader', lxDialogHeader).directive('lxDialogContent', lxDialogContent).directive('lxDialogFooter', lxDialogFooter).directive('lxDialogClose', lxDialogClose);
+
+  function lxDialog() {
+    return {
+      restrict: 'E',
+      template: '<div class="dialog" ng-class="{ \'dialog--l\': !lxDialog.size || lxDialog.size === \'l\', \'dialog--s\': lxDialog.size === \'s\', \'dialog--m\': lxDialog.size === \'m\' }"><div ng-if="lxDialog.isOpen" ng-transclude></div></div>',
+      scope: {
+        autoClose: '=?lxAutoClose',
+        escapeClose: '=?lxEscapeClose',
+        size: '@?lxSize'
+      },
+      link: link,
+      controller: LxDialogController,
+      controllerAs: 'lxDialog',
+      bindToController: true,
+      replace: true,
+      transclude: true
+    };
+
+    function link(scope, element, attrs, ctrl) {
+      attrs.$observe('id', function (_newId) {
+        ctrl.id = _newId;
+      });
+    }
+  }
+
+  LxDialogController.$inject = ['$element', '$interval', '$rootScope', '$scope', '$timeout', '$window', 'LxDepthService', 'LxEventSchedulerService', 'LxUtilsService'];
+
+  function LxDialogController($element, $interval, $rootScope, $scope, $timeout, $window, LxDepthService, LxEventSchedulerService, LxUtilsService) {
+    var lxDialog = this;
+    var dialogFilter = angular.element('<div/>', {
+      class: 'dialog-filter'
+    });
+    var dialogHeight;
+    var dialogInterval;
+    var dialogScrollable;
+    var elementParent = $element.parent();
+    var idEventScheduler;
+    var resizeDebounce;
+    var windowHeight;
+    lxDialog.autoClose = angular.isDefined(lxDialog.autoClose) ? lxDialog.autoClose : true;
+    lxDialog.escapeClose = angular.isDefined(lxDialog.escapeClose) ? lxDialog.escapeClose : true;
+    lxDialog.isOpen = false;
+    lxDialog.uuid = LxUtilsService.generateUUID();
+    $scope.$on('lx-dialog__open', function (event, id, params) {
+      if (id === lxDialog.id) {
+        open(params);
+      }
+    });
+    $scope.$on('lx-dialog__close', function (event, id, canceled, params) {
+      if (id === lxDialog.id || id === undefined) {
+        close(canceled, params);
+      }
+    });
+    $scope.$on('$destroy', function () {
+      close(true);
+    });
+
+    function checkDialogHeight() {
+      var dialog = $element;
+      var dialogHeader = dialog.find('.dialog__header');
+      var dialogContent = dialog.find('.dialog__content');
+      var dialogFooter = dialog.find('.dialog__footer');
+
+      if (!dialogFooter.length) {
+        dialogFooter = dialog.find('.dialog__actions');
+      }
+
+      if (angular.isUndefined(dialogHeader)) {
+        return;
+      }
+
+      var heightToCheck = 60 + dialogHeader.outerHeight() + dialogContent.outerHeight() + dialogFooter.outerHeight();
+
+      if (dialogHeight === heightToCheck && windowHeight === $window.innerHeight) {
+        return;
+      }
+
+      dialogHeight = heightToCheck;
+      windowHeight = $window.innerHeight;
+
+      if (heightToCheck >= $window.innerHeight) {
+        dialog.addClass('dialog--is-fixed');
+        dialogScrollable.css({
+          top: dialogHeader.outerHeight(),
+          bottom: dialogFooter.outerHeight()
+        }).off('scroll', checkScrollEnd).on('scroll', checkScrollEnd);
+      } else {
+        dialog.removeClass('dialog--is-fixed');
+        dialogScrollable.removeAttr('style').off('scroll', checkScrollEnd);
+      }
+    }
+
+    function checkDialogHeightOnResize() {
+      if (resizeDebounce) {
+        $timeout.cancel(resizeDebounce);
+      }
+
+      resizeDebounce = $timeout(function () {
+        checkDialogHeight();
+      }, 200);
+    }
+
+    function checkScrollEnd() {
+      if (dialogScrollable.scrollTop() + dialogScrollable.innerHeight() >= dialogScrollable[0].scrollHeight) {
+        $rootScope.$broadcast('lx-dialog__scroll-end', lxDialog.id);
+        dialogScrollable.off('scroll', checkScrollEnd);
+        $timeout(function () {
+          dialogScrollable.on('scroll', checkScrollEnd);
+        }, 500);
+      }
+    }
+
+    function onKeyUp(_event) {
+      if (_event.keyCode == 27) {
+        close(true);
+      }
+
+      _event.stopPropagation();
+    }
+
+    function open(_params) {
+      if (lxDialog.isOpen) {
+        return;
+      }
+
+      LxDepthService.register();
+      angular.element('body').addClass('no-scroll-dialog-' + lxDialog.uuid);
+      dialogFilter.css('z-index', LxDepthService.getDepth()).appendTo('body');
+
+      if (lxDialog.autoClose) {
+        dialogFilter.on('click', function () {
+          close(true);
+        });
+      }
+
+      if (lxDialog.escapeClose) {
+        idEventScheduler = LxEventSchedulerService.register('keyup', onKeyUp);
+      }
+
+      $element.css('z-index', LxDepthService.getDepth() + 1).appendTo('body').show();
+      $timeout(function () {
+        $rootScope.$broadcast('lx-dialog__open-start', lxDialog.id, _params);
+        lxDialog.isOpen = true;
+        dialogFilter.addClass('dialog-filter--is-shown');
+        $element.addClass('dialog--is-shown');
+      }, 100);
+      $timeout(function () {
+        if ($element.find('.dialog__scrollable').length === 0) {
+          $element.find('.dialog__content').wrap(angular.element('<div/>', {
+            class: 'dialog__scrollable'
+          }));
+        }
+
+        dialogScrollable = $element.find('.dialog__scrollable');
+      }, 200);
+      $timeout(function () {
+        $rootScope.$broadcast('lx-dialog__open-end', lxDialog.id, _params);
+      }, 700);
+      dialogInterval = $interval(function () {
+        checkDialogHeight();
+      }, 500);
+      angular.element($window).on('resize', checkDialogHeightOnResize);
+    }
+
+    function close(_canceled, _params) {
+      if (!lxDialog.isOpen) {
+        return;
+      }
+
+      _params = _params || {};
+
+      if (angular.isDefined(idEventScheduler)) {
+        LxEventSchedulerService.unregister(idEventScheduler);
+        idEventScheduler = undefined;
+      }
+
+      angular.element($window).off('resize', checkDialogHeightOnResize);
+      $element.find('.dialog__scrollable').off('scroll', checkScrollEnd);
+      $rootScope.$broadcast('lx-dialog__close-start', lxDialog.id, _canceled, _params);
+
+      if (resizeDebounce) {
+        $timeout.cancel(resizeDebounce);
+      }
+
+      $interval.cancel(dialogInterval);
+      dialogFilter.removeClass('dialog-filter--is-shown');
+      $element.removeClass('dialog--is-shown');
+      $timeout(function () {
+        angular.element('body').removeClass('no-scroll-dialog-' + lxDialog.uuid);
+        dialogFilter.remove();
+        $element.hide().removeClass('dialog--is-fixed').appendTo(elementParent);
+        lxDialog.isOpen = false;
+        dialogHeight = undefined;
+        $rootScope.$broadcast('lx-dialog__close-end', lxDialog.id, _canceled, _params);
+      }, 600);
+    }
+  }
+
+  function lxDialogHeader() {
+    return {
+      restrict: 'E',
+      template: '<div class="dialog__header" ng-transclude></div>',
+      replace: true,
+      transclude: true
+    };
+  }
+
+  function lxDialogContent() {
+    return {
+      restrict: 'E',
+      template: '<div class="dialog__scrollable"><div class="dialog__content" ng-transclude></div></div>',
+      replace: true,
+      transclude: true
+    };
+  }
+
+  function lxDialogFooter() {
+    return {
+      restrict: 'E',
+      template: '<div class="dialog__footer" ng-transclude></div>',
+      replace: true,
+      transclude: true
+    };
+  }
+
+  lxDialogClose.$inject = ['LxDialogService'];
+
+  function lxDialogClose(LxDialogService) {
+    return {
+      restrict: 'A',
+      link: function link(scope, element) {
+        element.on('click', function () {
+          LxDialogService.close(element.parents('.dialog').attr('id'), true);
+        });
+        scope.$on('$destroy', function () {
+          element.off();
+        });
+      }
+    };
+  }
+})();
+
+/***/ }),
+/* 127 */
+/***/ (function(module, exports) {
+
+(function () {
+  'use strict';
+
+  angular.module('lumx.dialog').service('LxDialogService', LxDialogService);
+  LxDialogService.$inject = ['$rootScope'];
+
+  function LxDialogService($rootScope) {
+    var service = this;
+    service.open = open;
+    service.close = close;
+
+    function open(_dialogId, _params) {
+      $rootScope.$broadcast('lx-dialog__open', _dialogId, _params);
+    }
+
+    function close(_dialogId, _canceled, _params) {
+      $rootScope.$broadcast('lx-dialog__close', _dialogId, _canceled, _params);
+    }
+  }
+})();
+
+/***/ }),
+/* 128 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DropdownDirective", function() { return DropdownDirective; });
+/* harmony import */ var core_js_modules_es_array_find__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(5);
+/* harmony import */ var core_js_modules_es_array_find__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_find__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var core_js_modules_es_array_index_of__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(25);
+/* harmony import */ var core_js_modules_es_array_index_of__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_index_of__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var core_js_modules_es_array_slice__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(51);
+/* harmony import */ var core_js_modules_es_array_slice__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_slice__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(0);
+/* harmony import */ var _views_dropdown_html__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(58);
+/* harmony import */ var _views_dropdown_html__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_views_dropdown_html__WEBPACK_IMPORTED_MODULE_4__);
+
+
+
+DropdownController.$inject = ["$document", "$rootScope", "$scope", "$timeout", "$window", "LxDepthService", "LxDropdownService", "LxEventSchedulerService", "LxUtilsService"];
+
+
+
+function DropdownController($document, $rootScope, $scope, $timeout, $window, LxDepthService, LxDropdownService, LxEventSchedulerService, LxUtilsService) {
+  'ngInject';
+
+  var lx = this;
+  var _OFFSET_FROM_EDGE = 16;
+
+  var _idEventScheduler;
+
+  var _menuEl;
+
+  var _sourceEl;
+
+  var _toggleEl;
+
+  lx.hasToggle = false;
+  lx.isOpen = false;
+  lx.uuid = LxUtilsService.generateUUID();
+
+  function _onDocumentClick() {
+    if (angular.isUndefined(lx.closeOnClick) || lx.closeOnClick) {
+      LxDropdownService.closeActiveDropdown();
+    }
+  }
+
+  function _checkScrollEnd() {
+    if (_menuEl.scrollTop() + _menuEl.innerHeight() >= _menuEl[0].scrollHeight) {
+      $rootScope.$broadcast('lx-dropdown__scroll-end', lx.uuid);
+    }
+  }
+
+  function _close() {
+    lx.isOpen = false;
+    LxDropdownService.resetActiveDropdownId();
+    LxUtilsService.restoreBodyScroll();
+    $timeout(function () {
+      _menuEl.removeAttr('style').insertAfter(_toggleEl);
+
+      if (angular.isUndefined(lx.escapeClose) || lx.escapeClose) {
+        LxEventSchedulerService.unregister(_idEventScheduler);
+        _idEventScheduler = undefined;
+      }
+
+      _menuEl.off('scroll', _checkScrollEnd);
+
+      $document.off('click keydown keypress', _onDocumentClick);
+
+      if (angular.isDefined(_sourceEl)) {
+        _sourceEl.focus();
+      }
+    });
+  }
+
+  function _getAvailableHeight() {
+    var availaibleHeight = {};
+    var toggleProps = {
+      height: _toggleEl.outerHeight(),
+      top: _toggleEl.offset().top - angular.element($window).scrollTop()
+    };
+    var windowProps = {
+      height: $window.innerHeight
+    };
+
+    if (lx.overToggle) {
+      availaibleHeight.above = toggleProps.top;
+      availaibleHeight.below = windowProps.height - toggleProps.top;
+    } else {
+      availaibleHeight.above = toggleProps.top;
+      availaibleHeight.below = windowProps.height - (toggleProps.top + toggleProps.height);
+    }
+
+    return availaibleHeight;
+  }
+
+  function _initHorizontalPosition() {
+    var menuProps = {};
+    var toggleProps = {
+      height: _toggleEl.outerHeight(),
+      left: _toggleEl.offset().left,
+      width: _toggleEl.outerWidth()
+    };
+    var windowProps = {
+      height: $window.innerHeight,
+      width: $window.innerWidth
+    };
+
+    if (angular.isDefined(lx.width)) {
+      if (lx.width.indexOf('%') > -1) {
+        menuProps.minWidth = toggleProps.width * (lx.width.slice(0, -1) / 100);
+      } else {
+        menuProps.width = lx.width;
+      }
+    } else {
+      menuProps.width = 'auto';
+    }
+
+    if (!lx.position || lx.position === 'left') {
+      menuProps.left = toggleProps.left;
+      menuProps.right = 'auto';
+    } else if (lx.position === 'right') {
+      menuProps.left = 'auto';
+      menuProps.right = windowProps.width - toggleProps.width - toggleProps.left;
+    }
+
+    _menuEl.css({
+      left: menuProps.left,
+      right: menuProps.right
+    });
+
+    if (angular.isDefined(menuProps.minWidth)) {
+      _menuEl.css({
+        minWidth: menuProps.minWidth
+      });
+    } else {
+      _menuEl.css({
+        width: menuProps.width
+      });
+    }
+  }
+
+  function _initVerticalPosition() {
+    var availaibleHeight = _getAvailableHeight();
+
+    var menuProps = {};
+    var windowProps = {
+      height: $window.innerHeight
+    };
+
+    if (availaibleHeight.below > availaibleHeight.above) {
+      if (lx.overToggle) {
+        menuProps.top = availaibleHeight.above;
+        menuProps.maxHeight = availaibleHeight.below;
+      } else {
+        menuProps.top = availaibleHeight.above + _toggleEl.outerHeight() + ~~lx.offset;
+        menuProps.maxHeight = availaibleHeight.below;
+      }
+    } else if (lx.overToggle) {
+      menuProps.bottom = windowProps.height - availaibleHeight.above - _toggleEl.outerHeight();
+      menuProps.maxHeight = availaibleHeight.above + _toggleEl.outerHeight();
+    } else {
+      menuProps.bottom = windowProps.height - availaibleHeight.above + ~~lx.offset;
+      menuProps.maxHeight = availaibleHeight.above;
+    }
+
+    menuProps.maxHeight -= _OFFSET_FROM_EDGE;
+
+    _menuEl.css(menuProps);
+  }
+
+  function _onKeyUp(evt) {
+    if (evt.keyCode === _lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_3__[/* ESCAPE_KEY_CODE */ "d"]) {
+      LxDropdownService.closeActiveDropdown();
+    }
+
+    evt.stopPropagation();
+  }
+
+  function _open() {
+    LxDropdownService.closeActiveDropdown();
+    LxDropdownService.registerActiveDropdownId(lx.uuid);
+
+    if (angular.isUndefined(lx.escapeClose) || lx.escapeClose) {
+      _idEventScheduler = LxEventSchedulerService.register('keyup', _onKeyUp);
+    }
+
+    LxDepthService.increase();
+
+    _menuEl.appendTo('body').css('z-index', LxDepthService.get());
+
+    $timeout(function () {
+      _initHorizontalPosition();
+
+      _initVerticalPosition();
+
+      lx.isOpen = true;
+      LxUtilsService.disableBodyScroll();
+
+      _menuEl.on('scroll', _checkScrollEnd);
+
+      $document.on('click keydown keypress', _onDocumentClick);
+    });
+  }
+
+  function _registerSource(sourceEl) {
+    _sourceEl = sourceEl;
+  }
+
+  function registerMenu(menuEl) {
+    _menuEl = menuEl;
+  }
+
+  function registerToggle(toggleEl) {
+    _toggleEl = toggleEl;
+  }
+
+  function toggle(evt) {
+    if (angular.isDefined(evt.target)) {
+      _registerSource(angular.element(evt.target));
+    }
+
+    if (lx.isOpen) {
+      LxDropdownService.closeActiveDropdown();
+    } else {
+      _open();
+    }
+  }
+
+  lx.registerMenu = registerMenu;
+  lx.registerToggle = registerToggle;
+  lx.toggle = toggle;
+  $scope.$on('lx-dropdown__open', function (evt, dropdownId, params) {
+    if (dropdownId === lx.uuid && !lx.isOpen) {
+      if (angular.isString(params) || angular.isElement(params)) {
+        var toggleEl = angular.isString(params) ? angular.element(params) : params;
+        registerToggle(toggleEl);
+
+        _open();
+
+        return;
+      }
+
+      registerToggle(angular.element(params.target));
+
+      if (angular.isDefined(params.source)) {
+        _registerSource(angular.element(params.source));
+      } else {
+        _registerSource(angular.element(params.target));
+      }
+
+      _open();
+    }
+  });
+  $scope.$on('lx-dropdown__close', function (evt, dropdownId) {
+    if (dropdownId === lx.uuid && lx.isOpen) {
+      _close();
+    }
+  });
+  $scope.$on('lx-dropdown__update', function () {
+    if (LxDropdownService.isOpen(lx.uuid)) {
+      _initHorizontalPosition();
+
+      _initVerticalPosition();
+    }
+  });
+}
+
+function DropdownDirective() {
+  'ngInject';
+
+  function link(scope, el, attrs, ctrl, transclude) {
+    ctrl.registerToggle(el.find("." + _lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_3__[/* CSS_PREFIX */ "a"] + "-dropdown__toggle"));
+    ctrl.registerMenu(el.find("." + _lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_3__[/* CSS_PREFIX */ "a"] + "-dropdown__menu"));
+
+    if (transclude.isSlotFilled('toggle')) {
+      ctrl.hasToggle = true;
+    }
+
+    attrs.$observe('id', function (id) {
+      ctrl.uuid = id;
+    });
+  }
+
+  return {
+    bindToController: true,
+    controller: DropdownController,
+    controllerAs: 'lx',
+    link: link,
+    replace: true,
+    restrict: 'E',
+    scope: {
+      closeOnClick: '=?lxCloseOnClick',
+      escapeClose: '=?lxEscapeClose',
+      offset: '@?lxOffset',
+      overToggle: '=?lxOverToggle',
+      position: '@?lxPosition',
+      width: '@?lxWidth'
+    },
+    template: _views_dropdown_html__WEBPACK_IMPORTED_MODULE_4___default.a,
+    transclude: {
+      menu: 'lxDropdownMenu',
+      toggle: '?lxDropdownToggle'
+    }
+  };
+}
+
+angular.module('lumx.dropdown').directive('lxDropdown', DropdownDirective);
+
+
+/***/ }),
+/* 129 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DropdownService", function() { return DropdownService; });
+DropdownService.$inject = ["$rootScope"];
+
+function DropdownService($rootScope) {
+  'ngInject';
+
+  var service = this;
+
+  var _activeDropdownId;
+
+  function closeDropdown(dropdownId) {
+    $rootScope.$broadcast('lx-dropdown__close', dropdownId);
+  }
+
+  function closeActiveDropdown() {
+    if (angular.isDefined(_activeDropdownId)) {
+      closeDropdown(_activeDropdownId);
+    }
+  }
+
+  function isOpen(dropdownId) {
+    return _activeDropdownId === dropdownId;
+  }
+
+  function openDropdown(dropdownId, params) {
+    $rootScope.$broadcast('lx-dropdown__open', dropdownId, params);
+  }
+
+  function registerActiveDropdownId(dropdownId) {
+    _activeDropdownId = dropdownId;
+  }
+
+  function resetActiveDropdownId() {
+    _activeDropdownId = undefined;
+  }
+
+  function updateActiveDropdownPosition() {
+    $rootScope.$broadcast('lx-dropdown__update');
+  }
+
+  service.close = closeDropdown;
+  service.closeActiveDropdown = closeActiveDropdown;
+  service.isOpen = isOpen;
+  service.open = openDropdown;
+  service.registerActiveDropdownId = registerActiveDropdownId;
+  service.resetActiveDropdownId = resetActiveDropdownId;
+  service.updateActiveDropdownPosition = updateActiveDropdownPosition;
+}
+
+angular.module('lumx.dropdown').service('LxDropdownService', DropdownService);
+
+
+/***/ }),
+/* 130 */
+/***/ (function(module, exports) {
+
+(function () {
+  'use strict';
+
+  angular.module('lumx.fab').directive('lxFab', lxFab).directive('lxFabTrigger', lxFabTrigger).directive('lxFabActions', lxFabActions);
+
+  function lxFab() {
+    return {
+      restrict: 'E',
+      templateUrl: 'fab.html',
+      scope: true,
+      link: link,
+      controller: LxFabController,
+      controllerAs: 'lxFab',
+      bindToController: true,
+      transclude: true,
+      replace: true
+    };
+
+    function link(scope, element, attrs, ctrl) {
+      attrs.$observe('lxDirection', function (newDirection) {
+        ctrl.setFabDirection(newDirection);
+      });
+      attrs.$observe('lxTriggerOnClick', function (isTriggeredOnClick) {
+        ctrl.setFabTriggerMethod(scope.$eval(isTriggeredOnClick));
+      });
+    }
+  }
+
+  function LxFabController() {
+    var lxFab = this;
+    lxFab.setFabDirection = setFabDirection;
+    lxFab.setFabTriggerMethod = setFabTriggerMethod;
+    lxFab.toggleState = toggleState;
+    lxFab.isOpen = false;
+
+    function setFabDirection(_direction) {
+      lxFab.lxDirection = _direction;
+    }
+
+    function setFabTriggerMethod(_isTriggeredOnClick) {
+      lxFab.lxTriggerOnClick = _isTriggeredOnClick;
+    }
+
+    function toggleState() {
+      if (lxFab.lxTriggerOnClick) {
+        lxFab.isOpen = !lxFab.isOpen;
+      }
+    }
+  }
+
+  function lxFabTrigger() {
+    return {
+      restrict: 'E',
+      require: '^lxFab',
+      templateUrl: 'fab-trigger.html',
+      transclude: true,
+      replace: true
+    };
+  }
+
+  function lxFabActions() {
+    return {
+      restrict: 'E',
+      require: '^lxFab',
+      templateUrl: 'fab-actions.html',
+      link: link,
+      transclude: true,
+      replace: true
+    };
+
+    function link(scope, element, attrs, ctrl) {
+      scope.parentCtrl = ctrl;
+    }
+  }
+})();
+
+/***/ }),
+/* 131 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var core_js_modules_es_array_find__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(5);
+/* harmony import */ var core_js_modules_es_array_find__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_find__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var core_js_modules_es_regexp_exec__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(15);
+/* harmony import */ var core_js_modules_es_regexp_exec__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_regexp_exec__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var core_js_modules_es_string_replace__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(29);
+/* harmony import */ var core_js_modules_es_string_replace__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_string_replace__WEBPACK_IMPORTED_MODULE_2__);
+
+
+
+
+(function () {
+  'use strict';
+
+  angular.module('lumx.file-input').directive('lxFileInput', lxFileInput);
+
+  function lxFileInput() {
+    return {
+      restrict: 'E',
+      templateUrl: 'file-input.html',
+      scope: {
+        label: '@lxLabel',
+        accept: '@lxAccept',
+        callback: '&?lxCallback'
+      },
+      link: link,
+      controller: LxFileInputController,
+      controllerAs: 'lxFileInput',
+      bindToController: true,
+      replace: true
+    };
+
+    function link(scope, element, attrs, ctrl) {
+      var input = element.find('input');
+      input.on('change', ctrl.updateModel).on('blur', function () {
+        element.removeClass('input-file--is-focus');
+      });
+      scope.$on('$destroy', function () {
+        input.off();
+      });
+    }
+  }
+
+  LxFileInputController.$inject = ['$element', '$scope', '$timeout'];
+
+  function LxFileInputController($element, $scope, $timeout) {
+    var lxFileInput = this;
+    var input = $element.find('input');
+    var timer;
+    lxFileInput.updateModel = updateModel;
+    $scope.$on('$destroy', function () {
+      $timeout.cancel(timer);
+    });
+
+    function setFileName() {
+      if (input.val()) {
+        lxFileInput.fileName = input.val().replace(/C:\\fakepath\\/i, '');
+        $element.addClass('input-file--is-focus');
+        $element.addClass('input-file--is-active');
+      } else {
+        lxFileInput.fileName = undefined;
+        $element.removeClass('input-file--is-active');
+      }
+
+      input.val(undefined);
+    }
+
+    function updateModel() {
+      if (angular.isDefined(lxFileInput.callback)) {
+        lxFileInput.callback({
+          newFile: input[0].files[0]
+        });
+      }
+
+      timer = $timeout(setFileName);
+    }
+  }
+})();
+
+/***/ }),
+/* 132 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "IconDirective", function() { return IconDirective; });
+/* harmony import */ var core_js_modules_es_array_find__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(5);
+/* harmony import */ var core_js_modules_es_array_find__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_find__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var core_js_modules_es_array_join__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(49);
+/* harmony import */ var core_js_modules_es_array_join__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_join__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var core_js_modules_es_regexp_exec__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(15);
+/* harmony import */ var core_js_modules_es_regexp_exec__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_regexp_exec__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var core_js_modules_es_string_match__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(50);
+/* harmony import */ var core_js_modules_es_string_match__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_string_match__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(0);
+/* harmony import */ var _views_icon_html__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(59);
+/* harmony import */ var _views_icon_html__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_views_icon_html__WEBPACK_IMPORTED_MODULE_5__);
+
+
+
+
+
+
+
+function IconDirective() {
+  'ngInject';
+
+  function link(scope, el, attrs) {
+    attrs.$observe('lxPath', function (path) {
+      el.addClass(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_4__[/* CSS_PREFIX */ "a"] + "-icon--path");
+      el.find('path').attr('d', path);
+    });
+    attrs.$observe('lxId', function (font) {
+      el.addClass(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_4__[/* CSS_PREFIX */ "a"] + "-icon--font mdi mdi-" + font);
+    });
+    attrs.$observe('lxColor', function (color) {
+      if (!color) {
+        return;
+      }
+
+      el.removeClass(function (index, className) {
+        return (className.match(/(?:\S|-)*icon--color-\S+/g) || []).join(' ');
+      }).addClass(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_4__[/* CSS_PREFIX */ "a"] + "-icon--color-" + color);
+    });
+    attrs.$observe('lxColorVariant', function (colorVariant) {
+      if (!colorVariant) {
+        return;
+      }
+
+      el.removeClass(function (index, className) {
+        return (className.match(/(?:\S|-)*icon--color-variant-\S+/g) || []).join(' ');
+      }).addClass(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_4__[/* CSS_PREFIX */ "a"] + "-icon--color-variant-" + colorVariant);
+    });
+    attrs.$observe('lxSize', function (size) {
+      if (!size) {
+        return;
+      }
+
+      el.removeClass(function (index, className) {
+        return (className.match(/(?:\S|-)*icon--size-\S+/g) || []).join(' ');
+      }).addClass(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_4__[/* CSS_PREFIX */ "a"] + "-icon--size-" + size);
+    });
+  }
+
+  return {
+    link: link,
+    replace: true,
+    restrict: 'E',
+    template: _views_icon_html__WEBPACK_IMPORTED_MODULE_5___default.a
+  };
+}
+
+angular.module('lumx.icon').directive('lxIcon', IconDirective);
+
+
+/***/ }),
+/* 133 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ListDirective", function() { return ListDirective; });
+/* harmony import */ var core_js_modules_es_array_find__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(5);
+/* harmony import */ var core_js_modules_es_array_find__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_find__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(0);
+/* harmony import */ var _views_list_html__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(60);
+/* harmony import */ var _views_list_html__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_views_list_html__WEBPACK_IMPORTED_MODULE_2__);
+
+ListController.$inject = ["$element", "$scope"];
+
+
+
+function ListController($element, $scope) {
+  'ngInject';
+
+  var lx = this;
+  lx.activeItemIndex = -1;
+
+  function _nextItemOnKeyDown() {
+    var nextItem = $element.find("." + _lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_1__[/* CSS_PREFIX */ "a"] + "-list-item").eq(lx.activeItemIndex + 1);
+
+    if (nextItem.length === 0) {
+      lx.activeItemIndex = 0;
+      nextItem = $element.find("." + _lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_1__[/* CSS_PREFIX */ "a"] + "-list-item").eq(lx.activeItemIndex).focus();
+    } else {
+      lx.activeItemIndex++;
+    }
+
+    nextItem.focus();
+  }
+
+  function _previousItemOnKeyUp() {
+    var previousItem = $element.find("." + _lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_1__[/* CSS_PREFIX */ "a"] + "-list-item").eq(lx.activeItemIndex - 1);
+
+    if (previousItem.length === 0) {
+      lx.activeItemIndex = $element.find("." + _lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_1__[/* CSS_PREFIX */ "a"] + "-list-item").length - 1;
+      previousItem = $element.find("." + _lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_1__[/* CSS_PREFIX */ "a"] + "-list-item").eq(lx.activeItemIndex).focus();
+    } else {
+      lx.activeItemIndex--;
+    }
+
+    previousItem.focus();
+  }
+
+  function _onKeyPress(evt) {
+    if (!lx.isClickable) {
+      return;
+    }
+
+    if (evt.keyCode === _lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_1__[/* DOWN_KEY_CODE */ "b"]) {
+      _nextItemOnKeyDown();
+
+      $scope.$apply();
+      evt.preventDefault();
+      evt.stopPropagation();
+    } else if (evt.keyCode === _lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_1__[/* UP_KEY_CODE */ "f"]) {
+      _previousItemOnKeyUp();
+
+      $scope.$apply();
+      evt.preventDefault();
+      evt.stopPropagation();
+    } else if (evt.keyCode === _lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_1__[/* TAB_KEY_CODE */ "e"]) {
+      evt.preventDefault();
+      evt.stopPropagation();
+    }
+  }
+
+  function _resetActiveItemIndex() {
+    lx.activeItemIndex = -1;
+  }
+
+  $element.on('keydown keypress', _onKeyPress).on('focus', _resetActiveItemIndex);
+  $scope.$on('$destroy', function () {
+    $element.off('keydown keypress', _onKeyPress).off('focus', _resetActiveItemIndex);
+  });
+}
+
+function ListDirective() {
+  return {
+    bindToController: true,
+    controller: ListController,
+    controllerAs: 'lx',
+    replace: true,
+    restrict: 'E',
+    scope: {
+      isClickable: '=?lxIsClickable'
+    },
+    template: _views_list_html__WEBPACK_IMPORTED_MODULE_2___default.a,
+    transclude: true
+  };
+}
+
+angular.module('lumx.list').directive('lxList', ListDirective);
+
+
+/***/ }),
+/* 134 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ListDividerDirective", function() { return ListDividerDirective; });
+/* harmony import */ var _lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+
+
+function ListDividerDirective() {
+  'ngInject';
+
+  return {
+    replace: true,
+    restrict: 'E',
+    template: "<li class=\"" + _lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_0__[/* CSS_PREFIX */ "a"] + "-list-divider\"></li>"
+  };
+}
+
+angular.module('lumx.list').directive('lxListDivider', ListDividerDirective);
+
+
+/***/ }),
+/* 135 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ListItemDirective", function() { return ListItemDirective; });
+/* harmony import */ var _lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+/* harmony import */ var _views_list_item_html__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(61);
+/* harmony import */ var _views_list_item_html__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_views_list_item_html__WEBPACK_IMPORTED_MODULE_1__);
+ListItemController.$inject = ["$element", "$scope"];
+
+
+
+function ListItemController($element, $scope) {
+  'ngInject';
+
+  var lx = this;
+  lx.hasAfter = false;
+  lx.hasBefore = false;
+  lx.hasContent = false;
+  lx.parentController = undefined;
+
+  function _registerIndex() {
+    if (angular.isUndefined(lx.parentController)) {
+      return;
+    }
+
+    lx.parentController.activeItemIndex = $element.index("." + _lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_0__[/* CSS_PREFIX */ "a"] + "-list-item");
+  }
+
+  $element.on('focus', _registerIndex);
+  $scope.$on('$destroy', function () {
+    $element.off('focus', _registerIndex);
+  });
+}
+
+function ListItemDirective() {
+  'ngInject';
+
+  function link(scope, el, attrs, ctrls, transclude) {
+    if (transclude.isSlotFilled('before')) {
+      ctrls[0].hasBefore = true;
+    }
+
+    if (transclude.isSlotFilled('content')) {
+      ctrls[0].hasContent = true;
+    }
+
+    if (transclude.isSlotFilled('after')) {
+      ctrls[0].hasAfter = true;
+    }
+
+    if (angular.isDefined(ctrls[1]) && ctrls[1]) {
+      ctrls[0].parentController = ctrls[1];
+    }
+  }
+
+  return {
+    bindToController: true,
+    controller: ListItemController,
+    controllerAs: 'lx',
+    link: link,
+    replace: true,
+    require: ['lxListItem', '?^lxList'],
+    restrict: 'E',
+    scope: {
+      isSelected: '=?lxIsSelected',
+      size: '@?lxSize'
+    },
+    template: _views_list_item_html__WEBPACK_IMPORTED_MODULE_1___default.a,
+    transclude: {
+      after: '?lxListItemAfter',
+      before: '?lxListItemBefore',
+      content: '?lxListItemContent'
+    }
+  };
+}
+
+angular.module('lumx.list').directive('lxListItem', ListItemDirective);
+
+
+/***/ }),
+/* 136 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ListSubheaderDirective", function() { return ListSubheaderDirective; });
+/* harmony import */ var _lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+
+
+function ListSubheaderDirective() {
+  'ngInject';
+
+  return {
+    replace: true,
+    restrict: 'E',
+    template: "<li class=\"" + _lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_0__[/* CSS_PREFIX */ "a"] + "-list-subheader\" ng-transclude></li>",
+    transclude: true
+  };
+}
+
+angular.module('lumx.list').directive('lxListSubheader', ListSubheaderDirective);
+
+
+/***/ }),
+/* 137 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var core_js_modules_es_array_index_of__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(25);
+/* harmony import */ var core_js_modules_es_array_index_of__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_index_of__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var core_js_modules_es_array_slice__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(51);
+/* harmony import */ var core_js_modules_es_array_slice__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_slice__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var core_js_modules_es_array_splice__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(21);
+/* harmony import */ var core_js_modules_es_array_splice__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_splice__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var core_js_modules_es_parse_float__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(138);
+/* harmony import */ var core_js_modules_es_parse_float__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_parse_float__WEBPACK_IMPORTED_MODULE_3__);
+
+
+
+
+
+(function () {
+  'use strict';
+
+  angular.module('lumx.notification').service('LxNotificationService', LxNotificationService);
+  LxNotificationService.$inject = ['$injector', '$rootScope', '$timeout', 'LxDepthService', 'LxEventSchedulerService'];
+
+  function LxNotificationService($injector, $rootScope, $timeout, LxDepthService, LxEventSchedulerService) {
+    var service = this;
+    var dialogFilter;
+    var dialog;
+    var idEventScheduler;
+    var notificationList = [];
+    var actionClicked = false;
+    service.alert = showAlertDialog;
+    service.confirm = showConfirmDialog;
+    service.error = notifyError;
+    service.info = notifyInfo;
+    service.notify = notify;
+    service.success = notifySuccess;
+    service.warning = notifyWarning;
+    service.getNotificationList = getNotificationList;
+    service.reComputeElementsPosition = reComputeElementsPosition;
+    service.deleteNotification = deleteNotification;
+    service.buildNotification = buildNotification;
+
+    function getElementHeight(_elem) {
+      return parseFloat(window.getComputedStyle(_elem, null).height);
+    }
+
+    function moveNotificationUp() {
+      var newNotifIndex = notificationList.length - 1;
+      notificationList[newNotifIndex].height = getElementHeight(notificationList[newNotifIndex].elem[0]);
+      var upOffset = 0;
+
+      for (var idx = newNotifIndex; idx >= 0; idx--) {
+        if (notificationList.length > 1 && idx !== newNotifIndex) {
+          upOffset = 24 + notificationList[newNotifIndex].height;
+          notificationList[idx].margin += upOffset;
+          notificationList[idx].elem.css('marginBottom', notificationList[idx].margin + 'px');
+        }
+      }
+    }
+
+    function deleteNotification(_notification, _callback) {
+      _callback = !angular.isFunction(_callback) ? angular.noop : _callback;
+      var notifIndex = notificationList.indexOf(_notification);
+      var dnOffset = angular.isDefined(notificationList[notifIndex]) ? 24 + notificationList[notifIndex].height : 24;
+
+      for (var idx = 0; idx < notifIndex; idx++) {
+        if (notificationList.length > 1) {
+          notificationList[idx].margin -= dnOffset;
+          notificationList[idx].elem.css('marginBottom', notificationList[idx].margin + 'px');
+        }
+      }
+
+      _notification.elem.removeClass('notification--is-shown');
+
+      $timeout(function () {
+        _notification.elem.remove();
+
+        notifIndex = notificationList.indexOf(_notification);
+
+        if (notifIndex != -1) {
+          notificationList.splice(notifIndex, 1);
+        }
+
+        _callback(actionClicked);
+
+        actionClicked = false;
+      }, 400);
+    }
+
+    function reComputeElementsPosition() {
+      var baseOffset = 0;
+
+      for (var idx = notificationList.length - 1; idx >= 0; idx--) {
+        notificationList[idx].height = getElementHeight(notificationList[idx].elem[0]);
+        notificationList[idx].margin = baseOffset;
+        notificationList[idx].elem.css('marginBottom', notificationList[idx].margin + 'px');
+        baseOffset += notificationList[idx].height + 24;
+      }
+    }
+
+    function buildNotification(_text, _icon, _color, _action) {
+      var notification = angular.element('<div/>', {
+        class: 'notification'
+      });
+      var notificationText = angular.element('<span/>', {
+        class: 'notification__content',
+        html: _text
+      });
+
+      if (angular.isDefined(_icon)) {
+        var notificationIcon = angular.element('<i/>', {
+          class: 'notification__icon mdi mdi-' + _icon
+        });
+        notification.addClass('notification--has-icon').append(notificationIcon);
+      }
+
+      if (angular.isDefined(_color)) {
+        notification.addClass('notification--' + _color);
+      }
+
+      notification.append(notificationText);
+
+      if (angular.isDefined(_action)) {
+        var $compile = $injector.get('$compile');
+        var notificationAction = angular.element('<button/>', {
+          class: 'notification__action btn btn--m btn--flat',
+          html: _action
+        });
+
+        if (angular.isDefined(_color)) {
+          notificationAction.addClass('btn--' + _color);
+        } else {
+          notificationAction.addClass('btn--white');
+        }
+
+        notificationAction.attr('lx-ripple', '');
+        $compile(notificationAction)($rootScope);
+        notificationAction.bind('click', function () {
+          actionClicked = true;
+        });
+        notification.addClass('notification--has-action').append(notificationAction);
+      }
+
+      return notification;
+    }
+
+    function notify(_text, _icon, _sticky, _color, _action, _callback, _delay) {
+      var notification = this.buildNotification(_text, _icon, _color, _action);
+      var notificationTimeout;
+      var notificationDelay = _delay || 6000;
+      LxDepthService.register();
+      notification.css('z-index', LxDepthService.getDepth()).appendTo('body');
+      $timeout(function () {
+        notification.addClass('notification--is-shown');
+      }, 100);
+      var data = {
+        elem: notification,
+        margin: 0
+      };
+      notificationList.push(data);
+      moveNotificationUp();
+      notification.bind('click', function () {
+        actionClicked = true;
+        deleteNotification(data, _callback);
+
+        if (angular.isDefined(notificationTimeout)) {
+          $timeout.cancel(notificationTimeout);
+        }
+      });
+
+      if (angular.isUndefined(_sticky) || !_sticky) {
+        notificationTimeout = $timeout(function () {
+          deleteNotification(data, _callback);
+        }, notificationDelay);
+      }
+    }
+
+    function notifyError(_text, _sticky) {
+      service.notify(_text, 'alert-circle', _sticky, 'red');
+    }
+
+    function notifyInfo(_text, _sticky) {
+      service.notify(_text, 'information-outline', _sticky, 'blue');
+    }
+
+    function notifySuccess(_text, _sticky) {
+      service.notify(_text, 'check', _sticky, 'green');
+    }
+
+    function notifyWarning(_text, _sticky) {
+      service.notify(_text, 'alert', _sticky, 'orange');
+    }
+
+    function buildDialogActions(_buttons, _callback, _unbind) {
+      var $compile = $injector.get('$compile');
+      var dialogActions = angular.element('<div/>', {
+        class: 'dialog__footer'
+      });
+      var dialogLastBtn = angular.element('<button/>', {
+        class: 'btn btn--m btn--blue btn--flat',
+        text: _buttons.ok
+      });
+
+      if (angular.isDefined(_buttons.cancel)) {
+        var dialogFirstBtn = angular.element('<button/>', {
+          class: 'btn btn--m btn--red btn--flat',
+          text: _buttons.cancel
+        });
+        dialogFirstBtn.attr('lx-ripple', '');
+        $compile(dialogFirstBtn)($rootScope);
+        dialogActions.append(dialogFirstBtn);
+        dialogFirstBtn.bind('click', function () {
+          _callback(false);
+
+          closeDialog();
+        });
+      }
+
+      dialogLastBtn.attr('lx-ripple', '');
+      $compile(dialogLastBtn)($rootScope);
+      dialogActions.append(dialogLastBtn);
+      dialogLastBtn.bind('click', function () {
+        _callback(true);
+
+        closeDialog();
+      });
+
+      if (!_unbind) {
+        idEventScheduler = LxEventSchedulerService.register('keyup', function (event) {
+          if (event.keyCode == 13) {
+            _callback(true);
+
+            closeDialog();
+          } else if (event.keyCode == 27) {
+            _callback(angular.isUndefined(_buttons.cancel));
+
+            closeDialog();
+          }
+
+          event.stopPropagation();
+        });
+      }
+
+      return dialogActions;
+    }
+
+    function buildDialogContent(_text) {
+      var dialogContent = angular.element('<div/>', {
+        class: 'dialog__content p++ pt0 tc-black-2',
+        text: _text
+      });
+      return dialogContent;
+    }
+
+    function buildDialogHeader(_title) {
+      var dialogHeader = angular.element('<div/>', {
+        class: 'dialog__header p++ fs-title',
+        text: _title
+      });
+      return dialogHeader;
+    }
+
+    function closeDialog() {
+      if (angular.isDefined(idEventScheduler)) {
+        $timeout(function () {
+          LxEventSchedulerService.unregister(idEventScheduler);
+          idEventScheduler = undefined;
+        }, 1);
+      }
+
+      dialogFilter.removeClass('dialog-filter--is-shown');
+      dialog.removeClass('dialog--is-shown');
+      $timeout(function () {
+        dialogFilter.remove();
+        dialog.remove();
+      }, 600);
+    }
+
+    function showAlertDialog(_title, _text, _button, _callback, _unbind) {
+      LxDepthService.register();
+      dialogFilter = angular.element('<div/>', {
+        class: 'dialog-filter'
+      });
+      dialog = angular.element('<div/>', {
+        class: 'dialog dialog--alert'
+      });
+      var dialogHeader = buildDialogHeader(_title);
+      var dialogContent = buildDialogContent(_text);
+      var dialogActions = buildDialogActions({
+        ok: _button
+      }, _callback, _unbind);
+      dialogFilter.css('z-index', LxDepthService.getDepth()).appendTo('body');
+      dialog.append(dialogHeader).append(dialogContent).append(dialogActions).css('z-index', LxDepthService.getDepth() + 1).appendTo('body').show().focus();
+      $timeout(function () {
+        angular.element(document.activeElement).blur();
+        dialogFilter.addClass('dialog-filter--is-shown');
+        dialog.addClass('dialog--is-shown');
+      }, 100);
+    }
+
+    function showConfirmDialog(_title, _text, _buttons, _callback, _unbind) {
+      LxDepthService.register();
+      dialogFilter = angular.element('<div/>', {
+        class: 'dialog-filter'
+      });
+      dialog = angular.element('<div/>', {
+        class: 'dialog dialog--alert'
+      });
+      var dialogHeader = buildDialogHeader(_title);
+      var dialogContent = buildDialogContent(_text);
+      var dialogActions = buildDialogActions(_buttons, _callback, _unbind);
+      dialogFilter.css('z-index', LxDepthService.getDepth()).appendTo('body');
+      dialog.append(dialogHeader).append(dialogContent).append(dialogActions).css('z-index', LxDepthService.getDepth() + 1).appendTo('body').show().focus();
+      $timeout(function () {
+        angular.element(document.activeElement).blur();
+        dialogFilter.addClass('dialog-filter--is-shown');
+        dialog.addClass('dialog--is-shown');
+      }, 100);
+    }
+
+    function getNotificationList() {
+      return notificationList.slice();
+    }
+  }
+})();
+
+/***/ }),
+/* 138 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var $ = __webpack_require__(3);
+var parseFloatImplementation = __webpack_require__(139);
+
+// `parseFloat` method
+// https://tc39.github.io/ecma262/#sec-parsefloat-string
+$({ global: true, forced: parseFloat != parseFloatImplementation }, {
+  parseFloat: parseFloatImplementation
+});
+
+
+/***/ }),
+/* 139 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var global = __webpack_require__(1);
+var trim = __webpack_require__(52).trim;
+var whitespaces = __webpack_require__(30);
+
+var nativeParseFloat = global.parseFloat;
+var FORCED = 1 / nativeParseFloat(whitespaces + '-0') !== -Infinity;
+
+// `parseFloat` method
+// https://tc39.github.io/ecma262/#sec-parsefloat-string
+module.exports = FORCED ? function parseFloat(string) {
+  var trimmedString = trim(String(string));
+  var result = nativeParseFloat(trimmedString);
+  return result === 0 && trimmedString.charAt(0) == '-' ? -0 : result;
+} : nativeParseFloat;
+
+
+/***/ }),
+/* 140 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var core_js_modules_es_parse_int__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(24);
+/* harmony import */ var core_js_modules_es_parse_int__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_parse_int__WEBPACK_IMPORTED_MODULE_0__);
+
+
+(function () {
+  'use strict';
+
+  angular.module('lumx.progress').directive('lxProgress', lxProgress);
+
+  function lxProgress() {
+    return {
+      restrict: 'E',
+      templateUrl: 'progress.html',
+      scope: {
+        lxColor: '@?',
+        lxDiameter: '@?',
+        lxType: '@',
+        lxValue: '@'
+      },
+      controller: LxProgressController,
+      controllerAs: 'lxProgress',
+      bindToController: true,
+      replace: true
+    };
+  }
+
+  function LxProgressController() {
+    var lxProgress = this;
+    lxProgress.getCircularProgressValue = getCircularProgressValue;
+    lxProgress.getLinearProgressValue = getLinearProgressValue;
+    lxProgress.getProgressDiameter = getProgressDiameter;
+
+    function getCircularProgressValue() {
+      if (angular.isDefined(lxProgress.lxValue)) {
+        return {
+          'stroke-dasharray': lxProgress.lxValue * 1.26 + ',200'
+        };
+      }
+    }
+
+    function getLinearProgressValue() {
+      if (angular.isDefined(lxProgress.lxValue)) {
+        return {
+          'transform': 'scale(' + lxProgress.lxValue / 100 + ', 1)'
+        };
+      }
+    }
+
+    function getProgressDiameter() {
+      if (lxProgress.lxType === 'circular') {
+        return {
+          'transform': 'scale(' + parseInt(lxProgress.lxDiameter) / 100 + ')'
+        };
+      }
+
+      return;
+    }
+
+    function init() {
+      lxProgress.lxDiameter = angular.isDefined(lxProgress.lxDiameter) ? lxProgress.lxDiameter : 100;
+      lxProgress.lxColor = angular.isDefined(lxProgress.lxColor) ? lxProgress.lxColor : 'primary';
+      lxProgress.lxClass = angular.isDefined(lxProgress.lxValue) ? 'progress-container--determinate' : 'progress-container--indeterminate';
+    }
+
+    this.$onInit = init;
+  }
+})();
+
+/***/ }),
+/* 141 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var global = __webpack_require__(1);
+var trim = __webpack_require__(52).trim;
+var whitespaces = __webpack_require__(30);
+
+var nativeParseInt = global.parseInt;
+var hex = /^[+-]?0[Xx]/;
+var FORCED = nativeParseInt(whitespaces + '08') !== 8 || nativeParseInt(whitespaces + '0x16') !== 22;
+
+// `parseInt` method
+// https://tc39.github.io/ecma262/#sec-parseint-string-radix
+module.exports = FORCED ? function parseInt(string, radix) {
+  var S = trim(String(string));
+  return nativeParseInt(S, (radix >>> 0) || (hex.test(S) ? 16 : 10));
+} : nativeParseInt;
+
+
+/***/ }),
+/* 142 */
+/***/ (function(module, exports) {
+
+(function () {
+  'use strict';
+
+  angular.module('lumx.radio-button').directive('lxRadioGroup', lxRadioGroup).directive('lxRadioButton', lxRadioButton).directive('lxRadioButtonLabel', lxRadioButtonLabel).directive('lxRadioButtonHelp', lxRadioButtonHelp);
+
+  function lxRadioGroup() {
+    return {
+      restrict: 'E',
+      templateUrl: 'radio-group.html',
+      transclude: true,
+      replace: true
+    };
+  }
+
+  function lxRadioButton() {
+    return {
+      restrict: 'E',
+      templateUrl: 'radio-button.html',
+      scope: {
+        lxColor: '@?',
+        name: '@',
+        ngChange: '&?',
+        ngDisabled: '=?',
+        ngModel: '=',
+        ngValue: '=?',
+        value: '@?',
+        lxTheme: '@?'
+      },
+      controller: LxRadioButtonController,
+      controllerAs: 'lxRadioButton',
+      bindToController: true,
+      transclude: true,
+      link: function link(scope, el, attrs, ctrl) {
+        ctrl.init();
+      },
+      replace: true
+    };
+  }
+
+  LxRadioButtonController.$inject = ['$scope', '$timeout', 'LxUtilsService'];
+
+  function LxRadioButtonController($scope, $timeout, LxUtilsService) {
+    var lxRadioButton = this;
+    var radioButtonId;
+    var radioButtonHasChildren;
+    var timer;
+    lxRadioButton.getRadioButtonId = getRadioButtonId;
+    lxRadioButton.getRadioButtonHasChildren = getRadioButtonHasChildren;
+    lxRadioButton.setRadioButtonId = setRadioButtonId;
+    lxRadioButton.setRadioButtonHasChildren = setRadioButtonHasChildren;
+    lxRadioButton.triggerNgChange = triggerNgChange;
+    lxRadioButton.init = init;
+    $scope.$on('$destroy', function () {
+      $timeout.cancel(timer);
+    });
+
+    function getRadioButtonId() {
+      return radioButtonId;
+    }
+
+    function getRadioButtonHasChildren() {
+      return radioButtonHasChildren;
+    }
+
+    function init() {
+      setRadioButtonId(LxUtilsService.generateUUID());
+      setRadioButtonHasChildren(false);
+
+      if (angular.isDefined(lxRadioButton.value) && angular.isUndefined(lxRadioButton.ngValue)) {
+        lxRadioButton.ngValue = lxRadioButton.value;
+      }
+
+      lxRadioButton.lxColor = angular.isUndefined(lxRadioButton.lxColor) ? 'accent' : lxRadioButton.lxColor;
+    }
+
+    function setRadioButtonId(_radioButtonId) {
+      radioButtonId = _radioButtonId;
+    }
+
+    function setRadioButtonHasChildren(_radioButtonHasChildren) {
+      radioButtonHasChildren = _radioButtonHasChildren;
+    }
+
+    function triggerNgChange() {
+      timer = $timeout(lxRadioButton.ngChange);
+    }
+  }
+
+  function lxRadioButtonLabel() {
+    return {
+      restrict: 'AE',
+      require: ['^lxRadioButton', '^lxRadioButtonLabel'],
+      templateUrl: 'radio-button-label.html',
+      link: link,
+      controller: LxRadioButtonLabelController,
+      controllerAs: 'lxRadioButtonLabel',
+      bindToController: true,
+      transclude: true,
+      replace: true
+    };
+
+    function link(scope, element, attrs, ctrls) {
+      ctrls[0].setRadioButtonHasChildren(true);
+      ctrls[1].setRadioButtonId(ctrls[0].getRadioButtonId());
+    }
+  }
+
+  function LxRadioButtonLabelController() {
+    var lxRadioButtonLabel = this;
+    var radioButtonId;
+    lxRadioButtonLabel.getRadioButtonId = getRadioButtonId;
+    lxRadioButtonLabel.setRadioButtonId = setRadioButtonId;
+
+    function getRadioButtonId() {
+      return radioButtonId;
+    }
+
+    function setRadioButtonId(_radioButtonId) {
+      radioButtonId = _radioButtonId;
+    }
+  }
+
+  function lxRadioButtonHelp() {
+    return {
+      restrict: 'AE',
+      require: '^lxRadioButton',
+      templateUrl: 'radio-button-help.html',
+      transclude: true,
+      replace: true
+    };
+  }
+})();
+
+/***/ }),
+/* 143 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var core_js_modules_es_array_find__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(5);
+/* harmony import */ var core_js_modules_es_array_find__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_find__WEBPACK_IMPORTED_MODULE_0__);
+
+
+(function () {
+  'use strict';
+
+  angular.module('lumx.ripple').directive('lxRipple', lxRipple);
+  lxRipple.$inject = ['$timeout'];
+
+  function lxRipple($timeout) {
+    return {
+      restrict: 'A',
+      link: link
+    };
+
+    function link(scope, element, attrs) {
+      var timer;
+      element.css({
+        position: 'relative',
+        overflow: 'hidden'
+      }).on('mousedown', function (e) {
+        var ripple;
+
+        if (element.find('.ripple').length === 0) {
+          ripple = angular.element('<span/>', {
+            class: 'ripple'
+          });
+
+          if (attrs.lxRipple) {
+            ripple.addClass('bgc-' + attrs.lxRipple);
+          }
+
+          element.prepend(ripple);
+        } else {
+          ripple = element.find('.ripple');
+        }
+
+        ripple.removeClass('ripple--is-animated');
+
+        if (!ripple.height() && !ripple.width()) {
+          var diameter = Math.max(element.outerWidth(), element.outerHeight());
+          ripple.css({
+            height: diameter,
+            width: diameter
+          });
+        }
+
+        var x = e.pageX - element.offset().left - ripple.width() / 2;
+        var y = e.pageY - element.offset().top - ripple.height() / 2;
+        ripple.css({
+          top: y + 'px',
+          left: x + 'px'
+        }).addClass('ripple--is-animated');
+        timer = $timeout(function () {
+          ripple.removeClass('ripple--is-animated');
+        }, 651);
+      });
+      scope.$on('$destroy', function () {
+        $timeout.cancel(timer);
+        element.off();
+      });
+    }
+  }
+})();
+
+/***/ }),
+/* 144 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var core_js_modules_es_array_filter__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(53);
+/* harmony import */ var core_js_modules_es_array_filter__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_filter__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var core_js_modules_es_array_find__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(5);
+/* harmony import */ var core_js_modules_es_array_find__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_find__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var core_js_modules_es_parse_int__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(24);
+/* harmony import */ var core_js_modules_es_parse_int__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_parse_int__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var core_js_modules_es_regexp_constructor__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(145);
+/* harmony import */ var core_js_modules_es_regexp_constructor__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_regexp_constructor__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var core_js_modules_es_regexp_exec__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(15);
+/* harmony import */ var core_js_modules_es_regexp_exec__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_regexp_exec__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var core_js_modules_es_regexp_to_string__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(76);
+/* harmony import */ var core_js_modules_es_regexp_to_string__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_regexp_to_string__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var core_js_modules_es_string_replace__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(29);
+/* harmony import */ var core_js_modules_es_string_replace__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_string_replace__WEBPACK_IMPORTED_MODULE_6__);
+
+
+
+
+
+
+
+
+(function () {
+  'use strict';
+
+  angular.module('lumx.search-filter').filter('lxSearchHighlight', lxSearchHighlight).directive('lxSearchFilter', lxSearchFilter);
+  lxSearchHighlight.$inject = ['$sce'];
+
+  function lxSearchHighlight($sce) {
+    function escapeRegexp(queryToEscape) {
+      return queryToEscape.replace(/([.?*+^$[\]\\(){}|-])/g, '\\$1');
+    }
+
+    return function (matchItem, query, icon) {
+      var string = '';
+
+      if (icon) {
+        string += '<i class="mdi mdi-' + icon + '"></i>';
+      }
+
+      string += query && matchItem ? matchItem.replace(new RegExp(escapeRegexp(query), 'gi'), '<strong>$&</strong>') : matchItem;
+      return $sce.trustAsHtml(string);
+    };
+  }
+
+  function lxSearchFilter() {
+    return {
+      restrict: 'E',
+      templateUrl: 'search-filter.html',
+      scope: {
+        autocomplete: '&?lxAutocomplete',
+        closed: '=?lxClosed',
+        color: '@?lxColor',
+        icon: '@?lxIcon',
+        onInit: '&?lxOnInit',
+        onSelect: '=?lxOnSelect',
+        searchOnFocus: '=?lxSearchOnFocus',
+        theme: '@?lxTheme',
+        width: '@?lxWidth'
+      },
+      link: link,
+      controller: LxSearchFilterController,
+      controllerAs: 'lxSearchFilter',
+      bindToController: true,
+      replace: true,
+      transclude: true
+    };
+
+    function link(scope, element, attrs, ctrl, transclude) {
+      var input;
+      attrs.$observe('lxWidth', function (newWidth) {
+        if (angular.isDefined(scope.lxSearchFilter.closed) && scope.lxSearchFilter.closed) {
+          element.find('.search-filter__container').css('width', newWidth);
+        }
+      });
+      transclude(function () {
+        input = element.find('input');
+        ctrl.setInput(input);
+        ctrl.setModel(input.data('$ngModelController'));
+        input.on('focus', ctrl.focusInput);
+        input.on('blur', ctrl.blurInput);
+        input.on('keydown', ctrl.keyEvent);
+      });
+      scope.$on('$destroy', function () {
+        input.off();
+      });
+
+      if (angular.isDefined(scope.lxSearchFilter.onInit)) {
+        scope.lxSearchFilter.onInit()(scope.lxSearchFilter.dropdownId);
+      }
+    }
+  }
+
+  LxSearchFilterController.$inject = ['$element', '$scope', '$timeout', 'LxDropdownService', 'LxNotificationService', 'LxUtilsService'];
+
+  function LxSearchFilterController($element, $scope, $timeout, LxDropdownService, LxNotificationService, LxUtilsService) {
+    var lxSearchFilter = this;
+    var debouncedAutocomplete;
+    var input;
+    var itemSelected = false;
+    lxSearchFilter.blurInput = blurInput;
+    lxSearchFilter.clearInput = clearInput;
+    lxSearchFilter.focusInput = focusInput;
+    lxSearchFilter.getClass = getClass;
+    lxSearchFilter.keyEvent = keyEvent;
+    lxSearchFilter.openInput = openInput;
+    lxSearchFilter.selectItem = selectItem;
+    lxSearchFilter.setInput = setInput;
+    lxSearchFilter.setModel = setModel;
+    lxSearchFilter.activeChoiceIndex = -1;
+    lxSearchFilter.color = angular.isDefined(lxSearchFilter.color) ? lxSearchFilter.color : 'black';
+    lxSearchFilter.dropdownId = LxUtilsService.generateUUID();
+    lxSearchFilter.theme = angular.isDefined(lxSearchFilter.theme) ? lxSearchFilter.theme : 'light';
+
+    function blurInput() {
+      if (angular.isDefined(lxSearchFilter.closed) && lxSearchFilter.closed && !input.val()) {
+        $element.velocity({
+          width: 40
+        }, {
+          duration: 400,
+          easing: 'easeOutQuint',
+          queue: false
+        });
+      }
+
+      if (!input.val()) {
+        $timeout(function () {
+          lxSearchFilter.modelController.$setViewValue(undefined);
+        }, 500);
+      }
+    }
+
+    function clearInput() {
+      lxSearchFilter.modelController.$setViewValue(undefined);
+      lxSearchFilter.modelController.$render();
+      var searchOnFocus = lxSearchFilter.searchOnFocus;
+      lxSearchFilter.searchOnFocus = false;
+      input.focus();
+      lxSearchFilter.searchOnFocus = searchOnFocus;
+    }
+
+    function focusInput() {
+      if (!lxSearchFilter.searchOnFocus) {
+        return;
+      }
+
+      updateAutocomplete(lxSearchFilter.modelController.$viewValue, true);
+    }
+
+    function getClass() {
+      var searchFilterClass = [];
+
+      if (angular.isUndefined(lxSearchFilter.closed) || !lxSearchFilter.closed) {
+        searchFilterClass.push('search-filter--opened-mode');
+      }
+
+      if (angular.isDefined(lxSearchFilter.closed) && lxSearchFilter.closed) {
+        searchFilterClass.push('search-filter--closed-mode');
+      }
+
+      if (input.val()) {
+        searchFilterClass.push('search-filter--has-clear-button');
+      }
+
+      if (angular.isDefined(lxSearchFilter.color)) {
+        searchFilterClass.push('search-filter--' + lxSearchFilter.color);
+      }
+
+      if (angular.isDefined(lxSearchFilter.theme)) {
+        searchFilterClass.push('search-filter--theme-' + lxSearchFilter.theme);
+      }
+
+      if (angular.isFunction(lxSearchFilter.autocomplete)) {
+        searchFilterClass.push('search-filter--autocomplete');
+      }
+
+      if (LxDropdownService.isOpen(lxSearchFilter.dropdownId)) {
+        searchFilterClass.push('search-filter--is-open');
+      }
+
+      return searchFilterClass;
+    }
+
+    function keyEvent(_event) {
+      if (!angular.isFunction(lxSearchFilter.autocomplete)) {
+        return;
+      }
+
+      if (!LxDropdownService.isOpen(lxSearchFilter.dropdownId)) {
+        lxSearchFilter.activeChoiceIndex = -1;
+      }
+
+      switch (_event.keyCode) {
+        case 13:
+          keySelect();
+
+          if (lxSearchFilter.activeChoiceIndex > -1) {
+            _event.preventDefault();
+          }
+
+          break;
+
+        case 38:
+          keyUp();
+
+          _event.preventDefault();
+
+          break;
+
+        case 40:
+          keyDown();
+
+          _event.preventDefault();
+
+          break;
+      }
+
+      $scope.$apply();
+    }
+
+    function keyDown() {
+      if (lxSearchFilter.autocompleteList.length) {
+        lxSearchFilter.activeChoiceIndex += 1;
+
+        if (lxSearchFilter.activeChoiceIndex >= lxSearchFilter.autocompleteList.length) {
+          lxSearchFilter.activeChoiceIndex = 0;
+        }
+      }
+    }
+
+    function keySelect() {
+      if (!lxSearchFilter.autocompleteList || lxSearchFilter.activeChoiceIndex === -1) {
+        return;
+      }
+
+      selectItem(lxSearchFilter.autocompleteList[lxSearchFilter.activeChoiceIndex]);
+    }
+
+    function keyUp() {
+      if (lxSearchFilter.autocompleteList.length) {
+        lxSearchFilter.activeChoiceIndex -= 1;
+
+        if (lxSearchFilter.activeChoiceIndex < 0) {
+          lxSearchFilter.activeChoiceIndex = lxSearchFilter.autocompleteList.length - 1;
+        }
+      }
+    }
+
+    function openDropdown() {
+      LxDropdownService.open(lxSearchFilter.dropdownId, $element);
+    }
+
+    function closeDropdown() {
+      LxDropdownService.close(lxSearchFilter.dropdownId);
+    }
+
+    function onAutocompleteSuccess(autocompleteList) {
+      lxSearchFilter.autocompleteList = autocompleteList;
+      lxSearchFilter.autocompleteList.length ? openDropdown() : closeDropdown();
+      lxSearchFilter.isLoading = false;
+    }
+
+    function onAutocompleteError(error) {
+      LxNotificationService.error(error);
+      lxSearchFilter.isLoading = false;
+    }
+
+    function openInput() {
+      if (angular.isDefined(lxSearchFilter.closed) && lxSearchFilter.closed) {
+        $element.velocity({
+          width: angular.isDefined(lxSearchFilter.width) ? parseInt(lxSearchFilter.width) : 240
+        }, {
+          duration: 400,
+          easing: 'easeOutQuint',
+          queue: false,
+          complete: function complete() {
+            input.focus();
+          }
+        });
+      } else {
+        input.focus();
+      }
+    }
+
+    function selectItem(_item) {
+      itemSelected = true;
+      closeDropdown();
+      lxSearchFilter.modelController.$setViewValue(_item);
+      lxSearchFilter.modelController.$render();
+
+      if (angular.isFunction(lxSearchFilter.onSelect)) {
+        lxSearchFilter.onSelect(_item);
+      }
+    }
+
+    function setInput(_input) {
+      input = _input;
+    }
+
+    function setModel(_modelController) {
+      lxSearchFilter.modelController = _modelController;
+
+      if (angular.isFunction(lxSearchFilter.autocomplete) && angular.isFunction(lxSearchFilter.autocomplete())) {
+        debouncedAutocomplete = LxUtilsService.debounce(function () {
+          lxSearchFilter.isLoading = true;
+          lxSearchFilter.autocomplete().apply(this, arguments);
+        }, 500);
+        lxSearchFilter.modelController.$parsers.push(updateAutocomplete);
+      }
+    }
+
+    function updateAutocomplete(_newValue, _immediate) {
+      if ((_newValue || angular.isUndefined(_newValue) && lxSearchFilter.searchOnFocus) && !itemSelected) {
+        if (_immediate) {
+          lxSearchFilter.isLoading = true;
+          lxSearchFilter.autocomplete()(_newValue, onAutocompleteSuccess, onAutocompleteError);
+        } else {
+          debouncedAutocomplete(_newValue, onAutocompleteSuccess, onAutocompleteError);
+        }
+      } else {
+        debouncedAutocomplete.clear();
+        closeDropdown();
+      }
+
+      itemSelected = false;
+      return _newValue;
+    }
+  }
+})();
+
+/***/ }),
+/* 145 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var DESCRIPTORS = __webpack_require__(10);
+var global = __webpack_require__(1);
+var isForced = __webpack_require__(41);
+var inheritIfRequired = __webpack_require__(146);
+var defineProperty = __webpack_require__(12).f;
+var getOwnPropertyNames = __webpack_require__(69).f;
+var isRegExp = __webpack_require__(149);
+var getFlags = __webpack_require__(48);
+var redefine = __webpack_require__(9);
+var fails = __webpack_require__(4);
+var setSpecies = __webpack_require__(80);
+var wellKnownSymbol = __webpack_require__(2);
+
+var MATCH = wellKnownSymbol('match');
+var NativeRegExp = global.RegExp;
+var RegExpPrototype = NativeRegExp.prototype;
+var re1 = /a/g;
+var re2 = /a/g;
+
+// "new" should create a new object, old webkit bug
+var CORRECT_NEW = new NativeRegExp(re1) !== re1;
+
+var FORCED = DESCRIPTORS && isForced('RegExp', (!CORRECT_NEW || fails(function () {
+  re2[MATCH] = false;
+  // RegExp constructor can alter flags and IsRegExp works correct with @@match
+  return NativeRegExp(re1) != re1 || NativeRegExp(re2) == re2 || NativeRegExp(re1, 'i') != '/a/i';
+})));
+
+// `RegExp` constructor
+// https://tc39.github.io/ecma262/#sec-regexp-constructor
+if (FORCED) {
+  var RegExpWrapper = function RegExp(pattern, flags) {
+    var thisIsRegExp = this instanceof RegExpWrapper;
+    var patternIsRegExp = isRegExp(pattern);
+    var flagsAreUndefined = flags === undefined;
+    return !thisIsRegExp && patternIsRegExp && pattern.constructor === RegExpWrapper && flagsAreUndefined ? pattern
+      : inheritIfRequired(CORRECT_NEW
+        ? new NativeRegExp(patternIsRegExp && !flagsAreUndefined ? pattern.source : pattern, flags)
+        : NativeRegExp((patternIsRegExp = pattern instanceof RegExpWrapper)
+          ? pattern.source
+          : pattern, patternIsRegExp && flagsAreUndefined ? getFlags.call(pattern) : flags)
+      , thisIsRegExp ? this : RegExpPrototype, RegExpWrapper);
+  };
+  var proxy = function (key) {
+    key in RegExpWrapper || defineProperty(RegExpWrapper, key, {
+      configurable: true,
+      get: function () { return NativeRegExp[key]; },
+      set: function (it) { NativeRegExp[key] = it; }
+    });
+  };
+  var keys = getOwnPropertyNames(NativeRegExp);
+  var index = 0;
+  while (keys.length > index) proxy(keys[index++]);
+  RegExpPrototype.constructor = RegExpWrapper;
+  RegExpWrapper.prototype = RegExpPrototype;
+  redefine(global, 'RegExp', RegExpWrapper);
+}
+
+// https://tc39.github.io/ecma262/#sec-get-regexp-@@species
+setSpecies('RegExp');
+
+
+/***/ }),
+/* 146 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var isObject = __webpack_require__(7);
+var setPrototypeOf = __webpack_require__(147);
+
+// makes subclassing work correct for wrapped built-ins
+module.exports = function ($this, dummy, Wrapper) {
+  var NewTarget, NewTargetPrototype;
+  if (
+    // it can work only with native `setPrototypeOf`
+    setPrototypeOf &&
+    // we haven't completely correct pre-ES6 way for getting `new.target`, so use this
+    typeof (NewTarget = dummy.constructor) == 'function' &&
+    NewTarget !== Wrapper &&
+    isObject(NewTargetPrototype = NewTarget.prototype) &&
+    NewTargetPrototype !== Wrapper.prototype
+  ) setPrototypeOf($this, NewTargetPrototype);
+  return $this;
+};
+
+
+/***/ }),
+/* 147 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var anObject = __webpack_require__(6);
+var aPossiblePrototype = __webpack_require__(148);
+
+// `Object.setPrototypeOf` method
+// https://tc39.github.io/ecma262/#sec-object.setprototypeof
+// Works with __proto__ only. Old v8 can't work with null proto objects.
+/* eslint-disable no-proto */
+module.exports = Object.setPrototypeOf || ('__proto__' in {} ? function () {
+  var CORRECT_SETTER = false;
+  var test = {};
+  var setter;
+  try {
+    setter = Object.getOwnPropertyDescriptor(Object.prototype, '__proto__').set;
+    setter.call(test, []);
+    CORRECT_SETTER = test instanceof Array;
+  } catch (error) { /* empty */ }
+  return function setPrototypeOf(O, proto) {
+    anObject(O);
+    aPossiblePrototype(proto);
+    if (CORRECT_SETTER) setter.call(O, proto);
+    else O.__proto__ = proto;
+    return O;
+  };
+}() : undefined);
+
+
+/***/ }),
+/* 148 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var isObject = __webpack_require__(7);
+
+module.exports = function (it) {
+  if (!isObject(it) && it !== null) {
+    throw TypeError("Can't set " + String(it) + ' as a prototype');
+  } return it;
+};
+
+
+/***/ }),
+/* 149 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var isObject = __webpack_require__(7);
+var classof = __webpack_require__(11);
+var wellKnownSymbol = __webpack_require__(2);
+
+var MATCH = wellKnownSymbol('match');
+
+// `IsRegExp` abstract operation
+// https://tc39.github.io/ecma262/#sec-isregexp
+module.exports = function (it) {
+  var isRegExp;
+  return isObject(it) && ((isRegExp = it[MATCH]) !== undefined ? !!isRegExp : classof(it) == 'RegExp');
+};
+
+
+/***/ }),
+/* 150 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SelectDirective", function() { return SelectDirective; });
+/* harmony import */ var core_js_modules_es_array_concat__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(81);
+/* harmony import */ var core_js_modules_es_array_concat__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_concat__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var core_js_modules_es_array_filter__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(53);
+/* harmony import */ var core_js_modules_es_array_filter__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_filter__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var core_js_modules_es_array_for_each__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(54);
+/* harmony import */ var core_js_modules_es_array_for_each__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_for_each__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var core_js_modules_es_array_splice__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(21);
+/* harmony import */ var core_js_modules_es_array_splice__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_splice__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var core_js_modules_es_parse_int__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(24);
+/* harmony import */ var core_js_modules_es_parse_int__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_parse_int__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(55);
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(0);
+/* harmony import */ var _lumx_icons__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(8);
+/* harmony import */ var _views_select_html__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(62);
+/* harmony import */ var _views_select_html__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(_views_select_html__WEBPACK_IMPORTED_MODULE_8__);
+
+
+
+
+
+
+SelectController.$inject = ["$document", "$interpolate", "$sce", "$scope", "$timeout", "LxDropdownService", "LxUtilsService"];
+
+
+
+
+function SelectController($document, $interpolate, $sce, $scope, $timeout, LxDropdownService, LxUtilsService) {
+  'ngInject';
+
+  var lx = this;
+
+  var _choiceTemplate;
+
+  var _modelController;
+
+  var _selectedTemplate;
+
+  lx.isFocus = false;
+  lx.isOpen = false;
+  lx.dropdownUuid = LxUtilsService.generateUUID();
+  lx.filterModel = undefined;
+  lx.icons = {
+    mdiAlertCircle: _lumx_icons__WEBPACK_IMPORTED_MODULE_7__[/* mdiAlertCircle */ "a"],
+    mdiCheckCircle: _lumx_icons__WEBPACK_IMPORTED_MODULE_7__[/* mdiCheckCircle */ "c"],
+    mdiClose: _lumx_icons__WEBPACK_IMPORTED_MODULE_7__[/* mdiClose */ "d"],
+    mdiCloseCircle: _lumx_icons__WEBPACK_IMPORTED_MODULE_7__[/* mdiCloseCircle */ "e"],
+    mdiMagnify: _lumx_icons__WEBPACK_IMPORTED_MODULE_7__[/* mdiMagnify */ "f"],
+    mdiMenuDown: _lumx_icons__WEBPACK_IMPORTED_MODULE_7__[/* mdiMenuDown */ "g"]
+  };
+  lx.targetUuid = LxUtilsService.generateUUID();
+  lx.viewValue = undefined;
+
+  function _arrayObjectIndexOf(arr, obj) {
+    for (var i = 0, len = arr.length; i < len; i++) {
+      if (angular.equals(obj, arr[i])) {
+        return i;
+      }
+    }
+
+    return -1;
+  }
+
+  function _initViewValue() {
+    if (angular.isDefined(lx.modelToSelection)) {
+      if (lx.multiple) {
+        lx.viewValue = [];
+        angular.forEach(_modelController.$viewValue, function (item) {
+          lx.modelToSelection({
+            callback: function callback(response) {
+              lx.viewValue.push(response);
+            },
+            data: item
+          });
+        });
+      } else {
+        lx.modelToSelection({
+          callback: function callback(response) {
+            lx.viewValue = response;
+          },
+          data: _modelController.$viewValue
+        });
+      }
+    } else {
+      lx.viewValue = _modelController.$viewValue;
+    }
+  }
+
+  function _updateModel(choice) {
+    var updatedModel;
+
+    if (lx.multiple) {
+      updatedModel = angular.copy(_modelController.$viewValue);
+
+      var choiceIndex = _arrayObjectIndexOf(_modelController.$viewValue, choice);
+
+      if (choiceIndex === -1) {
+        updatedModel.push(choice);
+      } else {
+        updatedModel.splice(choiceIndex, 1);
+      }
+    } else {
+      updatedModel = choice;
+    }
+
+    _modelController.$setViewValue(updatedModel);
+  }
+
+  function _updateViewValue(choice) {
+    if (lx.multiple) {
+      var choiceIndex = _arrayObjectIndexOf(lx.viewValue, choice);
+
+      if (choiceIndex === -1) {
+        lx.viewValue.push(choice);
+      } else {
+        lx.viewValue.splice(choiceIndex, 1);
+      }
+    } else {
+      lx.viewValue = choice;
+    }
+  }
+
+  function _onKeyPress(evt) {
+    if ((evt.keyCode === _lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_6__[/* DOWN_KEY_CODE */ "b"] || evt.keyCode === _lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_6__[/* ENTER_KEY_CODE */ "c"]) && !lx.isOpen) {
+      lx.openDropdown();
+      evt.preventDefault();
+      evt.stopPropagation();
+    }
+  }
+
+  function clearModel(evt) {
+    if (angular.isDefined(evt)) {
+      evt.stopPropagation();
+    }
+
+    if (lx.multiple) {
+      _modelController.$setViewValue([]);
+
+      lx.viewValue.length = 0;
+    } else {
+      _modelController.$setViewValue(undefined);
+
+      lx.viewValue = undefined;
+    }
+  }
+
+  function closeDropdown() {
+    LxDropdownService.close(lx.dropdownUuid);
+  }
+
+  function disableKeyEvents() {
+    lx.isFocus = false;
+    $document.off('keydown keypress', _onKeyPress);
+  }
+
+  function displayChoice(choice) {
+    var choiceScope = {
+      $choice: choice
+    };
+    var interpolatedChoice = $interpolate(_choiceTemplate)(choiceScope);
+    return $sce.trustAsHtml(interpolatedChoice);
+  }
+
+  function displaySelected(selected) {
+    var selectedScope = {
+      $selected: angular.isDefined(selected) ? selected : lx.viewValue
+    };
+    var interpolatedSelected = $interpolate(_selectedTemplate)(selectedScope);
+    return $sce.trustAsHtml(interpolatedSelected);
+  }
+
+  function displaySubheader(subheader) {
+    return $sce.trustAsHtml(subheader);
+  }
+
+  function enableKeyEvents() {
+    lx.isFocus = true;
+    $document.on('keydown keypress', _onKeyPress);
+  }
+
+  function isChoicesArray() {
+    return angular.isArray(lx.choices);
+  }
+
+  function isModelEmpty() {
+    if (lx.multiple) {
+      return _modelController.$viewValue.length === 0;
+    }
+
+    return angular.isUndefined(_modelController.$viewValue);
+  }
+
+  function isSelected(choice) {
+    if (lx.multiple) {
+      return _arrayObjectIndexOf(lx.viewValue, choice) !== -1;
+    }
+
+    return angular.equals(choice, lx.viewValue);
+  }
+
+  function openDropdown() {
+    LxDropdownService.open(lx.dropdownUuid, {
+      target: "#" + lx.targetUuid
+    });
+  }
+
+  function registerChoiceTemplate(choiceTemplate) {
+    _choiceTemplate = choiceTemplate;
+  }
+
+  function registerSelectedTemplate(selectedTemplate) {
+    _selectedTemplate = selectedTemplate;
+  }
+
+  function select(choice, evt) {
+    if (angular.isDefined(evt) && lx.multiple) {
+      evt.stopPropagation();
+    }
+
+    if (lx.multiple && !lx.isSelected(choice) && angular.isDefined(lx.max) && _modelController.$viewValue.length >= parseInt(lx.max, 10)) {
+      return;
+    }
+
+    if (angular.isDefined(lx.selectionToModel)) {
+      lx.selectionToModel({
+        callback: function callback(response) {
+          _updateModel(response);
+
+          _updateViewValue(choice);
+        },
+        data: choice
+      });
+    } else {
+      _updateModel(choice);
+
+      _updateViewValue(choice);
+    }
+
+    if (lx.multiple) {
+      $timeout(function () {
+        LxDropdownService.updateActiveDropdownPosition();
+      });
+    }
+  }
+
+  function setModelController(modelController) {
+    _modelController = modelController;
+    _modelController.$render = _initViewValue;
+  }
+
+  function updateFilter() {
+    if (angular.isDefined(lx.filter)) {
+      lx.filter({
+        newValue: lx.filterModel
+      });
+    }
+  }
+
+  lx.clearModel = clearModel;
+  lx.closeDropdown = closeDropdown;
+  lx.disableKeyEvents = disableKeyEvents;
+  lx.displayChoice = displayChoice;
+  lx.displaySelected = displaySelected;
+  lx.displaySubheader = displaySubheader;
+  lx.enableKeyEvents = enableKeyEvents;
+  lx.isChoicesArray = isChoicesArray;
+  lx.isModelEmpty = isModelEmpty;
+  lx.isSelected = isSelected;
+  lx.openDropdown = openDropdown;
+  lx.registerChoiceTemplate = registerChoiceTemplate;
+  lx.registerSelectedTemplate = registerSelectedTemplate;
+  lx.select = select;
+  lx.setModelController = setModelController;
+  lx.updateFilter = updateFilter;
+  $scope.$on('lx-dropdown__open', function (evt, dropdownId) {
+    if (dropdownId === lx.dropdownUuid) {
+      lx.isOpen = true;
+    }
+  });
+  $scope.$on('lx-dropdown__close', function (evt, dropdownId) {
+    if (dropdownId === lx.dropdownUuid) {
+      lx.isOpen = false;
+    }
+  });
+  $scope.$on('lx-dropdown__scroll-end', function (evt, dropdownId) {
+    if (dropdownId !== lx.dropdownUuid || !angular.isFunction(lx.infiniteScroll) || lx.isLoading || lx.isInfiniteScrollLoading) {
+      return;
+    }
+
+    lx.infiniteScroll()().then(function (newData) {
+      if (newData && newData.length > 0) {
+        lx.choices = lx.choices.concat(newData);
+      }
+    });
+  });
+}
+
+function SelectDirective() {
+  'ngInject';
+
+  function link(scope, el, attrs, ctrls, transclude) {
+    ctrls[0].setModelController(ctrls[1]);
+    transclude(scope, function (clone) {
+      var choiceTemplate = '';
+
+      for (var i = 0; i < clone.length; i++) {
+        choiceTemplate += clone[i].data || clone[i].outerHTML || '';
+      }
+
+      ctrls[0].registerChoiceTemplate(choiceTemplate);
+    }, null, 'choices');
+    transclude(scope, function (clone) {
+      var selectedTemplate = '';
+
+      for (var i = 0; i < clone.length; i++) {
+        selectedTemplate += clone[i].data || clone[i].outerHTML || '';
+      }
+
+      ctrls[0].registerSelectedTemplate(selectedTemplate);
+    }, null, 'selected');
+  }
+
+  return {
+    bindToController: true,
+    controller: SelectController,
+    controllerAs: 'lx',
+    link: link,
+    replace: true,
+    require: ['lxSelect', 'ngModel'],
+    restrict: 'E',
+    scope: {
+      choices: '=lxChoices',
+      filter: '&?lxFilter',
+      hasError: '=?lxError',
+      hasFilter: '=?lxDisplayFilter',
+      hasHelper: '=?lxHelper',
+      helper: '@?lxHelperMessage',
+      infiniteScroll: '&?lxInfiniteScroll',
+      isClearable: '=?lxAllowClear',
+      isDisabled: '=?ngDisabled',
+      isInfiniteScrollLoading: '=?lxInfiniteScrollLoading',
+      isLoading: '=?lxLoading',
+      isValid: '=?lxValid',
+      label: '@?lxLabel',
+      max: '=?lxMax',
+      modelToSelection: '&?lxModelToSelection',
+      multiple: '=?lxMultiple',
+      placeholder: '@?lxPlaceholder',
+      selectionToModel: '&?lxSelectionToModel',
+      theme: '@?lxTheme',
+      variant: '@?lxVariant'
+    },
+    template: _views_select_html__WEBPACK_IMPORTED_MODULE_8___default.a,
+    transclude: {
+      choices: 'lxSelectChoices',
+      selected: 'lxSelectSelected'
+    }
+  };
+}
+
+angular.module('lumx.select').directive('lxSelect', SelectDirective);
+
+
+/***/ }),
+/* 151 */
+/***/ (function(module, exports) {
+
+// iterable DOM collections
+// flag - `iterable` interface - 'entries', 'keys', 'values', 'forEach' methods
+module.exports = {
+  CSSRuleList: 0,
+  CSSStyleDeclaration: 0,
+  CSSValueList: 0,
+  ClientRectList: 0,
+  DOMRectList: 0,
+  DOMStringList: 0,
+  DOMTokenList: 1,
+  DataTransferItemList: 0,
+  FileList: 0,
+  HTMLAllCollection: 0,
+  HTMLCollection: 0,
+  HTMLFormElement: 0,
+  HTMLSelectElement: 0,
+  MediaList: 0,
+  MimeTypeArray: 0,
+  NamedNodeMap: 0,
+  NodeList: 1,
+  PaintRequestList: 0,
+  Plugin: 0,
+  PluginArray: 0,
+  SVGLengthList: 0,
+  SVGNumberList: 0,
+  SVGPathSegList: 0,
+  SVGPointList: 0,
+  SVGStringList: 0,
+  SVGTransformList: 0,
+  SourceBufferList: 0,
+  StyleSheetList: 0,
+  TextTrackCueList: 0,
+  TextTrackList: 0,
+  TouchList: 0
+};
+
+
+/***/ }),
+/* 152 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SelectChoicesFilter", function() { return SelectChoicesFilter; });
+/* harmony import */ var core_js_modules_es_array_concat__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(81);
+/* harmony import */ var core_js_modules_es_array_concat__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_concat__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var core_js_modules_es_array_filter__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(53);
+/* harmony import */ var core_js_modules_es_array_filter__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_filter__WEBPACK_IMPORTED_MODULE_1__);
+
+
+SelectChoicesFilter.$inject = ["$filter"];
+
+function SelectChoicesFilter($filter) {
+  'ngInject';
+
+  return function filteredChoices(choices, externalFilter, textFilter) {
+    if (externalFilter) {
+      return choices;
+    }
+
+    var toFilter = [];
+
+    if (angular.isArray(choices)) {
+      toFilter = choices;
+    } else if (angular.isObject(choices)) {
+      for (var idx in choices) {
+        if (angular.isArray(choices[idx])) {
+          toFilter = toFilter.concat(choices[idx]);
+        }
+      }
+    }
+
+    return $filter('filter')(toFilter, textFilter);
+  };
+}
+
+angular.module('lumx.select').filter('lxSelectChoicesFilter', SelectChoicesFilter);
+
+
+/***/ }),
+/* 153 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SelectFilterDirective", function() { return SelectFilterDirective; });
+/* harmony import */ var core_js_modules_es_array_find__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(5);
+/* harmony import */ var core_js_modules_es_array_find__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_find__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(0);
+
+
+
+function SelectFilterDirective() {
+  'ngInject';
+
+  function link(scope, el) {
+    el.focus().on('click keydown keypress', function (evt) {
+      evt.stopPropagation();
+
+      if (evt.keyCode === _lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_1__[/* DOWN_KEY_CODE */ "b"]) {
+        el.parent().next().find("." + _lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_1__[/* CSS_PREFIX */ "a"] + "-list-item:first-child").focus();
+      }
+    });
+    scope.$on('$destroy', function () {
+      el.off();
+    });
+  }
+
+  return {
+    link: link,
+    restrict: 'A'
+  };
+}
+
+angular.module('lumx.select').directive('lxSelectFilter', SelectFilterDirective);
+
+
+/***/ }),
+/* 154 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var core_js_modules_es_object_to_string__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(74);
+/* harmony import */ var core_js_modules_es_object_to_string__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_object_to_string__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var core_js_modules_es_parse_int__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(24);
+/* harmony import */ var core_js_modules_es_parse_int__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_parse_int__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var core_js_modules_es_promise__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(155);
+/* harmony import */ var core_js_modules_es_promise__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_promise__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var core_js_modules_es_promise_finally__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(167);
+/* harmony import */ var core_js_modules_es_promise_finally__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_promise_finally__WEBPACK_IMPORTED_MODULE_3__);
+
+
+
+
+
+(function () {
+  'use strict';
+
+  angular.module('lumx.stepper').directive('lxStepper', lxStepper).directive('lxStep', lxStep).directive('lxStepNav', lxStepNav);
+
+  function lxStepper() {
+    return {
+      restrict: 'E',
+      templateUrl: 'stepper.html',
+      scope: {
+        cancel: '&?lxCancel',
+        complete: '&lxComplete',
+        controls: '=?lxShowControls',
+        id: '@?lxId',
+        isLinear: '=?lxIsLinear',
+        labels: '=?lxLabels',
+        layout: '@?lxLayout'
+      },
+      controller: LxStepperController,
+      controllerAs: 'lxStepper',
+      bindToController: true,
+      transclude: true
+    };
+  }
+
+  LxStepperController.$inject = ['$scope'];
+
+  function LxStepperController($scope) {
+    var lxStepper = this;
+    var _classes = [];
+    var _defaultValues = {
+      isLinear: true,
+      labels: {
+        'back': 'Back',
+        'cancel': 'Cancel',
+        'continue': 'Continue',
+        'optional': 'Optional'
+      },
+      layout: 'horizontal'
+    };
+    lxStepper.addStep = addStep;
+    lxStepper.getClasses = getClasses;
+    lxStepper.goToStep = goToStep;
+    lxStepper.isComplete = isComplete;
+    lxStepper.updateStep = updateStep;
+    lxStepper.controls = angular.isDefined(lxStepper.controls) ? lxStepper.controls : true;
+    lxStepper.activeIndex = 0;
+    lxStepper.isLinear = angular.isDefined(lxStepper.isLinear) ? lxStepper.isLinear : _defaultValues.isLinear;
+    lxStepper.labels = angular.isDefined(lxStepper.labels) ? lxStepper.labels : _defaultValues.labels;
+    lxStepper.layout = angular.isDefined(lxStepper.layout) ? lxStepper.layout : _defaultValues.layout;
+    lxStepper.steps = [];
+
+    function addStep(step) {
+      lxStepper.steps.push(step);
+    }
+
+    function getClasses() {
+      _classes.length = 0;
+
+      _classes.push('lx-stepper--layout-' + lxStepper.layout);
+
+      if (lxStepper.isLinear) {
+        _classes.push('lx-stepper--is-linear');
+      }
+
+      var step = lxStepper.steps[lxStepper.activeIndex];
+
+      if (angular.isDefined(step)) {
+        if (step.feedback) {
+          _classes.push('lx-stepper--step-has-feedback');
+        }
+
+        if (step.isLoading) {
+          _classes.push('lx-stepper--step-is-loading');
+        }
+      }
+
+      return _classes;
+    }
+
+    function goToStep(index, bypass) {
+      var stepBeforeLastOptionalStep;
+
+      if (!bypass && lxStepper.isLinear) {
+        for (var i = index - 1; i >= 0; i--) {
+          if (angular.isDefined(lxStepper.steps[i]) && !lxStepper.steps[i].isOptional) {
+            stepBeforeLastOptionalStep = lxStepper.steps[i];
+            break;
+          }
+        }
+
+        if (angular.isDefined(stepBeforeLastOptionalStep)) {
+          if (!stepBeforeLastOptionalStep.pristine && angular.isFunction(stepBeforeLastOptionalStep.validator) && stepBeforeLastOptionalStep.isEditable) {
+            var validity = stepBeforeLastOptionalStep.validator();
+
+            if (validity === true) {
+              stepBeforeLastOptionalStep.isValid = true;
+            } else {
+              stepBeforeLastOptionalStep.isValid = false;
+              stepBeforeLastOptionalStep.errorMessage = validity;
+            }
+          }
+
+          if (stepBeforeLastOptionalStep.isValid === true) {
+            bypass = true;
+          }
+        }
+      }
+
+      if (!bypass && lxStepper.isLinear && angular.isDefined(lxStepper.steps[index - 1]) && (angular.isUndefined(lxStepper.steps[index - 1].isValid) || lxStepper.steps[index - 1].isValid === false)) {
+        return;
+      }
+
+      if (index < lxStepper.steps.length) {
+        lxStepper.activeIndex = parseInt(index);
+        lxStepper.steps[lxStepper.activeIndex].pristine = false;
+        $scope.$emit('lx-stepper__step', lxStepper.id, index, index === 0, index === lxStepper.steps.length - 1);
+      }
+    }
+
+    function isComplete() {
+      var countMandatory = 0;
+      var countValid = 0;
+
+      for (var i = 0, len = lxStepper.steps.length; i < len; i++) {
+        if (!lxStepper.steps[i].isOptional) {
+          countMandatory++;
+
+          if (lxStepper.steps[i].isValid === true) {
+            countValid++;
+          }
+        }
+      }
+
+      if (countValid === countMandatory) {
+        lxStepper.complete();
+        return true;
+      }
+    }
+
+    function updateStep(step) {
+      for (var i = 0, len = lxStepper.steps.length; i < len; i++) {
+        if (lxStepper.steps[i].uuid === step.uuid) {
+          lxStepper.steps[i].index = step.index;
+          lxStepper.steps[i].label = step.label;
+          return;
+        }
+      }
+    }
+
+    $scope.$on('lx-stepper__go-to-step', function (event, id, stepIndex, bypass) {
+      if (angular.isDefined(id) && id !== lxStepper.id) {
+        return;
+      }
+
+      goToStep(stepIndex, bypass);
+    });
+    $scope.$on('lx-stepper__cancel', function (event, id) {
+      if (angular.isDefined(id) && id !== lxStepper.id || !angular.isFunction(lxStepper.cancel)) {
+        return;
+      }
+
+      lxStepper.cancel();
+    });
+  }
+
+  function lxStep() {
+    return {
+      restrict: 'E',
+      require: ['lxStep', '^lxStepper'],
+      templateUrl: 'step.html',
+      scope: {
+        feedback: '@?lxFeedback',
+        isEditable: '=?lxIsEditable',
+        isOptional: '=?lxIsOptional',
+        isValid: '=?lxIsValid',
+        label: '@lxLabel',
+        submit: '&?lxSubmit',
+        validate: '&?lxValidate'
+      },
+      link: link,
+      controller: LxStepController,
+      controllerAs: 'lxStep',
+      bindToController: true,
+      replace: true,
+      transclude: true
+    };
+
+    function link(scope, element, attrs, ctrls) {
+      ctrls[0].init(ctrls[1], element.index());
+      attrs.$observe('lxFeedback', function (feedback) {
+        ctrls[0].setFeedback(feedback);
+      });
+      attrs.$observe('lxLabel', function (label) {
+        ctrls[0].setLabel(label);
+      });
+      attrs.$observe('lxIsEditable', function (isEditable) {
+        ctrls[0].setIsEditable(isEditable);
+      });
+      attrs.$observe('lxIsOptional', function (isOptional) {
+        ctrls[0].setIsOptional(isOptional);
+      });
+    }
+  }
+
+  LxStepController.$inject = ['$q', '$scope', 'LxNotificationService', 'LxUtilsService'];
+
+  function LxStepController($q, $scope, LxNotificationService, LxUtilsService) {
+    var lxStep = this;
+    var _classes = [];
+
+    var _nextStepIndex;
+
+    lxStep.getClasses = getClasses;
+    lxStep.init = init;
+    lxStep.previousStep = previousStep;
+    lxStep.setFeedback = setFeedback;
+    lxStep.setLabel = setLabel;
+    lxStep.setIsEditable = setIsEditable;
+    lxStep.setIsOptional = setIsOptional;
+    lxStep.submitStep = submitStep;
+    lxStep.step = {
+      errorMessage: undefined,
+      feedback: undefined,
+      index: undefined,
+      isEditable: false,
+      isLoading: false,
+      isOptional: false,
+      isValid: lxStep.isValid,
+      label: undefined,
+      pristine: true,
+      uuid: LxUtilsService.generateUUID(),
+      validator: undefined
+    };
+
+    function getClasses() {
+      _classes.length = 0;
+
+      if (lxStep.step.index === lxStep.parent.activeIndex) {
+        _classes.push('lx-step--is-active');
+      }
+
+      return _classes;
+    }
+
+    function init(parent, index) {
+      lxStep.parent = parent;
+      lxStep.step.index = index;
+      lxStep.step.validator = lxStep.validate;
+      lxStep.parent.addStep(lxStep.step);
+    }
+
+    function previousStep() {
+      if (lxStep.step.index > 0) {
+        lxStep.parent.goToStep(lxStep.step.index - 1);
+      }
+    }
+
+    function setFeedback(feedback) {
+      lxStep.step.feedback = feedback;
+      updateParentStep();
+    }
+
+    function setLabel(label) {
+      lxStep.step.label = label;
+      updateParentStep();
+    }
+
+    function setIsEditable(isEditable) {
+      lxStep.step.isEditable = isEditable;
+      updateParentStep();
+    }
+
+    function setIsOptional(isOptional) {
+      lxStep.step.isOptional = isOptional;
+      updateParentStep();
+    }
+
+    function submitStep() {
+      if (lxStep.step.isValid === true && !lxStep.step.isEditable) {
+        lxStep.parent.goToStep(_nextStepIndex, true);
+        return;
+      }
+
+      var validateFunction = lxStep.validate;
+      var validity = true;
+
+      if (angular.isFunction(validateFunction)) {
+        validity = validateFunction();
+      }
+
+      if (validity === true) {
+        $scope.$emit('lx-stepper__step-loading', lxStep.parent.id, lxStep.step.index);
+        lxStep.step.isLoading = true;
+        updateParentStep();
+        var submitFunction = lxStep.submit;
+
+        if (!angular.isFunction(submitFunction)) {
+          submitFunction = function submitFunction() {
+            return $q(function (resolve) {
+              resolve();
+            });
+          };
+        }
+
+        var promise = submitFunction();
+        promise.then(function (nextStepIndex) {
+          lxStep.step.isValid = true;
+          updateParentStep();
+          var isComplete = lxStep.parent.isComplete();
+
+          if (!isComplete) {
+            _nextStepIndex = angular.isDefined(nextStepIndex) && nextStepIndex > lxStep.parent.activeIndex && (!lxStep.parent.isLinear || lxStep.parent.isLinear && lxStep.parent.steps[nextStepIndex - 1].isOptional) ? nextStepIndex : lxStep.step.index + 1;
+            lxStep.parent.goToStep(_nextStepIndex, true);
+          } else {
+            $scope.$emit('lx-stepper__completed', lxStepper.id);
+          }
+        }).catch(function (error) {
+          LxNotificationService.error(error);
+        }).finally(function () {
+          $scope.$emit('lx-stepper__step-loaded', lxStep.parent.id, lxStep.step.index);
+          lxStep.step.isLoading = false;
+          updateParentStep();
+        });
+      } else {
+        lxStep.step.isValid = false;
+        lxStep.step.errorMessage = validity;
+        updateParentStep();
+      }
+    }
+
+    function updateParentStep() {
+      lxStep.parent.updateStep(lxStep.step);
+    }
+
+    $scope.$on('lx-stepper__submit-step', function (event, id, index) {
+      if (angular.isDefined(id) && id !== lxStep.parent.id || index !== lxStep.step.index) {
+        return;
+      }
+
+      submitStep();
+    });
+    $scope.$on('lx-stepper__previous-step', function (event, id, index) {
+      if (angular.isDefined(id) && id !== lxStep.parent.id || index !== lxStep.step.index) {
+        return;
+      }
+
+      previousStep();
+    });
+  }
+
+  function lxStepNav() {
+    return {
+      restrict: 'E',
+      require: ['lxStepNav', '^lxStepper'],
+      templateUrl: 'step-nav.html',
+      scope: {
+        activeIndex: '@lxActiveIndex',
+        step: '=lxStep'
+      },
+      link: link,
+      controller: LxStepNavController,
+      controllerAs: 'lxStepNav',
+      bindToController: true,
+      replace: true,
+      transclude: false
+    };
+
+    function link(scope, element, attrs, ctrls) {
+      ctrls[0].init(ctrls[1]);
+    }
+  }
+
+  function LxStepNavController() {
+    var lxStepNav = this;
+    var _classes = [];
+    lxStepNav.getClasses = getClasses;
+    lxStepNav.init = init;
+
+    function getClasses() {
+      _classes.length = 0;
+
+      if (parseInt(lxStepNav.step.index) === parseInt(lxStepNav.activeIndex)) {
+        _classes.push('lx-step-nav--is-active');
+      }
+
+      if (lxStepNav.step.isValid === true) {
+        _classes.push('lx-step-nav--is-valid');
+      } else if (lxStepNav.step.isValid === false) {
+        _classes.push('lx-step-nav--has-error');
+      }
+
+      if (lxStepNav.step.isEditable) {
+        _classes.push('lx-step-nav--is-editable');
+      }
+
+      if (lxStepNav.step.isOptional) {
+        _classes.push('lx-step-nav--is-optional');
+      }
+
+      return _classes;
+    }
+
+    function init(parent, index) {
+      lxStepNav.parent = parent;
+    }
+  }
+})();
+
+/***/ }),
+/* 155 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var $ = __webpack_require__(3);
+var IS_PURE = __webpack_require__(37);
+var global = __webpack_require__(1);
+var path = __webpack_require__(68);
+var NativePromise = __webpack_require__(83);
+var redefine = __webpack_require__(9);
+var redefineAll = __webpack_require__(156);
+var setToStringTag = __webpack_require__(157);
+var setSpecies = __webpack_require__(80);
+var isObject = __webpack_require__(7);
+var aFunction = __webpack_require__(23);
+var anInstance = __webpack_require__(158);
+var classof = __webpack_require__(11);
+var iterate = __webpack_require__(159);
+var checkCorrectnessOfIteration = __webpack_require__(163);
+var speciesConstructor = __webpack_require__(85);
+var task = __webpack_require__(86).set;
+var microtask = __webpack_require__(164);
+var promiseResolve = __webpack_require__(88);
+var hostReportErrors = __webpack_require__(165);
+var newPromiseCapabilityModule = __webpack_require__(89);
+var perform = __webpack_require__(166);
+var userAgent = __webpack_require__(87);
+var InternalStateModule = __webpack_require__(65);
+var isForced = __webpack_require__(41);
+var wellKnownSymbol = __webpack_require__(2);
+
+var SPECIES = wellKnownSymbol('species');
+var PROMISE = 'Promise';
+var getInternalState = InternalStateModule.get;
+var setInternalState = InternalStateModule.set;
+var getInternalPromiseState = InternalStateModule.getterFor(PROMISE);
+var PromiseConstructor = NativePromise;
+var TypeError = global.TypeError;
+var document = global.document;
+var process = global.process;
+var $fetch = global.fetch;
+var versions = process && process.versions;
+var v8 = versions && versions.v8 || '';
+var newPromiseCapability = newPromiseCapabilityModule.f;
+var newGenericPromiseCapability = newPromiseCapability;
+var IS_NODE = classof(process) == 'process';
+var DISPATCH_EVENT = !!(document && document.createEvent && global.dispatchEvent);
+var UNHANDLED_REJECTION = 'unhandledrejection';
+var REJECTION_HANDLED = 'rejectionhandled';
+var PENDING = 0;
+var FULFILLED = 1;
+var REJECTED = 2;
+var HANDLED = 1;
+var UNHANDLED = 2;
+var Internal, OwnPromiseCapability, PromiseWrapper, nativeThen;
+
+var FORCED = isForced(PROMISE, function () {
+  // correct subclassing with @@species support
+  var promise = PromiseConstructor.resolve(1);
+  var empty = function () { /* empty */ };
+  var FakePromise = (promise.constructor = {})[SPECIES] = function (exec) {
+    exec(empty, empty);
+  };
+  // unhandled rejections tracking support, NodeJS Promise without it fails @@species test
+  return !((IS_NODE || typeof PromiseRejectionEvent == 'function')
+    && (!IS_PURE || promise['finally'])
+    && promise.then(empty) instanceof FakePromise
+    // v8 6.6 (Node 10 and Chrome 66) have a bug with resolving custom thenables
+    // https://bugs.chromium.org/p/chromium/issues/detail?id=830565
+    // we can't detect it synchronously, so just check versions
+    && v8.indexOf('6.6') !== 0
+    && userAgent.indexOf('Chrome/66') === -1);
+});
+
+var INCORRECT_ITERATION = FORCED || !checkCorrectnessOfIteration(function (iterable) {
+  PromiseConstructor.all(iterable)['catch'](function () { /* empty */ });
+});
+
+// helpers
+var isThenable = function (it) {
+  var then;
+  return isObject(it) && typeof (then = it.then) == 'function' ? then : false;
+};
+
+var notify = function (promise, state, isReject) {
+  if (state.notified) return;
+  state.notified = true;
+  var chain = state.reactions;
+  microtask(function () {
+    var value = state.value;
+    var ok = state.state == FULFILLED;
+    var index = 0;
+    // variable length - can't use forEach
+    while (chain.length > index) {
+      var reaction = chain[index++];
+      var handler = ok ? reaction.ok : reaction.fail;
+      var resolve = reaction.resolve;
+      var reject = reaction.reject;
+      var domain = reaction.domain;
+      var result, then, exited;
+      try {
+        if (handler) {
+          if (!ok) {
+            if (state.rejection === UNHANDLED) onHandleUnhandled(promise, state);
+            state.rejection = HANDLED;
+          }
+          if (handler === true) result = value;
+          else {
+            if (domain) domain.enter();
+            result = handler(value); // can throw
+            if (domain) {
+              domain.exit();
+              exited = true;
+            }
+          }
+          if (result === reaction.promise) {
+            reject(TypeError('Promise-chain cycle'));
+          } else if (then = isThenable(result)) {
+            then.call(result, resolve, reject);
+          } else resolve(result);
+        } else reject(value);
+      } catch (error) {
+        if (domain && !exited) domain.exit();
+        reject(error);
+      }
+    }
+    state.reactions = [];
+    state.notified = false;
+    if (isReject && !state.rejection) onUnhandled(promise, state);
+  });
+};
+
+var dispatchEvent = function (name, promise, reason) {
+  var event, handler;
+  if (DISPATCH_EVENT) {
+    event = document.createEvent('Event');
+    event.promise = promise;
+    event.reason = reason;
+    event.initEvent(name, false, true);
+    global.dispatchEvent(event);
+  } else event = { promise: promise, reason: reason };
+  if (handler = global['on' + name]) handler(event);
+  else if (name === UNHANDLED_REJECTION) hostReportErrors('Unhandled promise rejection', reason);
+};
+
+var onUnhandled = function (promise, state) {
+  task.call(global, function () {
+    var value = state.value;
+    var IS_UNHANDLED = isUnhandled(state);
+    var result;
+    if (IS_UNHANDLED) {
+      result = perform(function () {
+        if (IS_NODE) {
+          process.emit('unhandledRejection', value, promise);
+        } else dispatchEvent(UNHANDLED_REJECTION, promise, value);
+      });
+      // Browsers should not trigger `rejectionHandled` event if it was handled here, NodeJS - should
+      state.rejection = IS_NODE || isUnhandled(state) ? UNHANDLED : HANDLED;
+      if (result.error) throw result.value;
+    }
+  });
+};
+
+var isUnhandled = function (state) {
+  return state.rejection !== HANDLED && !state.parent;
+};
+
+var onHandleUnhandled = function (promise, state) {
+  task.call(global, function () {
+    if (IS_NODE) {
+      process.emit('rejectionHandled', promise);
+    } else dispatchEvent(REJECTION_HANDLED, promise, state.value);
+  });
+};
+
+var bind = function (fn, promise, state, unwrap) {
+  return function (value) {
+    fn(promise, state, value, unwrap);
+  };
+};
+
+var internalReject = function (promise, state, value, unwrap) {
+  if (state.done) return;
+  state.done = true;
+  if (unwrap) state = unwrap;
+  state.value = value;
+  state.state = REJECTED;
+  notify(promise, state, true);
+};
+
+var internalResolve = function (promise, state, value, unwrap) {
+  if (state.done) return;
+  state.done = true;
+  if (unwrap) state = unwrap;
+  try {
+    if (promise === value) throw TypeError("Promise can't be resolved itself");
+    var then = isThenable(value);
+    if (then) {
+      microtask(function () {
+        var wrapper = { done: false };
+        try {
+          then.call(value,
+            bind(internalResolve, promise, wrapper, state),
+            bind(internalReject, promise, wrapper, state)
+          );
+        } catch (error) {
+          internalReject(promise, wrapper, error, state);
+        }
+      });
+    } else {
+      state.value = value;
+      state.state = FULFILLED;
+      notify(promise, state, false);
+    }
+  } catch (error) {
+    internalReject(promise, { done: false }, error, state);
+  }
+};
+
+// constructor polyfill
+if (FORCED) {
+  // 25.4.3.1 Promise(executor)
+  PromiseConstructor = function Promise(executor) {
+    anInstance(this, PromiseConstructor, PROMISE);
+    aFunction(executor);
+    Internal.call(this);
+    var state = getInternalState(this);
+    try {
+      executor(bind(internalResolve, this, state), bind(internalReject, this, state));
+    } catch (error) {
+      internalReject(this, state, error);
+    }
+  };
+  // eslint-disable-next-line no-unused-vars
+  Internal = function Promise(executor) {
+    setInternalState(this, {
+      type: PROMISE,
+      done: false,
+      notified: false,
+      parent: false,
+      reactions: [],
+      rejection: false,
+      state: PENDING,
+      value: undefined
+    });
+  };
+  Internal.prototype = redefineAll(PromiseConstructor.prototype, {
+    // `Promise.prototype.then` method
+    // https://tc39.github.io/ecma262/#sec-promise.prototype.then
+    then: function then(onFulfilled, onRejected) {
+      var state = getInternalPromiseState(this);
+      var reaction = newPromiseCapability(speciesConstructor(this, PromiseConstructor));
+      reaction.ok = typeof onFulfilled == 'function' ? onFulfilled : true;
+      reaction.fail = typeof onRejected == 'function' && onRejected;
+      reaction.domain = IS_NODE ? process.domain : undefined;
+      state.parent = true;
+      state.reactions.push(reaction);
+      if (state.state != PENDING) notify(this, state, false);
+      return reaction.promise;
+    },
+    // `Promise.prototype.catch` method
+    // https://tc39.github.io/ecma262/#sec-promise.prototype.catch
+    'catch': function (onRejected) {
+      return this.then(undefined, onRejected);
+    }
+  });
+  OwnPromiseCapability = function () {
+    var promise = new Internal();
+    var state = getInternalState(promise);
+    this.promise = promise;
+    this.resolve = bind(internalResolve, promise, state);
+    this.reject = bind(internalReject, promise, state);
+  };
+  newPromiseCapabilityModule.f = newPromiseCapability = function (C) {
+    return C === PromiseConstructor || C === PromiseWrapper
+      ? new OwnPromiseCapability(C)
+      : newGenericPromiseCapability(C);
+  };
+
+  if (!IS_PURE && typeof NativePromise == 'function') {
+    nativeThen = NativePromise.prototype.then;
+
+    // wrap native Promise#then for native async functions
+    redefine(NativePromise.prototype, 'then', function then(onFulfilled, onRejected) {
+      var that = this;
+      return new PromiseConstructor(function (resolve, reject) {
+        nativeThen.call(that, resolve, reject);
+      }).then(onFulfilled, onRejected);
+    });
+
+    // wrap fetch result
+    if (typeof $fetch == 'function') $({ global: true, enumerable: true, forced: true }, {
+      // eslint-disable-next-line no-unused-vars
+      fetch: function fetch(input) {
+        return promiseResolve(PromiseConstructor, $fetch.apply(global, arguments));
+      }
+    });
+  }
+}
+
+$({ global: true, wrap: true, forced: FORCED }, {
+  Promise: PromiseConstructor
+});
+
+setToStringTag(PromiseConstructor, PROMISE, false, true);
+setSpecies(PROMISE);
+
+PromiseWrapper = path[PROMISE];
+
+// statics
+$({ target: PROMISE, stat: true, forced: FORCED }, {
+  // `Promise.reject` method
+  // https://tc39.github.io/ecma262/#sec-promise.reject
+  reject: function reject(r) {
+    var capability = newPromiseCapability(this);
+    capability.reject.call(undefined, r);
+    return capability.promise;
+  }
+});
+
+$({ target: PROMISE, stat: true, forced: IS_PURE || FORCED }, {
+  // `Promise.resolve` method
+  // https://tc39.github.io/ecma262/#sec-promise.resolve
+  resolve: function resolve(x) {
+    return promiseResolve(IS_PURE && this === PromiseWrapper ? PromiseConstructor : this, x);
+  }
+});
+
+$({ target: PROMISE, stat: true, forced: INCORRECT_ITERATION }, {
+  // `Promise.all` method
+  // https://tc39.github.io/ecma262/#sec-promise.all
+  all: function all(iterable) {
+    var C = this;
+    var capability = newPromiseCapability(C);
+    var resolve = capability.resolve;
+    var reject = capability.reject;
+    var result = perform(function () {
+      var $promiseResolve = aFunction(C.resolve);
+      var values = [];
+      var counter = 0;
+      var remaining = 1;
+      iterate(iterable, function (promise) {
+        var index = counter++;
+        var alreadyCalled = false;
+        values.push(undefined);
+        remaining++;
+        $promiseResolve.call(C, promise).then(function (value) {
+          if (alreadyCalled) return;
+          alreadyCalled = true;
+          values[index] = value;
+          --remaining || resolve(values);
+        }, reject);
+      });
+      --remaining || resolve(values);
+    });
+    if (result.error) reject(result.value);
+    return capability.promise;
+  },
+  // `Promise.race` method
+  // https://tc39.github.io/ecma262/#sec-promise.race
+  race: function race(iterable) {
+    var C = this;
+    var capability = newPromiseCapability(C);
+    var reject = capability.reject;
+    var result = perform(function () {
+      var $promiseResolve = aFunction(C.resolve);
+      iterate(iterable, function (promise) {
+        $promiseResolve.call(C, promise).then(capability.resolve, reject);
+      });
+    });
+    if (result.error) reject(result.value);
+    return capability.promise;
+  }
+});
+
+
+/***/ }),
+/* 156 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var redefine = __webpack_require__(9);
+
+module.exports = function (target, src, options) {
+  for (var key in src) redefine(target, key, src[key], options);
+  return target;
+};
+
+
+/***/ }),
+/* 157 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var defineProperty = __webpack_require__(12).f;
+var has = __webpack_require__(17);
+var wellKnownSymbol = __webpack_require__(2);
+
+var TO_STRING_TAG = wellKnownSymbol('toStringTag');
+
+module.exports = function (it, TAG, STATIC) {
+  if (it && !has(it = STATIC ? it : it.prototype, TO_STRING_TAG)) {
+    defineProperty(it, TO_STRING_TAG, { configurable: true, value: TAG });
+  }
+};
+
+
+/***/ }),
+/* 158 */
+/***/ (function(module, exports) {
+
+module.exports = function (it, Constructor, name) {
+  if (!(it instanceof Constructor)) {
+    throw TypeError('Incorrect ' + (name ? name + ' ' : '') + 'invocation');
+  } return it;
+};
+
+
+/***/ }),
+/* 159 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var anObject = __webpack_require__(6);
+var isArrayIteratorMethod = __webpack_require__(160);
+var toLength = __webpack_require__(13);
+var bind = __webpack_require__(46);
+var getIteratorMethod = __webpack_require__(161);
+var callWithSafeIterationClosing = __webpack_require__(162);
+
+var Result = function (stopped, result) {
+  this.stopped = stopped;
+  this.result = result;
+};
+
+var iterate = module.exports = function (iterable, fn, that, AS_ENTRIES, IS_ITERATOR) {
+  var boundFunction = bind(fn, that, AS_ENTRIES ? 2 : 1);
+  var iterator, iterFn, index, length, result, step;
+
+  if (IS_ITERATOR) {
+    iterator = iterable;
+  } else {
+    iterFn = getIteratorMethod(iterable);
+    if (typeof iterFn != 'function') throw TypeError('Target is not iterable');
+    // optimisation for array iterators
+    if (isArrayIteratorMethod(iterFn)) {
+      for (index = 0, length = toLength(iterable.length); length > index; index++) {
+        result = AS_ENTRIES
+          ? boundFunction(anObject(step = iterable[index])[0], step[1])
+          : boundFunction(iterable[index]);
+        if (result && result instanceof Result) return result;
+      } return new Result(false);
+    }
+    iterator = iterFn.call(iterable);
+  }
+
+  while (!(step = iterator.next()).done) {
+    result = callWithSafeIterationClosing(iterator, boundFunction, step.value, AS_ENTRIES);
+    if (result && result instanceof Result) return result;
+  } return new Result(false);
+};
+
+iterate.stop = function (result) {
+  return new Result(true, result);
+};
+
+
+/***/ }),
+/* 160 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var wellKnownSymbol = __webpack_require__(2);
+var Iterators = __webpack_require__(84);
+
+var ITERATOR = wellKnownSymbol('iterator');
+var ArrayPrototype = Array.prototype;
+
+// check on default Array iterator
+module.exports = function (it) {
+  return it !== undefined && (Iterators.Array === it || ArrayPrototype[ITERATOR] === it);
+};
+
+
+/***/ }),
+/* 161 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var classof = __webpack_require__(75);
+var Iterators = __webpack_require__(84);
+var wellKnownSymbol = __webpack_require__(2);
+
+var ITERATOR = wellKnownSymbol('iterator');
+
+module.exports = function (it) {
+  if (it != undefined) return it[ITERATOR]
+    || it['@@iterator']
+    || Iterators[classof(it)];
+};
+
+
+/***/ }),
+/* 162 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var anObject = __webpack_require__(6);
+
+// call something on iterator step with safe closing on error
+module.exports = function (iterator, fn, value, ENTRIES) {
+  try {
+    return ENTRIES ? fn(anObject(value)[0], value[1]) : fn(value);
+  // 7.4.6 IteratorClose(iterator, completion)
+  } catch (error) {
+    var returnMethod = iterator['return'];
+    if (returnMethod !== undefined) anObject(returnMethod.call(iterator));
+    throw error;
+  }
+};
+
+
+/***/ }),
+/* 163 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var wellKnownSymbol = __webpack_require__(2);
+
+var ITERATOR = wellKnownSymbol('iterator');
+var SAFE_CLOSING = false;
+
+try {
+  var called = 0;
+  var iteratorWithReturn = {
+    next: function () {
+      return { done: !!called++ };
+    },
+    'return': function () {
+      SAFE_CLOSING = true;
+    }
+  };
+  iteratorWithReturn[ITERATOR] = function () {
+    return this;
+  };
+  // eslint-disable-next-line no-throw-literal
+  Array.from(iteratorWithReturn, function () { throw 2; });
+} catch (error) { /* empty */ }
+
+module.exports = function (exec, SKIP_CLOSING) {
+  if (!SKIP_CLOSING && !SAFE_CLOSING) return false;
+  var ITERATION_SUPPORT = false;
+  try {
+    var object = {};
+    object[ITERATOR] = function () {
+      return {
+        next: function () {
+          return { done: ITERATION_SUPPORT = true };
+        }
+      };
+    };
+    exec(object);
+  } catch (error) { /* empty */ }
+  return ITERATION_SUPPORT;
+};
+
+
+/***/ }),
+/* 164 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var global = __webpack_require__(1);
+var getOwnPropertyDescriptor = __webpack_require__(31).f;
+var classof = __webpack_require__(11);
+var macrotask = __webpack_require__(86).set;
+var userAgent = __webpack_require__(87);
+
+var MutationObserver = global.MutationObserver || global.WebKitMutationObserver;
+var process = global.process;
+var Promise = global.Promise;
+var IS_NODE = classof(process) == 'process';
+// Node.js 11 shows ExperimentalWarning on getting `queueMicrotask`
+var queueMicrotaskDescriptor = getOwnPropertyDescriptor(global, 'queueMicrotask');
+var queueMicrotask = queueMicrotaskDescriptor && queueMicrotaskDescriptor.value;
+
+var flush, head, last, notify, toggle, node, promise, then;
+
+// modern engines have queueMicrotask method
+if (!queueMicrotask) {
+  flush = function () {
+    var parent, fn;
+    if (IS_NODE && (parent = process.domain)) parent.exit();
+    while (head) {
+      fn = head.fn;
+      head = head.next;
+      try {
+        fn();
+      } catch (error) {
+        if (head) notify();
+        else last = undefined;
+        throw error;
+      }
+    } last = undefined;
+    if (parent) parent.enter();
+  };
+
+  // Node.js
+  if (IS_NODE) {
+    notify = function () {
+      process.nextTick(flush);
+    };
+  // browsers with MutationObserver, except iOS - https://github.com/zloirock/core-js/issues/339
+  } else if (MutationObserver && !/(iphone|ipod|ipad).*applewebkit/i.test(userAgent)) {
+    toggle = true;
+    node = document.createTextNode('');
+    new MutationObserver(flush).observe(node, { characterData: true }); // eslint-disable-line no-new
+    notify = function () {
+      node.data = toggle = !toggle;
+    };
+  // environments with maybe non-completely correct, but existent Promise
+  } else if (Promise && Promise.resolve) {
+    // Promise.resolve without an argument throws an error in LG WebOS 2
+    promise = Promise.resolve(undefined);
+    then = promise.then;
+    notify = function () {
+      then.call(promise, flush);
+    };
+  // for other environments - macrotask based on:
+  // - setImmediate
+  // - MessageChannel
+  // - window.postMessag
+  // - onreadystatechange
+  // - setTimeout
+  } else {
+    notify = function () {
+      // strange IE + webpack dev server bug - use .call(global)
+      macrotask.call(global, flush);
+    };
+  }
+}
+
+module.exports = queueMicrotask || function (fn) {
+  var task = { fn: fn, next: undefined };
+  if (last) last.next = task;
+  if (!head) {
+    head = task;
+    notify();
+  } last = task;
+};
+
+
+/***/ }),
+/* 165 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var global = __webpack_require__(1);
+
+module.exports = function (a, b) {
+  var console = global.console;
+  if (console && console.error) {
+    arguments.length === 1 ? console.error(a) : console.error(a, b);
+  }
+};
+
+
+/***/ }),
+/* 166 */
+/***/ (function(module, exports) {
+
+module.exports = function (exec) {
+  try {
+    return { error: false, value: exec() };
+  } catch (error) {
+    return { error: true, value: error };
+  }
+};
+
+
+/***/ }),
+/* 167 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var $ = __webpack_require__(3);
+var IS_PURE = __webpack_require__(37);
+var NativePromise = __webpack_require__(83);
+var getBuiltIn = __webpack_require__(19);
+var speciesConstructor = __webpack_require__(85);
+var promiseResolve = __webpack_require__(88);
+var redefine = __webpack_require__(9);
+
+// `Promise.prototype.finally` method
+// https://tc39.github.io/ecma262/#sec-promise.prototype.finally
+$({ target: 'Promise', proto: true, real: true }, {
+  'finally': function (onFinally) {
+    var C = speciesConstructor(this, getBuiltIn('Promise'));
+    var isFunction = typeof onFinally == 'function';
+    return this.then(
+      isFunction ? function (x) {
+        return promiseResolve(C, onFinally()).then(function () { return x; });
+      } : onFinally,
+      isFunction ? function (e) {
+        return promiseResolve(C, onFinally()).then(function () { throw e; });
+      } : onFinally
+    );
+  }
+});
+
+// patch native Promise.prototype for native async functions
+if (!IS_PURE && typeof NativePromise == 'function' && !NativePromise.prototype['finally']) {
+  redefine(NativePromise.prototype, 'finally', getBuiltIn('Promise').prototype['finally']);
+}
+
+
+/***/ }),
+/* 168 */
+/***/ (function(module, exports) {
+
+(function () {
+  'use strict';
+
+  angular.module('lumx.switch').directive('lxSwitch', lxSwitch).directive('lxSwitchLabel', lxSwitchLabel).directive('lxSwitchHelp', lxSwitchHelp);
+
+  function lxSwitch() {
+    return {
+      restrict: 'E',
+      templateUrl: 'switch.html',
+      scope: {
+        ngModel: '=',
+        name: '@?',
+        ngTrueValue: '@?',
+        ngFalseValue: '@?',
+        ngChange: '&?',
+        ngDisabled: '=?',
+        lxColor: '@?',
+        lxPosition: '@?',
+        lxTheme: '@?'
+      },
+      controller: LxSwitchController,
+      controllerAs: 'lxSwitch',
+      bindToController: true,
+      transclude: true,
+      replace: true
+    };
+  }
+
+  LxSwitchController.$inject = ['$scope', '$timeout', 'LxUtilsService'];
+
+  function LxSwitchController($scope, $timeout, LxUtilsService) {
+    var lxSwitch = this;
+    var switchId;
+    var switchHasChildren;
+    var timer;
+    lxSwitch.getSwitchId = getSwitchId;
+    lxSwitch.getSwitchHasChildren = getSwitchHasChildren;
+    lxSwitch.setSwitchId = setSwitchId;
+    lxSwitch.setSwitchHasChildren = setSwitchHasChildren;
+    lxSwitch.triggerNgChange = triggerNgChange;
+    $scope.$on('$destroy', function () {
+      $timeout.cancel(timer);
+    });
+    init();
+
+    function getSwitchId() {
+      return switchId;
+    }
+
+    function getSwitchHasChildren() {
+      return switchHasChildren;
+    }
+
+    function init() {
+      setSwitchId(LxUtilsService.generateUUID());
+      setSwitchHasChildren(false);
+      lxSwitch.ngTrueValue = angular.isUndefined(lxSwitch.ngTrueValue) ? true : lxSwitch.ngTrueValue;
+      lxSwitch.ngFalseValue = angular.isUndefined(lxSwitch.ngFalseValue) ? false : lxSwitch.ngFalseValue;
+      lxSwitch.lxColor = angular.isUndefined(lxSwitch.lxColor) ? 'accent' : lxSwitch.lxColor;
+      lxSwitch.lxPosition = angular.isUndefined(lxSwitch.lxPosition) ? 'left' : lxSwitch.lxPosition;
+    }
+
+    function setSwitchId(_switchId) {
+      switchId = _switchId;
+    }
+
+    function setSwitchHasChildren(_switchHasChildren) {
+      switchHasChildren = _switchHasChildren;
+    }
+
+    function triggerNgChange() {
+      timer = $timeout(lxSwitch.ngChange);
+    }
+  }
+
+  function lxSwitchLabel() {
+    return {
+      restrict: 'AE',
+      require: ['^lxSwitch', '^lxSwitchLabel'],
+      templateUrl: 'switch-label.html',
+      link: link,
+      controller: LxSwitchLabelController,
+      controllerAs: 'lxSwitchLabel',
+      bindToController: true,
+      transclude: true,
+      replace: true
+    };
+
+    function link(scope, element, attrs, ctrls) {
+      ctrls[0].setSwitchHasChildren(true);
+      ctrls[1].setSwitchId(ctrls[0].getSwitchId());
+    }
+  }
+
+  function LxSwitchLabelController() {
+    var lxSwitchLabel = this;
+    var switchId;
+    lxSwitchLabel.getSwitchId = getSwitchId;
+    lxSwitchLabel.setSwitchId = setSwitchId;
+
+    function getSwitchId() {
+      return switchId;
+    }
+
+    function setSwitchId(_switchId) {
+      switchId = _switchId;
+    }
+  }
+
+  function lxSwitchHelp() {
+    return {
+      restrict: 'AE',
+      require: '^lxSwitch',
+      templateUrl: 'switch-help.html',
+      transclude: true,
+      replace: true
+    };
+  }
+})();
+
+/***/ }),
+/* 169 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var core_js_modules_es_array_find__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(5);
+/* harmony import */ var core_js_modules_es_array_find__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_find__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var core_js_modules_es_array_for_each__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(54);
+/* harmony import */ var core_js_modules_es_array_for_each__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_for_each__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var core_js_modules_es_array_splice__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(21);
+/* harmony import */ var core_js_modules_es_array_splice__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_splice__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(55);
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_3__);
+
+
+
+
+
+(function () {
+  'use strict';
+
+  angular.module('lumx.tabs').directive('lxTabs', lxTabs).directive('lxTab', lxTab).directive('lxTabsPanes', lxTabsPanes).directive('lxTabPane', lxTabPane);
+
+  function lxTabs() {
+    return {
+      restrict: 'E',
+      templateUrl: 'tabs.html',
+      scope: {
+        layout: '@?lxLayout',
+        theme: '@?lxTheme',
+        color: '@?lxColor',
+        indicator: '@?lxIndicator',
+        activeTab: '=?lxActiveTab',
+        panesId: '@?lxPanesId',
+        links: '=?lxLinks',
+        position: '@?lxPosition'
+      },
+      controller: LxTabsController,
+      controllerAs: 'lxTabs',
+      bindToController: true,
+      replace: true,
+      transclude: true
+    };
+  }
+
+  LxTabsController.$inject = ['LxUtilsService', '$element', '$scope', '$timeout'];
+
+  function LxTabsController(LxUtilsService, $element, $scope, $timeout) {
+    var lxTabs = this;
+    var tabsLength;
+    var timer1;
+    var timer2;
+    var timer3;
+    var timer4;
+    lxTabs.removeTab = removeTab;
+    lxTabs.setActiveTab = setActiveTab;
+    lxTabs.setViewMode = setViewMode;
+    lxTabs.tabIsActive = tabIsActive;
+    lxTabs.updateTabs = updateTabs;
+    lxTabs.activeTab = angular.isDefined(lxTabs.activeTab) ? lxTabs.activeTab : 0;
+    lxTabs.color = angular.isDefined(lxTabs.color) ? lxTabs.color : 'primary';
+    lxTabs.indicator = angular.isDefined(lxTabs.indicator) ? lxTabs.indicator : 'accent';
+    lxTabs.layout = angular.isDefined(lxTabs.layout) ? lxTabs.layout : 'full';
+    lxTabs.tabs = [];
+    lxTabs.theme = angular.isDefined(lxTabs.theme) ? lxTabs.theme : 'light';
+    lxTabs.viewMode = angular.isDefined(lxTabs.links) ? 'separate' : 'gather';
+    $scope.$watch(function () {
+      return lxTabs.activeTab;
+    }, function (_newActiveTab, _oldActiveTab) {
+      timer1 = $timeout(function () {
+        setIndicatorPosition(_oldActiveTab);
+
+        if (lxTabs.viewMode === 'separate') {
+          angular.element('#' + lxTabs.panesId).find('.tabs__pane').hide();
+          angular.element('#' + lxTabs.panesId).find('.tabs__pane').eq(lxTabs.activeTab).show();
+        }
+      });
+    });
+    $scope.$watch(function () {
+      return lxTabs.position;
+    }, function (_newPosition) {
+      lxTabs.bottomPosition = angular.isDefined(_newPosition) && _newPosition === 'bottom';
+    });
+    $scope.$watch(function () {
+      return lxTabs.links;
+    }, function (_newLinks) {
+      lxTabs.viewMode = angular.isDefined(_newLinks) ? 'separate' : 'gather';
+      angular.forEach(_newLinks, function (link, index) {
+        var tab = {
+          uuid: angular.isUndefined(link.uuid) || link.uuid.length === 0 ? LxUtilsService.generateUUID() : link.uuid,
+          index: index,
+          label: link.label,
+          icon: link.icon,
+          disabled: link.disabled
+        };
+        updateTabs(tab);
+      });
+    });
+    timer2 = $timeout(function () {
+      tabsLength = lxTabs.tabs.length;
+    });
+    $scope.$on('$destroy', function () {
+      $timeout.cancel(timer1);
+      $timeout.cancel(timer2);
+      $timeout.cancel(timer3);
+      $timeout.cancel(timer4);
+    });
+
+    function removeTab(_tab) {
+      lxTabs.tabs.splice(_tab.index, 1);
+      angular.forEach(lxTabs.tabs, function (tab, index) {
+        tab.index = index;
+      });
+
+      if (lxTabs.activeTab === 0) {
+        timer3 = $timeout(function () {
+          setIndicatorPosition();
+        });
+      } else {
+        setActiveTab(lxTabs.tabs[0]);
+      }
+    }
+
+    function setActiveTab(_tab) {
+      if (!_tab.disabled) {
+        lxTabs.activeTab = _tab.index;
+      }
+    }
+
+    function setIndicatorPosition(_previousActiveTab) {
+      var direction = lxTabs.activeTab > _previousActiveTab ? 'right' : 'left';
+      var indicator = $element.find('.tabs__indicator');
+      var activeTab = $element.find('.tabs__link').eq(lxTabs.activeTab);
+      var indicatorLeft = activeTab.position().left;
+      var indicatorRight = $element.outerWidth() - (indicatorLeft + activeTab.outerWidth());
+
+      if (angular.isUndefined(_previousActiveTab)) {
+        indicator.css({
+          left: indicatorLeft,
+          right: indicatorRight
+        });
+      } else {
+        var animationProperties = {
+          duration: 200,
+          easing: 'easeOutQuint'
+        };
+
+        if (direction === 'left') {
+          indicator.velocity({
+            left: indicatorLeft
+          }, animationProperties);
+          indicator.velocity({
+            right: indicatorRight
+          }, animationProperties);
+        } else {
+          indicator.velocity({
+            right: indicatorRight
+          }, animationProperties);
+          indicator.velocity({
+            left: indicatorLeft
+          }, animationProperties);
+        }
+      }
+    }
+
+    function setViewMode(_viewMode) {
+      lxTabs.viewMode = _viewMode;
+    }
+
+    function tabIsActive(_index) {
+      return lxTabs.activeTab === _index;
+    }
+
+    function updateTabs(_tab) {
+      var newTab = true;
+      angular.forEach(lxTabs.tabs, function (tab) {
+        if (tab.index === _tab.index) {
+          newTab = false;
+          tab.uuid = _tab.uuid;
+          tab.icon = _tab.icon;
+          tab.label = _tab.label;
+        }
+      });
+
+      if (newTab) {
+        lxTabs.tabs.push(_tab);
+
+        if (angular.isDefined(tabsLength)) {
+          timer4 = $timeout(function () {
+            setIndicatorPosition();
+          });
+        }
+      }
+    }
+  }
+
+  function lxTab() {
+    return {
+      restrict: 'E',
+      require: ['lxTab', '^lxTabs'],
+      templateUrl: 'tab.html',
+      scope: {
+        ngDisabled: '=?'
+      },
+      link: link,
+      controller: LxTabController,
+      controllerAs: 'lxTab',
+      bindToController: true,
+      replace: true,
+      transclude: true
+    };
+
+    function link(scope, element, attrs, ctrls) {
+      ctrls[0].init(ctrls[1], element.index());
+      attrs.$observe('lxLabel', function (_newLabel) {
+        ctrls[0].setLabel(_newLabel);
+      });
+      attrs.$observe('lxIcon', function (_newIcon) {
+        ctrls[0].setIcon(_newIcon);
+      });
+    }
+  }
+
+  LxTabController.$inject = ['$scope', 'LxUtilsService'];
+
+  function LxTabController($scope, LxUtilsService) {
+    var lxTab = this;
+    var parentCtrl;
+    var tab = {
+      uuid: LxUtilsService.generateUUID(),
+      index: undefined,
+      label: undefined,
+      icon: undefined,
+      disabled: false
+    };
+    lxTab.init = init;
+    lxTab.setIcon = setIcon;
+    lxTab.setLabel = setLabel;
+    lxTab.tabIsActive = tabIsActive;
+    $scope.$watch(function () {
+      return lxTab.ngDisabled;
+    }, function (_isDisabled) {
+      if (_isDisabled) {
+        tab.disabled = true;
+      } else {
+        tab.disabled = false;
+      }
+
+      parentCtrl.updateTabs(tab);
+    });
+    $scope.$on('$destroy', function () {
+      parentCtrl.removeTab(tab);
+    });
+
+    function init(_parentCtrl, _index) {
+      parentCtrl = _parentCtrl;
+      tab.index = _index;
+      parentCtrl.updateTabs(tab);
+    }
+
+    function setIcon(_icon) {
+      tab.icon = _icon;
+      parentCtrl.updateTabs(tab);
+    }
+
+    function setLabel(_label) {
+      tab.label = _label;
+      parentCtrl.updateTabs(tab);
+    }
+
+    function tabIsActive() {
+      return parentCtrl.tabIsActive(tab.index);
+    }
+  }
+
+  function lxTabsPanes() {
+    return {
+      restrict: 'E',
+      templateUrl: 'tabs-panes.html',
+      scope: true,
+      replace: true,
+      transclude: true
+    };
+  }
+
+  function lxTabPane() {
+    return {
+      restrict: 'E',
+      templateUrl: 'tab-pane.html',
+      scope: true,
+      replace: true,
+      transclude: true
+    };
+  }
+})();
+
+/***/ }),
+/* 170 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var core_js_modules_es_array_find__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(5);
+/* harmony import */ var core_js_modules_es_array_find__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_find__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var core_js_modules_es_array_for_each__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(54);
+/* harmony import */ var core_js_modules_es_array_for_each__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_for_each__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(55);
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_2__);
+
+
+
+
+(function () {
+  'use strict';
+
+  angular.module('lumx.text-field').directive('lxTextField', lxTextField);
+  lxTextField.$inject = ['$timeout'];
+
+  function lxTextField($timeout) {
+    return {
+      restrict: 'E',
+      templateUrl: 'text-field.html',
+      scope: {
+        allowClear: '=?lxAllowClear',
+        error: '=?lxError',
+        fixedLabel: '=?lxFixedLabel',
+        focus: '<?lxFocus',
+        icon: '@?lxIcon',
+        label: '@lxLabel',
+        ngDisabled: '=?',
+        hasPlaceholder: '=?lxHasPlaceholder',
+        theme: '@?lxTheme',
+        valid: '=?lxValid'
+      },
+      link: link,
+      controller: LxTextFieldController,
+      controllerAs: 'lxTextField',
+      bindToController: true,
+      replace: true,
+      transclude: true
+    };
+
+    function link(scope, element, attrs, ctrl, transclude) {
+      var backwardOneWay = ['icon', 'label', 'theme'];
+      var backwardTwoWay = ['error', 'fixedLabel', 'valid'];
+      var input;
+      var timer;
+      angular.forEach(backwardOneWay, function (attribute) {
+        if (angular.isDefined(attrs[attribute])) {
+          attrs.$observe(attribute, function (newValue) {
+            scope.lxTextField[attribute] = newValue;
+          });
+        }
+      });
+      angular.forEach(backwardTwoWay, function (attribute) {
+        if (angular.isDefined(attrs[attribute])) {
+          scope.$watch(function () {
+            return scope.$parent.$eval(attrs[attribute]);
+          }, function (newValue) {
+            scope.lxTextField[attribute] = newValue;
+          });
+        }
+      });
+      transclude(function () {
+        input = element.find('textarea');
+
+        if (input[0]) {
+          input.on('cut paste drop keydown', function () {
+            timer = $timeout(ctrl.updateTextareaHeight);
+          });
+        } else {
+          input = element.find('input');
+        }
+
+        input.addClass('text-field__input');
+        ctrl.setInput(input);
+        ctrl.setModel(input.data('$ngModelController'));
+        input.on('focus', function () {
+          var phase = scope.$root.$$phase;
+
+          if (phase === '$apply' || phase === '$digest') {
+            ctrl.focusInput();
+          } else {
+            scope.$apply(ctrl.focusInput);
+          }
+        });
+        input.on('blur', ctrl.blurInput);
+      });
+      scope.$on('$destroy', function () {
+        $timeout.cancel(timer);
+        input.off();
+      });
+    }
+  }
+
+  LxTextFieldController.$inject = ['$scope', '$timeout'];
+
+  function LxTextFieldController($scope, $timeout) {
+    var lxTextField = this;
+    var input;
+    var modelController;
+    var timer;
+    lxTextField.blurInput = blurInput;
+    lxTextField.clearInput = clearInput;
+    lxTextField.focusInput = focusInput;
+    lxTextField.hasValue = hasValue;
+    lxTextField.setInput = setInput;
+    lxTextField.setModel = setModel;
+    lxTextField.updateTextareaHeight = updateTextareaHeight;
+    $scope.$watch(function () {
+      return modelController.$viewValue;
+    }, function (newValue, oldValue) {
+      if (angular.isDefined(newValue) && newValue) {
+        lxTextField.isActive = true;
+      } else {
+        lxTextField.isActive = false;
+      }
+
+      if (newValue !== oldValue && newValue) {
+        updateTextareaHeight();
+      }
+    });
+    $scope.$watch(function () {
+      return lxTextField.focus;
+    }, function (newValue, oldValue) {
+      if (angular.isDefined(newValue) && newValue) {
+        $timeout(function () {
+          input.focus();
+          lxTextField.focus = false;
+        });
+      }
+    });
+    $scope.$on('$destroy', function () {
+      $timeout.cancel(timer);
+    });
+
+    function blurInput() {
+      if (!hasValue()) {
+        $scope.$apply(function () {
+          lxTextField.isActive = false;
+        });
+      }
+
+      $scope.$apply(function () {
+        lxTextField.isFocus = false;
+      });
+    }
+
+    function clearInput(_event) {
+      _event.stopPropagation();
+
+      modelController.$setViewValue(undefined);
+      modelController.$render();
+    }
+
+    function focusInput() {
+      lxTextField.isActive = true;
+      lxTextField.isFocus = true;
+    }
+
+    function hasValue() {
+      return angular.isDefined(input.val()) && input.val().length > 0;
+    }
+
+    function init() {
+      lxTextField.isActive = hasValue();
+      lxTextField.focus = angular.isDefined(lxTextField.focus) ? lxTextField.focus : false;
+      lxTextField.isFocus = lxTextField.focus;
+    }
+
+    function setInput(_input) {
+      input = _input;
+      timer = $timeout(init);
+    }
+
+    function setModel(_modelControler) {
+      modelController = _modelControler;
+    }
+
+    function updateTextareaHeight() {
+      if (!input.is('textarea')) {
+        return;
+      }
+
+      var tmpTextArea = angular.element('<textarea class="text-field__input" style="width: ' + input.width() + 'px;">' + input.val() + '</textarea>');
+      tmpTextArea.appendTo('body');
+      input.css({
+        height: tmpTextArea[0].scrollHeight + 'px'
+      });
+      tmpTextArea.remove();
+    }
+  }
+})();
+
+/***/ }),
+/* 171 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var core_js_modules_es_parse_int__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(24);
+/* harmony import */ var core_js_modules_es_parse_int__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_parse_int__WEBPACK_IMPORTED_MODULE_0__);
+
+
+(function () {
+  'use strict';
+
+  angular.module('lumx.tooltip').directive('lxTooltip', lxTooltip);
+
+  function lxTooltip() {
+    return {
+      restrict: 'A',
+      scope: {
+        tooltip: '@lxTooltip',
+        position: '@?lxTooltipPosition'
+      },
+      link: link,
+      controller: LxTooltipController,
+      controllerAs: 'lxTooltip',
+      bindToController: true
+    };
+
+    function link(scope, element, attrs, ctrl) {
+      if (angular.isDefined(attrs.lxTooltip)) {
+        attrs.$observe('lxTooltip', function (newValue) {
+          ctrl.updateTooltipText(newValue);
+        });
+      }
+
+      if (angular.isDefined(attrs.lxTooltipPosition)) {
+        attrs.$observe('lxTooltipPosition', function (newValue) {
+          scope.lxTooltip.position = newValue;
+        });
+      }
+
+      if (angular.element(window).outerWidth() > 768) {
+        element.on('mouseenter', ctrl.showTooltip);
+        element.on('mouseleave', ctrl.hideTooltip);
+      }
+
+      scope.$on('$destroy', function () {
+        element.off();
+      });
+    }
+  }
+
+  LxTooltipController.$inject = ['$element', '$scope', '$timeout', 'LxDepthService', 'LxUtilsService'];
+
+  function LxTooltipController($element, $scope, $timeout, LxDepthService, LxUtilsService) {
+    var lxTooltip = this;
+    var timer1;
+    var timer2;
+    var tooltip;
+    var tooltipBackground;
+    var tooltipLabel;
+    lxTooltip.hideTooltip = hideTooltip;
+    lxTooltip.showTooltip = showTooltip;
+    lxTooltip.updateTooltipText = updateTooltipText;
+    lxTooltip.position = angular.isDefined(lxTooltip.position) ? lxTooltip.position : 'top';
+    $scope.$on('$destroy', function () {
+      if (angular.isDefined(tooltip)) {
+        tooltip.remove();
+        tooltip = undefined;
+      }
+
+      $timeout.cancel(timer1);
+      $timeout.cancel(timer2);
+    });
+
+    function hideTooltip() {
+      if (angular.isDefined(tooltip)) {
+        tooltip.removeClass('tooltip--is-active');
+        timer1 = $timeout(function () {
+          if (angular.isDefined(tooltip)) {
+            angular.element(document).off('scroll', _debouncedSetPosition);
+            tooltip.remove();
+            tooltip = undefined;
+          }
+        }, 200);
+      }
+    }
+
+    function setTooltipPosition() {
+      var topOffset = $('.scroll-mask') ? $('body').css('top') : 0;
+      topOffset = topOffset ? parseInt(topOffset, 10) : 0;
+      topOffset = isNaN(topOffset) ? 0 : topOffset;
+      var width = $element.outerWidth(),
+          height = $element.outerHeight(),
+          top = $element.offset().top - topOffset,
+          left = $element.offset().left;
+      tooltip.append(tooltipBackground).append(tooltipLabel).appendTo('body');
+
+      if (lxTooltip.position === 'top') {
+        tooltip.css({
+          left: left - tooltip.outerWidth() / 2 + width / 2,
+          top: top - tooltip.outerHeight()
+        });
+      } else if (lxTooltip.position === 'bottom') {
+        tooltip.css({
+          left: left - tooltip.outerWidth() / 2 + width / 2,
+          top: top + height
+        });
+      } else if (lxTooltip.position === 'left') {
+        tooltip.css({
+          left: left - tooltip.outerWidth(),
+          top: top + height / 2 - tooltip.outerHeight() / 2
+        });
+      } else if (lxTooltip.position === 'right') {
+        tooltip.css({
+          left: left + width,
+          top: top + height / 2 - tooltip.outerHeight() / 2
+        });
+      }
+    }
+
+    var _debouncedSetPosition = LxUtilsService.debounce(setTooltipPosition, 250);
+
+    function showTooltip() {
+      if (angular.isUndefined(tooltip)) {
+        LxDepthService.register();
+        tooltip = angular.element('<div/>', {
+          class: 'tooltip tooltip--' + lxTooltip.position
+        });
+        tooltipBackground = angular.element('<div/>', {
+          class: 'tooltip__background'
+        });
+        tooltipLabel = angular.element('<span/>', {
+          class: 'tooltip__label',
+          text: lxTooltip.tooltip
+        });
+        setTooltipPosition();
+        angular.element(document).on('scroll', _debouncedSetPosition);
+        tooltip.append(tooltipBackground).append(tooltipLabel).css('z-index', LxDepthService.getDepth()).appendTo('body');
+        timer2 = $timeout(function () {
+          tooltip.addClass('tooltip--is-active');
+        });
+      }
+    }
+
+    function updateTooltipText(_newValue) {
+      if (angular.isDefined(tooltipLabel)) {
+        tooltipLabel.text(_newValue);
+      }
+    }
+  }
+})();
+
+/***/ }),
+/* 172 */
+/***/ (function(module, exports) {
+
+var v1='<div class=input-file><span class=input-file__label>{{ lxFileInput.label }}</span> <span class=input-file__filename>{{ lxFileInput.fileName }}</span> <input type=file class=input-file__input accept="{{ lxFileInput.accept }}"></div>';
+angular.module('lumx.file-input').run(['$templateCache', function ($templateCache) {$templateCache.put('file-input.html', v1);}]);
+module.exports=v1
+
+/***/ }),
+/* 173 */
+/***/ (function(module, exports) {
+
+var v1='<div class=text-field ng-class="{ \'text-field--error\': lxTextField.error,\n                 \'text-field--fixed-label\': lxTextField.fixedLabel && !lxTextField.hasPlaceholder,\n                 \'text-field--has-icon\': lxTextField.icon,\n                 \'text-field--has-value\': lxTextField.hasValue(),\n                 \'text-field--is-active\': lxTextField.isActive || lxTextField.hasPlaceholder,\n                 \'text-field--is-disabled\': lxTextField.ngDisabled,\n                 \'text-field--is-focus\': lxTextField.isFocus,\n                 \'text-field--theme-light\': !lxTextField.theme || lxTextField.theme === \'light\',\n                 \'text-field--theme-dark\': lxTextField.theme === \'dark\',\n                 \'text-field--valid\': lxTextField.valid }"><div class=text-field__icon ng-if=lxTextField.icon><i class="mdi mdi-{{ lxTextField.icon }}"></i></div><label class=text-field__label>{{ lxTextField.label }}</label><div ng-transclude></div><span class=text-field__clear ng-click=lxTextField.clearInput($event) ng-if=lxTextField.allowClear><i class="mdi mdi-close-circle"></i></span></div>';
+angular.module('lumx.text-field').run(['$templateCache', function ($templateCache) {$templateCache.put('text-field.html', v1);}]);
+module.exports=v1
+
+/***/ }),
+/* 174 */
+/***/ (function(module, exports) {
+
+var v1='<div class=search-filter ng-class=lxSearchFilter.getClass()><div class=search-filter__container><div class=search-filter__button><lx-button type=submit lx-size=l lx-color="{{ lxSearchFilter.color }}" lx-type=icon ng-click=lxSearchFilter.openInput()><i class="mdi mdi-magnify"></i></lx-button></div><div class=search-filter__input ng-transclude></div><div class=search-filter__clear><lx-button type=button lx-size=l lx-color="{{ lxSearchFilter.color }}" lx-type=icon ng-click=lxSearchFilter.clearInput()><i class="mdi mdi-close"></i></lx-button></div></div><div class=search-filter__loader ng-if=lxSearchFilter.isLoading><lx-progress lx-type=linear></lx-progress></div><lx-dropdown id="{{ lxSearchFilter.dropdownId }}" lx-effect=none lx-width=100% ng-if=lxSearchFilter.autocomplete><lx-dropdown-menu class=search-filter__autocomplete-list><ul><li ng-repeat="item in lxSearchFilter.autocompleteList track by $index"><a class=search-filter__autocomplete-item ng-class="{ \'search-filter__autocomplete-item--is-active\': lxSearchFilter.activeChoiceIndex === $index }" ng-click=lxSearchFilter.selectItem(item) ng-bind-html="item | lxSearchHighlight:lxSearchFilter.modelController.$viewValue:lxSearchFilter.icon"></a></li></ul></lx-dropdown-menu></lx-dropdown></div>';
+angular.module('lumx.search-filter').run(['$templateCache', function ($templateCache) {$templateCache.put('search-filter.html', v1);}]);
+module.exports=v1
+
+/***/ }),
+/* 175 */
+/***/ (function(module, exports) {
+
+var v1='<div class=tabs__pane ng-transclude></div>';
+angular.module('lumx.tabs').run(['$templateCache', function ($templateCache) {$templateCache.put('tab-pane.html', v1);}]);
+module.exports=v1
+
+/***/ }),
+/* 176 */
+/***/ (function(module, exports) {
+
+var v1='<div class=tabs__pane ng-class="{ \'tabs__pane--is-disabled\': lxTab.ngDisabled }"><div ng-if=lxTab.tabIsActive() ng-transclude></div></div>';
+angular.module('lumx.tabs').run(['$templateCache', function ($templateCache) {$templateCache.put('tab.html', v1);}]);
+module.exports=v1
+
+/***/ }),
+/* 177 */
+/***/ (function(module, exports) {
+
+var v1='<div class="tabs tabs--separate"><div class=tabs__panes ng-transclude></div></div>';
+angular.module('lumx.tabs').run(['$templateCache', function ($templateCache) {$templateCache.put('tabs-panes.html', v1);}]);
+module.exports=v1
+
+/***/ }),
+/* 178 */
+/***/ (function(module, exports) {
+
+var v1='<div class="tabs tabs--layout-{{ lxTabs.layout }} tabs--theme-{{ lxTabs.theme }} tabs--color-{{ lxTabs.color }} tabs--indicator-{{ lxTabs.indicator }}"><div class=tabs__panes ng-if="lxTabs.viewMode === \'gather\' && lxTabs.bottomPosition" ng-transclude></div><div class=tabs__links><a class=tabs__link ng-class="{ \'tabs__link--is-active\': lxTabs.tabIsActive(tab.index),\n                       \'tabs__link--is-disabled\': tab.disabled }" ng-repeat="tab in lxTabs.tabs" ng-click=lxTabs.setActiveTab(tab) lx-ripple><i class="mdi mdi-{{ tab.icon }}" ng-if=tab.icon></i> <span ng-if=tab.label>{{ tab.label }}</span></a></div><div class=tabs__panes ng-if="lxTabs.viewMode === \'gather\' && !lxTabs.bottomPosition" ng-transclude></div><div class=tabs__indicator ng-class="{\'tabs__indicator--top\': !lxTabs.bottomPosition, \'tabs__indicator--bottom\': lxTabs.bottomPosition}"></div></div>';
+angular.module('lumx.tabs').run(['$templateCache', function ($templateCache) {$templateCache.put('tabs.html', v1);}]);
+module.exports=v1
+
+/***/ }),
+/* 179 */
+/***/ (function(module, exports) {
+
+var v1='<div class=lx-date><div class=lx-date-input ng-click=lxDatePicker.openDatePicker() ng-if=lxDatePicker.hasInput><ng-transclude></ng-transclude></div><div class="lx-date-picker lx-date-picker--{{ lxDatePicker.color }}"><div ng-if=lxDatePicker.isOpen><div class=lx-date-picker__header><a class=lx-date-picker__current-year ng-class="{ \'lx-date-picker__current-year--is-active\': lxDatePicker.yearSelection }" ng-click=lxDatePicker.displayYearSelection()>{{ lxDatePicker.moment(lxDatePicker.ngModel).format(\'YYYY\') }}</a> <a class=lx-date-picker__current-date ng-class="{ \'lx-date-picker__current-date--is-active\': !lxDatePicker.yearSelection }" ng-click=lxDatePicker.hideYearSelection()>{{ lxDatePicker.getDateFormatted() }}</a></div><div class=lx-date-picker__content><div class=lx-date-picker__calendar ng-if=!lxDatePicker.yearSelection><div class=lx-date-picker__nav><lx-button lx-size=l lx-color=black lx-type=icon ng-click=lxDatePicker.previousMonth()><i class="mdi mdi-chevron-left"></i></lx-button><span>{{ lxDatePicker.ngModelMoment.format(\'MMMM YYYY\') }}</span><lx-button lx-size=l lx-color=black lx-type=icon ng-click=lxDatePicker.nextMonth()><i class="mdi mdi-chevron-right"></i></lx-button></div><div class=lx-date-picker__days-of-week><span ng-repeat="day in lxDatePicker.daysOfWeek">{{ day }}</span></div><div class=lx-date-picker__days><span class="lx-date-picker__day lx-date-picker__day--is-empty" ng-repeat="x in lxDatePicker.emptyFirstDays">&nbsp;</span><div class=lx-date-picker__day ng-class="{ \'lx-date-picker__day--is-selected\': day.selected,\n                                         \'lx-date-picker__day--is-today\': day.today && !day.selected,\n                                         \'lx-date-picker__day--is-disabled\': day.disabled }" ng-repeat="day in lxDatePicker.days"><a ng-click=lxDatePicker.select(day)>{{ day ? day.format(\'D\') : \'\' }}</a></div><span class="lx-date-picker__day lx-date-picker__day--is-empty" ng-repeat="x in lxDatePicker.emptyLastDays">&nbsp;</span></div></div><div class=lx-date-picker__year-selector ng-if=lxDatePicker.yearSelection><a class=lx-date-picker__year ng-class="{ \'lx-date-picker__year--is-active\': year == lxDatePicker.moment(lxDatePicker.ngModel).format(\'YYYY\') }" ng-repeat="year in lxDatePicker.years" ng-click=lxDatePicker.selectYear(year) ng-if=lxDatePicker.yearSelection>{{ year }}</a></div></div><div class=lx-date-picker__actions><lx-button lx-color="{{ lxDatePicker.color }}" lx-type=flat ng-click=lxDatePicker.closeDatePicker()>Ok</lx-button></div></div></div></div>';
+angular.module('lumx.date-picker').run(['$templateCache', function ($templateCache) {$templateCache.put('date-picker.html', v1);}]);
+module.exports=v1
+
+/***/ }),
+/* 180 */
+/***/ (function(module, exports) {
+
+var v1='<span class=radio-button__help ng-transclude></span>';
+angular.module('lumx.radio-button').run(['$templateCache', function ($templateCache) {$templateCache.put('radio-button-help.html', v1);}]);
+module.exports=v1
+
+/***/ }),
+/* 181 */
+/***/ (function(module, exports) {
+
+var v1='<label for="{{ lxRadioButtonLabel.getRadioButtonId() }}" class=radio-button__label ng-transclude></label>';
+angular.module('lumx.radio-button').run(['$templateCache', function ($templateCache) {$templateCache.put('radio-button-label.html', v1);}]);
+module.exports=v1
+
+/***/ }),
+/* 182 */
+/***/ (function(module, exports) {
+
+var v1='<div class="radio-button radio-button--{{ lxRadioButton.lxColor }}" ng-class="{ \'radio-button--theme-light\': !lxRadioButton.lxTheme || lxRadioButton.lxTheme === \'light\',\n                 \'radio-button--theme-dark\': lxRadioButton.lxTheme === \'dark\' }"><input id="{{ lxRadioButton.getRadioButtonId() }}" type=radio class=radio-button__input name="{{ lxRadioButton.name }}" ng-model=lxRadioButton.ngModel ng-value=lxRadioButton.ngValue ng-change=lxRadioButton.triggerNgChange() ng-disabled=lxRadioButton.ngDisabled><label for="{{ lxRadioButton.getRadioButtonId() }}" class=radio-button__label ng-transclude ng-if=!lxRadioButton.getRadioButtonHasChildren()></label><ng-transclude-replace ng-if=lxRadioButton.getRadioButtonHasChildren()></ng-transclude-replace></div>';
+angular.module('lumx.radio-button').run(['$templateCache', function ($templateCache) {$templateCache.put('radio-button.html', v1);}]);
+module.exports=v1
+
+/***/ }),
+/* 183 */
+/***/ (function(module, exports) {
+
+var v1='<div class=radio-group ng-transclude></div>';
+angular.module('lumx.radio-button').run(['$templateCache', function ($templateCache) {$templateCache.put('radio-group.html', v1);}]);
+module.exports=v1
+
+/***/ }),
+/* 184 */
+/***/ (function(module, exports) {
+
+var v1='<div class=lx-step-nav ng-click=lxStepNav.parent.goToStep(lxStepNav.step.index) ng-class=lxStepNav.getClasses() lx-ripple><div class="lx-step-nav__indicator lx-step-nav__indicator--index" ng-if="lxStepNav.step.isValid === undefined"><span>{{ lxStepNav.step.index + 1 }}</span></div><div class="lx-step-nav__indicator lx-step-nav__indicator--icon" ng-if="lxStepNav.step.isValid === true"><lx-icon lx-id=check ng-if=!lxStepNav.step.isEditable></lx-icon><lx-icon lx-id=pencil ng-if=lxStepNav.step.isEditable></lx-icon></div><div class="lx-step-nav__indicator lx-step-nav__indicator--error" ng-if="lxStepNav.step.isValid === false"><lx-icon lx-id=alert></lx-icon></div><div class=lx-step-nav__wrapper><div class=lx-step-nav__label><span>{{ lxStepNav.step.label }}</span></div><div class=lx-step-nav__state><span ng-if="(lxStepNav.step.isValid === undefined || lxStepNav.step.isValid === true) && lxStepNav.step.isOptional">{{ lxStepNav.parent.labels.optional }}</span> <span ng-if="lxStepNav.step.isValid === false">{{ lxStepNav.step.errorMessage }}</span></div></div></div>';
+angular.module('lumx.stepper').run(['$templateCache', function ($templateCache) {$templateCache.put('step-nav.html', v1);}]);
+module.exports=v1
+
+/***/ }),
+/* 185 */
+/***/ (function(module, exports) {
+
+var v1='<div class=lx-step ng-class=lxStep.getClasses()><div class=lx-step__nav ng-if="lxStep.parent.layout === \'vertical\'"><lx-step-nav lx-active-index="{{ lxStep.parent.activeIndex }}" lx-step=lxStep.step></lx-step-nav></div><div class=lx-step__wrapper ng-if="lxStep.parent.activeIndex === lxStep.step.index"><div class=lx-step__content><ng-transclude></ng-transclude><div class=lx-step__progress ng-if=lxStep.step.isLoading><lx-progress lx-type=circular></lx-progress></div></div><div class=lx-step__actions ng-if="lxStep.parent.activeIndex === lxStep.step.index && lxStep.parent.controls"><div class="lx-step__action lx-step__action--continue"><lx-button ng-click=lxStep.submitStep() ng-disabled=lxStep.isLoading>{{ lxStep.parent.labels.continue }}</lx-button></div><div class="lx-step__action lx-step__action--cancel" ng-if=lxStep.parent.cancel><lx-button lx-color=black lx-type=flat ng-click=lxStep.parent.cancel() ng-disabled=lxStep.isLoading>{{ lxStep.parent.labels.cancel }}</lx-button></div><div class="lx-step__action lx-step__action--back" ng-if=lxStep.parent.isLinear><lx-button lx-color=black lx-type=flat ng-click=lxStep.previousStep() ng-disabled="lxStep.isLoading || lxStep.step.index === 0">{{ lxStep.parent.labels.back }}</lx-button></div></div></div></div>';
+angular.module('lumx.stepper').run(['$templateCache', function ($templateCache) {$templateCache.put('step.html', v1);}]);
+module.exports=v1
+
+/***/ }),
+/* 186 */
+/***/ (function(module, exports) {
+
+var v1='<div class=lx-stepper ng-class=lxStepper.getClasses()><div class=lx-stepper__header ng-if="lxStepper.layout === \'horizontal\'"><div class=lx-stepper__nav><lx-step-nav lx-active-index="{{ lxStepper.activeIndex }}" lx-step=step ng-repeat="step in lxStepper.steps"></lx-step-nav></div><div class=lx-stepper__feedback ng-if=lxStepper.steps[lxStepper.activeIndex].feedback><span>{{ lxStepper.steps[lxStepper.activeIndex].feedback }}</span></div></div><div class=lx-stepper__steps ng-transclude></div></div>';
+angular.module('lumx.stepper').run(['$templateCache', function ($templateCache) {$templateCache.put('stepper.html', v1);}]);
+module.exports=v1
+
+/***/ }),
+/* 187 */
+/***/ (function(module, exports) {
+
+var v1='<span class=switch__help ng-transclude></span>';
+angular.module('lumx.switch').run(['$templateCache', function ($templateCache) {$templateCache.put('switch-help.html', v1);}]);
+module.exports=v1
+
+/***/ }),
+/* 188 */
+/***/ (function(module, exports) {
+
+var v1='<label for="{{ lxSwitchLabel.getSwitchId() }}" class=switch__label ng-transclude></label>';
+angular.module('lumx.switch').run(['$templateCache', function ($templateCache) {$templateCache.put('switch-label.html', v1);}]);
+module.exports=v1
+
+/***/ }),
+/* 189 */
+/***/ (function(module, exports) {
+
+var v1='<div class="switch switch--{{ lxSwitch.lxColor }} switch--{{ lxSwitch.lxPosition }}" ng-class="{ \'switch--theme-light\': !lxSwitch.lxTheme || lxSwitch.lxTheme === \'light\',\n                 \'switch--theme-dark\': lxSwitch.lxTheme === \'dark\' }"><input id="{{ lxSwitch.getSwitchId() }}" type=checkbox class=switch__input name="{{ lxSwitch.name }}" ng-model=lxSwitch.ngModel ng-true-value="{{ lxSwitch.ngTrueValue }}" ng-false-value="{{ lxSwitch.ngFalseValue }}" ng-change=lxSwitch.triggerNgChange() ng-disabled=lxSwitch.ngDisabled><label for="{{ lxSwitch.getSwitchId() }}" class=switch__label ng-transclude ng-if=!lxSwitch.getSwitchHasChildren()></label><ng-transclude-replace ng-if=lxSwitch.getSwitchHasChildren()></ng-transclude-replace></div>';
+angular.module('lumx.switch').run(['$templateCache', function ($templateCache) {$templateCache.put('switch.html', v1);}]);
+module.exports=v1
+
+/***/ }),
+/* 190 */
+/***/ (function(module, exports) {
+
+var v1='<div class="fab__actions fab__actions--{{ parentCtrl.lxDirection }}" ng-transclude></div>';
+angular.module('lumx.fab').run(['$templateCache', function ($templateCache) {$templateCache.put('fab-actions.html', v1);}]);
+module.exports=v1
+
+/***/ }),
+/* 191 */
+/***/ (function(module, exports) {
+
+var v1='<div class=fab__primary ng-transclude></div>';
+angular.module('lumx.fab').run(['$templateCache', function ($templateCache) {$templateCache.put('fab-trigger.html', v1);}]);
+module.exports=v1
+
+/***/ }),
+/* 192 */
+/***/ (function(module, exports) {
+
+var v1='<div class=fab ng-class="{ \'lx-fab--trigger-on-hover\': !lxFab.lxTriggerOnClick,\n                 \'lx-fab--trigger-on-click\': lxFab.lxTriggerOnClick,\n                 \'lx-fab--is-open\': lxFab.lxTriggerOnClick && lxFab.isOpen,\n                 \'lx-fab--is-close\': lxFab.lxTriggerOnClick && !lxFab.isOpen }" ng-click=lxFab.toggleState()><ng-transclude-replace></ng-transclude-replace></div>';
+angular.module('lumx.fab').run(['$templateCache', function ($templateCache) {$templateCache.put('fab.html', v1);}]);
+module.exports=v1
+
+/***/ }),
+/* 193 */
+/***/ (function(module, exports) {
+
+var v1='<div class=data-table-container><table class=data-table ng-class="{ \'data-table--bulk\': lxDataTable.bulk,\n                       \'data-table--border\': lxDataTable.border,\n                       \'data-table--thumbnail\': lxDataTable.thumbnail }"><thead><tr ng-class="{ \'data-table__selectable-row\': lxDataTable.selectable,\n                            \'data-table__selectable-row--is-selected\': lxDataTable.selectable && lxDataTable.allRowsSelected, }"><th align=center ng-if=lxDataTable.thumbnail><lx-button class=data-table__checkbox lx-type=icon lx-color="{{ lxDataTable.allRowsSelected ? \'accent\' : \'grey\' }}" ng-click=lxDataTable.toggleAllSelected() ng-if=lxDataTable.selectable><lx-icon lx-id=checkbox-blank-outline ng-if=!lxDataTable.allRowsSelected></lx-icon><lx-icon lx-id=checkbox-marked ng-if=lxDataTable.allRowsSelected></lx-icon></lx-button><th align=center ng-if="lxDataTable.selectable && !lxDataTable.thumbnail"><lx-button class=data-table__checkbox lx-type=icon lx-color="{{ lxDataTable.allRowsSelected ? \'accent\' : \'grey\' }}" ng-click=lxDataTable.toggleAllSelected()><lx-icon lx-id=checkbox-blank-outline ng-if=!lxDataTable.allRowsSelected></lx-icon><lx-icon lx-id=checkbox-marked ng-if=lxDataTable.allRowsSelected></lx-icon></lx-button><th align=left ng-class=" { \'data-table__sortable-cell\': th.sortable,\n                                 \'data-table__sortable-cell--asc\': th.sortable && th.sort === \'asc\',\n                                 \'data-table__sortable-cell--desc\': th.sortable && th.sort === \'desc\' }" ng-click=lxDataTable.sort(th) ng-repeat="th in lxDataTable.thead track by $index" ng-if="!lxDataTable.thumbnail || (lxDataTable.thumbnail && $index != 0)"><lx-icon lx-id="{{ th.icon }}" ng-if=th.icon></lx-icon><span>{{ th.label }}</span><tbody><tr ng-class="{ \'data-table__selectable-row\': lxDataTable.selectable,\n                            \'data-table__selectable-row--is-disabled\': lxDataTable.selectable && tr.lxDataTableDisabled,\n                            \'data-table__selectable-row--is-selected\': lxDataTable.selectable && tr.lxDataTableSelected,\n                            \'data-table__activable-row\': lxDataTable.activable,\n                            \'data-table__activable-row--is-activated\': lxDataTable.activable && tr.lxDataTableActivated }" ng-repeat="tr in lxDataTable.tbody" ng-click=lxDataTable.toggleActivation(tr)><td align=center ng-if=lxDataTable.thumbnail><div class=data-table__thumbnail ng-if=lxDataTable.thead[0].format ng-bind-html=lxDataTable.$sce.trustAsHtml(lxDataTable.thead[0].format(tr))></div><lx-button class=data-table__checkbox lx-type=icon lx-color="{{ tr.lxDataTableSelected ? \'accent\' : \'black\' }}" ng-click="lxDataTable.toggleSelection(tr, undefined, $event)" ng-if="lxDataTable.selectable && !tr.lxDataTableDisabled"><lx-icon lx-id=checkbox-blank-outline ng-if=!tr.lxDataTableSelected></lx-icon><lx-icon lx-id=checkbox-marked ng-if=tr.lxDataTableSelected></lx-icon></lx-button><td align=center ng-if="lxDataTable.selectable && !lxDataTable.thumbnail"><lx-button class=data-table__checkbox lx-type=icon lx-color="{{ tr.lxDataTableSelected ? \'accent\' : \'black\' }}" ng-click="lxDataTable.toggleSelection(tr, undefined, $event)" ng-disabled=tr.lxDataTableDisabled><lx-icon lx-id=checkbox-blank-outline ng-if=!tr.lxDataTableSelected></lx-icon><lx-icon lx-id=checkbox-marked ng-if=tr.lxDataTableSelected></lx-icon></lx-button><td align=left ng-repeat="th in lxDataTable.thead track by $index" ng-if="!lxDataTable.thumbnail || (lxDataTable.thumbnail && $index != 0)"><span ng-if=!th.format>{{ tr[th.name] }}</span><div ng-if=th.format ng-bind-html=lxDataTable.$sce.trustAsHtml(th.format(tr))></div></table></div>';
+angular.module('lumx.data-table').run(['$templateCache', function ($templateCache) {$templateCache.put('data-table.html', v1);}]);
+module.exports=v1
+
+/***/ }),
+/* 194 */
+/***/ (function(module, exports) {
+
+var v1='<div class="progress-container progress-container--{{ lxProgress.lxType }} progress-container--{{ lxProgress.lxColor }} {{ lxProgress.lxClass }}"><div class=progress-circular ng-if="lxProgress.lxType === \'circular\'" ng-style=lxProgress.getProgressDiameter()><svg class=progress-circular__svg><g transform="translate(50 50)"><g class=progress-circular__g><circle class=progress-circular__path cx=0 cy=0 r=20 fill=none stroke-width=4 stroke-miterlimit=10 ng-style=lxProgress.getCircularProgressValue()></circle></g></g></svg></div><div class=progress-linear ng-if="lxProgress.lxType === \'linear\'"><div class=progress-linear__background></div><div class="progress-linear__bar progress-linear__bar--first" ng-style=lxProgress.getLinearProgressValue()></div><div class="progress-linear__bar progress-linear__bar--second"></div></div></div>';
+angular.module('lumx.progress').run(['$templateCache', function ($templateCache) {$templateCache.put('progress.html', v1);}]);
+module.exports=v1
 
 /***/ })
 /******/ ]);
