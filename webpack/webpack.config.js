@@ -22,6 +22,7 @@ const baseConfig = {
             ...glob.sync(`${MODULES_PATH}/chip/views/*.html`),
             ...glob.sync(`${MODULES_PATH}/dropdown/views/*.html`),
             ...glob.sync(`${MODULES_PATH}/file-input/views/*.html`),
+            ...glob.sync(`${MODULES_PATH}/list/views/*.html`),
             ...glob.sync(`${MODULES_PATH}/text-field/views/*.html`),
             ...glob.sync(`${MODULES_PATH}/search-filter/views/*.html`),
             ...glob.sync(`${MODULES_PATH}/select/views/*.html`),
@@ -84,6 +85,10 @@ const baseConfig = {
             {
                 test: /\/file-input\/.*\.html$/,
                 loader: 'angular-templatecache-loader-2?module=lumx.file-input&relativeTo=modules/file-input/views/',
+            },
+            {
+                test: /\/list\/.*\.html$/,
+                loader: 'angular-templatecache-loader-2?module=lumx.list&relativeTo=modules/list/views/',
             },
             {
                 test: /\/text-field\/.*\.html$/,
