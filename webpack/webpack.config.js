@@ -19,6 +19,7 @@ const baseConfig = {
         lumx: [
             ...glob.sync(`${CORE_PATH}/js/**/*.js`),
             ...glob.sync(`${MODULES_PATH}/**/*.js`),
+            ...glob.sync(`${MODULES_PATH}/chip/views/*.html`),
             ...glob.sync(`${MODULES_PATH}/dropdown/views/*.html`),
             ...glob.sync(`${MODULES_PATH}/file-input/views/*.html`),
             ...glob.sync(`${MODULES_PATH}/text-field/views/*.html`),
@@ -71,6 +72,10 @@ const baseConfig = {
                 options: {
                     name: '[path][name]-[hash:8].[ext]',
                 },
+            },
+            {
+                test: /\/chip\/.*\.html$/,
+                loader: 'angular-templatecache-loader-2?module=lumx.chip&relativeTo=modules/chip/views/',
             },
             {
                 test: /\/dropdown\/.*\.html$/,
