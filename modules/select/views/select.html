@@ -127,12 +127,33 @@
             </div>
 
             <lx-list lx-focus-on-init="!lx.hasFilter" lx-is-clickable="true" ng-if="!lx.isLoading">
+                <!-- Default choices -->
                 <lx-list-item
                     lx-is-selected="lx.isSelected(choice)"
                     lx-size="tiny"
                     ng-repeat="choice in lx.choices | lxSelectChoicesFilter:lx.filter:lx.filterModel"
                     ng-click="lx.select(choice, $event)"
                     lx-enter-keypress="lx.select(choice, $event)"
+                    ng-if="::lx.isChoicesArray()"
+                >
+                    <lx-list-item-content ng-bind-html="lx.displayChoice(choice)"></lx-list-item-content>
+                </lx-list-item>
+
+                <!-- Subheader choices -->
+                <lx-list-subheader
+                    ng-repeat-start="(subheader, children) in lx.choices"
+                    ng-bind-html="lx.displaySubheader(subheader)"
+                    ng-if="::!lx.isChoicesArray()"
+                ></lx-list-subheader>
+
+                <lx-list-item
+                    lx-is-selected="lx.isSelected(choice)"
+                    lx-size="tiny"
+                    ng-repeat="choice in children | lxSelectChoicesFilter:lx.filter:lx.filterModel"
+                    ng-repeat-end
+                    ng-click="lx.select(choice, $event)"
+                    lx-enter-keypress="lx.select(choice, $event)"
+                    ng-if="::!lx.isChoicesArray()"
                 >
                     <lx-list-item-content ng-bind-html="lx.displayChoice(choice)"></lx-list-item-content>
                 </lx-list-item>

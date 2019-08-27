@@ -290,11 +290,30 @@ function SelectController($document, $interpolate, $sce, $scope, $timeout, LxDro
     }
 
     /**
+     * Display the choice subheader.
+     *
+     * @param  {string} subheader The raw choice subheader.
+     * @return {string} The trusted choice subheader.
+     */
+    function displaySubheader(subheader) {
+        return $sce.trustAsHtml(subheader);
+    }
+
+    /**
      * Enable key events on input wrapper focus.
      */
     function enableKeyEvents() {
         lx.isFocus = true;
         $document.on('keydown keypress', _onKeyPress);
+    }
+
+    /**
+     * Check if choices are in array format.
+     *
+     * @return {boolean} Whether choices are in array format or not.
+     */
+    function isChoicesArray() {
+        return angular.isArray(lx.choices);
     }
 
     /**
@@ -420,7 +439,9 @@ function SelectController($document, $interpolate, $sce, $scope, $timeout, LxDro
     lx.disableKeyEvents = disableKeyEvents;
     lx.displayChoice = displayChoice;
     lx.displaySelected = displaySelected;
+    lx.displaySubheader = displaySubheader;
     lx.enableKeyEvents = enableKeyEvents;
+    lx.isChoicesArray = isChoicesArray;
     lx.isModelEmpty = isModelEmpty;
     lx.isSelected = isSelected;
     lx.openDropdown = openDropdown;
