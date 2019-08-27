@@ -360,6 +360,15 @@ function SelectController($document, $interpolate, $sce, $scope, $timeout, LxDro
             evt.stopPropagation();
         }
 
+        if (
+            lx.multiple &&
+            !lx.isSelected(choice) &&
+            angular.isDefined(lx.max) &&
+            _modelController.$viewValue.length >= parseInt(lx.max, 10)
+        ) {
+            return;
+        }
+
         if (angular.isDefined(lx.selectionToModel)) {
             lx.selectionToModel({
                 // eslint-disable-next-line id-blacklist
@@ -511,6 +520,7 @@ function SelectDirective() {
             isLoading: '=?lxLoading',
             isValid: '=?lxValid',
             label: '@?lxLabel',
+            max: '=?lxMax',
             modelToSelection: '&?lxModelToSelection',
             multiple: '=?lxMultiple',
             placeholder: '@?lxPlaceholder',
