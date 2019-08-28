@@ -414,6 +414,13 @@ function DropdownController(
             _initVerticalPosition();
         }
     });
+
+    /**
+     * Close on destroy.
+     */
+    $scope.$on('$destroy', () => {
+        _close();
+    });
 }
 
 /////////////////////////////
