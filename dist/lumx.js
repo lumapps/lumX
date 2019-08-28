@@ -14852,7 +14852,7 @@ function DropdownController($document, $rootScope, $scope, $timeout, $window, Lx
   lx.uuid = LxUtilsService.generateUUID();
 
   function _onDocumentClick() {
-    LxDropdownService.closeActiveDropdown();
+    LxDropdownService.closeActiveDropdown(true);
   }
 
   function _checkScrollEnd() {
@@ -14981,14 +14981,14 @@ function DropdownController($document, $rootScope, $scope, $timeout, $window, Lx
 
   function _onKeyUp(evt) {
     if (evt.keyCode === _lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_3__[/* ESCAPE_KEY_CODE */ "d"]) {
-      LxDropdownService.closeActiveDropdown();
+      LxDropdownService.closeActiveDropdown(true);
     }
 
     evt.stopPropagation();
   }
 
   function _open() {
-    LxDropdownService.closeActiveDropdown();
+    LxDropdownService.closeActiveDropdown(true);
     LxDropdownService.registerActiveDropdownId(lx.uuid);
 
     if (angular.isUndefined(lx.escapeClose) || lx.escapeClose) {
@@ -15036,7 +15036,7 @@ function DropdownController($document, $rootScope, $scope, $timeout, $window, Lx
     }
 
     if (lx.isOpen) {
-      LxDropdownService.closeActiveDropdown();
+      LxDropdownService.closeActiveDropdown(true);
     } else {
       _open();
     }
@@ -15067,8 +15067,12 @@ function DropdownController($document, $rootScope, $scope, $timeout, $window, Lx
       _open();
     }
   });
-  $scope.$on('lx-dropdown__close', function (evt, dropdownId) {
-    if (dropdownId === lx.uuid && lx.isOpen && (angular.isUndefined(lx.closeOnClick) || lx.closeOnClick)) {
+  $scope.$on('lx-dropdown__close', function (evt, dropdownId, isDocumentClick) {
+    if (dropdownId === lx.uuid && lx.isOpen) {
+      if (isDocumentClick && angular.isDefined(lx.closeOnClick) && !lx.closeOnClick) {
+        return;
+      }
+
       _close();
     }
   });
@@ -15142,13 +15146,13 @@ function DropdownService($rootScope) {
 
   var _activeDropdownId;
 
-  function closeDropdown(dropdownId) {
-    $rootScope.$broadcast('lx-dropdown__close', dropdownId);
+  function closeDropdown(dropdownId, isDocumentClick) {
+    $rootScope.$broadcast('lx-dropdown__close', dropdownId, isDocumentClick);
   }
 
-  function closeActiveDropdown() {
+  function closeActiveDropdown(isDocumentClick) {
     if (angular.isDefined(_activeDropdownId)) {
-      closeDropdown(_activeDropdownId);
+      closeDropdown(_activeDropdownId, isDocumentClick);
     }
   }
 
