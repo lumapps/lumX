@@ -30,22 +30,16 @@
         ng-if="!lx.variant || lx.variant === 'input'"
     >
         <div
-            class="lumx-select__input-native lumx-select__input-native--placeholder"
-            ng-if="lx.isModelEmpty() && lx.placeholder"
+            class="lumx-select__input-native"
+            ng-class="{ 'lumx-select__input-native--placeholder': lx.isModelEmpty() && lx.placeholder }"
+            ng-if="!lx.multiple"
         >
-            <span>{{ lx.placeholder }}</span>
+            <span ng-if="lx.isModelEmpty() && lx.placeholder">{{ lx.placeholder }}</span>
+            <span ng-bind-html="lx.displaySelected()" ng-if="!lx.isModelEmpty()"></span>
         </div>
 
-        <div class="lumx-select__input-native" ng-if="!lx.isModelEmpty() && !lx.multiple">
-            <span ng-bind-html="lx.displaySelected()"></span>
-        </div>
-
-        <div class="lumx-select__input-chips">
-            <div
-                class="lumx-select__input-chip"
-                ng-repeat="selected in lx.viewValue"
-                ng-if="!lx.isModelEmpty() && lx.multiple"
-            >
+        <div class="lumx-select__input-chips" ng-if="lx.multiple">
+            <div class="lumx-select__input-chip" ng-repeat="selected in lx.viewValue" ng-if="!lx.isModelEmpty()">
                 <lx-chip
                     lx-on-click="lx.select(selected, $event)"
                     lx-size="s"
