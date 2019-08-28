@@ -25,18 +25,21 @@ function DropdownService($rootScope) {
     /**
      * Close a given dropdown.
      *
-     * @param {string} dropdownId The dropdown identifier.
+     * @param {string}  dropdownId      The dropdown identifier.
+     * @param {boolean} isDocumentClick Whether the method has been called on document click or not.
      */
-    function closeDropdown(dropdownId) {
-        $rootScope.$broadcast('lx-dropdown__close', dropdownId);
+    function closeDropdown(dropdownId, isDocumentClick) {
+        $rootScope.$broadcast('lx-dropdown__close', dropdownId, isDocumentClick);
     }
 
     /**
      * Close the active dropdown.
+     *
+     * @param {boolean} isDocumentClick Whether the method has been called on document click or not.
      */
-    function closeActiveDropdown() {
+    function closeActiveDropdown(isDocumentClick) {
         if (angular.isDefined(_activeDropdownId)) {
-            closeDropdown(_activeDropdownId);
+            closeDropdown(_activeDropdownId, isDocumentClick);
         }
     }
 

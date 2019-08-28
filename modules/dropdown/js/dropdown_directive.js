@@ -104,7 +104,7 @@ function DropdownController(
      * Close dropdown on document click.
      */
     function _onDocumentClick() {
-        LxDropdownService.closeActiveDropdown();
+        LxDropdownService.closeActiveDropdown(true);
     }
 
     /**
@@ -262,7 +262,7 @@ function DropdownController(
      */
     function _onKeyUp(evt) {
         if (evt.keyCode === ESCAPE_KEY_CODE) {
-            LxDropdownService.closeActiveDropdown();
+            LxDropdownService.closeActiveDropdown(true);
         }
 
         evt.stopPropagation();
@@ -272,7 +272,7 @@ function DropdownController(
      * Open dropdown.
      */
     function _open() {
-        LxDropdownService.closeActiveDropdown();
+        LxDropdownService.closeActiveDropdown(true);
         LxDropdownService.registerActiveDropdownId(lx.uuid);
 
         if (angular.isUndefined(lx.escapeClose) || lx.escapeClose) {
@@ -343,7 +343,7 @@ function DropdownController(
         }
 
         if (lx.isOpen) {
-            LxDropdownService.closeActiveDropdown();
+            LxDropdownService.closeActiveDropdown(true);
         } else {
             _open();
         }
@@ -396,11 +396,16 @@ function DropdownController(
     /**
      * Close a given dropdown.
      *
-     * @param {Event}  evt        The dropdown open event.
-     * @param {Object} dropdownId The dropdown identifier.
+     * @param {Event}   evt             The dropdown open event.
+     * @param {Object}  dropdownId      The dropdown identifier.
+     * @param {boolean} isDocumentClick Whether the method has been called on document click or not.
      */
-    $scope.$on('lx-dropdown__close', (evt, dropdownId) => {
-        if (dropdownId === lx.uuid && lx.isOpen && (angular.isUndefined(lx.closeOnClick) || lx.closeOnClick)) {
+    $scope.$on('lx-dropdown__close', (evt, dropdownId, isDocumentClick) => {
+        if (dropdownId === lx.uuid && lx.isOpen) {
+            if (isDocumentClick && angular.isDefined(lx.closeOnClick) && !lx.closeOnClick) {
+                return;
+            }
+
             _close();
         }
     });
