@@ -24,7 +24,7 @@
         class="lumx-select__input-wrapper"
         id="{{ lx.targetUuid }}"
         tabindex="0"
-        ng-click="lx.openDropdown($event)"
+        ng-click="lx.toggleDropdown($event)"
         ng-focus="lx.enableKeyEvents()"
         ng-blur="lx.disableKeyEvents()"
         ng-if="!lx.variant || lx.variant === 'input'"
@@ -84,7 +84,7 @@
     <lx-chip
         id="{{ lx.targetUuid }}"
         lx-has-dropdown-indicator="lx.isModelEmpty()"
-        lx-on-click="lx.openDropdown($event)"
+        lx-on-click="lx.toggleDropdown($event)"
         lx-on-after-click="lx.clearModel()"
         lx-is-selected="!lx.isModelEmpty()"
         lx-theme="{{ lx.theme }}"

@@ -204,13 +204,39 @@ function SelectController($document, $interpolate, $sce, $scope, $timeout, LxDro
     }
 
     /**
+     * Open the dropdown menu.
+     *
+     * @param {Event} evt The click/key event.
+     */
+    function _openDropdown(evt) {
+        if (angular.isDefined(evt)) {
+            evt.stopPropagation();
+        }
+
+        LxDropdownService.open(lx.dropdownUuid, { target: `#${lx.targetUuid}` });
+    }
+
+    /**
+     * Close the dropdown menu.
+     *
+     * @param {Event} evt The click/key event.
+     */
+    function _closeDropdown(evt) {
+        if (angular.isDefined(evt)) {
+            evt.stopPropagation();
+        }
+
+        LxDropdownService.close(lx.dropdownUuid);
+    }
+
+    /**
      * Handle key events on input wrapper focus.
      *
      * @param {Event} evt The key event.
      */
     function _onKeyPress(evt) {
         if ((evt.keyCode === DOWN_KEY_CODE || evt.keyCode === ENTER_KEY_CODE) && !lx.isOpen) {
-            lx.openDropdown(evt);
+            _openDropdown(evt);
 
             evt.preventDefault();
             evt.stopPropagation();
@@ -341,19 +367,6 @@ function SelectController($document, $interpolate, $sce, $scope, $timeout, LxDro
     }
 
     /**
-     * Open the dropdown menu on input wrapper click.
-     *
-     * @param {Event} evt The click event.
-     */
-    function openDropdown(evt) {
-        if (angular.isDefined(evt)) {
-            evt.stopPropagation();
-        }
-
-        LxDropdownService.open(lx.dropdownUuid, { target: `#${lx.targetUuid}` });
-    }
-
-    /**
      * Register the choice template.
      *
      * @param {string} choiceTemplate The choice template.
@@ -425,6 +438,19 @@ function SelectController($document, $interpolate, $sce, $scope, $timeout, LxDro
     }
 
     /**
+     * Toggle the dropdown menu on input wrapper click.
+     *
+     * @param {Event} evt The click event.
+     */
+    function toggleDropdown(evt) {
+        if (lx.isOpen) {
+            _closeDropdown(evt);
+        } else {
+            _openDropdown(evt);
+        }
+    }
+
+    /**
      * Update choices list according to filter model.
      */
     function updateFilter() {
@@ -446,11 +472,11 @@ function SelectController($document, $interpolate, $sce, $scope, $timeout, LxDro
     lx.isChoicesArray = isChoicesArray;
     lx.isModelEmpty = isModelEmpty;
     lx.isSelected = isSelected;
-    lx.openDropdown = openDropdown;
     lx.registerChoiceTemplate = registerChoiceTemplate;
     lx.registerSelectedTemplate = registerSelectedTemplate;
     lx.select = select;
     lx.setModelController = setModelController;
+    lx.toggleDropdown = toggleDropdown;
     lx.updateFilter = updateFilter;
 
     /////////////////////////////
