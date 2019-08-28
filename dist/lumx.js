@@ -17036,6 +17036,10 @@ function SelectController($document, $interpolate, $sce, $scope, $timeout, LxDro
   }
 
   function _initViewValue() {
+    if (lx.multiple && angular.isUndefined(_modelController.$viewValue)) {
+      _modelController.$setViewValue([]);
+    }
+
     if (angular.isDefined(lx.modelToSelection)) {
       if (lx.multiple) {
         lx.viewValue = [];
@@ -17172,10 +17176,6 @@ function SelectController($document, $interpolate, $sce, $scope, $timeout, LxDro
   }
 
   function isModelEmpty() {
-    if (angular.isUndefined(_modelController.$viewValue)) {
-      return true;
-    }
-
     if (lx.multiple) {
       return _modelController.$viewValue.length === 0;
     }
