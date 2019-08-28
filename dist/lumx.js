@@ -17156,6 +17156,10 @@ function SelectController($document, $interpolate, $sce, $scope, $timeout, LxDro
   }
 
   function isModelEmpty() {
+    if (angular.isUndefined(_modelController.$viewValue)) {
+      return true;
+    }
+
     if (lx.multiple) {
       return _modelController.$viewValue.length === 0;
     }
