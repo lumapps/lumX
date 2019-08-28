@@ -129,7 +129,10 @@ function DropdownController(
         LxUtilsService.restoreBodyScroll();
 
         $timeout(() => {
-            _menuEl.removeAttr('style').insertAfter(_toggleEl);
+            _menuEl
+                .removeAttr('style')
+                .hide()
+                .insertAfter(_toggleEl);
 
             if (angular.isUndefined(lx.escapeClose) || lx.escapeClose) {
                 LxEventSchedulerService.unregister(_idEventScheduler);
@@ -280,7 +283,10 @@ function DropdownController(
 
         LxDepthService.increase();
 
-        _menuEl.appendTo('body').css('z-index', LxDepthService.get());
+        _menuEl
+            .appendTo('body')
+            .show()
+            .css({ position: 'fixed', zIndex: LxDepthService.get() });
 
         $timeout(() => {
             _initHorizontalPosition();
@@ -316,6 +322,7 @@ function DropdownController(
      */
     function registerMenu(menuEl) {
         _menuEl = menuEl;
+        _menuEl.hide();
     }
 
     /**
