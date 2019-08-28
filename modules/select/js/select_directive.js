@@ -243,13 +243,6 @@ function SelectController($document, $interpolate, $sce, $scope, $timeout, LxDro
     }
 
     /**
-     * Close the dropdown menu.
-     */
-    function closeDropdown() {
-        LxDropdownService.close(lx.dropdownUuid);
-    }
-
-    /**
      * Disable key events on input wrapper blur.
      */
     function disableKeyEvents() {
@@ -349,8 +342,12 @@ function SelectController($document, $interpolate, $sce, $scope, $timeout, LxDro
 
     /**
      * Open the dropdown menu on input wrapper click.
+     *
+     * @param {Event} evt The click event.
      */
-    function openDropdown() {
+    function openDropdown(evt) {
+        evt.stopPropagation();
+
         LxDropdownService.open(lx.dropdownUuid, { target: `#${lx.targetUuid}` });
     }
 
@@ -439,7 +436,6 @@ function SelectController($document, $interpolate, $sce, $scope, $timeout, LxDro
     /////////////////////////////
 
     lx.clearModel = clearModel;
-    lx.closeDropdown = closeDropdown;
     lx.disableKeyEvents = disableKeyEvents;
     lx.displayChoice = displayChoice;
     lx.displaySelected = displaySelected;
