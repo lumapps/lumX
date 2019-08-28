@@ -104,9 +104,7 @@ function DropdownController(
      * Close dropdown on document click.
      */
     function _onDocumentClick() {
-        if (angular.isUndefined(lx.closeOnClick) || lx.closeOnClick) {
-            LxDropdownService.closeActiveDropdown();
-        }
+        LxDropdownService.closeActiveDropdown();
     }
 
     /**
@@ -337,7 +335,7 @@ function DropdownController(
     /**
      * Toggle the dropdown on toggle click.
      *
-     * @param {Event} evt The sclick event.
+     * @param {Event} evt The click event.
      */
     function toggle(evt) {
         if (angular.isDefined(evt.target)) {
@@ -402,7 +400,7 @@ function DropdownController(
      * @param {Object} dropdownId The dropdown identifier.
      */
     $scope.$on('lx-dropdown__close', (evt, dropdownId) => {
-        if (dropdownId === lx.uuid && lx.isOpen) {
+        if (dropdownId === lx.uuid && lx.isOpen && (angular.isUndefined(lx.closeOnClick) || lx.closeOnClick)) {
             _close();
         }
     });
