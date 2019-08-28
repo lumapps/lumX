@@ -15079,6 +15079,9 @@ function DropdownController($document, $rootScope, $scope, $timeout, $window, Lx
       _initVerticalPosition();
     }
   });
+  $scope.$on('$destroy', function () {
+    _close();
+  });
 }
 
 function DropdownDirective() {
