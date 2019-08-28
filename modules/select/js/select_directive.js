@@ -303,9 +303,17 @@ function SelectController($document, $interpolate, $sce, $scope, $timeout, LxDro
      * @return {string} The selected label.
      */
     function displaySelected(selected) {
-        const selectedScope = {
-            $selected: angular.isDefined(selected) ? selected : lx.viewValue,
-        };
+        const selectedScope = {};
+
+        if (!angular.isArray(lx.choices)) {
+            Object.entries(lx.choices).forEach(([subheader, choices]) => {
+                if (_arrayObjectIndexOf(choices, selected) !== -1) {
+                    selectedScope.$selectedSubheader = subheader;
+                }
+            });
+        }
+
+        selectedScope.$selected = angular.isDefined(selected) ? selected : lx.viewValue;
 
         const interpolatedSelected = $interpolate(_selectedTemplate)(selectedScope);
 
