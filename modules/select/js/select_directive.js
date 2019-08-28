@@ -210,7 +210,7 @@ function SelectController($document, $interpolate, $sce, $scope, $timeout, LxDro
      */
     function _onKeyPress(evt) {
         if ((evt.keyCode === DOWN_KEY_CODE || evt.keyCode === ENTER_KEY_CODE) && !lx.isOpen) {
-            lx.openDropdown();
+            lx.openDropdown(evt);
 
             evt.preventDefault();
             evt.stopPropagation();
@@ -346,7 +346,9 @@ function SelectController($document, $interpolate, $sce, $scope, $timeout, LxDro
      * @param {Event} evt The click event.
      */
     function openDropdown(evt) {
-        evt.stopPropagation();
+        if (angular.isDefined(evt)) {
+            evt.stopPropagation();
+        }
 
         LxDropdownService.open(lx.dropdownUuid, { target: `#${lx.targetUuid}` });
     }

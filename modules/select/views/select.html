@@ -84,7 +84,7 @@
     <lx-chip
         id="{{ lx.targetUuid }}"
         lx-has-dropdown-indicator="lx.isModelEmpty()"
-        lx-on-click="lx.openDropdown()"
+        lx-on-click="lx.openDropdown($event)"
         lx-on-after-click="lx.clearModel()"
         lx-is-selected="!lx.isModelEmpty()"
         lx-theme="{{ lx.theme }}"
