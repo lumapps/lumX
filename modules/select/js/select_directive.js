@@ -130,6 +130,10 @@ function SelectController($document, $interpolate, $sce, $scope, $timeout, LxDro
      * Init view value.
      */
     function _initViewValue() {
+        if (lx.multiple && angular.isUndefined(_modelController.$viewValue)) {
+            _modelController.$setViewValue([]);
+        }
+
         if (angular.isDefined(lx.modelToSelection)) {
             if (lx.multiple) {
                 lx.viewValue = [];
@@ -341,10 +345,6 @@ function SelectController($document, $interpolate, $sce, $scope, $timeout, LxDro
      * @return {boolean} Whether the model is empty or not.
      */
     function isModelEmpty() {
-        if (angular.isUndefined(_modelController.$viewValue)) {
-            return true;
-        }
-
         if (lx.multiple) {
             return _modelController.$viewValue.length === 0;
         }
