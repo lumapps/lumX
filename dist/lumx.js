@@ -14868,7 +14868,7 @@ function DropdownController($document, $rootScope, $scope, $timeout, $window, Lx
     LxDropdownService.resetActiveDropdownId();
     LxUtilsService.restoreBodyScroll();
     $timeout(function () {
-      _menuEl.removeAttr('style').insertAfter(_toggleEl);
+      _menuEl.removeAttr('style').hide().insertAfter(_toggleEl);
 
       if (angular.isUndefined(lx.escapeClose) || lx.escapeClose) {
         LxEventSchedulerService.unregister(_idEventScheduler);
@@ -14999,7 +14999,10 @@ function DropdownController($document, $rootScope, $scope, $timeout, $window, Lx
 
     LxDepthService.increase();
 
-    _menuEl.appendTo('body').css('z-index', LxDepthService.get());
+    _menuEl.appendTo('body').show().css({
+      position: 'fixed',
+      zIndex: LxDepthService.get()
+    });
 
     $timeout(function () {
       _initHorizontalPosition();
@@ -15021,6 +15024,8 @@ function DropdownController($document, $rootScope, $scope, $timeout, $window, Lx
 
   function registerMenu(menuEl) {
     _menuEl = menuEl;
+
+    _menuEl.hide();
   }
 
   function registerToggle(toggleEl) {
