@@ -37,7 +37,7 @@
         </div>
 
         <div class="lumx-select__input-native" ng-if="!lx.isModelEmpty() && !lx.multiple">
-            <span ng-bind-html="::lx.displaySelected()"></span>
+            <span ng-bind-html="lx.displaySelected()"></span>
         </div>
 
         <div class="lumx-select__input-chips">
@@ -52,7 +52,7 @@
                     lx-theme="{{ lx.theme === 'dark' ? 'dark' : 'light' }}"
                     ng-disabled="lx.isDisabled"
                 >
-                    <lx-chip-label ng-bind-html="::lx.displaySelected(selected)"></lx-chip-label>
+                    <lx-chip-label ng-bind-html="lx.displaySelected(selected)"></lx-chip-label>
 
                     <lx-chip-after>
                         <lx-icon lx-path="{{ lx.icons.mdiClose }}" lx-size="xxs"></lx-icon>
@@ -95,10 +95,10 @@
         <lx-chip-label>
             <span ng-if="lx.isModelEmpty()">{{ lx.label }}</span>
 
-            <span ng-if="!lx.isModelEmpty() && !lx.multiple" ng-bind-html="::lx.displaySelected()"></span>
+            <span ng-if="!lx.isModelEmpty() && !lx.multiple" ng-bind-html="lx.displaySelected()"></span>
 
             <span ng-if="!lx.isModelEmpty() && lx.multiple">
-                <span ng-bind-html="::lx.displaySelected(lx.viewValue[0])"></span>
+                <span ng-bind-html="lx.displaySelected(lx.viewValue[0])"></span>
                 <span ng-if="lx.viewValue.length > 1">+{{ lx.viewValue.length - 1 }}</span>
             </span>
         </lx-chip-label>
