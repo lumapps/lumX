@@ -14852,7 +14852,7 @@ function DropdownController($document, $rootScope, $scope, $timeout, $window, Lx
   lx.uuid = LxUtilsService.generateUUID();
 
   function _onDocumentClick() {
-    LxDropdownService.closeActiveDropdown(true);
+    LxDropdownService.close(lx.uuid, true);
   }
 
   function _checkScrollEnd() {
@@ -14981,7 +14981,7 @@ function DropdownController($document, $rootScope, $scope, $timeout, $window, Lx
 
   function _onKeyUp(evt) {
     if (evt.keyCode === _lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_3__[/* ESCAPE_KEY_CODE */ "d"]) {
-      LxDropdownService.closeActiveDropdown();
+      LxDropdownService.close(lx.uuid);
     }
 
     evt.stopPropagation();
@@ -15036,7 +15036,7 @@ function DropdownController($document, $rootScope, $scope, $timeout, $window, Lx
     }
 
     if (lx.isOpen) {
-      LxDropdownService.closeActiveDropdown(true);
+      LxDropdownService.close(lx.uuid);
     } else {
       _open();
     }
