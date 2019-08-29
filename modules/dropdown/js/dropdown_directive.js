@@ -12,7 +12,6 @@ function DropdownController(
     $window,
     LxDepthService,
     LxDropdownService,
-    LxEventSchedulerService,
     LxUtilsService,
 ) {
     'ngInject';
@@ -34,14 +33,6 @@ function DropdownController(
      * @readonly
      */
     const _OFFSET_FROM_EDGE = 16;
-
-    /**
-     * The event scheduler id.
-     *
-     * @type {string}
-     */
-    // eslint-disable-next-line one-var
-    let _idEventScheduler;
 
     /**
      * The menu element.
@@ -102,9 +93,17 @@ function DropdownController(
 
     /**
      * Close dropdown on document click.
+     *
+     * @param {Event} evt The click event.
      */
-    function _onDocumentClick() {
-        LxDropdownService.close(lx.uuid, true);
+    function _onDocumentClick(evt) {
+        if (evt.keyCode === ESCAPE_KEY_CODE) {
+            if (lx.uuid === LxDropdownService.getLastDropdownId()) {
+                LxDropdownService.close(lx.uuid);
+            }
+        } else {
+            LxDropdownService.close(lx.uuid, true);
+        }
     }
 
     /**
@@ -131,11 +130,6 @@ function DropdownController(
                 .removeAttr('style')
                 .hide()
                 .insertAfter(_toggleEl);
-
-            if (angular.isUndefined(lx.escapeClose) || lx.escapeClose) {
-                LxEventSchedulerService.unregister(_idEventScheduler);
-                _idEventScheduler = undefined;
-            }
 
             _menuEl.off('scroll', _checkScrollEnd);
             $document.off('click keydown keypress', _onDocumentClick);
@@ -256,28 +250,11 @@ function DropdownController(
     }
 
     /**
-     * Close dropdown on echap key up.
-     *
-     * @param {Event} evt The key up event.
-     */
-    function _onKeyUp(evt) {
-        if (evt.keyCode === ESCAPE_KEY_CODE) {
-            LxDropdownService.close(lx.uuid);
-        }
-
-        evt.stopPropagation();
-    }
-
-    /**
      * Open dropdown.
      */
     function _open() {
         LxDropdownService.closeActiveDropdown(true);
         LxDropdownService.registerDropdownId(lx.uuid);
-
-        if (angular.isUndefined(lx.escapeClose) || lx.escapeClose) {
-            _idEventScheduler = LxEventSchedulerService.register('keyup', _onKeyUp);
-        }
 
         LxDepthService.increase();
 

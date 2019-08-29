@@ -44,6 +44,15 @@ function DropdownService($rootScope) {
     }
 
     /**
+     * Get last dropdown id.
+     *
+     * @return {string} The last dropdown id.
+     */
+    function getLastDropdownId() {
+        return _activeDropdownIds[_activeDropdownIds.length - 1];
+    }
+
+    /**
      * Check if a given dropdown is open.
      *
      * @param  {string}  dropdownId The dropdown identifier.
@@ -92,6 +101,7 @@ function DropdownService($rootScope) {
 
     service.close = closeDropdown;
     service.closeActiveDropdown = closeActiveDropdown;
+    service.getLastDropdownId = getLastDropdownId;
     service.isOpen = isOpen;
     service.open = openDropdown;
     service.registerDropdownId = registerDropdownId;
