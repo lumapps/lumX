@@ -17549,6 +17549,10 @@ function SelectFilterDirective() {
 
   function link(scope, el) {
     el.focus().on('click keydown keypress', function (evt) {
+      if (evt.keyCode === _lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_1__[/* ESCAPE_KEY_CODE */ "d"]) {
+        return;
+      }
+
       evt.stopPropagation();
 
       if (evt.keyCode === _lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_1__[/* DOWN_KEY_CODE */ "b"]) {
