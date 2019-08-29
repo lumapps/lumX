@@ -262,7 +262,7 @@ function DropdownController(
      */
     function _onKeyUp(evt) {
         if (evt.keyCode === ESCAPE_KEY_CODE) {
-            LxDropdownService.closeActiveDropdown(true);
+            LxDropdownService.closeActiveDropdown();
         }
 
         evt.stopPropagation();
