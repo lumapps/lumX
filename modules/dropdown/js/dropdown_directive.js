@@ -104,7 +104,7 @@ function DropdownController(
      * Close dropdown on document click.
      */
     function _onDocumentClick() {
-        LxDropdownService.closeActiveDropdown(true);
+        LxDropdownService.close(lx.uuid, true);
     }
 
     /**
@@ -262,7 +262,7 @@ function DropdownController(
      */
     function _onKeyUp(evt) {
         if (evt.keyCode === ESCAPE_KEY_CODE) {
-            LxDropdownService.closeActiveDropdown();
+            LxDropdownService.close(lx.uuid);
         }
 
         evt.stopPropagation();
@@ -343,7 +343,7 @@ function DropdownController(
         }
 
         if (lx.isOpen) {
-            LxDropdownService.closeActiveDropdown(true);
+            LxDropdownService.close(lx.uuid);
         } else {
             _open();
         }
