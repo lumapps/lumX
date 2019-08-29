@@ -14829,17 +14829,15 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-DropdownController.$inject = ["$document", "$rootScope", "$scope", "$timeout", "$window", "LxDepthService", "LxDropdownService", "LxEventSchedulerService", "LxUtilsService"];
+DropdownController.$inject = ["$document", "$rootScope", "$scope", "$timeout", "$window", "LxDepthService", "LxDropdownService", "LxUtilsService"];
 
 
 
-function DropdownController($document, $rootScope, $scope, $timeout, $window, LxDepthService, LxDropdownService, LxEventSchedulerService, LxUtilsService) {
+function DropdownController($document, $rootScope, $scope, $timeout, $window, LxDepthService, LxDropdownService, LxUtilsService) {
   'ngInject';
 
   var lx = this;
   var _OFFSET_FROM_EDGE = 16;
-
-  var _idEventScheduler;
 
   var _menuEl;
 
@@ -14851,8 +14849,14 @@ function DropdownController($document, $rootScope, $scope, $timeout, $window, Lx
   lx.isOpen = false;
   lx.uuid = LxUtilsService.generateUUID();
 
-  function _onDocumentClick() {
-    LxDropdownService.close(lx.uuid, true);
+  function _onDocumentClick(evt) {
+    if (evt.keyCode === _lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_3__[/* ESCAPE_KEY_CODE */ "d"]) {
+      if (lx.uuid === LxDropdownService.getLastDropdownId()) {
+        LxDropdownService.close(lx.uuid);
+      }
+    } else {
+      LxDropdownService.close(lx.uuid, true);
+    }
   }
 
   function _checkScrollEnd() {
@@ -14867,11 +14871,6 @@ function DropdownController($document, $rootScope, $scope, $timeout, $window, Lx
     LxUtilsService.restoreBodyScroll();
     $timeout(function () {
       _menuEl.removeAttr('style').hide().insertAfter(_toggleEl);
-
-      if (angular.isUndefined(lx.escapeClose) || lx.escapeClose) {
-        LxEventSchedulerService.unregister(_idEventScheduler);
-        _idEventScheduler = undefined;
-      }
 
       _menuEl.off('scroll', _checkScrollEnd);
 
@@ -14979,22 +14978,9 @@ function DropdownController($document, $rootScope, $scope, $timeout, $window, Lx
     _menuEl.css(menuProps);
   }
 
-  function _onKeyUp(evt) {
-    if (evt.keyCode === _lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_3__[/* ESCAPE_KEY_CODE */ "d"]) {
-      LxDropdownService.close(lx.uuid);
-    }
-
-    evt.stopPropagation();
-  }
-
   function _open() {
     LxDropdownService.closeActiveDropdown(true);
     LxDropdownService.registerDropdownId(lx.uuid);
-
-    if (angular.isUndefined(lx.escapeClose) || lx.escapeClose) {
-      _idEventScheduler = LxEventSchedulerService.register('keyup', _onKeyUp);
-    }
-
     LxDepthService.increase();
 
     _menuEl.appendTo('body').show().css({
@@ -15164,6 +15150,10 @@ function DropdownService($rootScope) {
     }
   }
 
+  function getLastDropdownId() {
+    return _activeDropdownIds[_activeDropdownIds.length - 1];
+  }
+
   function isOpen(dropdownId) {
     return _activeDropdownIds.includes(dropdownId);
   }
@@ -15186,6 +15176,7 @@ function DropdownService($rootScope) {
 
   service.close = closeDropdown;
   service.closeActiveDropdown = closeActiveDropdown;
+  service.getLastDropdownId = getLastDropdownId;
   service.isOpen = isOpen;
   service.open = openDropdown;
   service.registerDropdownId = registerDropdownId;
