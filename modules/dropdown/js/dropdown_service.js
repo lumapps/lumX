@@ -14,7 +14,7 @@ function DropdownService($rootScope) {
      *
      * @type {string}
      */
-    let _activeDropdownId;
+    const _activeDropdownIds = [];
 
     /////////////////////////////
     //                         //
@@ -38,8 +38,8 @@ function DropdownService($rootScope) {
      * @param {boolean} isDocumentClick Whether the method has been called on document click or not.
      */
     function closeActiveDropdown(isDocumentClick) {
-        if (angular.isDefined(_activeDropdownId)) {
-            closeDropdown(_activeDropdownId, isDocumentClick);
+        if (_activeDropdownIds.length > 0) {
+            closeDropdown(_activeDropdownIds[_activeDropdownIds.length - 1], isDocumentClick);
         }
     }
 
@@ -50,7 +50,7 @@ function DropdownService($rootScope) {
      * @return {boolean} Whether the given dropdown is open or not.
      */
     function isOpen(dropdownId) {
-        return _activeDropdownId === dropdownId;
+        return _activeDropdownIds.includes(dropdownId);
     }
 
     /**
@@ -64,19 +64,21 @@ function DropdownService($rootScope) {
     }
 
     /**
-     * Register the active dropdown identifier.
+     * Register the given dropdown identifier.
      *
      * @param {string} dropdownId The dropdown identifier.
      */
-    function registerActiveDropdownId(dropdownId) {
-        _activeDropdownId = dropdownId;
+    function registerDropdownId(dropdownId) {
+        _activeDropdownIds.push(dropdownId);
     }
 
     /**
-     * Reset the active dropdown identifier.
+     * Unegister the given dropdown identifier.
+     *
+     * @param {string} dropdownId The dropdown identifier.
      */
-    function resetActiveDropdownId() {
-        _activeDropdownId = undefined;
+    function unregisterDropdownId(dropdownId) {
+        _activeDropdownIds.splice(_activeDropdownIds.indexOf(dropdownId), 1);
     }
 
     /**
@@ -92,8 +94,8 @@ function DropdownService($rootScope) {
     service.closeActiveDropdown = closeActiveDropdown;
     service.isOpen = isOpen;
     service.open = openDropdown;
-    service.registerActiveDropdownId = registerActiveDropdownId;
-    service.resetActiveDropdownId = resetActiveDropdownId;
+    service.registerDropdownId = registerDropdownId;
+    service.unregisterDropdownId = unregisterDropdownId;
     service.updateActiveDropdownPosition = updateActiveDropdownPosition;
 }
 

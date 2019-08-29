@@ -122,7 +122,7 @@ function DropdownController(
     function _close() {
         lx.isOpen = false;
 
-        LxDropdownService.resetActiveDropdownId();
+        LxDropdownService.unregisterDropdownId(lx.uuid);
 
         LxUtilsService.restoreBodyScroll();
 
@@ -273,7 +273,7 @@ function DropdownController(
      */
     function _open() {
         LxDropdownService.closeActiveDropdown(true);
-        LxDropdownService.registerActiveDropdownId(lx.uuid);
+        LxDropdownService.registerDropdownId(lx.uuid);
 
         if (angular.isUndefined(lx.escapeClose) || lx.escapeClose) {
             _idEventScheduler = LxEventSchedulerService.register('keyup', _onKeyUp);
