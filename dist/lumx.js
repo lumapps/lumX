@@ -14981,7 +14981,7 @@ function DropdownController($document, $rootScope, $scope, $timeout, $window, Lx
 
   function _onKeyUp(evt) {
     if (evt.keyCode === _lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_3__[/* ESCAPE_KEY_CODE */ "d"]) {
-      LxDropdownService.closeActiveDropdown(true);
+      LxDropdownService.closeActiveDropdown();
     }
 
     evt.stopPropagation();
