@@ -12,6 +12,7 @@ function DropdownController(
     $window,
     LxDepthService,
     LxDropdownService,
+    LxEventSchedulerService,
     LxUtilsService,
 ) {
     'ngInject';
@@ -33,6 +34,14 @@ function DropdownController(
      * @readonly
      */
     const _OFFSET_FROM_EDGE = 16;
+
+    /**
+     * The event scheduler id.
+     *
+     * @type {string}
+     */
+    // eslint-disable-next-line one-var
+    let _idEventScheduler;
 
     /**
      * The menu element.
@@ -92,18 +101,27 @@ function DropdownController(
     /////////////////////////////
 
     /**
-     * Close dropdown on document click.
+     * Close dropdown on document click/keydown/keypress.
+     *
+     * @param {Event} evt The click/keydown/keypress event.
+     */
+    function _onDocumentEvent(evt) {
+        if (evt.keyCode === ESCAPE_KEY_CODE && angular.isDefined(lx.escapeClose) && !lx.escapeClose) {
+            return;
+        }
+
+        evt.stopPropagation();
+
+        LxDropdownService.closeLastDropdown();
+    }
+
+    /**
+     * Stop event propagation on menu click.
      *
      * @param {Event} evt The click event.
      */
-    function _onDocumentClick(evt) {
-        if (evt.keyCode === ESCAPE_KEY_CODE) {
-            if (lx.uuid === LxDropdownService.getLastDropdownId()) {
-                LxDropdownService.close(lx.uuid);
-            }
-        } else {
-            LxDropdownService.close(lx.uuid, true);
-        }
+    function _stopMenuPropagation(evt) {
+        evt.stopPropagation();
     }
 
     /**
@@ -129,10 +147,15 @@ function DropdownController(
             _menuEl
                 .removeAttr('style')
                 .hide()
+                .off('scroll', _checkScrollEnd)
                 .insertAfter(_toggleEl);
 
-            _menuEl.off('scroll', _checkScrollEnd);
-            $document.off('click keydown keypress', _onDocumentClick);
+            if (angular.isDefined(lx.closeOnClick) && !lx.closeOnClick) {
+                _menuEl.off('click', _stopMenuPropagation);
+            }
+
+            LxEventSchedulerService.unregister(_idEventScheduler);
+            _idEventScheduler = undefined;
 
             if (angular.isDefined(_sourceEl)) {
                 _sourceEl.focus();
@@ -253,7 +276,7 @@ function DropdownController(
      * Open dropdown.
      */
     function _open() {
-        LxDropdownService.closeActiveDropdown(true);
+        LxDropdownService.closeLastDropdown(true);
         LxDropdownService.registerDropdownId(lx.uuid);
 
         LxDepthService.increase();
@@ -268,10 +291,16 @@ function DropdownController(
             _initVerticalPosition();
 
             lx.isOpen = true;
+
             LxUtilsService.disableBodyScroll();
 
             _menuEl.on('scroll', _checkScrollEnd);
-            $document.on('click keydown keypress', _onDocumentClick);
+
+            if (angular.isDefined(lx.closeOnClick) && !lx.closeOnClick) {
+                _menuEl.on('click', _stopMenuPropagation);
+            }
+
+            _idEventScheduler = LxEventSchedulerService.register('click keydown keypress', _onDocumentEvent);
         });
     }
 
@@ -373,13 +402,13 @@ function DropdownController(
     /**
      * Close a given dropdown.
      *
-     * @param {Event}   evt             The dropdown open event.
-     * @param {Object}  dropdownId      The dropdown identifier.
-     * @param {boolean} isDocumentClick Whether the method has been called on document click or not.
+     * @param {Event}   evt        The dropdown open event.
+     * @param {Object}  dropdownId The dropdown identifier.
+     * @param {boolean} onOpen     Whether the order has been asked on dropdown open or not.
      */
-    $scope.$on('lx-dropdown__close', (evt, dropdownId, isDocumentClick) => {
+    $scope.$on('lx-dropdown__close', (evt, dropdownId, onOpen) => {
         if (dropdownId === lx.uuid && lx.isOpen) {
-            if (isDocumentClick && angular.isDefined(lx.closeOnClick) && !lx.closeOnClick) {
+            if (onOpen && angular.isDefined(lx.closeOnClick) && !lx.closeOnClick) {
                 return;
             }
 

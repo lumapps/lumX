@@ -25,21 +25,21 @@ function DropdownService($rootScope) {
     /**
      * Close a given dropdown.
      *
-     * @param {string}  dropdownId      The dropdown identifier.
-     * @param {boolean} isDocumentClick Whether the method has been called on document click or not.
+     * @param {string}  dropdownId The dropdown identifier.
+     * @param {boolean} onOpen     Whether the order has been asked on dropdown open or not.
      */
-    function closeDropdown(dropdownId, isDocumentClick) {
-        $rootScope.$broadcast('lx-dropdown__close', dropdownId, isDocumentClick);
+    function closeDropdown(dropdownId, onOpen) {
+        $rootScope.$broadcast('lx-dropdown__close', dropdownId, onOpen);
     }
 
     /**
-     * Close the active dropdown.
+     * Close the last opened dropdown.
      *
-     * @param {boolean} isDocumentClick Whether the method has been called on document click or not.
+     * @param {boolean} onOpen Whether the order has been asked on dropdown open or not.
      */
-    function closeActiveDropdown(isDocumentClick) {
+    function closeLastDropdown(onOpen) {
         if (_activeDropdownIds.length > 0) {
-            closeDropdown(_activeDropdownIds[_activeDropdownIds.length - 1], isDocumentClick);
+            closeDropdown(_activeDropdownIds[_activeDropdownIds.length - 1], onOpen);
         }
     }
 
@@ -100,7 +100,7 @@ function DropdownService($rootScope) {
     /////////////////////////////
 
     service.close = closeDropdown;
-    service.closeActiveDropdown = closeActiveDropdown;
+    service.closeLastDropdown = closeLastDropdown;
     service.getLastDropdownId = getLastDropdownId;
     service.isOpen = isOpen;
     service.open = openDropdown;
