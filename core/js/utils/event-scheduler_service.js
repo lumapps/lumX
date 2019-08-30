@@ -35,7 +35,13 @@ function EventSchedulerService($document, LxUtilsService) {
      * @param {Event} evt The event.
      */
     function _handle(evt) {
-        const scheduler = _schedule[evt.type];
+        let scheduler;
+
+        for (const [key] of Object.entries(_schedule)) {
+            if (key.includes(evt.type)) {
+                scheduler = _schedule[key];
+            }
+        }
 
         if (angular.isDefined(scheduler)) {
             for (let i = 0, len = scheduler.length; i < len; i++) {
