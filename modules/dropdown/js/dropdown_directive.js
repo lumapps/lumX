@@ -376,23 +376,22 @@ function DropdownController(
      */
     $scope.$on('lx-dropdown__open', (evt, dropdownId, params) => {
         if (dropdownId === lx.uuid && !lx.isOpen) {
-            // Backward compatibility.
-            if (angular.isString(params) || angular.isElement(params)) {
-                const toggleEl = angular.isString(params) ? angular.element(params) : params;
+            let toggleEl;
 
-                registerToggle(toggleEl);
-
-                _open();
-
-                return;
+            if (angular.isElement(params)) {
+                toggleEl = params;
+            } else if (angular.isString(params)) {
+                toggleEl = angular.element(params);
+            } else if (angular.isObject(params)) {
+                toggleEl = angular.element(params.target);
             }
 
-            registerToggle(angular.element(params.target));
+            registerToggle(toggleEl);
 
-            if (angular.isDefined(params.source)) {
+            if (angular.isObject(params) && angular.isDefined(params.source)) {
                 _registerSource(angular.element(params.source));
             } else {
-                _registerSource(angular.element(params.target));
+                _registerSource(toggleEl);
             }
 
             _open();
