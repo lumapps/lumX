@@ -106,7 +106,7 @@ function DropdownController(
      * @param {Event} evt The click/keydown/keypress event.
      */
     function _onDocumentEvent(evt) {
-        if (evt.keyCode === ESCAPE_KEY_CODE && angular.isDefined(lx.escapeClose) && !lx.escapeClose) {
+        if (angular.isDefined(lx.escapeClose) && !lx.escapeClose) {
             return;
         }
 
@@ -121,6 +121,10 @@ function DropdownController(
      * @param {Event} evt The click event.
      */
     function _stopMenuPropagation(evt) {
+        if (evt.keyCode === ESCAPE_KEY_CODE) {
+            return;
+        }
+
         evt.stopPropagation();
     }
 
@@ -151,7 +155,7 @@ function DropdownController(
                 .insertAfter(_toggleEl);
 
             if (angular.isDefined(lx.closeOnClick) && !lx.closeOnClick) {
-                _menuEl.off('click', _stopMenuPropagation);
+                _menuEl.off('click keydown keypress', _stopMenuPropagation);
             }
 
             LxEventSchedulerService.unregister(_idEventScheduler);
@@ -297,7 +301,7 @@ function DropdownController(
             _menuEl.on('scroll', _checkScrollEnd);
 
             if (angular.isDefined(lx.closeOnClick) && !lx.closeOnClick) {
-                _menuEl.on('click', _stopMenuPropagation);
+                _menuEl.on('click keydown keypress', _stopMenuPropagation);
             }
 
             _idEventScheduler = LxEventSchedulerService.register('click keydown keypress', _onDocumentEvent);
@@ -429,6 +433,10 @@ function DropdownController(
      * Close on destroy.
      */
     $scope.$on('$destroy', () => {
+        if (!lx.isOpen) {
+            return;
+        }
+
         _close();
     });
 }
