@@ -75,7 +75,7 @@ function getStyleLoader({ mode = 'dev' }) {
                         importLoaders: 2,
                         sourceMap: false,
                     },
-				},
+                },
                 {
                     loader: 'postcss-loader',
                     options: {
@@ -88,7 +88,12 @@ function getStyleLoader({ mode = 'dev' }) {
                 {
                     loader: 'sass-loader',
                     options: {
-                        includePaths: [`${NODE_MODULES_PATH}/bourbon/app/assets/stylesheets/`, `${NODE_MODULES_PATH}/@mdi/font/scss/`, `${NODE_MODULES_PATH}/sass-mq`, `${NODE_MODULES_PATH}/@lumx/core/scss`],
+                        includePaths: [
+                            `${NODE_MODULES_PATH}/bourbon/app/assets/stylesheets/`,
+                            `${NODE_MODULES_PATH}/@mdi/font/scss/`,
+                            `${NODE_MODULES_PATH}/sass-mq`,
+                            `${NODE_MODULES_PATH}/@lumx/core/scss`,
+                        ],
                         sourceMap: false,
                     },
                 },
@@ -120,7 +125,7 @@ function getStyleLoader({ mode = 'dev' }) {
                         importLoaders: 2,
                         sourceMap: false,
                     },
-				},
+                },
                 {
                     loader: 'postcss-loader',
                     options: {

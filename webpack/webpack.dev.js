@@ -61,7 +61,6 @@ module.exports = merge.smartStrategy({
         hot: true,
         open: true,
         overlay: true,
-        // eslint-disable-next-line no-magic-numbers
         port: DEFAULT_PORT,
         quiet: true,
     },
