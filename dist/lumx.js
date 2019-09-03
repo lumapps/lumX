@@ -15019,7 +15019,7 @@ function DropdownController($document, $rootScope, $scope, $timeout, $window, Lx
   lx.uuid = LxUtilsService.generateUUID();
 
   function _onDocumentEvent(evt) {
-    if (evt.keyCode === _lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_3__[/* ESCAPE_KEY_CODE */ "d"] && angular.isDefined(lx.escapeClose) && !lx.escapeClose) {
+    if (angular.isDefined(lx.escapeClose) && !lx.escapeClose) {
       return;
     }
 
@@ -15028,6 +15028,10 @@ function DropdownController($document, $rootScope, $scope, $timeout, $window, Lx
   }
 
   function _stopMenuPropagation(evt) {
+    if (evt.keyCode === _lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_3__[/* ESCAPE_KEY_CODE */ "d"]) {
+      return;
+    }
+
     evt.stopPropagation();
   }
 
@@ -15045,7 +15049,7 @@ function DropdownController($document, $rootScope, $scope, $timeout, $window, Lx
       _menuEl.removeAttr('style').hide().off('scroll', _checkScrollEnd).insertAfter(_toggleEl);
 
       if (angular.isDefined(lx.closeOnClick) && !lx.closeOnClick) {
-        _menuEl.off('click', _stopMenuPropagation);
+        _menuEl.off('click keydown keypress', _stopMenuPropagation);
       }
 
       LxEventSchedulerService.unregister(_idEventScheduler);
@@ -15174,7 +15178,7 @@ function DropdownController($document, $rootScope, $scope, $timeout, $window, Lx
       _menuEl.on('scroll', _checkScrollEnd);
 
       if (angular.isDefined(lx.closeOnClick) && !lx.closeOnClick) {
-        _menuEl.on('click', _stopMenuPropagation);
+        _menuEl.on('click keydown keypress', _stopMenuPropagation);
       }
 
       _idEventScheduler = LxEventSchedulerService.register('click keydown keypress', _onDocumentEvent);
@@ -15250,6 +15254,10 @@ function DropdownController($document, $rootScope, $scope, $timeout, $window, Lx
     }
   });
   $scope.$on('$destroy', function () {
+    if (!lx.isOpen) {
+      return;
+    }
+
     _close();
   });
 }
