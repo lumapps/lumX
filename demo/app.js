@@ -52,6 +52,56 @@ function AppDefaultConfig($locationProvider, $stateProvider, markedProvider) {
                     template: require('./components/button/demo.html'),
                 },
             },
+        })
+        .state('app.components.checkbox', {
+            url: 'checkbox',
+            views: {
+                'main@': {
+                    controller: 'DemoCheckboxController',
+                    controllerAs: 'vm',
+                    template: require('./components/checkbox/demo.html'),
+                },
+            },
+        })
+        .state('app.components.chip', {
+            url: 'chip',
+            views: {
+                'main@': {
+                    controller: 'DemoChipController',
+                    controllerAs: 'vm',
+                    template: require('./components/chip/demo.html'),
+                },
+            },
+        })
+        .state('app.components.dropdown', {
+            url: 'dropdown',
+            views: {
+                'main@': {
+                    controller: 'DemoDropdownController',
+                    controllerAs: 'vm',
+                    template: require('./components/dropdown/demo.html'),
+                },
+            },
+        })
+        .state('app.components.list', {
+            url: 'list',
+            views: {
+                'main@': {
+                    controller: 'DemoListController',
+                    controllerAs: 'vm',
+                    template: require('./components/list/demo.html'),
+                },
+            },
+        })
+        .state('app.components.select', {
+            url: 'select',
+            views: {
+                'main@': {
+                    controller: 'DemoSelectController',
+                    controllerAs: 'vm',
+                    template: require('./components/select/demo.html'),
+                },
+            },
         });
 }
 
