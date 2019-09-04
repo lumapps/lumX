@@ -1,70 +1,66 @@
-///*------------------------------------*\
-//    #OBJECTS-TOOLBAR
-//\*------------------------------------*/
+/* ==========================================================================
+   Chip
+   ========================================================================== */
 
-// Chip base styles
 .chip {
-    @include display(flex);
-    @include flex-direction(row);
-    @include align-items(center);
-    height: 32px;
-    padding: 0 $base-spacing-unit * 1.5;
-    border-radius: 16px;
-    background-color: $grey-300;
+    @include lumx-chip-base;
+    @include lumx-chip-size('m');
+    @include lumx-state('state-default', 'emphasis-medium', 'dark');
+
+    padding: 0 $lumx-spacing-unit * 1.5;
+
+    &__label {
+        @include lumx-chip-label('m');
+    }
 }
 
-.chip--is-contact  {
-    padding-left: 0;
-    padding-left: 0;
-}
+/* Chip deletable
+   ========================================================================== */
 
 .chip--is-deletable {
-    padding-right: $base-spacing-unit / 2;
+    @include lumx-state-transition;
+
     cursor: pointer;
 
     &:after {
-        @include size(24px);
-        margin-left: $base-spacing-unit / 2;
         @include mdi;
-        @include mdi-icon(close-circle);
-        @include font-size(19px);
-        color: $black-3;
-        line-height: 24px;
-        text-align: center;
+        @include mdi-icon('close');
+        @include lumx-icon-size('xs');
+        @include lumx-chip-after;
     }
 
     &:hover {
-        background-color: $grey-600;
+        @include lumx-state('state-hover', 'emphasis-medium', 'dark');
+    }
 
-        &:after {
-            color: $white-1;
-        }
+    &:active {
+        @include lumx-state('state-active', 'emphasis-medium', 'dark');
+    }
+
+    &[data-focus-visible-added] {
+        @include lumx-state('state-focus', 'emphasis-medium', 'dark');
     }
 }
 
-    // Chip contact
-    .chip__contact {
-        @include size(32px);
-        margin-right: $base-spacing-unit;
-        border-radius: 50%;
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: cover;
-        overflow: hidden;
+/* Chip contact
+   ========================================================================== */
 
-        img {
-            @include size(32px);
-        }
-    }
+.chip--is-contact {
+    padding-left: 6px;
+}
 
-    // Chip label
-    .chip__label {
-        @include flex(1);
-        @include font-size(13px);
-        line-height: 32px;
-        color: $black-1;
-    }
+.chip__contact {
+    @include lumx-chip-before;
+    overflow: hidden;
+    width: map-get($lumx-sizes, 's');
+    height: map-get($lumx-sizes, 's');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-radius: 50%;
 
-    .chip--is-deletable:hover .chip__label {
-        color: $white-1;
+    img {
+        width: map-get($lumx-sizes, 's');
+        height: map-get($lumx-sizes, 's');
     }
+}
