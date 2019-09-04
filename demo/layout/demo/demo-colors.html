@@ -1,0 +1,14 @@
+<div class="demo-colors" ng-class="{ 'lumx-theme-background-dark-N': demoColors.theme === 'dark' }">
+    <div
+        class="demo-colors__hue"
+        ng-class="demoColors.getHueStyle(key, hue)"
+        ng-repeat="(key, hue) in demoColors.colors"
+    >
+        <span class="demo-colors__key">{{ key }}</span>
+
+        <div class="demo-colors__meta">
+            <span class="demo-colors__hex-code">{{ hue.hexCode }}</span>
+            <span class="demo-colors__opacity" ng-if="hue.opacity">{{ hue.opacity }}</span>
+        </div>
+    </div>
+</div>

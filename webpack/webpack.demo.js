@@ -15,7 +15,9 @@ const filename = '[name]';
 const distTechPath = `${DEMO_PATH}`;
 
 const entry = Object.assign(baseConfig.entry, {
-    modules: [...glob.sync(`${DEMO_PATH}/includes/modules/**/*.js`)],
+    components: [...glob.sync(`${DEMO_PATH}/components/**/*.js`)],
+    foundations: [...glob.sync(`${DEMO_PATH}/foundations/**/*.js`)],
+    layout: [...glob.sync(`${DEMO_PATH}/layout/**/*.js`)],
 });
 entry.lumx = [`${CORE_PATH}/scss/_lumx.scss`, ...entry.lumx];
 

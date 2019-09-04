@@ -1,0 +1,13 @@
+/* ==========================================================================
+   Demo grid
+   ========================================================================== */
+
+.demo-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    & > * {
+        margin: $lumx-spacing-unit / 2 !important;
+    }
+}

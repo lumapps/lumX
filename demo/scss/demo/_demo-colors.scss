@@ -1,0 +1,31 @@
+/* ==========================================================================
+   Demo colors
+   ========================================================================== */
+
+.demo-colors {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: $lumx-spacing-unit * 3;
+
+    &__hue {
+        width: 80px;
+        padding: $lumx-spacing-unit * 3 $lumx-spacing-unit;
+    }
+
+    &__key {
+        @include lumx-typography(body1);
+
+        display: block;
+    }
+
+    &__meta {
+        margin-top: $lumx-spacing-unit * 3;
+    }
+
+    &__hex-code,
+    &__opacity {
+        @include lumx-typography(caption);
+
+        display: block;
+    }
+}

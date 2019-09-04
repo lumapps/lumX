@@ -1,9 +1,0 @@
-<div class="p+">
-    <lx-button ng-click="vm.toggleDeterminateCircularProgress()">Toggle circular progress</lx-button>
-    <lx-button ng-click="vm.toggleDeterminateLinearProgress()">Toggle linear progress</lx-button>
-</div>
- 
-<div style="position: relative;">
-    <lx-progress lx-type="circular" lx-diameter="75" lx-value="{{ vm.determinateCircularProgressValue }}" ng-if="vm.showDeterminateCircularProgress"></lx-progress>
-    <lx-progress lx-type="linear" lx-color="teal" lx-value="{{ vm.determinateLinearProgressValue }}" ng-if="vm.showDeterminateLinearProgress"></lx-progress>
-</div>

@@ -1,17 +1,7 @@
-///*------------------------------------*\
-//    #LUMX
-//\*------------------------------------*/
-
 @import '../../core/scss/legacy-theme-material';
-@import 'tools/mixins';
-@import 'base/page';
-@import 'layout/header';
-@import 'layout/app';
-@import 'layout/main-nav';
-@import 'layout/sub-nav';
-@import 'layout/palm-nav';
-@import 'layout/main';
-@import 'layout/footer';
-@import 'layout/home';
-@import 'components/component';
-@import 'objects/color';
+@import './demo/demo-block';
+@import './demo/demo-colors';
+@import './demo/demo-grid';
+@import './layout/app/app';
+@import './layout/main-nav/main-nav';
+@import './layout/main/main';

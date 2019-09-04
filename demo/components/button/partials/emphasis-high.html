@@ -1,0 +1,31 @@
+<demo-grid>
+    <lx-button lx-theme="{{ demoBlock.theme }}">
+        Default
+    </lx-button>
+
+    <lx-button lx-theme="{{ demoBlock.theme }}" ng-disabled="true">
+        Disabled
+    </lx-button>
+
+    <lx-button lx-theme="{{ demoBlock.theme }}">
+        <lx-icon lx-path="{{ vm.icons.mdiPencil }}"></lx-icon>
+        <span>With Icon</span>
+    </lx-button>
+
+    <lx-button lx-theme="{{ demoBlock.theme }}">
+        <span>Dropdown</span>
+        <lx-icon lx-path="{{ vm.icons.mdiMenuDown }}"></lx-icon>
+    </lx-button>
+
+    <lx-button-group>
+        <lx-button lx-theme="{{ demoBlock.theme }}">Split</lx-button>
+
+        <lx-button lx-theme="{{ demoBlock.theme }}" lx-variant="icon">
+            <lx-icon lx-path="{{ vm.icons.mdiMenuDown }}"></lx-icon>
+        </lx-button>
+    </lx-button-group>
+
+    <lx-button lx-theme="{{ demoBlock.theme }}" lx-variant="icon">
+        <lx-icon lx-id="plus"></lx-icon>
+    </lx-button>
+</demo-grid>

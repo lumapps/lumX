@@ -14,37 +14,11 @@
         <link rel="stylesheet" href="node_modules/@lumx/core/lumx-theme-material.css" />
     </head>
 
-    <body ng-class="{ 'home': $state.current.name === 'app.home' }">
-        <div class="header" ui-view="header"></div>
-
+    <body>
         <div class="app">
-            <div class="app__wrapper">
-                <div class="app__sidebar" ui-view="sidebar"></div>
-                <div class="app__main" ui-view="main"></div>
-            </div>
-        </div>
-
-        <div class="footer">
-            <span>Made by</span>
-
-            <a href="http://www.lumapps.com" class="footer__link">
-                <img src="/images/logo/lumapps.png" alt="LumApps" />
-            </a>
-        </div>
-
-        <div
-            class="palm-nav-filter"
-            ng-class="{ 'palm-nav-filter--is-open': LayoutService.palmNavIsOpen }"
-            ng-click="LayoutService.togglePalmNav()"
-        ></div>
-
-        <div class="palm-nav" ng-class="{ 'palm-nav--is-open': LayoutService.palmNavIsOpen }">
-            <a ui-sref="app.home" class="palm-nav__logo">
-                <img src="/images/logo/lumx.png" />
-            </a>
-
-            <div class="palm-nav__main-nav">
-                <lx-main-nav lx-context="palm-nav"></lx-main-nav>
+            <div class="main-nav" ui-view="main-nav"></div>
+            <div class="main">
+                <div class="main__wrapper" ui-view="main"></div>
             </div>
         </div>
 
@@ -56,20 +30,22 @@
 
         <!-- Angular -->
         <script src="node_modules/angular/angular.js"></script>
-        <script src="node_modules/angular-ui-router/release/angular-ui-router.min.js"></script>
+        <script src="node_modules/angular-ui-router/release/angular-ui-router.js"></script>
 
         <!-- HighlightJs -->
         <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.9.1/highlight.min.js"></script>
-        <script src="node_modules/angular-highlightjs/angular-highlightjs.min.js"></script>
+        <script src="node_modules/angular-highlightjs/angular-highlightjs.js"></script>
+
+        <!-- Marked -->
+        <script src="node_modules/marked/lib/marked.js"></script>
+        <script src="node_modules/angular-marked/dist/angular-marked.js"></script>
 
         <!-- LumX -->
         <script src="lumx.js" type="text/javascript" crossorigin="anonymous"></script>
         <script src="app.js" type="text/javascript" crossorigin="anonymous"></script>
-        <script src="js/demo/layout/js/layout_service.js"></script>
-        <script src="js/demo/main-nav/js/main-nav_directive.js"></script>
-        <script src="js/demo/main-nav/js/main-nav-link_directive.js"></script>
-        <script src="js/demo/component/js/component_directive.js"></script>
-        <script src="modules.js" type="text/javascript" crossorigin="anonymous"></script>
+        <script src="layout.js" type="text/javascript" crossorigin="anonymous"></script>
+        <script src="foundations.js" type="text/javascript" crossorigin="anonymous"></script>
+        <script src="components.js" type="text/javascript" crossorigin="anonymous"></script>
 
         <!-- Analytics -->
         <script>
