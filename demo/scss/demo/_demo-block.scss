@@ -1,0 +1,41 @@
+/* ==========================================================================
+   Demo block
+   ========================================================================== */
+
+.demo-block {
+    border: 1px solid lumx-theme-color-variant(dark, L4);
+    border-radius: $lumx-theme-border-radius;
+
+    &__content {
+        padding: $lumx-spacing-unit * 3;
+    }
+
+    &__toolbar {
+        display: flex;
+        align-items: center;
+        padding: $lumx-spacing-unit $lumx-spacing-unit * 2 $lumx-spacing-unit $lumx-spacing-unit;
+        border-top: 1px solid lumx-theme-color-variant(dark, L4);
+    }
+
+    &__code-toggle {
+        flex: 1;
+    }
+
+    &__theme-toggle {
+        flex-shrink: 0;
+    }
+
+    &__code {
+        border-top: 1px solid lumx-theme-color-variant(dark, L4);
+
+        .hljs {
+            padding: $lumx-spacing-unit * 2;
+            background-color: transparent;
+            font-size: 14px;
+        }
+    }
+
+    &__filename {
+        padding-left: $lumx-spacing-unit * 2;
+    }
+}

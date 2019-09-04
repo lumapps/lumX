@@ -1,0 +1,30 @@
+<div class="demo-block">
+    <div
+        class="demo-block__content"
+        ng-class="{ 'lumx-theme-background-dark-N': demoBlock.hasDarkTheme }"
+        ng-include="'demo/' + demoBlock.category + '/' + demoBlock.component + '/partials/' + demoBlock.partial + '.html'"
+    ></div>
+
+    <div class="demo-block__toolbar">
+        <div class="demo-block__code-toggle">
+            <lx-button lx-emphasis="low" ng-click="demoBlock.toggleCode()">
+                <lx-icon lx-path="{{ demoBlock.icons.mdiCodeTags }}"></lx-icon>
+                <span>{{ demoBlock.isCodeOpen ? 'Hide code' : 'Show code' }}</span>
+            </lx-button>
+        </div>
+
+        <div class="demo-block__theme-toggle" ng-if="demoBlock.hasThemeSwitcher">
+            <lx-switch lx-position="right" ng-model="demoBlock.hasDarkTheme" ng-change="demoBlock.toggleTheme()">
+                Dark Background
+            </lx-switch>
+        </div>
+    </div>
+
+    <div
+        class="demo-block__code"
+        ng-if="demoBlock.isCodeOpen"
+        hljs
+        hljs-language="html"
+        include="'demo/' + demoBlock.category + '/' + demoBlock.component + '/partials/' + demoBlock.partial + '.html'"
+    ></div>
+</div>

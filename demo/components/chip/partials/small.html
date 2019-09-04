@@ -1,0 +1,25 @@
+<demo-grid>
+    <lx-chip lx-size="s" lx-theme="{{ demoBlock.theme }}">
+        <lx-chip-label>Default</lx-chip-label>
+    </lx-chip>
+
+    <lx-chip lx-size="s" lx-theme="{{ demoBlock.theme }}">
+        <lx-chip-before>
+            <lx-icon lx-path="{{ vm.icons.mdiEmail }}" lx-size="xxs"></lx-icon>
+        </lx-chip-before>
+
+        <lx-chip-label>
+            Rich
+        </lx-chip-label>
+    </lx-chip>
+
+    <lx-chip lx-size="s" lx-theme="{{ demoBlock.theme }}" lx-on-click="vm.clickCallback()">
+        <lx-chip-label>
+            Dismissible
+        </lx-chip-label>
+
+        <lx-chip-after>
+            <lx-icon lx-path="{{ vm.icons.mdiClose }}" lx-size="xxs"></lx-icon>
+        </lx-chip-after>
+    </lx-chip>
+</demo-grid>

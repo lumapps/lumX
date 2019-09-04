@@ -29,6 +29,7 @@ angular.module('lumx.dialog', ['lumx.utils.event-scheduler']);
 angular.module('lumx.dropdown', ['lumx.utils.event-scheduler']);
 angular.module('lumx.fab', []);
 angular.module('lumx.file-input', []);
+angular.module('lumx.grid', []);
 angular.module('lumx.icon', []);
 angular.module('lumx.list', []);
 angular.module('lumx.notification', ['lumx.utils.event-scheduler']);
@@ -38,6 +39,7 @@ angular.module('lumx.radio-button', []);
 angular.module('lumx.ripple', []);
 angular.module('lumx.search-filter', []);
 angular.module('lumx.select', []);
+angular.module('lumx.side-navigation', []);
 angular.module('lumx.stepper', []);
 angular.module('lumx.switch', []);
 angular.module('lumx.tabs', []);
@@ -54,6 +56,7 @@ angular.module('lumx', [
     'lumx.dropdown',
     'lumx.fab',
     'lumx.file-input',
+    'lumx.grid',
     'lumx.icon',
     'lumx.list',
     'lumx.notification',
@@ -63,6 +66,7 @@ angular.module('lumx', [
     'lumx.ripple',
     'lumx.search-filter',
     'lumx.select',
+    'lumx.side-navigation',
     'lumx.stepper',
     'lumx.switch',
     'lumx.tabs',

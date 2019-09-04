@@ -1,5 +1,5 @@
 const IS_CI = require('is-ci');
-var glob = require('glob');
+const glob = require('glob');
 
 const merge = require('webpack-merge');
 
@@ -15,12 +15,11 @@ const filename = '[name]';
 const distTechPath = `${DEMO_PATH}`;
 
 const entry = Object.assign(baseConfig.entry, {
-	'modules': [...glob.sync(`${DEMO_PATH}/includes/modules/**/*.js`)],
+    components: [...glob.sync(`${DEMO_PATH}/components/**/*.js`)],
+    foundations: [...glob.sync(`${DEMO_PATH}/foundations/**/*.js`)],
+    layout: [...glob.sync(`${DEMO_PATH}/layout/**/*.js`)],
 });
-entry.lumx = [
-	`${CORE_PATH}/scss/_lumx.scss`,
-	...entry.lumx,
-];
+entry.lumx = [`${CORE_PATH}/scss/_lumx.scss`, ...entry.lumx];
 
 const plugins = [
     ...baseConfig.plugins,
@@ -47,7 +46,7 @@ module.exports = merge.smartStrategy({
     bail: true,
     devtool: '',
     mode: 'production',
-	name: 'lumx-umd',
+    name: 'lumx-umd',
 
     entry,
 

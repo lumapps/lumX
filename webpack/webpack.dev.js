@@ -14,7 +14,9 @@ const baseConfig = require('./webpack.config');
 
 const entry = Object.assign(baseConfig.entry, {
     app: `${DEMO_PATH}/app.js`,
-    modules: [...glob.sync(`${DEMO_PATH}/includes/modules/**/*.js`)],
+    components: [...glob.sync(`${DEMO_PATH}/components/**/*.js`)],
+    foundations: [...glob.sync(`${DEMO_PATH}/foundations/**/*.js`)],
+    layout: [...glob.sync(`${DEMO_PATH}/layout/**/*.js`)],
 });
 entry.lumx = [...entry.lumx, `${DEMO_PATH}/scss/lumx.scss`];
 
@@ -61,7 +63,6 @@ module.exports = merge.smartStrategy({
         hot: true,
         open: true,
         overlay: true,
-        // eslint-disable-next-line no-magic-numbers
         port: DEFAULT_PORT,
         quiet: true,
     },

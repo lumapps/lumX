@@ -33,6 +33,7 @@ const baseConfig = {
             ...glob.sync(`${MODULES_PATH}/radio-button/views/*.html`),
             ...glob.sync(`${MODULES_PATH}/search-filter/views/*.html`),
             ...glob.sync(`${MODULES_PATH}/select/views/*.html`),
+            ...glob.sync(`${MODULES_PATH}/side-navigation/views/*.html`),
             ...glob.sync(`${MODULES_PATH}/stepper/views/*.html`),
             ...glob.sync(`${MODULES_PATH}/switch/views/*.html`),
             ...glob.sync(`${MODULES_PATH}/tabs/views/*.html`),
@@ -76,76 +77,100 @@ const baseConfig = {
                 },
             },
             {
+                include: [/modules/u],
                 test: /\/checkbox\/.*\.html$/,
                 loader: 'angular-templatecache-loader-2?module=lumx.checkbox&relativeTo=modules/checkbox/views/',
             },
             {
+                include: [/modules/u],
                 test: /\/chip\/.*\.html$/,
                 loader: 'angular-templatecache-loader-2?module=lumx.chip&relativeTo=modules/chip/views/',
             },
             {
+                include: [/modules/u],
                 test: /\/data-table\/.*\.html$/,
                 loader: 'angular-templatecache-loader-2?module=lumx.data-table&relativeTo=modules/data-table/views/',
             },
             {
+                include: [/modules/u],
                 test: /\/date-picker\/.*\.html$/,
                 loader: 'angular-templatecache-loader-2?module=lumx.date-picker&relativeTo=modules/date-picker/views/',
             },
             {
+                include: [/modules/u],
                 test: /\/dropdown\/.*\.html$/,
                 loader: 'angular-templatecache-loader-2?module=lumx.dropdown&relativeTo=modules/dropdown/views/',
             },
             {
+                include: [/modules/u],
                 test: /\/fab\/.*\.html$/,
                 loader: 'angular-templatecache-loader-2?module=lumx.fab&relativeTo=modules/fab/views/',
             },
             {
+                include: [/modules/u],
                 test: /\/file-input\/.*\.html$/,
                 loader: 'angular-templatecache-loader-2?module=lumx.file-input&relativeTo=modules/file-input/views/',
             },
             {
+                include: [/modules/u],
                 test: /\/icon\/.*\.html$/,
                 loader: 'angular-templatecache-loader-2?module=lumx.icon&relativeTo=modules/icon/views/',
             },
             {
+                include: [/modules/u],
                 test: /\/list\/.*\.html$/,
                 loader: 'angular-templatecache-loader-2?module=lumx.list&relativeTo=modules/list/views/',
             },
             {
+                include: [/modules/u],
                 test: /\/popover\/.*\.html$/,
                 loader: 'angular-templatecache-loader-2?module=lumx.popover&relativeTo=modules/popover/views/',
             },
             {
+                include: [/modules/u],
                 test: /\/progress\/.*\.html$/,
                 loader: 'angular-templatecache-loader-2?module=lumx.progress&relativeTo=modules/progress/views/',
             },
             {
+                include: [/modules/u],
                 test: /\/radio-button\/.*\.html$/,
                 loader:
                     'angular-templatecache-loader-2?module=lumx.radio-button&relativeTo=modules/radio-button/views/',
             },
             {
+                include: [/modules/u],
                 test: /\/search-filter\/.*\.html$/,
                 loader:
                     'angular-templatecache-loader-2?module=lumx.search-filter&relativeTo=modules/search-filter/views/',
             },
             {
+                include: [/modules/u],
                 test: /\/select\/.*\.html$/,
                 loader: 'angular-templatecache-loader-2?module=lumx.select&relativeTo=modules/select/views/',
             },
             {
+                include: [/modules/u],
+                test: /\/side-navigation\/.*\.html$/,
+                loader:
+                    'angular-templatecache-loader-2?module=lumx.side-navigation&relativeTo=modules/side-navigation/views/',
+            },
+            {
+                include: [/modules/u],
                 test: /\/stepper\/.*\.html$/,
                 loader: 'angular-templatecache-loader-2?module=lumx.stepper&relativeTo=modules/stepper/views/',
             },
             {
+                include: [/modules/u],
                 test: /\/switch\/.*\.html$/,
                 loader: 'angular-templatecache-loader-2?module=lumx.switch&relativeTo=modules/switch/views/',
             },
             {
+                include: [/modules/u],
                 test: /\/tabs\/.*\.html$/,
                 loader: 'angular-templatecache-loader-2?module=lumx.tabs&relativeTo=modules/tabs/views/',
             },
             {
+                include: [/modules/u],
                 test: /\/text-field\/.*\.html$/,
                 loader: 'angular-templatecache-loader-2?module=lumx.text-field&relativeTo=modules/text-field/views/',
             },

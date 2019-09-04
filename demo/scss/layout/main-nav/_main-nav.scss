@@ -1,0 +1,26 @@
+/* ==========================================================================
+   Main nav
+   ========================================================================== */
+
+$main-nav-width: 300px;
+
+.main-nav {
+    width: $main-nav-width;
+    background-color: lumx-theme-color-variant(dark, L6);
+    overflow-y: auto;
+
+    &__wrapper {
+        padding: $lumx-spacing-unit * 6 $lumx-spacing-unit * 4;
+    }
+
+    &__logo {
+        display: flex;
+        align-items: center;
+        margin-bottom: $lumx-spacing-unit * 4;
+
+        img {
+            height: map-get($lumx-sizes, s);
+            margin-right: $lumx-spacing-unit * 1.5;
+        }
+    }
+}

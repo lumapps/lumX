@@ -1,0 +1,41 @@
+<demo-grid>
+    <lx-chip id="{{ vm.dropdownTarget }}">
+        <lx-chip-label>Target</lx-chip-label>
+    </lx-chip>
+</demo-grid>
+
+<demo-grid>
+    <lx-button id="{{ vm.dropdownSource }}" ng-click="vm.openDropdown($event)">
+        Open dropdown
+    </lx-button>
+
+    <lx-button ng-click="vm.closeDropdown($event)">
+        Close dropdown
+    </lx-button>
+
+    <lx-dropdown lx-offset="8" lx-position="left" id="{{ vm.dropdownId }}">
+        <lx-dropdown-menu>
+            <lx-list lx-is-clickable="true" lx-focus-on-init>
+                <lx-list-item lx-size="tiny">
+                    <lx-list-item-content>Los Angeles</lx-list-item-content>
+                </lx-list-item>
+
+                <lx-list-item lx-size="tiny">
+                    <lx-list-item-content>Monterrey</lx-list-item-content>
+                </lx-list-item>
+
+                <lx-list-item lx-size="tiny">
+                    <lx-list-item-content>Georgetown</lx-list-item-content>
+                </lx-list-item>
+
+                <lx-list-item lx-size="tiny">
+                    <lx-list-item-content>Cali</lx-list-item-content>
+                </lx-list-item>
+
+                <lx-list-item lx-size="tiny">
+                    <lx-list-item-content>Trondheim</lx-list-item-content>
+                </lx-list-item>
+            </lx-list>
+        </lx-dropdown-menu>
+    </lx-dropdown>
+</demo-grid>

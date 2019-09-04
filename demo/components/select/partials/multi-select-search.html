@@ -1,0 +1,19 @@
+<lx-select
+    ng-change="vm.selectCallback()"
+    ng-model="vm.selectAjax.selected"
+    lx-choices="vm.selectAjax.list"
+    lx-filter="vm.selectAjax.update(newValue)"
+    lx-display-filter="true"
+    lx-helper="!vm.selectAjax.list.length"
+    lx-helper-message="No results"
+    lx-loading="vm.selectAjax.loading"
+    lx-label="Select label"
+    lx-multiple="true"
+    lx-model-to-selection="vm.selectAjax.toSelection(data, callback)"
+    lx-selection-to-model="vm.selectAjax.toModel(data, callback)"
+    lx-placeholder="Select values"
+    lx-theme="{{ demoBlock.theme }}"
+>
+    <lx-select-selected>{{ $selected.name }} (Born in {{ $selected.birth_year }})</lx-select-selected>
+    <lx-select-choices>{{ $choice.name }} (Appears in {{ $choice.films.length }} films)</lx-select-choices>
+</lx-select>
