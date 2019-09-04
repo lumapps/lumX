@@ -93,6 +93,16 @@ function AppDefaultConfig($locationProvider, $stateProvider, markedProvider) {
                 },
             },
         })
+        .state('app.components.radio-button', {
+            url: 'radio-button',
+            views: {
+                'main@': {
+                    controller: 'DemoRadioButtonController',
+                    controllerAs: 'vm',
+                    template: require('./components/radio-button/demo.html'),
+                },
+            },
+        })
         .state('app.components.select', {
             url: 'select',
             views: {
