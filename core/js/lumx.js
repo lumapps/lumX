@@ -39,6 +39,7 @@ angular.module('lumx.radio-button', []);
 angular.module('lumx.ripple', []);
 angular.module('lumx.search-filter', []);
 angular.module('lumx.select', []);
+angular.module('lumx.side-navigation', []);
 angular.module('lumx.stepper', []);
 angular.module('lumx.switch', []);
 angular.module('lumx.tabs', []);
@@ -65,6 +66,7 @@ angular.module('lumx', [
     'lumx.ripple',
     'lumx.search-filter',
     'lumx.select',
+    'lumx.side-navigation',
     'lumx.stepper',
     'lumx.switch',
     'lumx.tabs',

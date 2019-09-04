@@ -33,6 +33,7 @@ const baseConfig = {
             ...glob.sync(`${MODULES_PATH}/radio-button/views/*.html`),
             ...glob.sync(`${MODULES_PATH}/search-filter/views/*.html`),
             ...glob.sync(`${MODULES_PATH}/select/views/*.html`),
+            ...glob.sync(`${MODULES_PATH}/side-navigation/views/*.html`),
             ...glob.sync(`${MODULES_PATH}/stepper/views/*.html`),
             ...glob.sync(`${MODULES_PATH}/switch/views/*.html`),
             ...glob.sync(`${MODULES_PATH}/tabs/views/*.html`),
@@ -132,6 +133,11 @@ const baseConfig = {
             {
                 test: /\/select\/.*\.html$/,
                 loader: 'angular-templatecache-loader-2?module=lumx.select&relativeTo=modules/select/views/',
+            },
+            {
+                test: /\/side-navigation\/.*\.html$/,
+                loader:
+                    'angular-templatecache-loader-2?module=lumx.side-navigation&relativeTo=modules/side-navigation/views/',
             },
             {
                 test: /\/stepper\/.*\.html$/,

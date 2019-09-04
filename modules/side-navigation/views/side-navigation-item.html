@@ -1,0 +1,24 @@
+<li
+    class="lumx-side-navigation-item"
+    ng-class="{ 'lumx-side-navigation-item--emphasis-low': lx.emphasis === 'low',
+                'lumx-side-navigation-item--emphasis-medium': !lx.emphasis || lx.emphasis === 'medium',
+                'lumx-side-navigation-item--emphasis-high': lx.emphasis === 'high',
+                'lumx-side-navigation-item--is-selected': lx.isSelected }"
+>
+    <a
+        class="lumx-side-navigation-item__link"
+        ng-click="lx.handleClick()"
+        lx-enter-keypress="lx.handleClick()"
+        tabindex="0"
+    >
+        <lx-icon lx-path="{{ lx.icon }}" lx-size="xs" ng-if="lx.icon"></lx-icon>
+        <span>{{ lx.label }}</span>
+        <lx-icon
+            lx-path="{{ lx.isOpen ? lx.icons.mdiChevronUp : lx.icons.mdiChevronDown }}"
+            lx-size="xs"
+            ng-if="lx.hasChildren"
+        ></lx-icon>
+    </a>
+
+    <ul class="lumx-side-navigation-item__children" ng-if="lx.hasChildren && lx.isOpen" ng-transclude></ul>
+</li>
