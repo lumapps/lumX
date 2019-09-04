@@ -29,6 +29,7 @@ angular.module('lumx.dialog', ['lumx.utils.event-scheduler']);
 angular.module('lumx.dropdown', ['lumx.utils.event-scheduler']);
 angular.module('lumx.fab', []);
 angular.module('lumx.file-input', []);
+angular.module('lumx.grid', []);
 angular.module('lumx.icon', []);
 angular.module('lumx.list', []);
 angular.module('lumx.notification', ['lumx.utils.event-scheduler']);
@@ -54,6 +55,7 @@ angular.module('lumx', [
     'lumx.dropdown',
     'lumx.fab',
     'lumx.file-input',
+    'lumx.grid',
     'lumx.icon',
     'lumx.list',
     'lumx.notification',
