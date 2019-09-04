@@ -467,7 +467,9 @@
                         width: 0,
                         height: 0,
                         opacity: 1,
-                        overflow: 'hidden'
+                        overflow: 'hidden',
+                        visibility: 'visible',
+
                     });
 
                     dropdownMenu.find('.dropdown-menu__content').css(
@@ -519,7 +521,8 @@
                 {
                     dropdownMenu.css(
                     {
-                        height: dropdownMenuHeight
+                        height: dropdownMenuHeight,
+                        visibility: 'visible',
                     });
 
                     dropdownMenu.velocity(
@@ -540,7 +543,8 @@
                 {
                     dropdownMenu.css(
                     {
-                        opacity: 1
+                        opacity: 1,
+                        visibility: 'visible',
                     });
 
                     $timeout(updateDropdownMenuHeight);

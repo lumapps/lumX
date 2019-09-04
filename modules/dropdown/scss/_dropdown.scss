@@ -28,7 +28,8 @@
     border-radius: $base-round;
     background-color: $white;
     text-align: left;
-    opacity: 0;
+    visibility: hidden;
+    opacity: 0;    
     overflow: auto;
     @include elevation(8);
 
