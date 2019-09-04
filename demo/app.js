@@ -19,13 +19,10 @@ function AppDefaultConfig($locationProvider, $stateProvider, markedProvider) {
                 },
             },
         })
-        .state('app.product', {
+        .state('app.foundations', {
             abstract: true,
         })
-        .state('app.product.foundations', {
-            abstract: true,
-        })
-        .state('app.product.foundations.colors', {
+        .state('app.foundations.colors', {
             url: 'colors',
             views: {
                 'main@': {
@@ -35,7 +32,7 @@ function AppDefaultConfig($locationProvider, $stateProvider, markedProvider) {
                 },
             },
         })
-        .state('app.product.foundations.typography', {
+        .state('app.foundations.typography', {
             url: 'typography',
             views: {
                 'main@': {
@@ -43,10 +40,10 @@ function AppDefaultConfig($locationProvider, $stateProvider, markedProvider) {
                 },
             },
         })
-        .state('app.product.components', {
+        .state('app.components', {
             abstract: true,
         })
-        .state('app.product.components.button', {
+        .state('app.components.button', {
             url: 'button',
             views: {
                 'main@': {

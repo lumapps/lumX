@@ -6,25 +6,18 @@
 
     <lx-side-navigation>
         <lx-side-navigation-item
-            lx-emphasis="high"
+            lx-emphasis="medium"
             lx-is-open="section.isOpen"
             lx-label="{{ section.label }}"
             ng-repeat="section in vm.STATES"
         >
             <lx-side-navigation-item
-                lx-emphasis="medium"
-                lx-is-open="subSection.isOpen"
-                lx-label="{{ subSection.label }}"
-                ng-repeat="subSection in section.children"
-            >
-                <lx-side-navigation-item
-                    lx-emphasis="low"
-                    lx-is-selected="vm.isCurrent(item.state)"
-                    lx-label="{{ item.label }}"
-                    lx-on-click="vm.goTo(item.state)"
-                    ng-repeat="item in subSection.children"
-                ></lx-side-navigation-item>
-            </lx-side-navigation-item>
+                lx-emphasis="low"
+                lx-is-selected="vm.isCurrent(item.state)"
+                lx-label="{{ item.label }}"
+                lx-on-click="vm.goTo(item.state)"
+                ng-repeat="item in section.children"
+            ></lx-side-navigation-item>
         </lx-side-navigation-item>
     </lx-side-navigation>
 </div>

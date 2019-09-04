@@ -17,163 +17,146 @@ function MainNavController($state) {
      */
     vm.STATES = [
         {
-            label: 'Product',
-            state: 'app.product',
-            isOpen: $state.includes('app.product'),
+            label: 'Foundations',
+            state: 'app.foundations',
+            isOpen: $state.includes('app.foundations'),
             children: [
                 {
-                    label: 'Foundations',
-                    state: 'app.product.foundations',
-                    isOpen: $state.includes('app.product.foundations'),
-                    children: [
-                        {
-                            label: 'Colors',
-                            state: 'app.product.foundations.colors',
-                        },
-                        {
-                            label: 'Typography',
-                            state: 'app.product.foundations.typography',
-                        },
-                    ],
+                    label: 'Colors',
+                    state: 'app.foundations.colors',
                 },
                 {
-                    label: 'Components',
-                    state: 'app.product.components',
-                    isOpen: $state.includes('app.product.components'),
-                    children: [
-                        {
-                            label: 'Avatar',
-                            state: 'app.product.components.avatar',
-                        },
-                        {
-                            label: 'Button',
-                            state: 'app.product.components.button',
-                        },
-                        {
-                            label: 'Checkbox',
-                            state: 'app.product.components.checkbox',
-                        },
-                        {
-                            label: 'Chip',
-                            state: 'app.product.components.chip',
-                        },
-                        {
-                            label: 'Comment block',
-                            state: 'app.product.components.comment-block',
-                        },
-                        {
-                            label: 'Dialog',
-                            state: 'app.product.components.dialog',
-                        },
-                        {
-                            label: 'Dropdown',
-                            state: 'app.product.components.dropdown',
-                        },
-                        {
-                            label: 'Editable media',
-                            state: 'app.product.components.editable-media',
-                        },
-                        {
-                            label: 'Expansion panel',
-                            state: 'app.product.components.expansion-panel',
-                        },
-                        {
-                            label: 'Grid',
-                            state: 'app.product.components.grid',
-                        },
-                        {
-                            label: 'Image block',
-                            state: 'app.product.components.image-block',
-                        },
-                        {
-                            label: 'Lightbox',
-                            state: 'app.product.components.lightbox',
-                        },
-                        {
-                            label: 'List',
-                            state: 'app.product.components.list',
-                        },
-                        {
-                            label: 'Notification',
-                            state: 'app.product.components.notification',
-                        },
-                        {
-                            label: 'Popover',
-                            state: 'app.product.components.popover',
-                        },
-                        {
-                            label: 'Post block',
-                            state: 'app.product.components.post-block',
-                        },
-                        {
-                            label: 'Progress',
-                            state: 'app.product.components.progress',
-                        },
-                        {
-                            label: 'Progress tracker',
-                            state: 'app.product.components.progress-tracker',
-                        },
-                        {
-                            label: 'Radio button',
-                            state: 'app.product.components.radio-button',
-                        },
-                        {
-                            label: 'Select',
-                            state: 'app.product.components.select',
-                        },
-                        {
-                            label: 'Side navigation',
-                            state: 'app.product.components.side-navigation',
-                        },
-                        {
-                            label: 'Slideshow',
-                            state: 'app.product.components.slideshow',
-                        },
-                        {
-                            label: 'Switch',
-                            state: 'app.product.components.switch',
-                        },
-                        {
-                            label: 'Table',
-                            state: 'app.product.components.table',
-                        },
-                        {
-                            label: 'Tabs',
-                            state: 'app.product.components.tabs',
-                        },
-                        {
-                            label: 'Text field',
-                            state: 'app.product.components.text-field',
-                        },
-                        {
-                            label: 'Thumbnail',
-                            state: 'app.product.components.thumbnail',
-                        },
-                        {
-                            label: 'Toolbar',
-                            state: 'app.product.components.toolbar',
-                        },
-                        {
-                            label: 'Tooltip',
-                            state: 'app.product.components.tooltip',
-                        },
-                        {
-                            label: 'User block',
-                            state: 'app.product.components.user-block',
-                        },
-                    ],
+                    label: 'Typography',
+                    state: 'app.foundations.typography',
                 },
             ],
         },
         {
-            label: 'Brand',
-            state: 'app.brand',
-            isOpen: $state.includes('app.brand'),
-        },
-        {
-            label: 'Partners',
-            state: 'app.partners',
-            isOpen: $state.includes('app.partners'),
+            label: 'Components',
+            state: 'app.components',
+            isOpen: $state.includes('app.components'),
+            children: [
+                {
+                    label: 'Avatar',
+                    state: 'app.components.avatar',
+                },
+                {
+                    label: 'Button',
+                    state: 'app.components.button',
+                },
+                {
+                    label: 'Checkbox',
+                    state: 'app.components.checkbox',
+                },
+                {
+                    label: 'Chip',
+                    state: 'app.components.chip',
+                },
+                {
+                    label: 'Comment block',
+                    state: 'app.components.comment-block',
+                },
+                {
+                    label: 'Dialog',
+                    state: 'app.components.dialog',
+                },
+                {
+                    label: 'Dropdown',
+                    state: 'app.components.dropdown',
+                },
+                {
+                    label: 'Editable media',
+                    state: 'app.components.editable-media',
+                },
+                {
+                    label: 'Expansion panel',
+                    state: 'app.components.expansion-panel',
+                },
+                {
+                    label: 'Grid',
+                    state: 'app.components.grid',
+                },
+                {
+                    label: 'Image block',
+                    state: 'app.components.image-block',
+                },
+                {
+                    label: 'Lightbox',
+                    state: 'app.components.lightbox',
+                },
+                {
+                    label: 'List',
+                    state: 'app.components.list',
+                },
+                {
+                    label: 'Notification',
+                    state: 'app.components.notification',
+                },
+                {
+                    label: 'Popover',
+                    state: 'app.components.popover',
+                },
+                {
+                    label: 'Post block',
+                    state: 'app.components.post-block',
+                },
+                {
+                    label: 'Progress',
+                    state: 'app.components.progress',
+                },
+                {
+                    label: 'Progress tracker',
+                    state: 'app.components.progress-tracker',
+                },
+                {
+                    label: 'Radio button',
+                    state: 'app.components.radio-button',
+                },
+                {
+                    label: 'Select',
+                    state: 'app.components.select',
+                },
+                {
+                    label: 'Side navigation',
+                    state: 'app.components.side-navigation',
+                },
+                {
+                    label: 'Slideshow',
+                    state: 'app.components.slideshow',
+                },
+                {
+                    label: 'Switch',
+                    state: 'app.components.switch',
+                },
+                {
+                    label: 'Table',
+                    state: 'app.components.table',
+                },
+                {
+                    label: 'Tabs',
+                    state: 'app.components.tabs',
+                },
+                {
+                    label: 'Text field',
+                    state: 'app.components.text-field',
+                },
+                {
+                    label: 'Thumbnail',
+                    state: 'app.components.thumbnail',
+                },
+                {
+                    label: 'Toolbar',
+                    state: 'app.components.toolbar',
+                },
+                {
+                    label: 'Tooltip',
+                    state: 'app.components.tooltip',
+                },
+                {
+                    label: 'User block',
+                    state: 'app.components.user-block',
+                },
+            ],
         },
     ];
 
