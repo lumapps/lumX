@@ -60,6 +60,10 @@ function TextFieldController(LxUtilsService) {
      * @return {boolean} Wether the model controller has a value or not.
      */
     function hasValue() {
+        if (angular.isUndefined(_modelController.$viewValue)) {
+            return false;
+        }
+
         return _modelController.$viewValue.length;
     }
 
@@ -103,7 +107,7 @@ function TextFieldDirective() {
                 el.removeClass(`${CSS_PREFIX}-text-field--is-focus`);
             });
 
-        modelController.$$attr.$observe('disabled', (isDisabled) => {
+        attrs.$observe('disabled', (isDisabled) => {
             if (isDisabled) {
                 el.addClass(`${CSS_PREFIX}-text-field--is-disabled`);
             } else {
@@ -111,13 +115,23 @@ function TextFieldDirective() {
             }
         });
 
-        modelController.$$attr.$observe('placeholder', (placeholder) => {
-            if (placeholder.length > 0) {
-                el.addClass(`${CSS_PREFIX}-text-field--has-placeholder`);
-            } else {
-                el.removeClass(`${CSS_PREFIX}-text-field--has-placeholder`);
-            }
-        });
+        if (angular.isDefined(modelController.$$attr)) {
+            modelController.$$attr.$observe('disabled', (isDisabled) => {
+                if (isDisabled) {
+                    el.addClass(`${CSS_PREFIX}-text-field--is-disabled`);
+                } else {
+                    el.removeClass(`${CSS_PREFIX}-text-field--is-disabled`);
+                }
+            });
+
+            modelController.$$attr.$observe('placeholder', (placeholder) => {
+                if (placeholder.length > 0) {
+                    el.addClass(`${CSS_PREFIX}-text-field--has-placeholder`);
+                } else {
+                    el.removeClass(`${CSS_PREFIX}-text-field--has-placeholder`);
+                }
+            });
+        }
 
         scope.$on('$destroy', () => {
             input.off();
