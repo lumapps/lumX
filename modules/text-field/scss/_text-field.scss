@@ -2,12 +2,17 @@
    Text field
    ========================================================================== */
 
+.text-field-help,
 .text-field-error {
-    @include lumx-input-label('dark');
+    @include lumx-typography('caption');
 
-    color: lumx-theme-color-variant('red', 'N');
+    display: block;
 }
 
 .text-field-help {
-    @include lumx-input-label('dark');
+    color: lumx-theme-color-variant('dark', 'L2');
+}
+
+.text-field-error {
+    color: lumx-theme-color-variant('red', 'N');
 }
