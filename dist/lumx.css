@@ -18717,20 +18717,18 @@ table {
 /* ==========================================================================
    Text field
    ========================================================================== */
+.text-field-help,
 .text-field-error {
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 400;
-  line-height: 20px;
-  display: block;
-  color: #28336d;
-  color: #e94361; }
+  line-height: 16px;
+  display: block; }
 
 .text-field-help {
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 20px;
-  display: block;
-  color: #28336d; }
+  color: rgba(40, 51, 109, 0.6); }
+
+.text-field-error {
+  color: #e94361; }
 
 .toolbar {
   display: -moz-flex;
@@ -37606,20 +37604,18 @@ table {
 /* ==========================================================================
    Text field
    ========================================================================== */
+.text-field-help,
 .text-field-error {
-  font-size: 16px;
+  font-size: 12px;
   font-weight: 400;
-  line-height: 24px;
-  display: block;
-  color: rgba(0, 0, 0, 0.87);
-  color: #f44336; }
+  line-height: 16px;
+  display: block; }
 
 .text-field-help {
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 24px;
-  display: block;
-  color: rgba(0, 0, 0, 0.87); }
+  color: rgba(0, 0, 0, 0.54); }
+
+.text-field-error {
+  color: #f44336; }
 
 .toolbar {
   display: -moz-flex;
