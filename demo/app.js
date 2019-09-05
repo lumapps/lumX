@@ -112,6 +112,16 @@ function AppDefaultConfig($locationProvider, $stateProvider, markedProvider) {
                     template: require('./components/select/demo.html'),
                 },
             },
+        })
+        .state('app.components.switch', {
+            url: 'switch',
+            views: {
+                'main@': {
+                    controller: 'DemoSwitchController',
+                    controllerAs: 'vm',
+                    template: require('./components/switch/demo.html'),
+                },
+            },
         });
 }
 

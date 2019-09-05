@@ -1,0 +1,25 @@
+<div class="lumx-spacing-margin-bottom-big">
+    <lx-switch lx-theme="{{ demoBlock.theme }}" ng-model="vm.switches.model.unchecked">
+        <lx-switch-label>Default</lx-switch-label>
+    </lx-switch>
+</div>
+
+<div class="lumx-spacing-margin-bottom-big">
+    <lx-switch lx-theme="{{ demoBlock.theme }}" ng-model="vm.switches.model.unchecked">
+        <lx-switch-label>
+            With helper
+        </lx-switch-label>
+
+        <lx-switch-helper>
+            Helper text
+        </lx-switch-helper>
+    </lx-switch>
+</div>
+
+<lx-switch
+    lx-theme="{{ demoBlock.theme }}"
+    ng-model="vm.switches.model.unchecked"
+    ng-disabled="vm.switches.states.disabled"
+>
+    <lx-switch-label>Disabled</lx-switch-label>
+</lx-switch>
