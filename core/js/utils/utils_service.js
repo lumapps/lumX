@@ -18,33 +18,57 @@ function UtilsService($rootScope) {
      * @return {Function} The debounced function.
      */
     function debounce(func, wait, immediate) {
-        let timeout;
+        let args, context, result, timeout, timestamp;
 
-        return () => {
-            // eslint-disable-next-line import/unambiguous, consistent-this
-            const context = this;
+        wait = wait || 500;
 
-            // eslint-disable-next-line prefer-rest-params
-            const args = arguments;
+        const later = () => {
+            const last = Date.now() - timestamp;
 
-            const later = () => {
+            if (last < wait && last >= 0) {
+                timeout = setTimeout(later, wait - last);
+            } else {
                 timeout = null;
 
                 if (!immediate) {
-                    func.apply(context, args);
+                    result = func.apply(context, args);
+
+                    if (!timeout) {
+                        // eslint-disable-next-line no-multi-assign
+                        context = args = null;
+                    }
                 }
-            };
+            }
+        };
+
+        const debounced = () => {
+            context = this;
+            // eslint-disable-next-line prefer-rest-params
+            args = arguments;
+            timestamp = Date.now();
 
             const callNow = immediate && !timeout;
 
-            clearTimeout(timeout);
-
-            timeout = setTimeout(later, wait);
+            if (!timeout) {
+                timeout = setTimeout(later, wait);
+            }
 
             if (callNow) {
-                func.apply(context, args);
+                result = func.apply(context, args);
+                // eslint-disable-next-line no-multi-assign
+                context = args = null;
             }
+
+            return result;
         };
+
+        debounced.clear = () => {
+            clearTimeout(timeout);
+            // eslint-disable-next-line no-multi-assign
+            timeout = context = args = null;
+        };
+
+        return debounced;
     }
 
     /**
