@@ -1,14 +1,31 @@
-<div class="radio-button radio-button--{{ lxRadioButton.lxColor }}"
-     ng-class="{ 'radio-button--theme-light': !lxRadioButton.lxTheme || lxRadioButton.lxTheme === 'light',
-                 'radio-button--theme-dark': lxRadioButton.lxTheme === 'dark' }">
-    <input id="{{ lxRadioButton.getRadioButtonId() }}"
-           type="radio"
-           class="radio-button__input"
-           name="{{ lxRadioButton.name }}"
-           ng-model="lxRadioButton.ngModel"
-           ng-value="lxRadioButton.ngValue"
-           ng-change="lxRadioButton.triggerNgChange()"
-           ng-disabled="lxRadioButton.ngDisabled">
-    <label for="{{ lxRadioButton.getRadioButtonId() }}" class="radio-button__label" ng-transclude ng-if="!lxRadioButton.getRadioButtonHasChildren()"></label>
-    <ng-transclude-replace ng-if="lxRadioButton.getRadioButtonHasChildren()"></ng-transclude-replace>
+<div
+    class="lumx-radio-button"
+    ng-class="{ 'lumx-radio-button--is-checked': lx.viewValue === lx.radioButtonValue,
+                'lumx-radio-button--is-unchecked': lx.viewValue !== lx.radioButtonValue,
+                'lumx-radio-button--theme-light': !lx.theme || lx.theme === 'light',
+                'lumx-radio-button--theme-dark': lx.theme === 'dark' }"
+>
+    <div class="lumx-radio-button__input-wrapper">
+        <input
+            type="radio"
+            id="{{ lx.radioButtonId }}"
+            class="lumx-radio-button__input-native"
+            ng-checked="lx.viewValue === lx.radioButtonValue"
+            ng-click="lx.updateViewValue()"
+        />
+
+        <div class="lumx-radio-button__input-placeholder">
+            <div class="lumx-radio-button__input-background"></div>
+            <div class="lumx-radio-button__input-indicator"></div>
+        </div>
+    </div>
+
+    <div class="lumx-radio-button__content" ng-if="::!lx.hasLabel && !lx.hasHelper && lx.hasTranscluded">
+        <label for="{{ lx.radioButtonId }}" class="lumx-radio-button__label" ng-transclude></label>
+    </div>
+
+    <div class="lumx-radio-button__content" ng-if="::lx.hasLabel">
+        <label for="{{ lx.radioButtonId }}" class="lumx-radio-button__label" ng-transclude="label"></label>
+        <span class="lumx-radio-button__helper" ng-transclude="helper" ng-if="::lx.hasHelper"></span>
+    </div>
 </div>

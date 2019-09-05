@@ -93,6 +93,16 @@ function AppDefaultConfig($locationProvider, $stateProvider, markedProvider) {
                 },
             },
         })
+        .state('app.components.radio-button', {
+            url: 'radio-button',
+            views: {
+                'main@': {
+                    controller: 'DemoRadioButtonController',
+                    controllerAs: 'vm',
+                    template: require('./components/radio-button/demo.html'),
+                },
+            },
+        })
         .state('app.components.select', {
             url: 'select',
             views: {
@@ -100,6 +110,26 @@ function AppDefaultConfig($locationProvider, $stateProvider, markedProvider) {
                     controller: 'DemoSelectController',
                     controllerAs: 'vm',
                     template: require('./components/select/demo.html'),
+                },
+            },
+        })
+        .state('app.components.switch', {
+            url: 'switch',
+            views: {
+                'main@': {
+                    controller: 'DemoSwitchController',
+                    controllerAs: 'vm',
+                    template: require('./components/switch/demo.html'),
+                },
+            },
+        })
+        .state('app.components.text-field', {
+            url: 'text-field',
+            views: {
+                'main@': {
+                    controller: 'DemoTextFieldController',
+                    controllerAs: 'vm',
+                    template: require('./components/text-field/demo.html'),
                 },
             },
         });

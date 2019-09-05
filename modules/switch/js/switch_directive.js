@@ -1,149 +1,175 @@
-(function()
-{
-    'use strict';
+import { CSS_PREFIX } from '@lumx/core/js/constants';
 
-    angular
-        .module('lumx.switch')
-        .directive('lxSwitch', lxSwitch)
-        .directive('lxSwitchLabel', lxSwitchLabel)
-        .directive('lxSwitchHelp', lxSwitchHelp);
+import template from '../views/switch.html';
 
-    function lxSwitch()
-    {
-        return {
-            restrict: 'E',
-            templateUrl: 'switch.html',
-            scope:
-            {
-                ngModel: '=',
-                name: '@?',
-                ngTrueValue: '@?',
-                ngFalseValue: '@?',
-                ngChange: '&?',
-                ngDisabled: '=?',
-                lxColor: '@?',
-                lxPosition: '@?',
-                lxTheme: '@?'
-            },
-            controller: LxSwitchController,
-            controllerAs: 'lxSwitch',
-            bindToController: true,
-            transclude: true,
-            replace: true
+/////////////////////////////
+
+function SwitchController(LxUtilsService) {
+    'ngInject';
+
+    // eslint-disable-next-line consistent-this
+    const lx = this;
+
+    /////////////////////////////
+    //                         //
+    //    Private attributes   //
+    //                         //
+    /////////////////////////////
+
+    /**
+     * The model controller.
+     *
+     * @type {Object}
+     */
+    let _modelController;
+
+    /////////////////////////////
+    //                         //
+    //    Public attributes    //
+    //                         //
+    /////////////////////////////
+
+    /**
+     * The switch id.
+     *
+     * @type {string}
+     */
+    lx.switchId = LxUtilsService.generateUUID();
+
+    /**
+     * Whether the directive has helper slot filled or not.
+     *
+     * @type {boolean}
+     */
+    lx.hasHelper = false;
+
+    /**
+     * Whether the directive has label slot filled or not.
+     *
+     * @type {boolean}
+     */
+    lx.hasLabel = false;
+
+    /**
+     * Whether the directive has transcluded content if no transclude slot.
+     *
+     * @type {boolean}
+     */
+    lx.hasTranscluded = false;
+
+    /**
+     * The model view value.
+     *
+     * @type {string}
+     */
+    lx.viewValue = undefined;
+
+    /////////////////////////////
+    //                         //
+    //     Public functions    //
+    //                         //
+    /////////////////////////////
+
+    /**
+     * Set the model controller.
+     *
+     * @param {Object} modelController The model controller.
+     */
+    function setModelController(modelController) {
+        _modelController = modelController;
+
+        _modelController.$render = function onModelRender() {
+            lx.viewValue = _modelController.$viewValue;
         };
     }
 
-    LxSwitchController.$inject = ['$scope', '$timeout', 'LxUtilsService'];
+    /**
+     * Update model controller view value on switch click.
+     */
+    function updateViewValue() {
+        if (angular.isUndefined(_modelController)) {
+            lx.viewValue = !lx.viewValue;
 
-    function LxSwitchController($scope, $timeout, LxUtilsService)
-    {
-        var lxSwitch = this;
-        var switchId;
-        var switchHasChildren;
-        var timer;
+            return;
+        }
 
-        lxSwitch.getSwitchId = getSwitchId;
-        lxSwitch.getSwitchHasChildren = getSwitchHasChildren;
-        lxSwitch.setSwitchId = setSwitchId;
-        lxSwitch.setSwitchHasChildren = setSwitchHasChildren;
-        lxSwitch.triggerNgChange = triggerNgChange;
+        _modelController.$setViewValue(!_modelController.$viewValue);
+        _modelController.$render();
+    }
 
-        $scope.$on('$destroy', function()
-        {
-            $timeout.cancel(timer);
+    /////////////////////////////
+
+    lx.setModelController = setModelController;
+    lx.updateViewValue = updateViewValue;
+}
+
+/////////////////////////////
+
+function SwitchDirective() {
+    'ngInject';
+
+    function link(scope, el, attrs, ctrls, transclude) {
+        if (ctrls[1]) {
+            ctrls[0].setModelController(ctrls[1]);
+        }
+
+        if (transclude.isSlotFilled('label')) {
+            ctrls[0].hasLabel = true;
+        }
+
+        if (transclude.isSlotFilled('helper')) {
+            ctrls[0].hasHelper = true;
+        }
+
+        if (!ctrls[0].hasLabel && !ctrls[0].hasHelper) {
+            transclude((clone) => {
+                if (clone.length > 0) {
+                    ctrls[0].hasTranscluded = true;
+                }
+            });
+        }
+
+        attrs.$observe('disabled', (isDisabled) => {
+            el.find('input').attr('disabled', isDisabled);
+
+            if (isDisabled) {
+                el.addClass(`${CSS_PREFIX}-switch--is-disabled`);
+            } else {
+                el.removeClass(`${CSS_PREFIX}-switch--is-disabled`);
+            }
         });
 
-        init();
+        attrs.$observe('checked', (isChecked) => {
+            el.find('input').attr('checked', isChecked);
 
-        ////////////
-
-        function getSwitchId()
-        {
-            return switchId;
-        }
-
-        function getSwitchHasChildren()
-        {
-            return switchHasChildren;
-        }
-
-        function init()
-        {
-            setSwitchId(LxUtilsService.generateUUID());
-            setSwitchHasChildren(false);
-
-            lxSwitch.ngTrueValue = angular.isUndefined(lxSwitch.ngTrueValue) ? true : lxSwitch.ngTrueValue;
-            lxSwitch.ngFalseValue = angular.isUndefined(lxSwitch.ngFalseValue) ? false : lxSwitch.ngFalseValue;
-            lxSwitch.lxColor = angular.isUndefined(lxSwitch.lxColor) ? 'accent' : lxSwitch.lxColor;
-            lxSwitch.lxPosition = angular.isUndefined(lxSwitch.lxPosition) ? 'left' : lxSwitch.lxPosition;
-        }
-
-        function setSwitchId(_switchId)
-        {
-            switchId = _switchId;
-        }
-
-        function setSwitchHasChildren(_switchHasChildren)
-        {
-            switchHasChildren = _switchHasChildren;
-        }
-
-        function triggerNgChange()
-        {
-            timer = $timeout(lxSwitch.ngChange);
-        }
+            ctrls[0].viewValue = isChecked;
+        });
     }
 
-    function lxSwitchLabel()
-    {
-        return {
-            restrict: 'AE',
-            require: ['^lxSwitch', '^lxSwitchLabel'],
-            templateUrl: 'switch-label.html',
-            link: link,
-            controller: LxSwitchLabelController,
-            controllerAs: 'lxSwitchLabel',
-            bindToController: true,
-            transclude: true,
-            replace: true
-        };
+    return {
+        bindToController: true,
+        controller: SwitchController,
+        controllerAs: 'lx',
+        link,
+        replace: true,
+        require: ['lxSwitch', '?ngModel'],
+        restrict: 'E',
+        scope: {
+            position: '@?lxPosition',
+            theme: '@?lxTheme',
+        },
+        template,
+        transclude: {
+            helper: '?lxSwitchHelp',
+            label: '?lxSwitchLabel',
+        },
+    };
+}
 
-        function link(scope, element, attrs, ctrls)
-        {
-            ctrls[0].setSwitchHasChildren(true);
-            ctrls[1].setSwitchId(ctrls[0].getSwitchId());
-        }
-    }
+/////////////////////////////
 
-    function LxSwitchLabelController()
-    {
-        var lxSwitchLabel = this;
-        var switchId;
+angular.module('lumx.switch').directive('lxSwitch', SwitchDirective);
 
-        lxSwitchLabel.getSwitchId = getSwitchId;
-        lxSwitchLabel.setSwitchId = setSwitchId;
+/////////////////////////////
 
-        ////////////
-
-        function getSwitchId()
-        {
-            return switchId;
-        }
-
-        function setSwitchId(_switchId)
-        {
-            switchId = _switchId;
-        }
-    }
-
-    function lxSwitchHelp()
-    {
-        return {
-            restrict: 'AE',
-            require: '^lxSwitch',
-            templateUrl: 'switch-help.html',
-            transclude: true,
-            replace: true
-        };
-    }
-})();
+export { SwitchDirective };
