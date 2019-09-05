@@ -122,6 +122,16 @@ function AppDefaultConfig($locationProvider, $stateProvider, markedProvider) {
                     template: require('./components/switch/demo.html'),
                 },
             },
+        })
+        .state('app.components.text-field', {
+            url: 'text-field',
+            views: {
+                'main@': {
+                    controller: 'DemoTextFieldController',
+                    controllerAs: 'vm',
+                    template: require('./components/text-field/demo.html'),
+                },
+            },
         });
 }
 
