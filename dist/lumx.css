@@ -18714,6 +18714,24 @@ table {
 .tabs--separate .tabs__pane {
   display: none; }
 
+/* ==========================================================================
+   Text field
+   ========================================================================== */
+.text-field-error {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  display: block;
+  color: #28336d;
+  color: #e94361; }
+
+.text-field-help {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  display: block;
+  color: #28336d; }
+
 .toolbar {
   display: -moz-flex;
   display: flex;
@@ -37584,6 +37602,24 @@ table {
 
 .tabs--separate .tabs__pane {
   display: none; }
+
+/* ==========================================================================
+   Text field
+   ========================================================================== */
+.text-field-error {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  display: block;
+  color: rgba(0, 0, 0, 0.87);
+  color: #f44336; }
+
+.text-field-help {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  display: block;
+  color: rgba(0, 0, 0, 0.87); }
 
 .toolbar {
   display: -moz-flex;
