@@ -19517,6 +19517,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _views_text_field_html__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(67);
 /* harmony import */ var _views_text_field_html__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_views_text_field_html__WEBPACK_IMPORTED_MODULE_3__);
 
+TextFieldDirective.$inject = ["$timeout"];
 TextFieldController.$inject = ["LxUtilsService"];
 
 
@@ -19551,7 +19552,7 @@ function TextFieldController(LxUtilsService) {
   lx.setModelController = setModelController;
 }
 
-function TextFieldDirective() {
+function TextFieldDirective($timeout) {
   'ngInject';
 
   function link(scope, el, attrs, ctrl) {
@@ -19565,9 +19566,9 @@ function TextFieldDirective() {
       input.attr('id', ctrl.inputId);
     }
 
-    input.on('focus', function onFocus() {
+    input.on('focus', function () {
       el.addClass(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_1__[/* CSS_PREFIX */ "a"] + "-text-field--is-focus");
-    }).on('blur', function onBlur() {
+    }).on('blur', function () {
       el.removeClass(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_1__[/* CSS_PREFIX */ "a"] + "-text-field--is-focus");
     });
     attrs.$observe('disabled', function (isDisabled) {
@@ -19575,6 +19576,16 @@ function TextFieldDirective() {
         el.addClass(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_1__[/* CSS_PREFIX */ "a"] + "-text-field--is-disabled");
       } else {
         el.removeClass(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_1__[/* CSS_PREFIX */ "a"] + "-text-field--is-disabled");
+      }
+    });
+    scope.$watch(function () {
+      return ctrl.focus;
+    }, function (isfocus) {
+      if (angular.isDefined(isfocus) && isfocus) {
+        $timeout(function () {
+          input.focus();
+          ctrl.focus = false;
+        });
       }
     });
 
@@ -19608,6 +19619,7 @@ function TextFieldDirective() {
     replace: true,
     restrict: 'E',
     scope: {
+      focus: '=?lxFocus',
       hasError: '=?lxError',
       helper: '@?lxHelper',
       icon: '@?lxIcon',
