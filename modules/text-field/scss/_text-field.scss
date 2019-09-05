@@ -1,0 +1,13 @@
+/* ==========================================================================
+   Text field
+   ========================================================================== */
+
+.text-field-error {
+    @include lumx-input-label('dark');
+
+    color: lumx-theme-color-variant('red', 'N');
+}
+
+.text-field-help {
+    @include lumx-input-label('dark');
+}
