@@ -84,7 +84,7 @@ function TextFieldController(LxUtilsService) {
 
 /////////////////////////////
 
-function TextFieldDirective() {
+function TextFieldDirective($timeout) {
     'ngInject';
 
     function link(scope, el, attrs, ctrl) {
@@ -100,10 +100,10 @@ function TextFieldDirective() {
         }
 
         input
-            .on('focus', function onFocus() {
+            .on('focus', () => {
                 el.addClass(`${CSS_PREFIX}-text-field--is-focus`);
             })
-            .on('blur', function onBlur() {
+            .on('blur', () => {
                 el.removeClass(`${CSS_PREFIX}-text-field--is-focus`);
             });
 
@@ -114,6 +114,21 @@ function TextFieldDirective() {
                 el.removeClass(`${CSS_PREFIX}-text-field--is-disabled`);
             }
         });
+
+        scope.$watch(
+            () => {
+                return ctrl.focus;
+            },
+            (isfocus) => {
+                if (angular.isDefined(isfocus) && isfocus) {
+                    $timeout(() => {
+                        input.focus();
+
+                        ctrl.focus = false;
+                    });
+                }
+            },
+        );
 
         if (angular.isDefined(modelController.$$attr)) {
             modelController.$$attr.$observe('disabled', (isDisabled) => {
@@ -146,6 +161,7 @@ function TextFieldDirective() {
         replace: true,
         restrict: 'E',
         scope: {
+            focus: '=?lxFocus',
             hasError: '=?lxError',
             helper: '@?lxHelper',
             icon: '@?lxIcon',
