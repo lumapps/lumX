@@ -13479,27 +13479,51 @@ function UtilsService($rootScope) {
     var _this = this,
         _arguments = arguments;
 
-    var timeout;
-    return function () {
-      var context = _this;
-      var args = _arguments;
+    var args, context, result, timeout, timestamp;
+    wait = wait || 500;
 
-      var later = function later() {
+    var later = function later() {
+      var last = Date.now() - timestamp;
+
+      if (last < wait && last >= 0) {
+        timeout = setTimeout(later, wait - last);
+      } else {
         timeout = null;
 
         if (!immediate) {
-          func.apply(context, args);
+          result = func.apply(context, args);
+
+          if (!timeout) {
+            context = args = null;
+          }
         }
-      };
-
-      var callNow = immediate && !timeout;
-      clearTimeout(timeout);
-      timeout = setTimeout(later, wait);
-
-      if (callNow) {
-        func.apply(context, args);
       }
     };
+
+    var debounced = function debounced() {
+      context = _this;
+      args = _arguments;
+      timestamp = Date.now();
+      var callNow = immediate && !timeout;
+
+      if (!timeout) {
+        timeout = setTimeout(later, wait);
+      }
+
+      if (callNow) {
+        result = func.apply(context, args);
+        context = args = null;
+      }
+
+      return result;
+    };
+
+    debounced.clear = function () {
+      clearTimeout(timeout);
+      timeout = context = args = null;
+    };
+
+    return debounced;
   }
 
   function disableBodyScroll() {
