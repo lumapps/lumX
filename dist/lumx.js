@@ -19848,7 +19848,7 @@ module.exports=v1
 /* 195 */
 /***/ (function(module, exports) {
 
-var v1='<div class=fab ng-class="{ \'lx-fab--trigger-on-hover\': !lxFab.lxTriggerOnClick,\n                 \'lx-fab--trigger-on-click\': lxFab.lxTriggerOnClick,\n                 \'lx-fab--is-open\': lxFab.lxTriggerOnClick && lxFab.isOpen,\n                 \'lx-fab--is-close\': lxFab.lxTriggerOnClick && !lxFab.isOpen }" ng-click=lxFab.toggleState()><ng-transclude-replace></ng-transclude-replace></div>';
+var v1='<div class=fab ng-class="{ \'fab--trigger-on-hover\': !lxFab.lxTriggerOnClick,\n                \'fab--trigger-on-click\': lxFab.lxTriggerOnClick,\n                \'fab--is-open\': lxFab.lxTriggerOnClick && lxFab.isOpen,\n                \'fab--is-close\': lxFab.lxTriggerOnClick && !lxFab.isOpen }" ng-click=lxFab.toggleState()><ng-transclude-replace></ng-transclude-replace></div>';
 angular.module('lumx.fab').run(['$templateCache', function ($templateCache) {$templateCache.put('fab.html', v1);}]);
 module.exports=v1
 

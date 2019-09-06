@@ -16641,183 +16641,144 @@ table {
   color: rgba(40, 51, 109, 0.4);
   pointer-events: none; }
 
+/* ==========================================================================
+   Fab
+   ========================================================================== */
 .fab {
-  display: inline-block;
-  vertical-align: top;
-  position: relative; }
-  .fab.lx-fab--trigger-on-hover:hover .fab__primary .mdi:nth-of-type(1), .fab.lx-fab--trigger-on-click.lx-fab--is-open .fab__primary .mdi:nth-of-type(1) {
-    opacity: 0;
-    transform: rotate(45deg); }
-  .fab.lx-fab--trigger-on-hover:hover .fab__primary .mdi:last-child, .fab.lx-fab--trigger-on-click.lx-fab--is-open .fab__primary .mdi:last-child {
-    opacity: 1;
-    transform: rotate(0); }
-  .fab.lx-fab--trigger-on-hover:hover .fab__actions, .fab.lx-fab--trigger-on-click.lx-fab--is-open .fab__actions {
-    pointer-events: auto; }
-    .fab.lx-fab--trigger-on-hover:hover .fab__actions .btn, .fab.lx-fab--trigger-on-click.lx-fab--is-open .fab__actions .btn {
-      opacity: 1; }
-    .fab.lx-fab--trigger-on-hover:hover .fab__actions.fab__actions--up .btn, .fab.lx-fab--trigger-on-click.lx-fab--is-open .fab__actions.fab__actions--up .btn {
-      transform: scale(1) translateY(-16px); }
-    .fab.lx-fab--trigger-on-hover:hover .fab__actions.fab__actions--right .btn, .fab.lx-fab--trigger-on-click.lx-fab--is-open .fab__actions.fab__actions--right .btn {
-      transform: scale(1) translateX(16px); }
-    .fab.lx-fab--trigger-on-hover:hover .fab__actions.fab__actions--down .btn, .fab.lx-fab--trigger-on-click.lx-fab--is-open .fab__actions.fab__actions--down .btn {
-      transform: scale(1) translateY(16px); }
-    .fab.lx-fab--trigger-on-hover:hover .fab__actions.fab__actions--left .btn, .fab.lx-fab--trigger-on-click.lx-fab--is-open .fab__actions.fab__actions--left .btn {
-      transform: scale(1) translateX(-16px); }
-
-.fab__primary .mdi {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  transition-property: opacity, transform;
-  transition-duration: 0.4s;
-  transition-timing-function: cubic-bezier(0.23, 1, 0.32, 1); }
-  .fab__primary .mdi:nth-of-type(1) {
-    opacity: 1;
-    transform: rotate(0); }
-  .fab__primary .mdi:last-child {
-    opacity: 0;
-    transform: rotate(-45deg); }
-
-.fab__actions {
-  pointer-events: none; }
-  .fab__actions .btn {
-    display: block;
-    opacity: 0;
-    transform: scale(0.6);
-    transition-property: opacity, transform;
+  position: relative;
+  display: inline-flex; }
+  .fab__primary button {
+    box-shadow: 0 4px 16px 0 rgba(40, 51, 109, 0.2);
+    width: 56px !important;
+    height: 56px !important; }
+  .fab__primary i {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px !important;
     transition-duration: 0.4s;
+    transition-property: opacity, transform;
     transition-timing-function: cubic-bezier(0.23, 1, 0.32, 1); }
-
-.fab__actions--up .btn:nth-child(1),
-.fab__actions--left .btn:nth-child(1) {
-  transition-delay: 0.2s; }
-
-.fab__actions--up .btn:nth-child(2),
-.fab__actions--left .btn:nth-child(2) {
-  transition-delay: 0.1s; }
-
-.fab__actions--up .btn:nth-child(3),
-.fab__actions--left .btn:nth-child(3) {
-  transition-delay: 0.06667s; }
-
-.fab__actions--up .btn:nth-child(4),
-.fab__actions--left .btn:nth-child(4) {
-  transition-delay: 0.05s; }
-
-.fab__actions--up .btn:nth-child(5),
-.fab__actions--left .btn:nth-child(5) {
-  transition-delay: 0.04s; }
-
-.fab__actions--up .btn:nth-child(6),
-.fab__actions--left .btn:nth-child(6) {
-  transition-delay: 0.03333s; }
-
-.fab__actions--up .btn:nth-child(7),
-.fab__actions--left .btn:nth-child(7) {
-  transition-delay: 0.02857s; }
-
-.fab__actions--up .btn:nth-child(8),
-.fab__actions--left .btn:nth-child(8) {
-  transition-delay: 0.025s; }
-
-.fab__actions--up .btn:nth-child(9),
-.fab__actions--left .btn:nth-child(9) {
-  transition-delay: 0.02222s; }
-
-.fab__actions--up .btn:nth-child(10),
-.fab__actions--left .btn:nth-child(10) {
-  transition-delay: 0.02s; }
-
-.fab__actions--down .btn:nth-child(1),
-.fab__actions--right .btn:nth-child(1) {
-  transition-delay: 0.05s; }
-
-.fab__actions--down .btn:nth-child(2),
-.fab__actions--right .btn:nth-child(2) {
-  transition-delay: 0.1s; }
-
-.fab__actions--down .btn:nth-child(3),
-.fab__actions--right .btn:nth-child(3) {
-  transition-delay: 0.15s; }
-
-.fab__actions--down .btn:nth-child(4),
-.fab__actions--right .btn:nth-child(4) {
-  transition-delay: 0.2s; }
-
-.fab__actions--down .btn:nth-child(5),
-.fab__actions--right .btn:nth-child(5) {
-  transition-delay: 0.25s; }
-
-.fab__actions--down .btn:nth-child(6),
-.fab__actions--right .btn:nth-child(6) {
-  transition-delay: 0.3s; }
-
-.fab__actions--down .btn:nth-child(7),
-.fab__actions--right .btn:nth-child(7) {
-  transition-delay: 0.35s; }
-
-.fab__actions--down .btn:nth-child(8),
-.fab__actions--right .btn:nth-child(8) {
-  transition-delay: 0.4s; }
-
-.fab__actions--down .btn:nth-child(9),
-.fab__actions--right .btn:nth-child(9) {
-  transition-delay: 0.45s; }
-
-.fab__actions--down .btn:nth-child(10),
-.fab__actions--right .btn:nth-child(10) {
-  transition-delay: 0.5s; }
-
-.fab__actions--left,
-.fab__actions--right {
-  display: -moz-flex;
-  display: flex;
-  box-orient: horizontal;
-  box-direction: normal;
-  -moz-flex-direction: row;
-  flex-direction: row;
-  -webkit-box-lines: single;
-  -moz-box-lines: single;
-  box-lines: single;
-  flex-wrap: nowrap; }
-
-.fab__actions--up {
-  position: absolute;
-  bottom: 56px;
-  left: 7px; }
-  .fab__actions--up .btn {
-    margin-bottom: 16px; }
-    .fab__actions--up .btn:last-child {
-      margin-bottom: 0; }
-
-.fab__actions--down {
-  position: absolute;
-  top: 56px;
-  left: 7px; }
-  .fab__actions--down .btn {
-    margin-top: 16px; }
-    .fab__actions--down .btn:first-child {
-      margin-top: 0; }
-
-.fab__actions--left {
-  position: absolute;
-  right: 56px;
-  bottom: 7px; }
-  .fab__actions--left .btn {
-    margin-right: 16px; }
-    .fab__actions--left .btn:last-child {
-      margin-right: 0; }
-
-.fab__actions--right {
-  position: absolute;
-  bottom: 7px;
-  left: 56px; }
-  .fab__actions--right .btn {
-    margin-left: 16px; }
-    .fab__actions--right .btn:first-child {
-      margin-left: 0; }
+    .fab__primary i:first-child {
+      opacity: 1;
+      transform: rotate(0); }
+    .fab__primary i:last-child {
+      opacity: 0;
+      transform: rotate(-45deg); }
+    .fab--trigger-on-hover:hover .fab__primary i:first-child,
+    .fab--trigger-on-click.fab--is-open .fab__primary i:first-child {
+      opacity: 0;
+      transform: rotate(45deg); }
+    .fab--trigger-on-hover:hover .fab__primary i:last-child,
+    .fab--trigger-on-click.fab--is-open .fab__primary i:last-child {
+      opacity: 1;
+      transform: rotate(0); }
+  .fab__actions {
+    position: absolute;
+    pointer-events: none; }
+    .fab__actions button {
+      box-shadow: 0 4px 16px 0 rgba(40, 51, 109, 0.2);
+      display: block;
+      opacity: 0;
+      transform: scale(0.6);
+      transition-duration: 0.4s;
+      transition-property: opacity, transform;
+      transition-timing-function: cubic-bezier(0.23, 1, 0.32, 1); }
+    .fab__actions--up button:nth-child(1), .fab__actions--left button:nth-child(1) {
+      transition-delay: 0.2s; }
+    .fab__actions--up button:nth-child(2), .fab__actions--left button:nth-child(2) {
+      transition-delay: 0.1s; }
+    .fab__actions--up button:nth-child(3), .fab__actions--left button:nth-child(3) {
+      transition-delay: 0.06667s; }
+    .fab__actions--up button:nth-child(4), .fab__actions--left button:nth-child(4) {
+      transition-delay: 0.05s; }
+    .fab__actions--up button:nth-child(5), .fab__actions--left button:nth-child(5) {
+      transition-delay: 0.04s; }
+    .fab__actions--up button:nth-child(6), .fab__actions--left button:nth-child(6) {
+      transition-delay: 0.03333s; }
+    .fab__actions--up button:nth-child(7), .fab__actions--left button:nth-child(7) {
+      transition-delay: 0.02857s; }
+    .fab__actions--up button:nth-child(8), .fab__actions--left button:nth-child(8) {
+      transition-delay: 0.025s; }
+    .fab__actions--up button:nth-child(9), .fab__actions--left button:nth-child(9) {
+      transition-delay: 0.02222s; }
+    .fab__actions--up button:nth-child(10), .fab__actions--left button:nth-child(10) {
+      transition-delay: 0.02s; }
+    .fab__actions--down button:nth-child(1), .fab__actions--right button:nth-child(1) {
+      transition-delay: 0.05s; }
+    .fab__actions--down button:nth-child(2), .fab__actions--right button:nth-child(2) {
+      transition-delay: 0.1s; }
+    .fab__actions--down button:nth-child(3), .fab__actions--right button:nth-child(3) {
+      transition-delay: 0.15s; }
+    .fab__actions--down button:nth-child(4), .fab__actions--right button:nth-child(4) {
+      transition-delay: 0.2s; }
+    .fab__actions--down button:nth-child(5), .fab__actions--right button:nth-child(5) {
+      transition-delay: 0.25s; }
+    .fab__actions--down button:nth-child(6), .fab__actions--right button:nth-child(6) {
+      transition-delay: 0.3s; }
+    .fab__actions--down button:nth-child(7), .fab__actions--right button:nth-child(7) {
+      transition-delay: 0.35s; }
+    .fab__actions--down button:nth-child(8), .fab__actions--right button:nth-child(8) {
+      transition-delay: 0.4s; }
+    .fab__actions--down button:nth-child(9), .fab__actions--right button:nth-child(9) {
+      transition-delay: 0.45s; }
+    .fab__actions--down button:nth-child(10), .fab__actions--right button:nth-child(10) {
+      transition-delay: 0.5s; }
+    .fab__actions--left, .fab__actions--right {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap; }
+    .fab__actions--up {
+      bottom: 56px;
+      left: 8px; }
+      .fab__actions--up button {
+        margin-bottom: 16px; }
+        .fab__actions--up button:last-child {
+          margin-bottom: 0; }
+    .fab__actions--down {
+      top: 56px;
+      left: 8px; }
+      .fab__actions--down button {
+        margin-top: 16px; }
+        .fab__actions--down button:first-child {
+          margin-top: 0; }
+    .fab__actions--left {
+      right: 56px;
+      bottom: 8px; }
+      .fab__actions--left button {
+        margin-right: 16px; }
+        .fab__actions--left button:last-child {
+          margin-right: 0; }
+    .fab__actions--right {
+      bottom: 8px;
+      left: 56px; }
+      .fab__actions--right button {
+        margin-left: 16px; }
+        .fab__actions--right button:first-child {
+          margin-left: 0; }
+    .fab--trigger-on-hover:hover .fab__actions,
+    .fab--trigger-on-click.fab--is-open .fab__actions {
+      pointer-events: auto; }
+      .fab--trigger-on-hover:hover .fab__actions button,
+      .fab--trigger-on-click.fab--is-open .fab__actions button {
+        opacity: 1; }
+      .fab--trigger-on-hover:hover .fab__actions--up button,
+      .fab--trigger-on-click.fab--is-open .fab__actions--up button {
+        transform: scale(1) translateY(-16px); }
+      .fab--trigger-on-hover:hover .fab__actions--right button,
+      .fab--trigger-on-click.fab--is-open .fab__actions--right button {
+        transform: scale(1) translateX(16px); }
+      .fab--trigger-on-hover:hover .fab__actions--down button,
+      .fab--trigger-on-click.fab--is-open .fab__actions--down button {
+        transform: scale(1) translateY(16px); }
+      .fab--trigger-on-hover:hover .fab__actions--left button,
+      .fab--trigger-on-click.fab--is-open .fab__actions--left button {
+        transform: scale(1) translateX(-16px); }
 
 .input-file {
   position: relative;
@@ -35528,183 +35489,144 @@ table {
   color: rgba(0, 0, 0, 0.38);
   pointer-events: none; }
 
+/* ==========================================================================
+   Fab
+   ========================================================================== */
 .fab {
-  display: inline-block;
-  vertical-align: top;
-  position: relative; }
-  .fab.lx-fab--trigger-on-hover:hover .fab__primary .mdi:nth-of-type(1), .fab.lx-fab--trigger-on-click.lx-fab--is-open .fab__primary .mdi:nth-of-type(1) {
-    opacity: 0;
-    transform: rotate(45deg); }
-  .fab.lx-fab--trigger-on-hover:hover .fab__primary .mdi:last-child, .fab.lx-fab--trigger-on-click.lx-fab--is-open .fab__primary .mdi:last-child {
-    opacity: 1;
-    transform: rotate(0); }
-  .fab.lx-fab--trigger-on-hover:hover .fab__actions, .fab.lx-fab--trigger-on-click.lx-fab--is-open .fab__actions {
-    pointer-events: auto; }
-    .fab.lx-fab--trigger-on-hover:hover .fab__actions .btn, .fab.lx-fab--trigger-on-click.lx-fab--is-open .fab__actions .btn {
-      opacity: 1; }
-    .fab.lx-fab--trigger-on-hover:hover .fab__actions.fab__actions--up .btn, .fab.lx-fab--trigger-on-click.lx-fab--is-open .fab__actions.fab__actions--up .btn {
-      transform: scale(1) translateY(-16px); }
-    .fab.lx-fab--trigger-on-hover:hover .fab__actions.fab__actions--right .btn, .fab.lx-fab--trigger-on-click.lx-fab--is-open .fab__actions.fab__actions--right .btn {
-      transform: scale(1) translateX(16px); }
-    .fab.lx-fab--trigger-on-hover:hover .fab__actions.fab__actions--down .btn, .fab.lx-fab--trigger-on-click.lx-fab--is-open .fab__actions.fab__actions--down .btn {
-      transform: scale(1) translateY(16px); }
-    .fab.lx-fab--trigger-on-hover:hover .fab__actions.fab__actions--left .btn, .fab.lx-fab--trigger-on-click.lx-fab--is-open .fab__actions.fab__actions--left .btn {
-      transform: scale(1) translateX(-16px); }
-
-.fab__primary .mdi {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  transition-property: opacity, transform;
-  transition-duration: 0.4s;
-  transition-timing-function: cubic-bezier(0.23, 1, 0.32, 1); }
-  .fab__primary .mdi:nth-of-type(1) {
-    opacity: 1;
-    transform: rotate(0); }
-  .fab__primary .mdi:last-child {
-    opacity: 0;
-    transform: rotate(-45deg); }
-
-.fab__actions {
-  pointer-events: none; }
-  .fab__actions .btn {
-    display: block;
-    opacity: 0;
-    transform: scale(0.6);
-    transition-property: opacity, transform;
+  position: relative;
+  display: inline-flex; }
+  .fab__primary button {
+    box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.2);
+    width: 56px !important;
+    height: 56px !important; }
+  .fab__primary i {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px !important;
     transition-duration: 0.4s;
+    transition-property: opacity, transform;
     transition-timing-function: cubic-bezier(0.23, 1, 0.32, 1); }
-
-.fab__actions--up .btn:nth-child(1),
-.fab__actions--left .btn:nth-child(1) {
-  transition-delay: 0.2s; }
-
-.fab__actions--up .btn:nth-child(2),
-.fab__actions--left .btn:nth-child(2) {
-  transition-delay: 0.1s; }
-
-.fab__actions--up .btn:nth-child(3),
-.fab__actions--left .btn:nth-child(3) {
-  transition-delay: 0.06667s; }
-
-.fab__actions--up .btn:nth-child(4),
-.fab__actions--left .btn:nth-child(4) {
-  transition-delay: 0.05s; }
-
-.fab__actions--up .btn:nth-child(5),
-.fab__actions--left .btn:nth-child(5) {
-  transition-delay: 0.04s; }
-
-.fab__actions--up .btn:nth-child(6),
-.fab__actions--left .btn:nth-child(6) {
-  transition-delay: 0.03333s; }
-
-.fab__actions--up .btn:nth-child(7),
-.fab__actions--left .btn:nth-child(7) {
-  transition-delay: 0.02857s; }
-
-.fab__actions--up .btn:nth-child(8),
-.fab__actions--left .btn:nth-child(8) {
-  transition-delay: 0.025s; }
-
-.fab__actions--up .btn:nth-child(9),
-.fab__actions--left .btn:nth-child(9) {
-  transition-delay: 0.02222s; }
-
-.fab__actions--up .btn:nth-child(10),
-.fab__actions--left .btn:nth-child(10) {
-  transition-delay: 0.02s; }
-
-.fab__actions--down .btn:nth-child(1),
-.fab__actions--right .btn:nth-child(1) {
-  transition-delay: 0.05s; }
-
-.fab__actions--down .btn:nth-child(2),
-.fab__actions--right .btn:nth-child(2) {
-  transition-delay: 0.1s; }
-
-.fab__actions--down .btn:nth-child(3),
-.fab__actions--right .btn:nth-child(3) {
-  transition-delay: 0.15s; }
-
-.fab__actions--down .btn:nth-child(4),
-.fab__actions--right .btn:nth-child(4) {
-  transition-delay: 0.2s; }
-
-.fab__actions--down .btn:nth-child(5),
-.fab__actions--right .btn:nth-child(5) {
-  transition-delay: 0.25s; }
-
-.fab__actions--down .btn:nth-child(6),
-.fab__actions--right .btn:nth-child(6) {
-  transition-delay: 0.3s; }
-
-.fab__actions--down .btn:nth-child(7),
-.fab__actions--right .btn:nth-child(7) {
-  transition-delay: 0.35s; }
-
-.fab__actions--down .btn:nth-child(8),
-.fab__actions--right .btn:nth-child(8) {
-  transition-delay: 0.4s; }
-
-.fab__actions--down .btn:nth-child(9),
-.fab__actions--right .btn:nth-child(9) {
-  transition-delay: 0.45s; }
-
-.fab__actions--down .btn:nth-child(10),
-.fab__actions--right .btn:nth-child(10) {
-  transition-delay: 0.5s; }
-
-.fab__actions--left,
-.fab__actions--right {
-  display: -moz-flex;
-  display: flex;
-  box-orient: horizontal;
-  box-direction: normal;
-  -moz-flex-direction: row;
-  flex-direction: row;
-  -webkit-box-lines: single;
-  -moz-box-lines: single;
-  box-lines: single;
-  flex-wrap: nowrap; }
-
-.fab__actions--up {
-  position: absolute;
-  bottom: 56px;
-  left: 7px; }
-  .fab__actions--up .btn {
-    margin-bottom: 16px; }
-    .fab__actions--up .btn:last-child {
-      margin-bottom: 0; }
-
-.fab__actions--down {
-  position: absolute;
-  top: 56px;
-  left: 7px; }
-  .fab__actions--down .btn {
-    margin-top: 16px; }
-    .fab__actions--down .btn:first-child {
-      margin-top: 0; }
-
-.fab__actions--left {
-  position: absolute;
-  right: 56px;
-  bottom: 7px; }
-  .fab__actions--left .btn {
-    margin-right: 16px; }
-    .fab__actions--left .btn:last-child {
-      margin-right: 0; }
-
-.fab__actions--right {
-  position: absolute;
-  bottom: 7px;
-  left: 56px; }
-  .fab__actions--right .btn {
-    margin-left: 16px; }
-    .fab__actions--right .btn:first-child {
-      margin-left: 0; }
+    .fab__primary i:first-child {
+      opacity: 1;
+      transform: rotate(0); }
+    .fab__primary i:last-child {
+      opacity: 0;
+      transform: rotate(-45deg); }
+    .fab--trigger-on-hover:hover .fab__primary i:first-child,
+    .fab--trigger-on-click.fab--is-open .fab__primary i:first-child {
+      opacity: 0;
+      transform: rotate(45deg); }
+    .fab--trigger-on-hover:hover .fab__primary i:last-child,
+    .fab--trigger-on-click.fab--is-open .fab__primary i:last-child {
+      opacity: 1;
+      transform: rotate(0); }
+  .fab__actions {
+    position: absolute;
+    pointer-events: none; }
+    .fab__actions button {
+      box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.2);
+      display: block;
+      opacity: 0;
+      transform: scale(0.6);
+      transition-duration: 0.4s;
+      transition-property: opacity, transform;
+      transition-timing-function: cubic-bezier(0.23, 1, 0.32, 1); }
+    .fab__actions--up button:nth-child(1), .fab__actions--left button:nth-child(1) {
+      transition-delay: 0.2s; }
+    .fab__actions--up button:nth-child(2), .fab__actions--left button:nth-child(2) {
+      transition-delay: 0.1s; }
+    .fab__actions--up button:nth-child(3), .fab__actions--left button:nth-child(3) {
+      transition-delay: 0.06667s; }
+    .fab__actions--up button:nth-child(4), .fab__actions--left button:nth-child(4) {
+      transition-delay: 0.05s; }
+    .fab__actions--up button:nth-child(5), .fab__actions--left button:nth-child(5) {
+      transition-delay: 0.04s; }
+    .fab__actions--up button:nth-child(6), .fab__actions--left button:nth-child(6) {
+      transition-delay: 0.03333s; }
+    .fab__actions--up button:nth-child(7), .fab__actions--left button:nth-child(7) {
+      transition-delay: 0.02857s; }
+    .fab__actions--up button:nth-child(8), .fab__actions--left button:nth-child(8) {
+      transition-delay: 0.025s; }
+    .fab__actions--up button:nth-child(9), .fab__actions--left button:nth-child(9) {
+      transition-delay: 0.02222s; }
+    .fab__actions--up button:nth-child(10), .fab__actions--left button:nth-child(10) {
+      transition-delay: 0.02s; }
+    .fab__actions--down button:nth-child(1), .fab__actions--right button:nth-child(1) {
+      transition-delay: 0.05s; }
+    .fab__actions--down button:nth-child(2), .fab__actions--right button:nth-child(2) {
+      transition-delay: 0.1s; }
+    .fab__actions--down button:nth-child(3), .fab__actions--right button:nth-child(3) {
+      transition-delay: 0.15s; }
+    .fab__actions--down button:nth-child(4), .fab__actions--right button:nth-child(4) {
+      transition-delay: 0.2s; }
+    .fab__actions--down button:nth-child(5), .fab__actions--right button:nth-child(5) {
+      transition-delay: 0.25s; }
+    .fab__actions--down button:nth-child(6), .fab__actions--right button:nth-child(6) {
+      transition-delay: 0.3s; }
+    .fab__actions--down button:nth-child(7), .fab__actions--right button:nth-child(7) {
+      transition-delay: 0.35s; }
+    .fab__actions--down button:nth-child(8), .fab__actions--right button:nth-child(8) {
+      transition-delay: 0.4s; }
+    .fab__actions--down button:nth-child(9), .fab__actions--right button:nth-child(9) {
+      transition-delay: 0.45s; }
+    .fab__actions--down button:nth-child(10), .fab__actions--right button:nth-child(10) {
+      transition-delay: 0.5s; }
+    .fab__actions--left, .fab__actions--right {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap; }
+    .fab__actions--up {
+      bottom: 56px;
+      left: 8px; }
+      .fab__actions--up button {
+        margin-bottom: 16px; }
+        .fab__actions--up button:last-child {
+          margin-bottom: 0; }
+    .fab__actions--down {
+      top: 56px;
+      left: 8px; }
+      .fab__actions--down button {
+        margin-top: 16px; }
+        .fab__actions--down button:first-child {
+          margin-top: 0; }
+    .fab__actions--left {
+      right: 56px;
+      bottom: 8px; }
+      .fab__actions--left button {
+        margin-right: 16px; }
+        .fab__actions--left button:last-child {
+          margin-right: 0; }
+    .fab__actions--right {
+      bottom: 8px;
+      left: 56px; }
+      .fab__actions--right button {
+        margin-left: 16px; }
+        .fab__actions--right button:first-child {
+          margin-left: 0; }
+    .fab--trigger-on-hover:hover .fab__actions,
+    .fab--trigger-on-click.fab--is-open .fab__actions {
+      pointer-events: auto; }
+      .fab--trigger-on-hover:hover .fab__actions button,
+      .fab--trigger-on-click.fab--is-open .fab__actions button {
+        opacity: 1; }
+      .fab--trigger-on-hover:hover .fab__actions--up button,
+      .fab--trigger-on-click.fab--is-open .fab__actions--up button {
+        transform: scale(1) translateY(-16px); }
+      .fab--trigger-on-hover:hover .fab__actions--right button,
+      .fab--trigger-on-click.fab--is-open .fab__actions--right button {
+        transform: scale(1) translateX(16px); }
+      .fab--trigger-on-hover:hover .fab__actions--down button,
+      .fab--trigger-on-click.fab--is-open .fab__actions--down button {
+        transform: scale(1) translateY(16px); }
+      .fab--trigger-on-hover:hover .fab__actions--left button,
+      .fab--trigger-on-click.fab--is-open .fab__actions--left button {
+        transform: scale(1) translateX(-16px); }
 
 .input-file {
   position: relative;
