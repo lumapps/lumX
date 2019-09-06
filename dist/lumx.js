@@ -19561,7 +19561,7 @@ function TextFieldController(LxUtilsService) {
   lx.inputId = LxUtilsService.generateUUID();
 
   function hasValue() {
-    if (angular.isUndefined(_modelController) || angular.isUndefined(_modelController.$viewValue)) {
+    if (angular.isUndefined(_modelController.$viewValue)) {
       return false;
     }
 
@@ -19581,6 +19581,14 @@ function TextFieldDirective($timeout) {
 
   function link(scope, el, attrs, ctrl) {
     var input = el.find('input');
+
+    if (input.length === 1) {
+      el.addClass(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_1__[/* CSS_PREFIX */ "a"] + "-text-field--has-input");
+    } else {
+      input = el.find('textarea');
+      el.addClass(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_1__[/* CSS_PREFIX */ "a"] + "-text-field--has-textarea");
+    }
+
     var modelController = input.data('$ngModelController');
     ctrl.setModelController(modelController);
 
@@ -19612,24 +19620,20 @@ function TextFieldDirective($timeout) {
         });
       }
     });
-
-    if (angular.isDefined(modelController) && angular.isDefined(modelController.$$attr)) {
-      modelController.$$attr.$observe('disabled', function (isDisabled) {
-        if (isDisabled) {
-          el.addClass(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_1__[/* CSS_PREFIX */ "a"] + "-text-field--is-disabled");
-        } else {
-          el.removeClass(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_1__[/* CSS_PREFIX */ "a"] + "-text-field--is-disabled");
-        }
-      });
-      modelController.$$attr.$observe('placeholder', function (placeholder) {
-        if (placeholder.length > 0) {
-          el.addClass(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_1__[/* CSS_PREFIX */ "a"] + "-text-field--has-placeholder");
-        } else {
-          el.removeClass(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_1__[/* CSS_PREFIX */ "a"] + "-text-field--has-placeholder");
-        }
-      });
-    }
-
+    modelController.$$attr.$observe('disabled', function (isDisabled) {
+      if (isDisabled) {
+        el.addClass(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_1__[/* CSS_PREFIX */ "a"] + "-text-field--is-disabled");
+      } else {
+        el.removeClass(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_1__[/* CSS_PREFIX */ "a"] + "-text-field--is-disabled");
+      }
+    });
+    modelController.$$attr.$observe('placeholder', function (placeholder) {
+      if (placeholder.length > 0) {
+        el.addClass(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_1__[/* CSS_PREFIX */ "a"] + "-text-field--has-placeholder");
+      } else {
+        el.removeClass(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_1__[/* CSS_PREFIX */ "a"] + "-text-field--has-placeholder");
+      }
+    });
     scope.$on('$destroy', function () {
       input.off();
     });
