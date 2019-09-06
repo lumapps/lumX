@@ -60,7 +60,7 @@ function TextFieldController(LxUtilsService) {
      * @return {boolean} Wether the model controller has a value or not.
      */
     function hasValue() {
-        if (angular.isUndefined(_modelController.$viewValue)) {
+        if (angular.isUndefined(_modelController) || angular.isUndefined(_modelController.$viewValue)) {
             return false;
         }
 
