@@ -130,7 +130,7 @@ function TextFieldDirective($timeout) {
             },
         );
 
-        if (angular.isDefined(modelController.$$attr)) {
+        if (angular.isDefined(modelController) && angular.isDefined(modelController.$$attr)) {
             modelController.$$attr.$observe('disabled', (isDisabled) => {
                 if (isDisabled) {
                     el.addClass(`${CSS_PREFIX}-text-field--is-disabled`);
