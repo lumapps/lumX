@@ -19613,7 +19613,7 @@ function TextFieldDirective($timeout) {
       }
     });
 
-    if (angular.isDefined(modelController.$$attr)) {
+    if (angular.isDefined(modelController) && angular.isDefined(modelController.$$attr)) {
       modelController.$$attr.$observe('disabled', function (isDisabled) {
         if (isDisabled) {
           el.addClass(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_1__[/* CSS_PREFIX */ "a"] + "-text-field--is-disabled");
