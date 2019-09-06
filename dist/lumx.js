@@ -19561,7 +19561,7 @@ function TextFieldController(LxUtilsService) {
   lx.inputId = LxUtilsService.generateUUID();
 
   function hasValue() {
-    if (angular.isUndefined(_modelController.$viewValue)) {
+    if (angular.isUndefined(_modelController) || angular.isUndefined(_modelController.$viewValue)) {
       return false;
     }
 
