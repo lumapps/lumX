@@ -139,21 +139,23 @@ function TextFieldDirective($timeout) {
             },
         );
 
-        modelController.$$attr.$observe('disabled', (isDisabled) => {
-            if (isDisabled) {
-                el.addClass(`${CSS_PREFIX}-text-field--is-disabled`);
-            } else {
-                el.removeClass(`${CSS_PREFIX}-text-field--is-disabled`);
-            }
-        });
+        if (angular.isDefined(modelController.$$attr)) {
+            modelController.$$attr.$observe('disabled', (isDisabled) => {
+                if (isDisabled) {
+                    el.addClass(`${CSS_PREFIX}-text-field--is-disabled`);
+                } else {
+                    el.removeClass(`${CSS_PREFIX}-text-field--is-disabled`);
+                }
+            });
 
-        modelController.$$attr.$observe('placeholder', (placeholder) => {
-            if (placeholder.length > 0) {
-                el.addClass(`${CSS_PREFIX}-text-field--has-placeholder`);
-            } else {
-                el.removeClass(`${CSS_PREFIX}-text-field--has-placeholder`);
-            }
-        });
+            modelController.$$attr.$observe('placeholder', (placeholder) => {
+                if (placeholder.length > 0) {
+                    el.addClass(`${CSS_PREFIX}-text-field--has-placeholder`);
+                } else {
+                    el.removeClass(`${CSS_PREFIX}-text-field--has-placeholder`);
+                }
+            });
+        }
 
         scope.$on('$destroy', () => {
             input.off();
