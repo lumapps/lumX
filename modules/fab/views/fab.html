@@ -1,8 +1,10 @@
-<div class="fab"
-     ng-class="{ 'lx-fab--trigger-on-hover': !lxFab.lxTriggerOnClick,
-                 'lx-fab--trigger-on-click': lxFab.lxTriggerOnClick,
-                 'lx-fab--is-open': lxFab.lxTriggerOnClick && lxFab.isOpen,
-                 'lx-fab--is-close': lxFab.lxTriggerOnClick && !lxFab.isOpen }"
-     ng-click="lxFab.toggleState()">
+<div
+    class="fab"
+    ng-class="{ 'fab--trigger-on-hover': !lxFab.lxTriggerOnClick,
+                'fab--trigger-on-click': lxFab.lxTriggerOnClick,
+                'fab--is-open': lxFab.lxTriggerOnClick && lxFab.isOpen,
+                'fab--is-close': lxFab.lxTriggerOnClick && !lxFab.isOpen }"
+    ng-click="lxFab.toggleState()"
+>
     <ng-transclude-replace></ng-transclude-replace>
 </div>
