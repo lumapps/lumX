@@ -38,7 +38,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "@mdi/font": "^2.8.94",
+    "@mdi/font": "^4.4.95",
     "angular": "^1.5.11",
     "bourbon": "~4.2.7",
     "jquery": "latest",
