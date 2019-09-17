@@ -1,0 +1,34 @@
+<lx-toolbar>
+    <lx-toolbar-label>
+        <lx-grid lx-orientation="horizontal" lx-h-align="center">
+            <span
+                class="lumx-typography-title"
+                ng-class="{ 'lumx-theme-color-dark-N': demoBlock.theme === 'light',
+                            'lumx-theme-color-light-N': demoBlock.theme === 'dark' }"
+            >
+                Toolbar title
+            </span>
+
+            <lx-text-field
+                class="lumx-spacing-margin-left-big"
+                lx-icon="{{ vm.icons.mdiMagnify }}"
+                lx-theme="{{ demoBlock.theme }}"
+            >
+                <input type="text" ng-model="vm.searchFieldModel" placeholder="Search" />
+            </lx-text-field>
+        </lx-grid>
+    </lx-toolbar-label>
+
+    <lx-toolbar-after>
+        <lx-button
+            class="lumx-spacing-margin-right-regular"
+            lx-emphasis="low"
+            lx-theme="{{ demoBlock.theme }}"
+            lx-variant="icon"
+        >
+            <lx-icon lx-path="{{ vm.icons.mdiViewGrid }}"></lx-icon>
+        </lx-button>
+
+        <lx-button lx-theme="{{ demoBlock.theme }}">Action</lx-button>
+    </lx-toolbar-after>
+</lx-toolbar>

@@ -142,6 +142,16 @@ function AppDefaultConfig($locationProvider, $stateProvider, markedProvider) {
                     template: require('./components/text-field/demo.html'),
                 },
             },
+        })
+        .state('app.components.toolbar', {
+            url: 'toolbar',
+            views: {
+                'main@': {
+                    controller: 'DemoToolbarController',
+                    controllerAs: 'vm',
+                    template: require('./components/toolbar/demo.html'),
+                },
+            },
         });
 }
 
