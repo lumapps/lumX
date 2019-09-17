@@ -1,0 +1,164 @@
+<demo-grid>
+    <lx-button ng-click="vm.openDialog(vm.dialogIds[1], vm.sourceIds[1])" id="{{ vm.sourceIds[1] }}">
+        Tiny
+    </lx-button>
+
+    <lx-button ng-click="vm.openDialog(vm.dialogIds[2], vm.sourceIds[2])" id="{{ vm.sourceIds[2] }}">
+        Regular
+    </lx-button>
+
+    <lx-button ng-click="vm.openDialog(vm.dialogIds[3], vm.sourceIds[3])" id="{{ vm.sourceIds[3] }}">
+        Big
+    </lx-button>
+
+    <lx-button ng-click="vm.openDialog(vm.dialogIds[4], vm.sourceIds[4])" id="{{ vm.sourceIds[4] }}">
+        Huge
+    </lx-button>
+</demo-grid>
+
+<lx-dialog id="{{ vm.dialogIds[1] }}" lx-size="tiny">
+    <lx-dialog-header>
+        <lx-toolbar>
+            <lx-toolbar-label>
+                <span class="lumx-typography-title">Tiny dialog</span>
+            </lx-toolbar-label>
+        </lx-toolbar>
+    </lx-dialog-header>
+
+    <lx-dialog-content>
+        <div class="lumx-spacing-padding-horizontal-huge">
+            <p>
+                Quisque placerat facilisis egestas cillum dolore. Prima luce, cum quibus mons aliud consensu ab eo. Quid
+                securi etiam tamquam eu fugiat nulla pariatur.
+            </p>
+        </div>
+    </lx-dialog-content>
+
+    <lx-dialog-footer>
+        <lx-toolbar>
+            <lx-toolbar-after>
+                <lx-button lx-emphasis="medium" lx-dialog-close>Cancel</lx-button>
+                <lx-button class="lumx-spacing-margin-left-regular" lx-dialog-close lx-focus-on-init>
+                    Save
+                </lx-button>
+            </lx-toolbar-after>
+        </lx-toolbar>
+    </lx-dialog-footer>
+</lx-dialog>
+
+<lx-dialog id="{{ vm.dialogIds[2] }}" lx-size="regular">
+    <lx-dialog-header>
+        <lx-toolbar>
+            <lx-toolbar-label>
+                <span class="lumx-typography-title">Regular dialog</span>
+            </lx-toolbar-label>
+        </lx-toolbar>
+    </lx-dialog-header>
+
+    <lx-dialog-content>
+        <div class="lumx-spacing-padding-horizontal-huge">
+            <p>
+                Nihil hic munitissimus habendi senatus locus, nihil horum? At nos hinc posthac, sitientis piros Afros.
+                Magna pars studiorum, prodita quaerimus. Integer legentibus erat a ante historiarum dapibus. Praeterea
+                iter est quasdam res quas ex communi. Ullamco laboris nisi ut aliquid ex ea commodi consequat. Inmensae
+                subtilitatis, obscuris et malesuada fames. Me non paenitet nullum festiviorem excogitasse ad hoc. Cum
+                ceteris in veneratione tui montes, nascetur mus. Etiam habebis sem dicantur magna mollis euismod. Quis
+                aute iure reprehenderit in voluptate velit esse. Phasellus laoreet lorem vel dolor tempus vehicula.
+                Ambitioni dedisse scripsisse iudicaretur. Paullum deliquit, ponderibus modulisque suis ratio utitur. Ab
+                illo tempore, ab est sed immemorabili. Nec dubitamus multa iter quae et nos invenerat. Tu quoque, Brute,
+                fili mi, nihil timor populi, nihil! Morbi fringilla convallis sapien, id pulvinar odio volutpat. Cras
+                mattis iudicium purus sit amet fermentum. Vivamus sagittis lacus vel augue laoreet rutrum faucibus.
+                Quisque ut dolor gravida, placerat libero vel, euismod.
+            </p>
+        </div>
+    </lx-dialog-content>
+
+    <lx-dialog-footer>
+        <lx-toolbar>
+            <lx-toolbar-after>
+                <lx-button lx-emphasis="medium" lx-dialog-close>Cancel</lx-button>
+                <lx-button class="lumx-spacing-margin-left-regular" lx-dialog-close lx-focus-on-init>
+                    Save
+                </lx-button>
+            </lx-toolbar-after>
+        </lx-toolbar>
+    </lx-dialog-footer>
+</lx-dialog>
+
+<lx-dialog id="{{ vm.dialogIds[3] }}" lx-size="big">
+    <lx-dialog-header>
+        <lx-toolbar>
+            <lx-toolbar-label>
+                <span class="lumx-typography-title">Big dialog</span>
+            </lx-toolbar-label>
+        </lx-toolbar>
+    </lx-dialog-header>
+
+    <lx-dialog-content>
+        <div class="lumx-spacing-padding-horizontal-huge">
+            <p>
+                Nihil hic munitissimus habendi senatus locus, nihil horum? At nos hinc posthac, sitientis piros Afros.
+                Magna pars studiorum, prodita quaerimus. Integer legentibus erat a ante historiarum dapibus. Praeterea
+                iter est quasdam res quas ex communi. Ullamco laboris nisi ut aliquid ex ea commodi consequat. Inmensae
+                subtilitatis, obscuris et malesuada fames. Me non paenitet nullum festiviorem excogitasse ad hoc. Cum
+                ceteris in veneratione tui montes, nascetur mus. Etiam habebis sem dicantur magna mollis euismod. Quis
+                aute iure reprehenderit in voluptate velit esse. Phasellus laoreet lorem vel dolor tempus vehicula.
+                Ambitioni dedisse scripsisse iudicaretur. Paullum deliquit, ponderibus modulisque suis ratio utitur. Ab
+                illo tempore, ab est sed immemorabili. Nec dubitamus multa iter quae et nos invenerat. Tu quoque, Brute,
+                fili mi, nihil timor populi, nihil! Morbi fringilla convallis sapien, id pulvinar odio volutpat. Cras
+                mattis iudicium purus sit amet fermentum. Vivamus sagittis lacus vel augue laoreet rutrum faucibus.
+                Quisque ut dolor gravida, placerat libero vel, euismod.
+            </p>
+        </div>
+    </lx-dialog-content>
+
+    <lx-dialog-footer>
+        <lx-toolbar>
+            <lx-toolbar-after>
+                <lx-button lx-emphasis="medium" lx-dialog-close>Cancel</lx-button>
+                <lx-button class="lumx-spacing-margin-left-regular" lx-dialog-close lx-focus-on-init>
+                    Save
+                </lx-button>
+            </lx-toolbar-after>
+        </lx-toolbar>
+    </lx-dialog-footer>
+</lx-dialog>
+
+<lx-dialog id="{{ vm.dialogIds[4] }}" lx-size="huge">
+    <lx-dialog-header>
+        <lx-toolbar>
+            <lx-toolbar-label>
+                <span class="lumx-typography-title">Huge dialog</span>
+            </lx-toolbar-label>
+        </lx-toolbar>
+    </lx-dialog-header>
+
+    <lx-dialog-content>
+        <div class="lumx-spacing-padding-horizontal-huge">
+            <p>
+                Nihil hic munitissimus habendi senatus locus, nihil horum? At nos hinc posthac, sitientis piros Afros.
+                Magna pars studiorum, prodita quaerimus. Integer legentibus erat a ante historiarum dapibus. Praeterea
+                iter est quasdam res quas ex communi. Ullamco laboris nisi ut aliquid ex ea commodi consequat. Inmensae
+                subtilitatis, obscuris et malesuada fames. Me non paenitet nullum festiviorem excogitasse ad hoc. Cum
+                ceteris in veneratione tui montes, nascetur mus. Etiam habebis sem dicantur magna mollis euismod. Quis
+                aute iure reprehenderit in voluptate velit esse. Phasellus laoreet lorem vel dolor tempus vehicula.
+                Ambitioni dedisse scripsisse iudicaretur. Paullum deliquit, ponderibus modulisque suis ratio utitur. Ab
+                illo tempore, ab est sed immemorabili. Nec dubitamus multa iter quae et nos invenerat. Tu quoque, Brute,
+                fili mi, nihil timor populi, nihil! Morbi fringilla convallis sapien, id pulvinar odio volutpat. Cras
+                mattis iudicium purus sit amet fermentum. Vivamus sagittis lacus vel augue laoreet rutrum faucibus.
+                Quisque ut dolor gravida, placerat libero vel, euismod.
+            </p>
+        </div>
+    </lx-dialog-content>
+
+    <lx-dialog-footer>
+        <lx-toolbar>
+            <lx-toolbar-after>
+                <lx-button lx-emphasis="medium" lx-dialog-close>Cancel</lx-button>
+                <lx-button class="lumx-spacing-margin-left-regular" lx-dialog-close lx-focus-on-init>
+                    Save
+                </lx-button>
+            </lx-toolbar-after>
+        </lx-toolbar>
+    </lx-dialog-footer>
+</lx-dialog>

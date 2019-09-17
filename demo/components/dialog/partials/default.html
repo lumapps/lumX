@@ -1,0 +1,44 @@
+<demo-grid>
+    <lx-button ng-click="vm.openDialog(vm.dialogIds[0], vm.sourceIds[0])" id="{{ vm.sourceIds[0] }}">
+        Open dialog
+    </lx-button>
+</demo-grid>
+
+<lx-dialog id="{{ vm.dialogIds[0] }}">
+    <lx-dialog-header>
+        <lx-toolbar>
+            <lx-toolbar-label>
+                <span class="lumx-typography-title">Default dialog</span>
+            </lx-toolbar-label>
+        </lx-toolbar>
+    </lx-dialog-header>
+
+    <lx-dialog-content>
+        <div class="lumx-spacing-padding-horizontal-huge">
+            <p>
+                Nihil hic munitissimus habendi senatus locus, nihil horum? At nos hinc posthac, sitientis piros Afros.
+                Magna pars studiorum, prodita quaerimus. Integer legentibus erat a ante historiarum dapibus. Praeterea
+                iter est quasdam res quas ex communi. Ullamco laboris nisi ut aliquid ex ea commodi consequat. Inmensae
+                subtilitatis, obscuris et malesuada fames. Me non paenitet nullum festiviorem excogitasse ad hoc. Cum
+                ceteris in veneratione tui montes, nascetur mus. Etiam habebis sem dicantur magna mollis euismod. Quis
+                aute iure reprehenderit in voluptate velit esse. Phasellus laoreet lorem vel dolor tempus vehicula.
+                Ambitioni dedisse scripsisse iudicaretur. Paullum deliquit, ponderibus modulisque suis ratio utitur. Ab
+                illo tempore, ab est sed immemorabili. Nec dubitamus multa iter quae et nos invenerat. Tu quoque, Brute,
+                fili mi, nihil timor populi, nihil! Morbi fringilla convallis sapien, id pulvinar odio volutpat. Cras
+                mattis iudicium purus sit amet fermentum. Vivamus sagittis lacus vel augue laoreet rutrum faucibus.
+                Quisque ut dolor gravida, placerat libero vel, euismod.
+            </p>
+        </div>
+    </lx-dialog-content>
+
+    <lx-dialog-footer>
+        <lx-toolbar>
+            <lx-toolbar-after>
+                <lx-button lx-emphasis="medium" lx-dialog-close>Cancel</lx-button>
+                <lx-button class="lumx-spacing-margin-left-regular" lx-dialog-close lx-focus-on-init>
+                    Save
+                </lx-button>
+            </lx-toolbar-after>
+        </lx-toolbar>
+    </lx-dialog-footer>
+</lx-dialog>

@@ -23,6 +23,7 @@ const baseConfig = {
             ...glob.sync(`${MODULES_PATH}/chip/views/*.html`),
             ...glob.sync(`${MODULES_PATH}/data-table/views/*.html`),
             ...glob.sync(`${MODULES_PATH}/date-picker/views/*.html`),
+            ...glob.sync(`${MODULES_PATH}/dialog/views/*.html`),
             ...glob.sync(`${MODULES_PATH}/dropdown/views/*.html`),
             ...glob.sync(`${MODULES_PATH}/fab/views/*.html`),
             ...glob.sync(`${MODULES_PATH}/file-input/views/*.html`),
@@ -95,6 +96,11 @@ const baseConfig = {
                 include: [/modules/u],
                 test: /\/date-picker\/.*\.html$/,
                 loader: 'angular-templatecache-loader-2?module=lumx.date-picker&relativeTo=modules/date-picker/views/',
+            },
+            {
+                include: [/modules/u],
+                test: /\/dialog\/.*\.html$/,
+                loader: 'angular-templatecache-loader-2?module=lumx.dialog&relativeTo=modules/dialog/views/',
             },
             {
                 include: [/modules/u],

@@ -1,0 +1,20 @@
+<div
+    class="lumx-dialog"
+    role="dialog"
+    ng-class="{ 'lumx-dialog--size-tiny': lx.size === 'tiny',
+                'lumx-dialog--size-regular': lx.size === 'regular',
+                'lumx-dialog--size-big': !lx.size || lx.size === 'big',
+                'lumx-dialog--size-huge': lx.size === 'huge' }"
+>
+    <div class="lumx-dialog__wrapper" ng-if="lx.isOpen">
+        <div class="lumx-dialog__header" ng-transclude="header"></div>
+
+        <div class="lumx-dialog__content">
+            <div class="lumx-dialog__sentinel lumx-dialog__sentinel--top"></div>
+            <div ng-transclude="content"></div>
+            <div class="lumx-dialog__sentinel lumx-dialog__sentinel--bottom"></div>
+        </div>
+
+        <div class="lumx-dialog__footer" ng-transclude="footer"></div>
+    </div>
+</div>

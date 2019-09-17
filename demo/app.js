@@ -73,6 +73,16 @@ function AppDefaultConfig($locationProvider, $stateProvider, markedProvider) {
                 },
             },
         })
+        .state('app.components.dialog', {
+            url: 'dialog',
+            views: {
+                'main@': {
+                    controller: 'DemoDialogController',
+                    controllerAs: 'vm',
+                    template: require('./components/dialog/demo.html'),
+                },
+            },
+        })
         .state('app.components.dropdown', {
             url: 'dropdown',
             views: {
