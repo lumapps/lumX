@@ -16493,98 +16493,17 @@ table {
   background-color: #FFFFFF;
   text-align: center; }
 
-.dialog-filter {
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  background-color: rgba(0, 0, 0, 0.6);
-  opacity: 0;
-  transition-property: opacity;
-  transition-duration: 0.6s;
-  transition-timing-function: cubic-bezier(0.23, 1, 0.32, 1); }
-
-.dialog-filter--is-shown {
-  opacity: 1; }
-
-.dialog {
-  display: none;
-  position: fixed;
-  top: 32px;
-  left: 50%;
-  border-radius: 2px;
-  background-color: #FFFFFF;
-  opacity: 0;
-  overflow: hidden;
-  box-shadow: 0px 11px 15px -7px rgba(0, 0, 0, 0.2), 0px 24px 38px 3px rgba(0, 0, 0, 0.14), 0px 9px 46px 8px rgba(0, 0, 0, 0.12);
-  transform: translateY(-50px);
-  transition-property: opacity, transform;
-  transition-duration: 0.6s;
-  transition-timing-function: cubic-bezier(0.23, 1, 0.32, 1); }
-  @media (max-width: 61.24em) {
-    .dialog {
-      width: 80%;
-      margin-left: -40%; } }
-
-.dialog--alert {
-  width: 400px;
-  margin-left: -200px; }
-
-@media (min-width: 61.25em) {
-  .dialog--s {
-    width: 250px;
-    margin-left: -125px; } }
-
-@media (min-width: 61.25em) {
-  .dialog--m {
-    width: 500px;
-    margin-left: -250px; } }
-
-@media (min-width: 61.25em) {
-  .dialog--l {
-    width: 800px;
-    margin-left: -400px; } }
-
-.dialog--is-shown {
-  opacity: 1;
-  transform: translateY(0); }
-
-.dialog--is-fixed {
-  bottom: 32px; }
-  .dialog--is-fixed .dialog__header {
-    position: absolute;
-    top: 0;
-    right: 0;
-    left: 0; }
-  .dialog--is-fixed .dialog__scrollable {
-    position: absolute;
-    right: 0;
-    left: 0;
-    z-index: 1;
-    overflow-x: hidden;
-    overflow-y: auto; }
-  .dialog--is-fixed .dialog__footer {
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    border-top: 1px solid rgba(0, 0, 0, 0.12); }
-
+/* ==========================================================================
+   Dialog
+   ========================================================================== */
 .dialog__footer {
-  display: -moz-flex;
   display: flex;
-  box-pack: end;
-  -moz-justify-content: flex-end;
-  -ms-justify-content: flex-end;
-  -o-justify-content: flex-end;
+  height: 68px;
+  align-items: center;
   justify-content: flex-end;
-  -ms-flex-pack: end;
-  padding: 8px; }
-  .dialog__footer .btn {
+  padding: 0 24px; }
+  .dialog__footer button {
     margin-left: 8px; }
-    .dialog__footer .btn:first-child {
-      margin-left: 0; }
 
 /* ==========================================================================
    Dropdown
@@ -18691,63 +18610,18 @@ table {
 .text-field-error {
   color: #e94361; }
 
+/* ==========================================================================
+   Toolbar
+   ========================================================================== */
 .toolbar {
-  display: -moz-flex;
   display: flex;
-  box-orient: horizontal;
-  box-direction: normal;
-  -moz-flex-direction: row;
-  flex-direction: row;
-  box-align: center;
-  -moz-align-items: center;
-  -ms-align-items: center;
-  -o-align-items: center;
+  height: 68px;
   align-items: center;
-  -ms-flex-align: center;
-  padding: 0 16px; }
-  @media (max-width: 61.24em) {
-    .toolbar {
-      height: 56px;
-      padding-top: 8px;
-      padding-bottom: 8px; } }
-  @media (min-width: 61.25em) {
-    .toolbar {
-      height: 64px;
-      padding-top: 12px;
-      padding-bottom: 12px; } }
-
-.toolbar__left {
-  display: -moz-flex;
-  display: flex;
-  box-orient: horizontal;
-  box-direction: normal;
-  -moz-flex-direction: row;
-  flex-direction: row; }
-
-.toolbar__right {
-  display: -moz-flex;
-  display: flex;
-  box-orient: horizontal;
-  box-direction: normal;
-  -moz-flex-direction: row;
-  flex-direction: row;
-  box-pack: end;
-  -moz-justify-content: flex-end;
-  -ms-justify-content: flex-end;
-  -o-justify-content: flex-end;
-  justify-content: flex-end;
-  -ms-flex-pack: end;
-  box-align: center;
-  -moz-align-items: center;
-  -ms-align-items: center;
-  -o-align-items: center;
-  align-items: center;
-  -ms-flex-align: center; }
-
-.toolbar__label {
-  box-flex: 1;
-  -moz-flex: 1;
-  flex: 1; }
+  padding: 0 24px; }
+  .toolbar__left {
+    margin-right: 16px; }
+  .toolbar__right {
+    margin-left: auto; }
 
 .tooltip {
   position: absolute;
@@ -35341,98 +35215,17 @@ table {
   background-color: #FFFFFF;
   text-align: center; }
 
-.dialog-filter {
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  background-color: rgba(0, 0, 0, 0.6);
-  opacity: 0;
-  transition-property: opacity;
-  transition-duration: 0.6s;
-  transition-timing-function: cubic-bezier(0.23, 1, 0.32, 1); }
-
-.dialog-filter--is-shown {
-  opacity: 1; }
-
-.dialog {
-  display: none;
-  position: fixed;
-  top: 32px;
-  left: 50%;
-  border-radius: 2px;
-  background-color: #FFFFFF;
-  opacity: 0;
-  overflow: hidden;
-  box-shadow: 0px 11px 15px -7px rgba(0, 0, 0, 0.2), 0px 24px 38px 3px rgba(0, 0, 0, 0.14), 0px 9px 46px 8px rgba(0, 0, 0, 0.12);
-  transform: translateY(-50px);
-  transition-property: opacity, transform;
-  transition-duration: 0.6s;
-  transition-timing-function: cubic-bezier(0.23, 1, 0.32, 1); }
-  @media (max-width: 61.24em) {
-    .dialog {
-      width: 80%;
-      margin-left: -40%; } }
-
-.dialog--alert {
-  width: 400px;
-  margin-left: -200px; }
-
-@media (min-width: 61.25em) {
-  .dialog--s {
-    width: 250px;
-    margin-left: -125px; } }
-
-@media (min-width: 61.25em) {
-  .dialog--m {
-    width: 500px;
-    margin-left: -250px; } }
-
-@media (min-width: 61.25em) {
-  .dialog--l {
-    width: 800px;
-    margin-left: -400px; } }
-
-.dialog--is-shown {
-  opacity: 1;
-  transform: translateY(0); }
-
-.dialog--is-fixed {
-  bottom: 32px; }
-  .dialog--is-fixed .dialog__header {
-    position: absolute;
-    top: 0;
-    right: 0;
-    left: 0; }
-  .dialog--is-fixed .dialog__scrollable {
-    position: absolute;
-    right: 0;
-    left: 0;
-    z-index: 1;
-    overflow-x: hidden;
-    overflow-y: auto; }
-  .dialog--is-fixed .dialog__footer {
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    border-top: 1px solid rgba(0, 0, 0, 0.12); }
-
+/* ==========================================================================
+   Dialog
+   ========================================================================== */
 .dialog__footer {
-  display: -moz-flex;
   display: flex;
-  box-pack: end;
-  -moz-justify-content: flex-end;
-  -ms-justify-content: flex-end;
-  -o-justify-content: flex-end;
+  height: 68px;
+  align-items: center;
   justify-content: flex-end;
-  -ms-flex-pack: end;
-  padding: 8px; }
-  .dialog__footer .btn {
+  padding: 0 24px; }
+  .dialog__footer button {
     margin-left: 8px; }
-    .dialog__footer .btn:first-child {
-      margin-left: 0; }
 
 /* ==========================================================================
    Dropdown
@@ -37539,63 +37332,18 @@ table {
 .text-field-error {
   color: #f44336; }
 
+/* ==========================================================================
+   Toolbar
+   ========================================================================== */
 .toolbar {
-  display: -moz-flex;
   display: flex;
-  box-orient: horizontal;
-  box-direction: normal;
-  -moz-flex-direction: row;
-  flex-direction: row;
-  box-align: center;
-  -moz-align-items: center;
-  -ms-align-items: center;
-  -o-align-items: center;
+  height: 68px;
   align-items: center;
-  -ms-flex-align: center;
-  padding: 0 16px; }
-  @media (max-width: 61.24em) {
-    .toolbar {
-      height: 56px;
-      padding-top: 8px;
-      padding-bottom: 8px; } }
-  @media (min-width: 61.25em) {
-    .toolbar {
-      height: 64px;
-      padding-top: 12px;
-      padding-bottom: 12px; } }
-
-.toolbar__left {
-  display: -moz-flex;
-  display: flex;
-  box-orient: horizontal;
-  box-direction: normal;
-  -moz-flex-direction: row;
-  flex-direction: row; }
-
-.toolbar__right {
-  display: -moz-flex;
-  display: flex;
-  box-orient: horizontal;
-  box-direction: normal;
-  -moz-flex-direction: row;
-  flex-direction: row;
-  box-pack: end;
-  -moz-justify-content: flex-end;
-  -ms-justify-content: flex-end;
-  -o-justify-content: flex-end;
-  justify-content: flex-end;
-  -ms-flex-pack: end;
-  box-align: center;
-  -moz-align-items: center;
-  -ms-align-items: center;
-  -o-align-items: center;
-  align-items: center;
-  -ms-flex-align: center; }
-
-.toolbar__label {
-  box-flex: 1;
-  -moz-flex: 1;
-  flex: 1; }
+  padding: 0 24px; }
+  .toolbar__left {
+    margin-right: 16px; }
+  .toolbar__right {
+    margin-left: auto; }
 
 .tooltip {
   position: absolute;
