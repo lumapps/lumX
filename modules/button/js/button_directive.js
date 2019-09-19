@@ -28,34 +28,56 @@ function ButtonDirective() {
      * @return {string}  The button html template.
      */
     function getTemplate(el, attrs) {
+        let buttonContent;
+
         if (isAnchor(attrs)) {
-            return `<a class="${CSS_PREFIX}-button" ng-transclude></a>`;
+            buttonContent = `<a class="${CSS_PREFIX}-button" ng-transclude></a>`;
+        } else {
+            buttonContent = `<button class="${CSS_PREFIX}-button" ng-transclude></button>`;
         }
 
-        return `<button class="${CSS_PREFIX}-button" ng-transclude></button>`;
+        if (attrs.lxHasBackground) {
+            return `
+                <div class="${CSS_PREFIX}-button-wrapper">
+                    ${buttonContent}
+                </div>
+            `;
+        }
+
+        return buttonContent;
     }
 
     function link(scope, el, attrs) {
+        let buttonEl = el;
+
+        if (attrs.lxHasBackground) {
+            if (isAnchor(attrs)) {
+                buttonEl = el.find('a');
+            } else {
+                buttonEl = el.find('button');
+            }
+        }
+
         if (
             (!attrs.lxVariant && !attrs.lxType) ||
             attrs.lxVariant === 'button' ||
             attrs.lxType === 'raised' ||
             attrs.lxType === 'flat'
         ) {
-            const leftIcon = el.find('i:first-child');
-            const rightIcon = el.find('i:last-child');
-            const label = el.find('span');
+            const leftIcon = buttonEl.find('i:first-child');
+            const rightIcon = buttonEl.find('i:last-child');
+            const label = buttonEl.find('span');
 
             if (leftIcon.length > 0) {
-                el.addClass(`${CSS_PREFIX}-button--has-left-icon`);
+                buttonEl.addClass(`${CSS_PREFIX}-button--has-left-icon`);
             }
 
             if (rightIcon.length > 0) {
-                el.addClass(`${CSS_PREFIX}-button--has-right-icon`);
+                buttonEl.addClass(`${CSS_PREFIX}-button--has-right-icon`);
             }
 
             if (label.length === 0) {
-                el.wrapInner('<span></span>');
+                buttonEl.wrapInner('<span></span>');
             }
         }
 
@@ -70,7 +92,13 @@ function ButtonDirective() {
         };
 
         if (!attrs.lxColor) {
-            el.addClass(`${CSS_PREFIX}-button--color-${defaultProps.color}`);
+            buttonEl.addClass(`${CSS_PREFIX}-button--color-${defaultProps.color}`);
+
+            if (attrs.lxHasBackground && attrs.lxEmphasis === 'low') {
+                el.removeClass((index, className) => {
+                    return (className.match(/(?:\S|-)*button-wrapper--color-\S+/g) || []).join(' ');
+                }).addClass(`${CSS_PREFIX}-button-wrapper--color-light`);
+            }
         }
 
         attrs.$observe('lxColor', (color) => {
@@ -78,13 +106,27 @@ function ButtonDirective() {
                 return;
             }
 
-            el.removeClass((index, className) => {
-                return (className.match(/(?:\S|-)*button--color-\S+/g) || []).join(' ');
-            }).addClass(`${CSS_PREFIX}-button--color-${color}`);
+            buttonEl
+                .removeClass((index, className) => {
+                    return (className.match(/(?:\S|-)*button--color-\S+/g) || []).join(' ');
+                })
+                .addClass(`${CSS_PREFIX}-button--color-${color}`);
+
+            if (attrs.lxHasBackground && attrs.lxEmphasis === 'low') {
+                let wrapperColor = 'light';
+
+                if (color === 'light') {
+                    wrapperColor = 'dark';
+                }
+
+                el.removeClass((index, className) => {
+                    return (className.match(/(?:\S|-)*button-wrapper--color-\S+/g) || []).join(' ');
+                }).addClass(`${CSS_PREFIX}-button-wrapper--color-${wrapperColor}`);
+            }
         });
 
         if (!attrs.lxEmphasis) {
-            el.addClass(`${CSS_PREFIX}-button--emphasis-${defaultProps.emphasis}`);
+            buttonEl.addClass(`${CSS_PREFIX}-button--emphasis-${defaultProps.emphasis}`);
         }
 
         attrs.$observe('lxEmphasis', (emphasis) => {
@@ -92,13 +134,15 @@ function ButtonDirective() {
                 return;
             }
 
-            el.removeClass((index, className) => {
-                return (className.match(/(?:\S|-)*button--emphasis-\S+/g) || []).join(' ');
-            }).addClass(`${CSS_PREFIX}-button--emphasis-${emphasis}`);
+            buttonEl
+                .removeClass((index, className) => {
+                    return (className.match(/(?:\S|-)*button--emphasis-\S+/g) || []).join(' ');
+                })
+                .addClass(`${CSS_PREFIX}-button--emphasis-${emphasis}`);
         });
 
         if (!attrs.lxSize) {
-            el.addClass(`${CSS_PREFIX}-button--size-${defaultProps.size}`);
+            buttonEl.addClass(`${CSS_PREFIX}-button--size-${defaultProps.size}`);
         }
 
         attrs.$observe('lxSize', (size) => {
@@ -114,13 +158,15 @@ function ButtonDirective() {
                 xl: 'm',
             };
 
-            el.removeClass((index, className) => {
-                return (className.match(/(?:\S|-)*button--size-\S+/g) || []).join(' ');
-            }).addClass(`${CSS_PREFIX}-button--size-${sizeFallback[size]}`);
+            buttonEl
+                .removeClass((index, className) => {
+                    return (className.match(/(?:\S|-)*button--size-\S+/g) || []).join(' ');
+                })
+                .addClass(`${CSS_PREFIX}-button--size-${sizeFallback[size]}`);
         });
 
         if (!attrs.lxTheme && isDefaultEmphasis) {
-            el.addClass(`${CSS_PREFIX}-button--theme-${defaultProps.theme}`);
+            buttonEl.addClass(`${CSS_PREFIX}-button--theme-${defaultProps.theme}`);
         }
 
         attrs.$observe('lxTheme', (theme) => {
@@ -128,13 +174,35 @@ function ButtonDirective() {
                 return;
             }
 
-            el.removeClass((index, className) => {
-                return (className.match(/(?:\S|-)*button--theme-\S+/g) || []).join(' ');
-            }).addClass(`${CSS_PREFIX}-button--theme-${theme}`);
+            if (isDefaultEmphasis) {
+                buttonEl
+                    .removeClass((index, className) => {
+                        return (className.match(/(?:\S|-)*button--theme-\S+/g) || []).join(' ');
+                    })
+                    .addClass(`${CSS_PREFIX}-button--theme-${theme}`);
+            } else {
+                const buttonColor = theme === 'light' ? 'dark' : 'light';
+
+                buttonEl
+                    .removeClass((index, className) => {
+                        return (className.match(/(?:\S|-)*button--color-\S+/g) || []).join(' ');
+                    })
+                    .addClass(`${CSS_PREFIX}-button--color-${buttonColor}`);
+            }
+
+            if (attrs.lxHasBackground && attrs.lxEmphasis === 'low') {
+                el.removeClass((index, className) => {
+                    return (className.match(/(?:\S|-)*button-wrapper--color-\S+/g) || []).join(' ');
+                }).addClass(`${CSS_PREFIX}-button-wrapper--color-${theme}`);
+            }
         });
 
         if (!attrs.lxVariant) {
-            el.addClass(`${CSS_PREFIX}-button--variant-${defaultProps.variant}`);
+            buttonEl.addClass(`${CSS_PREFIX}-button--variant-${defaultProps.variant}`);
+
+            if (attrs.lxHasBackground && attrs.lxEmphasis === 'low') {
+                el.addClass(`${CSS_PREFIX}-button-wrapper--variant-${defaultProps.variant}`);
+            }
         }
 
         attrs.$observe('lxVariant', (variant) => {
@@ -142,9 +210,17 @@ function ButtonDirective() {
                 return;
             }
 
-            el.removeClass((index, className) => {
-                return (className.match(/(?:\S|-)*button--variant-\S+/g) || []).join(' ');
-            }).addClass(`${CSS_PREFIX}-button--variant-${variant}`);
+            buttonEl
+                .removeClass((index, className) => {
+                    return (className.match(/(?:\S|-)*button--variant-\S+/g) || []).join(' ');
+                })
+                .addClass(`${CSS_PREFIX}-button--variant-${variant}`);
+
+            if (attrs.lxHasBackground && attrs.lxEmphasis === 'low') {
+                el.removeClass((index, className) => {
+                    return (className.match(/(?:\S|-)*button-wrapper--variant-\S+/g) || []).join(' ');
+                }).addClass(`${CSS_PREFIX}-button-wrapper--variant-${variant}`);
+            }
         });
 
         attrs.$observe('lxType', (type) => {
@@ -159,22 +235,26 @@ function ButtonDirective() {
                 icon: 'low',
             };
 
-            el.removeClass((index, className) => {
-                return (className.match(/(?:\S|-)*button--emphasis-\S+/g) || []).join(' ');
-            }).addClass(`${CSS_PREFIX}-button--emphasis-${emphasisFallback[type]}`);
+            buttonEl
+                .removeClass((index, className) => {
+                    return (className.match(/(?:\S|-)*button--emphasis-\S+/g) || []).join(' ');
+                })
+                .addClass(`${CSS_PREFIX}-button--emphasis-${emphasisFallback[type]}`);
 
             if (type === 'fab' || type === 'icon') {
-                el.removeClass((index, className) => {
-                    return (className.match(/(?:\S|-)*button--variant-\S+/g) || []).join(' ');
-                }).addClass(`${CSS_PREFIX}-button--variant-icon`);
+                buttonEl
+                    .removeClass((index, className) => {
+                        return (className.match(/(?:\S|-)*button--variant-\S+/g) || []).join(' ');
+                    })
+                    .addClass(`${CSS_PREFIX}-button--variant-icon`);
             }
         });
 
         scope.$watch(attrs.lxIsSelected, (isSelected) => {
             if (isSelected) {
-                el.addClass(`${CSS_PREFIX}-button--is-selected`);
+                buttonEl.addClass(`${CSS_PREFIX}-button--is-selected`);
             } else {
-                el.removeClass(`${CSS_PREFIX}-button--is-selected`);
+                buttonEl.removeClass(`${CSS_PREFIX}-button--is-selected`);
             }
         });
     }
