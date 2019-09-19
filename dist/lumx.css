@@ -16494,18 +16494,6 @@ table {
   text-align: center; }
 
 /* ==========================================================================
-   Dialog
-   ========================================================================== */
-.dialog__footer {
-  display: flex;
-  height: 68px;
-  align-items: center;
-  justify-content: flex-end;
-  padding: 0 24px; }
-  .dialog__footer button {
-    margin-left: 8px; }
-
-/* ==========================================================================
    Dropdown
    ========================================================================== */
 .dropdown-menu ul {
@@ -35214,18 +35202,6 @@ table {
   border-radius: 0 0 2px 2px;
   background-color: #FFFFFF;
   text-align: center; }
-
-/* ==========================================================================
-   Dialog
-   ========================================================================== */
-.dialog__footer {
-  display: flex;
-  height: 68px;
-  align-items: center;
-  justify-content: flex-end;
-  padding: 0 24px; }
-  .dialog__footer button {
-    margin-left: 8px; }
 
 /* ==========================================================================
    Dropdown
