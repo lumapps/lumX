@@ -13708,7 +13708,7 @@ function ButtonDirective() {
       }
     }
 
-    var isDefaultEmphasis = !attrs.lxEmphasis || attrs.lxEmphasis === 'high';
+    var isDefaultEmphasis = !attrs.lxType && !attrs.lxEmphasis || attrs.lxEmphasis === 'high' || attrs.lxType === 'raised' || attrs.lxType === 'fab';
     var defaultProps = {
       color: isDefaultEmphasis ? 'primary' : 'dark',
       emphasis: 'high',
