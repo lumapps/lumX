@@ -91,7 +91,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 106);
+/******/ 	return __webpack_require__(__webpack_require__.s = 108);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -7814,7 +7814,7 @@ module.exports =
   // eslint-disable-next-line no-new-func
   Function('return this')();
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(72)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(74)))
 
 /***/ }),
 /* 3 */
@@ -7822,8 +7822,8 @@ module.exports =
 
 var global = __webpack_require__(2);
 var shared = __webpack_require__(26);
-var uid = __webpack_require__(78);
-var NATIVE_SYMBOL = __webpack_require__(117);
+var uid = __webpack_require__(80);
+var NATIVE_SYMBOL = __webpack_require__(119);
 
 var Symbol = global.Symbol;
 var store = shared('wks');
@@ -7843,7 +7843,7 @@ var getOwnPropertyDescriptor = __webpack_require__(33).f;
 var hide = __webpack_require__(16);
 var redefine = __webpack_require__(11);
 var setGlobal = __webpack_require__(38);
-var copyConstructorProperties = __webpack_require__(114);
+var copyConstructorProperties = __webpack_require__(116);
 var isForced = __webpack_require__(44);
 
 /*
@@ -7902,7 +7902,7 @@ module.exports = function (options, source) {
 
 var $ = __webpack_require__(4);
 var $find = __webpack_require__(48).find;
-var addToUnscopables = __webpack_require__(82);
+var addToUnscopables = __webpack_require__(84);
 
 var FIND = 'find';
 var SKIPS_HOLES = true;
@@ -7992,8 +7992,8 @@ var shared = __webpack_require__(26);
 var hide = __webpack_require__(16);
 var has = __webpack_require__(18);
 var setGlobal = __webpack_require__(38);
-var nativeFunctionToString = __webpack_require__(75);
-var InternalStateModule = __webpack_require__(76);
+var nativeFunctionToString = __webpack_require__(77);
+var InternalStateModule = __webpack_require__(78);
 
 var getInternalState = InternalStateModule.get;
 var enforceInternalState = InternalStateModule.enforce;
@@ -8044,7 +8044,7 @@ module.exports = function (it) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var DESCRIPTORS = __webpack_require__(10);
-var IE8_DOM_DEFINE = __webpack_require__(74);
+var IE8_DOM_DEFINE = __webpack_require__(76);
 var anObject = __webpack_require__(7);
 var toPrimitive = __webpack_require__(36);
 
@@ -8163,12 +8163,12 @@ $({ target: 'Array', proto: true, forced: ES3_STRINGS || SLOPPY_METHOD }, {
 
 "use strict";
 
-var fixRegExpWellKnownSymbolLogic = __webpack_require__(91);
+var fixRegExpWellKnownSymbolLogic = __webpack_require__(93);
 var anObject = __webpack_require__(7);
 var toLength = __webpack_require__(14);
 var requireObjectCoercible = __webpack_require__(15);
-var advanceStringIndex = __webpack_require__(92);
-var regExpExec = __webpack_require__(93);
+var advanceStringIndex = __webpack_require__(94);
+var regExpExec = __webpack_require__(95);
 
 // @@match logic
 fixRegExpWellKnownSymbolLogic('match', 1, function (MATCH, nativeMatch, maybeCallNative) {
@@ -8212,7 +8212,7 @@ fixRegExpWellKnownSymbolLogic('match', 1, function (MATCH, nativeMatch, maybeCal
 /* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var path = __webpack_require__(79);
+var path = __webpack_require__(81);
 var global = __webpack_require__(2);
 
 var aFunction = function (variable) {
@@ -8427,14 +8427,14 @@ module.exports = function (METHOD_NAME) {
 
 "use strict";
 
-var fixRegExpWellKnownSymbolLogic = __webpack_require__(91);
+var fixRegExpWellKnownSymbolLogic = __webpack_require__(93);
 var anObject = __webpack_require__(7);
 var toObject = __webpack_require__(24);
 var toLength = __webpack_require__(14);
 var toInteger = __webpack_require__(22);
 var requireObjectCoercible = __webpack_require__(15);
-var advanceStringIndex = __webpack_require__(92);
-var regExpExec = __webpack_require__(93);
+var advanceStringIndex = __webpack_require__(94);
+var regExpExec = __webpack_require__(95);
 
 var max = Math.max;
 var min = Math.min;
@@ -8559,7 +8559,7 @@ fixRegExpWellKnownSymbolLogic('replace', 2, function (REPLACE, nativeReplace, ma
 /***/ (function(module, exports, __webpack_require__) {
 
 var $ = __webpack_require__(4);
-var parseIntImplementation = __webpack_require__(162);
+var parseIntImplementation = __webpack_require__(164);
 
 // `parseInt` method
 // https://tc39.github.io/ecma262/#sec-parseint-string-radix
@@ -11178,19 +11178,19 @@ Popper.Defaults = Defaults;
 /* harmony default export */ __webpack_exports__["a"] = (Popper);
 //# sourceMappingURL=popper.js.map
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(72)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(74)))
 
 /***/ }),
 /* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var DESCRIPTORS = __webpack_require__(10);
-var propertyIsEnumerableModule = __webpack_require__(73);
+var propertyIsEnumerableModule = __webpack_require__(75);
 var createPropertyDescriptor = __webpack_require__(34);
 var toIndexedObject = __webpack_require__(17);
 var toPrimitive = __webpack_require__(36);
 var has = __webpack_require__(18);
-var IE8_DOM_DEFINE = __webpack_require__(74);
+var IE8_DOM_DEFINE = __webpack_require__(76);
 
 var nativeGetOwnPropertyDescriptor = Object.getOwnPropertyDescriptor;
 
@@ -11661,7 +11661,7 @@ module.exports = '\u0009\u000A\u000B\u000C\u000D\u0020\u00A0\u1680\u2000\u2001\u
 "use strict";
 
 var $ = __webpack_require__(4);
-var forEach = __webpack_require__(96);
+var forEach = __webpack_require__(98);
 
 // `Array.prototype.forEach` method
 // https://tc39.github.io/ecma262/#sec-array.prototype.foreach
@@ -11675,8 +11675,8 @@ $({ target: 'Array', proto: true, forced: [].forEach != forEach }, {
 /***/ (function(module, exports, __webpack_require__) {
 
 var global = __webpack_require__(2);
-var DOMIterables = __webpack_require__(144);
-var forEach = __webpack_require__(96);
+var DOMIterables = __webpack_require__(146);
+var forEach = __webpack_require__(98);
 var hide = __webpack_require__(16);
 
 for (var COLLECTION_NAME in DOMIterables) {
@@ -11819,12 +11819,28 @@ module.exports=v1
 /* 69 */
 /***/ (function(module, exports) {
 
+var v1='<div class=lumx-tabs__pane ng-class="{ \'lumx-tabs__pane--is-disabled\': lx.tab.isDisabled }"><div ng-if=lx.isTabActive() ng-transclude></div></div>';
+angular.module('lumx.tabs').run(['$templateCache', function ($templateCache) {$templateCache.put('tab.html', v1);}]);
+module.exports=v1
+
+/***/ }),
+/* 70 */
+/***/ (function(module, exports) {
+
+var v1='<div class=lumx-tabs ng-class="{ \'lumx-tabs--theme-light\': !lx.theme || lx.theme === \'light\',\n                \'lumx-tabs--theme-dark\': lx.theme === \'dark\',\n                \'lumx-tabs--layout-fixed\': !lx.layout || lx.layout === \'fixed\',\n                \'lumx-tabs--layout-clustered\': lx.layout === \'clustered\',\n                \'lumx-tabs--position-left\': !lx.position || lx.position === \'left\',\n                \'lumx-tabs--position-center\': lx.position === \'center\',\n                \'lumx-tabs--position-right\': lx.position === \'right\' }"><div class=lumx-tabs__links><a class=lumx-tabs__link ng-class="{ \'lumx-tabs__link--is-active\': lx.isTabActive(tab.index),\n                        \'lumx-tabs__link--is-disabled\': tab.isDisabled }" ng-repeat="tab in lx.tabs track by tab.uuid" ng-click=lx.setActiveTab(tab) lx-enter-keypress=lx.setActiveTab(tab) tabindex="{{ tab.isDisabled ? -1 : 0 }}"><lx-icon lx-path="{{ tab.icon }}" lx-size=xs ng-if=tab.icon></lx-icon><span ng-if=tab.label>{{ tab.label }}</span></a></div><div class=lumx-tabs__panes ng-transclude></div></div>';
+angular.module('lumx.tabs').run(['$templateCache', function ($templateCache) {$templateCache.put('tabs.html', v1);}]);
+module.exports=v1
+
+/***/ }),
+/* 71 */
+/***/ (function(module, exports) {
+
 var v1='<div class=lumx-text-field ng-class="{ \'lumx-text-field--theme-light\': !lx.theme || lx.theme === \'light\',\n                \'lumx-text-field--theme-dark\': lx.theme === \'dark\',\n                \'lumx-text-field--has-label\': lx.label,\n                \'lumx-text-field--has-icon\': lx.icon,\n                \'lumx-text-field--has-value\': lx.hasValue(),\n                \'lumx-text-field--is-valid\': lx.isValid,\n                \'lumx-text-field--has-error\': lx.hasError }"><label for="{{ lx.inputId }}" class=lumx-text-field__label ng-if=::lx.label>{{ lx.label }}</label><span class=lumx-text-field__helper ng-if=::lx.helper>{{ lx.helper }}</span><div class=lumx-text-field__input-wrapper><lx-icon class=lumx-text-field__input-icon lx-path="{{ lx.icon }}" lx-size=xs ng-if=::lx.icon></lx-icon><div class=lumx-text-field__input-native ng-transclude></div><lx-icon class=lumx-text-field__input-validity lx-path="{{ lx.isValid ? lx.icons.mdiCheckCircle : lx.icons.mdiAlertCircle }}" lx-size=xs ng-if="lx.isValid || lx.hasError"></lx-icon></div></div>';
 angular.module('lumx.text-field').run(['$templateCache', function ($templateCache) {$templateCache.put('text-field.html', v1);}]);
 module.exports=v1
 
 /***/ }),
-/* 70 */
+/* 72 */
 /***/ (function(module, exports) {
 
 var v1='<div class=lumx-toolbar><div class=lumx-toolbar__before ng-transclude=before ng-if=::lx.hasBefore></div><div class=lumx-toolbar__label ng-transclude=label ng-if=::lx.hasLabel></div><div class=lumx-toolbar__after ng-transclude=after ng-if=::lx.hasAfter></div></div>';
@@ -11832,14 +11848,14 @@ angular.module('lumx.toolbar').run(['$templateCache', function ($templateCache) 
 module.exports=v1
 
 /***/ }),
-/* 71 */
+/* 73 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 var $ = __webpack_require__(4);
 var $includes = __webpack_require__(41).includes;
-var addToUnscopables = __webpack_require__(82);
+var addToUnscopables = __webpack_require__(84);
 
 // `Array.prototype.includes` method
 // https://tc39.github.io/ecma262/#sec-array.prototype.includes
@@ -11854,7 +11870,7 @@ addToUnscopables('includes');
 
 
 /***/ }),
-/* 72 */
+/* 74 */
 /***/ (function(module, exports) {
 
 var g;
@@ -11880,7 +11896,7 @@ module.exports = g;
 
 
 /***/ }),
-/* 73 */
+/* 75 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11900,7 +11916,7 @@ exports.f = NASHORN_BUG ? function propertyIsEnumerable(V) {
 
 
 /***/ }),
-/* 74 */
+/* 76 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var DESCRIPTORS = __webpack_require__(10);
@@ -11916,7 +11932,7 @@ module.exports = !DESCRIPTORS && !fails(function () {
 
 
 /***/ }),
-/* 75 */
+/* 77 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var shared = __webpack_require__(26);
@@ -11925,15 +11941,15 @@ module.exports = shared('native-function-to-string', Function.toString);
 
 
 /***/ }),
-/* 76 */
+/* 78 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var NATIVE_WEAK_MAP = __webpack_require__(113);
+var NATIVE_WEAK_MAP = __webpack_require__(115);
 var global = __webpack_require__(2);
 var isObject = __webpack_require__(8);
 var hide = __webpack_require__(16);
 var objectHas = __webpack_require__(18);
-var sharedKey = __webpack_require__(77);
+var sharedKey = __webpack_require__(79);
 var hiddenKeys = __webpack_require__(40);
 
 var WeakMap = global.WeakMap;
@@ -11992,11 +12008,11 @@ module.exports = {
 
 
 /***/ }),
-/* 77 */
+/* 79 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var shared = __webpack_require__(26);
-var uid = __webpack_require__(78);
+var uid = __webpack_require__(80);
 
 var keys = shared('keys');
 
@@ -12006,7 +12022,7 @@ module.exports = function (key) {
 
 
 /***/ }),
-/* 78 */
+/* 80 */
 /***/ (function(module, exports) {
 
 var id = 0;
@@ -12018,17 +12034,17 @@ module.exports = function (key) {
 
 
 /***/ }),
-/* 79 */
+/* 81 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__(2);
 
 
 /***/ }),
-/* 80 */
+/* 82 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var internalObjectKeys = __webpack_require__(81);
+var internalObjectKeys = __webpack_require__(83);
 var enumBugKeys = __webpack_require__(43);
 
 var hiddenKeys = enumBugKeys.concat('length', 'prototype');
@@ -12041,7 +12057,7 @@ exports.f = Object.getOwnPropertyNames || function getOwnPropertyNames(O) {
 
 
 /***/ }),
-/* 81 */
+/* 83 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var has = __webpack_require__(18);
@@ -12064,11 +12080,11 @@ module.exports = function (object, names) {
 
 
 /***/ }),
-/* 82 */
+/* 84 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var wellKnownSymbol = __webpack_require__(3);
-var create = __webpack_require__(118);
+var create = __webpack_require__(120);
 var hide = __webpack_require__(16);
 
 var UNSCOPABLES = wellKnownSymbol('unscopables');
@@ -12087,10 +12103,10 @@ module.exports = function (key) {
 
 
 /***/ }),
-/* 83 */
+/* 85 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var internalObjectKeys = __webpack_require__(81);
+var internalObjectKeys = __webpack_require__(83);
 var enumBugKeys = __webpack_require__(43);
 
 // `Object.keys` method
@@ -12101,7 +12117,7 @@ module.exports = Object.keys || function keys(O) {
 
 
 /***/ }),
-/* 84 */
+/* 86 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var getBuiltIn = __webpack_require__(21);
@@ -12110,11 +12126,11 @@ module.exports = getBuiltIn('document', 'documentElement');
 
 
 /***/ }),
-/* 85 */
+/* 87 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var $ = __webpack_require__(4);
-var $entries = __webpack_require__(120).entries;
+var $entries = __webpack_require__(122).entries;
 
 // `Object.entries` method
 // https://tc39.github.io/ecma262/#sec-object.entries
@@ -12126,7 +12142,7 @@ $({ target: 'Object', stat: true }, {
 
 
 /***/ }),
-/* 86 */
+/* 88 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var isObject = __webpack_require__(8);
@@ -12144,7 +12160,7 @@ module.exports = function (it) {
 
 
 /***/ }),
-/* 87 */
+/* 89 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var redefine = __webpack_require__(11);
@@ -12167,11 +12183,11 @@ if (new Date(NaN) + '' != INVALID_DATE) {
 
 
 /***/ }),
-/* 88 */
+/* 90 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var redefine = __webpack_require__(11);
-var toString = __webpack_require__(129);
+var toString = __webpack_require__(131);
 
 var ObjectPrototype = Object.prototype;
 
@@ -12183,7 +12199,7 @@ if (toString !== ObjectPrototype.toString) {
 
 
 /***/ }),
-/* 89 */
+/* 91 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var classofRaw = __webpack_require__(12);
@@ -12214,7 +12230,7 @@ module.exports = function (it) {
 
 
 /***/ }),
-/* 90 */
+/* 92 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12246,7 +12262,7 @@ if (NOT_GENERIC || INCORRECT_NAME) {
 
 
 /***/ }),
-/* 91 */
+/* 93 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12346,12 +12362,12 @@ module.exports = function (KEY, length, exec, sham) {
 
 
 /***/ }),
-/* 92 */
+/* 94 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var charAt = __webpack_require__(130).charAt;
+var charAt = __webpack_require__(132).charAt;
 
 // `AdvanceStringIndex` abstract operation
 // https://tc39.github.io/ecma262/#sec-advancestringindex
@@ -12361,7 +12377,7 @@ module.exports = function (S, index, unicode) {
 
 
 /***/ }),
-/* 93 */
+/* 95 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var classof = __webpack_require__(12);
@@ -12389,7 +12405,7 @@ module.exports = function (R, S) {
 
 
 /***/ }),
-/* 94 */
+/* 96 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12441,7 +12457,7 @@ $({ target: 'Array', proto: true, forced: !arrayMethodHasSpeciesSupport('slice')
 
 
 /***/ }),
-/* 95 */
+/* 97 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var requireObjectCoercible = __webpack_require__(15);
@@ -12475,7 +12491,7 @@ module.exports = {
 
 
 /***/ }),
-/* 96 */
+/* 98 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12491,7 +12507,7 @@ module.exports = sloppyArrayMethod('forEach') ? function forEach(callbackfn /* ,
 
 
 /***/ }),
-/* 97 */
+/* 99 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12517,7 +12533,7 @@ module.exports = function (CONSTRUCTOR_NAME) {
 
 
 /***/ }),
-/* 98 */
+/* 100 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12580,7 +12596,7 @@ $({ target: 'Array', proto: true, forced: FORCED }, {
 
 
 /***/ }),
-/* 99 */
+/* 101 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var global = __webpack_require__(2);
@@ -12589,14 +12605,14 @@ module.exports = global.Promise;
 
 
 /***/ }),
-/* 100 */
+/* 102 */
 /***/ (function(module, exports) {
 
 module.exports = {};
 
 
 /***/ }),
-/* 101 */
+/* 103 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var anObject = __webpack_require__(7);
@@ -12615,14 +12631,14 @@ module.exports = function (O, defaultConstructor) {
 
 
 /***/ }),
-/* 102 */
+/* 104 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var global = __webpack_require__(2);
 var fails = __webpack_require__(6);
 var classof = __webpack_require__(12);
 var bind = __webpack_require__(49);
-var html = __webpack_require__(84);
+var html = __webpack_require__(86);
 var createElement = __webpack_require__(37);
 
 var location = global.location;
@@ -12720,7 +12736,7 @@ module.exports = {
 
 
 /***/ }),
-/* 103 */
+/* 105 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var getBuiltIn = __webpack_require__(21);
@@ -12729,12 +12745,12 @@ module.exports = getBuiltIn('navigator', 'userAgent') || '';
 
 
 /***/ }),
-/* 104 */
+/* 106 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var anObject = __webpack_require__(7);
 var isObject = __webpack_require__(8);
-var newPromiseCapability = __webpack_require__(105);
+var newPromiseCapability = __webpack_require__(107);
 
 module.exports = function (C, x) {
   anObject(C);
@@ -12747,7 +12763,7 @@ module.exports = function (C, x) {
 
 
 /***/ }),
-/* 105 */
+/* 107 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12772,31 +12788,29 @@ module.exports.f = function (C) {
 
 
 /***/ }),
-/* 106 */
+/* 108 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(107);
-__webpack_require__(108);
 __webpack_require__(109);
 __webpack_require__(110);
 __webpack_require__(111);
 __webpack_require__(112);
-__webpack_require__(124);
-__webpack_require__(125);
+__webpack_require__(113);
+__webpack_require__(114);
 __webpack_require__(126);
 __webpack_require__(127);
 __webpack_require__(128);
-__webpack_require__(131);
-__webpack_require__(132);
+__webpack_require__(129);
+__webpack_require__(130);
 __webpack_require__(133);
 __webpack_require__(134);
 __webpack_require__(135);
-__webpack_require__(138);
-__webpack_require__(139);
-__webpack_require__(142);
-__webpack_require__(143);
+__webpack_require__(136);
+__webpack_require__(137);
+__webpack_require__(140);
+__webpack_require__(141);
+__webpack_require__(144);
 __webpack_require__(145);
-__webpack_require__(146);
 __webpack_require__(147);
 __webpack_require__(148);
 __webpack_require__(149);
@@ -12812,67 +12826,68 @@ __webpack_require__(158);
 __webpack_require__(159);
 __webpack_require__(160);
 __webpack_require__(161);
+__webpack_require__(162);
 __webpack_require__(163);
-__webpack_require__(164);
 __webpack_require__(165);
 __webpack_require__(166);
-__webpack_require__(171);
-__webpack_require__(172);
+__webpack_require__(167);
+__webpack_require__(168);
 __webpack_require__(173);
 __webpack_require__(174);
 __webpack_require__(175);
 __webpack_require__(176);
-__webpack_require__(190);
-__webpack_require__(191);
+__webpack_require__(177);
+__webpack_require__(178);
 __webpack_require__(192);
 __webpack_require__(193);
 __webpack_require__(194);
-__webpack_require__(56);
-__webpack_require__(57);
 __webpack_require__(195);
 __webpack_require__(196);
-__webpack_require__(58);
-__webpack_require__(59);
 __webpack_require__(197);
+__webpack_require__(56);
+__webpack_require__(57);
 __webpack_require__(198);
 __webpack_require__(199);
+__webpack_require__(58);
+__webpack_require__(59);
 __webpack_require__(200);
+__webpack_require__(201);
+__webpack_require__(202);
+__webpack_require__(203);
 __webpack_require__(60);
 __webpack_require__(62);
 __webpack_require__(61);
 __webpack_require__(63);
-__webpack_require__(201);
+__webpack_require__(204);
 __webpack_require__(64);
-__webpack_require__(202);
+__webpack_require__(205);
 __webpack_require__(65);
 __webpack_require__(67);
 __webpack_require__(66);
-__webpack_require__(203);
-__webpack_require__(204);
-__webpack_require__(205);
-__webpack_require__(68);
 __webpack_require__(206);
 __webpack_require__(207);
 __webpack_require__(208);
-__webpack_require__(209);
+__webpack_require__(68);
 __webpack_require__(69);
-module.exports = __webpack_require__(70);
+__webpack_require__(70);
+__webpack_require__(71);
+module.exports = __webpack_require__(72);
 
-
-/***/ }),
-/* 107 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// extracted by extract-css-chunks-webpack-plugin
-
-/***/ }),
-/* 108 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// extracted by extract-css-chunks-webpack-plugin
 
 /***/ }),
 /* 109 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by extract-css-chunks-webpack-plugin
+
+/***/ }),
+/* 110 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by extract-css-chunks-webpack-plugin
+
+/***/ }),
+/* 111 */
 /***/ (function(module, exports) {
 
 angular.module('lumx.utils.depth', []);
@@ -12913,7 +12928,7 @@ angular.module('lumx.tooltip', []);
 angular.module('lumx', ['lumx.button', 'lumx.checkbox', 'lumx.chip', 'lumx.data-table', 'lumx.date-picker', 'lumx.dialog', 'lumx.dropdown', 'lumx.fab', 'lumx.file-input', 'lumx.grid', 'lumx.icon', 'lumx.list', 'lumx.notification', 'lumx.popover', 'lumx.progress', 'lumx.radio-button', 'lumx.ripple', 'lumx.search-filter', 'lumx.select', 'lumx.side-navigation', 'lumx.stepper', 'lumx.switch', 'lumx.tabs', 'lumx.text-field', 'lumx.toolbar', 'lumx.tooltip', 'lumx.utils']);
 
 /***/ }),
-/* 110 */
+/* 112 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -12943,7 +12958,7 @@ angular.module('lumx.utils.depth').service('LxDepthService', DepthService);
 
 
 /***/ }),
-/* 111 */
+/* 113 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -12977,21 +12992,21 @@ angular.module('lumx.utils.enter-keypress').directive('lxEnterKeypress', EnterKe
 
 
 /***/ }),
-/* 112 */
+/* 114 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "EventSchedulerService", function() { return EventSchedulerService; });
-/* harmony import */ var core_js_modules_es_array_includes__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(71);
+/* harmony import */ var core_js_modules_es_array_includes__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(73);
 /* harmony import */ var core_js_modules_es_array_includes__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_includes__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var core_js_modules_es_array_index_of__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(27);
 /* harmony import */ var core_js_modules_es_array_index_of__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_index_of__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var core_js_modules_es_array_splice__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(23);
 /* harmony import */ var core_js_modules_es_array_splice__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_splice__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var core_js_modules_es_object_entries__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(85);
+/* harmony import */ var core_js_modules_es_object_entries__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(87);
 /* harmony import */ var core_js_modules_es_object_entries__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_object_entries__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var core_js_modules_es_string_includes__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(121);
+/* harmony import */ var core_js_modules_es_string_includes__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(123);
 /* harmony import */ var core_js_modules_es_string_includes__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_string_includes__WEBPACK_IMPORTED_MODULE_4__);
 
 
@@ -13083,11 +13098,11 @@ angular.module('lumx.utils.event-scheduler').service('LxEventSchedulerService', 
 
 
 /***/ }),
-/* 113 */
+/* 115 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var global = __webpack_require__(2);
-var nativeFunctionToString = __webpack_require__(75);
+var nativeFunctionToString = __webpack_require__(77);
 
 var WeakMap = global.WeakMap;
 
@@ -13095,11 +13110,11 @@ module.exports = typeof WeakMap === 'function' && /native code/.test(nativeFunct
 
 
 /***/ }),
-/* 114 */
+/* 116 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var has = __webpack_require__(18);
-var ownKeys = __webpack_require__(115);
+var ownKeys = __webpack_require__(117);
 var getOwnPropertyDescriptorModule = __webpack_require__(33);
 var definePropertyModule = __webpack_require__(13);
 
@@ -13115,12 +13130,12 @@ module.exports = function (target, source) {
 
 
 /***/ }),
-/* 115 */
+/* 117 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var getBuiltIn = __webpack_require__(21);
-var getOwnPropertyNamesModule = __webpack_require__(80);
-var getOwnPropertySymbolsModule = __webpack_require__(116);
+var getOwnPropertyNamesModule = __webpack_require__(82);
+var getOwnPropertySymbolsModule = __webpack_require__(118);
 var anObject = __webpack_require__(7);
 
 // all object keys, includes non-enumerable and symbols
@@ -13132,14 +13147,14 @@ module.exports = getBuiltIn('Reflect', 'ownKeys') || function ownKeys(it) {
 
 
 /***/ }),
-/* 116 */
+/* 118 */
 /***/ (function(module, exports) {
 
 exports.f = Object.getOwnPropertySymbols;
 
 
 /***/ }),
-/* 117 */
+/* 119 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var fails = __webpack_require__(6);
@@ -13152,16 +13167,16 @@ module.exports = !!Object.getOwnPropertySymbols && !fails(function () {
 
 
 /***/ }),
-/* 118 */
+/* 120 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var anObject = __webpack_require__(7);
-var defineProperties = __webpack_require__(119);
+var defineProperties = __webpack_require__(121);
 var enumBugKeys = __webpack_require__(43);
 var hiddenKeys = __webpack_require__(40);
-var html = __webpack_require__(84);
+var html = __webpack_require__(86);
 var documentCreateElement = __webpack_require__(37);
-var sharedKey = __webpack_require__(77);
+var sharedKey = __webpack_require__(79);
 var IE_PROTO = sharedKey('IE_PROTO');
 
 var PROTOTYPE = 'prototype';
@@ -13207,13 +13222,13 @@ hiddenKeys[IE_PROTO] = true;
 
 
 /***/ }),
-/* 119 */
+/* 121 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var DESCRIPTORS = __webpack_require__(10);
 var definePropertyModule = __webpack_require__(13);
 var anObject = __webpack_require__(7);
-var objectKeys = __webpack_require__(83);
+var objectKeys = __webpack_require__(85);
 
 // `Object.defineProperties` method
 // https://tc39.github.io/ecma262/#sec-object.defineproperties
@@ -13229,13 +13244,13 @@ module.exports = DESCRIPTORS ? Object.defineProperties : function defineProperti
 
 
 /***/ }),
-/* 120 */
+/* 122 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var DESCRIPTORS = __webpack_require__(10);
-var objectKeys = __webpack_require__(83);
+var objectKeys = __webpack_require__(85);
 var toIndexedObject = __webpack_require__(17);
-var propertyIsEnumerable = __webpack_require__(73).f;
+var propertyIsEnumerable = __webpack_require__(75).f;
 
 // `Object.{ entries, values }` methods implementation
 var createMethod = function (TO_ENTRIES) {
@@ -13267,15 +13282,15 @@ module.exports = {
 
 
 /***/ }),
-/* 121 */
+/* 123 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 var $ = __webpack_require__(4);
-var notARegExp = __webpack_require__(122);
+var notARegExp = __webpack_require__(124);
 var requireObjectCoercible = __webpack_require__(15);
-var correctIsRegExpLogic = __webpack_require__(123);
+var correctIsRegExpLogic = __webpack_require__(125);
 
 // `String.prototype.includes` method
 // https://tc39.github.io/ecma262/#sec-string.prototype.includes
@@ -13288,10 +13303,10 @@ $({ target: 'String', proto: true, forced: !correctIsRegExpLogic('includes') }, 
 
 
 /***/ }),
-/* 122 */
+/* 124 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isRegExp = __webpack_require__(86);
+var isRegExp = __webpack_require__(88);
 
 module.exports = function (it) {
   if (isRegExp(it)) {
@@ -13301,7 +13316,7 @@ module.exports = function (it) {
 
 
 /***/ }),
-/* 123 */
+/* 125 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var wellKnownSymbol = __webpack_require__(3);
@@ -13322,7 +13337,7 @@ module.exports = function (METHOD_NAME) {
 
 
 /***/ }),
-/* 124 */
+/* 126 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -13352,7 +13367,7 @@ angular.module('lumx.utils.focus-on-init').directive('lxFocusOnInit', FocusOnIni
 
 
 /***/ }),
-/* 125 */
+/* 127 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -13412,7 +13427,7 @@ angular.module('lumx.utils.focus-trap').service('LxFocusTrapService', FocusTrapS
 
 
 /***/ }),
-/* 126 */
+/* 128 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -13436,7 +13451,7 @@ angular.module('lumx.utils.stop-propagation').directive('lxStopPropagation', Sto
 
 
 /***/ }),
-/* 127 */
+/* 129 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -13470,19 +13485,19 @@ angular.module('lumx.utils.transclude-replace').directive('ngTranscludeReplace',
 
 
 /***/ }),
-/* 128 */
+/* 130 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UtilsService", function() { return UtilsService; });
-/* harmony import */ var core_js_modules_es_date_to_string__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(87);
+/* harmony import */ var core_js_modules_es_date_to_string__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(89);
 /* harmony import */ var core_js_modules_es_date_to_string__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_date_to_string__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var core_js_modules_es_object_to_string__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(88);
+/* harmony import */ var core_js_modules_es_object_to_string__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(90);
 /* harmony import */ var core_js_modules_es_object_to_string__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_object_to_string__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var core_js_modules_es_regexp_exec__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(9);
 /* harmony import */ var core_js_modules_es_regexp_exec__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_regexp_exec__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var core_js_modules_es_regexp_to_string__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(90);
+/* harmony import */ var core_js_modules_es_regexp_to_string__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(92);
 /* harmony import */ var core_js_modules_es_regexp_to_string__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_regexp_to_string__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var core_js_modules_es_string_replace__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(30);
 /* harmony import */ var core_js_modules_es_string_replace__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_string_replace__WEBPACK_IMPORTED_MODULE_4__);
@@ -13581,12 +13596,12 @@ angular.module('lumx.utils.utils').service('LxUtilsService', UtilsService);
 
 
 /***/ }),
-/* 129 */
+/* 131 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var classof = __webpack_require__(89);
+var classof = __webpack_require__(91);
 var wellKnownSymbol = __webpack_require__(3);
 
 var TO_STRING_TAG = wellKnownSymbol('toStringTag');
@@ -13602,7 +13617,7 @@ module.exports = String(test) !== '[object z]' ? function toString() {
 
 
 /***/ }),
-/* 130 */
+/* 132 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var toInteger = __webpack_require__(22);
@@ -13635,7 +13650,7 @@ module.exports = {
 
 
 /***/ }),
-/* 131 */
+/* 133 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -13877,7 +13892,7 @@ angular.module('lumx.button').directive('lxButton', ButtonDirective);
 
 
 /***/ }),
-/* 132 */
+/* 134 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -13901,7 +13916,7 @@ angular.module('lumx.button').directive('lxButtonGroup', ButtonGroupDirective);
 
 
 /***/ }),
-/* 133 */
+/* 135 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -14020,7 +14035,7 @@ angular.module('lumx.checkbox').directive('lxCheckbox', CheckboxDirective);
 
 
 /***/ }),
-/* 134 */
+/* 136 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -14153,18 +14168,18 @@ angular.module('lumx.chip').directive('lxChip', ChipDirective);
 
 
 /***/ }),
-/* 135 */
+/* 137 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var core_js_modules_es_array_index_of__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(27);
 /* harmony import */ var core_js_modules_es_array_index_of__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_index_of__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var core_js_modules_es_array_sort__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(136);
+/* harmony import */ var core_js_modules_es_array_sort__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(138);
 /* harmony import */ var core_js_modules_es_array_sort__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_sort__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var core_js_modules_es_array_splice__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(23);
 /* harmony import */ var core_js_modules_es_array_splice__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_splice__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var core_js_modules_es_function_name__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(137);
+/* harmony import */ var core_js_modules_es_function_name__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(139);
 /* harmony import */ var core_js_modules_es_function_name__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_function_name__WEBPACK_IMPORTED_MODULE_3__);
 
 
@@ -14388,7 +14403,7 @@ __webpack_require__.r(__webpack_exports__);
 })();
 
 /***/ }),
-/* 136 */
+/* 138 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14427,7 +14442,7 @@ $({ target: 'Array', proto: true, forced: FORCED }, {
 
 
 /***/ }),
-/* 137 */
+/* 139 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var DESCRIPTORS = __webpack_require__(10);
@@ -14455,7 +14470,7 @@ if (DESCRIPTORS && !(NAME in FunctionPrototype)) {
 
 
 /***/ }),
-/* 138 */
+/* 140 */
 /***/ (function(module, exports) {
 
 (function () {
@@ -14500,22 +14515,22 @@ if (DESCRIPTORS && !(NAME in FunctionPrototype)) {
 })();
 
 /***/ }),
-/* 139 */
+/* 141 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var core_js_modules_es_array_find__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(5);
 /* harmony import */ var core_js_modules_es_array_find__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_find__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var core_js_modules_es_array_slice__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(94);
+/* harmony import */ var core_js_modules_es_array_slice__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(96);
 /* harmony import */ var core_js_modules_es_array_slice__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_slice__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var core_js_modules_es_date_to_string__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(87);
+/* harmony import */ var core_js_modules_es_date_to_string__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(89);
 /* harmony import */ var core_js_modules_es_date_to_string__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_date_to_string__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var core_js_modules_es_regexp_exec__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(9);
 /* harmony import */ var core_js_modules_es_regexp_exec__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_regexp_exec__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var core_js_modules_es_string_replace__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(30);
 /* harmony import */ var core_js_modules_es_string_replace__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_string_replace__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var core_js_modules_es_string_trim__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(140);
+/* harmony import */ var core_js_modules_es_string_trim__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(142);
 /* harmony import */ var core_js_modules_es_string_trim__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_string_trim__WEBPACK_IMPORTED_MODULE_5__);
 
 
@@ -14754,14 +14769,14 @@ __webpack_require__.r(__webpack_exports__);
 })();
 
 /***/ }),
-/* 140 */
+/* 142 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 var $ = __webpack_require__(4);
-var $trim = __webpack_require__(95).trim;
-var forcedStringTrimMethod = __webpack_require__(141);
+var $trim = __webpack_require__(97).trim;
+var forcedStringTrimMethod = __webpack_require__(143);
 
 // `String.prototype.trim` method
 // https://tc39.github.io/ecma262/#sec-string.prototype.trim
@@ -14773,7 +14788,7 @@ $({ target: 'String', proto: true, forced: forcedStringTrimMethod('trim') }, {
 
 
 /***/ }),
-/* 141 */
+/* 143 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var fails = __webpack_require__(6);
@@ -14791,7 +14806,7 @@ module.exports = function (METHOD_NAME) {
 
 
 /***/ }),
-/* 142 */
+/* 144 */
 /***/ (function(module, exports) {
 
 (function () {
@@ -14879,7 +14894,7 @@ module.exports = function (METHOD_NAME) {
 })();
 
 /***/ }),
-/* 143 */
+/* 145 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -15089,7 +15104,7 @@ angular.module('lumx.dialog').directive('lxDialog', DialogDirective);
 
 
 /***/ }),
-/* 144 */
+/* 146 */
 /***/ (function(module, exports) {
 
 // iterable DOM collections
@@ -15130,7 +15145,7 @@ module.exports = {
 
 
 /***/ }),
-/* 145 */
+/* 147 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -15191,7 +15206,7 @@ angular.module('lumx.dialog').service('LxDialogService', DialogService);
 
 
 /***/ }),
-/* 146 */
+/* 148 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -15223,7 +15238,7 @@ angular.module('lumx.dialog').directive('lxDialogClose', DialogCloseDirective);
 
 
 /***/ }),
-/* 147 */
+/* 149 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -15233,7 +15248,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var core_js_modules_es_array_find__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_find__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var core_js_modules_es_array_index_of__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(27);
 /* harmony import */ var core_js_modules_es_array_index_of__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_index_of__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var core_js_modules_es_array_slice__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(94);
+/* harmony import */ var core_js_modules_es_array_slice__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(96);
 /* harmony import */ var core_js_modules_es_array_slice__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_slice__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(0);
 /* harmony import */ var _views_dropdown_html__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(59);
@@ -15550,13 +15565,13 @@ angular.module('lumx.dropdown').directive('lxDropdown', DropdownDirective);
 
 
 /***/ }),
-/* 148 */
+/* 150 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DropdownService", function() { return DropdownService; });
-/* harmony import */ var core_js_modules_es_array_includes__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(71);
+/* harmony import */ var core_js_modules_es_array_includes__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(73);
 /* harmony import */ var core_js_modules_es_array_includes__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_includes__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var core_js_modules_es_array_index_of__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(27);
 /* harmony import */ var core_js_modules_es_array_index_of__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_index_of__WEBPACK_IMPORTED_MODULE_1__);
@@ -15621,7 +15636,7 @@ angular.module('lumx.dropdown').service('LxDropdownService', DropdownService);
 
 
 /***/ }),
-/* 149 */
+/* 151 */
 /***/ (function(module, exports) {
 
 (function () {
@@ -15701,7 +15716,7 @@ angular.module('lumx.dropdown').service('LxDropdownService', DropdownService);
 })();
 
 /***/ }),
-/* 150 */
+/* 152 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -15785,7 +15800,7 @@ __webpack_require__.r(__webpack_exports__);
 })();
 
 /***/ }),
-/* 151 */
+/* 153 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -15881,7 +15896,7 @@ angular.module('lumx.grid').directive('lxGrid', GridDirective);
 
 
 /***/ }),
-/* 152 */
+/* 154 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -15945,7 +15960,7 @@ angular.module('lumx.grid').directive('lxGridItem', GridItemDirective);
 
 
 /***/ }),
-/* 153 */
+/* 155 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -16021,7 +16036,7 @@ angular.module('lumx.icon').directive('lxIcon', IconDirective);
 
 
 /***/ }),
-/* 154 */
+/* 156 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -16121,7 +16136,7 @@ angular.module('lumx.list').directive('lxList', ListDirective);
 
 
 /***/ }),
-/* 155 */
+/* 157 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -16144,7 +16159,7 @@ angular.module('lumx.list').directive('lxListDivider', ListDividerDirective);
 
 
 /***/ }),
-/* 156 */
+/* 158 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -16226,7 +16241,7 @@ angular.module('lumx.list').directive('lxListItem', ListItemDirective);
 
 
 /***/ }),
-/* 157 */
+/* 159 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -16250,7 +16265,7 @@ angular.module('lumx.list').directive('lxListSubheader', ListSubheaderDirective)
 
 
 /***/ }),
-/* 158 */
+/* 160 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -16395,7 +16410,7 @@ angular.module('lumx.notification').service('LxNotificationService', Notificatio
 
 
 /***/ }),
-/* 159 */
+/* 161 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -16527,7 +16542,7 @@ angular.module('lumx.popover').directive('lxPopover', PopoverDirective);
 
 
 /***/ }),
-/* 160 */
+/* 162 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -16556,7 +16571,7 @@ angular.module('lumx.popover').service('LxPopoverService', PopoverService);
 
 
 /***/ }),
-/* 161 */
+/* 163 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -16630,11 +16645,11 @@ __webpack_require__.r(__webpack_exports__);
 })();
 
 /***/ }),
-/* 162 */
+/* 164 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var global = __webpack_require__(2);
-var trim = __webpack_require__(95).trim;
+var trim = __webpack_require__(97).trim;
 var whitespaces = __webpack_require__(52);
 
 var nativeParseInt = global.parseInt;
@@ -16650,7 +16665,7 @@ module.exports = FORCED ? function parseInt(string, radix) {
 
 
 /***/ }),
-/* 163 */
+/* 165 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -16767,7 +16782,7 @@ angular.module('lumx.radio-button').directive('lxRadioButton', RadioButtonDirect
 
 
 /***/ }),
-/* 164 */
+/* 166 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -16791,7 +16806,7 @@ angular.module('lumx.radio-button').directive('lxRadioGroup', RadioGroupDirectiv
 
 
 /***/ }),
-/* 165 */
+/* 167 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -16863,7 +16878,7 @@ __webpack_require__.r(__webpack_exports__);
 })();
 
 /***/ }),
-/* 166 */
+/* 168 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -16874,11 +16889,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var core_js_modules_es_array_find__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_find__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var core_js_modules_es_parse_int__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(31);
 /* harmony import */ var core_js_modules_es_parse_int__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_parse_int__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var core_js_modules_es_regexp_constructor__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(167);
+/* harmony import */ var core_js_modules_es_regexp_constructor__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(169);
 /* harmony import */ var core_js_modules_es_regexp_constructor__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_regexp_constructor__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var core_js_modules_es_regexp_exec__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(9);
 /* harmony import */ var core_js_modules_es_regexp_exec__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_regexp_exec__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var core_js_modules_es_regexp_to_string__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(90);
+/* harmony import */ var core_js_modules_es_regexp_to_string__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(92);
 /* harmony import */ var core_js_modules_es_regexp_to_string__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_regexp_to_string__WEBPACK_IMPORTED_MODULE_5__);
 /* harmony import */ var core_js_modules_es_string_replace__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(30);
 /* harmony import */ var core_js_modules_es_string_replace__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_string_replace__WEBPACK_IMPORTED_MODULE_6__);
@@ -17199,20 +17214,20 @@ __webpack_require__.r(__webpack_exports__);
 })();
 
 /***/ }),
-/* 167 */
+/* 169 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var DESCRIPTORS = __webpack_require__(10);
 var global = __webpack_require__(2);
 var isForced = __webpack_require__(44);
-var inheritIfRequired = __webpack_require__(168);
+var inheritIfRequired = __webpack_require__(170);
 var defineProperty = __webpack_require__(13).f;
-var getOwnPropertyNames = __webpack_require__(80).f;
-var isRegExp = __webpack_require__(86);
+var getOwnPropertyNames = __webpack_require__(82).f;
+var isRegExp = __webpack_require__(88);
 var getFlags = __webpack_require__(51);
 var redefine = __webpack_require__(11);
 var fails = __webpack_require__(6);
-var setSpecies = __webpack_require__(97);
+var setSpecies = __webpack_require__(99);
 var wellKnownSymbol = __webpack_require__(3);
 
 var MATCH = wellKnownSymbol('match');
@@ -17265,11 +17280,11 @@ setSpecies('RegExp');
 
 
 /***/ }),
-/* 168 */
+/* 170 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var isObject = __webpack_require__(8);
-var setPrototypeOf = __webpack_require__(169);
+var setPrototypeOf = __webpack_require__(171);
 
 // makes subclassing work correct for wrapped built-ins
 module.exports = function ($this, dummy, Wrapper) {
@@ -17288,11 +17303,11 @@ module.exports = function ($this, dummy, Wrapper) {
 
 
 /***/ }),
-/* 169 */
+/* 171 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var anObject = __webpack_require__(7);
-var aPossiblePrototype = __webpack_require__(170);
+var aPossiblePrototype = __webpack_require__(172);
 
 // `Object.setPrototypeOf` method
 // https://tc39.github.io/ecma262/#sec-object.setprototypeof
@@ -17318,7 +17333,7 @@ module.exports = Object.setPrototypeOf || ('__proto__' in {} ? function () {
 
 
 /***/ }),
-/* 170 */
+/* 172 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var isObject = __webpack_require__(8);
@@ -17331,13 +17346,13 @@ module.exports = function (it) {
 
 
 /***/ }),
-/* 171 */
+/* 173 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SelectDirective", function() { return SelectDirective; });
-/* harmony import */ var core_js_modules_es_array_concat__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(98);
+/* harmony import */ var core_js_modules_es_array_concat__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(100);
 /* harmony import */ var core_js_modules_es_array_concat__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_concat__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var core_js_modules_es_array_filter__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(55);
 /* harmony import */ var core_js_modules_es_array_filter__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_filter__WEBPACK_IMPORTED_MODULE_1__);
@@ -17345,7 +17360,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var core_js_modules_es_array_for_each__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_for_each__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var core_js_modules_es_array_splice__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(23);
 /* harmony import */ var core_js_modules_es_array_splice__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_splice__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var core_js_modules_es_object_entries__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(85);
+/* harmony import */ var core_js_modules_es_object_entries__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(87);
 /* harmony import */ var core_js_modules_es_object_entries__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_object_entries__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var core_js_modules_es_parse_int__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(31);
 /* harmony import */ var core_js_modules_es_parse_int__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_parse_int__WEBPACK_IMPORTED_MODULE_5__);
@@ -17735,13 +17750,13 @@ angular.module('lumx.select').directive('lxSelect', SelectDirective);
 
 
 /***/ }),
-/* 172 */
+/* 174 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SelectChoicesFilter", function() { return SelectChoicesFilter; });
-/* harmony import */ var core_js_modules_es_array_concat__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(98);
+/* harmony import */ var core_js_modules_es_array_concat__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(100);
 /* harmony import */ var core_js_modules_es_array_concat__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_concat__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var core_js_modules_es_array_filter__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(55);
 /* harmony import */ var core_js_modules_es_array_filter__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_filter__WEBPACK_IMPORTED_MODULE_1__);
@@ -17777,7 +17792,7 @@ angular.module('lumx.select').filter('lxSelectChoicesFilter', SelectChoicesFilte
 
 
 /***/ }),
-/* 173 */
+/* 175 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -17819,7 +17834,7 @@ angular.module('lumx.select').directive('lxSelectFilter', SelectFilterDirective)
 
 
 /***/ }),
-/* 174 */
+/* 176 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -17845,7 +17860,7 @@ angular.module('lumx.side-navigation').directive('lxSideNavigation', SideNavigat
 
 
 /***/ }),
-/* 175 */
+/* 177 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -17913,18 +17928,18 @@ angular.module('lumx.side-navigation').directive('lxSideNavigationItem', SideNav
 
 
 /***/ }),
-/* 176 */
+/* 178 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var core_js_modules_es_object_to_string__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(88);
+/* harmony import */ var core_js_modules_es_object_to_string__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(90);
 /* harmony import */ var core_js_modules_es_object_to_string__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_object_to_string__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var core_js_modules_es_parse_int__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(31);
 /* harmony import */ var core_js_modules_es_parse_int__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_parse_int__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var core_js_modules_es_promise__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(177);
+/* harmony import */ var core_js_modules_es_promise__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(179);
 /* harmony import */ var core_js_modules_es_promise__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_promise__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var core_js_modules_es_promise_finally__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(189);
+/* harmony import */ var core_js_modules_es_promise_finally__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(191);
 /* harmony import */ var core_js_modules_es_promise_finally__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_promise_finally__WEBPACK_IMPORTED_MODULE_3__);
 
 
@@ -18341,7 +18356,7 @@ __webpack_require__.r(__webpack_exports__);
 })();
 
 /***/ }),
-/* 177 */
+/* 179 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18349,27 +18364,27 @@ __webpack_require__.r(__webpack_exports__);
 var $ = __webpack_require__(4);
 var IS_PURE = __webpack_require__(39);
 var global = __webpack_require__(2);
-var path = __webpack_require__(79);
-var NativePromise = __webpack_require__(99);
+var path = __webpack_require__(81);
+var NativePromise = __webpack_require__(101);
 var redefine = __webpack_require__(11);
-var redefineAll = __webpack_require__(178);
-var setToStringTag = __webpack_require__(179);
-var setSpecies = __webpack_require__(97);
+var redefineAll = __webpack_require__(180);
+var setToStringTag = __webpack_require__(181);
+var setSpecies = __webpack_require__(99);
 var isObject = __webpack_require__(8);
 var aFunction = __webpack_require__(25);
-var anInstance = __webpack_require__(180);
+var anInstance = __webpack_require__(182);
 var classof = __webpack_require__(12);
-var iterate = __webpack_require__(181);
-var checkCorrectnessOfIteration = __webpack_require__(185);
-var speciesConstructor = __webpack_require__(101);
-var task = __webpack_require__(102).set;
-var microtask = __webpack_require__(186);
-var promiseResolve = __webpack_require__(104);
-var hostReportErrors = __webpack_require__(187);
-var newPromiseCapabilityModule = __webpack_require__(105);
-var perform = __webpack_require__(188);
-var userAgent = __webpack_require__(103);
-var InternalStateModule = __webpack_require__(76);
+var iterate = __webpack_require__(183);
+var checkCorrectnessOfIteration = __webpack_require__(187);
+var speciesConstructor = __webpack_require__(103);
+var task = __webpack_require__(104).set;
+var microtask = __webpack_require__(188);
+var promiseResolve = __webpack_require__(106);
+var hostReportErrors = __webpack_require__(189);
+var newPromiseCapabilityModule = __webpack_require__(107);
+var perform = __webpack_require__(190);
+var userAgent = __webpack_require__(105);
+var InternalStateModule = __webpack_require__(78);
 var isForced = __webpack_require__(44);
 var wellKnownSymbol = __webpack_require__(3);
 
@@ -18719,7 +18734,7 @@ $({ target: PROMISE, stat: true, forced: INCORRECT_ITERATION }, {
 
 
 /***/ }),
-/* 178 */
+/* 180 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var redefine = __webpack_require__(11);
@@ -18731,7 +18746,7 @@ module.exports = function (target, src, options) {
 
 
 /***/ }),
-/* 179 */
+/* 181 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var defineProperty = __webpack_require__(13).f;
@@ -18748,7 +18763,7 @@ module.exports = function (it, TAG, STATIC) {
 
 
 /***/ }),
-/* 180 */
+/* 182 */
 /***/ (function(module, exports) {
 
 module.exports = function (it, Constructor, name) {
@@ -18759,15 +18774,15 @@ module.exports = function (it, Constructor, name) {
 
 
 /***/ }),
-/* 181 */
+/* 183 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var anObject = __webpack_require__(7);
-var isArrayIteratorMethod = __webpack_require__(182);
+var isArrayIteratorMethod = __webpack_require__(184);
 var toLength = __webpack_require__(14);
 var bind = __webpack_require__(49);
-var getIteratorMethod = __webpack_require__(183);
-var callWithSafeIterationClosing = __webpack_require__(184);
+var getIteratorMethod = __webpack_require__(185);
+var callWithSafeIterationClosing = __webpack_require__(186);
 
 var Result = function (stopped, result) {
   this.stopped = stopped;
@@ -18807,11 +18822,11 @@ iterate.stop = function (result) {
 
 
 /***/ }),
-/* 182 */
+/* 184 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var wellKnownSymbol = __webpack_require__(3);
-var Iterators = __webpack_require__(100);
+var Iterators = __webpack_require__(102);
 
 var ITERATOR = wellKnownSymbol('iterator');
 var ArrayPrototype = Array.prototype;
@@ -18823,11 +18838,11 @@ module.exports = function (it) {
 
 
 /***/ }),
-/* 183 */
+/* 185 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var classof = __webpack_require__(89);
-var Iterators = __webpack_require__(100);
+var classof = __webpack_require__(91);
+var Iterators = __webpack_require__(102);
 var wellKnownSymbol = __webpack_require__(3);
 
 var ITERATOR = wellKnownSymbol('iterator');
@@ -18840,7 +18855,7 @@ module.exports = function (it) {
 
 
 /***/ }),
-/* 184 */
+/* 186 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var anObject = __webpack_require__(7);
@@ -18859,7 +18874,7 @@ module.exports = function (iterator, fn, value, ENTRIES) {
 
 
 /***/ }),
-/* 185 */
+/* 187 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var wellKnownSymbol = __webpack_require__(3);
@@ -18903,14 +18918,14 @@ module.exports = function (exec, SKIP_CLOSING) {
 
 
 /***/ }),
-/* 186 */
+/* 188 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var global = __webpack_require__(2);
 var getOwnPropertyDescriptor = __webpack_require__(33).f;
 var classof = __webpack_require__(12);
-var macrotask = __webpack_require__(102).set;
-var userAgent = __webpack_require__(103);
+var macrotask = __webpack_require__(104).set;
+var userAgent = __webpack_require__(105);
 
 var MutationObserver = global.MutationObserver || global.WebKitMutationObserver;
 var process = global.process;
@@ -18987,7 +19002,7 @@ module.exports = queueMicrotask || function (fn) {
 
 
 /***/ }),
-/* 187 */
+/* 189 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var global = __webpack_require__(2);
@@ -19001,7 +19016,7 @@ module.exports = function (a, b) {
 
 
 /***/ }),
-/* 188 */
+/* 190 */
 /***/ (function(module, exports) {
 
 module.exports = function (exec) {
@@ -19014,17 +19029,17 @@ module.exports = function (exec) {
 
 
 /***/ }),
-/* 189 */
+/* 191 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 var $ = __webpack_require__(4);
 var IS_PURE = __webpack_require__(39);
-var NativePromise = __webpack_require__(99);
+var NativePromise = __webpack_require__(101);
 var getBuiltIn = __webpack_require__(21);
-var speciesConstructor = __webpack_require__(101);
-var promiseResolve = __webpack_require__(104);
+var speciesConstructor = __webpack_require__(103);
+var promiseResolve = __webpack_require__(106);
 var redefine = __webpack_require__(11);
 
 // `Promise.prototype.finally` method
@@ -19051,7 +19066,7 @@ if (!IS_PURE && typeof NativePromise == 'function' && !NativePromise.prototype['
 
 
 /***/ }),
-/* 190 */
+/* 192 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -19166,304 +19181,176 @@ angular.module('lumx.switch').directive('lxSwitch', SwitchDirective);
 
 
 /***/ }),
-/* 191 */
+/* 193 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var core_js_modules_es_array_find__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(5);
-/* harmony import */ var core_js_modules_es_array_find__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_find__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var core_js_modules_es_array_for_each__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(53);
-/* harmony import */ var core_js_modules_es_array_for_each__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_for_each__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var core_js_modules_es_array_splice__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(23);
-/* harmony import */ var core_js_modules_es_array_splice__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_splice__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(54);
-/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TabDirective", function() { return TabDirective; });
+/* harmony import */ var _views_tab_html__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(69);
+/* harmony import */ var _views_tab_html__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_views_tab_html__WEBPACK_IMPORTED_MODULE_0__);
+TabController.$inject = ["$scope", "LxUtilsService"];
 
 
+function TabController($scope, LxUtilsService) {
+  'ngInject';
 
+  var lx = this;
 
+  var _parentController;
 
-(function () {
-  'use strict';
+  lx.tab = {};
 
-  angular.module('lumx.tabs').directive('lxTabs', lxTabs).directive('lxTab', lxTab).directive('lxTabsPanes', lxTabsPanes).directive('lxTabPane', lxTabPane);
-
-  function lxTabs() {
-    return {
-      restrict: 'E',
-      templateUrl: 'tabs.html',
-      scope: {
-        layout: '@?lxLayout',
-        theme: '@?lxTheme',
-        color: '@?lxColor',
-        indicator: '@?lxIndicator',
-        activeTab: '=?lxActiveTab',
-        panesId: '@?lxPanesId',
-        links: '=?lxLinks',
-        position: '@?lxPosition'
-      },
-      controller: LxTabsController,
-      controllerAs: 'lxTabs',
-      bindToController: true,
-      replace: true,
-      transclude: true
-    };
+  function isTabActive() {
+    return _parentController.isTabActive(lx.tab.index);
   }
 
-  LxTabsController.$inject = ['LxUtilsService', '$element', '$scope', '$timeout'];
-
-  function LxTabsController(LxUtilsService, $element, $scope, $timeout) {
-    var lxTabs = this;
-    var tabsLength;
-    var timer1;
-    var timer2;
-    var timer3;
-    var timer4;
-    lxTabs.removeTab = removeTab;
-    lxTabs.setActiveTab = setActiveTab;
-    lxTabs.setViewMode = setViewMode;
-    lxTabs.tabIsActive = tabIsActive;
-    lxTabs.updateTabs = updateTabs;
-    lxTabs.activeTab = angular.isDefined(lxTabs.activeTab) ? lxTabs.activeTab : 0;
-    lxTabs.color = angular.isDefined(lxTabs.color) ? lxTabs.color : 'primary';
-    lxTabs.indicator = angular.isDefined(lxTabs.indicator) ? lxTabs.indicator : 'accent';
-    lxTabs.layout = angular.isDefined(lxTabs.layout) ? lxTabs.layout : 'full';
-    lxTabs.tabs = [];
-    lxTabs.theme = angular.isDefined(lxTabs.theme) ? lxTabs.theme : 'light';
-    lxTabs.viewMode = angular.isDefined(lxTabs.links) ? 'separate' : 'gather';
-    $scope.$watch(function () {
-      return lxTabs.activeTab;
-    }, function (_newActiveTab, _oldActiveTab) {
-      timer1 = $timeout(function () {
-        setIndicatorPosition(_oldActiveTab);
-
-        if (lxTabs.viewMode === 'separate') {
-          angular.element('#' + lxTabs.panesId).find('.tabs__pane').hide();
-          angular.element('#' + lxTabs.panesId).find('.tabs__pane').eq(lxTabs.activeTab).show();
-        }
-      });
-    });
-    $scope.$watch(function () {
-      return lxTabs.position;
-    }, function (_newPosition) {
-      lxTabs.bottomPosition = angular.isDefined(_newPosition) && _newPosition === 'bottom';
-    });
-    $scope.$watch(function () {
-      return lxTabs.links;
-    }, function (_newLinks) {
-      lxTabs.viewMode = angular.isDefined(_newLinks) ? 'separate' : 'gather';
-      angular.forEach(_newLinks, function (link, index) {
-        var tab = {
-          uuid: angular.isUndefined(link.uuid) || link.uuid.length === 0 ? LxUtilsService.generateUUID() : link.uuid,
-          index: index,
-          label: link.label,
-          icon: link.icon,
-          disabled: link.disabled
-        };
-        updateTabs(tab);
-      });
-    });
-    timer2 = $timeout(function () {
-      tabsLength = lxTabs.tabs.length;
-    });
-    $scope.$on('$destroy', function () {
-      $timeout.cancel(timer1);
-      $timeout.cancel(timer2);
-      $timeout.cancel(timer3);
-      $timeout.cancel(timer4);
-    });
-
-    function removeTab(_tab) {
-      lxTabs.tabs.splice(_tab.index, 1);
-      angular.forEach(lxTabs.tabs, function (tab, index) {
-        tab.index = index;
-      });
-
-      if (lxTabs.activeTab === 0) {
-        timer3 = $timeout(function () {
-          setIndicatorPosition();
-        });
-      } else {
-        setActiveTab(lxTabs.tabs[0]);
-      }
-    }
-
-    function setActiveTab(_tab) {
-      if (!_tab.disabled) {
-        lxTabs.activeTab = _tab.index;
-      }
-    }
-
-    function setIndicatorPosition(_previousActiveTab) {
-      var direction = lxTabs.activeTab > _previousActiveTab ? 'right' : 'left';
-      var indicator = $element.find('.tabs__indicator');
-      var activeTab = $element.find('.tabs__link').eq(lxTabs.activeTab);
-      var indicatorLeft = activeTab.position().left;
-      var indicatorRight = $element.outerWidth() - (indicatorLeft + activeTab.outerWidth());
-
-      if (angular.isUndefined(_previousActiveTab)) {
-        indicator.css({
-          left: indicatorLeft,
-          right: indicatorRight
-        });
-      } else {
-        var animationProperties = {
-          duration: 200,
-          easing: 'easeOutQuint'
-        };
-
-        if (direction === 'left') {
-          indicator.velocity({
-            left: indicatorLeft
-          }, animationProperties);
-          indicator.velocity({
-            right: indicatorRight
-          }, animationProperties);
-        } else {
-          indicator.velocity({
-            right: indicatorRight
-          }, animationProperties);
-          indicator.velocity({
-            left: indicatorLeft
-          }, animationProperties);
-        }
-      }
-    }
-
-    function setViewMode(_viewMode) {
-      lxTabs.viewMode = _viewMode;
-    }
-
-    function tabIsActive(_index) {
-      return lxTabs.activeTab === _index;
-    }
-
-    function updateTabs(_tab) {
-      var newTab = true;
-      angular.forEach(lxTabs.tabs, function (tab) {
-        if (tab.index === _tab.index) {
-          newTab = false;
-          tab.uuid = _tab.uuid;
-          tab.icon = _tab.icon;
-          tab.label = _tab.label;
-        }
-      });
-
-      if (newTab) {
-        lxTabs.tabs.push(_tab);
-
-        if (angular.isDefined(tabsLength)) {
-          timer4 = $timeout(function () {
-            setIndicatorPosition();
-          });
-        }
-      }
-    }
-  }
-
-  function lxTab() {
-    return {
-      restrict: 'E',
-      require: ['lxTab', '^lxTabs'],
-      templateUrl: 'tab.html',
-      scope: {
-        ngDisabled: '=?'
-      },
-      link: link,
-      controller: LxTabController,
-      controllerAs: 'lxTab',
-      bindToController: true,
-      replace: true,
-      transclude: true
+  function registerTab(parentController, tabIndex) {
+    _parentController = parentController;
+    lx.tab = {
+      icon: lx.icon,
+      index: tabIndex,
+      label: lx.label,
+      uuid: LxUtilsService.generateUUID()
     };
 
-    function link(scope, element, attrs, ctrls) {
-      ctrls[0].init(ctrls[1], element.index());
-      attrs.$observe('lxLabel', function (_newLabel) {
-        ctrls[0].setLabel(_newLabel);
-      });
-      attrs.$observe('lxIcon', function (_newIcon) {
-        ctrls[0].setIcon(_newIcon);
-      });
-    }
+    _parentController.addTab(lx.tab);
   }
 
-  LxTabController.$inject = ['$scope', 'LxUtilsService'];
+  lx.isTabActive = isTabActive;
+  lx.registerTab = registerTab;
+  $scope.$watch('lx.isDisabled', function isDisableddWatcher(isDisabled) {
+    lx.tab.isDisabled = isDisabled;
 
-  function LxTabController($scope, LxUtilsService) {
-    var lxTab = this;
-    var parentCtrl;
-    var tab = {
-      uuid: LxUtilsService.generateUUID(),
-      index: undefined,
-      label: undefined,
-      icon: undefined,
-      disabled: false
-    };
-    lxTab.init = init;
-    lxTab.setIcon = setIcon;
-    lxTab.setLabel = setLabel;
-    lxTab.tabIsActive = tabIsActive;
-    $scope.$watch(function () {
-      return lxTab.ngDisabled;
-    }, function (_isDisabled) {
-      if (_isDisabled) {
-        tab.disabled = true;
-      } else {
-        tab.disabled = false;
-      }
+    _parentController.updateTab(lx.tab);
+  });
+  $scope.$on('$destroy', function () {
+    _parentController.removeTab(lx.tab);
+  });
+}
 
-      parentCtrl.updateTabs(tab);
-    });
-    $scope.$on('$destroy', function () {
-      parentCtrl.removeTab(tab);
-    });
+function TabDirective() {
+  'ngInject';
 
-    function init(_parentCtrl, _index) {
-      parentCtrl = _parentCtrl;
-      tab.index = _index;
-      parentCtrl.updateTabs(tab);
-    }
-
-    function setIcon(_icon) {
-      tab.icon = _icon;
-      parentCtrl.updateTabs(tab);
-    }
-
-    function setLabel(_label) {
-      tab.label = _label;
-      parentCtrl.updateTabs(tab);
-    }
-
-    function tabIsActive() {
-      return parentCtrl.tabIsActive(tab.index);
-    }
+  function link(scope, el, attrs, ctrls) {
+    ctrls[0].registerTab(ctrls[1], el.index());
   }
 
-  function lxTabsPanes() {
-    return {
-      restrict: 'E',
-      templateUrl: 'tabs-panes.html',
-      scope: true,
-      replace: true,
-      transclude: true
-    };
-  }
+  return {
+    bindToController: true,
+    controller: TabController,
+    controllerAs: 'lx',
+    link: link,
+    replace: true,
+    require: ['lxTab', '^lxTabs'],
+    restrict: 'E',
+    scope: {
+      icon: '@?lxIcon',
+      isDisabled: '=?ngDisabled',
+      label: '@?lxLabel'
+    },
+    template: _views_tab_html__WEBPACK_IMPORTED_MODULE_0___default.a,
+    transclude: true
+  };
+}
 
-  function lxTabPane() {
-    return {
-      restrict: 'E',
-      templateUrl: 'tab-pane.html',
-      scope: true,
-      replace: true,
-      transclude: true
-    };
-  }
-})();
+angular.module('lumx.tabs').directive('lxTab', TabDirective);
+
 
 /***/ }),
-/* 192 */
+/* 194 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TabsDirective", function() { return TabsDirective; });
+/* harmony import */ var core_js_modules_es_array_for_each__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(53);
+/* harmony import */ var core_js_modules_es_array_for_each__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_for_each__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var core_js_modules_es_array_splice__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(23);
+/* harmony import */ var core_js_modules_es_array_splice__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_splice__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(54);
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _views_tabs_html__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(70);
+/* harmony import */ var _views_tabs_html__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_views_tabs_html__WEBPACK_IMPORTED_MODULE_3__);
+
+
+
+
+
+function TabsController() {
+  'ngInject';
+
+  var lx = this;
+  lx.activeTab = angular.isDefined(lx.activeTab) ? lx.activeTab : 0;
+  lx.tabs = [];
+
+  function addTab(tabToAdd) {
+    lx.tabs.push(tabToAdd);
+  }
+
+  function isTabActive(tabIndex) {
+    return lx.activeTab === tabIndex;
+  }
+
+  function removeTab(tabToRemove) {
+    lx.tabs.splice(tabToRemove.index, 1);
+    angular.forEach(lx.tabs, function (tab, index) {
+      tab.index = index;
+    });
+
+    if (lx.tabs.length > 0) {
+      lx.setActiveTab(lx.tabs[0]);
+    }
+  }
+
+  function setActiveTab(tab) {
+    if (tab.isDisabled) {
+      return;
+    }
+
+    lx.activeTab = tab.index;
+  }
+
+  function updateTab(updatedTab) {
+    angular.forEach(lx.tabs, function (tab) {
+      if (tab.uuid === updatedTab.uuid) {
+        tab = updatedTab;
+      }
+    });
+  }
+
+  lx.addTab = addTab;
+  lx.isTabActive = isTabActive;
+  lx.removeTab = removeTab;
+  lx.setActiveTab = setActiveTab;
+  lx.updateTab = updateTab;
+}
+
+function TabsDirective() {
+  'ngInject';
+
+  return {
+    bindToController: true,
+    controller: TabsController,
+    controllerAs: 'lx',
+    replace: true,
+    restrict: 'E',
+    scope: {
+      activeTab: '=?lxActiveTab',
+      layout: '@?lxLayout',
+      position: '@?lxPosition',
+      theme: '@?lxTheme'
+    },
+    template: _views_tabs_html__WEBPACK_IMPORTED_MODULE_3___default.a,
+    transclude: true
+  };
+}
+
+angular.module('lumx.tabs').directive('lxTabs', TabsDirective);
+
+
+/***/ }),
+/* 195 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -19473,7 +19360,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var core_js_modules_es_array_find__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_find__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(0);
 /* harmony import */ var _lumx_icons__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(1);
-/* harmony import */ var _views_text_field_html__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(69);
+/* harmony import */ var _views_text_field_html__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(71);
 /* harmony import */ var _views_text_field_html__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_views_text_field_html__WEBPACK_IMPORTED_MODULE_3__);
 
 TextFieldDirective.$inject = ["$timeout"];
@@ -19603,14 +19490,14 @@ angular.module('lumx.text-field').directive('lxTextField', TextFieldDirective);
 
 
 /***/ }),
-/* 193 */
+/* 196 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ToolbarDirective", function() { return ToolbarDirective; });
 /* harmony import */ var _lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
-/* harmony import */ var _views_toolbar_html__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(70);
+/* harmony import */ var _views_toolbar_html__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(72);
 /* harmony import */ var _views_toolbar_html__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_views_toolbar_html__WEBPACK_IMPORTED_MODULE_1__);
 
 
@@ -19664,7 +19551,7 @@ angular.module('lumx.toolbar').directive('lxToolbar', ToolbarDirective);
 
 
 /***/ }),
-/* 194 */
+/* 197 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -19771,7 +19658,7 @@ angular.module('lumx.tooltip').directive('lxTooltip', TooltipDirective);
 
 
 /***/ }),
-/* 195 */
+/* 198 */
 /***/ (function(module, exports) {
 
 var v1='<div class=data-table-container><table class=data-table ng-class="{ \'data-table--bulk\': lxDataTable.bulk,\n                       \'data-table--border\': lxDataTable.border,\n                       \'data-table--thumbnail\': lxDataTable.thumbnail }"><thead><tr ng-class="{ \'data-table__selectable-row\': lxDataTable.selectable,\n                            \'data-table__selectable-row--is-selected\': lxDataTable.selectable && lxDataTable.allRowsSelected, }"><th align=center ng-if=lxDataTable.thumbnail><lx-button class=data-table__checkbox lx-type=icon lx-color="{{ lxDataTable.allRowsSelected ? \'accent\' : \'grey\' }}" ng-click=lxDataTable.toggleAllSelected() ng-if=lxDataTable.selectable><lx-icon lx-id=checkbox-blank-outline ng-if=!lxDataTable.allRowsSelected></lx-icon><lx-icon lx-id=checkbox-marked ng-if=lxDataTable.allRowsSelected></lx-icon></lx-button><th align=center ng-if="lxDataTable.selectable && !lxDataTable.thumbnail"><lx-button class=data-table__checkbox lx-type=icon lx-color="{{ lxDataTable.allRowsSelected ? \'accent\' : \'grey\' }}" ng-click=lxDataTable.toggleAllSelected()><lx-icon lx-id=checkbox-blank-outline ng-if=!lxDataTable.allRowsSelected></lx-icon><lx-icon lx-id=checkbox-marked ng-if=lxDataTable.allRowsSelected></lx-icon></lx-button><th align=left ng-class=" { \'data-table__sortable-cell\': th.sortable,\n                                 \'data-table__sortable-cell--asc\': th.sortable && th.sort === \'asc\',\n                                 \'data-table__sortable-cell--desc\': th.sortable && th.sort === \'desc\' }" ng-click=lxDataTable.sort(th) ng-repeat="th in lxDataTable.thead track by $index" ng-if="!lxDataTable.thumbnail || (lxDataTable.thumbnail && $index != 0)"><lx-icon lx-id="{{ th.icon }}" ng-if=th.icon></lx-icon><span>{{ th.label }}</span><tbody><tr ng-class="{ \'data-table__selectable-row\': lxDataTable.selectable,\n                            \'data-table__selectable-row--is-disabled\': lxDataTable.selectable && tr.lxDataTableDisabled,\n                            \'data-table__selectable-row--is-selected\': lxDataTable.selectable && tr.lxDataTableSelected,\n                            \'data-table__activable-row\': lxDataTable.activable,\n                            \'data-table__activable-row--is-activated\': lxDataTable.activable && tr.lxDataTableActivated }" ng-repeat="tr in lxDataTable.tbody" ng-click=lxDataTable.toggleActivation(tr)><td align=center ng-if=lxDataTable.thumbnail><div class=data-table__thumbnail ng-if=lxDataTable.thead[0].format ng-bind-html=lxDataTable.$sce.trustAsHtml(lxDataTable.thead[0].format(tr))></div><lx-button class=data-table__checkbox lx-type=icon lx-color="{{ tr.lxDataTableSelected ? \'accent\' : \'black\' }}" ng-click="lxDataTable.toggleSelection(tr, undefined, $event)" ng-if="lxDataTable.selectable && !tr.lxDataTableDisabled"><lx-icon lx-id=checkbox-blank-outline ng-if=!tr.lxDataTableSelected></lx-icon><lx-icon lx-id=checkbox-marked ng-if=tr.lxDataTableSelected></lx-icon></lx-button><td align=center ng-if="lxDataTable.selectable && !lxDataTable.thumbnail"><lx-button class=data-table__checkbox lx-type=icon lx-color="{{ tr.lxDataTableSelected ? \'accent\' : \'black\' }}" ng-click="lxDataTable.toggleSelection(tr, undefined, $event)" ng-disabled=tr.lxDataTableDisabled><lx-icon lx-id=checkbox-blank-outline ng-if=!tr.lxDataTableSelected></lx-icon><lx-icon lx-id=checkbox-marked ng-if=tr.lxDataTableSelected></lx-icon></lx-button><td align=left ng-repeat="th in lxDataTable.thead track by $index" ng-if="!lxDataTable.thumbnail || (lxDataTable.thumbnail && $index != 0)"><span ng-if=!th.format>{{ tr[th.name] }}</span><div ng-if=th.format ng-bind-html=lxDataTable.$sce.trustAsHtml(th.format(tr))></div></table></div>';
@@ -19779,7 +19666,7 @@ angular.module('lumx.data-table').run(['$templateCache', function ($templateCach
 module.exports=v1
 
 /***/ }),
-/* 196 */
+/* 199 */
 /***/ (function(module, exports) {
 
 var v1='<div class=lx-date><div class=lx-date-input ng-click=lxDatePicker.openDatePicker() ng-if=lxDatePicker.hasInput><ng-transclude></ng-transclude></div><div class="lx-date-picker lx-date-picker--{{ lxDatePicker.color }}"><div ng-if=lxDatePicker.isOpen><div class=lx-date-picker__header><a class=lx-date-picker__current-year ng-class="{ \'lx-date-picker__current-year--is-active\': lxDatePicker.yearSelection }" ng-click=lxDatePicker.displayYearSelection()>{{ lxDatePicker.moment(lxDatePicker.ngModel).format(\'YYYY\') }}</a> <a class=lx-date-picker__current-date ng-class="{ \'lx-date-picker__current-date--is-active\': !lxDatePicker.yearSelection }" ng-click=lxDatePicker.hideYearSelection()>{{ lxDatePicker.getDateFormatted() }}</a></div><div class=lx-date-picker__content><div class=lx-date-picker__calendar ng-if=!lxDatePicker.yearSelection><div class=lx-date-picker__nav><lx-button lx-size=l lx-color=black lx-type=icon ng-click=lxDatePicker.previousMonth()><i class="mdi mdi-chevron-left"></i></lx-button><span>{{ lxDatePicker.ngModelMoment.format(\'MMMM YYYY\') }}</span><lx-button lx-size=l lx-color=black lx-type=icon ng-click=lxDatePicker.nextMonth()><i class="mdi mdi-chevron-right"></i></lx-button></div><div class=lx-date-picker__days-of-week><span ng-repeat="day in lxDatePicker.daysOfWeek">{{ day }}</span></div><div class=lx-date-picker__days><span class="lx-date-picker__day lx-date-picker__day--is-empty" ng-repeat="x in lxDatePicker.emptyFirstDays">&nbsp;</span><div class=lx-date-picker__day ng-class="{ \'lx-date-picker__day--is-selected\': day.selected,\n                                         \'lx-date-picker__day--is-today\': day.today && !day.selected,\n                                         \'lx-date-picker__day--is-disabled\': day.disabled }" ng-repeat="day in lxDatePicker.days"><a ng-click=lxDatePicker.select(day)>{{ day ? day.format(\'D\') : \'\' }}</a></div><span class="lx-date-picker__day lx-date-picker__day--is-empty" ng-repeat="x in lxDatePicker.emptyLastDays">&nbsp;</span></div></div><div class=lx-date-picker__year-selector ng-if=lxDatePicker.yearSelection><a class=lx-date-picker__year ng-class="{ \'lx-date-picker__year--is-active\': year == lxDatePicker.moment(lxDatePicker.ngModel).format(\'YYYY\') }" ng-repeat="year in lxDatePicker.years" ng-click=lxDatePicker.selectYear(year) ng-if=lxDatePicker.yearSelection>{{ year }}</a></div></div><div class=lx-date-picker__actions><lx-button lx-color="{{ lxDatePicker.color }}" lx-type=flat ng-click=lxDatePicker.closeDatePicker()>Ok</lx-button></div></div></div></div>';
@@ -19787,7 +19674,7 @@ angular.module('lumx.date-picker').run(['$templateCache', function ($templateCac
 module.exports=v1
 
 /***/ }),
-/* 197 */
+/* 200 */
 /***/ (function(module, exports) {
 
 var v1='<div class="fab__actions fab__actions--{{ parentCtrl.lxDirection }}" ng-transclude></div>';
@@ -19795,7 +19682,7 @@ angular.module('lumx.fab').run(['$templateCache', function ($templateCache) {$te
 module.exports=v1
 
 /***/ }),
-/* 198 */
+/* 201 */
 /***/ (function(module, exports) {
 
 var v1='<div class=fab__primary ng-transclude></div>';
@@ -19803,7 +19690,7 @@ angular.module('lumx.fab').run(['$templateCache', function ($templateCache) {$te
 module.exports=v1
 
 /***/ }),
-/* 199 */
+/* 202 */
 /***/ (function(module, exports) {
 
 var v1='<div class=fab ng-class="{ \'fab--trigger-on-hover\': !lxFab.lxTriggerOnClick,\n                \'fab--trigger-on-click\': lxFab.lxTriggerOnClick,\n                \'fab--is-open\': lxFab.lxTriggerOnClick && lxFab.isOpen,\n                \'fab--is-close\': lxFab.lxTriggerOnClick && !lxFab.isOpen }" ng-click=lxFab.toggleState()><ng-transclude-replace></ng-transclude-replace></div>';
@@ -19811,7 +19698,7 @@ angular.module('lumx.fab').run(['$templateCache', function ($templateCache) {$te
 module.exports=v1
 
 /***/ }),
-/* 200 */
+/* 203 */
 /***/ (function(module, exports) {
 
 var v1='<div class=input-file><span class=input-file__label>{{ lxFileInput.label }}</span> <span class=input-file__filename>{{ lxFileInput.fileName }}</span> <input type=file class=input-file__input accept="{{ lxFileInput.accept }}"></div>';
@@ -19819,7 +19706,7 @@ angular.module('lumx.file-input').run(['$templateCache', function ($templateCach
 module.exports=v1
 
 /***/ }),
-/* 201 */
+/* 204 */
 /***/ (function(module, exports) {
 
 var v1='<div class="progress-container progress-container--{{ lxProgress.lxType }} progress-container--{{ lxProgress.lxColor }} {{ lxProgress.lxClass }}"><div class=progress-circular ng-if="lxProgress.lxType === \'circular\'" ng-style=lxProgress.getProgressDiameter()><svg class=progress-circular__svg><g transform="translate(50 50)"><g class=progress-circular__g><circle class=progress-circular__path cx=0 cy=0 r=20 fill=none stroke-width=4 stroke-miterlimit=10 ng-style=lxProgress.getCircularProgressValue()></circle></g></g></svg></div><div class=progress-linear ng-if="lxProgress.lxType === \'linear\'"><div class=progress-linear__background></div><div class="progress-linear__bar progress-linear__bar--first" ng-style=lxProgress.getLinearProgressValue()></div><div class="progress-linear__bar progress-linear__bar--second"></div></div></div>';
@@ -19827,7 +19714,7 @@ angular.module('lumx.progress').run(['$templateCache', function ($templateCache)
 module.exports=v1
 
 /***/ }),
-/* 202 */
+/* 205 */
 /***/ (function(module, exports) {
 
 var v1='<div class=search-filter ng-class=lxSearchFilter.getClass()><div class=search-filter__container><div class=search-filter__button><lx-button type=submit lx-size=l lx-color="{{ lxSearchFilter.color }}" lx-type=icon ng-click=lxSearchFilter.openInput()><i class="mdi mdi-magnify"></i></lx-button></div><div class=search-filter__input ng-transclude></div><div class=search-filter__clear><lx-button type=button lx-size=l lx-color="{{ lxSearchFilter.color }}" lx-type=icon ng-click=lxSearchFilter.clearInput()><i class="mdi mdi-close"></i></lx-button></div></div><div class=search-filter__loader ng-if=lxSearchFilter.isLoading><lx-progress lx-type=linear></lx-progress></div><lx-dropdown id="{{ lxSearchFilter.dropdownId }}" lx-effect=none lx-width=100% ng-if=lxSearchFilter.autocomplete><lx-dropdown-menu class=search-filter__autocomplete-list><ul><li ng-repeat="item in lxSearchFilter.autocompleteList track by $index"><a class=search-filter__autocomplete-item ng-class="{ \'search-filter__autocomplete-item--is-active\': lxSearchFilter.activeChoiceIndex === $index }" ng-click=lxSearchFilter.selectItem(item) ng-bind-html="item | lxSearchHighlight:lxSearchFilter.modelController.$viewValue:lxSearchFilter.icon"></a></li></ul></lx-dropdown-menu></lx-dropdown></div>';
@@ -19835,7 +19722,7 @@ angular.module('lumx.search-filter').run(['$templateCache', function ($templateC
 module.exports=v1
 
 /***/ }),
-/* 203 */
+/* 206 */
 /***/ (function(module, exports) {
 
 var v1='<div class=lx-step-nav ng-click=lxStepNav.parent.goToStep(lxStepNav.step.index) ng-class=lxStepNav.getClasses() lx-ripple><div class="lx-step-nav__indicator lx-step-nav__indicator--index" ng-if="lxStepNav.step.isValid === undefined"><span>{{ lxStepNav.step.index + 1 }}</span></div><div class="lx-step-nav__indicator lx-step-nav__indicator--icon" ng-if="lxStepNav.step.isValid === true"><lx-icon lx-id=check ng-if=!lxStepNav.step.isEditable></lx-icon><lx-icon lx-id=pencil ng-if=lxStepNav.step.isEditable></lx-icon></div><div class="lx-step-nav__indicator lx-step-nav__indicator--error" ng-if="lxStepNav.step.isValid === false"><lx-icon lx-id=alert></lx-icon></div><div class=lx-step-nav__wrapper><div class=lx-step-nav__label><span>{{ lxStepNav.step.label }}</span></div><div class=lx-step-nav__state><span ng-if="(lxStepNav.step.isValid === undefined || lxStepNav.step.isValid === true) && lxStepNav.step.isOptional">{{ lxStepNav.parent.labels.optional }}</span> <span ng-if="lxStepNav.step.isValid === false">{{ lxStepNav.step.errorMessage }}</span></div></div></div>';
@@ -19843,7 +19730,7 @@ angular.module('lumx.stepper').run(['$templateCache', function ($templateCache) 
 module.exports=v1
 
 /***/ }),
-/* 204 */
+/* 207 */
 /***/ (function(module, exports) {
 
 var v1='<div class=lx-step ng-class=lxStep.getClasses()><div class=lx-step__nav ng-if="lxStep.parent.layout === \'vertical\'"><lx-step-nav lx-active-index="{{ lxStep.parent.activeIndex }}" lx-step=lxStep.step></lx-step-nav></div><div class=lx-step__wrapper ng-if="lxStep.parent.activeIndex === lxStep.step.index"><div class=lx-step__content><ng-transclude></ng-transclude><div class=lx-step__progress ng-if=lxStep.step.isLoading><lx-progress lx-type=circular></lx-progress></div></div><div class=lx-step__actions ng-if="lxStep.parent.activeIndex === lxStep.step.index && lxStep.parent.controls"><div class="lx-step__action lx-step__action--continue"><lx-button ng-click=lxStep.submitStep() ng-disabled=lxStep.isLoading>{{ lxStep.parent.labels.continue }}</lx-button></div><div class="lx-step__action lx-step__action--cancel" ng-if=lxStep.parent.cancel><lx-button lx-color=black lx-type=flat ng-click=lxStep.parent.cancel() ng-disabled=lxStep.isLoading>{{ lxStep.parent.labels.cancel }}</lx-button></div><div class="lx-step__action lx-step__action--back" ng-if=lxStep.parent.isLinear><lx-button lx-color=black lx-type=flat ng-click=lxStep.previousStep() ng-disabled="lxStep.isLoading || lxStep.step.index === 0">{{ lxStep.parent.labels.back }}</lx-button></div></div></div></div>';
@@ -19851,43 +19738,11 @@ angular.module('lumx.stepper').run(['$templateCache', function ($templateCache) 
 module.exports=v1
 
 /***/ }),
-/* 205 */
+/* 208 */
 /***/ (function(module, exports) {
 
 var v1='<div class=lx-stepper ng-class=lxStepper.getClasses()><div class=lx-stepper__header ng-if="lxStepper.layout === \'horizontal\'"><div class=lx-stepper__nav><lx-step-nav lx-active-index="{{ lxStepper.activeIndex }}" lx-step=step ng-repeat="step in lxStepper.steps"></lx-step-nav></div><div class=lx-stepper__feedback ng-if=lxStepper.steps[lxStepper.activeIndex].feedback><span>{{ lxStepper.steps[lxStepper.activeIndex].feedback }}</span></div></div><div class=lx-stepper__steps ng-transclude></div></div>';
 angular.module('lumx.stepper').run(['$templateCache', function ($templateCache) {$templateCache.put('stepper.html', v1);}]);
-module.exports=v1
-
-/***/ }),
-/* 206 */
-/***/ (function(module, exports) {
-
-var v1='<div class=tabs__pane ng-transclude></div>';
-angular.module('lumx.tabs').run(['$templateCache', function ($templateCache) {$templateCache.put('tab-pane.html', v1);}]);
-module.exports=v1
-
-/***/ }),
-/* 207 */
-/***/ (function(module, exports) {
-
-var v1='<div class=tabs__pane ng-class="{ \'tabs__pane--is-disabled\': lxTab.ngDisabled }"><div ng-if=lxTab.tabIsActive() ng-transclude></div></div>';
-angular.module('lumx.tabs').run(['$templateCache', function ($templateCache) {$templateCache.put('tab.html', v1);}]);
-module.exports=v1
-
-/***/ }),
-/* 208 */
-/***/ (function(module, exports) {
-
-var v1='<div class="tabs tabs--separate"><div class=tabs__panes ng-transclude></div></div>';
-angular.module('lumx.tabs').run(['$templateCache', function ($templateCache) {$templateCache.put('tabs-panes.html', v1);}]);
-module.exports=v1
-
-/***/ }),
-/* 209 */
-/***/ (function(module, exports) {
-
-var v1='<div class="tabs tabs--layout-{{ lxTabs.layout }} tabs--theme-{{ lxTabs.theme }} tabs--color-{{ lxTabs.color }} tabs--indicator-{{ lxTabs.indicator }}"><div class=tabs__panes ng-if="lxTabs.viewMode === \'gather\' && lxTabs.bottomPosition" ng-transclude></div><div class=tabs__links><a class=tabs__link ng-class="{ \'tabs__link--is-active\': lxTabs.tabIsActive(tab.index),\n                       \'tabs__link--is-disabled\': tab.disabled }" ng-repeat="tab in lxTabs.tabs" ng-click=lxTabs.setActiveTab(tab) lx-ripple><i class="mdi mdi-{{ tab.icon }}" ng-if=tab.icon></i> <span ng-if=tab.label>{{ tab.label }}</span></a></div><div class=tabs__panes ng-if="lxTabs.viewMode === \'gather\' && !lxTabs.bottomPosition" ng-transclude></div><div class=tabs__indicator ng-class="{\'tabs__indicator--top\': !lxTabs.bottomPosition, \'tabs__indicator--bottom\': lxTabs.bottomPosition}"></div></div>';
-angular.module('lumx.tabs').run(['$templateCache', function ($templateCache) {$templateCache.put('tabs.html', v1);}]);
 module.exports=v1
 
 /***/ })
