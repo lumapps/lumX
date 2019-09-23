@@ -103,6 +103,16 @@ function AppDefaultConfig($locationProvider, $stateProvider, markedProvider) {
                 },
             },
         })
+        .state('app.components.notification', {
+            url: 'notification',
+            views: {
+                'main@': {
+                    controller: 'DemoNotificationController',
+                    controllerAs: 'vm',
+                    template: require('./components/notification/demo.html'),
+                },
+            },
+        })
         .state('app.components.radio-button', {
             url: 'radio-button',
             views: {
