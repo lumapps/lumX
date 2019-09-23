@@ -1,17 +1,27 @@
-<div class="tabs tabs--layout-{{ lxTabs.layout }} tabs--theme-{{ lxTabs.theme }} tabs--color-{{ lxTabs.color }} tabs--indicator-{{ lxTabs.indicator }}">
-    <div class="tabs__panes" ng-if="lxTabs.viewMode === 'gather' && lxTabs.bottomPosition" ng-transclude></div>
-    <div class="tabs__links">
-        <a class="tabs__link"
-           ng-class="{ 'tabs__link--is-active': lxTabs.tabIsActive(tab.index),
-                       'tabs__link--is-disabled': tab.disabled }"
-           ng-repeat="tab in lxTabs.tabs"
-           ng-click="lxTabs.setActiveTab(tab)"
-           lx-ripple>
-           <i class="mdi mdi-{{ tab.icon }}" ng-if="tab.icon"></i>
-           <span ng-if="tab.label">{{ tab.label }}</span>
+<div
+    class="lumx-tabs"
+    ng-class="{ 'lumx-tabs--theme-light': !lx.theme || lx.theme === 'light',
+                'lumx-tabs--theme-dark': lx.theme === 'dark',
+                'lumx-tabs--layout-fixed': !lx.layout || lx.layout === 'fixed',
+                'lumx-tabs--layout-clustered': lx.layout === 'clustered',
+                'lumx-tabs--position-left': !lx.position || lx.position === 'left',
+                'lumx-tabs--position-center': lx.position === 'center',
+                'lumx-tabs--position-right': lx.position === 'right' }"
+>
+    <div class="lumx-tabs__links">
+        <a
+            class="lumx-tabs__link"
+            ng-class="{ 'lumx-tabs__link--is-active': lx.isTabActive(tab.index),
+                        'lumx-tabs__link--is-disabled': tab.isDisabled }"
+            ng-repeat="tab in lx.tabs track by tab.uuid"
+            ng-click="lx.setActiveTab(tab)"
+            lx-enter-keypress="lx.setActiveTab(tab)"
+            tabindex="{{ tab.isDisabled ? -1 : 0 }}"
+        >
+            <lx-icon lx-path="{{ tab.icon }}" lx-size="xs" ng-if="tab.icon"></lx-icon>
+            <span ng-if="tab.label">{{ tab.label }}</span>
         </a>
     </div>
-    
-    <div class="tabs__panes" ng-if="lxTabs.viewMode === 'gather' && !lxTabs.bottomPosition" ng-transclude></div>
-    <div class="tabs__indicator" ng-class="{'tabs__indicator--top': !lxTabs.bottomPosition, 'tabs__indicator--bottom': lxTabs.bottomPosition}"></div>
+
+    <div class="lumx-tabs__panes" ng-transclude></div>
 </div>

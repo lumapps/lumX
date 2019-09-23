@@ -1,368 +1,136 @@
-(function()
-{
-    'use strict';
+import template from '../views/tabs.html';
 
-    angular
-        .module('lumx.tabs')
-        .directive('lxTabs', lxTabs)
-        .directive('lxTab', lxTab)
-        .directive('lxTabsPanes', lxTabsPanes)
-        .directive('lxTabPane', lxTabPane);
+/////////////////////////////
 
-    function lxTabs()
-    {
-        return {
-            restrict: 'E',
-            templateUrl: 'tabs.html',
-            scope:
-            {
-                layout: '@?lxLayout',
-                theme: '@?lxTheme',
-                color: '@?lxColor',
-                indicator: '@?lxIndicator',
-                activeTab: '=?lxActiveTab',
-                panesId: '@?lxPanesId',
-                links: '=?lxLinks',
-                position: '@?lxPosition'
-            },
-            controller: LxTabsController,
-            controllerAs: 'lxTabs',
-            bindToController: true,
-            replace: true,
-            transclude: true
-        };
+function TabsController() {
+    'ngInject';
+
+    // eslint-disable-next-line consistent-this
+    const lx = this;
+
+    /////////////////////////////
+    //                         //
+    //    Public attributes    //
+    //                         //
+    /////////////////////////////
+
+    /**
+     * The lactive tab index.
+     *
+     * @type {number}
+     */
+    lx.activeTab = angular.isDefined(lx.activeTab) ? lx.activeTab : 0;
+
+    /**
+     * The list of tabs.
+     *
+     * @type {Array}
+     */
+    lx.tabs = [];
+
+    /////////////////////////////
+    //                         //
+    //     Public functions    //
+    //                         //
+    /////////////////////////////
+
+    /**
+     * Add a tab to the list of tabs.
+     *
+     * @param {Object} tabToAdd The tab to add.
+     */
+    function addTab(tabToAdd) {
+        lx.tabs.push(tabToAdd);
     }
 
-    LxTabsController.$inject = ['LxUtilsService', '$element', '$scope', '$timeout'];
+    /**
+     * Check if a given tab is active.
+     *
+     * @param  {number}  tabIndex The tab index.
+     * @return {boolean} Whether the given tab is active or not.
+     */
+    function isTabActive(tabIndex) {
+        return lx.activeTab === tabIndex;
+    }
 
-    function LxTabsController(LxUtilsService, $element, $scope, $timeout)
-    {
-        var lxTabs = this;
-        var tabsLength;
-        var timer1;
-        var timer2;
-        var timer3;
-        var timer4;
+    /**
+     * Remove the given tab.
+     *
+     * @param {Object} tabToRemove The tab to remove.
+     */
+    function removeTab(tabToRemove) {
+        lx.tabs.splice(tabToRemove.index, 1);
 
-        lxTabs.removeTab = removeTab;
-        lxTabs.setActiveTab = setActiveTab;
-        lxTabs.setViewMode = setViewMode;
-        lxTabs.tabIsActive = tabIsActive;
-        lxTabs.updateTabs = updateTabs;
-
-        lxTabs.activeTab = angular.isDefined(lxTabs.activeTab) ? lxTabs.activeTab : 0;
-        lxTabs.color = angular.isDefined(lxTabs.color) ? lxTabs.color : 'primary';
-        lxTabs.indicator = angular.isDefined(lxTabs.indicator) ? lxTabs.indicator : 'accent';
-        lxTabs.layout = angular.isDefined(lxTabs.layout) ? lxTabs.layout : 'full';
-        lxTabs.tabs = [];
-        lxTabs.theme = angular.isDefined(lxTabs.theme) ? lxTabs.theme : 'light';
-        lxTabs.viewMode = angular.isDefined(lxTabs.links) ? 'separate' : 'gather';
-
-        $scope.$watch(function()
-        {
-            return lxTabs.activeTab;
-        }, function(_newActiveTab, _oldActiveTab)
-        {
-            timer1 = $timeout(function()
-            {
-                setIndicatorPosition(_oldActiveTab);
-
-                if (lxTabs.viewMode === 'separate')
-                {
-                    angular.element('#' + lxTabs.panesId).find('.tabs__pane').hide();
-                    angular.element('#' + lxTabs.panesId).find('.tabs__pane').eq(lxTabs.activeTab).show();
-                }
-            });
+        angular.forEach(lx.tabs, (tab, index) => {
+            tab.index = index;
         });
 
-        $scope.$watch(function()
-        {
-            return lxTabs.position;
-        }, function(_newPosition) {
-            lxTabs.bottomPosition = angular.isDefined(_newPosition) && (_newPosition === 'bottom');
-        });
-
-        $scope.$watch(function()
-        {
-            return lxTabs.links;
-        }, function(_newLinks)
-        {
-            lxTabs.viewMode = angular.isDefined(_newLinks) ? 'separate' : 'gather';
-
-            angular.forEach(_newLinks, function(link, index)
-            {
-                var tab = {
-                    uuid: (angular.isUndefined(link.uuid) || link.uuid.length === 0) ? LxUtilsService.generateUUID() : link.uuid,
-                    index: index,
-                    label: link.label,
-                    icon: link.icon,
-                    disabled: link.disabled
-                };
-
-                updateTabs(tab);
-            });
-        });
-
-        timer2 = $timeout(function()
-        {
-            tabsLength = lxTabs.tabs.length;
-        });
-
-        $scope.$on('$destroy', function()
-        {
-            $timeout.cancel(timer1);
-            $timeout.cancel(timer2);
-            $timeout.cancel(timer3);
-            $timeout.cancel(timer4);
-        });
-
-        ////////////
-
-        function removeTab(_tab)
-        {
-            lxTabs.tabs.splice(_tab.index, 1);
-
-            angular.forEach(lxTabs.tabs, function(tab, index)
-            {
-                tab.index = index;
-            });
-
-            if (lxTabs.activeTab === 0)
-            {
-                timer3 = $timeout(function()
-                {
-                    setIndicatorPosition();
-                });
-            }
-            else
-            {
-                setActiveTab(lxTabs.tabs[0]);
-            }
-        }
-
-        function setActiveTab(_tab)
-        {
-            if (!_tab.disabled)
-            {
-                lxTabs.activeTab = _tab.index;
-            }
-        }
-
-        function setIndicatorPosition(_previousActiveTab)
-        {
-            var direction = lxTabs.activeTab > _previousActiveTab ? 'right' : 'left';
-            var indicator = $element.find('.tabs__indicator');
-            var activeTab = $element.find('.tabs__link').eq(lxTabs.activeTab);
-            var indicatorLeft = activeTab.position().left;
-            var indicatorRight = $element.outerWidth() - (indicatorLeft + activeTab.outerWidth());
-
-            if (angular.isUndefined(_previousActiveTab))
-            {
-                indicator.css(
-                {
-                    left: indicatorLeft,
-                    right: indicatorRight
-                });
-            }
-            else
-            {
-                var animationProperties = {
-                    duration: 200,
-                    easing: 'easeOutQuint'
-                };
-
-                if (direction === 'left')
-                {
-                    indicator.velocity(
-                    {
-                        left: indicatorLeft
-                    }, animationProperties);
-
-                    indicator.velocity(
-                    {
-                        right: indicatorRight
-                    }, animationProperties);
-                }
-                else
-                {
-                    indicator.velocity(
-                    {
-                        right: indicatorRight
-                    }, animationProperties);
-
-                    indicator.velocity(
-                    {
-                        left: indicatorLeft
-                    }, animationProperties);
-                }
-            }
-        }
-
-        function setViewMode(_viewMode)
-        {
-            lxTabs.viewMode = _viewMode;
-        }
-
-        function tabIsActive(_index)
-        {
-            return lxTabs.activeTab === _index;
-        }
-
-        function updateTabs(_tab)
-        {
-            var newTab = true;
-
-            angular.forEach(lxTabs.tabs, function(tab)
-            {
-                if (tab.index === _tab.index)
-                {
-                    newTab = false;
-
-                    tab.uuid = _tab.uuid;
-                    tab.icon = _tab.icon;
-                    tab.label = _tab.label;
-                }
-            });
-
-            if (newTab)
-            {
-                lxTabs.tabs.push(_tab);
-
-                if (angular.isDefined(tabsLength))
-                {
-                    timer4 = $timeout(function()
-                    {
-                        setIndicatorPosition();
-                    });
-                }
-            }
+        if (lx.tabs.length > 0) {
+            lx.setActiveTab(lx.tabs[0]);
         }
     }
 
-    function lxTab()
-    {
-        return {
-            restrict: 'E',
-            require: ['lxTab', '^lxTabs'],
-            templateUrl: 'tab.html',
-            scope:
-            {
-                ngDisabled: '=?'
-            },
-            link: link,
-            controller: LxTabController,
-            controllerAs: 'lxTab',
-            bindToController: true,
-            replace: true,
-            transclude: true
-        };
-
-        function link(scope, element, attrs, ctrls)
-        {
-            ctrls[0].init(ctrls[1], element.index());
-
-            attrs.$observe('lxLabel', function(_newLabel)
-            {
-                ctrls[0].setLabel(_newLabel);
-            });
-
-            attrs.$observe('lxIcon', function(_newIcon)
-            {
-                ctrls[0].setIcon(_newIcon);
-            });
+    /**
+     * Set the given tab as active.
+     *
+     * @param {Object} tab The tab.
+     */
+    function setActiveTab(tab) {
+        if (tab.isDisabled) {
+            return;
         }
+
+        lx.activeTab = tab.index;
     }
 
-    LxTabController.$inject = ['$scope', 'LxUtilsService'];
-
-    function LxTabController($scope, LxUtilsService)
-    {
-        var lxTab = this;
-        var parentCtrl;
-        var tab = {
-            uuid: LxUtilsService.generateUUID(),
-            index: undefined,
-            label: undefined,
-            icon: undefined,
-            disabled: false
-        };
-
-        lxTab.init = init;
-        lxTab.setIcon = setIcon;
-        lxTab.setLabel = setLabel;
-        lxTab.tabIsActive = tabIsActive;
-
-        $scope.$watch(function()
-        {
-            return lxTab.ngDisabled;
-        }, function(_isDisabled)
-        {
-            if (_isDisabled)
-            {
-                tab.disabled = true;
+    /**
+     * Update the given tab.
+     *
+     * @param {Object} updatedTab The tab to update.
+     */
+    function updateTab(updatedTab) {
+        angular.forEach(lx.tabs, (tab) => {
+            if (tab.uuid === updatedTab.uuid) {
+                tab = updatedTab;
             }
-            else
-            {
-                tab.disabled = false;
-            }
-
-            parentCtrl.updateTabs(tab);
         });
-
-        $scope.$on('$destroy', function()
-        {
-            parentCtrl.removeTab(tab);
-        });
-
-        ////////////
-
-        function init(_parentCtrl, _index)
-        {
-            parentCtrl = _parentCtrl;
-            tab.index = _index;
-
-            parentCtrl.updateTabs(tab);
-        }
-
-        function setIcon(_icon)
-        {
-            tab.icon = _icon;
-
-            parentCtrl.updateTabs(tab);
-        }
-
-        function setLabel(_label)
-        {
-            tab.label = _label;
-
-            parentCtrl.updateTabs(tab);
-        }
-
-        function tabIsActive()
-        {
-            return parentCtrl.tabIsActive(tab.index);
-        }
     }
 
-    function lxTabsPanes()
-    {
-        return {
-            restrict: 'E',
-            templateUrl: 'tabs-panes.html',
-            scope: true,
-            replace: true,
-            transclude: true
-        };
-    }
+    /////////////////////////////
 
-    function lxTabPane()
-    {
-        return {
-            restrict: 'E',
-            templateUrl: 'tab-pane.html',
-            scope: true,
-            replace: true,
-            transclude: true
-        };
-    }
-})();
+    lx.addTab = addTab;
+    lx.isTabActive = isTabActive;
+    lx.removeTab = removeTab;
+    lx.setActiveTab = setActiveTab;
+    lx.updateTab = updateTab;
+}
+
+/////////////////////////////
+
+function TabsDirective() {
+    'ngInject';
+
+    return {
+        bindToController: true,
+        controller: TabsController,
+        controllerAs: 'lx',
+        replace: true,
+        restrict: 'E',
+        scope: {
+            activeTab: '=?lxActiveTab',
+            layout: '@?lxLayout',
+            position: '@?lxPosition',
+            theme: '@?lxTheme',
+        },
+        template,
+        transclude: true,
+    };
+}
+
+/////////////////////////////
+
+angular.module('lumx.tabs').directive('lxTabs', TabsDirective);
+
+/////////////////////////////
+
+export { TabsDirective };

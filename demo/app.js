@@ -143,6 +143,16 @@ function AppDefaultConfig($locationProvider, $stateProvider, markedProvider) {
                 },
             },
         })
+        .state('app.components.tabs', {
+            url: 'tabs',
+            views: {
+                'main@': {
+                    controller: 'DemoTabsController',
+                    controllerAs: 'vm',
+                    template: require('./components/tabs/demo.html'),
+                },
+            },
+        })
         .state('app.components.text-field', {
             url: 'text-field',
             views: {
