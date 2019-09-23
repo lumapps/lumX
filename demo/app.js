@@ -162,6 +162,14 @@ function AppDefaultConfig($locationProvider, $stateProvider, markedProvider) {
                     template: require('./components/toolbar/demo.html'),
                 },
             },
+        })
+        .state('app.components.tooltip', {
+            url: 'tooltip',
+            views: {
+                'main@': {
+                    template: require('./components/tooltip/demo.html'),
+                },
+            },
         });
 }
 

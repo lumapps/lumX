@@ -1,200 +1,175 @@
-(function()
-{
-    'use strict';
+import PopperJs from 'popper.js';
 
-    angular
-        .module('lumx.tooltip')
-        .directive('lxTooltip', lxTooltip);
+import { CSS_PREFIX } from '@lumx/core/js/constants';
 
-    function lxTooltip()
-    {
-        return {
-            restrict: 'A',
-            scope:
-            {
-                tooltip: '@lxTooltip',
-                position: '@?lxTooltipPosition'
+/////////////////////////////
+
+function TooltipController($element, $timeout, LxDepthService) {
+    'ngInject';
+
+    // eslint-disable-next-line consistent-this
+    const lx = this;
+
+    /////////////////////////////
+    //                         //
+    //    Private attributes   //
+    //                         //
+    /////////////////////////////
+
+    /**
+     * Delay before showing the tooltip on source element mouse enter.
+     *
+     * @type {number}
+     * @constant
+     * @readonly
+     */
+    const _HOVER_DELAY = 500;
+
+    /**
+     * The tooltip element.
+     *
+     * @type {element}
+     */
+    let _hoverTimeout;
+
+    /**
+     * The tooltip label element.
+     *
+     * @type {element}
+     */
+    // eslint-disable-next-line one-var
+    let _tooltip;
+
+    /**
+     * The source element mouse enter timeout.
+     *
+     * @type {element}
+     */
+    // eslint-disable-next-line one-var
+    let _tooltipArrow;
+
+    /**
+     * The source element mouse enter timeout.
+     *
+     * @type {element}
+     */
+    // eslint-disable-next-line one-var
+    let _tooltipInner;
+
+    /////////////////////////////
+    //                         //
+    //    Private functions    //
+    //                         //
+    /////////////////////////////
+
+    /**
+     * Set the tooltip position according to the position parameter.
+     */
+    function _setTooltipPosition() {
+        _tooltip.appendTo('body');
+
+        // eslint-disable-next-line no-new
+        new PopperJs($element, _tooltip, {
+            placement: lx.position || 'top',
+            modifiers: {
+                arrow: {
+                    // eslint-disable-next-line id-blacklist
+                    element: `.${CSS_PREFIX}-tooltip__arrow`,
+                    enabled: true,
+                },
             },
-            link: link,
-            controller: LxTooltipController,
-            controllerAs: 'lxTooltip',
-            bindToController: true
-        };
-
-        function link(scope, element, attrs, ctrl)
-        {
-            if (angular.isDefined(attrs.lxTooltip))
-            {
-                attrs.$observe('lxTooltip', function(newValue)
-                {
-                    ctrl.updateTooltipText(newValue);
-                });
-            }
-
-            if (angular.isDefined(attrs.lxTooltipPosition))
-            {
-                attrs.$observe('lxTooltipPosition', function(newValue)
-                {
-                    scope.lxTooltip.position = newValue;
-                });
-            }
-
-            if (angular.element(window).outerWidth() > 768) {
-                element.on('mouseenter', ctrl.showTooltip);
-                element.on('mouseleave', ctrl.hideTooltip);
-            }
-
-            scope.$on('$destroy', function()
-            {
-                element.off();
-            });
-        }
+        });
     }
 
-    LxTooltipController.$inject = ['$element', '$scope', '$timeout', 'LxDepthService', 'LxUtilsService'];
+    /////////////////////////////
+    //                         //
+    //     Public functions    //
+    //                         //
+    /////////////////////////////
 
-    function LxTooltipController($element, $scope, $timeout, LxDepthService, LxUtilsService)
-    {
-        var lxTooltip = this;
-        var timer1;
-        var timer2;
-        var tooltip;
-        var tooltipBackground;
-        var tooltipLabel;
+    /**
+     * Hide the tooltip on source element mouse leave.
+     */
+    function hideTooltip() {
+        if (angular.isUndefined(_tooltip)) {
+            return;
+        }
 
-        lxTooltip.hideTooltip = hideTooltip;
-        lxTooltip.showTooltip = showTooltip;
-        lxTooltip.updateTooltipText = updateTooltipText;
+        $timeout.cancel(_hoverTimeout);
 
-        lxTooltip.position = angular.isDefined(lxTooltip.position) ? lxTooltip.position : 'top';
+        _tooltip.remove();
+        _tooltip = undefined;
+    }
 
-        $scope.$on('$destroy', function()
-        {
-            if (angular.isDefined(tooltip))
-            {
-                tooltip.remove();
-                tooltip = undefined;
-            }
+    /**
+     * Show the tooltip on source element mouse enter.
+     */
+    function showTooltip() {
+        if (angular.isDefined(_tooltip)) {
+            return;
+        }
 
-            $timeout.cancel(timer1);
-            $timeout.cancel(timer2);
+        _tooltip = angular.element('<div/>', {
+            class: `${CSS_PREFIX}-tooltip`,
         });
 
-        ////////////
+        _tooltipArrow = angular.element('<div/>', {
+            class: `${CSS_PREFIX}-tooltip__arrow`,
+        });
 
-        function hideTooltip()
-        {
-            if (angular.isDefined(tooltip))
-            {
-                tooltip.removeClass('tooltip--is-active');
+        _tooltipInner = angular.element('<span/>', {
+            class: `${CSS_PREFIX}-tooltip__inner`,
+            text: lx.text,
+        });
 
-                timer1 = $timeout(function()
-                {
-                    if (angular.isDefined(tooltip))
-                    {
-                        angular.element(document).off('scroll', _debouncedSetPosition);
-                        tooltip.remove();
-                        tooltip = undefined;
-                    }
-                }, 200);
-            }
-        }
+        LxDepthService.increase();
 
-        function setTooltipPosition()
-        {
-            var topOffset = ($('.scroll-mask')) ? $('body').css('top') : 0;
-            topOffset = (topOffset) ? parseInt(topOffset, 10) : 0;
-            topOffset = (isNaN(topOffset)) ? 0 : topOffset;
+        _tooltip
+            .append(_tooltipArrow)
+            .append(_tooltipInner)
+            .css('z-index', LxDepthService.get());
 
-            var width = $element.outerWidth(),
-                height = $element.outerHeight(),
-                top = $element.offset().top - topOffset,
-                left = $element.offset().left;
-
-            tooltip
-                .append(tooltipBackground)
-                .append(tooltipLabel)
-                .appendTo('body');
-
-            if (lxTooltip.position === 'top')
-            {
-                tooltip.css(
-                {
-                    left: left - (tooltip.outerWidth() / 2) + (width / 2),
-                    top: top - tooltip.outerHeight()
-                });
-            }
-            else if (lxTooltip.position === 'bottom')
-            {
-                tooltip.css(
-                {
-                    left: left - (tooltip.outerWidth() / 2) + (width / 2),
-                    top: top + height
-                });
-            }
-            else if (lxTooltip.position === 'left')
-            {
-                tooltip.css(
-                {
-                    left: left - tooltip.outerWidth(),
-                    top: top + (height / 2) - (tooltip.outerHeight() / 2)
-                });
-            }
-            else if (lxTooltip.position === 'right')
-            {
-                tooltip.css(
-                {
-                    left: left + width,
-                    top: top + (height / 2) - (tooltip.outerHeight() / 2)
-                });
-            }
-        }
-        var _debouncedSetPosition = LxUtilsService.debounce(setTooltipPosition, 250);
-
-        function showTooltip()
-        {
-            if (angular.isUndefined(tooltip))
-            {
-                LxDepthService.register();
-
-                tooltip = angular.element('<div/>',
-                {
-                    class: 'tooltip tooltip--' + lxTooltip.position
-                });
-
-                tooltipBackground = angular.element('<div/>',
-                {
-                    class: 'tooltip__background'
-                });
-
-                tooltipLabel = angular.element('<span/>',
-                {
-                    class: 'tooltip__label',
-                    text: lxTooltip.tooltip
-                });
-
-                setTooltipPosition();
-                angular.element(document).on('scroll', _debouncedSetPosition);
-
-                tooltip
-                    .append(tooltipBackground)
-                    .append(tooltipLabel)
-                    .css('z-index', LxDepthService.getDepth())
-                    .appendTo('body');
-
-                timer2 = $timeout(function()
-                {
-                    tooltip.addClass('tooltip--is-active');
-                });
-            }
-        }
-
-        function updateTooltipText(_newValue)
-        {
-            if (angular.isDefined(tooltipLabel))
-            {
-                tooltipLabel.text(_newValue);
-            }
-        }
+        _hoverTimeout = $timeout(_setTooltipPosition, _HOVER_DELAY);
     }
-})();
+
+    /////////////////////////////
+
+    lx.hideTooltip = hideTooltip;
+    lx.showTooltip = showTooltip;
+}
+
+/////////////////////////////
+
+function TooltipDirective() {
+    'ngInject';
+
+    function link(scope, el, attrs, ctrl) {
+        el.on('mouseenter', ctrl.showTooltip);
+        el.on('mouseleave', ctrl.hideTooltip);
+
+        scope.$on('$destroy', () => {
+            ctrl.hideTooltip();
+            el.off();
+        });
+    }
+
+    return {
+        bindToController: true,
+        controller: TooltipController,
+        controllerAs: 'lx',
+        link,
+        restrict: 'A',
+        scope: {
+            position: '@?lxTooltipPosition',
+            text: '@lxTooltip',
+        },
+    };
+}
+
+/////////////////////////////
+
+angular.module('lumx.tooltip').directive('lxTooltip', TooltipDirective);
+
+/////////////////////////////
+
+export { TooltipDirective };
