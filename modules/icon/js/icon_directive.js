@@ -4,6 +4,48 @@ import template from '../views/icon.html';
 
 /////////////////////////////
 
+function IconController() {
+    'ngInject';
+
+    // eslint-disable-next-line consistent-this
+    const lx = this;
+
+    /////////////////////////////
+    //                         //
+    //     Public functions    //
+    //                         //
+    /////////////////////////////
+
+    /**
+     * Get link classes.
+     *
+     * @return {Array} The list of link classes.
+     */
+    function getClasses() {
+        const classes = [];
+
+        if (angular.isDefined(lx.color)) {
+            classes.push(`${CSS_PREFIX}-icon--color-${lx.color}`);
+        }
+
+        if (angular.isDefined(lx.colorVariant)) {
+            classes.push(`${CSS_PREFIX}-icon--color-variant-${lx.colorVariant}`);
+        }
+
+        if (angular.isDefined(lx.size)) {
+            classes.push(`${CSS_PREFIX}-icon--size-${lx.size}`);
+        }
+
+        return classes;
+    }
+
+    /////////////////////////////
+
+    lx.getClasses = getClasses;
+}
+
+/////////////////////////////
+
 function IconDirective() {
     'ngInject';
 
@@ -16,42 +58,20 @@ function IconDirective() {
         attrs.$observe('lxId', (font) => {
             el.addClass(`${CSS_PREFIX}-icon--font mdi mdi-${font}`);
         });
-
-        attrs.$observe('lxColor', (color) => {
-            if (!color) {
-                return;
-            }
-
-            el.removeClass((index, className) => {
-                return (className.match(/(?:\S|-)*icon--color-\S+/g) || []).join(' ');
-            }).addClass(`${CSS_PREFIX}-icon--color-${color}`);
-        });
-
-        attrs.$observe('lxColorVariant', (colorVariant) => {
-            if (!colorVariant) {
-                return;
-            }
-
-            el.removeClass((index, className) => {
-                return (className.match(/(?:\S|-)*icon--color-variant-\S+/g) || []).join(' ');
-            }).addClass(`${CSS_PREFIX}-icon--color-variant-${colorVariant}`);
-        });
-
-        attrs.$observe('lxSize', (size) => {
-            if (!size) {
-                return;
-            }
-
-            el.removeClass((index, className) => {
-                return (className.match(/(?:\S|-)*icon--size-\S+/g) || []).join(' ');
-            }).addClass(`${CSS_PREFIX}-icon--size-${size}`);
-        });
     }
 
     return {
+        bindToController: true,
+        controller: IconController,
+        controllerAs: 'lx',
         link,
         replace: true,
         restrict: 'E',
+        scope: {
+            color: '@?lxColor',
+            colorVariant: '@?lxColorVariant',
+            size: '@?lxSize',
+        },
         template,
     };
 }
