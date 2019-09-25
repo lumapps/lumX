@@ -1,0 +1,32 @@
+<th
+    class="lumx-table__cell lumx-table__cell--head"
+    ng-class="{ 'lumx-table__cell--is-sortable': lx.isSortable,
+                'lumx-table__cell--is-sorted': lx.isSortable && lx.sortOrder }"
+    scope="{{ lx.scope }}"
+    tabindex="{{ lx.isSortable ? 0 : -1 }}"
+>
+    <div class="lumx-table__cell-wrapper">
+        <lx-icon
+            class="lumx-table__cell-icon"
+            lx-path="{{ lx.icon }}"
+            lx-size="xxs"
+            ng-if="lx.icon && !lx.isSortable"
+        ></lx-icon>
+
+        <lx-icon
+            class="lumx-table__cell-icon"
+            lx-path="{{ lx.icons.mdiArrowUp }}"
+            lx-size="xxs"
+            ng-if="lx.isSortable && lx.sortOrder === 'asc'"
+        ></lx-icon>
+
+        <lx-icon
+            class="lumx-table__cell-icon"
+            lx-path="{{ lx.icons.mdiArrowDown }}"
+            lx-size="xxs"
+            ng-if="lx.isSortable && lx.sortOrder === 'desc'"
+        ></lx-icon>
+
+        <div class="lumx-table__cell-content" ng-transclude></div>
+    </div>
+</th>

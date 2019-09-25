@@ -1,0 +1,9 @@
+<table
+    class="lumx-table"
+    ng-class="{ 'lumx-table--has-before': lx.hasBefore,
+                'lumx-table--has-dividers': lx.hasDividers,
+                'lumx-table--is-clickable': lx.isClickable,
+                'lumx-table--theme-light': !lx.theme || lx.theme === 'light',
+                'lumx-table--theme-dark': lx.theme === 'dark' }"
+    ng-transclude
+></table>

@@ -21,7 +21,6 @@ const baseConfig = {
             ...glob.sync(`${MODULES_PATH}/**/*.js`),
             ...glob.sync(`${MODULES_PATH}/checkbox/views/*.html`),
             ...glob.sync(`${MODULES_PATH}/chip/views/*.html`),
-            ...glob.sync(`${MODULES_PATH}/data-table/views/*.html`),
             ...glob.sync(`${MODULES_PATH}/date-picker/views/*.html`),
             ...glob.sync(`${MODULES_PATH}/dialog/views/*.html`),
             ...glob.sync(`${MODULES_PATH}/dropdown/views/*.html`),
@@ -37,6 +36,7 @@ const baseConfig = {
             ...glob.sync(`${MODULES_PATH}/side-navigation/views/*.html`),
             ...glob.sync(`${MODULES_PATH}/stepper/views/*.html`),
             ...glob.sync(`${MODULES_PATH}/switch/views/*.html`),
+            ...glob.sync(`${MODULES_PATH}/table/views/*.html`),
             ...glob.sync(`${MODULES_PATH}/tabs/views/*.html`),
             ...glob.sync(`${MODULES_PATH}/text-field/views/*.html`),
             ...glob.sync(`${MODULES_PATH}/toolbar/views/*.html`),
@@ -87,11 +87,6 @@ const baseConfig = {
                 include: [/modules/u],
                 test: /\/chip\/.*\.html$/,
                 loader: 'angular-templatecache-loader-2?module=lumx.chip&relativeTo=modules/chip/views/',
-            },
-            {
-                include: [/modules/u],
-                test: /\/data-table\/.*\.html$/,
-                loader: 'angular-templatecache-loader-2?module=lumx.data-table&relativeTo=modules/data-table/views/',
             },
             {
                 include: [/modules/u],
@@ -170,6 +165,11 @@ const baseConfig = {
                 include: [/modules/u],
                 test: /\/switch\/.*\.html$/,
                 loader: 'angular-templatecache-loader-2?module=lumx.switch&relativeTo=modules/switch/views/',
+            },
+            {
+                include: [/modules/u],
+                test: /\/table\/.*\.html$/,
+                loader: 'angular-templatecache-loader-2?module=lumx.table&relativeTo=modules/table/views/',
             },
             {
                 include: [/modules/u],

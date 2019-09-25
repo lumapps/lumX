@@ -23,7 +23,6 @@ angular.module('lumx.utils', [
 angular.module('lumx.button', []);
 angular.module('lumx.checkbox', []);
 angular.module('lumx.chip', []);
-angular.module('lumx.data-table', []);
 angular.module('lumx.date-picker', []);
 angular.module('lumx.dialog', ['lumx.utils.event-scheduler']);
 angular.module('lumx.dropdown', ['lumx.utils.event-scheduler']);
@@ -42,6 +41,7 @@ angular.module('lumx.select', []);
 angular.module('lumx.side-navigation', []);
 angular.module('lumx.stepper', []);
 angular.module('lumx.switch', []);
+angular.module('lumx.table', []);
 angular.module('lumx.tabs', []);
 angular.module('lumx.text-field', []);
 angular.module('lumx.toolbar', []);
@@ -51,7 +51,6 @@ angular.module('lumx', [
     'lumx.button',
     'lumx.checkbox',
     'lumx.chip',
-    'lumx.data-table',
     'lumx.date-picker',
     'lumx.dialog',
     'lumx.dropdown',
@@ -70,6 +69,7 @@ angular.module('lumx', [
     'lumx.side-navigation',
     'lumx.stepper',
     'lumx.switch',
+    'lumx.table',
     'lumx.tabs',
     'lumx.text-field',
     'lumx.toolbar',

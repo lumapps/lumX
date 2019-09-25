@@ -1,0 +1,95 @@
+<lx-table lx-has-before="true" lx-has-dividers="true" lx-is-clickable="true" lx-theme="{{ demoBlock.theme }}">
+    <lx-table-head>
+        <lx-table-row>
+            <lx-table-cell-head>
+                <lx-checkbox lx-theme="{{ demoBlock.theme }}" ng-model="vm.allSelected"></lx-checkbox>
+            </lx-table-cell-head>
+
+            <lx-table-cell-head
+                width="{{ cell.width }}"
+                lx-icon="{{ cell.icon }}"
+                lx-is-sortable="cell.isSortable"
+                lx-scope="col"
+                lx-sort-order="{{ cell.sortOrder }}"
+                lx-variant="head"
+                ng-click="vm.updateSort(cell)"
+                lx-enter-keypress="vm.updateSort(cell)"
+                ng-repeat="cell in vm.tableHead"
+            >
+                {{ cell.label }}
+            </lx-table-cell-head>
+        </lx-table-row>
+    </lx-table-head>
+
+    <lx-table-body>
+        <lx-table-row
+            lx-is-selected="row.isSelected"
+            ng-repeat="row in vm.tableBody"
+            ng-click="vm.selectRow(row)"
+            lx-enter-keypress="vm.selectRow(row)"
+        >
+            <lx-table-cell-body>
+                <lx-checkbox
+                    lx-theme="{{ demoBlock.theme }}"
+                    ng-model="row.isSelected"
+                    lx-stop-propagation="click"
+                ></lx-checkbox>
+            </lx-table-cell-body>
+
+            <lx-table-cell-body>
+                <lx-grid lx-h-align="center">
+                    <lx-grid-item>
+                        <lx-grid lx-h-align="center">
+                            <lx-thumbnail
+                                class="lumx-spacing-margin-right-big"
+                                lx-aspect-ratio="square"
+                                lx-image="https://picsum.photos/72/72/?random"
+                                lx-size="m"
+                                lx-variant="rounded"
+                            ></lx-thumbnail>
+
+                            <lx-link
+                                lx-color="{{ demoBlock.theme === 'dark' ? 'light' : 'dark' }}"
+                                lx-stop-propagation="click"
+                            >
+                                <span class="lumx-typography-subtitle1">{{ row.dessert }}</span>
+                            </lx-link>
+                        </lx-grid>
+                    </lx-grid-item>
+
+                    <lx-grid lx-h-align="center">
+                        <lx-button
+                            lx-emphasis="low"
+                            lx-theme="{{ demoBlock.theme }}"
+                            lx-variant="icon"
+                            lx-stop-propagation="click"
+                        >
+                            <lx-icon lx-path="{{ vm.icons.mdiInformationOutline }}"></lx-icon>
+                        </lx-button>
+
+                        <lx-button
+                            lx-emphasis="low"
+                            lx-theme="{{ demoBlock.theme }}"
+                            lx-variant="icon"
+                            lx-stop-propagation="click"
+                        >
+                            <lx-icon lx-path="{{ vm.icons.mdiDotsVertical }}"></lx-icon>
+                        </lx-button>
+                    </lx-grid>
+                </lx-grid>
+            </lx-table-cell-body>
+
+            <lx-table-cell-body>
+                {{ row.calories }}
+            </lx-table-cell-body>
+
+            <lx-table-cell-body>
+                {{ row.fat }}
+            </lx-table-cell-body>
+
+            <lx-table-cell-body>
+                {{ row.comments }}
+            </lx-table-cell-body>
+        </lx-table-row>
+    </lx-table-body>
+</lx-table>
