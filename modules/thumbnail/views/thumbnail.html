@@ -1,12 +1,4 @@
-<div
-    class="lumx-thumbnail"
-    ng-class="{ 'lumx-thumbnail--align-left': !lx.align || lx.align === 'left',
-                'lumx-thumbnail--align-center': lx.align === 'center',
-                'lumx-thumbnail--align-right': lx.align === 'right',
-                'lumx-thumbnail--fill-height': lx.fillHeight,
-                'lumx-thumbnail--theme-light': !lx.theme || lx.theme === 'light',
-                'lumx-thumbnail--theme-dark': lx.theme === 'dark' }"
->
+<div class="lumx-thumbnail" ng-class="lx.getClasses()">
     <div
         class="lumx-thumbnail__background"
         ng-style="lx.getBackgroundImage()"

@@ -10,6 +10,26 @@ function ThumbnailController() {
 
     /////////////////////////////
     //                         //
+    //    Private attributes   //
+    //                         //
+    /////////////////////////////
+
+    /**
+     * The default props.
+     *
+     * @type {Object}
+     * @constant
+     * @readonly
+     */
+    const _DEFAULT_PROPS = {
+        align: 'left',
+        aspectRatio: 'original',
+        theme: 'light',
+        variant: 'squared',
+    };
+
+    /////////////////////////////
+    //                         //
     //     Public functions    //
     //                         //
     /////////////////////////////
@@ -29,9 +49,53 @@ function ThumbnailController() {
         };
     }
 
+    /**
+     * Get thumbnail classes.
+     *
+     * @return {Array} The list of thumbnail classes.
+     */
+    function getClasses() {
+        const classes = [];
+
+        if (angular.isUndefined(lx.align)) {
+            classes.push(`${CSS_PREFIX}-thumbnail--align-${_DEFAULT_PROPS.align}`);
+        } else {
+            classes.push(`${CSS_PREFIX}-thumbnail--align-${lx.align}`);
+        }
+
+        if (angular.isUndefined(lx.aspectRatio)) {
+            classes.push(`${CSS_PREFIX}-thumbnail--aspect-ratio-${_DEFAULT_PROPS.aspectRatio}`);
+        } else {
+            classes.push(`${CSS_PREFIX}-thumbnail--aspect-ratio-${lx.aspectRatio}`);
+        }
+
+        if (lx.fillHeight) {
+            classes.push(`${CSS_PREFIX}-thumbnail--fill-height`);
+        }
+
+        if (angular.isDefined(lx.size)) {
+            classes.push(`${CSS_PREFIX}-thumbnail--size-${lx.size}`);
+        }
+
+        if (angular.isUndefined(lx.theme)) {
+            classes.push(`${CSS_PREFIX}-thumbnail--theme-${_DEFAULT_PROPS.theme}`);
+        } else {
+            classes.push(`${CSS_PREFIX}-thumbnail--theme-${lx.theme}`);
+        }
+
+        if (angular.isUndefined(lx.variant)) {
+            classes.push(`${CSS_PREFIX}-thumbnail--variant-${_DEFAULT_PROPS.variant}`);
+        } else {
+            classes.push(`${CSS_PREFIX}-thumbnail--variant-${lx.variant}`);
+        }
+
+        return classes;
+    }
+
     /////////////////////////////
 
     lx.getBackgroundImage = getBackgroundImage;
+    lx.getClasses = getClasses;
 }
 
 /////////////////////////////
@@ -39,56 +103,10 @@ function ThumbnailController() {
 function ThumbnailDirective() {
     'ngInject';
 
-    function link(scope, el, attrs) {
-        const defaultProps = {
-            aspectRatio: 'original',
-            variant: 'squared',
-        };
-
-        if (!attrs.lxAspectRatio) {
-            el.addClass(`${CSS_PREFIX}-thumbnail--aspect-ratio-${defaultProps.aspectRatio}`);
-        }
-
-        attrs.$observe('lxAspectRatio', (aspectRatio) => {
-            if (!aspectRatio) {
-                return;
-            }
-
-            el.removeClass((index, className) => {
-                return (className.match(/(?:\S|-)*thumbnail--aspect-ratio-\S+/g) || []).join(' ');
-            }).addClass(`${CSS_PREFIX}-thumbnail--aspect-ratio-${aspectRatio}`);
-        });
-
-        attrs.$observe('lxSize', (size) => {
-            if (!size) {
-                return;
-            }
-
-            el.removeClass((index, className) => {
-                return (className.match(/(?:\S|-)*thumbnail--size-\S+/g) || []).join(' ');
-            }).addClass(`${CSS_PREFIX}-thumbnail--size-${size}`);
-        });
-
-        if (!attrs.lxVariant) {
-            el.addClass(`${CSS_PREFIX}-thumbnail--variant-${defaultProps.variant}`);
-        }
-
-        attrs.$observe('lxVariant', (variant) => {
-            if (!variant) {
-                return;
-            }
-
-            el.removeClass((index, className) => {
-                return (className.match(/(?:\S|-)*thumbnail--variant-\S+/g) || []).join(' ');
-            }).addClass(`${CSS_PREFIX}-thumbnail--variant-${variant}`);
-        });
-    }
-
     return {
         bindToController: true,
         controller: ThumbnailController,
         controllerAs: 'lx',
-        link,
         replace: true,
         restrict: 'E',
         scope: {
@@ -96,7 +114,9 @@ function ThumbnailDirective() {
             aspectRatio: '@?lxAspectRatio',
             fillHeight: '=?lxFillHeight',
             image: '@lxImage',
+            size: '@?lxSize',
             theme: '@?lxTheme',
+            variant: '@?lxVariant',
         },
         template,
     };
