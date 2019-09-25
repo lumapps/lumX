@@ -39,6 +39,7 @@ const baseConfig = {
             ...glob.sync(`${MODULES_PATH}/table/views/*.html`),
             ...glob.sync(`${MODULES_PATH}/tabs/views/*.html`),
             ...glob.sync(`${MODULES_PATH}/text-field/views/*.html`),
+            ...glob.sync(`${MODULES_PATH}/thumbnail/views/*.html`),
             ...glob.sync(`${MODULES_PATH}/toolbar/views/*.html`),
         ],
     },
@@ -180,6 +181,11 @@ const baseConfig = {
                 include: [/modules/u],
                 test: /\/text-field\/.*\.html$/,
                 loader: 'angular-templatecache-loader-2?module=lumx.text-field&relativeTo=modules/text-field/views/',
+            },
+            {
+                include: [/modules/u],
+                test: /\/thumbnail\/.*\.html$/,
+                loader: 'angular-templatecache-loader-2?module=lumx.thumbnail&relativeTo=modules/thumbnail/views/',
             },
             {
                 include: [/modules/u],

@@ -173,6 +173,14 @@ function AppDefaultConfig($locationProvider, $stateProvider, markedProvider) {
                 },
             },
         })
+        .state('app.components.thumbnail', {
+            url: 'thumbnail',
+            views: {
+                'main@': {
+                    template: require('./components/thumbnail/demo.html'),
+                },
+            },
+        })
         .state('app.components.toolbar', {
             url: 'toolbar',
             views: {

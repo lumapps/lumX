@@ -30,6 +30,7 @@ angular.module('lumx.fab', []);
 angular.module('lumx.file-input', []);
 angular.module('lumx.grid', []);
 angular.module('lumx.icon', []);
+angular.module('lumx.link', []);
 angular.module('lumx.list', []);
 angular.module('lumx.notification', ['lumx.utils.event-scheduler']);
 angular.module('lumx.popover', []);
@@ -44,6 +45,7 @@ angular.module('lumx.switch', []);
 angular.module('lumx.table', []);
 angular.module('lumx.tabs', []);
 angular.module('lumx.text-field', []);
+angular.module('lumx.thumbnail', []);
 angular.module('lumx.toolbar', []);
 angular.module('lumx.tooltip', []);
 
@@ -58,6 +60,7 @@ angular.module('lumx', [
     'lumx.file-input',
     'lumx.grid',
     'lumx.icon',
+    'lumx.link',
     'lumx.list',
     'lumx.notification',
     'lumx.popover',
@@ -72,6 +75,7 @@ angular.module('lumx', [
     'lumx.table',
     'lumx.tabs',
     'lumx.text-field',
+    'lumx.thumbnail',
     'lumx.toolbar',
     'lumx.tooltip',
     'lumx.utils',
