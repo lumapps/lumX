@@ -33,9 +33,9 @@ function GridController() {
     /////////////////////////////
 
     /**
-     * Get link classes.
+     * Get grid classes.
      *
-     * @return {Array} The list of link classes.
+     * @return {Array} The list of grid classes.
      */
     function getClasses() {
         const classes = [];

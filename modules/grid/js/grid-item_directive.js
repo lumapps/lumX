@@ -15,9 +15,9 @@ function GridItemController() {
     /////////////////////////////
 
     /**
-     * Get link classes.
+     * Get grid item classes.
      *
-     * @return {Array} The list of link classes.
+     * @return {Array} The list of grid item classes.
      */
     function getClasses() {
         const classes = [];

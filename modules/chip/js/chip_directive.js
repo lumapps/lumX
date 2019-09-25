@@ -73,9 +73,9 @@ function ChipController() {
     /////////////////////////////
 
     /**
-     * Get link classes.
+     * Get chip classes.
      *
-     * @return {Array} The list of link classes.
+     * @return {Array} The list of chip classes.
      */
     function getClasses() {
         const classes = [];

@@ -17,9 +17,9 @@ function IconController() {
     /////////////////////////////
 
     /**
-     * Get link classes.
+     * Get icon classes.
      *
-     * @return {Array} The list of link classes.
+     * @return {Array} The list of icon classes.
      */
     function getClasses() {
         const classes = [];
