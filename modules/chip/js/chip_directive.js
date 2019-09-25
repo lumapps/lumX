@@ -14,6 +14,24 @@ function ChipController() {
 
     /////////////////////////////
     //                         //
+    //    Private attributes   //
+    //                         //
+    /////////////////////////////
+
+    /**
+     * The default props.
+     *
+     * @type {Object}
+     * @constant
+     * @readonly
+     */
+    const _DEFAULT_PROPS = {
+        color: 'dark',
+        size: 'm',
+    };
+
+    /////////////////////////////
+    //                         //
     //    Public attributes    //
     //                         //
     /////////////////////////////
@@ -53,6 +71,57 @@ function ChipController() {
     //     Public functions    //
     //                         //
     /////////////////////////////
+
+    /**
+     * Get link classes.
+     *
+     * @return {Array} The list of link classes.
+     */
+    function getClasses() {
+        const classes = [];
+
+        if (angular.isUndefined(lx.color)) {
+            classes.push(`${CSS_PREFIX}-chip--color-${_DEFAULT_PROPS.color}`);
+        } else {
+            classes.push(`${CSS_PREFIX}-chip--color-${lx.color}`);
+        }
+
+        if (lx.hasBefore) {
+            classes.push(`${CSS_PREFIX}-chip--has-before`);
+        }
+
+        if (lx.hasAfter || lx.hasDropdownIndicator) {
+            classes.push(`${CSS_PREFIX}-chip--has-after`);
+        }
+
+        if (angular.isUndefined(lx.isSelected) || !lx.isSelected) {
+            classes.push(`${CSS_PREFIX}-chip--is-unselected`);
+        }
+
+        if (lx.isSelected) {
+            classes.push(`${CSS_PREFIX}-chip--is-selected`);
+        }
+
+        if (angular.isFunction(lx.onClick)) {
+            classes.push(`${CSS_PREFIX}-chip--is-clickable`);
+        }
+
+        if (lx.isDisabled) {
+            classes.push(`${CSS_PREFIX}-chip--is-disabled`);
+        }
+
+        if (angular.isUndefined(lx.size)) {
+            classes.push(`${CSS_PREFIX}-chip--size-${_DEFAULT_PROPS.size}`);
+        } else {
+            classes.push(`${CSS_PREFIX}-chip--size-${lx.size}`);
+        }
+
+        if (angular.isDefined(lx.theme) && lx.theme) {
+            classes.push(`${CSS_PREFIX}-chip--theme-${lx.theme}`);
+        }
+
+        return classes;
+    }
 
     /**
      * Handle given function on after area click.
@@ -99,6 +168,7 @@ function ChipController() {
 
     /////////////////////////////
 
+    lx.getClasses = getClasses;
     lx.handleOnAfterClick = handleOnAfterClick;
     lx.handleOnBeforeClick = handleOnBeforeClick;
     lx.handleOnClick = handleOnClick;
@@ -121,24 +191,6 @@ function ChipDirective() {
         if (transclude.isSlotFilled('label')) {
             ctrl.hasLabel = true;
         }
-
-        const defaultProps = {
-            color: 'dark',
-        };
-
-        if (!attrs.lxColor) {
-            el.addClass(`${CSS_PREFIX}-chip--color-${defaultProps.color}`);
-        }
-
-        attrs.$observe('lxColor', (color) => {
-            if (!color) {
-                return;
-            }
-
-            el.removeClass((index, className) => {
-                return (className.match(/(?:\S|-)*chip--color-\S+/g) || []).join(' ');
-            }).addClass(`${CSS_PREFIX}-chip--color-${color}`);
-        });
     }
 
     return {

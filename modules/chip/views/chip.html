@@ -1,15 +1,6 @@
 <a
     class="lumx-chip"
-    ng-class="{ 'lumx-chip--has-before': lx.hasBefore,
-                'lumx-chip--has-after': lx.hasAfter || lx.hasDropdownIndicator,
-                'lumx-chip--is-unselected': !lx.isSelected,
-                'lumx-chip--is-selected': lx.isSelected,
-                'lumx-chip--is-clickable': lx.onClick,
-                'lumx-chip--is-disabled': lx.isDisabled,
-                'lumx-chip--size-m': !lx.size || lx.size === 'm',
-                'lumx-chip--size-s': lx.size === 's',
-                'lumx-chip--theme-light': lx.theme === 'light',
-                'lumx-chip--theme-dark': lx.theme === 'dark' }"
+    ng-class="lx.getClasses()"
     ng-click="lx.handleOnClick($event)"
     lx-enter-keydown="lx.handleOnClick($event)"
     tabindex="{{ lx.isDisabled || !lx.onClick ? -1 : 0 }}"
