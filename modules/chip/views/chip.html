@@ -11,7 +11,7 @@
                 'lumx-chip--theme-light': lx.theme === 'light',
                 'lumx-chip--theme-dark': lx.theme === 'dark' }"
     ng-click="lx.handleOnClick($event)"
-    lx-enter-keypress="lx.handleOnClick($event)"
+    lx-enter-keydown="lx.handleOnClick($event)"
     tabindex="{{ lx.isDisabled || !lx.onClick ? -1 : 0 }}"
 >
     <div

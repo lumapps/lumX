@@ -13,7 +13,7 @@
                 lx-sort-order="{{ cell.sortOrder }}"
                 lx-variant="head"
                 ng-click="vm.updateSort(cell)"
-                lx-enter-keypress="vm.updateSort(cell)"
+                lx-enter-keydown="vm.updateSort(cell)"
                 ng-repeat="cell in vm.tableHead"
             >
                 {{ cell.label }}
@@ -26,13 +26,13 @@
             lx-is-selected="row.isSelected"
             ng-repeat="row in vm.tableBody"
             ng-click="vm.selectRow(row)"
-            lx-enter-keypress="vm.selectRow(row)"
+            lx-enter-keydown="vm.selectRow(row)"
         >
             <lx-table-cell-body>
                 <lx-checkbox
                     lx-theme="{{ demoBlock.theme }}"
                     ng-model="row.isSelected"
-                    lx-stop-propagation="click"
+                    lx-stop-propagation="click keydown"
                 ></lx-checkbox>
             </lx-table-cell-body>
 
@@ -50,7 +50,7 @@
 
                             <lx-link
                                 lx-color="{{ demoBlock.theme === 'dark' ? 'light' : 'dark' }}"
-                                lx-stop-propagation="click"
+                                lx-stop-propagation="click keydown"
                             >
                                 <span class="lumx-typography-subtitle1">{{ row.dessert }}</span>
                             </lx-link>
@@ -62,7 +62,7 @@
                             lx-emphasis="low"
                             lx-theme="{{ demoBlock.theme }}"
                             lx-variant="icon"
-                            lx-stop-propagation="click"
+                            lx-stop-propagation="click keydown"
                         >
                             <lx-icon lx-path="{{ vm.icons.mdiInformationOutline }}"></lx-icon>
                         </lx-button>
@@ -71,7 +71,7 @@
                             lx-emphasis="low"
                             lx-theme="{{ demoBlock.theme }}"
                             lx-variant="icon"
-                            lx-stop-propagation="click"
+                            lx-stop-propagation="click keydown"
                         >
                             <lx-icon lx-path="{{ vm.icons.mdiDotsVertical }}"></lx-icon>
                         </lx-button>

@@ -6,7 +6,7 @@ function SelectFilterDirective() {
     'ngInject';
 
     function link(scope, el) {
-        el.focus().on('click keydown keypress', (evt) => {
+        el.focus().on('click keydown', (evt) => {
             if (evt.keyCode === ESCAPE_KEY_CODE) {
                 return;
             }

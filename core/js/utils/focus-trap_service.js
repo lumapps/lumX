@@ -27,11 +27,11 @@ function FocusTrapService() {
     /////////////////////////////
 
     /**
-     * Handle key events on key press.
+     * Handle key events on key down.
      *
      * @param {Event} evt The key event.
      */
-    function _onKeyPress(evt) {
+    function _onKeyDown(evt) {
         if (evt.keyCode !== TAB_KEY_CODE) {
             return;
         }
@@ -68,14 +68,14 @@ function FocusTrapService() {
      */
     function activate(el) {
         _activeElement = el;
-        _activeElement.on('keydown keypress', _onKeyPress);
+        _activeElement.on('keydown', _onKeyDown);
     }
 
     /**
      * Disable focus trap on given element.
      */
     function disable() {
-        _activeElement.off('keydown keypress', _onKeyPress);
+        _activeElement.off('keydown', _onKeyDown);
         _activeElement = undefined;
     }
 

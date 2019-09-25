@@ -30,7 +30,7 @@ function ListController($element, $scope) {
     /////////////////////////////
 
     /**
-     * Increase active choice index on key down press.
+     * Increase active choice index on down arrow key down.
      */
     function _nextItemOnKeyDown() {
         let nextItem = $element.find(`.${CSS_PREFIX}-list-item`).eq(lx.activeItemIndex + 1);
@@ -50,7 +50,7 @@ function ListController($element, $scope) {
     }
 
     /**
-     * Decrease active choice index on key up press.
+     * Decrease active choice index on up arrow key down.
      */
     function _previousItemOnKeyUp() {
         let previousItem = $element.find(`.${CSS_PREFIX}-list-item`).eq(lx.activeItemIndex - 1);
@@ -74,7 +74,7 @@ function ListController($element, $scope) {
      *
      * @param {Event} evt The key event.
      */
-    function _onKeyPress(evt) {
+    function _onKeyDown(evt) {
         if (!lx.isClickable) {
             return;
         }
@@ -111,15 +111,15 @@ function ListController($element, $scope) {
     /////////////////////////////
 
     /**
-     * Navigate through items on up and down arrow key press.
+     * Navigate through items on up and down arrow key down.
      */
-    $element.on('keydown keypress', _onKeyPress).on('focus', _resetActiveItemIndex);
+    $element.on('keydown', _onKeyDown).on('focus', _resetActiveItemIndex);
 
     /**
      * Unbind event listeners on destroy.
      */
     $scope.$on('$destroy', () => {
-        $element.off('keydown keypress', _onKeyPress).off('focus', _resetActiveItemIndex);
+        $element.off('keydown', _onKeyDown).off('focus', _resetActiveItemIndex);
     });
 }
 

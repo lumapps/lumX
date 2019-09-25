@@ -192,11 +192,11 @@ function DialogController(
     }
 
     /**
-     * Close dialog on escape key up.
+     * Close dialog on escape key down.
      *
-     * @param {Event} evt The key up event.
+     * @param {Event} evt The key down event.
      */
-    function _onKeyUp(evt) {
+    function _onKeyDown(evt) {
         if (evt.keyCode === ESCAPE_KEY_CODE) {
             _close();
         }
@@ -226,7 +226,7 @@ function DialogController(
         }
 
         if (angular.isUndefined(lx.escapeClose) || lx.escapeClose) {
-            _idEventScheduler = LxEventSchedulerService.register('keyup', _onKeyUp);
+            _idEventScheduler = LxEventSchedulerService.register('keydown', _onKeyDown);
         }
 
         _dialog

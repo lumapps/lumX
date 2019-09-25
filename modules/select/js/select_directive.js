@@ -238,7 +238,7 @@ function SelectController($document, $interpolate, $sce, $scope, $timeout, LxDro
      *
      * @param {Event} evt The key event.
      */
-    function _onKeyPress(evt) {
+    function _onKeyDown(evt) {
         if ((evt.keyCode === DOWN_KEY_CODE || evt.keyCode === ENTER_KEY_CODE) && !lx.isOpen) {
             _openDropdown(evt);
 
@@ -277,7 +277,7 @@ function SelectController($document, $interpolate, $sce, $scope, $timeout, LxDro
      */
     function disableKeyEvents() {
         lx.isFocus = false;
-        $document.off('keydown keypress', _onKeyPress);
+        $document.off('keydown', _onKeyDown);
     }
 
     /**
@@ -335,7 +335,7 @@ function SelectController($document, $interpolate, $sce, $scope, $timeout, LxDro
      */
     function enableKeyEvents() {
         lx.isFocus = true;
-        $document.on('keydown keypress', _onKeyPress);
+        $document.on('keydown', _onKeyDown);
     }
 
     /**

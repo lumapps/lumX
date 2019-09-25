@@ -101,9 +101,9 @@ function DropdownController(
     /////////////////////////////
 
     /**
-     * Close dropdown on document click/keydown/keypress.
+     * Close dropdown on document click/keydown.
      *
-     * @param {Event} evt The click/keydown/keypress event.
+     * @param {Event} evt The click/keydown event.
      */
     function _onDocumentEvent(evt) {
         if (angular.isDefined(lx.escapeClose) && !lx.escapeClose) {
@@ -155,7 +155,7 @@ function DropdownController(
                 .insertAfter(_toggleEl);
 
             if (angular.isDefined(lx.closeOnClick) && !lx.closeOnClick) {
-                _menuEl.off('click keydown keypress', _stopMenuPropagation);
+                _menuEl.off('click keydown', _stopMenuPropagation);
             }
 
             LxEventSchedulerService.unregister(_idEventScheduler);
@@ -301,10 +301,10 @@ function DropdownController(
             _menuEl.on('scroll', _checkScrollEnd);
 
             if (angular.isDefined(lx.closeOnClick) && !lx.closeOnClick) {
-                _menuEl.on('click keydown keypress', _stopMenuPropagation);
+                _menuEl.on('click keydown', _stopMenuPropagation);
             }
 
-            _idEventScheduler = LxEventSchedulerService.register('click keydown keypress', _onDocumentEvent);
+            _idEventScheduler = LxEventSchedulerService.register('click keydown', _onDocumentEvent);
         });
     }
 
