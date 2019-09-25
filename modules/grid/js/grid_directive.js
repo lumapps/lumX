@@ -2,79 +2,95 @@ import { CSS_PREFIX } from '@lumx/core/js/constants';
 
 /////////////////////////////
 
+function GridController() {
+    'ngInject';
+
+    // eslint-disable-next-line consistent-this
+    const lx = this;
+
+    /////////////////////////////
+    //                         //
+    //    Private attributes   //
+    //                         //
+    /////////////////////////////
+
+    /**
+     * The default props.
+     *
+     * @type {Object}
+     * @constant
+     * @readonly
+     */
+    const _DEFAULT_PROPS = {
+        orientation: 'horizontal',
+        wrap: 'nowrap',
+    };
+
+    /////////////////////////////
+    //                         //
+    //     Public functions    //
+    //                         //
+    /////////////////////////////
+
+    /**
+     * Get link classes.
+     *
+     * @return {Array} The list of link classes.
+     */
+    function getClasses() {
+        const classes = [];
+
+        if (angular.isDefined(lx.gutter)) {
+            classes.push(`${CSS_PREFIX}-grid--gutter-${lx.gutter}`);
+        }
+
+        if (angular.isDefined(lx.hAlign)) {
+            classes.push(`${CSS_PREFIX}-grid--h-align-${lx.hAlign}`);
+        }
+
+        if (angular.isUndefined(lx.orientation)) {
+            classes.push(`${CSS_PREFIX}-grid--orientation-${_DEFAULT_PROPS.orientation}`);
+        } else {
+            classes.push(`${CSS_PREFIX}-grid--orientation-${lx.orientation}`);
+        }
+
+        if (angular.isDefined(lx.vAlign)) {
+            classes.push(`${CSS_PREFIX}-grid--v-align-${lx.vAlign}`);
+        }
+
+        if (angular.isUndefined(lx.wrap)) {
+            classes.push(`${CSS_PREFIX}-grid--wrap-${_DEFAULT_PROPS.wrap}`);
+        } else {
+            classes.push(`${CSS_PREFIX}-grid--wrap-${lx.wrap}`);
+        }
+
+        return classes;
+    }
+
+    /////////////////////////////
+
+    lx.getClasses = getClasses;
+}
+
+/////////////////////////////
+
 function GridDirective() {
     'ngInject';
 
-    function link(scope, el, attrs) {
-        const defaultProps = {
-            orientation: 'horizontal',
-            wrap: 'nowrap',
-        };
-
-        if (!attrs.lxOrientation) {
-            el.addClass(`${CSS_PREFIX}-grid--orientation-${defaultProps.orientation}`);
-        }
-
-        attrs.$observe('lxOrientation', (orientation) => {
-            if (!orientation) {
-                return;
-            }
-
-            el.removeClass((index, className) => {
-                return (className.match(/(?:\S|-)*grid--orientation-\S+/g) || []).join(' ');
-            }).addClass(`${CSS_PREFIX}-grid--orientation-${orientation}`);
-        });
-
-        if (!attrs.lxWrap) {
-            el.addClass(`${CSS_PREFIX}-grid--wrap-${defaultProps.wrap}`);
-        }
-
-        attrs.$observe('lxWrap', (wrap) => {
-            if (!wrap) {
-                return;
-            }
-
-            el.removeClass((index, className) => {
-                return (className.match(/(?:\S|-)*grid--wrap-\S+/g) || []).join(' ');
-            }).addClass(`${CSS_PREFIX}-grid--wrap-${wrap}`);
-        });
-
-        attrs.$observe('lxHAlign', (hAlign) => {
-            if (!hAlign) {
-                return;
-            }
-
-            el.removeClass((index, className) => {
-                return (className.match(/(?:\S|-)*grid--hAlign-\S+/g) || []).join(' ');
-            }).addClass(`${CSS_PREFIX}-grid--h-align-${hAlign}`);
-        });
-
-        attrs.$observe('lxVAlign', (vAlign) => {
-            if (!vAlign) {
-                return;
-            }
-
-            el.removeClass((index, className) => {
-                return (className.match(/(?:\S|-)*grid--vAlign-\S+/g) || []).join(' ');
-            }).addClass(`${CSS_PREFIX}-grid--v-align-${vAlign}`);
-        });
-
-        attrs.$observe('lxGutter', (gutter) => {
-            if (!gutter) {
-                return;
-            }
-
-            el.removeClass((index, className) => {
-                return (className.match(/(?:\S|-)*grid--gutter-\S+/g) || []).join(' ');
-            }).addClass(`${CSS_PREFIX}-grid--gutter-${gutter}`);
-        });
-    }
-
     return {
-        link,
+        bindToController: true,
+        controller: GridController,
+        controllerAs: 'lx',
         replace: true,
         restrict: 'E',
-        template: '<div class="lumx-grid" ng-transclude></div>',
+        scope: {
+            gutter: '@?lxGutter',
+            hAlign: '@?lxHAlign',
+            orientation: '@?lxOrientation',
+            vAlign: '@?lxVAlign',
+            wrap: '@?lxWrap',
+        },
+        template: '<div class="lumx-grid" ng-class="lx.getClasses()" ng-transclude></div>',
         transclude: true,
     };
 }

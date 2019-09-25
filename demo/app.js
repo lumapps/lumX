@@ -93,6 +93,14 @@ function AppDefaultConfig($locationProvider, $stateProvider, markedProvider) {
                 },
             },
         })
+        .state('app.components.grid', {
+            url: 'grid',
+            views: {
+                'main@': {
+                    template: require('./components/grid/demo.html'),
+                },
+            },
+        })
         .state('app.components.list', {
             url: 'list',
             views: {

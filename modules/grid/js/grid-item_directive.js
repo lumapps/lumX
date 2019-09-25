@@ -2,46 +2,63 @@ import { CSS_PREFIX } from '@lumx/core/js/constants';
 
 /////////////////////////////
 
+function GridItemController() {
+    'ngInject';
+
+    // eslint-disable-next-line consistent-this
+    const lx = this;
+
+    /////////////////////////////
+    //                         //
+    //     Public functions    //
+    //                         //
+    /////////////////////////////
+
+    /**
+     * Get link classes.
+     *
+     * @return {Array} The list of link classes.
+     */
+    function getClasses() {
+        const classes = [];
+
+        if (angular.isDefined(lx.align)) {
+            classes.push(`${CSS_PREFIX}-grid-item--align-${lx.align}`);
+        }
+
+        if (angular.isDefined(lx.order)) {
+            classes.push(`${CSS_PREFIX}-grid-item--order-${lx.order}`);
+        }
+
+        if (angular.isDefined(lx.width)) {
+            classes.push(`${CSS_PREFIX}-grid-item--width-${lx.width}`);
+        }
+
+        return classes;
+    }
+
+    /////////////////////////////
+
+    lx.getClasses = getClasses;
+}
+
+/////////////////////////////
+
 function GridItemDirective() {
     'ngInject';
 
-    function link(scope, el, attrs) {
-        attrs.$observe('lxAlign', (align) => {
-            if (!align) {
-                return;
-            }
-
-            el.removeClass((index, className) => {
-                return (className.match(/(?:\S|-)*grid--align-\S+/g) || []).join(' ');
-            }).addClass(`${CSS_PREFIX}-grid-item--align-${align}`);
-        });
-
-        attrs.$observe('lxOrder', (order) => {
-            if (!order) {
-                return;
-            }
-
-            el.removeClass((index, className) => {
-                return (className.match(/(?:\S|-)*grid--order-\S+/g) || []).join(' ');
-            }).addClass(`${CSS_PREFIX}-grid-item--order-${order}`);
-        });
-
-        attrs.$observe('lxWidth', (width) => {
-            if (!width) {
-                return;
-            }
-
-            el.removeClass((index, className) => {
-                return (className.match(/(?:\S|-)*grid--width-\S+/g) || []).join(' ');
-            }).addClass(`${CSS_PREFIX}-grid-item--width-${width}`);
-        });
-    }
-
     return {
-        link,
+        bindToController: true,
+        controller: GridItemController,
+        controllerAs: 'lx',
         replace: true,
         restrict: 'E',
-        template: '<div class="lumx-grid-item" ng-transclude></div>',
+        scope: {
+            align: '@?lxAlign',
+            order: '@?lxOrder',
+            width: '@?lxWidth',
+        },
+        template: '<div class="lumx-grid-item" ng-class="lx.getClasses()" ng-transclude></div>',
         transclude: true,
     };
 }
