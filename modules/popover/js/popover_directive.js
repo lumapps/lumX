@@ -19,6 +19,17 @@ function PopoverController(LxDepthService, $element, $scope, $timeout) {
     /////////////////////////////
 
     /**
+     * The default props.
+     *
+     * @type {Object}
+     * @constant
+     * @readonly
+     */
+    const _DEFAULT_PROPS = {
+        elevation: '3',
+    };
+
+    /**
      * The source element.
      *
      * @type {element}
@@ -112,6 +123,33 @@ function PopoverController(LxDepthService, $element, $scope, $timeout) {
 
     /////////////////////////////
     //                         //
+    //     Public functions    //
+    //                         //
+    /////////////////////////////
+
+    /**
+     * Get popover classes.
+     *
+     * @return {Array} The list of popover classes.
+     */
+    function getClasses() {
+        const classes = [];
+
+        if (angular.isUndefined(lx.elevation)) {
+            classes.push(`${CSS_PREFIX}-popover--elevation-${_DEFAULT_PROPS.elevation}`);
+        } else {
+            classes.push(`${CSS_PREFIX}-popover--elevation-${lx.elevation}`);
+        }
+
+        return classes;
+    }
+
+    /////////////////////////////
+
+    lx.getClasses = getClasses;
+
+    /////////////////////////////
+    //                         //
     //          Events         //
     //                         //
     /////////////////////////////
@@ -157,24 +195,6 @@ function PopoverDirective() {
         attrs.$observe('id', (id) => {
             ctrl.uuid = id;
         });
-
-        const defaultProps = {
-            elevation: '3',
-        };
-
-        if (!attrs.lxElevation) {
-            el.addClass(`${CSS_PREFIX}-popover--elevation-${defaultProps.elevation}`);
-        }
-
-        attrs.$observe('lxElevation', (elevation) => {
-            if (!elevation) {
-                return;
-            }
-
-            el.removeClass((index, className) => {
-                return (className.match(/(?:\S|-)*popover--elevation-\S+/g) || []).join(' ');
-            }).addClass(`${CSS_PREFIX}-popover--elevation-${elevation}`);
-        });
     }
 
     return {
@@ -185,6 +205,7 @@ function PopoverDirective() {
         replace: true,
         restrict: 'E',
         scope: {
+            elevation: '@?lxElevation',
             offset: '@?lxOffset',
             position: '@?lxPosition',
         },

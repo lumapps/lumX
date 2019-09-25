@@ -1,0 +1,57 @@
+<demo-grid>
+    <lx-chip id="{{ vm.popoverTarget }}">
+        <lx-chip-label>Target</lx-chip-label>
+    </lx-chip>
+</demo-grid>
+
+<demo-grid>
+    <lx-button id="{{ vm.popoverSource }}" ng-click="vm.openPopover()">
+        Open popover
+    </lx-button>
+</demo-grid>
+
+<lx-popover id="{{ vm.popoverId }}" lx-offset="8">
+    <div style="position: absolute; top: 8px; right: 8px;">
+        <lx-button lx-emphasis="low" lx-variant="icon" ng-click="vm.closePopover()">
+            <lx-icon lx-path="{{ vm.icons.mdiClose }}"></lx-icon>
+        </lx-button>
+    </div>
+
+    <div class="lumx-spacing-padding-huge">
+        <lx-user-block
+            lx-avatar="http://i.pravatar.cc/128"
+            lx-name="Matthias Manoukian"
+            lx-fields="vm.fields"
+            lx-orientation="vertical"
+            lx-size="l"
+        >
+            <lx-user-block-action>
+                <lx-button lx-emphasis="medium" lx-size="s">Follow</lx-button>
+            </lx-user-block-action>
+
+            <lx-user-block-actions>
+                <lx-grid lx-orientation="horizontal" lx-v-align="center" lx-wrap="wrap">
+                    <lx-button lx-emphasis="low" lx-variant="icon">
+                        <lx-icon lx-path="{{ vm.icons.mdiPhone }}"></lx-icon>
+                    </lx-button>
+
+                    <lx-button lx-emphasis="low" lx-variant="icon">
+                        <lx-icon lx-path="{{ vm.icons.mdiCellphone }}"></lx-icon>
+                    </lx-button>
+
+                    <lx-button lx-emphasis="low" lx-variant="icon">
+                        <lx-icon lx-path="{{ vm.icons.mdiEmail }}"></lx-icon>
+                    </lx-button>
+
+                    <lx-button lx-emphasis="low" lx-variant="icon">
+                        <lx-icon lx-path="{{ vm.icons.mdiGoogleHangouts }}"></lx-icon>
+                    </lx-button>
+
+                    <lx-button lx-emphasis="low" lx-variant="icon">
+                        <lx-icon lx-path="{{ vm.icons.mdiSlack }}"></lx-icon>
+                    </lx-button>
+                </lx-grid>
+            </lx-user-block-actions>
+        </lx-user-block>
+    </div>
+</lx-popover>
