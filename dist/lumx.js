@@ -11627,7 +11627,7 @@ module.exports=v1
 /* 55 */
 /***/ (function(module, exports) {
 
-var v1='<div class=lumx-dropdown ng-class="{ \'lumx-dropdown--has-toggle\': lx.hasToggle }"><div class=lumx-dropdown__toggle ng-click=lx.toggle($event) ng-transclude=toggle></div><div class=lumx-dropdown__menu><div class=lumx-dropdown__content ng-transclude=menu ng-if=lx.isOpen></div></div></div>';
+var v1='<div class=lumx-dropdown ng-class="{ \'lumx-dropdown--has-toggle\': lx.hasToggle }"><div class=lumx-dropdown__toggle ng-transclude=toggle></div><div class=lumx-dropdown__menu><div class=lumx-dropdown__content ng-transclude=menu ng-if=lx.isOpen></div></div></div>';
 angular.module('lumx.dropdown').run(['$templateCache', function ($templateCache) {$templateCache.put('dropdown.html', v1);}]);
 module.exports=v1
 
@@ -15155,11 +15155,20 @@ function DropdownDirective() {
   'ngInject';
 
   function link(scope, el, attrs, ctrl, transclude) {
-    ctrl.registerToggle(el.find("." + _lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_3__[/* CSS_PREFIX */ "a"] + "-dropdown__toggle"));
-    ctrl.registerMenu(el.find("." + _lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_3__[/* CSS_PREFIX */ "a"] + "-dropdown__menu"));
+    var toggleEl = el.find("." + _lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_3__[/* CSS_PREFIX */ "a"] + "-dropdown__toggle");
+    ctrl.registerToggle(toggleEl);
+    var menuEl = el.find("." + _lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_3__[/* CSS_PREFIX */ "a"] + "-dropdown__menu");
+    ctrl.registerMenu(menuEl);
 
     if (transclude.isSlotFilled('toggle')) {
       ctrl.hasToggle = true;
+    }
+
+    if (toggleEl.length > 0) {
+      toggleEl.find('button, a').on('click', function (evt) {
+        ctrl.toggle(evt);
+        scope.$apply();
+      });
     }
 
     attrs.$observe('id', function (id) {
