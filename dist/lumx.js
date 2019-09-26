@@ -19597,6 +19597,12 @@ function TooltipDirective() {
   'ngInject';
 
   function link(scope, el, attrs, ctrl) {
+    attrs.$observe('lxTooltip', function (text) {
+      ctrl.text = text;
+    });
+    attrs.$observe('lxTooltipPosition', function (position) {
+      ctrl.position = position;
+    });
     el.on('mouseenter', ctrl.showTooltip);
     el.on('mouseleave', ctrl.hideTooltip);
     scope.$on('$destroy', function () {
@@ -19610,11 +19616,7 @@ function TooltipDirective() {
     controller: TooltipController,
     controllerAs: 'lx',
     link: link,
-    restrict: 'A',
-    scope: {
-      position: '@?lxTooltipPosition',
-      text: '@lxTooltip'
-    }
+    restrict: 'A'
   };
 }
 
