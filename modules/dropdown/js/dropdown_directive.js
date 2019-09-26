@@ -447,11 +447,21 @@ function DropdownDirective() {
     'ngInject';
 
     function link(scope, el, attrs, ctrl, transclude) {
-        ctrl.registerToggle(el.find(`.${CSS_PREFIX}-dropdown__toggle`));
-        ctrl.registerMenu(el.find(`.${CSS_PREFIX}-dropdown__menu`));
+        const toggleEl = el.find(`.${CSS_PREFIX}-dropdown__toggle`);
+        ctrl.registerToggle(toggleEl);
+
+        const menuEl = el.find(`.${CSS_PREFIX}-dropdown__menu`);
+        ctrl.registerMenu(menuEl);
 
         if (transclude.isSlotFilled('toggle')) {
             ctrl.hasToggle = true;
+        }
+
+        if (toggleEl.length > 0) {
+            toggleEl.find('button, a').on('click', (evt) => {
+                ctrl.toggle(evt);
+                scope.$apply();
+            });
         }
 
         attrs.$observe('id', (id) => {
