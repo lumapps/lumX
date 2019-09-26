@@ -144,6 +144,14 @@ function TooltipDirective() {
     'ngInject';
 
     function link(scope, el, attrs, ctrl) {
+        attrs.$observe('lxTooltip', (text) => {
+            ctrl.text = text;
+        });
+
+        attrs.$observe('lxTooltipPosition', (position) => {
+            ctrl.position = position;
+        });
+
         el.on('mouseenter', ctrl.showTooltip);
         el.on('mouseleave', ctrl.hideTooltip);
 
@@ -159,10 +167,6 @@ function TooltipDirective() {
         controllerAs: 'lx',
         link,
         restrict: 'A',
-        scope: {
-            position: '@?lxTooltipPosition',
-            text: '@lxTooltip',
-        },
     };
 }
 
