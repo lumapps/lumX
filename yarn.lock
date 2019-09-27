@@ -720,10 +720,10 @@
     lodash "^4.17.13"
     to-fast-properties "^2.0.0"
 
-"@lumx/core@0.7.21":
-  version "0.7.21"
-  resolved "https://registry.yarnpkg.com/@lumx/core/-/core-0.7.21.tgz#1afd91c2cbaeed44699b99c69f629815aed24a66"
-  integrity sha512-kQbz4vSSOLnQHLW8LqYDr8Sw2+QE74Qhabvf2eqomkGoxO9s0Y+7UoKaxBedsbnrVxvL9/dqq5oo5nssAHAAww==
+"@lumx/core@0.7.22":
+  version "0.7.22"
+  resolved "https://registry.yarnpkg.com/@lumx/core/-/core-0.7.22.tgz#b4633feabdb1b8e2562797014c0a40d0411774b8"
+  integrity sha512-Q2Ru0OrWhy/a/VyK4Zn0L/j804ZwlUabBTxaQSemWuWivV1um0di87BRM08+1uNI/r1o6XZkhpeo/cRVrpDf2Q==
   dependencies:
     focus-visible "^4.1.5"
     lodash "^4.17.11"
