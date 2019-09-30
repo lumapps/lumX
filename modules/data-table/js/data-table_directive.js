@@ -1,5 +1,3 @@
-import { mdiArrowDown, mdiArrowUp } from '@lumx/icons';
-
 import template from '../views/data-table.html';
 
 /////////////////////////////
@@ -22,16 +20,6 @@ function DataTableController($rootScope, $sce, $scope) {
      * @type {boolean}
      */
     lx.allRowsSelected = false;
-
-    /**
-     * The data table icons.
-     *
-     * @type {Object}
-     */
-    lx.icons = {
-        mdiArrowDown,
-        mdiArrowUp,
-    };
 
     /**
      * The list of selected rows.
