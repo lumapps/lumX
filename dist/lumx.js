@@ -11636,7 +11636,7 @@ module.exports=v1
 /* 55 */
 /***/ (function(module, exports) {
 
-var v1='<table class=lumx-table ng-class="{ \'lumx-table--has-before\': lx.hasBulk,\n                \'lumx-table--has-dividers\': lx.hasDividers,\n                \'lumx-table--is-clickable\': lx.isClickable,\n                \'lumx-table--theme-light\': !lx.theme || lx.theme === \'light\',\n                \'lumx-table--theme-dark\': lx.theme === \'dark\' }"><thead><tr class=lumx-table__row><th class="lumx-table__cell lumx-table__cell--head" ng-if=lx.hasBulk><div class=lumx-table__cell-wrapper><div class=lumx-table__cell-content><lx-checkbox ng-click=lx.toggleAllSelected() ng-checked=lx.allRowsSelected lx-stop-propagation="click keydown"></lx-checkbox></div></div><th class="lumx-table__cell lumx-table__cell--head" ng-class="{ \'lumx-table__cell--is-sortable\': th.isSortable,\n                            \'lumx-table__cell--is-sorted\': th.isSortable && th.sortOrder }" ng-click=lx.sort(th) ng-repeat="th in lx.thead" scope=col tabindex="{{ th.isSortable ? 0 : -1 }}"><div class=lumx-table__cell-wrapper><lx-icon class=lumx-table__cell-icon lx-id="{{ th.icon }}" lx-size=xxs ng-if="th.icon && !th.isSortable"></lx-icon><lx-icon class=lumx-table__cell-icon lx-path="{{ lx.icons.mdiArrowUp }}" lx-size=xxs ng-if="th.isSortable && th.sortOrder === \'asc\'"></lx-icon><lx-icon class=lumx-table__cell-icon lx-path="{{ lx.icons.mdiArrowDown }}" lx-size=xxs ng-if="th.isSortable && th.sortOrder === \'desc\'"></lx-icon><div class=lumx-table__cell-content><span>{{ th.label }}</span></div></div><tbody><tr class=lumx-table__row ng-class="{ \'lumx-table__row--is-clickable\': lx.isClickable,\n                        \'lumx-table__row--is-selected\': tr.lxDataTableSelected }" ng-repeat="tr in lx.tbody" ng-click=lx.toggleSelection(tr) tabindex="{{ lx.isClickable ? 0 : -1 }}"><td class="lumx-table__cell lumx-table__cell--body" ng-if=lx.hasBulk><div class=lumx-table__cell-content><lx-checkbox ng-click=lx.toggleSelection(tr) ng-checked=tr.lxDataTableSelected lx-stop-propagation="click keydown"></lx-checkbox></div><td class="lumx-table__cell lumx-table__cell--body" ng-repeat="th in lx.thead"><div class=lumx-table__cell-content ng-if=!th.format><span>{{ tr[th.name] }}</span></div><div class=lumx-table__cell-content ng-bind-html=lx.$sce.trustAsHtml(th.format(tr)) ng-if=th.format></div></table>';
+var v1='<div class=lumx-data-table><lx-table lx-has-before=lx.hasBulk lx-has-dividers=lx.hasDividers lx-is-clickable=lx.isClickable lx-theme="{{ lx.theme }}"><lx-table-head><lx-table-row><lx-table-cell-head ng-if=lx.hasBulk><lx-checkbox lx-theme="{{ lx.theme }}" ng-click=lx.toggleAllSelected() ng-checked=lx.allRowsSelected lx-stop-propagation="click keydown"></lx-checkbox></lx-table-cell-head><lx-table-cell-head lx-icon="{{ th.icon }}" lx-is-sortable=th.isSortable lx-scope=col lx-sort-order="{{ th.sortOrder }}" ng-click=lx.sort(th) lx-enter-keydown=lx.sort(th) ng-repeat="th in lx.thead">{{ th.label }}</lx-table-cell-head></lx-table-row></lx-table-head><lx-table-body><lx-table-row lx-is-selected=tr.lxDataTableSelected ng-repeat="tr in lx.tbody" ng-click=lx.toggleSelection(tr) lx-enter-keydown=lx.toggleSelection(tr)><lx-table-cell-body ng-if=lx.hasBulk><lx-checkbox lx-theme="{{ lx.theme }}" ng-click=lx.toggleSelection(tr) ng-checked=tr.lxDataTableSelected lx-stop-propagation="click keydown"></lx-checkbox></lx-table-cell-body><lx-table-cell-body ng-repeat="th in lx.thead"><span ng-if=!th.format>{{ tr[th.name] }}</span><div ng-bind-html=lx.$sce.trustAsHtml(th.format(tr)) ng-if=th.format></div></lx-table-cell-body></lx-table-row></lx-table-body></lx-table></div>';
 angular.module('lumx.data-table').run(['$templateCache', function ($templateCache) {$templateCache.put('data-table.html', v1);}]);
 module.exports=v1
 
@@ -14170,9 +14170,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var core_js_modules_es_array_splice__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_splice__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var core_js_modules_es_function_name__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(143);
 /* harmony import */ var core_js_modules_es_function_name__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_function_name__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _lumx_icons__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(1);
-/* harmony import */ var _views_data_table_html__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(55);
-/* harmony import */ var _views_data_table_html__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_views_data_table_html__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _views_data_table_html__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(55);
+/* harmony import */ var _views_data_table_html__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_views_data_table_html__WEBPACK_IMPORTED_MODULE_4__);
 
 
 
@@ -14180,16 +14179,11 @@ __webpack_require__.r(__webpack_exports__);
 DataTableController.$inject = ["$rootScope", "$sce", "$scope"];
 
 
-
 function DataTableController($rootScope, $sce, $scope) {
   'ngInject';
 
   var lx = this;
   lx.allRowsSelected = false;
-  lx.icons = {
-    mdiArrowDown: _lumx_icons__WEBPACK_IMPORTED_MODULE_4__[/* mdiArrowDown */ "d"],
-    mdiArrowUp: _lumx_icons__WEBPACK_IMPORTED_MODULE_4__[/* mdiArrowUp */ "e"]
-  };
   lx.selectedRows = [];
   lx.$sce = $sce;
 
@@ -14346,7 +14340,7 @@ function DataTableDirective() {
       thead: '=lxThead',
       theme: '@?lxTheme'
     },
-    template: _views_data_table_html__WEBPACK_IMPORTED_MODULE_5___default.a,
+    template: _views_data_table_html__WEBPACK_IMPORTED_MODULE_4___default.a,
     transclude: true
   };
 }
