@@ -105,7 +105,7 @@ function TooltipController($element, $timeout, LxDepthService) {
      * Show the tooltip on source element mouse enter.
      */
     function showTooltip() {
-        if (angular.isDefined(_tooltip)) {
+        if (angular.isDefined(_tooltip) || !lx.text) {
             return;
         }
 
