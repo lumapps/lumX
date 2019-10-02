@@ -11756,7 +11756,7 @@ module.exports=v1
 /* 70 */
 /***/ (function(module, exports) {
 
-var v1='<tr class=lumx-table__row ng-class="{ \'lumx-table__row--is-clickable\': lx.parentController.isClickable,\n                \'lumx-table__row--is-selected\': lx.isSelected }" ng-transclude tabindex="{{ lx.parentController.isClickable ? 0 : -1 }}">';
+var v1='<tr class=lumx-table__row ng-class="{ \'lumx-table__row--is-clickable\': lx.parentController.isClickable || lx.isClickable,\n                \'lumx-table__row--is-selected\': lx.isSelected }" ng-transclude tabindex="{{ lx.parentController.isClickable ? 0 : -1 }}">';
 angular.module('lumx.table').run(['$templateCache', function ($templateCache) {$templateCache.put('table-row.html', v1);}]);
 module.exports=v1
 
@@ -19355,6 +19355,7 @@ function TableRowDirective() {
     require: ['lxTableRow', '^lxTable', '?^lxTableBody'],
     restrict: 'E',
     scope: {
+      isClickable: '=?lxIsClickable',
       isSelected: '=?lxIsSelected'
     },
     template: _views_table_row_html__WEBPACK_IMPORTED_MODULE_0___default.a,
