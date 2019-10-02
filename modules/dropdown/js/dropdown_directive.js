@@ -214,7 +214,7 @@ function DropdownController(
         if (angular.isDefined(lx.width)) {
             if (lx.width.indexOf('%') > -1) {
                 // eslint-disable-next-line no-magic-numbers
-                menuProps.minWidth = toggleProps.width * (lx.width.slice(0, -1) / 100);
+                menuProps.width = toggleProps.width * (lx.width.slice(0, -1) / 100);
             } else {
                 menuProps.width = lx.width;
             }
@@ -233,17 +233,8 @@ function DropdownController(
         _menuEl.css({
             left: menuProps.left,
             right: menuProps.right,
+            width: menuProps.width,
         });
-
-        if (angular.isDefined(menuProps.minWidth)) {
-            _menuEl.css({
-                minWidth: menuProps.minWidth,
-            });
-        } else {
-            _menuEl.css({
-                width: menuProps.width,
-            });
-        }
     }
 
     /**
