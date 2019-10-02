@@ -15296,7 +15296,7 @@ function DropdownController($document, $rootScope, $scope, $timeout, $window, Lx
 
     if (angular.isDefined(lx.width)) {
       if (lx.width.indexOf('%') > -1) {
-        menuProps.minWidth = toggleProps.width * (lx.width.slice(0, -1) / 100);
+        menuProps.width = toggleProps.width * (lx.width.slice(0, -1) / 100);
       } else {
         menuProps.width = lx.width;
       }
@@ -15314,18 +15314,9 @@ function DropdownController($document, $rootScope, $scope, $timeout, $window, Lx
 
     _menuEl.css({
       left: menuProps.left,
-      right: menuProps.right
+      right: menuProps.right,
+      width: menuProps.width
     });
-
-    if (angular.isDefined(menuProps.minWidth)) {
-      _menuEl.css({
-        minWidth: menuProps.minWidth
-      });
-    } else {
-      _menuEl.css({
-        width: menuProps.width
-      });
-    }
   }
 
   function _initVerticalPosition() {
