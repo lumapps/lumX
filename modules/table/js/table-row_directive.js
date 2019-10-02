@@ -43,6 +43,7 @@ function TableRowDirective() {
         require: ['lxTableRow', '^lxTable', '?^lxTableBody'],
         restrict: 'E',
         scope: {
+            isClickable: '=?lxIsClickable',
             isSelected: '=?lxIsSelected',
         },
         template,
