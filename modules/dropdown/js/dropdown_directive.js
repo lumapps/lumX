@@ -1,4 +1,4 @@
-import { CSS_PREFIX, ESCAPE_KEY_CODE } from '@lumx/core/js/constants';
+import { CSS_PREFIX, ENTER_KEY_CODE, ESCAPE_KEY_CODE } from '@lumx/core/js/constants';
 
 import template from '../views/dropdown.html';
 
@@ -106,7 +106,10 @@ function DropdownController(
      * @param {Event} evt The click/keydown event.
      */
     function _onDocumentEvent(evt) {
-        if (angular.isDefined(lx.escapeClose) && !lx.escapeClose) {
+        if (
+            (angular.isDefined(lx.escapeClose) && !lx.escapeClose) ||
+            (angular.isDefined(evt.keyCode) && evt.keyCode !== ESCAPE_KEY_CODE && evt.keyCode !== ENTER_KEY_CODE)
+        ) {
             return;
         }
 
