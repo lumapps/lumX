@@ -15219,7 +15219,7 @@ function DropdownController($document, $rootScope, $scope, $timeout, $window, Lx
   lx.uuid = LxUtilsService.generateUUID();
 
   function _onDocumentEvent(evt) {
-    if (angular.isDefined(lx.escapeClose) && !lx.escapeClose) {
+    if (angular.isDefined(lx.escapeClose) && !lx.escapeClose || angular.isDefined(evt.keyCode) && evt.keyCode !== _lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_3__[/* ESCAPE_KEY_CODE */ "d"] && evt.keyCode !== _lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_3__[/* ENTER_KEY_CODE */ "c"]) {
       return;
     }
 
@@ -19889,7 +19889,7 @@ function TooltipController($element, $timeout, LxDepthService) {
   }
 
   function showTooltip() {
-    if (angular.isDefined(_tooltip)) {
+    if (angular.isDefined(_tooltip) || !lx.text) {
       return;
     }
 
