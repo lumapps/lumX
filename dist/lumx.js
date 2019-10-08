@@ -19834,10 +19834,10 @@ angular.module('lumx.toolbar').directive('lxToolbar', ToolbarDirective);
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TooltipDirective", function() { return TooltipDirective; });
 /* harmony import */ var _lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
-TooltipController.$inject = ["$element", "$timeout", "$window"];
+TooltipController.$inject = ["$element", "$timeout"];
 
 
-function TooltipController($element, $timeout, $window) {
+function TooltipController($element, $timeout) {
   'ngInject';
 
   var lx = this;
@@ -19856,15 +19856,13 @@ function TooltipController($element, $timeout, $window) {
     var targetProps = {
       height: $element.outerHeight(),
       left: $element.offset().left,
-      top: $element.offset().top - angular.element($window).scrollTop(),
+      top: $element.offset().top,
       width: $element.outerWidth()
     };
     var tooltipPosition = angular.isDefined(lx.position) ? lx.position : 'top';
     var tooltipProps = {};
 
-    _tooltip.addClass(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_0__[/* CSS_PREFIX */ "a"] + "-tooltip--position-" + tooltipPosition).css({
-      position: 'absolute'
-    }).appendTo('body');
+    _tooltip.addClass(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_0__[/* CSS_PREFIX */ "a"] + "-tooltip--position-" + tooltipPosition).appendTo('body');
 
     if (tooltipPosition === 'top') {
       tooltipProps.x = targetProps.left - _tooltip.outerWidth() / 2 + targetProps.width / 2;
