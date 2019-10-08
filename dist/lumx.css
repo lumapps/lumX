@@ -14189,8 +14189,8 @@ table {
   align-items: center;
   justify-content: center;
   padding: 0;
-  margin: 0;
   border: none;
+  margin: 0;
   outline: none;
   text-decoration: none;
   -webkit-user-select: none;
@@ -14206,26 +14206,26 @@ table {
 .btn--raised.btn--xs {
   height: 24px;
   border-radius: 4px;
+  padding: 0 12px;
   font-size: 12px;
   font-weight: 700;
   line-height: 24px;
   pointer-events: none;
   text-transform: none;
-  pointer-events: visible;
-  padding: 0 12px; }
+  pointer-events: visible; }
   .btn--raised.btn--xs .ripple {
     display: none; }
 
 .btn--flat.btn--xs {
   height: 24px;
   border-radius: 4px;
+  padding: 0 8px;
   font-size: 12px;
   font-weight: 700;
   line-height: 24px;
   pointer-events: none;
   text-transform: none;
-  pointer-events: visible;
-  padding: 0 8px; }
+  pointer-events: visible; }
   .btn--flat.btn--xs .ripple {
     display: none; }
 
@@ -14252,26 +14252,26 @@ table {
 .btn--raised.btn--s {
   height: 24px;
   border-radius: 4px;
+  padding: 0 12px;
   font-size: 12px;
   font-weight: 700;
   line-height: 24px;
   pointer-events: none;
   text-transform: none;
-  pointer-events: visible;
-  padding: 0 12px; }
+  pointer-events: visible; }
   .btn--raised.btn--s .ripple {
     display: none; }
 
 .btn--flat.btn--s {
   height: 24px;
   border-radius: 4px;
+  padding: 0 8px;
   font-size: 12px;
   font-weight: 700;
   line-height: 24px;
   pointer-events: none;
   text-transform: none;
-  pointer-events: visible;
-  padding: 0 8px; }
+  pointer-events: visible; }
   .btn--flat.btn--s .ripple {
     display: none; }
 
@@ -14298,26 +14298,26 @@ table {
 .btn--raised.btn--m {
   height: 36px;
   border-radius: 4px;
+  padding: 0 16px;
   font-size: 14px;
   font-weight: 700;
   line-height: 36px;
   pointer-events: none;
   text-transform: none;
-  pointer-events: visible;
-  padding: 0 16px; }
+  pointer-events: visible; }
   .btn--raised.btn--m .ripple {
     display: none; }
 
 .btn--flat.btn--m {
   height: 36px;
   border-radius: 4px;
+  padding: 0 8px;
   font-size: 14px;
   font-weight: 700;
   line-height: 36px;
   pointer-events: none;
   text-transform: none;
-  pointer-events: visible;
-  padding: 0 8px; }
+  pointer-events: visible; }
   .btn--flat.btn--m .ripple {
     display: none; }
 
@@ -14344,26 +14344,26 @@ table {
 .btn--raised.btn--l {
   height: 36px;
   border-radius: 4px;
+  padding: 0 16px;
   font-size: 14px;
   font-weight: 700;
   line-height: 36px;
   pointer-events: none;
   text-transform: none;
-  pointer-events: visible;
-  padding: 0 16px; }
+  pointer-events: visible; }
   .btn--raised.btn--l .ripple {
     display: none; }
 
 .btn--flat.btn--l {
   height: 36px;
   border-radius: 4px;
+  padding: 0 8px;
   font-size: 14px;
   font-weight: 700;
   line-height: 36px;
   pointer-events: none;
   text-transform: none;
-  pointer-events: visible;
-  padding: 0 8px; }
+  pointer-events: visible; }
   .btn--flat.btn--l .ripple {
     display: none; }
 
@@ -14390,26 +14390,26 @@ table {
 .btn--raised.btn--xl {
   height: 36px;
   border-radius: 4px;
+  padding: 0 16px;
   font-size: 14px;
   font-weight: 700;
   line-height: 36px;
   pointer-events: none;
   text-transform: none;
-  pointer-events: visible;
-  padding: 0 16px; }
+  pointer-events: visible; }
   .btn--raised.btn--xl .ripple {
     display: none; }
 
 .btn--flat.btn--xl {
   height: 36px;
   border-radius: 4px;
+  padding: 0 8px;
   font-size: 14px;
   font-weight: 700;
   line-height: 36px;
   pointer-events: none;
   text-transform: none;
-  pointer-events: visible;
-  padding: 0 8px; }
+  pointer-events: visible; }
   .btn--flat.btn--xl .ripple {
     display: none; }
 
@@ -31894,8 +31894,8 @@ table {
   align-items: center;
   justify-content: center;
   padding: 0;
-  margin: 0;
   border: none;
+  margin: 0;
   outline: none;
   text-decoration: none;
   -webkit-user-select: none;
@@ -31911,26 +31911,26 @@ table {
 .btn--raised.btn--xs {
   height: 24px;
   border-radius: 2px;
+  padding: 0 12px;
   font-size: 10px;
   font-weight: 500;
   line-height: 24px;
   pointer-events: none;
   text-transform: uppercase;
-  pointer-events: visible;
-  padding: 0 12px; }
+  pointer-events: visible; }
   .btn--raised.btn--xs .ripple {
     display: none; }
 
 .btn--flat.btn--xs {
   height: 24px;
   border-radius: 2px;
+  padding: 0 8px;
   font-size: 10px;
   font-weight: 500;
   line-height: 24px;
   pointer-events: none;
   text-transform: uppercase;
-  pointer-events: visible;
-  padding: 0 8px; }
+  pointer-events: visible; }
   .btn--flat.btn--xs .ripple {
     display: none; }
 
@@ -31957,26 +31957,26 @@ table {
 .btn--raised.btn--s {
   height: 24px;
   border-radius: 2px;
+  padding: 0 12px;
   font-size: 10px;
   font-weight: 500;
   line-height: 24px;
   pointer-events: none;
   text-transform: uppercase;
-  pointer-events: visible;
-  padding: 0 12px; }
+  pointer-events: visible; }
   .btn--raised.btn--s .ripple {
     display: none; }
 
 .btn--flat.btn--s {
   height: 24px;
   border-radius: 2px;
+  padding: 0 8px;
   font-size: 10px;
   font-weight: 500;
   line-height: 24px;
   pointer-events: none;
   text-transform: uppercase;
-  pointer-events: visible;
-  padding: 0 8px; }
+  pointer-events: visible; }
   .btn--flat.btn--s .ripple {
     display: none; }
 
@@ -32003,26 +32003,26 @@ table {
 .btn--raised.btn--m {
   height: 36px;
   border-radius: 2px;
+  padding: 0 16px;
   font-size: 14px;
   font-weight: 500;
   line-height: 36px;
   pointer-events: none;
   text-transform: uppercase;
-  pointer-events: visible;
-  padding: 0 16px; }
+  pointer-events: visible; }
   .btn--raised.btn--m .ripple {
     display: none; }
 
 .btn--flat.btn--m {
   height: 36px;
   border-radius: 2px;
+  padding: 0 8px;
   font-size: 14px;
   font-weight: 500;
   line-height: 36px;
   pointer-events: none;
   text-transform: uppercase;
-  pointer-events: visible;
-  padding: 0 8px; }
+  pointer-events: visible; }
   .btn--flat.btn--m .ripple {
     display: none; }
 
@@ -32049,26 +32049,26 @@ table {
 .btn--raised.btn--l {
   height: 36px;
   border-radius: 2px;
+  padding: 0 16px;
   font-size: 14px;
   font-weight: 500;
   line-height: 36px;
   pointer-events: none;
   text-transform: uppercase;
-  pointer-events: visible;
-  padding: 0 16px; }
+  pointer-events: visible; }
   .btn--raised.btn--l .ripple {
     display: none; }
 
 .btn--flat.btn--l {
   height: 36px;
   border-radius: 2px;
+  padding: 0 8px;
   font-size: 14px;
   font-weight: 500;
   line-height: 36px;
   pointer-events: none;
   text-transform: uppercase;
-  pointer-events: visible;
-  padding: 0 8px; }
+  pointer-events: visible; }
   .btn--flat.btn--l .ripple {
     display: none; }
 
@@ -32095,26 +32095,26 @@ table {
 .btn--raised.btn--xl {
   height: 36px;
   border-radius: 2px;
+  padding: 0 16px;
   font-size: 14px;
   font-weight: 500;
   line-height: 36px;
   pointer-events: none;
   text-transform: uppercase;
-  pointer-events: visible;
-  padding: 0 16px; }
+  pointer-events: visible; }
   .btn--raised.btn--xl .ripple {
     display: none; }
 
 .btn--flat.btn--xl {
   height: 36px;
   border-radius: 2px;
+  padding: 0 8px;
   font-size: 14px;
   font-weight: 500;
   line-height: 36px;
   pointer-events: none;
   text-transform: uppercase;
-  pointer-events: visible;
-  padding: 0 8px; }
+  pointer-events: visible; }
   .btn--flat.btn--xl .ripple {
     display: none; }
 
