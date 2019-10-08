@@ -68,19 +68,7 @@ $btn-variant-fallback: (
         pointer-events: visible;
     } @else {
         i {
-            @include lumx-button-icon('variant-icon', 'position-left', map-get($btn-size-fallback, $size));
-        }
-    }
-
-    @if (map-get($btn-variant-fallback, $type) == 'variant-button') {
-        @if (map-get($btn-emphasis-fallback, $type) == 'emphasis-high') {
-            @if (map-get($btn-size-fallback, $size) == 'm') {
-                padding: 0 $lumx-spacing-unit * 2;
-            } @else {
-                padding: 0 $lumx-spacing-unit * 1.5;
-            }
-        } @else {
-            padding: 0 $lumx-spacing-unit;
+            @include lumx-button-icon('variant-icon', map-get($btn-size-fallback, $size));
         }
     }
 
