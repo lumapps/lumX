@@ -2,7 +2,7 @@ import { CSS_PREFIX } from '@lumx/core/js/constants';
 
 /////////////////////////////
 
-function TooltipController($element, $timeout, $window) {
+function TooltipController($element, $timeout) {
     'ngInject';
 
     // eslint-disable-next-line consistent-this
@@ -76,16 +76,13 @@ function TooltipController($element, $timeout, $window) {
         const targetProps = {
             height: $element.outerHeight(),
             left: $element.offset().left,
-            top: $element.offset().top - angular.element($window).scrollTop(),
+            top: $element.offset().top,
             width: $element.outerWidth(),
         };
         const tooltipPosition = angular.isDefined(lx.position) ? lx.position : 'top';
         const tooltipProps = {};
 
-        _tooltip
-            .addClass(`${CSS_PREFIX}-tooltip--position-${tooltipPosition}`)
-            .css({ position: 'absolute' })
-            .appendTo('body');
+        _tooltip.addClass(`${CSS_PREFIX}-tooltip--position-${tooltipPosition}`).appendTo('body');
 
         /* eslint-disable no-magic-numbers */
         if (tooltipPosition === 'top') {
