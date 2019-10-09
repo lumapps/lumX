@@ -3,23 +3,25 @@ const glob = require('glob');
 
 const merge = require('webpack-merge');
 
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ExtractCssChunks = require('extract-css-chunks-webpack-plugin');
 const WebpackNotifierPlugin = require('webpack-notifier');
 
 const { getStyleLoader } = require('./utils');
-const { CORE_PATH, DEMO_PATH } = require('./constants');
+const { DEMO_PATH, STATIC_SITE_PATH, NODE_MODULES_PATH } = require('./constants');
 
 const baseConfig = require('./webpack.config');
 
 const filename = '[name]';
-const distTechPath = `${DEMO_PATH}`;
+const distTechPath = `${STATIC_SITE_PATH}`;
 
 const entry = Object.assign(baseConfig.entry, {
+    app: `${DEMO_PATH}/app.js`,
     components: [...glob.sync(`${DEMO_PATH}/components/**/*.js`)],
     foundations: [...glob.sync(`${DEMO_PATH}/foundations/**/*.js`)],
     layout: [...glob.sync(`${DEMO_PATH}/layout/**/*.js`)],
 });
-entry.lumx = [`${CORE_PATH}/scss/_lumx.scss`, ...entry.lumx];
+entry.lumx = [...entry.lumx, `${DEMO_PATH}/scss/lumx.scss`];
 
 const plugins = [
     ...baseConfig.plugins,
@@ -27,6 +29,24 @@ const plugins = [
         chunkFilename: `${filename}.css`,
         filename: `${filename}.css`,
     }),
+    new CopyWebpackPlugin([
+        {
+            from: NODE_MODULES_PATH,
+            to: `${STATIC_SITE_PATH}/node_modules`,
+        },
+        {
+            from: `${DEMO_PATH}/index.html`,
+            to: `${STATIC_SITE_PATH}/`,
+        },
+        {
+            from: `${DEMO_PATH}/components`,
+            to: `${STATIC_SITE_PATH}/demo/components`,
+        },
+        {
+            from: `${DEMO_PATH}/foundations`,
+            to: `${STATIC_SITE_PATH}/demo/foundations`,
+        },
+    ]),
 ];
 
 if (!IS_CI) {
