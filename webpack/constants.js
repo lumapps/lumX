@@ -15,6 +15,7 @@ const ROOT_PATH = getAbsolutePath('../');
 
 const DEMO_PATH = `${ROOT_PATH}/demo`;
 const DIST_PATH = `${ROOT_PATH}/dist`;
+const STATIC_SITE_PATH = `${DIST_PATH}/ui.lumapps.com`;
 const NODE_MODULES_PATH = `${ROOT_PATH}/node_modules`;
 
 const MODULES_PATH = `${ROOT_PATH}/modules`;
@@ -196,6 +197,7 @@ module.exports = {
     DEFAULT_PORT,
     DEMO_PATH,
     DIST_PATH,
+    STATIC_SITE_PATH,
     NODE_MODULES_PATH,
     ROOT_PATH,
     STYLES_PATH,
