@@ -9080,7 +9080,7 @@ module.exports=v1
 /* 61 */
 /***/ (function(module, exports) {
 
-var v1='<div class=lumx-progress ng-class="{ \'lumx-progress--circular\': !lx.variant || lx.variant === \'circular\',\n                \'lumx-custom-colors\': lx.customColors }"><div class=lumx-progress-circular ng-if="::!lx.variant || lx.variant === \'circular\'"><div class=lumx-progress-circular__double-bounce1></div><div class=lumx-progress-circular__double-bounce2></div><svg class=lumx-progress-circular__svg viewBox="25 25 50 50"><circle class=lumx-progress-circular__path cx=50 cy=50 r=20 fill=none stroke-width="5"/></svg></div><div class=lumx-progress-linear ng-if="::lx.variant === \'linear\'"><div class=lumx-progress-linear__line1></div><div class=lumx-progress-linear__line2></div></div></div>';
+var v1='<div class=lumx-progress ng-class="{ \'lumx-progress--theme-light\': !lx.theme || lx.theme === \'light\',\n                \'lumx-progress--theme-dark\': lx.theme === \'dark\',\n                \'lumx-progress--variant-circular\': !lx.variant || lx.variant === \'circular\',\n                \'lumx-custom-colors\': lx.customColors }"><div class=lumx-progress-circular ng-if="::!lx.variant || lx.variant === \'circular\'"><div class=lumx-progress-circular__double-bounce1></div><div class=lumx-progress-circular__double-bounce2></div><svg class=lumx-progress-circular__svg viewBox="25 25 50 50"><circle class=lumx-progress-circular__path cx=50 cy=50 r=20 fill=none stroke-width="5"/></svg></div><div class=lumx-progress-linear ng-if="::lx.variant === \'linear\'"><div class=lumx-progress-linear__line1></div><div class=lumx-progress-linear__line2></div></div></div>';
 angular.module('lumx.progress').run(['$templateCache', function ($templateCache) {$templateCache.put('progress.html', v1);}]);
 module.exports=v1
 
@@ -16575,6 +16575,7 @@ function ProgressDirective() {
     restrict: 'E',
     scope: {
       customColors: '=?lxCustomColors',
+      theme: '@?lxTheme',
       variant: '@?lxVariant'
     },
     template: _views_progress_html__WEBPACK_IMPORTED_MODULE_0___default.a
