@@ -22,6 +22,7 @@ function ProgressDirective() {
         restrict: 'E',
         scope: {
             customColors: '=?lxCustomColors',
+            theme: '@?lxTheme',
             variant: '@?lxVariant',
         },
         template,
