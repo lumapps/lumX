@@ -155,6 +155,7 @@ function SwitchDirective() {
         require: ['lxSwitch', '?ngModel'],
         restrict: 'E',
         scope: {
+            customColors: '=?lxCustomColors',
             position: '@?lxPosition',
             theme: '@?lxTheme',
         },

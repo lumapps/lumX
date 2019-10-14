@@ -164,6 +164,7 @@ function RadioButtonDirective() {
         require: ['lxRadioButton', '?ngModel'],
         restrict: 'E',
         scope: {
+            customColors: '=?lxCustomColors',
             theme: '@?lxTheme',
         },
         template,

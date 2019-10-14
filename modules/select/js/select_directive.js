@@ -591,6 +591,7 @@ function SelectDirective() {
         restrict: 'E',
         scope: {
             choices: '=lxChoices',
+            customColors: '=?lxCustomColors',
             filter: '&?lxFilter',
             hasError: '=?lxError',
             hasFilter: '=?lxDisplayFilter',

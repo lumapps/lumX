@@ -1,6 +1,7 @@
 <ul
     class="lumx-list"
-    ng-class="{ 'lumx-list--is-clickable': lx.isClickable }"
+    ng-class="{ 'lumx-list--is-clickable': lx.isClickable,
+                'lumx-custom-colors': lx.customColors }"
     tabindex="{{ lx.isClickable ? 0 : -1 }}"
     ng-transclude
 ></ul>

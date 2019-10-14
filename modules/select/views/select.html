@@ -14,7 +14,8 @@
                 'lumx-select--is-valid': lx.isValid,
                 'lumx-select--has-error': lx.hasError,
                 'lumx-select--has-placeholder': lx.placeholder,
-                'lumx-select--is-focus': lx.isFocus }"
+                'lumx-select--is-focus': lx.isFocus,
+                'lumx-custom-colors': lx.customColors }"
 >
     <span class="lumx-select__label" ng-if="::lx.label && (!lx.variant || lx.variant === 'input')">
         {{ lx.label }}
@@ -77,6 +78,7 @@
 
     <lx-chip
         id="{{ lx.targetUuid }}"
+        lx-custom-colors="lx.customColors"
         lx-has-dropdown-indicator="lx.isModelEmpty()"
         lx-on-click="lx.toggleDropdown($event)"
         lx-on-after-click="lx.clearModel()"
@@ -120,7 +122,12 @@
                 />
             </div>
 
-            <lx-list lx-focus-on-init="!lx.hasFilter" lx-is-clickable="true" ng-if="!lx.isLoading">
+            <lx-list
+                lx-custom-colors="lx.customColors"
+                lx-focus-on-init="!lx.hasFilter"
+                lx-is-clickable="true"
+                ng-if="!lx.isLoading"
+            >
                 <!-- Default choices -->
                 <lx-list-item
                     lx-is-selected="lx.isSelected(choice)"

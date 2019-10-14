@@ -150,6 +150,10 @@ function ButtonController() {
             classes.push(`${CSS_PREFIX}-button--variant-${lx.variant}`);
         }
 
+        if (lx.customColors) {
+            classes.push(`${CSS_PREFIX}-custom-colors`);
+        }
+
         return classes;
     }
 
@@ -289,6 +293,7 @@ function ButtonDirective() {
         restrict: 'E',
         scope: {
             color: '@?lxColor',
+            customColors: '=?lxCustomColors',
             emphasis: '@?lxEmphasis',
             hasBackground: '=?lxHasBackground',
             size: '@?lxSize',

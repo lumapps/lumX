@@ -170,6 +170,7 @@ function TextFieldDirective($timeout) {
         replace: true,
         restrict: 'E',
         scope: {
+            customColors: '=?lxCustomColors',
             focus: '=?lxFocus',
             hasError: '=?lxError',
             helper: '@?lxHelper',

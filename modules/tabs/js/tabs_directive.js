@@ -118,6 +118,7 @@ function TabsDirective() {
         restrict: 'E',
         scope: {
             activeTab: '=?lxActiveTab',
+            customColors: '=?lxCustomColors',
             layout: '@?lxLayout',
             position: '@?lxPosition',
             theme: '@?lxTheme',

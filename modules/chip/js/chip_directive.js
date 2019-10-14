@@ -81,7 +81,12 @@ function ChipController() {
         const classes = [];
 
         if (angular.isUndefined(lx.color)) {
-            classes.push(`${CSS_PREFIX}-chip--color-${_DEFAULT_PROPS.color}`);
+            if (angular.isDefined(lx.theme) && lx.theme) {
+                const chipColor = lx.theme === 'light' ? 'dark' : 'light';
+                classes.push(`${CSS_PREFIX}-chip--color-${chipColor}`);
+            } else {
+                classes.push(`${CSS_PREFIX}-chip--color-${_DEFAULT_PROPS.color}`);
+            }
         } else {
             classes.push(`${CSS_PREFIX}-chip--color-${lx.color}`);
         }
@@ -116,8 +121,8 @@ function ChipController() {
             classes.push(`${CSS_PREFIX}-chip--size-${lx.size}`);
         }
 
-        if (angular.isDefined(lx.theme) && lx.theme) {
-            classes.push(`${CSS_PREFIX}-chip--theme-${lx.theme}`);
+        if (lx.customColors) {
+            classes.push(`${CSS_PREFIX}-custom-colors`);
         }
 
         return classes;
@@ -202,6 +207,7 @@ function ChipDirective() {
         restrict: 'E',
         scope: {
             color: '@?lxColor',
+            customColors: '=?lxCustomColors',
             hasDropdownIndicator: '=?lxHasDropdownIndicator',
             isDisabled: '=?ngDisabled',
             isSelected: '=?lxIsSelected',

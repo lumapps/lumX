@@ -133,6 +133,7 @@ function ListDirective() {
         replace: true,
         restrict: 'E',
         scope: {
+            customColors: '=?lxCustomColors',
             isClickable: '=?lxIsClickable',
         },
         template,
