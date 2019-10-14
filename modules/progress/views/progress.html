@@ -1,6 +1,8 @@
 <div
     class="lumx-progress"
-    ng-class="{ 'lumx-progress--circular': !lx.variant || lx.variant === 'circular',
+    ng-class="{ 'lumx-progress--theme-light': !lx.theme || lx.theme === 'light',
+                'lumx-progress--theme-dark': lx.theme === 'dark',
+                'lumx-progress--variant-circular': !lx.variant || lx.variant === 'circular',
                 'lumx-custom-colors': lx.customColors }"
 >
     <div class="lumx-progress-circular" ng-if="::!lx.variant || lx.variant === 'circular'">
