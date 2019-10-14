@@ -1,19 +1,19 @@
-<div class="progress-container progress-container--{{ lxProgress.lxType }} progress-container--{{ lxProgress.lxColor }} {{ lxProgress.lxClass }}">
-    <div class="progress-circular"
-         ng-if="lxProgress.lxType === 'circular'"
-         ng-style="lxProgress.getProgressDiameter()">
-        <svg class="progress-circular__svg">
-            <g transform="translate(50 50)">
-                <g class="progress-circular__g">
-                    <circle class="progress-circular__path" cx="0" cy="0" r="20" fill="none" stroke-width="4" stroke-miterlimit="10" ng-style="lxProgress.getCircularProgressValue()"></circle>
-                </g>
-            </g>
+<div
+    class="lumx-progress"
+    ng-class="{ 'lumx-progress--circular': !lx.variant || lx.variant === 'circular',
+                'lumx-custom-colors': lx.customColors }"
+>
+    <div class="lumx-progress-circular" ng-if="::!lx.variant || lx.variant === 'circular'">
+        <div class="lumx-progress-circular__double-bounce1"></div>
+        <div class="lumx-progress-circular__double-bounce2"></div>
+
+        <svg class="lumx-progress-circular__svg" viewBox="25 25 50 50">
+            <circle class="lumx-progress-circular__path" cx="50" cy="50" r="20" fill="none" stroke-width="5" />
         </svg>
     </div>
 
-    <div class="progress-linear" ng-if="lxProgress.lxType === 'linear'">
-        <div class="progress-linear__background"></div>
-        <div class="progress-linear__bar progress-linear__bar--first" ng-style="lxProgress.getLinearProgressValue()"></div>
-        <div class="progress-linear__bar progress-linear__bar--second"></div>
+    <div class="lumx-progress-linear" ng-if="::lx.variant === 'linear'">
+        <div class="lumx-progress-linear__line1"></div>
+        <div class="lumx-progress-linear__line2"></div>
     </div>
 </div>

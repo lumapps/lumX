@@ -1,79 +1,37 @@
-(function()
-{
-    'use strict';
+import template from '../views/progress.html';
 
-    angular
-        .module('lumx.progress')
-        .directive('lxProgress', lxProgress);
+/////////////////////////////
 
-    function lxProgress()
-    {
-        return {
-            restrict: 'E',
-            templateUrl: 'progress.html',
-            scope:
-            {
-                lxColor: '@?',
-                lxDiameter: '@?',
-                lxType: '@',
-                lxValue: '@'
-            },
-            controller: LxProgressController,
-            controllerAs: 'lxProgress',
-            bindToController: true,
-            replace: true
-        };
-    }
+function ProgressController() {
+    'ngInject';
 
-    function LxProgressController()
-    {
-        var lxProgress = this;
+    // eslint-disable-next-line consistent-this, no-unused-vars
+    const lx = this;
+}
 
-        lxProgress.getCircularProgressValue = getCircularProgressValue;
-        lxProgress.getLinearProgressValue = getLinearProgressValue;
-        lxProgress.getProgressDiameter = getProgressDiameter;
+/////////////////////////////
 
-        ////////////
+function ProgressDirective() {
+    'ngInject';
 
-        function getCircularProgressValue()
-        {
-            if (angular.isDefined(lxProgress.lxValue))
-            {
-                return {
-                    'stroke-dasharray': lxProgress.lxValue * 1.26 + ',200'
-                };
-            }
-        }
+    return {
+        bindToController: true,
+        controller: ProgressController,
+        controllerAs: 'lx',
+        replace: true,
+        restrict: 'E',
+        scope: {
+            customColors: '=?lxCustomColors',
+            variant: '@?lxVariant',
+        },
+        template,
+    };
+}
 
-        function getLinearProgressValue()
-        {
-            if (angular.isDefined(lxProgress.lxValue))
-            {
-                return {
-                    'transform': 'scale(' + lxProgress.lxValue / 100 + ', 1)'
-                };
-            }
-        }
+/////////////////////////////
 
-        function getProgressDiameter()
-        {
-            if (lxProgress.lxType === 'circular')
-            {
-                return {
-                    'transform': 'scale(' + parseInt(lxProgress.lxDiameter) / 100 + ')'
-                };
-            }
+angular.module('lumx.progress').directive('lxProgress', ProgressDirective);
 
-            return;
-        }
+/////////////////////////////
 
-        function init()
-        {
-            lxProgress.lxDiameter = angular.isDefined(lxProgress.lxDiameter) ? lxProgress.lxDiameter : 100;
-            lxProgress.lxColor = angular.isDefined(lxProgress.lxColor) ? lxProgress.lxColor : 'primary';
-            lxProgress.lxClass = angular.isDefined(lxProgress.lxValue) ? 'progress-container--determinate' : 'progress-container--indeterminate';
-        }
-
-        this.$onInit = init;
-    }
-})();
+export { ProgressDirective };

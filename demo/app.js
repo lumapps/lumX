@@ -134,6 +134,14 @@ function AppDefaultConfig($locationProvider, $stateProvider, markedProvider) {
                 },
             },
         })
+        .state('app.components.progress', {
+            url: 'progress',
+            views: {
+                'main@': {
+                    template: require('./components/progress/demo.html'),
+                },
+            },
+        })
         .state('app.components.radio-button', {
             url: 'radio-button',
             views: {
