@@ -87,43 +87,43 @@ $btn-variant-fallback: (
 @mixin btn-disabled($type) {
 }
 
-.btn {
+.btn:not(.lumx-button) {
     @include lumx-button-base;
     @include lumx-state-transition;
 }
 
 @each $key, $size in $sizes {
-    .btn--raised.btn--#{$key} {
+    .btn--raised.btn--#{$key}:not(.lumx-button) {
         @include btn-size($key, 'raised');
     }
 
-    .btn--flat.btn--#{$key} {
+    .btn--flat.btn--#{$key}:not(.lumx-button) {
         @include btn-size($key, 'flat');
     }
 
-    .btn--icon.btn--#{$key} {
+    .btn--icon.btn--#{$key}:not(.lumx-button) {
         @include btn-size($key, 'icon');
     }
 
-    .btn--fab.btn--#{$key} {
+    .btn--fab.btn--#{$key}:not(.lumx-button) {
         @include btn-size($key, 'fab');
     }
 }
 
 @each $key, $color in $colors {
-    .btn--raised.btn--#{$key} {
+    .btn--raised.btn--#{$key}:not(.lumx-button) {
         @include btn-color($key, 'raised');
     }
 
-    .btn--flat.btn--#{$key} {
+    .btn--flat.btn--#{$key}:not(.lumx-button) {
         @include btn-color($key, 'flat');
     }
 
-    .btn--icon.btn--#{$key} {
+    .btn--icon.btn--#{$key}:not(.lumx-button) {
         @include btn-color($key, 'icon');
     }
 
-    .btn--fab.btn--#{$key} {
+    .btn--fab.btn--#{$key}:not(.lumx-button) {
         @include btn-color($key, 'fab');
     }
 }

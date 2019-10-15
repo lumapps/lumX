@@ -108,8 +108,14 @@ function ButtonController() {
                 const defaultColor = _isDefaultEmphasis() ? 'primary' : 'dark';
                 classes.push(`${CSS_PREFIX}-button--color-${defaultColor}`);
             }
+
+            // Backward compatibility.
+            classes.push('btn--primary');
         } else {
             classes.push(`${CSS_PREFIX}-button--color-${lx.color}`);
+
+            // Backward compatibility.
+            classes.push(`btn--${lx.color}`);
         }
 
         if (angular.isUndefined(lx.emphasis)) {
@@ -128,8 +134,14 @@ function ButtonController() {
 
         if (angular.isUndefined(lx.size)) {
             classes.push(`${CSS_PREFIX}-button--size-${_DEFAULT_PROPS.size}`);
+
+            // Backward compatibility.
+            classes.push('btn--m');
         } else {
             classes.push(`${CSS_PREFIX}-button--size-${_SIZE_FALLBACK[lx.size]}`);
+
+            // Backward compatibility.
+            classes.push(`btn--${lx.size}`);
         }
 
         if (_isDefaultEmphasis()) {
@@ -148,6 +160,14 @@ function ButtonController() {
             }
         } else {
             classes.push(`${CSS_PREFIX}-button--variant-${lx.variant}`);
+        }
+
+        if (angular.isUndefined(lx.type)) {
+            // Backward compatibility.
+            classes.push('btn--raised');
+        } else {
+            // Backward compatibility.
+            classes.push(`btn--${lx.type}`);
         }
 
         if (lx.customColors) {
@@ -233,9 +253,9 @@ function ButtonDirective() {
         let buttonContent;
 
         if (isAnchor(attrs)) {
-            buttonContent = `<a class="${CSS_PREFIX}-button" ng-class="lx.getClasses()" ng-transclude></a>`;
+            buttonContent = `<a class="${CSS_PREFIX}-button btn" ng-class="lx.getClasses()" ng-transclude></a>`;
         } else {
-            buttonContent = `<button class="${CSS_PREFIX}-button" ng-class="lx.getClasses()" ng-transclude></button>`;
+            buttonContent = `<button class="${CSS_PREFIX}-button btn" ng-class="lx.getClasses()" ng-transclude></button>`;
         }
 
         if (attrs.lxHasBackground) {
