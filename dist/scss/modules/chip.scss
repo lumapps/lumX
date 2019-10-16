@@ -1,0 +1,66 @@
+/* ==========================================================================
+   Chip
+   ========================================================================== */
+
+.chip {
+    @include lumx-chip-base;
+    @include lumx-chip-size('m');
+    @include lumx-state('state-default', 'emphasis-medium', 'dark');
+
+    padding: 0 $lumx-spacing-unit * 1.5;
+
+    &__label {
+        @include lumx-chip-label('m');
+    }
+}
+
+/* Chip deletable
+   ========================================================================== */
+
+.chip--is-deletable {
+    @include lumx-state-transition;
+
+    cursor: pointer;
+
+    &:after {
+        @include mdi;
+        @include mdi-icon('close');
+        @include lumx-icon-size('xs');
+        @include lumx-chip-after;
+    }
+
+    &:hover {
+        @include lumx-state('state-hover', 'emphasis-medium', 'dark');
+    }
+
+    &:active {
+        @include lumx-state('state-active', 'emphasis-medium', 'dark');
+    }
+
+    &[data-focus-visible-added] {
+        @include lumx-state('state-focus', 'emphasis-medium', 'dark');
+    }
+}
+
+/* Chip contact
+   ========================================================================== */
+
+.chip--is-contact {
+    padding-left: 6px;
+}
+
+.chip__contact {
+    @include lumx-chip-before;
+    overflow: hidden;
+    width: map-get($lumx-sizes, 's');
+    height: map-get($lumx-sizes, 's');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-radius: 50%;
+
+    img {
+        width: map-get($lumx-sizes, 's');
+        height: map-get($lumx-sizes, 's');
+    }
+}

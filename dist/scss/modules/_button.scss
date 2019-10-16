@@ -1,0 +1,129 @@
+/* ==========================================================================
+   Button
+   ========================================================================== */
+
+$btn-font-size: (
+    'xs': 10px,
+    's': 13px,
+    'm': 14px,
+    'l': 16px,
+    'xl': 16px,
+);
+
+$btn-icon-size: (
+    'xs': 14px,
+    's': 18px,
+    'm': 20px,
+    'l': 24px,
+    'xl': 24px,
+);
+
+$btn-fab-size: (
+    'xs': 14px,
+    's': 18px,
+    'm': 20px,
+    'l': 20px,
+    'xl': 24px,
+);
+
+$btn-emphasis-fallback: (
+    'raised': 'emphasis-high',
+    'flat': 'emphasis-low',
+    'fab': 'emphasis-high',
+    'icon': 'emphasis-low',
+);
+
+$btn-size-fallback: (
+    'xs': 's',
+    's': 's',
+    'm': 'm',
+    'l': 'm',
+    'xl': 'm',
+);
+
+$btn-variant-fallback: (
+    'raised': 'variant-button',
+    'flat': 'variant-button',
+    'fab': 'variant-icon',
+    'icon': 'variant-icon',
+);
+
+@mixin btn($size, $color, $type, $disabled: null) {
+    @include lumx-button-base;
+    @include lumx-state-transition;
+    @include btn-size($size, $type);
+    @include btn-color($color, $type);
+    @include btn-type($type);
+}
+
+@mixin btn-size($size, $type: null) {
+    @include lumx-button-size(
+        map-get($btn-emphasis-fallback, $type),
+        map-get($btn-variant-fallback, $type),
+        map-get($btn-size-fallback, $size)
+    );
+
+    @if (map-get($btn-variant-fallback, $type) == 'variant-button') {
+        @include lumx-button-text(map-get($btn-size-fallback, $size));
+        pointer-events: visible;
+    } @else {
+        i {
+            @include lumx-button-icon('variant-icon', map-get($btn-size-fallback, $size));
+        }
+    }
+
+    .ripple {
+        display: none;
+    }
+}
+
+@mixin btn-color($color, $type) {
+    @include lumx-button-color(map-get($btn-emphasis-fallback, $type), $color, dark);
+}
+
+@mixin btn-type($type) {
+}
+
+@mixin btn-disabled($type) {
+}
+
+.btn:not(.lumx-button) {
+    @include lumx-button-base;
+    @include lumx-state-transition;
+}
+
+@each $key, $size in $sizes {
+    .btn--raised.btn--#{$key}:not(.lumx-button) {
+        @include btn-size($key, 'raised');
+    }
+
+    .btn--flat.btn--#{$key}:not(.lumx-button) {
+        @include btn-size($key, 'flat');
+    }
+
+    .btn--icon.btn--#{$key}:not(.lumx-button) {
+        @include btn-size($key, 'icon');
+    }
+
+    .btn--fab.btn--#{$key}:not(.lumx-button) {
+        @include btn-size($key, 'fab');
+    }
+}
+
+@each $key, $color in $colors {
+    .btn--raised.btn--#{$key}:not(.lumx-button) {
+        @include btn-color($key, 'raised');
+    }
+
+    .btn--flat.btn--#{$key}:not(.lumx-button) {
+        @include btn-color($key, 'flat');
+    }
+
+    .btn--icon.btn--#{$key}:not(.lumx-button) {
+        @include btn-color($key, 'icon');
+    }
+
+    .btn--fab.btn--#{$key}:not(.lumx-button) {
+        @include btn-color($key, 'fab');
+    }
+}

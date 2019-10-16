@@ -1,0 +1,246 @@
+///* ========================================================================
+//   #UTILITIES-FLEXBOX
+//   ======================================================================== */
+
+[flex-container] {
+    @include mq($from: desktop) {
+        display: flex;
+    }
+}
+
+[flex-container="row"] {
+    @include mq($from: desktop) {
+        flex-direction: row;
+    }
+}
+
+[flex-container="column"] {
+    @include mq($from: desktop) {
+        flex-direction: column;
+    }
+}
+
+
+
+
+
+[flex-wrap] {
+    flex-wrap: wrap;
+}
+
+
+
+
+
+[flex-align="center"],
+[flex-align="center center"],
+[flex-align="center start"],
+[flex-align="center end"] {
+    @include mq($from: desktop) {
+        justify-content: center;
+    }
+}
+
+[flex-align="end"],
+[flex-align="end center"],
+[flex-align="end start"],
+[flex-align="end end"] {
+    @include mq($from: desktop) {
+        justify-content: flex-end;
+    }
+}
+
+[flex-align="space-around"],
+[flex-align="space-around center"],
+[flex-align="space-around start"],
+[flex-align="space-around end"] {
+    @include mq($from: desktop) {
+        justify-content: space-around;
+    }
+}
+
+[flex-align="space-between"],
+[flex-align="space-between center"],
+[flex-align="space-between start"],
+[flex-align="space-between end"] {
+    @include mq($from: desktop) {
+        justify-content: space-between;
+    }
+}
+
+[flex-align="center center"],
+[flex-align="start center"],
+[flex-align="end center"],
+[flex-align="space-between center"],
+[flex-align="space-around center"] {
+    @include mq($from: desktop) {
+        align-items: center;
+    }
+}
+
+[flex-align="center start"],
+[flex-align="start start"],
+[flex-align="end start"],
+[flex-align="space-between start"],
+[flex-align="space-around start"] {
+    @include mq($from: desktop) {
+        align-items: flex-start;
+    }
+}
+
+[flex-align="center end"],
+[flex-align="start end"],
+[flex-align="end end"],
+[flex-align="space-between end"],
+[flex-align="space-around end"] {
+    @include mq($from: desktop) {
+        align-items: flex-end;
+    }
+}
+
+
+
+
+
+[flex-gutter="8"] {
+    @include mq($from: desktop) {
+        margin: 0 (($base-spacing-unit / 2) * -1);
+    }
+
+    & > [flex-item] {
+        @include mq($until: desktop) {
+            margin-bottom: $base-spacing-unit;
+        }
+
+        @include mq($from: desktop) {
+            padding: 0 $base-spacing-unit / 2;
+        }
+    }
+}
+
+[flex-gutter="16"] {
+    @include mq($from: desktop) {
+        margin: 0 ($base-spacing-unit * -1);
+    }
+
+    & > [flex-item] {
+        @include mq($until: desktop) {
+            margin-bottom: $base-spacing-unit * 2;
+        }
+
+        @include mq($from: desktop) {
+            padding: 0 $base-spacing-unit;
+        }
+    }
+}
+
+[flex-gutter="24"] {
+    @include mq($from: desktop) {
+        margin: 0 ($base-spacing-unit * 1.5) * -1;
+    }
+
+    & > [flex-item] {
+        @include mq($until: desktop) {
+            margin-bottom: $base-spacing-unit * 3;
+        }
+
+        @include mq($from: desktop) {
+            padding: 0 $base-spacing-unit * 1.5;
+        }
+    }
+}
+
+[flex-gutter="32"] {
+    @include mq($from: desktop) {
+        margin: 0 (($base-spacing-unit * 2) * -1);
+    }
+
+    & > [flex-item] {
+        @include mq($until: desktop) {
+            margin-bottom: $base-spacing-unit * 4;
+        }
+
+        @include mq($from: desktop) {
+            padding: 0 $base-spacing-unit * 2;
+        }
+    }
+}
+
+
+
+
+
+[flex-item] {
+    @include mq($from: desktop) {
+        position: relative;
+        flex: 1;
+    }
+}
+
+@for $i from 1 through 12 {
+    [flex-container="row"] > [flex-item="#{$i}"],
+    [flex-container="row"][flex-column="12"] > [flex-item="#{$i}"] {
+        @include mq($from: desktop) {
+            flex: unquote('0 0 #{(100 / 12) * $i + '%'}');
+            max-width: #{(100 / 12) * $i + '%'};
+        }
+    }
+
+    [flex-container="column"] > [flex-item="#{$i}"],
+    [flex-container="column"][flex-column="12"] > [flex-item="#{$i}"] {
+        @include mq($from: desktop) {
+            flex: unquote('0 0 #{(100 / 12) * $i + '%'}');
+            max-height: #{(100 / 12) * $i + '%'};
+        }
+    }
+}
+
+@for $i from 1 through 16 {
+    [flex-container="row"][flex-column="16"] > [flex-item="#{$i}"] {
+        @include mq($from: desktop) {
+            flex: unquote('0 0 #{(100 / 16) * $i + '%'}');
+            max-width: #{(100 / 16) * $i + '%'};
+        }
+    }
+
+    [flex-container="column"][flex-column="16"] > [flex-item="#{$i}"] {
+        @include mq($from: desktop) {
+            flex: unquote('0 0 #{(100 / 16) * $i + '%'}');
+            max-height: #{(100 / 16) * $i + '%'};
+        }
+    }
+}
+
+
+
+
+
+[flex-item-align="center"] {
+    @include mq($from: desktop) {
+        align-self: center;
+    }
+}
+
+[flex-item-align="start"] {
+    @include mq($from: desktop) {
+        align-self: flex-start;
+    }
+}
+
+[flex-item-align="end"] {
+    @include mq($from: desktop) {
+        align-self: flex-end;
+    }
+}
+
+
+
+
+
+@for $i from 1 through 16 {
+    [flex-item-order="#{$i}"] {
+        @include mq($from: desktop) {
+            order: $i;
+        }
+    }
+}

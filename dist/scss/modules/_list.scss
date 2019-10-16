@@ -1,0 +1,68 @@
+/* ==========================================================================
+   List
+   ========================================================================== */
+
+.list {
+    @include lumx-list;
+}
+
+/* List row
+   ========================================================================== */
+
+.list-row {
+    &--has-separator {
+        position: relative;
+
+        &::after {
+            position: absolute;
+            right: $lumx-list-item-padding;
+            bottom: 0;
+            left: $lumx-list-item-padding;
+            height: 1px;
+            background-color: lumx-theme-color-variant('dark', $lumx-divider-color-variant);
+            content: '';
+        }
+
+        &:last-child::after {
+            display: none;
+        }
+    }
+
+    &__primary {
+        @include lumx-list-item-before('regular');
+    }
+
+    &__content {
+        @include lumx-list-item-content;
+    }
+
+    &__secondary {
+        @include lumx-list-item-after('regular');
+    }
+}
+
+.list-row:not(.list-row--multi-line) {
+    @include lumx-list-item('big');
+
+    height: auto;
+    padding-top: $lumx-list-item-padding;
+    padding-bottom: $lumx-list-item-padding;
+}
+
+.list-row.list-row--multi-line {
+    @include lumx-list-item('huge');
+}
+
+/* List divider
+   ========================================================================== */
+
+.list-divider {
+    @include lumx-list-divider;
+}
+
+/* List subheader
+   ========================================================================== */
+
+.list-subheader {
+    @include lumx-list-subheader;
+}

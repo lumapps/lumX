@@ -1,0 +1,31 @@
+/* ==========================================================================
+   Dropdown
+   ========================================================================== */
+
+.dropdown-menu {
+    ul {
+        @include lumx-list;
+    }
+}
+
+.dropdown-divider {
+    @include lumx-list-divider;
+}
+
+.dropdown-link {
+    @include lumx-list-item('tiny');
+    @include lumx-list-item-clickable;
+    @include lumx-list-item-content;
+
+    i {
+        @include lumx-icon-size('xs');
+        @include lumx-icon-color('grey', 'N');
+        @include lumx-list-item-before('tiny');
+    }
+}
+
+.dropdown-link--is-header {
+    @include lumx-list-subheader;
+
+    pointer-events: none;
+}
