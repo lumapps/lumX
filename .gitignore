@@ -14,3 +14,4 @@ jest/reports/
 coverage
 design_system.xpr
 design_system.ditamap
+dist/

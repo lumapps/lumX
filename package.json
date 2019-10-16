@@ -39,7 +39,7 @@
     "scripts": {
         "prebuild": "rm -Rf ./dist/*",
         "build": "webpack --config webpack/webpack.prod.js && MINIFY=true GENERATE_PACKAGE=true webpack --config webpack/webpack.prod.js",
-        "prebuild:static-site": "rm -Rf ./dist/*",
+        "prebuild:static-site": "yarn build",
         "build:static-site": "webpack --config webpack/webpack.static-site.js",
         "prepublish-package": "npm run build",
         "publish-package": "cd dist && npm publish --access=public && cd -",

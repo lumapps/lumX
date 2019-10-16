@@ -5,6 +5,7 @@ const merge = require('webpack-merge');
 
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ExtractCssChunks = require('extract-css-chunks-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const WebpackNotifierPlugin = require('webpack-notifier');
 
 const { getStyleLoader } = require('./utils');
@@ -29,14 +30,14 @@ const plugins = [
         chunkFilename: `${filename}.css`,
         filename: `${filename}.css`,
     }),
+    new HtmlWebpackPlugin({
+        inject: false,
+        template: `${DEMO_PATH}/index.html`,
+    }),
     new CopyWebpackPlugin([
         {
             from: NODE_MODULES_PATH,
             to: `${STATIC_SITE_PATH}/node_modules`,
-        },
-        {
-            from: `${DEMO_PATH}/index.html`,
-            to: `${STATIC_SITE_PATH}/`,
         },
         {
             from: `${DEMO_PATH}/components`,
