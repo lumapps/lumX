@@ -100,8 +100,8 @@ function ButtonController() {
     function getClasses() {
         const classes = [];
 
-        if (angular.isUndefined(lx.color)) {
-            if (angular.isDefined(lx.theme) && !_isDefaultEmphasis()) {
+        if (angular.isUndefined(lx.color) || !lx.color) {
+            if (angular.isDefined(lx.theme) && lx.theme && !_isDefaultEmphasis()) {
                 const buttonColor = lx.theme === 'light' ? 'dark' : 'light';
                 classes.push(`${CSS_PREFIX}-button--color-${buttonColor}`);
             } else {
@@ -118,8 +118,8 @@ function ButtonController() {
             classes.push(`btn--${lx.color}`);
         }
 
-        if (angular.isUndefined(lx.emphasis)) {
-            if (angular.isDefined(lx.type)) {
+        if (angular.isUndefined(lx.emphasis) || !lx.emphasis) {
+            if (angular.isDefined(lx.type) && lx.type) {
                 classes.push(`${CSS_PREFIX}-button--emphasis-${_EMPHASIS_FALLBACK[lx.type]}`);
             } else {
                 classes.push(`${CSS_PREFIX}-button--emphasis-${_DEFAULT_PROPS.emphasis}`);
@@ -132,7 +132,7 @@ function ButtonController() {
             classes.push(`${CSS_PREFIX}-button--is-selected`);
         }
 
-        if (angular.isUndefined(lx.size)) {
+        if (angular.isUndefined(lx.size) || !lx.size) {
             classes.push(`${CSS_PREFIX}-button--size-${_DEFAULT_PROPS.size}`);
 
             // Backward compatibility.
@@ -145,15 +145,15 @@ function ButtonController() {
         }
 
         if (_isDefaultEmphasis()) {
-            if (angular.isUndefined(lx.theme)) {
+            if (angular.isUndefined(lx.theme) || !lx.theme) {
                 classes.push(`${CSS_PREFIX}-button--theme-${_DEFAULT_PROPS.theme}`);
             } else {
                 classes.push(`${CSS_PREFIX}-button--theme-${lx.theme}`);
             }
         }
 
-        if (angular.isUndefined(lx.variant)) {
-            if (angular.isDefined(lx.type)) {
+        if (angular.isUndefined(lx.variant) || !lx.variant) {
+            if (angular.isDefined(lx.type) && lx.type) {
                 classes.push(`${CSS_PREFIX}-button--variant-${_VARIANT_FALLBACK[lx.type]}`);
             } else {
                 classes.push(`${CSS_PREFIX}-button--variant-${_DEFAULT_PROPS.variant}`);
@@ -162,7 +162,7 @@ function ButtonController() {
             classes.push(`${CSS_PREFIX}-button--variant-${lx.variant}`);
         }
 
-        if (angular.isUndefined(lx.type)) {
+        if (angular.isUndefined(lx.type) || !lx.type) {
             // Backward compatibility.
             classes.push('btn--raised');
         } else {
@@ -186,8 +186,8 @@ function ButtonController() {
         const wrapperClasses = [];
 
         if (lx.hasBackground && lx.emphasis === 'low') {
-            if (angular.isUndefined(lx.color)) {
-                if (angular.isDefined(lx.theme)) {
+            if (angular.isUndefined(lx.color) || !lx.color) {
+                if (angular.isDefined(lx.theme) && lx.theme) {
                     wrapperClasses.push(`${CSS_PREFIX}-button-wrapper--color-${lx.theme}`);
                 } else {
                     wrapperClasses.push(`${CSS_PREFIX}-button-wrapper--color-light`);
@@ -202,8 +202,8 @@ function ButtonController() {
                 wrapperClasses.push(`${CSS_PREFIX}-button-wrapper--color-${wrapperColor}`);
             }
 
-            if (angular.isUndefined(lx.variant)) {
-                if (angular.isDefined(lx.type)) {
+            if (angular.isUndefined(lx.variant) || !lx.variant) {
+                if (angular.isDefined(lx.type) && lx.type) {
                     wrapperClasses.push(`${CSS_PREFIX}-button-wrapper--variant-${_VARIANT_FALLBACK[lx.type]}`);
                 } else {
                     wrapperClasses.push(`${CSS_PREFIX}-button-wrapper--variant-${_DEFAULT_PROPS.variant}`);
