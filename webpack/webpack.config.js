@@ -25,17 +25,13 @@ const baseConfig = {
             ...glob.sync(`${MODULES_PATH}/date-picker/views/*.html`),
             ...glob.sync(`${MODULES_PATH}/dialog/views/*.html`),
             ...glob.sync(`${MODULES_PATH}/dropdown/views/*.html`),
-            ...glob.sync(`${MODULES_PATH}/fab/views/*.html`),
-            ...glob.sync(`${MODULES_PATH}/file-input/views/*.html`),
             ...glob.sync(`${MODULES_PATH}/icon/views/*.html`),
             ...glob.sync(`${MODULES_PATH}/list/views/*.html`),
             ...glob.sync(`${MODULES_PATH}/popover/views/*.html`),
             ...glob.sync(`${MODULES_PATH}/progress/views/*.html`),
             ...glob.sync(`${MODULES_PATH}/radio-button/views/*.html`),
-            ...glob.sync(`${MODULES_PATH}/search-filter/views/*.html`),
             ...glob.sync(`${MODULES_PATH}/select/views/*.html`),
             ...glob.sync(`${MODULES_PATH}/side-navigation/views/*.html`),
-            ...glob.sync(`${MODULES_PATH}/stepper/views/*.html`),
             ...glob.sync(`${MODULES_PATH}/switch/views/*.html`),
             ...glob.sync(`${MODULES_PATH}/table/views/*.html`),
             ...glob.sync(`${MODULES_PATH}/tabs/views/*.html`),
@@ -112,16 +108,6 @@ const baseConfig = {
             },
             {
                 include: [/modules/u],
-                test: /\/fab\/.*\.html$/,
-                loader: 'angular-templatecache-loader-2?module=lumx.fab&relativeTo=modules/fab/views/',
-            },
-            {
-                include: [/modules/u],
-                test: /\/file-input\/.*\.html$/,
-                loader: 'angular-templatecache-loader-2?module=lumx.file-input&relativeTo=modules/file-input/views/',
-            },
-            {
-                include: [/modules/u],
                 test: /\/icon\/.*\.html$/,
                 loader: 'angular-templatecache-loader-2?module=lumx.icon&relativeTo=modules/icon/views/',
             },
@@ -148,12 +134,6 @@ const baseConfig = {
             },
             {
                 include: [/modules/u],
-                test: /\/search-filter\/.*\.html$/,
-                loader:
-                    'angular-templatecache-loader-2?module=lumx.search-filter&relativeTo=modules/search-filter/views/',
-            },
-            {
-                include: [/modules/u],
                 test: /\/select\/.*\.html$/,
                 loader: 'angular-templatecache-loader-2?module=lumx.select&relativeTo=modules/select/views/',
             },
@@ -162,11 +142,6 @@ const baseConfig = {
                 test: /\/side-navigation\/.*\.html$/,
                 loader:
                     'angular-templatecache-loader-2?module=lumx.side-navigation&relativeTo=modules/side-navigation/views/',
-            },
-            {
-                include: [/modules/u],
-                test: /\/stepper\/.*\.html$/,
-                loader: 'angular-templatecache-loader-2?module=lumx.stepper&relativeTo=modules/stepper/views/',
             },
             {
                 include: [/modules/u],
