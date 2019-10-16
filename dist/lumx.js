@@ -13695,8 +13695,8 @@ function ButtonController() {
   function getClasses() {
     var classes = [];
 
-    if (angular.isUndefined(lx.color)) {
-      if (angular.isDefined(lx.theme) && !_isDefaultEmphasis()) {
+    if (angular.isUndefined(lx.color) || !lx.color) {
+      if (angular.isDefined(lx.theme) && lx.theme && !_isDefaultEmphasis()) {
         var buttonColor = lx.theme === 'light' ? 'dark' : 'light';
         classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_1__[/* CSS_PREFIX */ "a"] + "-button--color-" + buttonColor);
       } else {
@@ -13710,8 +13710,8 @@ function ButtonController() {
       classes.push("btn--" + lx.color);
     }
 
-    if (angular.isUndefined(lx.emphasis)) {
-      if (angular.isDefined(lx.type)) {
+    if (angular.isUndefined(lx.emphasis) || !lx.emphasis) {
+      if (angular.isDefined(lx.type) && lx.type) {
         classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_1__[/* CSS_PREFIX */ "a"] + "-button--emphasis-" + _EMPHASIS_FALLBACK[lx.type]);
       } else {
         classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_1__[/* CSS_PREFIX */ "a"] + "-button--emphasis-" + _DEFAULT_PROPS.emphasis);
@@ -13724,7 +13724,7 @@ function ButtonController() {
       classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_1__[/* CSS_PREFIX */ "a"] + "-button--is-selected");
     }
 
-    if (angular.isUndefined(lx.size)) {
+    if (angular.isUndefined(lx.size) || !lx.size) {
       classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_1__[/* CSS_PREFIX */ "a"] + "-button--size-" + _DEFAULT_PROPS.size);
       classes.push('btn--m');
     } else {
@@ -13733,15 +13733,15 @@ function ButtonController() {
     }
 
     if (_isDefaultEmphasis()) {
-      if (angular.isUndefined(lx.theme)) {
+      if (angular.isUndefined(lx.theme) || !lx.theme) {
         classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_1__[/* CSS_PREFIX */ "a"] + "-button--theme-" + _DEFAULT_PROPS.theme);
       } else {
         classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_1__[/* CSS_PREFIX */ "a"] + "-button--theme-" + lx.theme);
       }
     }
 
-    if (angular.isUndefined(lx.variant)) {
-      if (angular.isDefined(lx.type)) {
+    if (angular.isUndefined(lx.variant) || !lx.variant) {
+      if (angular.isDefined(lx.type) && lx.type) {
         classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_1__[/* CSS_PREFIX */ "a"] + "-button--variant-" + _VARIANT_FALLBACK[lx.type]);
       } else {
         classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_1__[/* CSS_PREFIX */ "a"] + "-button--variant-" + _DEFAULT_PROPS.variant);
@@ -13750,7 +13750,7 @@ function ButtonController() {
       classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_1__[/* CSS_PREFIX */ "a"] + "-button--variant-" + lx.variant);
     }
 
-    if (angular.isUndefined(lx.type)) {
+    if (angular.isUndefined(lx.type) || !lx.type) {
       classes.push('btn--raised');
     } else {
       classes.push("btn--" + lx.type);
@@ -13767,8 +13767,8 @@ function ButtonController() {
     var wrapperClasses = [];
 
     if (lx.hasBackground && lx.emphasis === 'low') {
-      if (angular.isUndefined(lx.color)) {
-        if (angular.isDefined(lx.theme)) {
+      if (angular.isUndefined(lx.color) || !lx.color) {
+        if (angular.isDefined(lx.theme) && lx.theme) {
           wrapperClasses.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_1__[/* CSS_PREFIX */ "a"] + "-button-wrapper--color-" + lx.theme);
         } else {
           wrapperClasses.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_1__[/* CSS_PREFIX */ "a"] + "-button-wrapper--color-light");
@@ -13783,8 +13783,8 @@ function ButtonController() {
         wrapperClasses.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_1__[/* CSS_PREFIX */ "a"] + "-button-wrapper--color-" + wrapperColor);
       }
 
-      if (angular.isUndefined(lx.variant)) {
-        if (angular.isDefined(lx.type)) {
+      if (angular.isUndefined(lx.variant) || !lx.variant) {
+        if (angular.isDefined(lx.type) && lx.type) {
           wrapperClasses.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_1__[/* CSS_PREFIX */ "a"] + "-button-wrapper--variant-" + _VARIANT_FALLBACK[lx.type]);
         } else {
           wrapperClasses.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_1__[/* CSS_PREFIX */ "a"] + "-button-wrapper--variant-" + _DEFAULT_PROPS.variant);
