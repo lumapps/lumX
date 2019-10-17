@@ -3,7 +3,7 @@
    ========================================================================== */
 
 .demo-block {
-    border: 1px solid lumx-theme-color-variant(dark, L4);
+    border: 1px solid lumx-theme-color-variant('dark', 'L4');
     border-radius: $lumx-theme-border-radius;
 
     &__content {
@@ -14,7 +14,7 @@
         display: flex;
         align-items: center;
         padding: $lumx-spacing-unit $lumx-spacing-unit * 2 $lumx-spacing-unit $lumx-spacing-unit;
-        border-top: 1px solid lumx-theme-color-variant(dark, L4);
+        border-top: 1px solid lumx-theme-color-variant('dark', 'L4');
     }
 
     &__code-toggle {
@@ -26,7 +26,7 @@
     }
 
     &__code {
-        border-top: 1px solid lumx-theme-color-variant(dark, L4);
+        border-top: 1px solid lumx-theme-color-variant('dark', 'L4');
 
         .hljs {
             padding: $lumx-spacing-unit * 2;

@@ -13,7 +13,7 @@
     }
 
     &__key {
-        @include lumx-typography(body1);
+        @include lumx-typography('body1');
 
         display: block;
     }
@@ -24,7 +24,7 @@
 
     &__hex-code,
     &__opacity {
-        @include lumx-typography(caption);
+        @include lumx-typography('caption');
 
         display: block;
     }

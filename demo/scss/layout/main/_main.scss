@@ -25,19 +25,19 @@
         flex-direction: column;
 
         & > h1 {
-            @include lumx-typography(display1);
+            @include lumx-typography('display1');
         }
 
         & > h2 {
-            @include lumx-typography(headline);
+            @include lumx-typography('headline');
         }
 
         & > h3 {
-            @include lumx-typography(title);
+            @include lumx-typography('title');
         }
 
         & > p > strong {
-            @include lumx-typography(subtitle2);
+            @include lumx-typography('subtitle2');
         }
 
         & > h2,
