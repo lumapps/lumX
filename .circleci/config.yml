@@ -1,0 +1,34 @@
+version: 2.1
+executors:
+  python:
+    docker:
+      - image: circleci/python:3.7-buster
+
+jobs:
+  release:
+    executor: python
+
+    steps:
+      - checkout
+      - run:
+          name: Authenticate with google cloud registry
+          command: |
+            echo ${registry_prod_creds} |base64 -d | docker login -u _json_key --password-stdin https://gcr.io
+      - setup_remote_docker
+      - run: make docker_build
+      - run: make docker_push
+
+filters: &tag_only_anchor
+  tags:
+    # borrowed from https://semver.org/#is-there-a-suggested-regular-expression-regex-to-check-a-semver-string
+    only: /^v?(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$/
+  branches:
+    ignore: /.*/
+
+workflows:
+  version: 2
+  release:
+    jobs:
+      - release:
+          name: docker_build_push
+          filters: *tag_only_anchor
