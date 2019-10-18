@@ -14,7 +14,8 @@ jobs:
           name: Authenticate with google cloud registry
           command: |
             echo ${registry_prod_creds} |base64 -d | docker login -u _json_key --password-stdin https://gcr.io
-      - setup_remote_docker
+      - setup_remote_docker:
+          version: 18.09.3
       - run: make docker_build
       - run: make docker_push
 
