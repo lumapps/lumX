@@ -30,7 +30,6 @@ angular.module('lumx.icon', []);
 angular.module('lumx.link', []);
 angular.module('lumx.list', []);
 angular.module('lumx.notification', ['lumx.utils.event-scheduler']);
-angular.module('lumx.popover', []);
 angular.module('lumx.progress', []);
 angular.module('lumx.radio-button', []);
 angular.module('lumx.select', []);
@@ -56,7 +55,6 @@ angular.module('lumx', [
     'lumx.link',
     'lumx.list',
     'lumx.notification',
-    'lumx.popover',
     'lumx.progress',
     'lumx.radio-button',
     'lumx.select',

@@ -93,10 +93,6 @@ function MainNavController($state) {
                     state: 'app.components.notification',
                 },
                 {
-                    label: 'Popover',
-                    state: 'app.components.popover',
-                },
-                {
                     label: 'Post block',
                     state: 'app.components.post-block',
                 },

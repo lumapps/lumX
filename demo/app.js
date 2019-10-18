@@ -134,16 +134,6 @@ function AppDefaultConfig($locationProvider, $stateProvider, markedProvider) {
                 },
             },
         })
-        .state('app.components.popover', {
-            url: 'popover',
-            views: {
-                'main@': {
-                    controller: 'DemoPopoverController',
-                    controllerAs: 'vm',
-                    template: require('./components/popover/demo.html'),
-                },
-            },
-        })
         .state('app.components.progress', {
             url: 'progress',
             views: {

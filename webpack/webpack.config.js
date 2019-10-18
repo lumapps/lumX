@@ -27,7 +27,6 @@ const baseConfig = {
             ...glob.sync(`${MODULES_PATH}/dropdown/views/*.html`),
             ...glob.sync(`${MODULES_PATH}/icon/views/*.html`),
             ...glob.sync(`${MODULES_PATH}/list/views/*.html`),
-            ...glob.sync(`${MODULES_PATH}/popover/views/*.html`),
             ...glob.sync(`${MODULES_PATH}/progress/views/*.html`),
             ...glob.sync(`${MODULES_PATH}/radio-button/views/*.html`),
             ...glob.sync(`${MODULES_PATH}/select/views/*.html`),
@@ -115,11 +114,6 @@ const baseConfig = {
                 include: [/modules/u],
                 test: /\/list\/.*\.html$/,
                 loader: 'angular-templatecache-loader-2?module=lumx.list&relativeTo=modules/list/views/',
-            },
-            {
-                include: [/modules/u],
-                test: /\/popover\/.*\.html$/,
-                loader: 'angular-templatecache-loader-2?module=lumx.popover&relativeTo=modules/popover/views/',
             },
             {
                 include: [/modules/u],
