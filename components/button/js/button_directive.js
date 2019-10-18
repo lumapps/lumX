@@ -51,7 +51,9 @@ function ButtonController() {
      */
     const _SIZE_FALLBACK = {
         xs: 's',
+        // eslint-disable-next-line id-length
         s: 's',
+        // eslint-disable-next-line id-length
         m: 'm',
         l: 'm',
         xl: 'm',
