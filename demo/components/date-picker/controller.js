@@ -1,7 +1,3 @@
-import moment from 'moment';
-
-/////////////////////////////
-
 function DemoDatePickerController(LxDatePickerService) {
     'ngInject';
 
@@ -18,20 +14,7 @@ function DemoDatePickerController(LxDatePickerService) {
      *
      * @type {Object}
      */
-    vm.datePicker = {
-        default: {
-            date: new Date(),
-            dateFormatted: moment().format('LL'),
-            // eslint-disable-next-line no-magic-numbers
-            minDate: new Date(new Date().getFullYear(), new Date().getMonth() - 2, new Date().getDate()),
-            // eslint-disable-next-line no-magic-numbers
-            maxDate: new Date(new Date().getFullYear(), new Date().getMonth() + 2, new Date().getDate()),
-        },
-        textField: {
-            date: new Date(),
-            dateFormatted: moment().format('LL'),
-        },
-    };
+    vm.datePicker = {};
 
     /**
      * The date picker demo identifier.
@@ -39,6 +22,13 @@ function DemoDatePickerController(LxDatePickerService) {
      * @type {string}
      */
     vm.datePickerId = 'date-picker';
+
+    /**
+     * The date picker locale.
+     *
+     * @type {string}
+     */
+    vm.locale = 'en';
 
     /////////////////////////////
     //                         //
@@ -69,6 +59,31 @@ function DemoDatePickerController(LxDatePickerService) {
 
     vm.datePickerCallback = datePickerCallback;
     vm.openDatePicker = openDatePicker;
+
+    /////////////////////////////
+
+    /**
+     * Initialize the controller.
+     */
+    function init() {
+        moment.locale(vm.locale);
+
+        vm.datePicker.default = {
+            date: new Date(),
+            dateFormatted: moment().format('LL'),
+            // eslint-disable-next-line no-magic-numbers
+            minDate: new Date(new Date().getFullYear(), new Date().getMonth() - 2, new Date().getDate()),
+            // eslint-disable-next-line no-magic-numbers
+            maxDate: new Date(new Date().getFullYear(), new Date().getMonth() + 2, new Date().getDate()),
+        };
+
+        vm.datePicker.textField = {
+            date: new Date(),
+            dateFormatted: moment().format('LL'),
+        };
+    }
+
+    init();
 }
 
 /////////////////////////////

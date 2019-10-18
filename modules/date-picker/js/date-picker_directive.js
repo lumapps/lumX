@@ -1,5 +1,3 @@
-import moment from 'moment';
-
 import { CSS_PREFIX } from '@lumx/core/js/constants';
 
 import { mdiChevronLeft, mdiChevronRight } from '@lumx/icons';
@@ -185,6 +183,8 @@ function DatePickerController($scope, $timeout, LxDatePickerService, LxUtilsServ
      * Initialize the calendar days of week and years.
      */
     function _initCalendar() {
+        moment.locale(lx.locale);
+
         /* eslint-disable no-magic-numbers */
         lx.daysOfWeek.push(moment.weekdaysMin(1));
         lx.daysOfWeek.push(moment.weekdaysMin(2));
@@ -456,6 +456,7 @@ function DatePickerDirective($timeout) {
         scope: {
             cb: '&?lxCallback',
             inputFormat: '@?lxInputFormat',
+            locale: '@lxLocale',
             maxDate: '=?lxMaxDate',
             minDate: '=?lxMinDate',
         },

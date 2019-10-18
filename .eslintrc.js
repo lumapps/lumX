@@ -14,6 +14,7 @@ module.exports = {
 
     globals: {
         angular: false,
+        moment: false,
     },
 
     parser: 'babel-eslint',
