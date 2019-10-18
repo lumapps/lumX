@@ -18,9 +18,9 @@ const DIST_PATH = `${ROOT_PATH}/dist`;
 const STATIC_SITE_PATH = `${DIST_PATH}/ui.lumapps.com`;
 const NODE_MODULES_PATH = `${ROOT_PATH}/node_modules`;
 
-const MODULES_PATH = `${ROOT_PATH}/modules`;
+const COMPONENTS_PATH = `${ROOT_PATH}/components`;
 const CORE_PATH = `${ROOT_PATH}/core`;
-const STYLES_PATH = `${CORE_PATH}/scss`;
+const WEBPACK_PATH = `${ROOT_PATH}/webpack`;
 
 // Dev-server relative constants
 const DEFAULT_HOST = '0.0.0.0';
@@ -190,7 +190,7 @@ const CONFIGS = {
 };
 
 module.exports = {
-    MODULES_PATH,
+    COMPONENTS_PATH,
     CONFIGS,
     CORE_PATH,
     DEFAULT_HOST,
@@ -200,5 +200,5 @@ module.exports = {
     STATIC_SITE_PATH,
     NODE_MODULES_PATH,
     ROOT_PATH,
-    STYLES_PATH,
+    WEBPACK_PATH,
 };

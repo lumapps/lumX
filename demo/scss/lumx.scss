@@ -1,4 +1,11 @@
-@import '../../core/scss/legacy-theme-material';
+$mdi-font-path: '../../node_modules/@mdi/font/fonts';
+
+@import 'materialdesignicons';
+@import 'mq';
+@import 'core-material';
+@import 'components-material';
+@import 'core-lumapps';
+@import 'components-lumapps';
 @import './demo/demo-block';
 @import './demo/demo-colors';
 @import './demo/demo-grid';

@@ -2,7 +2,7 @@ const ExtractCssChunks = require('extract-css-chunks-webpack-plugin');
 
 const { shouldPrintComment } = require('babel-plugin-smart-webpack-import');
 
-const { NODE_MODULES_PATH, STYLES_PATH } = require('./constants');
+const { NODE_MODULES_PATH, WEBPACK_PATH } = require('./constants');
 
 /**
  * Setup Babel transpiler.
@@ -80,7 +80,7 @@ function getStyleLoader({ mode = 'dev' }) {
                     loader: 'postcss-loader',
                     options: {
                         config: {
-                            path: `${STYLES_PATH}/postcss.config.js`,
+                            path: `${WEBPACK_PATH}/postcss.config.js`,
                         },
                         sourceMap: false,
                     },
@@ -89,9 +89,9 @@ function getStyleLoader({ mode = 'dev' }) {
                     loader: 'sass-loader',
                     options: {
                         includePaths: [
+                            `${NODE_MODULES_PATH}/@lumx/core/scss`,
                             `${NODE_MODULES_PATH}/@mdi/font/scss/`,
                             `${NODE_MODULES_PATH}/sass-mq`,
-                            `${NODE_MODULES_PATH}/@lumx/core/scss`,
                         ],
                         sourceMap: false,
                     },
@@ -129,7 +129,7 @@ function getStyleLoader({ mode = 'dev' }) {
                     loader: 'postcss-loader',
                     options: {
                         config: {
-                            path: `${STYLES_PATH}/postcss.config.js`,
+                            path: `${WEBPACK_PATH}/postcss.config.js`,
                         },
                         sourceMap: false,
                     },

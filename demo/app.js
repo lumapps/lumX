@@ -76,16 +76,6 @@ function AppDefaultConfig($locationProvider, $stateProvider, markedProvider) {
                 },
             },
         })
-        .state('app.components.date-picker', {
-            url: 'date-picker',
-            views: {
-                'main@': {
-                    controller: 'DemoDatePickerController',
-                    controllerAs: 'vm',
-                    template: require('./components/date-picker/demo.html'),
-                },
-            },
-        })
         .state('app.components.dialog', {
             url: 'dialog',
             views: {

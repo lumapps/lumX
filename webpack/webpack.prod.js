@@ -2,7 +2,6 @@ const IS_CI = require('is-ci');
 
 const merge = require('webpack-merge');
 
-const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ExtractCssChunks = require('extract-css-chunks-webpack-plugin');
 const HtmlMinifierPlugin = require('html-minifier-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
@@ -10,22 +9,17 @@ const TerserPlugin = require('terser-webpack-plugin');
 const WebpackNotifierPlugin = require('webpack-notifier');
 
 const { getStyleLoader } = require('./utils');
-const { CONFIGS, CORE_PATH, DIST_PATH, MODULES_PATH, STYLES_PATH } = require('./constants');
+const { CONFIGS, DIST_PATH } = require('./constants');
 
 const baseConfig = require('./webpack.config');
 
 const minify = Boolean(process.env.MINIFY);
-const generatePackage = Boolean(process.env.GENERATE_PACKAGE);
 
 const filename = `[name]${minify ? '.min' : ''}`;
 const distTechPath = `${DIST_PATH}`;
 
 const { entry } = baseConfig;
-entry.lumx = [
-    `${CORE_PATH}/scss/_legacy-theme-lumapps.scss`,
-    `${CORE_PATH}/scss/_legacy-theme-material.scss`,
-    ...entry.lumx,
-];
+entry.lumx = [...entry.lumx];
 
 const minimizer = [];
 const plugins = [
@@ -42,29 +36,6 @@ if (!IS_CI) {
             alwaysNotify: true,
             title: `LumX - ${minify ? 'Minified package' : 'Package'}`,
         }),
-    );
-}
-
-if (generatePackage) {
-    plugins.push(
-        new CopyWebpackPlugin([
-            {
-                context: `${STYLES_PATH}/`,
-                from: `${STYLES_PATH}/*.scss`,
-                to: `${DIST_PATH}/scss`,
-            },
-            {
-                context: `${STYLES_PATH}/`,
-                from: `${STYLES_PATH}/**/*.scss`,
-                to: `${DIST_PATH}/scss`,
-            },
-            {
-                context: `${MODULES_PATH}/`,
-                from: `${MODULES_PATH}/**/*.scss`,
-                to: `${DIST_PATH}/scss/modules`,
-                flatten: true,
-            },
-        ]),
     );
 }
 
