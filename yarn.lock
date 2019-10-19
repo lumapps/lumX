@@ -720,11 +720,12 @@
     lodash "^4.17.13"
     to-fast-properties "^2.0.0"
 
-"@lumx/core@0.7.30":
-  version "0.7.30"
-  resolved "https://registry.yarnpkg.com/@lumx/core/-/core-0.7.30.tgz#fe8d685708b7adc3a39a929fb98580c78db8c6e2"
-  integrity sha512-k29ltAgHAFRAz3dH/dLcCKB7IeZBmVPBrZ7YwIf7ooPLJfktoJk312SJ/ILafCSiHBBvL4KNSMBzbAOGIXhG/g==
+"@lumx/core@0.7.31":
+  version "0.7.31"
+  resolved "https://registry.yarnpkg.com/@lumx/core/-/core-0.7.31.tgz#0ec3208380add460fdeb6727b89782aa6de7a282"
+  integrity sha512-BJSkr8+oIMpjovoRJHjQ/OEmftBARSRn8Duh+Z0YR76xB0fDX4aSdbnDjusgg7Fxtr/AH/BHtyYGsdIWrZ1SGg==
   dependencies:
+    classnames "^2.2.6"
     focus-visible "^4.1.5"
     lodash "^4.17.11"
     sass-mq "^5.0.0"
@@ -2158,6 +2159,11 @@ class-utils@^0.3.5:
     define-property "^0.2.5"
     isobject "^3.0.0"
     static-extend "^0.1.1"
+
+classnames@^2.2.6:
+  version "2.2.6"
+  resolved "https://registry.yarnpkg.com/classnames/-/classnames-2.2.6.tgz#43935bffdd291f326dad0a205309b38d00f650ce"
+  integrity sha512-JR/iSQOSt+LQIWwrwEzJ9uk0xfN3mTVYMwt1Ir5mUcSN6pU+V4zQFFaJsclJbPuAUQH+yfWef6tm7l1quW3C8Q==
 
 clean-css@3.1.x:
   version "3.1.9"
