@@ -1,6 +1,6 @@
 import { CSS_PREFIX } from '@lumx/core/js/constants';
 
-import { mdiAlertCircle, mdiCheckCircle } from '@lumx/icons';
+import { mdiAlertCircle, mdiCheckCircle, mdiCloseCircle } from '@lumx/icons';
 
 import template from '../views/text-field.html';
 
@@ -32,6 +32,20 @@ function TextFieldController(LxUtilsService) {
     /////////////////////////////
 
     /**
+     * Whether the directive has chips slot filled or not.
+     *
+     * @type {boolean}
+     */
+    lx.hasChips = false;
+
+    /**
+     * Whether the directive has input slot filled or not.
+     *
+     * @type {boolean}
+     */
+    lx.hasInput = false;
+
+    /**
      * The text field icons.
      *
      * @type {Object}
@@ -39,6 +53,7 @@ function TextFieldController(LxUtilsService) {
     lx.icons = {
         mdiAlertCircle,
         mdiCheckCircle,
+        mdiCloseCircle,
     };
 
     /**
@@ -55,12 +70,26 @@ function TextFieldController(LxUtilsService) {
     /////////////////////////////
 
     /**
+     * Clear the model on clear button click.
+     *
+     * @param {Event} [evt] The event that triggered the function.
+     */
+    function clearModel(evt) {
+        if (angular.isDefined(evt)) {
+            evt.stopPropagation();
+        }
+
+        _modelController.$setViewValue(undefined);
+        _modelController.$render();
+    }
+
+    /**
      * Define if the model controller has a value or not.
      *
      * @return {boolean} Wether the model controller has a value or not.
      */
     function hasValue() {
-        if (angular.isUndefined(_modelController.$viewValue)) {
+        if (angular.isUndefined(_modelController) || angular.isUndefined(_modelController.$viewValue)) {
             return false;
         }
 
@@ -78,6 +107,7 @@ function TextFieldController(LxUtilsService) {
 
     /////////////////////////////
 
+    lx.clearModel = clearModel;
     lx.hasValue = hasValue;
     lx.setModelController = setModelController;
 }
@@ -87,60 +117,53 @@ function TextFieldController(LxUtilsService) {
 function TextFieldDirective($timeout) {
     'ngInject';
 
-    function link(scope, el, attrs, ctrl) {
-        let input = el.find('input');
-
-        if (input.length === 1) {
-            el.addClass(`${CSS_PREFIX}-text-field--has-input`);
-        } else {
-            input = el.find('textarea');
-
-            el.addClass(`${CSS_PREFIX}-text-field--has-textarea`);
+    function link(scope, el, attrs, ctrl, transclude) {
+        if (transclude.isSlotFilled('chips')) {
+            ctrl.hasChips = true;
         }
 
-        const modelController = input.data('$ngModelController');
-
-        ctrl.setModelController(modelController);
-
-        if (input.attr('id')) {
-            ctrl.inputId = input.attr('id');
-        } else {
-            input.attr('id', ctrl.inputId);
+        if (transclude.isSlotFilled('input')) {
+            ctrl.hasInput = true;
         }
 
-        input
-            .on('focus', () => {
-                el.addClass(`${CSS_PREFIX}-text-field--is-focus`);
-            })
-            .on('blur', () => {
-                el.removeClass(`${CSS_PREFIX}-text-field--is-focus`);
-            });
+        $timeout(() => {
+            let input = el.find('input');
 
-        attrs.$observe('disabled', (isDisabled) => {
-            if (isDisabled) {
-                el.addClass(`${CSS_PREFIX}-text-field--is-disabled`);
+            if (input.length === 1) {
+                el.addClass(`${CSS_PREFIX}-text-field--has-input`);
             } else {
-                el.removeClass(`${CSS_PREFIX}-text-field--is-disabled`);
+                const minRows = 2;
+
+                input = el.find('textarea');
+
+                input.on('input', (evt) => {
+                    evt.target.rows = minRows;
+                    const currentRows = evt.target.scrollHeight / (evt.target.clientHeight / minRows);
+                    evt.target.rows = currentRows;
+                });
+
+                el.addClass(`${CSS_PREFIX}-text-field--has-textarea`);
             }
-        });
 
-        scope.$watch(
-            () => {
-                return ctrl.focus;
-            },
-            (isfocus) => {
-                if (angular.isDefined(isfocus) && isfocus) {
-                    $timeout(() => {
-                        input.focus();
+            const modelController = input.data('$ngModelController');
 
-                        ctrl.focus = false;
-                    });
-                }
-            },
-        );
+            ctrl.setModelController(modelController);
 
-        if (angular.isDefined(modelController.$$attr)) {
-            modelController.$$attr.$observe('disabled', (isDisabled) => {
+            if (input.attr('id')) {
+                ctrl.inputId = input.attr('id');
+            } else {
+                input.attr('id', ctrl.inputId);
+            }
+
+            input
+                .on('focus', () => {
+                    el.addClass(`${CSS_PREFIX}-text-field--is-focus`);
+                })
+                .on('blur', () => {
+                    el.removeClass(`${CSS_PREFIX}-text-field--is-focus`);
+                });
+
+            attrs.$observe('disabled', (isDisabled) => {
                 if (isDisabled) {
                     el.addClass(`${CSS_PREFIX}-text-field--is-disabled`);
                 } else {
@@ -148,17 +171,42 @@ function TextFieldDirective($timeout) {
                 }
             });
 
-            modelController.$$attr.$observe('placeholder', (placeholder) => {
-                if (placeholder.length > 0) {
-                    el.addClass(`${CSS_PREFIX}-text-field--has-placeholder`);
-                } else {
-                    el.removeClass(`${CSS_PREFIX}-text-field--has-placeholder`);
-                }
-            });
-        }
+            scope.$watch(
+                () => {
+                    return ctrl.focus;
+                },
+                (isfocus) => {
+                    if (angular.isDefined(isfocus) && isfocus) {
+                        $timeout(() => {
+                            input.focus();
 
-        scope.$on('$destroy', () => {
-            input.off();
+                            ctrl.focus = false;
+                        });
+                    }
+                },
+            );
+
+            if (angular.isDefined(modelController.$$attr)) {
+                modelController.$$attr.$observe('disabled', (isDisabled) => {
+                    if (isDisabled) {
+                        el.addClass(`${CSS_PREFIX}-text-field--is-disabled`);
+                    } else {
+                        el.removeClass(`${CSS_PREFIX}-text-field--is-disabled`);
+                    }
+                });
+
+                modelController.$$attr.$observe('placeholder', (placeholder) => {
+                    if (placeholder.length > 0) {
+                        el.addClass(`${CSS_PREFIX}-text-field--has-placeholder`);
+                    } else {
+                        el.removeClass(`${CSS_PREFIX}-text-field--has-placeholder`);
+                    }
+                });
+            }
+
+            scope.$on('$destroy', () => {
+                input.off();
+            });
         });
     }
 
@@ -175,12 +223,16 @@ function TextFieldDirective($timeout) {
             hasError: '=?lxError',
             helper: '@?lxHelper',
             icon: '@?lxIcon',
+            isClearable: '=?lxAllowClear',
             isValid: '=?lxValid',
             label: '@?lxLabel',
             theme: '@?lxTheme',
         },
         template,
-        transclude: true,
+        transclude: {
+            chips: '?lxTextFieldChips',
+            input: '?lxTextFieldInput',
+        },
     };
 }
 

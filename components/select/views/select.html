@@ -15,6 +15,7 @@
                 'lumx-select--has-error': lx.hasError,
                 'lumx-select--has-placeholder': lx.placeholder,
                 'lumx-select--is-focus': lx.isFocus,
+                'lumx-select--has-input-clear': lx.isClearable && !lx.multiple && !lx.isModelEmpty(),
                 'lumx-custom-colors': lx.customColors }"
 >
     <span class="lumx-select__label" ng-if="::lx.label && (!lx.variant || lx.variant === 'input')">
@@ -22,7 +23,7 @@
     </span>
 
     <div
-        class="lumx-select__input-wrapper"
+        class="lumx-select__wrapper"
         id="{{ lx.targetUuid }}"
         tabindex="0"
         ng-click="lx.toggleDropdown($event)"
@@ -30,6 +31,24 @@
         ng-blur="lx.disableKeyEvents()"
         ng-if="!lx.variant || lx.variant === 'input'"
     >
+        <div class="lumx-select__chips" ng-if="lx.multiple && !lx.isModelEmpty()">
+            <lx-chip-group>
+                <lx-chip
+                    lx-on-click="lx.select(selected, $event)"
+                    lx-size="s"
+                    lx-theme="{{ lx.theme === 'dark' ? 'dark' : 'light' }}"
+                    ng-repeat="selected in lx.viewValue"
+                    ng-disabled="lx.isDisabled"
+                >
+                    <lx-chip-label ng-bind-html="lx.displaySelected(selected)"></lx-chip-label>
+
+                    <lx-chip-after>
+                        <lx-icon lx-path="{{ lx.icons.mdiClose }}" lx-size="xxs"></lx-icon>
+                    </lx-chip-after>
+                </lx-chip>
+            </lx-chip-group>
+        </div>
+
         <div
             class="lumx-select__input-native"
             ng-class="{ 'lumx-select__input-native--placeholder': lx.isModelEmpty() && lx.placeholder }"
@@ -39,37 +58,24 @@
             <span ng-bind-html="lx.displaySelected()" ng-if="!lx.isModelEmpty()"></span>
         </div>
 
-        <div class="lumx-select__input-chips" ng-if="lx.multiple">
-            <div class="lumx-select__input-chip" ng-repeat="selected in lx.viewValue" ng-if="!lx.isModelEmpty()">
-                <lx-chip
-                    lx-on-click="lx.select(selected, $event)"
-                    lx-size="s"
-                    lx-theme="{{ lx.theme === 'dark' ? 'dark' : 'light' }}"
-                    ng-disabled="lx.isDisabled"
-                >
-                    <lx-chip-label ng-bind-html="lx.displaySelected(selected)"></lx-chip-label>
-
-                    <lx-chip-after>
-                        <lx-icon lx-path="{{ lx.icons.mdiClose }}" lx-size="xxs"></lx-icon>
-                    </lx-chip-after>
-                </lx-chip>
-            </div>
-        </div>
-
         <div class="lumx-select__input-validity" ng-if="lx.isValid || lx.hasError">
             <lx-icon
                 lx-path="{{ lx.isValid ? lx.icons.mdiCheckCircle : lx.icons.mdiAlertCircle }}"
-                lx-size="xs"
+                lx-size="xxs"
             ></lx-icon>
         </div>
 
-        <div
+        <lx-button
             class="lumx-select__input-clear"
+            lx-emphasis="low"
+            lx-size="s"
+            lx-theme="{{ lx.theme }}"
+            lx-variant="icon"
             ng-if="lx.isClearable && !lx.multiple && !lx.isModelEmpty()"
             ng-click="lx.clearModel($event)"
         >
-            <lx-icon lx-path="{{ lx.icons.mdiCloseCircle }}" lx-size="xs"></lx-icon>
-        </div>
+            <lx-icon lx-path="{{ lx.icons.mdiCloseCircle }}"></lx-icon>
+        </lx-button>
 
         <div class="lumx-select__input-indicator">
             <lx-icon lx-path="{{ lx.icons.mdiMenuDown }}" lx-size="s"></lx-icon>
