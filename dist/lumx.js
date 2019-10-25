@@ -8641,7 +8641,7 @@ $({ target: 'Array', proto: true, forced: [].forEach != forEach }, {
 /***/ (function(module, exports, __webpack_require__) {
 
 var global = __webpack_require__(3);
-var DOMIterables = __webpack_require__(131);
+var DOMIterables = __webpack_require__(132);
 var forEach = __webpack_require__(78);
 var hide = __webpack_require__(9);
 
@@ -8741,7 +8741,7 @@ module.exports=v1
 /* 49 */
 /***/ (function(module, exports) {
 
-var v1='<div class=lumx-select ng-class="{ \'lumx-select--has-value\': !lx.isModelEmpty(),\n                \'lumx-select--is-empty\': lx.isModelEmpty(),\n                \'lumx-select--unique\': !lx.multiple,\n                \'lumx-select--has-unique\': !lx.isModelEmpty() && !lx.multiple,\n                \'lumx-select--multiple\': lx.multiple,\n                \'lumx-select--has-multiple\': !lx.isModelEmpty() && lx.multiple,\n                \'lumx-select--is-open\': lx.isOpen,\n                \'lumx-select--theme-light\': !lx.theme || lx.theme === \'light\',\n                \'lumx-select--theme-dark\': lx.theme === \'dark\',\n                \'lumx-select--has-label\': lx.label,\n                \'lumx-select--is-disabled\': lx.isDisabled,\n                \'lumx-select--is-valid\': lx.isValid,\n                \'lumx-select--has-error\': lx.hasError,\n                \'lumx-select--has-placeholder\': lx.placeholder,\n                \'lumx-select--is-focus\': lx.isFocus,\n                \'lumx-custom-colors\': lx.customColors }"><span class=lumx-select__label ng-if="::lx.label && (!lx.variant || lx.variant === \'input\')">{{ lx.label }}</span><div class=lumx-select__input-wrapper id="{{ lx.targetUuid }}" tabindex=0 ng-click=lx.toggleDropdown($event) ng-focus=lx.enableKeyEvents() ng-blur=lx.disableKeyEvents() ng-if="!lx.variant || lx.variant === \'input\'"><div class=lumx-select__input-native ng-class="{ \'lumx-select__input-native--placeholder\': lx.isModelEmpty() && lx.placeholder }" ng-if=!lx.multiple><span ng-if="lx.isModelEmpty() && lx.placeholder">{{ lx.placeholder }}</span> <span ng-bind-html=lx.displaySelected() ng-if=!lx.isModelEmpty()></span></div><div class=lumx-select__input-chips ng-if=lx.multiple><div class=lumx-select__input-chip ng-repeat="selected in lx.viewValue" ng-if=!lx.isModelEmpty()><lx-chip lx-on-click="lx.select(selected, $event)" lx-size=s lx-theme="{{ lx.theme === \'dark\' ? \'dark\' : \'light\' }}" ng-disabled=lx.isDisabled><lx-chip-label ng-bind-html=lx.displaySelected(selected)></lx-chip-label><lx-chip-after><lx-icon lx-path="{{ lx.icons.mdiClose }}" lx-size=xxs></lx-icon></lx-chip-after></lx-chip></div></div><div class=lumx-select__input-validity ng-if="lx.isValid || lx.hasError"><lx-icon lx-path="{{ lx.isValid ? lx.icons.mdiCheckCircle : lx.icons.mdiAlertCircle }}" lx-size=xs></lx-icon></div><div class=lumx-select__input-clear ng-if="lx.isClearable && !lx.multiple && !lx.isModelEmpty()" ng-click=lx.clearModel($event)><lx-icon lx-path="{{ lx.icons.mdiCloseCircle }}" lx-size=xs></lx-icon></div><div class=lumx-select__input-indicator><lx-icon lx-path="{{ lx.icons.mdiMenuDown }}" lx-size=s></lx-icon></div></div><lx-chip id="{{ lx.targetUuid }}" lx-custom-colors=lx.customColors lx-has-dropdown-indicator=lx.isModelEmpty() lx-on-click=lx.toggleDropdown($event) lx-on-after-click=lx.clearModel() lx-is-selected=!lx.isModelEmpty() lx-theme="{{ lx.theme }}" ng-focus=lx.enableKeyEvents() ng-blur=lx.disableKeyEvents() ng-if="lx.variant === \'chip\'"><lx-chip-label><span ng-if=lx.isModelEmpty()>{{ lx.label }}</span> <span ng-if="!lx.isModelEmpty() && !lx.multiple" ng-bind-html=lx.displaySelected()></span> <span ng-if="!lx.isModelEmpty() && lx.multiple"><span ng-bind-html=lx.displaySelected(lx.viewValue[0])></span> <span ng-if="lx.viewValue.length > 1">+{{ lx.viewValue.length - 1 }}</span></span></lx-chip-label><lx-chip-after><lx-icon lx-path="{{ lx.isModelEmpty() ? lx.icons.mdiMenuDown : lx.icons.mdiCloseCircle }}" lx-size=xs></lx-icon></lx-chip-after></lx-chip><lx-dropdown lx-position=left lx-width=100% id="{{ lx.dropdownUuid }}"><lx-dropdown-menu><div class=lumx-select__filter ng-if=::lx.hasFilter><lx-icon lx-path="{{ lx.icons.mdiMagnify }}" lx-size=xs></lx-icon><input type=text placeholder=Search ng-model=lx.filterModel ng-model-options="{ debounce: 500 }" ng-change=lx.updateFilter() lx-select-filter></div><lx-list lx-custom-colors=lx.customColors lx-focus-on-init=!lx.hasFilter lx-is-clickable=true ng-if=!lx.isLoading><lx-list-item lx-is-selected=lx.isSelected(choice) lx-size=tiny ng-repeat="choice in lx.choices | lxSelectChoicesFilter:lx.filter:lx.filterModel" ng-click="lx.select(choice, $event)" lx-enter-keydown="lx.select(choice, $event)" ng-if=::lx.isChoicesArray()><lx-list-item-content ng-bind-html=::lx.displayChoice(choice)></lx-list-item-content></lx-list-item><lx-list-subheader ng-repeat-start="(subheader, children) in lx.choices" ng-bind-html=lx.displaySubheader(subheader) ng-if=::!lx.isChoicesArray()></lx-list-subheader><lx-list-item lx-is-selected=lx.isSelected(choice) lx-size=tiny ng-repeat="choice in children | lxSelectChoicesFilter:lx.filter:lx.filterModel" ng-repeat-end ng-click="lx.select(choice, $event)" lx-enter-keydown="lx.select(choice, $event)" ng-if=::!lx.isChoicesArray()><lx-list-item-content ng-bind-html=::lx.displayChoice(choice)></lx-list-item-content></lx-list-item></lx-list><span class=lumx-select__helper ng-if="lx.hasHelper && !lx.isLoading">{{ lx.helper }}</span><div class=lumx-select__loader ng-if="lx.isLoading || lx.isInfiniteScrollLoading"><lx-progress></lx-progress></div></lx-dropdown-menu></lx-dropdown></div>';
+var v1='<div class=lumx-select ng-class="{ \'lumx-select--has-value\': !lx.isModelEmpty(),\n                \'lumx-select--is-empty\': lx.isModelEmpty(),\n                \'lumx-select--unique\': !lx.multiple,\n                \'lumx-select--has-unique\': !lx.isModelEmpty() && !lx.multiple,\n                \'lumx-select--multiple\': lx.multiple,\n                \'lumx-select--has-multiple\': !lx.isModelEmpty() && lx.multiple,\n                \'lumx-select--is-open\': lx.isOpen,\n                \'lumx-select--theme-light\': !lx.theme || lx.theme === \'light\',\n                \'lumx-select--theme-dark\': lx.theme === \'dark\',\n                \'lumx-select--has-label\': lx.label,\n                \'lumx-select--is-disabled\': lx.isDisabled,\n                \'lumx-select--is-valid\': lx.isValid,\n                \'lumx-select--has-error\': lx.hasError,\n                \'lumx-select--has-placeholder\': lx.placeholder,\n                \'lumx-select--is-focus\': lx.isFocus,\n                \'lumx-select--has-input-clear\': lx.isClearable && !lx.multiple && !lx.isModelEmpty(),\n                \'lumx-custom-colors\': lx.customColors }"><span class=lumx-select__label ng-if="::lx.label && (!lx.variant || lx.variant === \'input\')">{{ lx.label }}</span><div class=lumx-select__wrapper id="{{ lx.targetUuid }}" tabindex=0 ng-click=lx.toggleDropdown($event) ng-focus=lx.enableKeyEvents() ng-blur=lx.disableKeyEvents() ng-if="!lx.variant || lx.variant === \'input\'"><div class=lumx-select__chips ng-if="lx.multiple && !lx.isModelEmpty()"><lx-chip-group><lx-chip lx-on-click="lx.select(selected, $event)" lx-size=s lx-theme="{{ lx.theme === \'dark\' ? \'dark\' : \'light\' }}" ng-repeat="selected in lx.viewValue" ng-disabled=lx.isDisabled><lx-chip-label ng-bind-html=lx.displaySelected(selected)></lx-chip-label><lx-chip-after><lx-icon lx-path="{{ lx.icons.mdiClose }}" lx-size=xxs></lx-icon></lx-chip-after></lx-chip></lx-chip-group></div><div class=lumx-select__input-native ng-class="{ \'lumx-select__input-native--placeholder\': lx.isModelEmpty() && lx.placeholder }" ng-if=!lx.multiple><span ng-if="lx.isModelEmpty() && lx.placeholder">{{ lx.placeholder }}</span> <span ng-bind-html=lx.displaySelected() ng-if=!lx.isModelEmpty()></span></div><div class=lumx-select__input-validity ng-if="lx.isValid || lx.hasError"><lx-icon lx-path="{{ lx.isValid ? lx.icons.mdiCheckCircle : lx.icons.mdiAlertCircle }}" lx-size=xxs></lx-icon></div><lx-button class=lumx-select__input-clear lx-emphasis=low lx-size=s lx-theme="{{ lx.theme }}" lx-variant=icon ng-if="lx.isClearable && !lx.multiple && !lx.isModelEmpty()" ng-click=lx.clearModel($event)><lx-icon lx-path="{{ lx.icons.mdiCloseCircle }}"></lx-icon></lx-button><div class=lumx-select__input-indicator><lx-icon lx-path="{{ lx.icons.mdiMenuDown }}" lx-size=s></lx-icon></div></div><lx-chip id="{{ lx.targetUuid }}" lx-custom-colors=lx.customColors lx-has-dropdown-indicator=lx.isModelEmpty() lx-on-click=lx.toggleDropdown($event) lx-on-after-click=lx.clearModel() lx-is-selected=!lx.isModelEmpty() lx-theme="{{ lx.theme }}" ng-focus=lx.enableKeyEvents() ng-blur=lx.disableKeyEvents() ng-if="lx.variant === \'chip\'"><lx-chip-label><span ng-if=lx.isModelEmpty()>{{ lx.label }}</span> <span ng-if="!lx.isModelEmpty() && !lx.multiple" ng-bind-html=lx.displaySelected()></span> <span ng-if="!lx.isModelEmpty() && lx.multiple"><span ng-bind-html=lx.displaySelected(lx.viewValue[0])></span> <span ng-if="lx.viewValue.length > 1">+{{ lx.viewValue.length - 1 }}</span></span></lx-chip-label><lx-chip-after><lx-icon lx-path="{{ lx.isModelEmpty() ? lx.icons.mdiMenuDown : lx.icons.mdiCloseCircle }}" lx-size=xs></lx-icon></lx-chip-after></lx-chip><lx-dropdown lx-position=left lx-width=100% id="{{ lx.dropdownUuid }}"><lx-dropdown-menu><div class=lumx-select__filter ng-if=::lx.hasFilter><lx-icon lx-path="{{ lx.icons.mdiMagnify }}" lx-size=xs></lx-icon><input type=text placeholder=Search ng-model=lx.filterModel ng-model-options="{ debounce: 500 }" ng-change=lx.updateFilter() lx-select-filter></div><lx-list lx-custom-colors=lx.customColors lx-focus-on-init=!lx.hasFilter lx-is-clickable=true ng-if=!lx.isLoading><lx-list-item lx-is-selected=lx.isSelected(choice) lx-size=tiny ng-repeat="choice in lx.choices | lxSelectChoicesFilter:lx.filter:lx.filterModel" ng-click="lx.select(choice, $event)" lx-enter-keydown="lx.select(choice, $event)" ng-if=::lx.isChoicesArray()><lx-list-item-content ng-bind-html=::lx.displayChoice(choice)></lx-list-item-content></lx-list-item><lx-list-subheader ng-repeat-start="(subheader, children) in lx.choices" ng-bind-html=lx.displaySubheader(subheader) ng-if=::!lx.isChoicesArray()></lx-list-subheader><lx-list-item lx-is-selected=lx.isSelected(choice) lx-size=tiny ng-repeat="choice in children | lxSelectChoicesFilter:lx.filter:lx.filterModel" ng-repeat-end ng-click="lx.select(choice, $event)" lx-enter-keydown="lx.select(choice, $event)" ng-if=::!lx.isChoicesArray()><lx-list-item-content ng-bind-html=::lx.displayChoice(choice)></lx-list-item-content></lx-list-item></lx-list><span class=lumx-select__helper ng-if="lx.hasHelper && !lx.isLoading">{{ lx.helper }}</span><div class=lumx-select__loader ng-if="lx.isLoading || lx.isInfiniteScrollLoading"><lx-progress></lx-progress></div></lx-dropdown-menu></lx-dropdown></div>';
 angular.module('lumx.select').run(['$templateCache', function ($templateCache) {$templateCache.put('select.html', v1);}]);
 module.exports=v1
 
@@ -8821,7 +8821,7 @@ module.exports=v1
 /* 59 */
 /***/ (function(module, exports) {
 
-var v1='<div class=lumx-text-field ng-class="{ \'lumx-text-field--theme-light\': !lx.theme || lx.theme === \'light\',\n                \'lumx-text-field--theme-dark\': lx.theme === \'dark\',\n                \'lumx-text-field--has-label\': lx.label,\n                \'lumx-text-field--has-icon\': lx.icon,\n                \'lumx-text-field--has-value\': lx.hasValue(),\n                \'lumx-text-field--is-valid\': lx.isValid,\n                \'lumx-text-field--has-error\': lx.hasError,\n                \'lumx-custom-colors\': lx.customColors }"><label for="{{ lx.inputId }}" class=lumx-text-field__label ng-if=::lx.label>{{ lx.label }}</label><span class=lumx-text-field__helper ng-if=::lx.helper>{{ lx.helper }}</span><div class=lumx-text-field__input-wrapper><lx-icon class=lumx-text-field__input-icon lx-path="{{ lx.icon }}" lx-size=xs ng-if=::lx.icon></lx-icon><div class=lumx-text-field__input-native ng-transclude></div><lx-icon class=lumx-text-field__input-validity lx-path="{{ lx.isValid ? lx.icons.mdiCheckCircle : lx.icons.mdiAlertCircle }}" lx-size=xs ng-if="lx.isValid || lx.hasError"></lx-icon></div></div>';
+var v1='<div class=lumx-text-field ng-class="{ \'lumx-text-field--theme-light\': !lx.theme || lx.theme === \'light\',\n                \'lumx-text-field--theme-dark\': lx.theme === \'dark\',\n                \'lumx-text-field--has-chips\': lx.hasChips,\n                \'lumx-text-field--has-icon\': lx.icon,\n                \'lumx-text-field--has-input-clear\': lx.isClearable && lx.hasValue(),\n                \'lumx-text-field--has-label\': lx.label,\n                \'lumx-text-field--has-value\': lx.hasValue(),\n                \'lumx-text-field--is-valid\': lx.isValid,\n                \'lumx-text-field--has-error\': lx.hasError,\n                \'lumx-custom-colors\': lx.customColors }"><label for="{{ lx.inputId }}" class=lumx-text-field__label ng-if=::lx.label>{{ lx.label }}</label><span class=lumx-text-field__helper ng-if=::lx.helper>{{ lx.helper }}</span><div class=lumx-text-field__wrapper><lx-icon class=lumx-text-field__input-icon lx-path="{{ lx.icon }}" lx-size=xs ng-if="::lx.icon && !lx.hasChips"></lx-icon><div class=lumx-text-field__chips ng-transclude=chips ng-if=::lx.hasChips></div><div class=lumx-text-field__input-wrapper><div class=lumx-text-field__input-native ng-transclude ng-if=::!lx.hasInput></div><div class=lumx-text-field__input-native ng-transclude=input ng-if=::lx.hasInput></div><lx-icon class=lumx-text-field__input-validity lx-path="{{ lx.isValid ? lx.icons.mdiCheckCircle : lx.icons.mdiAlertCircle }}" lx-size=xxs ng-if="lx.isValid || lx.hasError"></lx-icon><lx-button class=lumx-text-field__input-clear lx-emphasis=low lx-size=s lx-theme="{{ lx.theme }}" lx-variant=icon ng-if="lx.isClearable && lx.hasValue()" ng-click=lx.clearModel($event)><lx-icon lx-path="{{ lx.icons.mdiCloseCircle }}"></lx-icon></lx-button></div></div></div>';
 angular.module('lumx.text-field').run(['$templateCache', function ($templateCache) {$templateCache.put('text-field.html', v1);}]);
 module.exports=v1
 
@@ -9247,12 +9247,12 @@ __webpack_require__(123);
 __webpack_require__(124);
 __webpack_require__(125);
 __webpack_require__(126);
-__webpack_require__(129);
+__webpack_require__(127);
 __webpack_require__(130);
-__webpack_require__(132);
+__webpack_require__(131);
 __webpack_require__(133);
 __webpack_require__(134);
-__webpack_require__(136);
+__webpack_require__(135);
 __webpack_require__(137);
 __webpack_require__(138);
 __webpack_require__(139);
@@ -9266,7 +9266,7 @@ __webpack_require__(146);
 __webpack_require__(147);
 __webpack_require__(148);
 __webpack_require__(149);
-__webpack_require__(153);
+__webpack_require__(150);
 __webpack_require__(154);
 __webpack_require__(155);
 __webpack_require__(156);
@@ -9283,6 +9283,7 @@ __webpack_require__(166);
 __webpack_require__(167);
 __webpack_require__(168);
 __webpack_require__(169);
+__webpack_require__(170);
 __webpack_require__(39);
 __webpack_require__(40);
 __webpack_require__(41);
@@ -11121,14 +11122,67 @@ angular.module('lumx.chip').directive('lxChip', ChipDirective);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ChipGroupDirective", function() { return ChipGroupDirective; });
+/* harmony import */ var _lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+
+
+function ChipGroupController() {
+  'ngInject';
+
+  var lx = this;
+  var _DEFAULT_PROPS = {
+    align: 'left'
+  };
+
+  function getClasses() {
+    var classes = [];
+
+    if (angular.isDefined(lx.align) && lx.align) {
+      classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_0__[/* CSS_PREFIX */ "a"] + "-chip-group--align-" + lx.align);
+    } else {
+      classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_0__[/* CSS_PREFIX */ "a"] + "-chip-group--align-" + _DEFAULT_PROPS.align);
+    }
+
+    return classes;
+  }
+
+  lx.getClasses = getClasses;
+}
+
+function ChipGroupDirective() {
+  'ngInject';
+
+  return {
+    bindToController: true,
+    controller: ChipGroupController,
+    controllerAs: 'lx',
+    replace: true,
+    restrict: 'E',
+    scope: {
+      align: '@?lxAlign'
+    },
+    template: "<div class=\"" + _lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_0__[/* CSS_PREFIX */ "a"] + "-chip-group\" ng-class=\"lx.getClasses()\" ng-transclude></div>",
+    transclude: true
+  };
+}
+
+angular.module('lumx.chip').directive('lxChipGroup', ChipGroupDirective);
+
+
+/***/ }),
+/* 127 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DataTableDirective", function() { return DataTableDirective; });
 /* harmony import */ var core_js_modules_es_array_index_of__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(22);
 /* harmony import */ var core_js_modules_es_array_index_of__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_index_of__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var core_js_modules_es_array_sort__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(127);
+/* harmony import */ var core_js_modules_es_array_sort__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(128);
 /* harmony import */ var core_js_modules_es_array_sort__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_sort__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var core_js_modules_es_array_splice__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(19);
 /* harmony import */ var core_js_modules_es_array_splice__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_splice__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var core_js_modules_es_function_name__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(128);
+/* harmony import */ var core_js_modules_es_function_name__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(129);
 /* harmony import */ var core_js_modules_es_function_name__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_function_name__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var _views_data_table_html__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(41);
 /* harmony import */ var _views_data_table_html__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_views_data_table_html__WEBPACK_IMPORTED_MODULE_4__);
@@ -11309,7 +11363,7 @@ angular.module('lumx.data-table').directive('lxDataTable', DataTableDirective);
 
 
 /***/ }),
-/* 127 */
+/* 128 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11348,7 +11402,7 @@ $({ target: 'Array', proto: true, forced: FORCED }, {
 
 
 /***/ }),
-/* 128 */
+/* 129 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var DESCRIPTORS = __webpack_require__(8);
@@ -11376,7 +11430,7 @@ if (DESCRIPTORS && !(NAME in FunctionPrototype)) {
 
 
 /***/ }),
-/* 129 */
+/* 130 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -11415,7 +11469,7 @@ angular.module('lumx.data-table').service('LxDataTableService', LxDataTableServi
 
 
 /***/ }),
-/* 130 */
+/* 131 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -11625,7 +11679,7 @@ angular.module('lumx.dialog').directive('lxDialog', DialogDirective);
 
 
 /***/ }),
-/* 131 */
+/* 132 */
 /***/ (function(module, exports) {
 
 // iterable DOM collections
@@ -11666,7 +11720,7 @@ module.exports = {
 
 
 /***/ }),
-/* 132 */
+/* 133 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -11727,7 +11781,7 @@ angular.module('lumx.dialog').service('LxDialogService', DialogService);
 
 
 /***/ }),
-/* 133 */
+/* 134 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -11759,7 +11813,7 @@ angular.module('lumx.dialog').directive('lxDialogClose', DialogCloseDirective);
 
 
 /***/ }),
-/* 134 */
+/* 135 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -11769,7 +11823,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var core_js_modules_es_array_find__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_find__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var core_js_modules_es_array_index_of__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(22);
 /* harmony import */ var core_js_modules_es_array_index_of__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_index_of__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var core_js_modules_es_array_slice__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(135);
+/* harmony import */ var core_js_modules_es_array_slice__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(136);
 /* harmony import */ var core_js_modules_es_array_slice__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_slice__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(0);
 /* harmony import */ var _views_dropdown_html__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(43);
@@ -12086,7 +12140,7 @@ angular.module('lumx.dropdown').directive('lxDropdown', DropdownDirective);
 
 
 /***/ }),
-/* 135 */
+/* 136 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12138,7 +12192,7 @@ $({ target: 'Array', proto: true, forced: !arrayMethodHasSpeciesSupport('slice')
 
 
 /***/ }),
-/* 136 */
+/* 137 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -12209,7 +12263,7 @@ angular.module('lumx.dropdown').service('LxDropdownService', DropdownService);
 
 
 /***/ }),
-/* 137 */
+/* 138 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -12285,7 +12339,7 @@ angular.module('lumx.grid').directive('lxGrid', GridDirective);
 
 
 /***/ }),
-/* 138 */
+/* 139 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -12343,7 +12397,7 @@ angular.module('lumx.grid').directive('lxGridItem', GridItemDirective);
 
 
 /***/ }),
-/* 139 */
+/* 140 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -12417,7 +12471,7 @@ angular.module('lumx.icon').directive('lxIcon', IconDirective);
 
 
 /***/ }),
-/* 140 */
+/* 141 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -12470,7 +12524,7 @@ angular.module('lumx.link').directive('lxLink', LinkDirective);
 
 
 /***/ }),
-/* 141 */
+/* 142 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -12571,7 +12625,7 @@ angular.module('lumx.list').directive('lxList', ListDirective);
 
 
 /***/ }),
-/* 142 */
+/* 143 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -12594,7 +12648,7 @@ angular.module('lumx.list').directive('lxListDivider', ListDividerDirective);
 
 
 /***/ }),
-/* 143 */
+/* 144 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -12676,7 +12730,7 @@ angular.module('lumx.list').directive('lxListItem', ListItemDirective);
 
 
 /***/ }),
-/* 144 */
+/* 145 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -12700,7 +12754,7 @@ angular.module('lumx.list').directive('lxListSubheader', ListSubheaderDirective)
 
 
 /***/ }),
-/* 145 */
+/* 146 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -12845,7 +12899,7 @@ angular.module('lumx.notification').service('LxNotificationService', Notificatio
 
 
 /***/ }),
-/* 146 */
+/* 147 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -12883,7 +12937,7 @@ angular.module('lumx.progress').directive('lxProgress', ProgressDirective);
 
 
 /***/ }),
-/* 147 */
+/* 148 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -13001,7 +13055,7 @@ angular.module('lumx.radio-button').directive('lxRadioButton', RadioButtonDirect
 
 
 /***/ }),
-/* 148 */
+/* 149 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -13025,7 +13079,7 @@ angular.module('lumx.radio-button').directive('lxRadioGroup', RadioGroupDirectiv
 
 
 /***/ }),
-/* 149 */
+/* 150 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -13041,7 +13095,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var core_js_modules_es_array_splice__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_splice__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var core_js_modules_es_object_entries__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(75);
 /* harmony import */ var core_js_modules_es_object_entries__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_object_entries__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var core_js_modules_es_parse_int__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(150);
+/* harmony import */ var core_js_modules_es_parse_int__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(151);
 /* harmony import */ var core_js_modules_es_parse_int__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_parse_int__WEBPACK_IMPORTED_MODULE_5__);
 /* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(38);
 /* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_6__);
@@ -13430,11 +13484,11 @@ angular.module('lumx.select').directive('lxSelect', SelectDirective);
 
 
 /***/ }),
-/* 150 */
+/* 151 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var $ = __webpack_require__(2);
-var parseIntImplementation = __webpack_require__(151);
+var parseIntImplementation = __webpack_require__(152);
 
 // `parseInt` method
 // https://tc39.github.io/ecma262/#sec-parseint-string-radix
@@ -13444,11 +13498,11 @@ $({ global: true, forced: parseInt != parseIntImplementation }, {
 
 
 /***/ }),
-/* 151 */
+/* 152 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var global = __webpack_require__(3);
-var trim = __webpack_require__(152).trim;
+var trim = __webpack_require__(153).trim;
 var whitespaces = __webpack_require__(81);
 
 var nativeParseInt = global.parseInt;
@@ -13464,7 +13518,7 @@ module.exports = FORCED ? function parseInt(string, radix) {
 
 
 /***/ }),
-/* 152 */
+/* 153 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var requireObjectCoercible = __webpack_require__(11);
@@ -13498,7 +13552,7 @@ module.exports = {
 
 
 /***/ }),
-/* 153 */
+/* 154 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -13540,7 +13594,7 @@ angular.module('lumx.select').filter('lxSelectChoicesFilter', SelectChoicesFilte
 
 
 /***/ }),
-/* 154 */
+/* 155 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -13582,7 +13636,7 @@ angular.module('lumx.select').directive('lxSelectFilter', SelectFilterDirective)
 
 
 /***/ }),
-/* 155 */
+/* 156 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -13619,7 +13673,7 @@ angular.module('lumx.side-navigation').directive('lxSideNavigation', SideNavigat
 
 
 /***/ }),
-/* 156 */
+/* 157 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -13687,7 +13741,7 @@ angular.module('lumx.side-navigation').directive('lxSideNavigationItem', SideNav
 
 
 /***/ }),
-/* 157 */
+/* 158 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -13803,7 +13857,7 @@ angular.module('lumx.switch').directive('lxSwitch', SwitchDirective);
 
 
 /***/ }),
-/* 158 */
+/* 159 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -13843,7 +13897,7 @@ angular.module('lumx.table').directive('lxTable', TableDirective);
 
 
 /***/ }),
-/* 159 */
+/* 160 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -13874,7 +13928,7 @@ angular.module('lumx.table').directive('lxTableBody', TableBodyDirective);
 
 
 /***/ }),
-/* 160 */
+/* 161 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -13900,7 +13954,7 @@ angular.module('lumx.table').directive('lxTableCellBody', TableCellBodyDirective
 
 
 /***/ }),
-/* 161 */
+/* 162 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -13946,7 +14000,7 @@ angular.module('lumx.table').directive('lxTableCellHead', TableCellHeadDirective
 
 
 /***/ }),
-/* 162 */
+/* 163 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -13977,7 +14031,7 @@ angular.module('lumx.table').directive('lxTableHead', TableHeadDirective);
 
 
 /***/ }),
-/* 163 */
+/* 164 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -14024,7 +14078,7 @@ angular.module('lumx.table').directive('lxTableRow', TableRowDirective);
 
 
 /***/ }),
-/* 164 */
+/* 165 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -14101,7 +14155,7 @@ angular.module('lumx.tabs').directive('lxTab', TabDirective);
 
 
 /***/ }),
-/* 165 */
+/* 166 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -14194,7 +14248,7 @@ angular.module('lumx.tabs').directive('lxTabs', TabsDirective);
 
 
 /***/ }),
-/* 166 */
+/* 167 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -14220,14 +14274,27 @@ function TextFieldController(LxUtilsService) {
 
   var _modelController;
 
+  lx.hasChips = false;
+  lx.hasInput = false;
   lx.icons = {
     mdiAlertCircle: _lumx_icons__WEBPACK_IMPORTED_MODULE_2__[/* mdiAlertCircle */ "b"],
-    mdiCheckCircle: _lumx_icons__WEBPACK_IMPORTED_MODULE_2__[/* mdiCheckCircle */ "g"]
+    mdiCheckCircle: _lumx_icons__WEBPACK_IMPORTED_MODULE_2__[/* mdiCheckCircle */ "g"],
+    mdiCloseCircle: _lumx_icons__WEBPACK_IMPORTED_MODULE_2__[/* mdiCloseCircle */ "k"]
   };
   lx.inputId = LxUtilsService.generateUUID();
 
+  function clearModel(evt) {
+    if (angular.isDefined(evt)) {
+      evt.stopPropagation();
+    }
+
+    _modelController.$setViewValue(undefined);
+
+    _modelController.$render();
+  }
+
   function hasValue() {
-    if (angular.isUndefined(_modelController.$viewValue)) {
+    if (angular.isUndefined(_modelController) || angular.isUndefined(_modelController.$viewValue)) {
       return false;
     }
 
@@ -14238,6 +14305,7 @@ function TextFieldController(LxUtilsService) {
     _modelController = modelController;
   }
 
+  lx.clearModel = clearModel;
   lx.hasValue = hasValue;
   lx.setModelController = setModelController;
 }
@@ -14245,67 +14313,83 @@ function TextFieldController(LxUtilsService) {
 function TextFieldDirective($timeout) {
   'ngInject';
 
-  function link(scope, el, attrs, ctrl) {
-    var input = el.find('input');
-
-    if (input.length === 1) {
-      el.addClass(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_1__[/* CSS_PREFIX */ "a"] + "-text-field--has-input");
-    } else {
-      input = el.find('textarea');
-      el.addClass(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_1__[/* CSS_PREFIX */ "a"] + "-text-field--has-textarea");
+  function link(scope, el, attrs, ctrl, transclude) {
+    if (transclude.isSlotFilled('chips')) {
+      ctrl.hasChips = true;
     }
 
-    var modelController = input.data('$ngModelController');
-    ctrl.setModelController(modelController);
-
-    if (input.attr('id')) {
-      ctrl.inputId = input.attr('id');
-    } else {
-      input.attr('id', ctrl.inputId);
+    if (transclude.isSlotFilled('input')) {
+      ctrl.hasInput = true;
     }
 
-    input.on('focus', function () {
-      el.addClass(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_1__[/* CSS_PREFIX */ "a"] + "-text-field--is-focus");
-    }).on('blur', function () {
-      el.removeClass(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_1__[/* CSS_PREFIX */ "a"] + "-text-field--is-focus");
-    });
-    attrs.$observe('disabled', function (isDisabled) {
-      if (isDisabled) {
-        el.addClass(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_1__[/* CSS_PREFIX */ "a"] + "-text-field--is-disabled");
+    $timeout(function () {
+      var input = el.find('input');
+
+      if (input.length === 1) {
+        el.addClass(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_1__[/* CSS_PREFIX */ "a"] + "-text-field--has-input");
       } else {
-        el.removeClass(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_1__[/* CSS_PREFIX */ "a"] + "-text-field--is-disabled");
-      }
-    });
-    scope.$watch(function () {
-      return ctrl.focus;
-    }, function (isfocus) {
-      if (angular.isDefined(isfocus) && isfocus) {
-        $timeout(function () {
-          input.focus();
-          ctrl.focus = false;
+        var minRows = 2;
+        input = el.find('textarea');
+        input.on('input', function (evt) {
+          evt.target.rows = minRows;
+          var currentRows = evt.target.scrollHeight / (evt.target.clientHeight / minRows);
+          evt.target.rows = currentRows;
         });
+        el.addClass(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_1__[/* CSS_PREFIX */ "a"] + "-text-field--has-textarea");
       }
-    });
 
-    if (angular.isDefined(modelController.$$attr)) {
-      modelController.$$attr.$observe('disabled', function (isDisabled) {
+      var modelController = input.data('$ngModelController');
+      ctrl.setModelController(modelController);
+
+      if (input.attr('id')) {
+        ctrl.inputId = input.attr('id');
+      } else {
+        input.attr('id', ctrl.inputId);
+      }
+
+      input.on('focus', function () {
+        el.addClass(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_1__[/* CSS_PREFIX */ "a"] + "-text-field--is-focus");
+      }).on('blur', function () {
+        el.removeClass(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_1__[/* CSS_PREFIX */ "a"] + "-text-field--is-focus");
+      });
+      attrs.$observe('disabled', function (isDisabled) {
         if (isDisabled) {
           el.addClass(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_1__[/* CSS_PREFIX */ "a"] + "-text-field--is-disabled");
         } else {
           el.removeClass(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_1__[/* CSS_PREFIX */ "a"] + "-text-field--is-disabled");
         }
       });
-      modelController.$$attr.$observe('placeholder', function (placeholder) {
-        if (placeholder.length > 0) {
-          el.addClass(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_1__[/* CSS_PREFIX */ "a"] + "-text-field--has-placeholder");
-        } else {
-          el.removeClass(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_1__[/* CSS_PREFIX */ "a"] + "-text-field--has-placeholder");
+      scope.$watch(function () {
+        return ctrl.focus;
+      }, function (isfocus) {
+        if (angular.isDefined(isfocus) && isfocus) {
+          $timeout(function () {
+            input.focus();
+            ctrl.focus = false;
+          });
         }
       });
-    }
 
-    scope.$on('$destroy', function () {
-      input.off();
+      if (angular.isDefined(modelController.$$attr)) {
+        modelController.$$attr.$observe('disabled', function (isDisabled) {
+          if (isDisabled) {
+            el.addClass(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_1__[/* CSS_PREFIX */ "a"] + "-text-field--is-disabled");
+          } else {
+            el.removeClass(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_1__[/* CSS_PREFIX */ "a"] + "-text-field--is-disabled");
+          }
+        });
+        modelController.$$attr.$observe('placeholder', function (placeholder) {
+          if (placeholder.length > 0) {
+            el.addClass(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_1__[/* CSS_PREFIX */ "a"] + "-text-field--has-placeholder");
+          } else {
+            el.removeClass(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_1__[/* CSS_PREFIX */ "a"] + "-text-field--has-placeholder");
+          }
+        });
+      }
+
+      scope.$on('$destroy', function () {
+        input.off();
+      });
     });
   }
 
@@ -14322,12 +14406,16 @@ function TextFieldDirective($timeout) {
       hasError: '=?lxError',
       helper: '@?lxHelper',
       icon: '@?lxIcon',
+      isClearable: '=?lxAllowClear',
       isValid: '=?lxValid',
       label: '@?lxLabel',
       theme: '@?lxTheme'
     },
     template: _views_text_field_html__WEBPACK_IMPORTED_MODULE_3___default.a,
-    transclude: true
+    transclude: {
+      chips: '?lxTextFieldChips',
+      input: '?lxTextFieldInput'
+    }
   };
 }
 
@@ -14335,7 +14423,7 @@ angular.module('lumx.text-field').directive('lxTextField', TextFieldDirective);
 
 
 /***/ }),
-/* 167 */
+/* 168 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -14434,7 +14522,7 @@ angular.module('lumx.thumbnail').directive('lxThumbnail', ThumbnailDirective);
 
 
 /***/ }),
-/* 168 */
+/* 169 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -14495,7 +14583,7 @@ angular.module('lumx.toolbar').directive('lxToolbar', ToolbarDirective);
 
 
 /***/ }),
-/* 169 */
+/* 170 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
