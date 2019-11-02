@@ -437,7 +437,7 @@ function DropdownController(
 
 /////////////////////////////
 
-function DropdownDirective() {
+function DropdownDirective($timeout) {
     'ngInject';
 
     function link(scope, el, attrs, ctrl, transclude) {
@@ -452,9 +452,11 @@ function DropdownDirective() {
         }
 
         if (toggleEl.length > 0) {
-            toggleEl.find('button, a').on('click', (evt) => {
-                ctrl.toggle(evt);
-                scope.$apply();
+            $timeout(() => {
+                toggleEl.find('button, a').on('click', (evt) => {
+                    ctrl.toggle(evt);
+                    scope.$apply();
+                });
             });
         }
 
