@@ -126,8 +126,10 @@ function TextFieldDirective($timeout) {
             ctrl.hasInput = true;
         }
 
+        let input;
+
         $timeout(() => {
-            let input = el.find('input');
+            input = el.find('input');
 
             if (input.length === 1) {
                 el.addClass(`${CSS_PREFIX}-text-field--has-input`);
@@ -145,10 +147,6 @@ function TextFieldDirective($timeout) {
                 el.addClass(`${CSS_PREFIX}-text-field--has-textarea`);
             }
 
-            const modelController = input.data('$ngModelController');
-
-            ctrl.setModelController(modelController);
-
             if (input.attr('id')) {
                 ctrl.inputId = input.attr('id');
             } else {
@@ -163,28 +161,9 @@ function TextFieldDirective($timeout) {
                     el.removeClass(`${CSS_PREFIX}-text-field--is-focus`);
                 });
 
-            attrs.$observe('disabled', (isDisabled) => {
-                if (isDisabled) {
-                    el.addClass(`${CSS_PREFIX}-text-field--is-disabled`);
-                } else {
-                    el.removeClass(`${CSS_PREFIX}-text-field--is-disabled`);
-                }
-            });
+            const modelController = input.data('$ngModelController');
 
-            scope.$watch(
-                () => {
-                    return ctrl.focus;
-                },
-                (isfocus) => {
-                    if (angular.isDefined(isfocus) && isfocus) {
-                        $timeout(() => {
-                            input.focus();
-
-                            ctrl.focus = false;
-                        });
-                    }
-                },
-            );
+            ctrl.setModelController(modelController);
 
             if (angular.isDefined(modelController.$$attr)) {
                 modelController.$$attr.$observe('disabled', (isDisabled) => {
@@ -203,10 +182,33 @@ function TextFieldDirective($timeout) {
                     }
                 });
             }
+        });
 
-            scope.$on('$destroy', () => {
-                input.off();
-            });
+        attrs.$observe('disabled', (isDisabled) => {
+            if (isDisabled) {
+                el.addClass(`${CSS_PREFIX}-text-field--is-disabled`);
+            } else {
+                el.removeClass(`${CSS_PREFIX}-text-field--is-disabled`);
+            }
+        });
+
+        scope.$watch(
+            () => {
+                return ctrl.focus;
+            },
+            (isfocus) => {
+                if (angular.isDefined(isfocus) && isfocus) {
+                    $timeout(() => {
+                        input.focus();
+
+                        ctrl.focus = false;
+                    });
+                }
+            },
+        );
+
+        scope.$on('$destroy', () => {
+            input.off();
         });
     }
 
