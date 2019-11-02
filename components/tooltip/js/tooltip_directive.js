@@ -129,7 +129,7 @@ function TooltipController($element, $timeout) {
      * Show the tooltip on source element mouse enter.
      */
     function showTooltip() {
-        if (angular.isDefined(_tooltip)) {
+        if (angular.isDefined(_tooltip) || angular.isUndefined(lx.text) || !lx.text) {
             return;
         }
 
