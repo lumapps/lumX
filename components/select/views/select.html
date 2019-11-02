@@ -31,8 +31,20 @@
         ng-blur="lx.disableKeyEvents()"
         ng-if="!lx.variant || lx.variant === 'input'"
     >
-        <div class="lumx-select__chips" ng-if="lx.multiple && !lx.isModelEmpty()">
-            <lx-chip-group>
+
+        <div
+            class="lumx-select__input-native lumx-select__input-native--placeholder"
+            ng-if="lx.isModelEmpty() && lx.placeholder"
+        >
+            <span>{{ lx.placeholder }}</span>
+        </div>
+
+        <div class="lumx-select__input-native" ng-if="!lx.multiple">
+            <span ng-bind-html="lx.displaySelected()" ng-if="!lx.isModelEmpty()"></span>
+        </div>
+
+        <div class="lumx-select__chips" ng-if="lx.multiple">
+            <lx-chip-group ng-if="!lx.isModelEmpty()">
                 <lx-chip
                     lx-on-click="lx.select(selected, $event)"
                     lx-size="s"
@@ -47,15 +59,6 @@
                     </lx-chip-after>
                 </lx-chip>
             </lx-chip-group>
-        </div>
-
-        <div
-            class="lumx-select__input-native"
-            ng-class="{ 'lumx-select__input-native--placeholder': lx.isModelEmpty() && lx.placeholder }"
-            ng-if="!lx.multiple"
-        >
-            <span ng-if="lx.isModelEmpty() && lx.placeholder">{{ lx.placeholder }}</span>
-            <span ng-bind-html="lx.displaySelected()" ng-if="!lx.isModelEmpty()"></span>
         </div>
 
         <div class="lumx-select__input-validity" ng-if="lx.isValid || lx.hasError">
