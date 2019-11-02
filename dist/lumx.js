@@ -11831,6 +11831,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+DropdownDirective.$inject = ["$timeout"];
 DropdownController.$inject = ["$document", "$rootScope", "$scope", "$timeout", "$window", "LxDepthService", "LxDropdownService", "LxEventSchedulerService", "LxUtilsService"];
 
 
@@ -11859,7 +11860,8 @@ function DropdownController($document, $rootScope, $scope, $timeout, $window, Lx
     }
 
     evt.stopPropagation();
-    LxDropdownService.closeLastDropdown();
+    var isDocumentKeyDown = angular.isDefined(evt.keyCode);
+    LxDropdownService.closeLastDropdown(false, isDocumentKeyDown);
   }
 
   function _stopMenuPropagation(evt) {
@@ -11889,10 +11891,6 @@ function DropdownController($document, $rootScope, $scope, $timeout, $window, Lx
 
       LxEventSchedulerService.unregister(_idEventScheduler);
       _idEventScheduler = undefined;
-
-      if (angular.isDefined(_sourceEl)) {
-        _sourceEl.focus();
-      }
     });
   }
 
@@ -12063,13 +12061,17 @@ function DropdownController($document, $rootScope, $scope, $timeout, $window, Lx
       _open();
     }
   });
-  $scope.$on('lx-dropdown__close', function (evt, dropdownId, onOpen) {
+  $scope.$on('lx-dropdown__close', function (evt, dropdownId, onOpen, isDocumentKeyDown) {
     if (dropdownId === lx.uuid && lx.isOpen) {
       if (onOpen && angular.isDefined(lx.closeOnClick) && !lx.closeOnClick) {
         return;
       }
 
       _close();
+
+      if (isDocumentKeyDown && angular.isDefined(_sourceEl)) {
+        _sourceEl.focus();
+      }
     }
   });
   $scope.$on('lx-dropdown__update', function () {
@@ -12088,7 +12090,7 @@ function DropdownController($document, $rootScope, $scope, $timeout, $window, Lx
   });
 }
 
-function DropdownDirective() {
+function DropdownDirective($timeout) {
   'ngInject';
 
   function link(scope, el, attrs, ctrl, transclude) {
@@ -12102,9 +12104,11 @@ function DropdownDirective() {
     }
 
     if (toggleEl.length > 0) {
-      toggleEl.find('button, a').on('click', function (evt) {
-        ctrl.toggle(evt);
-        scope.$apply();
+      $timeout(function () {
+        toggleEl.find('button, a').on('click', function (evt) {
+          ctrl.toggle(evt);
+          scope.$apply();
+        });
       });
     }
 
@@ -12215,13 +12219,13 @@ function DropdownService($rootScope) {
   var service = this;
   var _activeDropdownIds = [];
 
-  function closeDropdown(dropdownId, onOpen) {
-    $rootScope.$broadcast('lx-dropdown__close', dropdownId, onOpen);
+  function closeDropdown(dropdownId, onOpen, isDocumentKeyDown) {
+    $rootScope.$broadcast('lx-dropdown__close', dropdownId, onOpen, isDocumentKeyDown);
   }
 
-  function closeLastDropdown(onOpen) {
+  function closeLastDropdown(onOpen, isDocumentKeyDown) {
     if (_activeDropdownIds.length > 0) {
-      closeDropdown(_activeDropdownIds[_activeDropdownIds.length - 1], onOpen);
+      closeDropdown(_activeDropdownIds[_activeDropdownIds.length - 1], onOpen, isDocumentKeyDown);
     }
   }
 
@@ -14322,8 +14326,9 @@ function TextFieldDirective($timeout) {
       ctrl.hasInput = true;
     }
 
+    var input;
     $timeout(function () {
-      var input = el.find('input');
+      input = el.find('input');
 
       if (input.length === 1) {
         el.addClass(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_1__[/* CSS_PREFIX */ "a"] + "-text-field--has-input");
@@ -14338,9 +14343,6 @@ function TextFieldDirective($timeout) {
         el.addClass(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_1__[/* CSS_PREFIX */ "a"] + "-text-field--has-textarea");
       }
 
-      var modelController = input.data('$ngModelController');
-      ctrl.setModelController(modelController);
-
       if (input.attr('id')) {
         ctrl.inputId = input.attr('id');
       } else {
@@ -14352,23 +14354,8 @@ function TextFieldDirective($timeout) {
       }).on('blur', function () {
         el.removeClass(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_1__[/* CSS_PREFIX */ "a"] + "-text-field--is-focus");
       });
-      attrs.$observe('disabled', function (isDisabled) {
-        if (isDisabled) {
-          el.addClass(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_1__[/* CSS_PREFIX */ "a"] + "-text-field--is-disabled");
-        } else {
-          el.removeClass(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_1__[/* CSS_PREFIX */ "a"] + "-text-field--is-disabled");
-        }
-      });
-      scope.$watch(function () {
-        return ctrl.focus;
-      }, function (isfocus) {
-        if (angular.isDefined(isfocus) && isfocus) {
-          $timeout(function () {
-            input.focus();
-            ctrl.focus = false;
-          });
-        }
-      });
+      var modelController = input.data('$ngModelController');
+      ctrl.setModelController(modelController);
 
       if (angular.isDefined(modelController.$$attr)) {
         modelController.$$attr.$observe('disabled', function (isDisabled) {
@@ -14386,10 +14373,26 @@ function TextFieldDirective($timeout) {
           }
         });
       }
-
-      scope.$on('$destroy', function () {
-        input.off();
-      });
+    });
+    attrs.$observe('disabled', function (isDisabled) {
+      if (isDisabled) {
+        el.addClass(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_1__[/* CSS_PREFIX */ "a"] + "-text-field--is-disabled");
+      } else {
+        el.removeClass(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_1__[/* CSS_PREFIX */ "a"] + "-text-field--is-disabled");
+      }
+    });
+    scope.$watch(function () {
+      return ctrl.focus;
+    }, function (isfocus) {
+      if (angular.isDefined(isfocus) && isfocus) {
+        $timeout(function () {
+          input.focus();
+          ctrl.focus = false;
+        });
+      }
+    });
+    scope.$on('$destroy', function () {
+      input.off();
     });
   }
 
