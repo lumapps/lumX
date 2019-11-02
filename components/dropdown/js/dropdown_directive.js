@@ -115,7 +115,9 @@ function DropdownController(
 
         evt.stopPropagation();
 
-        LxDropdownService.closeLastDropdown();
+        const isDocumentKeyDown = angular.isDefined(evt.keyCode);
+
+        LxDropdownService.closeLastDropdown(false, isDocumentKeyDown);
     }
 
     /**
@@ -163,10 +165,6 @@ function DropdownController(
 
             LxEventSchedulerService.unregister(_idEventScheduler);
             _idEventScheduler = undefined;
-
-            if (angular.isDefined(_sourceEl)) {
-                _sourceEl.focus();
-            }
         });
     }
 
@@ -399,17 +397,22 @@ function DropdownController(
     /**
      * Close a given dropdown.
      *
-     * @param {Event}   evt        The dropdown open event.
-     * @param {Object}  dropdownId The dropdown identifier.
-     * @param {boolean} onOpen     Whether the order has been asked on dropdown open or not.
+     * @param {Event}   evt               The dropdown open event.
+     * @param {Object}  dropdownId        The dropdown identifier.
+     * @param {boolean} onOpen            Whether the order has been asked on dropdown open or not.
+     * @param {boolean} isDocumentKeyDown Whether the order has been asked on document key down or not.
      */
-    $scope.$on('lx-dropdown__close', (evt, dropdownId, onOpen) => {
+    $scope.$on('lx-dropdown__close', (evt, dropdownId, onOpen, isDocumentKeyDown) => {
         if (dropdownId === lx.uuid && lx.isOpen) {
             if (onOpen && angular.isDefined(lx.closeOnClick) && !lx.closeOnClick) {
                 return;
             }
 
             _close();
+
+            if (isDocumentKeyDown && angular.isDefined(_sourceEl)) {
+                _sourceEl.focus();
+            }
         }
     });
 

@@ -25,21 +25,23 @@ function DropdownService($rootScope) {
     /**
      * Close a given dropdown.
      *
-     * @param {string}  dropdownId The dropdown identifier.
-     * @param {boolean} onOpen     Whether the order has been asked on dropdown open or not.
+     * @param {string}  dropdownId        The dropdown identifier.
+     * @param {boolean} onOpen            Whether the order has been asked on dropdown open or not.
+     * @param {boolean} isDocumentKeyDown Whether the order has been asked on document key down or not.
      */
-    function closeDropdown(dropdownId, onOpen) {
-        $rootScope.$broadcast('lx-dropdown__close', dropdownId, onOpen);
+    function closeDropdown(dropdownId, onOpen, isDocumentKeyDown) {
+        $rootScope.$broadcast('lx-dropdown__close', dropdownId, onOpen, isDocumentKeyDown);
     }
 
     /**
      * Close the last opened dropdown.
      *
-     * @param {boolean} onOpen Whether the order has been asked on dropdown open or not.
+     * @param {boolean} onOpen            Whether the order has been asked on dropdown open or not.
+     * @param {boolean} isDocumentKeyDown Whether the order has been asked on document key down or not.
      */
-    function closeLastDropdown(onOpen) {
+    function closeLastDropdown(onOpen, isDocumentKeyDown) {
         if (_activeDropdownIds.length > 0) {
-            closeDropdown(_activeDropdownIds[_activeDropdownIds.length - 1], onOpen);
+            closeDropdown(_activeDropdownIds[_activeDropdownIds.length - 1], onOpen, isDocumentKeyDown);
         }
     }
 
