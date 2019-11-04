@@ -167,7 +167,7 @@ function DialogController(
 
         const observer = new IntersectionObserver((entries) => {
             entries.forEach((entry) => {
-                if (entry.target.classList.contains(`${CSS_PREFIX}-dialog__sentinel--top`)) {
+                if (entry.target.classList.contains(`${CSS_PREFIX}-dialog__sentinel--top`) && !lx.forceHeaderDivider) {
                     if (entry.isIntersecting) {
                         dialogHeader.removeClass(`${CSS_PREFIX}-dialog__header--has-divider`);
                     } else {
@@ -175,7 +175,10 @@ function DialogController(
                     }
                 }
 
-                if (entry.target.classList.contains(`${CSS_PREFIX}-dialog__sentinel--bottom`)) {
+                if (
+                    entry.target.classList.contains(`${CSS_PREFIX}-dialog__sentinel--bottom`) &&
+                    !lx.forceFooterDivider
+                ) {
                     if (entry.isIntersecting) {
                         dialogFooter.removeClass(`${CSS_PREFIX}-dialog__footer--has-divider`);
                         $rootScope.$broadcast('lx-dialog__scroll-end', lx.id);
@@ -327,6 +330,8 @@ function DialogDirective() {
         scope: {
             autoClose: '=?lxAutoClose',
             escapeClose: '=?lxEscapeClose',
+            forceFooterDivider: '=?lxForceFooterDivider',
+            forceHeaderDivider: '=?lxForceHeaderDivider',
             isLoading: '=?lxIsLoading',
             size: '@?lxSize',
         },

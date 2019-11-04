@@ -8,7 +8,11 @@
                 'lumx-dialog--size-huge': lx.size === 'huge' }"
 >
     <div class="lumx-dialog__wrapper" ng-if="lx.isOpen">
-        <div class="lumx-dialog__header" ng-transclude="header"></div>
+        <div
+            class="lumx-dialog__header"
+            ng-class="{ 'lumx-dialog__header--has-divider': lx.forceHeaderDivider }"
+            ng-transclude="header"
+        ></div>
 
         <div class="lumx-dialog__content">
             <div class="lumx-dialog__sentinel lumx-dialog__sentinel--top"></div>
@@ -22,6 +26,10 @@
             <div class="lumx-dialog__sentinel lumx-dialog__sentinel--bottom"></div>
         </div>
 
-        <div class="lumx-dialog__footer" ng-transclude="footer"></div>
+        <div
+            class="lumx-dialog__footer"
+            ng-class="{ 'lumx-dialog__footer--has-divider': lx.forceFooterDivider }"
+            ng-transclude="footer"
+        ></div>
     </div>
 </div>
