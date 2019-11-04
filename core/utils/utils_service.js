@@ -10,13 +10,6 @@ function UtilsService($rootScope) {
     /////////////////////////////
 
     /**
-     * Disable body scroll.
-     */
-    function disableBodyScroll() {
-        $rootScope.$broadcast('lx-scroll__disable');
-    }
-
-    /**
      * Generate a unique identifier.
      *
      * @return {string} A unique identifier.
@@ -34,18 +27,9 @@ function UtilsService($rootScope) {
         /* eslint-enable no-bitwise, no-magic-numbers */
     }
 
-    /**
-     * Restore body scroll.
-     */
-    function restoreBodyScroll() {
-        $rootScope.$broadcast('lx-scroll__restore');
-    }
-
     /////////////////////////////
 
-    service.disableBodyScroll = disableBodyScroll;
     service.generateUUID = generateUUID;
-    service.restoreBodyScroll = restoreBodyScroll;
 }
 
 /////////////////////////////
