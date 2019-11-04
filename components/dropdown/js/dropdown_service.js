@@ -109,6 +109,17 @@ function DropdownService($rootScope) {
     service.registerDropdownId = registerDropdownId;
     service.unregisterDropdownId = unregisterDropdownId;
     service.updateActiveDropdownPosition = updateActiveDropdownPosition;
+
+    /////////////////////////////
+    //                         //
+    //          Events         //
+    //                         //
+    /////////////////////////////
+
+    /**
+     * Update the active dropdown position on scroll.
+     */
+    window.addEventListener('scroll', service.updateActiveDropdownPosition, true);
 }
 
 /////////////////////////////

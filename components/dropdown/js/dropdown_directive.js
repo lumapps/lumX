@@ -36,6 +36,15 @@ function DropdownController(
     const _OFFSET_FROM_EDGE = 16;
 
     /**
+     * Minimum space below trigger button.
+     *
+     * @type {number}
+     * @constant
+     * @readonly
+     */
+    const _MIN_SPACE_BELOW = 150;
+
+    /**
      * The event scheduler id.
      *
      * @type {string}
@@ -150,8 +159,6 @@ function DropdownController(
 
         LxDropdownService.unregisterDropdownId(lx.uuid);
 
-        LxUtilsService.restoreBodyScroll();
-
         $timeout(() => {
             _menuEl
                 .removeAttr('style')
@@ -245,7 +252,9 @@ function DropdownController(
             height: $window.innerHeight,
         };
 
-        if (availaibleHeight.below > availaibleHeight.above) {
+        if (availaibleHeight.below >= _MIN_SPACE_BELOW) {
+            menuProps.bottom = 'auto';
+
             if (lx.overToggle) {
                 menuProps.top = availaibleHeight.above;
                 menuProps.maxHeight = availaibleHeight.below;
@@ -254,13 +263,17 @@ function DropdownController(
                 menuProps.top = availaibleHeight.above + _toggleEl.outerHeight() + ~~lx.offset;
                 menuProps.maxHeight = availaibleHeight.below;
             }
-        } else if (lx.overToggle) {
-            menuProps.bottom = windowProps.height - availaibleHeight.above - _toggleEl.outerHeight();
-            menuProps.maxHeight = availaibleHeight.above + _toggleEl.outerHeight();
-        } else {
-            // eslint-disable-next-line no-bitwise
-            menuProps.bottom = windowProps.height - availaibleHeight.above + ~~lx.offset;
-            menuProps.maxHeight = availaibleHeight.above;
+        } else if (availaibleHeight.below < _MIN_SPACE_BELOW) {
+            menuProps.top = 'auto';
+
+            if (lx.overToggle) {
+                menuProps.bottom = windowProps.height - availaibleHeight.above - _toggleEl.outerHeight();
+                menuProps.maxHeight = availaibleHeight.above + _toggleEl.outerHeight();
+            } else {
+                // eslint-disable-next-line no-bitwise
+                menuProps.bottom = windowProps.height - availaibleHeight.above + ~~lx.offset;
+                menuProps.maxHeight = availaibleHeight.above;
+            }
         }
 
         menuProps.maxHeight -= _OFFSET_FROM_EDGE;
@@ -287,8 +300,6 @@ function DropdownController(
             _initVerticalPosition();
 
             lx.isOpen = true;
-
-            LxUtilsService.disableBodyScroll();
 
             _menuEl.on('scroll', _checkScrollEnd);
 
