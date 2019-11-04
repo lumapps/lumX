@@ -1,4 +1,4 @@
-function UtilsService($rootScope) {
+function UtilsService() {
     'ngInject';
 
     const service = this;
