@@ -10097,16 +10097,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-UtilsService.$inject = ["$rootScope"];
 
-function UtilsService($rootScope) {
+function UtilsService() {
   'ngInject';
 
   var service = this;
-
-  function disableBodyScroll() {
-    $rootScope.$broadcast('lx-scroll__disable');
-  }
 
   function generateUUID() {
     var time = new Date().getTime();
@@ -10117,13 +10112,7 @@ function UtilsService($rootScope) {
     });
   }
 
-  function restoreBodyScroll() {
-    $rootScope.$broadcast('lx-scroll__restore');
-  }
-
-  service.disableBodyScroll = disableBodyScroll;
   service.generateUUID = generateUUID;
-  service.restoreBodyScroll = restoreBodyScroll;
 }
 
 angular.module('lumx.utils.utils').service('LxUtilsService', UtilsService);
@@ -11844,6 +11833,7 @@ function DropdownController($document, $rootScope, $scope, $timeout, $window, Lx
 
   var lx = this;
   var _OFFSET_FROM_EDGE = 16;
+  var _MIN_SPACE_BELOW = 150;
 
   var _idEventScheduler;
 
@@ -11884,7 +11874,6 @@ function DropdownController($document, $rootScope, $scope, $timeout, $window, Lx
   function _close() {
     lx.isOpen = false;
     LxDropdownService.unregisterDropdownId(lx.uuid);
-    LxUtilsService.restoreBodyScroll();
     $timeout(function () {
       _menuEl.removeAttr('style').hide().off('scroll', _checkScrollEnd).insertAfter(_toggleEl);
 
@@ -11963,7 +11952,9 @@ function DropdownController($document, $rootScope, $scope, $timeout, $window, Lx
       height: $window.innerHeight
     };
 
-    if (availaibleHeight.below > availaibleHeight.above) {
+    if (availaibleHeight.below >= _MIN_SPACE_BELOW) {
+      menuProps.bottom = 'auto';
+
       if (lx.overToggle) {
         menuProps.top = availaibleHeight.above;
         menuProps.maxHeight = availaibleHeight.below;
@@ -11971,12 +11962,16 @@ function DropdownController($document, $rootScope, $scope, $timeout, $window, Lx
         menuProps.top = availaibleHeight.above + _toggleEl.outerHeight() + ~~lx.offset;
         menuProps.maxHeight = availaibleHeight.below;
       }
-    } else if (lx.overToggle) {
-      menuProps.bottom = windowProps.height - availaibleHeight.above - _toggleEl.outerHeight();
-      menuProps.maxHeight = availaibleHeight.above + _toggleEl.outerHeight();
-    } else {
-      menuProps.bottom = windowProps.height - availaibleHeight.above + ~~lx.offset;
-      menuProps.maxHeight = availaibleHeight.above;
+    } else if (availaibleHeight.below < _MIN_SPACE_BELOW) {
+      menuProps.top = 'auto';
+
+      if (lx.overToggle) {
+        menuProps.bottom = windowProps.height - availaibleHeight.above - _toggleEl.outerHeight();
+        menuProps.maxHeight = availaibleHeight.above + _toggleEl.outerHeight();
+      } else {
+        menuProps.bottom = windowProps.height - availaibleHeight.above + ~~lx.offset;
+        menuProps.maxHeight = availaibleHeight.above;
+      }
     }
 
     menuProps.maxHeight -= _OFFSET_FROM_EDGE;
@@ -12000,7 +11995,6 @@ function DropdownController($document, $rootScope, $scope, $timeout, $window, Lx
       _initVerticalPosition();
 
       lx.isOpen = true;
-      LxUtilsService.disableBodyScroll();
 
       _menuEl.on('scroll', _checkScrollEnd);
 
@@ -12264,6 +12258,7 @@ function DropdownService($rootScope) {
   service.registerDropdownId = registerDropdownId;
   service.unregisterDropdownId = unregisterDropdownId;
   service.updateActiveDropdownPosition = updateActiveDropdownPosition;
+  window.addEventListener('scroll', service.updateActiveDropdownPosition, true);
 }
 
 angular.module('lumx.dropdown').service('LxDropdownService', DropdownService);
