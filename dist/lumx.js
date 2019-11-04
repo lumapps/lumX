@@ -8685,7 +8685,7 @@ module.exports=v1
 /* 42 */
 /***/ (function(module, exports) {
 
-var v1='<div class=lumx-dialog role=dialog ng-class="{ \'lumx-dialog--size-tiny\': lx.size === \'tiny\',\n                \'lumx-dialog--size-regular\': lx.size === \'regular\',\n                \'lumx-dialog--size-big\': !lx.size || lx.size === \'big\',\n                \'lumx-dialog--size-huge\': lx.size === \'huge\' }"><div class=lumx-dialog__wrapper ng-if=lx.isOpen><div class=lumx-dialog__header ng-transclude=header></div><div class=lumx-dialog__content><div class="lumx-dialog__sentinel lumx-dialog__sentinel--top"></div><div ng-transclude=content></div><div class="lumx-dialog__sentinel lumx-dialog__sentinel--bottom"></div></div><div class=lumx-dialog__footer ng-transclude=footer></div></div></div>';
+var v1='<div class=lumx-dialog role=dialog ng-class="{ \'lumx-dialog--is-loading\': lx.isLoading,\n                \'lumx-dialog--size-tiny\': lx.size === \'tiny\',\n                \'lumx-dialog--size-regular\': lx.size === \'regular\',\n                \'lumx-dialog--size-big\': !lx.size || lx.size === \'big\',\n                \'lumx-dialog--size-huge\': lx.size === \'huge\' }"><div class=lumx-dialog__wrapper ng-if=lx.isOpen><div class=lumx-dialog__header ng-class="{ \'lumx-dialog__header--has-divider\': lx.forceHeaderDivider }" ng-transclude=header></div><div class=lumx-dialog__content><div class="lumx-dialog__sentinel lumx-dialog__sentinel--top"></div><div ng-transclude=content></div><div class=lumx-dialog__progress-overlay ng-if=lx.isLoading><lx-progress lx-variant=circular></lx-progress></div><div class="lumx-dialog__sentinel lumx-dialog__sentinel--bottom"></div></div><div class=lumx-dialog__footer ng-class="{ \'lumx-dialog__footer--has-divider\': lx.forceFooterDivider }" ng-transclude=footer></div></div></div>';
 angular.module('lumx.dialog').run(['$templateCache', function ($templateCache) {$templateCache.put('dialog.html', v1);}]);
 module.exports=v1
 
@@ -11557,7 +11557,7 @@ function DialogController($element, $rootScope, $scope, $timeout, LxDepthService
     var sentinels = document.querySelectorAll("." + _lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_3__[/* CSS_PREFIX */ "a"] + "-dialog__sentinel");
     var observer = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
-        if (entry.target.classList.contains(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_3__[/* CSS_PREFIX */ "a"] + "-dialog__sentinel--top")) {
+        if (entry.target.classList.contains(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_3__[/* CSS_PREFIX */ "a"] + "-dialog__sentinel--top") && !lx.forceHeaderDivider) {
           if (entry.isIntersecting) {
             dialogHeader.removeClass(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_3__[/* CSS_PREFIX */ "a"] + "-dialog__header--has-divider");
           } else {
@@ -11565,7 +11565,7 @@ function DialogController($element, $rootScope, $scope, $timeout, LxDepthService
           }
         }
 
-        if (entry.target.classList.contains(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_3__[/* CSS_PREFIX */ "a"] + "-dialog__sentinel--bottom")) {
+        if (entry.target.classList.contains(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_3__[/* CSS_PREFIX */ "a"] + "-dialog__sentinel--bottom") && !lx.forceFooterDivider) {
           if (entry.isIntersecting) {
             dialogFooter.removeClass(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_3__[/* CSS_PREFIX */ "a"] + "-dialog__footer--has-divider");
             $rootScope.$broadcast('lx-dialog__scroll-end', lx.id);
@@ -11664,6 +11664,9 @@ function DialogDirective() {
     scope: {
       autoClose: '=?lxAutoClose',
       escapeClose: '=?lxEscapeClose',
+      forceFooterDivider: '=?lxForceFooterDivider',
+      forceHeaderDivider: '=?lxForceHeaderDivider',
+      isLoading: '=?lxIsLoading',
       size: '@?lxSize'
     },
     template: _views_dialog_html__WEBPACK_IMPORTED_MODULE_4___default.a,
