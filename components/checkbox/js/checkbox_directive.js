@@ -19,6 +19,17 @@ function CheckboxController(LxUtilsService) {
     /////////////////////////////
 
     /**
+     * The default props.
+     *
+     * @type {Object}
+     * @constant
+     * @readonly
+     */
+    const _DEFAULT_PROPS = {
+        theme: 'light',
+    };
+
+    /**
      * The model controller.
      *
      * @type {Object}
@@ -82,6 +93,27 @@ function CheckboxController(LxUtilsService) {
     /////////////////////////////
 
     /**
+     * Get checkbox classes.
+     *
+     * @return {Array} The list of checkbox classes.
+     */
+    function getClasses() {
+        const classes = [];
+
+        const state = lx.viewValue ? 'checked' : 'unchecked';
+        const theme = lx.theme ? lx.theme : _DEFAULT_PROPS.theme;
+
+        classes.push(`${CSS_PREFIX}-checkbox--is-${state}`);
+        classes.push(`${CSS_PREFIX}-checkbox--theme-${theme}`);
+
+        if (lx.customColors) {
+            classes.push(`${CSS_PREFIX}-custom-colors`);
+        }
+
+        return classes;
+    }
+
+    /**
      * Set the model controller.
      *
      * @param {Object} modelController The model controller.
@@ -110,6 +142,7 @@ function CheckboxController(LxUtilsService) {
 
     /////////////////////////////
 
+    lx.getClasses = getClasses;
     lx.setModelController = setModelController;
     lx.updateViewValue = updateViewValue;
 }
