@@ -5,6 +5,8 @@ import template from '../views/thumbnail.html';
 /////////////////////////////
 
 function ThumbnailController() {
+    'ngInject';
+
     // eslint-disable-next-line consistent-this
     const lx = this;
 
@@ -57,36 +59,22 @@ function ThumbnailController() {
     function getClasses() {
         const classes = [];
 
-        if (angular.isUndefined(lx.align)) {
-            classes.push(`${CSS_PREFIX}-thumbnail--align-${_DEFAULT_PROPS.align}`);
-        } else {
-            classes.push(`${CSS_PREFIX}-thumbnail--align-${lx.align}`);
-        }
+        const align = lx.align ? lx.align : _DEFAULT_PROPS.align;
+        const aspectRatio = lx.aspectRatio ? lx.aspectRatio : _DEFAULT_PROPS.aspectRatio;
+        const theme = lx.theme ? lx.theme : _DEFAULT_PROPS.theme;
+        const variant = lx.variant ? lx.variant : _DEFAULT_PROPS.variant;
 
-        if (angular.isUndefined(lx.aspectRatio)) {
-            classes.push(`${CSS_PREFIX}-thumbnail--aspect-ratio-${_DEFAULT_PROPS.aspectRatio}`);
-        } else {
-            classes.push(`${CSS_PREFIX}-thumbnail--aspect-ratio-${lx.aspectRatio}`);
-        }
+        classes.push(`${CSS_PREFIX}-thumbnail--align-${align}`);
+        classes.push(`${CSS_PREFIX}-thumbnail--aspect-ratio-${aspectRatio}`);
+        classes.push(`${CSS_PREFIX}-thumbnail--theme-${theme}`);
+        classes.push(`${CSS_PREFIX}-thumbnail--variant-${variant}`);
 
         if (lx.fillHeight) {
             classes.push(`${CSS_PREFIX}-thumbnail--fill-height`);
         }
 
-        if (angular.isDefined(lx.size)) {
+        if (lx.size) {
             classes.push(`${CSS_PREFIX}-thumbnail--size-${lx.size}`);
-        }
-
-        if (angular.isUndefined(lx.theme)) {
-            classes.push(`${CSS_PREFIX}-thumbnail--theme-${_DEFAULT_PROPS.theme}`);
-        } else {
-            classes.push(`${CSS_PREFIX}-thumbnail--theme-${lx.theme}`);
-        }
-
-        if (angular.isUndefined(lx.variant)) {
-            classes.push(`${CSS_PREFIX}-thumbnail--variant-${_DEFAULT_PROPS.variant}`);
-        } else {
-            classes.push(`${CSS_PREFIX}-thumbnail--variant-${lx.variant}`);
         }
 
         return classes;
