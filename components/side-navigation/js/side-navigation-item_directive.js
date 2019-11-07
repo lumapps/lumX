@@ -1,3 +1,5 @@
+import { CSS_PREFIX } from '@lumx/core/js/constants';
+
 import { mdiChevronDown, mdiChevronUp } from '@lumx/icons';
 
 import template from '../views/side-navigation-item.html';
@@ -9,6 +11,23 @@ function SideNavigationItemController() {
 
     // eslint-disable-next-line consistent-this
     const lx = this;
+
+    /////////////////////////////
+    //                         //
+    //    Private attributes   //
+    //                         //
+    /////////////////////////////
+
+    /**
+     * The default props.
+     *
+     * @type {Object}
+     * @constant
+     * @readonly
+     */
+    const _DEFAULT_PROPS = {
+        emphasis: 'medium',
+    };
 
     /////////////////////////////
     //                         //
@@ -40,6 +59,25 @@ function SideNavigationItemController() {
     /////////////////////////////
 
     /**
+     * Get side navigation item classes.
+     *
+     * @return {Array} The list of side navigation item classes.
+     */
+    function getClasses() {
+        const classes = [];
+
+        const emphasis = lx.emphasis ? lx.emphasis : _DEFAULT_PROPS.emphasis;
+
+        classes.push(`${CSS_PREFIX}-side-navigation-item--emphasis-${emphasis}`);
+
+        if (lx.isSelected) {
+            classes.push(`${CSS_PREFIX}-side-navigation-item--is-selected`);
+        }
+
+        return classes;
+    }
+
+    /**
      * Handle click event on side navigation item link.
      */
     function handleClick() {
@@ -52,6 +90,7 @@ function SideNavigationItemController() {
 
     /////////////////////////////
 
+    lx.getClasses = getClasses;
     lx.handleClick = handleClick;
 }
 

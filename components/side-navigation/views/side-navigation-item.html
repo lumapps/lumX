@@ -1,10 +1,4 @@
-<li
-    class="lumx-side-navigation-item"
-    ng-class="{ 'lumx-side-navigation-item--emphasis-low': lx.emphasis === 'low',
-                'lumx-side-navigation-item--emphasis-medium': !lx.emphasis || lx.emphasis === 'medium',
-                'lumx-side-navigation-item--emphasis-high': lx.emphasis === 'high',
-                'lumx-side-navigation-item--is-selected': lx.isSelected }"
->
+<li class="lumx-side-navigation-item" ng-class="lx.getClasses()">
     <a
         class="lumx-side-navigation-item__link"
         ng-click="lx.handleClick()"
