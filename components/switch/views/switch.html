@@ -1,13 +1,4 @@
-<div
-    class="lumx-switch"
-    ng-class="{ 'lumx-switch--is-checked': lx.viewValue,
-                'lumx-switch--is-unchecked': !lx.viewValue,
-                'lumx-switch--position-left': !lx.position || lx.position === 'left',
-                'lumx-switch--position-right': lx.position === 'right',
-                'lumx-switch--theme-light': !lx.theme || lx.theme === 'light',
-                'lumx-switch--theme-dark': lx.theme === 'dark',
-                'lumx-custom-colors': lx.customColors }"
->
+<div class="lumx-switch" ng-class="lx.getClasses()">
     <div class="lumx-switch__input-wrapper">
         <input
             type="checkbox"

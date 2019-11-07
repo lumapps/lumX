@@ -17,6 +17,18 @@ function SwitchController(LxUtilsService) {
     /////////////////////////////
 
     /**
+     * The default props.
+     *
+     * @type {Object}
+     * @constant
+     * @readonly
+     */
+    const _DEFAULT_PROPS = {
+        position: 'left',
+        theme: 'light',
+    };
+
+    /**
      * The model controller.
      *
      * @type {Object}
@@ -71,6 +83,29 @@ function SwitchController(LxUtilsService) {
     /////////////////////////////
 
     /**
+     * Get switch classes.
+     *
+     * @return {Array} The list of switch classes.
+     */
+    function getClasses() {
+        const classes = [];
+
+        const position = lx.position ? lx.position : _DEFAULT_PROPS.position;
+        const state = lx.viewValue ? 'checked' : 'unchecked';
+        const theme = lx.theme ? lx.theme : _DEFAULT_PROPS.theme;
+
+        classes.push(`${CSS_PREFIX}-switch--position-${position}`);
+        classes.push(`${CSS_PREFIX}-switch--is-${state}`);
+        classes.push(`${CSS_PREFIX}-switch--theme-${theme}`);
+
+        if (lx.customColors) {
+            classes.push(`${CSS_PREFIX}-custom-colors`);
+        }
+
+        return classes;
+    }
+
+    /**
      * Set the model controller.
      *
      * @param {Object} modelController The model controller.
@@ -99,6 +134,7 @@ function SwitchController(LxUtilsService) {
 
     /////////////////////////////
 
+    lx.getClasses = getClasses;
     lx.setModelController = setModelController;
     lx.updateViewValue = updateViewValue;
 }
