@@ -1,3 +1,5 @@
+import { CSS_PREFIX } from '@lumx/core/js/constants';
+
 import template from '../views/tabs.html';
 
 /////////////////////////////
@@ -7,6 +9,25 @@ function TabsController() {
 
     // eslint-disable-next-line consistent-this
     const lx = this;
+
+    /////////////////////////////
+    //                         //
+    //    Private attributes   //
+    //                         //
+    /////////////////////////////
+
+    /**
+     * The default props.
+     *
+     * @type {Object}
+     * @constant
+     * @readonly
+     */
+    const _DEFAULT_PROPS = {
+        layout: 'fixed',
+        position: 'left',
+        theme: 'light',
+    };
 
     /////////////////////////////
     //                         //
@@ -41,6 +62,29 @@ function TabsController() {
      */
     function addTab(tabToAdd) {
         lx.tabs.push(tabToAdd);
+    }
+
+    /**
+     * Get tabs classes.
+     *
+     * @return {Array} The list of tabs classes.
+     */
+    function getClasses() {
+        const classes = [];
+
+        const layout = lx.layout ? lx.layout : _DEFAULT_PROPS.layout;
+        const position = lx.position ? lx.position : _DEFAULT_PROPS.position;
+        const theme = lx.theme ? lx.theme : _DEFAULT_PROPS.theme;
+
+        classes.push(`${CSS_PREFIX}-tabs--layout-${layout}`);
+        classes.push(`${CSS_PREFIX}-tabs--position-${position}`);
+        classes.push(`${CSS_PREFIX}-tabs--theme-${theme}`);
+
+        if (lx.customColors) {
+            classes.push(`${CSS_PREFIX}-custom-colors`);
+        }
+
+        return classes;
     }
 
     /**
@@ -99,6 +143,7 @@ function TabsController() {
     /////////////////////////////
 
     lx.addTab = addTab;
+    lx.getClasses = getClasses;
     lx.isTabActive = isTabActive;
     lx.removeTab = removeTab;
     lx.setActiveTab = setActiveTab;
