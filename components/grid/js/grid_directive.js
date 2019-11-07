@@ -40,28 +40,22 @@ function GridController() {
     function getClasses() {
         const classes = [];
 
-        if (angular.isDefined(lx.gutter)) {
+        const orientation = lx.orientation ? lx.orientation : _DEFAULT_PROPS.orientation;
+        const wrap = lx.wrap ? lx.wrap : _DEFAULT_PROPS.wrap;
+
+        classes.push(`${CSS_PREFIX}-grid--orientation-${orientation}`);
+        classes.push(`${CSS_PREFIX}-grid--wrap-${wrap}`);
+
+        if (lx.gutter) {
             classes.push(`${CSS_PREFIX}-grid--gutter-${lx.gutter}`);
         }
 
-        if (angular.isDefined(lx.hAlign)) {
+        if (lx.hAlign) {
             classes.push(`${CSS_PREFIX}-grid--h-align-${lx.hAlign}`);
         }
 
-        if (angular.isUndefined(lx.orientation)) {
-            classes.push(`${CSS_PREFIX}-grid--orientation-${_DEFAULT_PROPS.orientation}`);
-        } else {
-            classes.push(`${CSS_PREFIX}-grid--orientation-${lx.orientation}`);
-        }
-
-        if (angular.isDefined(lx.vAlign)) {
+        if (lx.vAlign) {
             classes.push(`${CSS_PREFIX}-grid--v-align-${lx.vAlign}`);
-        }
-
-        if (angular.isUndefined(lx.wrap)) {
-            classes.push(`${CSS_PREFIX}-grid--wrap-${_DEFAULT_PROPS.wrap}`);
-        } else {
-            classes.push(`${CSS_PREFIX}-grid--wrap-${lx.wrap}`);
         }
 
         return classes;
