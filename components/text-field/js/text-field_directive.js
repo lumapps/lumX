@@ -19,6 +19,17 @@ function TextFieldController(LxUtilsService) {
     /////////////////////////////
 
     /**
+     * The default props.
+     *
+     * @type {Object}
+     * @constant
+     * @readonly
+     */
+    const _DEFAULT_PROPS = {
+        theme: 'light',
+    };
+
+    /**
      * The model controller.
      *
      * @type {Object}
@@ -84,6 +95,53 @@ function TextFieldController(LxUtilsService) {
     }
 
     /**
+     * Get text field classes.
+     *
+     * @return {Array} The list of text field classes.
+     */
+    function getClasses() {
+        const classes = [];
+
+        const theme = lx.theme ? lx.theme : _DEFAULT_PROPS.theme;
+
+        classes.push(`${CSS_PREFIX}-text-field--theme-${theme}`);
+
+        if (lx.hasChips) {
+            classes.push(`${CSS_PREFIX}-text-field--has-chips`);
+        }
+
+        if (lx.hasError) {
+            classes.push(`${CSS_PREFIX}-text-field--has-error`);
+        }
+
+        if (lx.icon) {
+            classes.push(`${CSS_PREFIX}-text-field--has-icon`);
+        }
+
+        if (lx.isClearable && lx.hasValue()) {
+            classes.push(`${CSS_PREFIX}-text-field--has-input-clear`);
+        }
+
+        if (lx.label) {
+            classes.push(`${CSS_PREFIX}-text-field--has-label`);
+        }
+
+        if (lx.hasValue()) {
+            classes.push(`${CSS_PREFIX}-text-field--has-value`);
+        }
+
+        if (lx.isValid) {
+            classes.push(`${CSS_PREFIX}-text-field--is-valid`);
+        }
+
+        if (lx.customColors) {
+            classes.push(`${CSS_PREFIX}-custom-colors`);
+        }
+
+        return classes;
+    }
+
+    /**
      * Define if the model controller has a value or not.
      *
      * @return {boolean} Wether the model controller has a value or not.
@@ -108,6 +166,7 @@ function TextFieldController(LxUtilsService) {
     /////////////////////////////
 
     lx.clearModel = clearModel;
+    lx.getClasses = getClasses;
     lx.hasValue = hasValue;
     lx.setModelController = setModelController;
 }

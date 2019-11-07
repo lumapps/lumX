@@ -1,16 +1,4 @@
-<div
-    class="lumx-text-field"
-    ng-class="{ 'lumx-text-field--theme-light': !lx.theme || lx.theme === 'light',
-                'lumx-text-field--theme-dark': lx.theme === 'dark',
-                'lumx-text-field--has-chips': lx.hasChips,
-                'lumx-text-field--has-icon': lx.icon,
-                'lumx-text-field--has-input-clear': lx.isClearable && lx.hasValue(),
-                'lumx-text-field--has-label': lx.label,
-                'lumx-text-field--has-value': lx.hasValue(),
-                'lumx-text-field--is-valid': lx.isValid,
-                'lumx-text-field--has-error': lx.hasError,
-                'lumx-custom-colors': lx.customColors }"
->
+<div class="lumx-text-field" ng-class="lx.getClasses()">
     <label for="{{ lx.inputId }}" class="lumx-text-field__label" ng-if="::lx.label">
         {{ lx.label }}
     </label>
