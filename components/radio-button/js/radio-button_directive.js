@@ -17,6 +17,17 @@ function RadioButtonController(LxUtilsService) {
     /////////////////////////////
 
     /**
+     * The default props.
+     *
+     * @type {Object}
+     * @constant
+     * @readonly
+     */
+    const _DEFAULT_PROPS = {
+        theme: 'light',
+    };
+
+    /**
      * The model controller.
      *
      * @type {Object}
@@ -78,6 +89,27 @@ function RadioButtonController(LxUtilsService) {
     /////////////////////////////
 
     /**
+     * Get radio button classes.
+     *
+     * @return {Array} The list of radio button classes.
+     */
+    function getClasses() {
+        const classes = [];
+
+        const state = lx.viewValue === lx.radioButtonValue ? 'checked' : 'unchecked';
+        const theme = lx.theme ? lx.theme : _DEFAULT_PROPS.theme;
+
+        classes.push(`${CSS_PREFIX}-radio-button--is-${state}`);
+        classes.push(`${CSS_PREFIX}-radio-button--theme-${theme}`);
+
+        if (lx.customColors) {
+            classes.push(`${CSS_PREFIX}-custom-colors`);
+        }
+
+        return classes;
+    }
+
+    /**
      * Set the model controller.
      *
      * @param {Object} modelController The model controller.
@@ -104,6 +136,7 @@ function RadioButtonController(LxUtilsService) {
 
     /////////////////////////////
 
+    lx.getClasses = getClasses;
     lx.setModelController = setModelController;
     lx.updateViewValue = updateViewValue;
 }
