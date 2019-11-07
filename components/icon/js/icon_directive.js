@@ -24,15 +24,15 @@ function IconController() {
     function getClasses() {
         const classes = [];
 
-        if (angular.isDefined(lx.color)) {
+        if (lx.color) {
             classes.push(`${CSS_PREFIX}-icon--color-${lx.color}`);
         }
 
-        if (angular.isDefined(lx.colorVariant)) {
+        if (lx.colorVariant) {
             classes.push(`${CSS_PREFIX}-icon--color-variant-${lx.colorVariant}`);
         }
 
-        if (angular.isDefined(lx.size)) {
+        if (lx.size) {
             classes.push(`${CSS_PREFIX}-icon--size-${lx.size}`);
         }
 
