@@ -1,12 +1,4 @@
-<div
-    class="lumx-dialog"
-    role="dialog"
-    ng-class="{ 'lumx-dialog--is-loading': lx.isLoading,
-                'lumx-dialog--size-tiny': lx.size === 'tiny',
-                'lumx-dialog--size-regular': lx.size === 'regular',
-                'lumx-dialog--size-big': !lx.size || lx.size === 'big',
-                'lumx-dialog--size-huge': lx.size === 'huge' }"
->
+<div class="lumx-dialog" role="dialog" ng-class="lx.getClasses()">
     <div class="lumx-dialog__wrapper" ng-if="lx.isOpen">
         <div
             class="lumx-dialog__header"

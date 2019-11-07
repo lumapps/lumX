@@ -25,6 +25,17 @@ function DialogController(
     /////////////////////////////
 
     /**
+     * The default props.
+     *
+     * @type {Object}
+     * @constant
+     * @readonly
+     */
+    const _DEFAULT_PROPS = {
+        size: 'big',
+    };
+
+    /**
      * The dialog open/close transition duration.
      *
      * @type {number}
@@ -262,6 +273,35 @@ function DialogController(
 
     /////////////////////////////
     //                         //
+    //     Public functions    //
+    //                         //
+    /////////////////////////////
+
+    /**
+     * Get dialog classes.
+     *
+     * @return {Array} The list of dialog classes.
+     */
+    function getClasses() {
+        const classes = [];
+
+        const size = lx.size ? lx.size : _DEFAULT_PROPS.size;
+
+        classes.push(`${CSS_PREFIX}-dialog--size-${size}`);
+
+        if (lx.isLoading) {
+            classes.push(`${CSS_PREFIX}-dialog--is-loading`);
+        }
+
+        return classes;
+    }
+
+    /////////////////////////////
+
+    lx.getClasses = getClasses;
+
+    /////////////////////////////
+    //                         //
     //          Events         //
     //                         //
     /////////////////////////////
@@ -314,6 +354,8 @@ function DialogController(
 /////////////////////////////
 
 function DialogDirective() {
+    'ngInject';
+
     function link(scope, el, attrs, ctrl) {
         attrs.$observe('id', (newId) => {
             ctrl.id = newId;
