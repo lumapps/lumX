@@ -83,13 +83,6 @@ function DropdownController(
     /////////////////////////////
 
     /**
-     * Whether the directive has toggle slot filled or not.
-     *
-     * @type {boolean}
-     */
-    lx.hasToggle = false;
-
-    /**
      * Whether the dropdown is open or not.
      *
      * @type {boolean}
@@ -462,7 +455,7 @@ function DropdownDirective($timeout) {
         ctrl.registerMenu(menuEl);
 
         if (transclude.isSlotFilled('toggle')) {
-            ctrl.hasToggle = true;
+            el.addClass(`${CSS_PREFIX}-dropdown--has-toggle`);
         }
 
         if (toggleEl.length > 0) {
