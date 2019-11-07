@@ -1,23 +1,4 @@
-<div
-    class="lumx-select"
-    ng-class="{ 'lumx-select--has-value': !lx.isModelEmpty(),
-                'lumx-select--is-empty': lx.isModelEmpty(),
-                'lumx-select--unique': !lx.multiple,
-                'lumx-select--has-unique': !lx.isModelEmpty() && !lx.multiple,
-                'lumx-select--multiple': lx.multiple,
-                'lumx-select--has-multiple': !lx.isModelEmpty() && lx.multiple,
-                'lumx-select--is-open': lx.isOpen,
-                'lumx-select--theme-light': !lx.theme || lx.theme === 'light',
-                'lumx-select--theme-dark': lx.theme === 'dark',
-                'lumx-select--has-label': lx.label,
-                'lumx-select--is-disabled': lx.isDisabled,
-                'lumx-select--is-valid': lx.isValid,
-                'lumx-select--has-error': lx.hasError,
-                'lumx-select--has-placeholder': lx.placeholder,
-                'lumx-select--is-focus': lx.isFocus,
-                'lumx-select--has-input-clear': lx.isClearable && !lx.multiple && !lx.isModelEmpty(),
-                'lumx-custom-colors': lx.customColors }"
->
+<div class="lumx-select" ng-class="lx.getClasses()">
     <span class="lumx-select__label" ng-if="::lx.label && (!lx.variant || lx.variant === 'input')">
         {{ lx.label }}
     </span>
@@ -31,7 +12,6 @@
         ng-blur="lx.disableKeyEvents()"
         ng-if="!lx.variant || lx.variant === 'input'"
     >
-
         <div
             class="lumx-select__input-native lumx-select__input-native--placeholder"
             ng-if="lx.isModelEmpty() && lx.placeholder"

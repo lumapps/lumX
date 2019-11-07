@@ -1,4 +1,4 @@
-import { DOWN_KEY_CODE, ENTER_KEY_CODE } from '@lumx/core/js/constants';
+import { CSS_PREFIX, DOWN_KEY_CODE, ENTER_KEY_CODE } from '@lumx/core/js/constants';
 
 import { mdiAlertCircle, mdiCheckCircle, mdiClose, mdiCloseCircle, mdiMagnify, mdiMenuDown } from '@lumx/icons';
 
@@ -17,6 +17,17 @@ function SelectController($document, $interpolate, $sce, $scope, $timeout, LxDro
     //    Private attributes   //
     //                         //
     /////////////////////////////
+
+    /**
+     * The default props.
+     *
+     * @type {Object}
+     * @constant
+     * @readonly
+     */
+    const _DEFAULT_PROPS = {
+        theme: 'light',
+    };
 
     /**
      * The choice template.
@@ -339,6 +350,61 @@ function SelectController($document, $interpolate, $sce, $scope, $timeout, LxDro
     }
 
     /**
+     * Get select classes.
+     *
+     * @return {Array} The list of select classes.
+     */
+    function getClasses() {
+        const classes = [];
+
+        const mode = lx.multiple ? 'multiple' : 'unique';
+        const theme = lx.theme ? lx.theme : _DEFAULT_PROPS.theme;
+        const value = lx.isModelEmpty() ? 'is-empty' : 'has-value';
+
+        classes.push(`${CSS_PREFIX}-select--${mode}`);
+        classes.push(`${CSS_PREFIX}-select--theme-${theme}`);
+        classes.push(`${CSS_PREFIX}-select--${value}`);
+
+        if (lx.hasError) {
+            classes.push(`${CSS_PREFIX}-select--has-error`);
+        }
+
+        if (lx.isClearable && !lx.multiple && !lx.isModelEmpty()) {
+            classes.push(`${CSS_PREFIX}-select--has-input-clear`);
+        }
+
+        if (lx.label) {
+            classes.push(`${CSS_PREFIX}-select--has-label`);
+        }
+
+        if (lx.placeholder) {
+            classes.push(`${CSS_PREFIX}-select--has-placeholder`);
+        }
+
+        if (lx.isDisabled) {
+            classes.push(`${CSS_PREFIX}-select--is-disabled`);
+        }
+
+        if (lx.isFocus) {
+            classes.push(`${CSS_PREFIX}-select--is-focus`);
+        }
+
+        if (lx.isOpen) {
+            classes.push(`${CSS_PREFIX}-select--is-open`);
+        }
+
+        if (lx.isValid) {
+            classes.push(`${CSS_PREFIX}-select--is-valid`);
+        }
+
+        if (lx.customColors) {
+            classes.push(`${CSS_PREFIX}-custom-colors`);
+        }
+
+        return classes;
+    }
+
+    /**
      * Check if choices are in array format.
      *
      * @return {boolean} Whether choices are in array format or not.
@@ -477,6 +543,7 @@ function SelectController($document, $interpolate, $sce, $scope, $timeout, LxDro
     lx.displaySelected = displaySelected;
     lx.displaySubheader = displaySubheader;
     lx.enableKeyEvents = enableKeyEvents;
+    lx.getClasses = getClasses;
     lx.isChoicesArray = isChoicesArray;
     lx.isModelEmpty = isModelEmpty;
     lx.isSelected = isSelected;
