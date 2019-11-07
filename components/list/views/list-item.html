@@ -1,13 +1,4 @@
-<li
-    class="lumx-list-item"
-    ng-class="{ 'lumx-list-item--is-clickable': lx.parentController.isClickable,
-                'lumx-list-item--is-selected': lx.isSelected,
-                'lumx-list-item--size-tiny': lx.size === 'tiny',
-                'lumx-list-item--size-regular': !lx.size || lx.size === 'regular',
-                'lumx-list-item--size-big': lx.size === 'big',
-                'lumx-list-item--size-huge': lx.size === 'huge' }"
-    tabindex="{{ lx.parentController.isClickable ? 0 : -1 }}"
->
+<li class="lumx-list-item" ng-class="lx.getClasses()" tabindex="{{ lx.parentController.isClickable ? 0 : -1 }}">
     <div class="lumx-list-item__content" ng-transclude ng-if="::!lx.hasBefore && !lx.hasContent && !lx.hasAfter"></div>
 
     <div class="lumx-list-item__before" ng-transclude="before" ng-if="::lx.hasBefore"></div>

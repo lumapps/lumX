@@ -12,6 +12,23 @@ function ListItemController($element, $scope) {
 
     /////////////////////////////
     //                         //
+    //    Private attributes   //
+    //                         //
+    /////////////////////////////
+
+    /**
+     * The default props.
+     *
+     * @type {Object}
+     * @constant
+     * @readonly
+     */
+    const _DEFAULT_PROPS = {
+        size: 'regular',
+    };
+
+    /////////////////////////////
+    //                         //
     //    Public attributes    //
     //                         //
     /////////////////////////////
@@ -60,6 +77,39 @@ function ListItemController($element, $scope) {
 
         lx.parentController.activeItemIndex = $element.index(`.${CSS_PREFIX}-list-item`);
     }
+
+    /////////////////////////////
+    //                         //
+    //     Public functions    //
+    //                         //
+    /////////////////////////////
+
+    /**
+     * Get list item classes.
+     *
+     * @return {Array} The list of list item classes.
+     */
+    function getClasses() {
+        const classes = [];
+
+        const size = lx.size ? lx.size : _DEFAULT_PROPS.size;
+
+        classes.push(`${CSS_PREFIX}-list-item--size-${size}`);
+
+        if (lx.parentController.isClickable) {
+            classes.push(`${CSS_PREFIX}-list-item--is-clickable`);
+        }
+
+        if (lx.isSelected) {
+            classes.push(`${CSS_PREFIX}-list-item--is-selected`);
+        }
+
+        return classes;
+    }
+
+    /////////////////////////////
+
+    lx.getClasses = getClasses;
 
     /////////////////////////////
     //                         //

@@ -106,6 +106,35 @@ function ListController($element, $scope) {
 
     /////////////////////////////
     //                         //
+    //     Public functions    //
+    //                         //
+    /////////////////////////////
+
+    /**
+     * Get list classes.
+     *
+     * @return {Array} The list of list classes.
+     */
+    function getClasses() {
+        const classes = [];
+
+        if (lx.isClickable) {
+            classes.push(`${CSS_PREFIX}-list--is-clickable`);
+        }
+
+        if (lx.customColors) {
+            classes.push(`${CSS_PREFIX}-custom-colors`);
+        }
+
+        return classes;
+    }
+
+    /////////////////////////////
+
+    lx.getClasses = getClasses;
+
+    /////////////////////////////
+    //                         //
     //          Events         //
     //                         //
     /////////////////////////////
@@ -126,6 +155,8 @@ function ListController($element, $scope) {
 /////////////////////////////
 
 function ListDirective() {
+    'ngInject';
+
     return {
         bindToController: true,
         controller: ListController,
