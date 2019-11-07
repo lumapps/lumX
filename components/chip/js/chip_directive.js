@@ -80,31 +80,28 @@ function ChipController() {
     function getClasses() {
         const classes = [];
 
-        if (angular.isUndefined(lx.color)) {
-            if (angular.isDefined(lx.theme) && lx.theme) {
-                const chipColor = lx.theme === 'light' ? 'dark' : 'light';
-                classes.push(`${CSS_PREFIX}-chip--color-${chipColor}`);
-            } else {
-                classes.push(`${CSS_PREFIX}-chip--color-${_DEFAULT_PROPS.color}`);
-            }
+        let color;
+        if (lx.color) {
+            ({ color } = lx.color);
+        } else if (angular.isDefined(lx.theme) && lx.theme) {
+            color = lx.theme === 'light' ? 'dark' : 'light';
         } else {
-            classes.push(`${CSS_PREFIX}-chip--color-${lx.color}`);
+            ({ color } = _DEFAULT_PROPS.color);
         }
 
-        if (lx.hasBefore) {
-            classes.push(`${CSS_PREFIX}-chip--has-before`);
-        }
+        const size = lx.size ? lx.size : _DEFAULT_PROPS.size;
+        const state = lx.isSelected ? 'selected' : 'unselected';
+
+        classes.push(`${CSS_PREFIX}-chip--color-${color}`);
+        classes.push(`${CSS_PREFIX}-chip--size-${size}`);
+        classes.push(`${CSS_PREFIX}-chip--is-${state}`);
 
         if (lx.hasAfter || lx.hasDropdownIndicator) {
             classes.push(`${CSS_PREFIX}-chip--has-after`);
         }
 
-        if (angular.isUndefined(lx.isSelected) || !lx.isSelected) {
-            classes.push(`${CSS_PREFIX}-chip--is-unselected`);
-        }
-
-        if (lx.isSelected) {
-            classes.push(`${CSS_PREFIX}-chip--is-selected`);
+        if (lx.hasBefore) {
+            classes.push(`${CSS_PREFIX}-chip--has-before`);
         }
 
         if (angular.isFunction(lx.onClick)) {
@@ -113,12 +110,6 @@ function ChipController() {
 
         if (lx.isDisabled) {
             classes.push(`${CSS_PREFIX}-chip--is-disabled`);
-        }
-
-        if (angular.isUndefined(lx.size)) {
-            classes.push(`${CSS_PREFIX}-chip--size-${_DEFAULT_PROPS.size}`);
-        } else {
-            classes.push(`${CSS_PREFIX}-chip--size-${lx.size}`);
         }
 
         if (lx.customColors) {
