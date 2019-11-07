@@ -22,11 +22,11 @@ function LinkController() {
     function getClasses() {
         const classes = [];
 
-        if (angular.isDefined(lx.color)) {
+        if (lx.color) {
             classes.push(`${CSS_PREFIX}-link--color-${lx.color}`);
         }
 
-        if (angular.isDefined(lx.colorVariant)) {
+        if (lx.colorVariant) {
             classes.push(`${CSS_PREFIX}-link--color-variant-${lx.colorVariant}`);
         }
 
