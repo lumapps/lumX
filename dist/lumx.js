@@ -99,6 +99,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* unused harmony export BACKSPACE_KEY_CODE */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CSS_PREFIX; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return DOWN_KEY_CODE; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return ENTER_KEY_CODE; });
@@ -186,6 +187,14 @@ const TAB_KEY_CODE = 9;
  * @constant
  */
 const UP_KEY_CODE = 38;
+
+/**
+ * The up key code.
+ *
+ * @type {number}
+ * @constant
+ */
+const BACKSPACE_KEY_CODE = 8;
 
 /////////////////////////////
 
@@ -8685,7 +8694,7 @@ module.exports=v1
 /* 42 */
 /***/ (function(module, exports) {
 
-var v1='<div class=lumx-dialog role=dialog ng-class="{ \'lumx-dialog--is-loading\': lx.isLoading,\n                \'lumx-dialog--size-tiny\': lx.size === \'tiny\',\n                \'lumx-dialog--size-regular\': lx.size === \'regular\',\n                \'lumx-dialog--size-big\': !lx.size || lx.size === \'big\',\n                \'lumx-dialog--size-huge\': lx.size === \'huge\' }"><div class=lumx-dialog__wrapper ng-if=lx.isOpen><div class=lumx-dialog__header ng-class="{ \'lumx-dialog__header--has-divider\': lx.forceHeaderDivider }" ng-transclude=header></div><div class=lumx-dialog__content><div class="lumx-dialog__sentinel lumx-dialog__sentinel--top"></div><div ng-transclude=content></div><div class=lumx-dialog__progress-overlay ng-if=lx.isLoading><lx-progress lx-variant=circular></lx-progress></div><div class="lumx-dialog__sentinel lumx-dialog__sentinel--bottom"></div></div><div class=lumx-dialog__footer ng-class="{ \'lumx-dialog__footer--has-divider\': lx.forceFooterDivider }" ng-transclude=footer></div></div></div>';
+var v1='<div class=lumx-dialog role=dialog ng-class=lx.getClasses()><div class=lumx-dialog__wrapper ng-if=lx.isOpen><div class=lumx-dialog__header ng-class="{ \'lumx-dialog__header--has-divider\': lx.forceHeaderDivider }" ng-transclude=header></div><div class=lumx-dialog__content><div class="lumx-dialog__sentinel lumx-dialog__sentinel--top"></div><div ng-transclude=content></div><div class=lumx-dialog__progress-overlay ng-if=lx.isLoading><lx-progress lx-variant=circular></lx-progress></div><div class="lumx-dialog__sentinel lumx-dialog__sentinel--bottom"></div></div><div class=lumx-dialog__footer ng-class="{ \'lumx-dialog__footer--has-divider\': lx.forceFooterDivider }" ng-transclude=footer></div></div></div>';
 angular.module('lumx.dialog').run(['$templateCache', function ($templateCache) {$templateCache.put('dialog.html', v1);}]);
 module.exports=v1
 
@@ -8693,7 +8702,7 @@ module.exports=v1
 /* 43 */
 /***/ (function(module, exports) {
 
-var v1='<div class=lumx-dropdown ng-class="{ \'lumx-dropdown--has-toggle\': lx.hasToggle }"><div class=lumx-dropdown__toggle ng-transclude=toggle></div><div class=lumx-dropdown__menu><div class=lumx-dropdown__content ng-transclude=menu ng-if=lx.isOpen></div></div></div>';
+var v1='<div class=lumx-dropdown><div class=lumx-dropdown__toggle ng-transclude=toggle></div><div class=lumx-dropdown__menu><div class=lumx-dropdown__content ng-transclude=menu ng-if=lx.isOpen></div></div></div>';
 angular.module('lumx.dropdown').run(['$templateCache', function ($templateCache) {$templateCache.put('dropdown.html', v1);}]);
 module.exports=v1
 
@@ -8709,7 +8718,7 @@ module.exports=v1
 /* 45 */
 /***/ (function(module, exports) {
 
-var v1='<ul class=lumx-list ng-class="{ \'lumx-list--is-clickable\': lx.isClickable,\n                \'lumx-custom-colors\': lx.customColors }" tabindex="{{ lx.isClickable ? 0 : -1 }}" ng-transclude></ul>';
+var v1='<ul class=lumx-list ng-class=lx.getClasses() tabindex="{{ lx.isClickable ? 0 : -1 }}" ng-transclude></ul>';
 angular.module('lumx.list').run(['$templateCache', function ($templateCache) {$templateCache.put('list.html', v1);}]);
 module.exports=v1
 
@@ -8717,7 +8726,7 @@ module.exports=v1
 /* 46 */
 /***/ (function(module, exports) {
 
-var v1='<li class=lumx-list-item ng-class="{ \'lumx-list-item--is-clickable\': lx.parentController.isClickable,\n                \'lumx-list-item--is-selected\': lx.isSelected,\n                \'lumx-list-item--size-tiny\': lx.size === \'tiny\',\n                \'lumx-list-item--size-regular\': !lx.size || lx.size === \'regular\',\n                \'lumx-list-item--size-big\': lx.size === \'big\',\n                \'lumx-list-item--size-huge\': lx.size === \'huge\' }" tabindex="{{ lx.parentController.isClickable ? 0 : -1 }}"><div class=lumx-list-item__content ng-transclude ng-if="::!lx.hasBefore && !lx.hasContent && !lx.hasAfter"></div><div class=lumx-list-item__before ng-transclude=before ng-if=::lx.hasBefore></div><div class=lumx-list-item__content ng-transclude=content ng-if=::lx.hasContent></div><div class=lumx-list-item__after ng-transclude=after ng-if=::lx.hasAfter></div></li>';
+var v1='<li class=lumx-list-item ng-class=lx.getClasses() tabindex="{{ lx.parentController.isClickable ? 0 : -1 }}"><div class=lumx-list-item__content ng-transclude ng-if="::!lx.hasBefore && !lx.hasContent && !lx.hasAfter"></div><div class=lumx-list-item__before ng-transclude=before ng-if=::lx.hasBefore></div><div class=lumx-list-item__content ng-transclude=content ng-if=::lx.hasContent></div><div class=lumx-list-item__after ng-transclude=after ng-if=::lx.hasAfter></div></li>';
 angular.module('lumx.list').run(['$templateCache', function ($templateCache) {$templateCache.put('list-item.html', v1);}]);
 module.exports=v1
 
@@ -8725,7 +8734,7 @@ module.exports=v1
 /* 47 */
 /***/ (function(module, exports) {
 
-var v1='<div class=lumx-progress ng-class="{ \'lumx-progress--theme-light\': !lx.theme || lx.theme === \'light\',\n                \'lumx-progress--theme-dark\': lx.theme === \'dark\',\n                \'lumx-progress--variant-circular\': !lx.variant || lx.variant === \'circular\',\n                \'lumx-custom-colors\': lx.customColors }"><div class=lumx-progress-circular ng-if="::!lx.variant || lx.variant === \'circular\'"><div class=lumx-progress-circular__double-bounce1></div><div class=lumx-progress-circular__double-bounce2></div><svg class=lumx-progress-circular__svg viewBox="25 25 50 50"><circle class=lumx-progress-circular__path cx=50 cy=50 r=20 fill=none stroke-width="5"/></svg></div><div class=lumx-progress-linear ng-if="::lx.variant === \'linear\'"><div class=lumx-progress-linear__line1></div><div class=lumx-progress-linear__line2></div></div></div>';
+var v1='<div class=lumx-progress ng-class=lx.getClasses()><div class=lumx-progress-circular ng-if="::!lx.variant || lx.variant === \'circular\'"><div class=lumx-progress-circular__double-bounce1></div><div class=lumx-progress-circular__double-bounce2></div><svg class=lumx-progress-circular__svg viewBox="25 25 50 50"><circle class=lumx-progress-circular__path cx=50 cy=50 r=20 fill=none stroke-width="5"/></svg></div><div class=lumx-progress-linear ng-if="::lx.variant === \'linear\'"><div class=lumx-progress-linear__line1></div><div class=lumx-progress-linear__line2></div></div></div>';
 angular.module('lumx.progress').run(['$templateCache', function ($templateCache) {$templateCache.put('progress.html', v1);}]);
 module.exports=v1
 
@@ -8733,7 +8742,7 @@ module.exports=v1
 /* 48 */
 /***/ (function(module, exports) {
 
-var v1='<div class=lumx-radio-button ng-class="{ \'lumx-radio-button--is-checked\': lx.viewValue === lx.radioButtonValue,\n                \'lumx-radio-button--is-unchecked\': lx.viewValue !== lx.radioButtonValue,\n                \'lumx-radio-button--theme-light\': !lx.theme || lx.theme === \'light\',\n                \'lumx-radio-button--theme-dark\': lx.theme === \'dark\',\n                \'lumx-custom-colors\': lx.customColors }"><div class=lumx-radio-button__input-wrapper><input type=radio id="{{ lx.radioButtonId }}" class=lumx-radio-button__input-native ng-checked="lx.viewValue === lx.radioButtonValue" ng-click="lx.updateViewValue()"><div class=lumx-radio-button__input-placeholder><div class=lumx-radio-button__input-background></div><div class=lumx-radio-button__input-indicator></div></div></div><div class=lumx-radio-button__content ng-if="::!lx.hasLabel && !lx.hasHelper && lx.hasTranscluded"><label for="{{ lx.radioButtonId }}" class=lumx-radio-button__label ng-transclude></label></div><div class=lumx-radio-button__content ng-if=::lx.hasLabel><label for="{{ lx.radioButtonId }}" class=lumx-radio-button__label ng-transclude=label></label><span class=lumx-radio-button__helper ng-transclude=helper ng-if=::lx.hasHelper></span></div></div>';
+var v1='<div class=lumx-radio-button ng-class=lx.getClasses()><div class=lumx-radio-button__input-wrapper><input type=radio id="{{ lx.radioButtonId }}" class=lumx-radio-button__input-native ng-checked="lx.viewValue === lx.radioButtonValue" ng-click="lx.updateViewValue()"><div class=lumx-radio-button__input-placeholder><div class=lumx-radio-button__input-background></div><div class=lumx-radio-button__input-indicator></div></div></div><div class=lumx-radio-button__content ng-if="::!lx.hasLabel && !lx.hasHelper && lx.hasTranscluded"><label for="{{ lx.radioButtonId }}" class=lumx-radio-button__label ng-transclude></label></div><div class=lumx-radio-button__content ng-if=::lx.hasLabel><label for="{{ lx.radioButtonId }}" class=lumx-radio-button__label ng-transclude=label></label><span class=lumx-radio-button__helper ng-transclude=helper ng-if=::lx.hasHelper></span></div></div>';
 angular.module('lumx.radio-button').run(['$templateCache', function ($templateCache) {$templateCache.put('radio-button.html', v1);}]);
 module.exports=v1
 
@@ -8741,7 +8750,7 @@ module.exports=v1
 /* 49 */
 /***/ (function(module, exports) {
 
-var v1='<div class=lumx-select ng-class="{ \'lumx-select--has-value\': !lx.isModelEmpty(),\n                \'lumx-select--is-empty\': lx.isModelEmpty(),\n                \'lumx-select--unique\': !lx.multiple,\n                \'lumx-select--has-unique\': !lx.isModelEmpty() && !lx.multiple,\n                \'lumx-select--multiple\': lx.multiple,\n                \'lumx-select--has-multiple\': !lx.isModelEmpty() && lx.multiple,\n                \'lumx-select--is-open\': lx.isOpen,\n                \'lumx-select--theme-light\': !lx.theme || lx.theme === \'light\',\n                \'lumx-select--theme-dark\': lx.theme === \'dark\',\n                \'lumx-select--has-label\': lx.label,\n                \'lumx-select--is-disabled\': lx.isDisabled,\n                \'lumx-select--is-valid\': lx.isValid,\n                \'lumx-select--has-error\': lx.hasError,\n                \'lumx-select--has-placeholder\': lx.placeholder,\n                \'lumx-select--is-focus\': lx.isFocus,\n                \'lumx-select--has-input-clear\': lx.isClearable && !lx.multiple && !lx.isModelEmpty(),\n                \'lumx-custom-colors\': lx.customColors }"><span class=lumx-select__label ng-if="::lx.label && (!lx.variant || lx.variant === \'input\')">{{ lx.label }}</span><div class=lumx-select__wrapper id="{{ lx.targetUuid }}" tabindex=0 ng-click=lx.toggleDropdown($event) ng-focus=lx.enableKeyEvents() ng-blur=lx.disableKeyEvents() ng-if="!lx.variant || lx.variant === \'input\'"><div class="lumx-select__input-native lumx-select__input-native--placeholder" ng-if="lx.isModelEmpty() && lx.placeholder"><span>{{ lx.placeholder }}</span></div><div class=lumx-select__input-native ng-if=!lx.multiple><span ng-bind-html=lx.displaySelected() ng-if=!lx.isModelEmpty()></span></div><div class=lumx-select__chips ng-if=lx.multiple><lx-chip-group ng-if=!lx.isModelEmpty()><lx-chip lx-on-click="lx.select(selected, $event)" lx-size=s lx-theme="{{ lx.theme === \'dark\' ? \'dark\' : \'light\' }}" ng-repeat="selected in lx.viewValue" ng-disabled=lx.isDisabled><lx-chip-label ng-bind-html=lx.displaySelected(selected)></lx-chip-label><lx-chip-after><lx-icon lx-path="{{ lx.icons.mdiClose }}" lx-size=xxs></lx-icon></lx-chip-after></lx-chip></lx-chip-group></div><div class=lumx-select__input-validity ng-if="lx.isValid || lx.hasError"><lx-icon lx-path="{{ lx.isValid ? lx.icons.mdiCheckCircle : lx.icons.mdiAlertCircle }}" lx-size=xxs></lx-icon></div><lx-button type=button class=lumx-select__input-clear lx-emphasis=low lx-size=s lx-theme="{{ lx.theme }}" lx-variant=icon ng-if="lx.isClearable && !lx.multiple && !lx.isModelEmpty()" ng-click=lx.clearModel($event)><lx-icon lx-path="{{ lx.icons.mdiCloseCircle }}"></lx-icon></lx-button><div class=lumx-select__input-indicator><lx-icon lx-path="{{ lx.icons.mdiMenuDown }}" lx-size=s></lx-icon></div></div><lx-chip id="{{ lx.targetUuid }}" lx-custom-colors=lx.customColors lx-has-dropdown-indicator=lx.isModelEmpty() lx-on-click=lx.toggleDropdown($event) lx-on-after-click=lx.clearModel() lx-is-selected=!lx.isModelEmpty() lx-theme="{{ lx.theme }}" ng-focus=lx.enableKeyEvents() ng-blur=lx.disableKeyEvents() ng-if="lx.variant === \'chip\'"><lx-chip-label><span ng-if=lx.isModelEmpty()>{{ lx.label }}</span> <span ng-if="!lx.isModelEmpty() && !lx.multiple" ng-bind-html=lx.displaySelected()></span> <span ng-if="!lx.isModelEmpty() && lx.multiple"><span ng-bind-html=lx.displaySelected(lx.viewValue[0])></span> <span ng-if="lx.viewValue.length > 1">+{{ lx.viewValue.length - 1 }}</span></span></lx-chip-label><lx-chip-after><lx-icon lx-path="{{ lx.isModelEmpty() ? lx.icons.mdiMenuDown : lx.icons.mdiCloseCircle }}" lx-size=xs></lx-icon></lx-chip-after></lx-chip><lx-dropdown lx-position=left lx-width=100% id="{{ lx.dropdownUuid }}"><lx-dropdown-menu><div class=lumx-select__filter ng-if=::lx.hasFilter><lx-icon lx-path="{{ lx.icons.mdiMagnify }}" lx-size=xs></lx-icon><input type=text placeholder=Search ng-model=lx.filterModel ng-model-options="{ debounce: 500 }" ng-change=lx.updateFilter() lx-select-filter></div><lx-list lx-custom-colors=lx.customColors lx-focus-on-init=!lx.hasFilter lx-is-clickable=true ng-if=!lx.isLoading><lx-list-item lx-is-selected=lx.isSelected(choice) lx-size=tiny ng-repeat="choice in lx.choices | lxSelectChoicesFilter:lx.filter:lx.filterModel" ng-click="lx.select(choice, $event)" lx-enter-keydown="lx.select(choice, $event)" ng-if=::lx.isChoicesArray()><lx-list-item-content ng-bind-html=::lx.displayChoice(choice)></lx-list-item-content></lx-list-item><lx-list-subheader ng-repeat-start="(subheader, children) in lx.choices" ng-bind-html=lx.displaySubheader(subheader) ng-if=::!lx.isChoicesArray()></lx-list-subheader><lx-list-item lx-is-selected=lx.isSelected(choice) lx-size=tiny ng-repeat="choice in children | lxSelectChoicesFilter:lx.filter:lx.filterModel" ng-repeat-end ng-click="lx.select(choice, $event)" lx-enter-keydown="lx.select(choice, $event)" ng-if=::!lx.isChoicesArray()><lx-list-item-content ng-bind-html=::lx.displayChoice(choice)></lx-list-item-content></lx-list-item></lx-list><span class=lumx-select__helper ng-if="lx.hasHelper && !lx.isLoading">{{ lx.helper }}</span><div class=lumx-select__loader ng-if="lx.isLoading || lx.isInfiniteScrollLoading"><lx-progress></lx-progress></div></lx-dropdown-menu></lx-dropdown></div>';
+var v1='<div class=lumx-select ng-class=lx.getClasses()><span class=lumx-select__label ng-if="::lx.label && (!lx.variant || lx.variant === \'input\')">{{ lx.label }}</span><div class=lumx-select__wrapper id="{{ lx.targetUuid }}" tabindex=0 ng-click=lx.toggleDropdown($event) ng-focus=lx.enableKeyEvents() ng-blur=lx.disableKeyEvents() ng-if="!lx.variant || lx.variant === \'input\'"><div class="lumx-select__input-native lumx-select__input-native--placeholder" ng-if="lx.isModelEmpty() && lx.placeholder"><span>{{ lx.placeholder }}</span></div><div class=lumx-select__input-native ng-if=!lx.multiple><span ng-bind-html=lx.displaySelected() ng-if=!lx.isModelEmpty()></span></div><div class=lumx-select__chips ng-if=lx.multiple><lx-chip-group ng-if=!lx.isModelEmpty()><lx-chip lx-on-click="lx.select(selected, $event)" lx-size=s lx-theme="{{ lx.theme === \'dark\' ? \'dark\' : \'light\' }}" ng-repeat="selected in lx.viewValue" ng-disabled=lx.isDisabled><lx-chip-label ng-bind-html=lx.displaySelected(selected)></lx-chip-label><lx-chip-after><lx-icon lx-path="{{ lx.icons.mdiClose }}" lx-size=xxs></lx-icon></lx-chip-after></lx-chip></lx-chip-group></div><div class=lumx-select__input-validity ng-if="lx.isValid || lx.hasError"><lx-icon lx-path="{{ lx.isValid ? lx.icons.mdiCheckCircle : lx.icons.mdiAlertCircle }}" lx-size=xxs></lx-icon></div><lx-button type=button class=lumx-select__input-clear lx-emphasis=low lx-size=s lx-theme="{{ lx.theme }}" lx-variant=icon ng-if="lx.isClearable && !lx.multiple && !lx.isModelEmpty()" ng-click=lx.clearModel($event)><lx-icon lx-path="{{ lx.icons.mdiCloseCircle }}"></lx-icon></lx-button><div class=lumx-select__input-indicator><lx-icon lx-path="{{ lx.icons.mdiMenuDown }}" lx-size=s></lx-icon></div></div><lx-chip id="{{ lx.targetUuid }}" lx-custom-colors=lx.customColors lx-has-dropdown-indicator=lx.isModelEmpty() lx-on-click=lx.toggleDropdown($event) lx-on-after-click=lx.clearModel() lx-is-selected=!lx.isModelEmpty() lx-theme="{{ lx.theme }}" ng-focus=lx.enableKeyEvents() ng-blur=lx.disableKeyEvents() ng-if="lx.variant === \'chip\'"><lx-chip-label><span ng-if=lx.isModelEmpty()>{{ lx.label }}</span> <span ng-if="!lx.isModelEmpty() && !lx.multiple" ng-bind-html=lx.displaySelected()></span> <span ng-if="!lx.isModelEmpty() && lx.multiple"><span ng-bind-html=lx.displaySelected(lx.viewValue[0])></span> <span ng-if="lx.viewValue.length > 1">+{{ lx.viewValue.length - 1 }}</span></span></lx-chip-label><lx-chip-after><lx-icon lx-path="{{ lx.isModelEmpty() ? lx.icons.mdiMenuDown : lx.icons.mdiCloseCircle }}" lx-size=xs></lx-icon></lx-chip-after></lx-chip><lx-dropdown lx-position=left lx-width=100% id="{{ lx.dropdownUuid }}"><lx-dropdown-menu><div class=lumx-select__filter ng-if=::lx.hasFilter><lx-icon lx-path="{{ lx.icons.mdiMagnify }}" lx-size=xs></lx-icon><input type=text placeholder=Search ng-model=lx.filterModel ng-model-options="{ debounce: 500 }" ng-change=lx.updateFilter() lx-select-filter></div><lx-list lx-custom-colors=lx.customColors lx-focus-on-init=!lx.hasFilter lx-is-clickable=true ng-if=!lx.isLoading><lx-list-item lx-is-selected=lx.isSelected(choice) lx-size=tiny ng-repeat="choice in lx.choices | lxSelectChoicesFilter:lx.filter:lx.filterModel" ng-click="lx.select(choice, $event)" lx-enter-keydown="lx.select(choice, $event)" ng-if=::lx.isChoicesArray()><lx-list-item-content ng-bind-html=::lx.displayChoice(choice)></lx-list-item-content></lx-list-item><lx-list-subheader ng-repeat-start="(subheader, children) in lx.choices" ng-bind-html=lx.displaySubheader(subheader) ng-if=::!lx.isChoicesArray()></lx-list-subheader><lx-list-item lx-is-selected=lx.isSelected(choice) lx-size=tiny ng-repeat="choice in children | lxSelectChoicesFilter:lx.filter:lx.filterModel" ng-repeat-end ng-click="lx.select(choice, $event)" lx-enter-keydown="lx.select(choice, $event)" ng-if=::!lx.isChoicesArray()><lx-list-item-content ng-bind-html=::lx.displayChoice(choice)></lx-list-item-content></lx-list-item></lx-list><span class=lumx-select__helper ng-if="lx.hasHelper && !lx.isLoading">{{ lx.helper }}</span><div class=lumx-select__loader ng-if="lx.isLoading || lx.isInfiniteScrollLoading"><lx-progress></lx-progress></div></lx-dropdown-menu></lx-dropdown></div>';
 angular.module('lumx.select').run(['$templateCache', function ($templateCache) {$templateCache.put('select.html', v1);}]);
 module.exports=v1
 
@@ -8749,7 +8758,7 @@ module.exports=v1
 /* 50 */
 /***/ (function(module, exports) {
 
-var v1='<ul class=lumx-side-navigation ng-class="{ \'lumx-custom-colors\': lx.customColors }" ng-transclude></ul>';
+var v1='<ul class=lumx-side-navigation ng-class=lx.getClasses() ng-transclude></ul>';
 angular.module('lumx.side-navigation').run(['$templateCache', function ($templateCache) {$templateCache.put('side-navigation.html', v1);}]);
 module.exports=v1
 
@@ -8757,7 +8766,7 @@ module.exports=v1
 /* 51 */
 /***/ (function(module, exports) {
 
-var v1='<li class=lumx-side-navigation-item ng-class="{ \'lumx-side-navigation-item--emphasis-low\': lx.emphasis === \'low\',\n                \'lumx-side-navigation-item--emphasis-medium\': !lx.emphasis || lx.emphasis === \'medium\',\n                \'lumx-side-navigation-item--emphasis-high\': lx.emphasis === \'high\',\n                \'lumx-side-navigation-item--is-selected\': lx.isSelected }"><a class=lumx-side-navigation-item__link ng-click=lx.handleClick() lx-enter-keydown=lx.handleClick() tabindex=0><lx-icon lx-path="{{ lx.icon }}" lx-size=xs ng-if=lx.icon></lx-icon><span>{{ lx.label }}</span><lx-icon lx-path="{{ lx.isOpen ? lx.icons.mdiChevronUp : lx.icons.mdiChevronDown }}" lx-size=xs ng-if=lx.hasChildren></lx-icon></a><ul class=lumx-side-navigation-item__children ng-if="lx.hasChildren && lx.isOpen" ng-transclude></ul></li>';
+var v1='<li class=lumx-side-navigation-item ng-class=lx.getClasses()><a class=lumx-side-navigation-item__link ng-click=lx.handleClick() lx-enter-keydown=lx.handleClick() tabindex=0><lx-icon lx-path="{{ lx.icon }}" lx-size=xs ng-if=lx.icon></lx-icon><span>{{ lx.label }}</span><lx-icon lx-path="{{ lx.isOpen ? lx.icons.mdiChevronUp : lx.icons.mdiChevronDown }}" lx-size=xs ng-if=lx.hasChildren></lx-icon></a><ul class=lumx-side-navigation-item__children ng-if="lx.hasChildren && lx.isOpen" ng-transclude></ul></li>';
 angular.module('lumx.side-navigation').run(['$templateCache', function ($templateCache) {$templateCache.put('side-navigation-item.html', v1);}]);
 module.exports=v1
 
@@ -8765,7 +8774,7 @@ module.exports=v1
 /* 52 */
 /***/ (function(module, exports) {
 
-var v1='<div class=lumx-switch ng-class="{ \'lumx-switch--is-checked\': lx.viewValue,\n                \'lumx-switch--is-unchecked\': !lx.viewValue,\n                \'lumx-switch--position-left\': !lx.position || lx.position === \'left\',\n                \'lumx-switch--position-right\': lx.position === \'right\',\n                \'lumx-switch--theme-light\': !lx.theme || lx.theme === \'light\',\n                \'lumx-switch--theme-dark\': lx.theme === \'dark\',\n                \'lumx-custom-colors\': lx.customColors }"><div class=lumx-switch__input-wrapper><input type=checkbox id="{{ lx.switchId }}" class=lumx-switch__input-native ng-checked=lx.viewValue ng-click="lx.updateViewValue()"><div class=lumx-switch__input-placeholder><div class=lumx-switch__input-background></div><div class=lumx-switch__input-indicator></div></div></div><div class=lumx-switch__content ng-if="::!lx.hasLabel && !lx.hasHelper && lx.hasTranscluded"><label for="{{ lx.switchId }}" class=lumx-switch__label ng-transclude></label></div><div class=lumx-switch__content ng-if=::lx.hasLabel><label for="{{ lx.switchId }}" class=lumx-switch__label ng-transclude=label></label><span class=lumx-switch__helper ng-transclude=helper ng-if=::lx.hasHelper></span></div></div>';
+var v1='<div class=lumx-switch ng-class=lx.getClasses()><div class=lumx-switch__input-wrapper><input type=checkbox id="{{ lx.switchId }}" class=lumx-switch__input-native ng-checked=lx.viewValue ng-click="lx.updateViewValue()"><div class=lumx-switch__input-placeholder><div class=lumx-switch__input-background></div><div class=lumx-switch__input-indicator></div></div></div><div class=lumx-switch__content ng-if="::!lx.hasLabel && !lx.hasHelper && lx.hasTranscluded"><label for="{{ lx.switchId }}" class=lumx-switch__label ng-transclude></label></div><div class=lumx-switch__content ng-if=::lx.hasLabel><label for="{{ lx.switchId }}" class=lumx-switch__label ng-transclude=label></label><span class=lumx-switch__helper ng-transclude=helper ng-if=::lx.hasHelper></span></div></div>';
 angular.module('lumx.switch').run(['$templateCache', function ($templateCache) {$templateCache.put('switch.html', v1);}]);
 module.exports=v1
 
@@ -8773,7 +8782,7 @@ module.exports=v1
 /* 53 */
 /***/ (function(module, exports) {
 
-var v1='<table class=lumx-table ng-class="{ \'lumx-table--has-before\': lx.hasBefore,\n                \'lumx-table--has-dividers\': lx.hasDividers,\n                \'lumx-table--is-clickable\': lx.isClickable,\n                \'lumx-table--theme-light\': !lx.theme || lx.theme === \'light\',\n                \'lumx-table--theme-dark\': lx.theme === \'dark\' }" ng-transclude></table>';
+var v1='<table class=lumx-table ng-class=lx.getClasses() ng-transclude></table>';
 angular.module('lumx.table').run(['$templateCache', function ($templateCache) {$templateCache.put('table.html', v1);}]);
 module.exports=v1
 
@@ -8813,7 +8822,7 @@ module.exports=v1
 /* 58 */
 /***/ (function(module, exports) {
 
-var v1='<div class=lumx-tabs ng-class="{ \'lumx-tabs--theme-light\': !lx.theme || lx.theme === \'light\',\n                \'lumx-tabs--theme-dark\': lx.theme === \'dark\',\n                \'lumx-tabs--layout-fixed\': !lx.layout || lx.layout === \'fixed\',\n                \'lumx-tabs--layout-clustered\': lx.layout === \'clustered\',\n                \'lumx-tabs--position-left\': !lx.position || lx.position === \'left\',\n                \'lumx-tabs--position-center\': lx.position === \'center\',\n                \'lumx-tabs--position-right\': lx.position === \'right\',\n                \'lumx-custom-colors\': lx.customColors }"><div class=lumx-tabs__links><a class=lumx-tabs__link ng-class="{ \'lumx-tabs__link--is-active\': lx.isTabActive(tab.index),\n                        \'lumx-tabs__link--is-disabled\': tab.isDisabled }" ng-repeat="tab in lx.tabs track by tab.uuid" ng-click=lx.setActiveTab(tab) lx-enter-keydown=lx.setActiveTab(tab) tabindex="{{ tab.isDisabled ? -1 : 0 }}"><lx-icon lx-path="{{ tab.icon }}" lx-size=xs ng-if=tab.icon></lx-icon><span ng-if=tab.label>{{ tab.label }}</span></a></div><div class=lumx-tabs__panes ng-transclude></div></div>';
+var v1='<div class=lumx-tabs ng-class=lx.getClasses()><div class=lumx-tabs__links><a class=lumx-tabs__link ng-class="{ \'lumx-tabs__link--is-active\': lx.isTabActive(tab.index),\n                        \'lumx-tabs__link--is-disabled\': tab.isDisabled }" ng-repeat="tab in lx.tabs track by tab.uuid" ng-click=lx.setActiveTab(tab) lx-enter-keydown=lx.setActiveTab(tab) tabindex="{{ tab.isDisabled ? -1 : 0 }}"><lx-icon lx-path="{{ tab.icon }}" lx-size=xs ng-if=tab.icon></lx-icon><span ng-if=tab.label>{{ tab.label }}</span></a></div><div class=lumx-tabs__panes ng-transclude></div></div>';
 angular.module('lumx.tabs').run(['$templateCache', function ($templateCache) {$templateCache.put('tabs.html', v1);}]);
 module.exports=v1
 
@@ -8821,7 +8830,7 @@ module.exports=v1
 /* 59 */
 /***/ (function(module, exports) {
 
-var v1='<div class=lumx-text-field ng-class="{ \'lumx-text-field--theme-light\': !lx.theme || lx.theme === \'light\',\n                \'lumx-text-field--theme-dark\': lx.theme === \'dark\',\n                \'lumx-text-field--has-chips\': lx.hasChips,\n                \'lumx-text-field--has-icon\': lx.icon,\n                \'lumx-text-field--has-input-clear\': lx.isClearable && lx.hasValue(),\n                \'lumx-text-field--has-label\': lx.label,\n                \'lumx-text-field--has-value\': lx.hasValue(),\n                \'lumx-text-field--is-valid\': lx.isValid,\n                \'lumx-text-field--has-error\': lx.hasError,\n                \'lumx-custom-colors\': lx.customColors }"><label for="{{ lx.inputId }}" class=lumx-text-field__label ng-if=::lx.label>{{ lx.label }}</label><span class=lumx-text-field__helper ng-if=::lx.helper>{{ lx.helper }}</span><div class=lumx-text-field__wrapper><lx-icon class=lumx-text-field__input-icon lx-path="{{ lx.icon }}" lx-size=xs ng-if="::lx.icon && !lx.hasChips"></lx-icon><div class=lumx-text-field__chips ng-transclude=chips ng-if=::lx.hasChips></div><div class=lumx-text-field__input-wrapper><div class=lumx-text-field__input-native ng-transclude ng-if=::!lx.hasInput></div><div class=lumx-text-field__input-native ng-transclude=input ng-if=::lx.hasInput></div><lx-icon class=lumx-text-field__input-validity lx-path="{{ lx.isValid ? lx.icons.mdiCheckCircle : lx.icons.mdiAlertCircle }}" lx-size=xxs ng-if="lx.isValid || lx.hasError"></lx-icon><lx-button type=button class=lumx-text-field__input-clear lx-emphasis=low lx-size=s lx-theme="{{ lx.theme }}" lx-variant=icon ng-if="lx.isClearable && lx.hasValue()" ng-click=lx.clearModel($event)><lx-icon lx-path="{{ lx.icons.mdiCloseCircle }}"></lx-icon></lx-button></div></div></div>';
+var v1='<div class=lumx-text-field ng-class=lx.getClasses()><label for="{{ lx.inputId }}" class=lumx-text-field__label ng-if=::lx.label>{{ lx.label }}</label><span class=lumx-text-field__helper ng-if=::lx.helper>{{ lx.helper }}</span><div class=lumx-text-field__wrapper><lx-icon class=lumx-text-field__input-icon lx-path="{{ lx.icon }}" lx-size=xs ng-if="::lx.icon && !lx.hasChips"></lx-icon><div class=lumx-text-field__chips ng-transclude=chips ng-if=::lx.hasChips></div><div class=lumx-text-field__input-wrapper><div class=lumx-text-field__input-native ng-transclude ng-if=::!lx.hasInput></div><div class=lumx-text-field__input-native ng-transclude=input ng-if=::lx.hasInput></div><lx-icon class=lumx-text-field__input-validity lx-path="{{ lx.isValid ? lx.icons.mdiCheckCircle : lx.icons.mdiAlertCircle }}" lx-size=xxs ng-if="lx.isValid || lx.hasError"></lx-icon><lx-button type=button class=lumx-text-field__input-clear lx-emphasis=low lx-size=s lx-theme="{{ lx.theme }}" lx-variant=icon ng-if="lx.isClearable && lx.hasValue()" ng-click=lx.clearModel($event)><lx-icon lx-path="{{ lx.icons.mdiCloseCircle }}"></lx-icon></lx-button></div></div></div>';
 angular.module('lumx.text-field').run(['$templateCache', function ($templateCache) {$templateCache.put('text-field.html', v1);}]);
 module.exports=v1
 
@@ -10992,32 +11001,28 @@ function ChipController() {
 
   function getClasses() {
     var classes = [];
+    var color;
 
-    if (angular.isUndefined(lx.color)) {
-      if (angular.isDefined(lx.theme) && lx.theme) {
-        var chipColor = lx.theme === 'light' ? 'dark' : 'light';
-        classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_0__[/* CSS_PREFIX */ "a"] + "-chip--color-" + chipColor);
-      } else {
-        classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_0__[/* CSS_PREFIX */ "a"] + "-chip--color-" + _DEFAULT_PROPS.color);
-      }
+    if (lx.color) {
+      color = lx.color.color;
+    } else if (angular.isDefined(lx.theme) && lx.theme) {
+      color = lx.theme === 'light' ? 'dark' : 'light';
     } else {
-      classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_0__[/* CSS_PREFIX */ "a"] + "-chip--color-" + lx.color);
+      color = _DEFAULT_PROPS.color.color;
     }
 
-    if (lx.hasBefore) {
-      classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_0__[/* CSS_PREFIX */ "a"] + "-chip--has-before");
-    }
+    var size = lx.size ? lx.size : _DEFAULT_PROPS.size;
+    var state = lx.isSelected ? 'selected' : 'unselected';
+    classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_0__[/* CSS_PREFIX */ "a"] + "-chip--color-" + color);
+    classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_0__[/* CSS_PREFIX */ "a"] + "-chip--size-" + size);
+    classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_0__[/* CSS_PREFIX */ "a"] + "-chip--is-" + state);
 
     if (lx.hasAfter || lx.hasDropdownIndicator) {
       classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_0__[/* CSS_PREFIX */ "a"] + "-chip--has-after");
     }
 
-    if (angular.isUndefined(lx.isSelected) || !lx.isSelected) {
-      classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_0__[/* CSS_PREFIX */ "a"] + "-chip--is-unselected");
-    }
-
-    if (lx.isSelected) {
-      classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_0__[/* CSS_PREFIX */ "a"] + "-chip--is-selected");
+    if (lx.hasBefore) {
+      classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_0__[/* CSS_PREFIX */ "a"] + "-chip--has-before");
     }
 
     if (angular.isFunction(lx.onClick)) {
@@ -11026,12 +11031,6 @@ function ChipController() {
 
     if (lx.isDisabled) {
       classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_0__[/* CSS_PREFIX */ "a"] + "-chip--is-disabled");
-    }
-
-    if (angular.isUndefined(lx.size)) {
-      classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_0__[/* CSS_PREFIX */ "a"] + "-chip--size-" + _DEFAULT_PROPS.size);
-    } else {
-      classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_0__[/* CSS_PREFIX */ "a"] + "-chip--size-" + lx.size);
     }
 
     if (lx.customColors) {
@@ -11502,6 +11501,9 @@ function DialogController($element, $rootScope, $scope, $timeout, LxDepthService
   'ngInject';
 
   var lx = this;
+  var _DEFAULT_PROPS = {
+    size: 'big'
+  };
   var _TRANSITION_DURATION = 400;
   var _dialog = $element;
 
@@ -11629,6 +11631,19 @@ function DialogController($element, $rootScope, $scope, $timeout, LxDepthService
     _sourceEl = sourceEl;
   }
 
+  function getClasses() {
+    var classes = [];
+    var size = lx.size ? lx.size : _DEFAULT_PROPS.size;
+    classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_3__[/* CSS_PREFIX */ "a"] + "-dialog--size-" + size);
+
+    if (lx.isLoading) {
+      classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_3__[/* CSS_PREFIX */ "a"] + "-dialog--is-loading");
+    }
+
+    return classes;
+  }
+
+  lx.getClasses = getClasses;
   $scope.$on('lx-dialog__open', function (evt, dialogId, params) {
     if (dialogId === lx.id) {
       _open(params);
@@ -11655,6 +11670,8 @@ function DialogController($element, $rootScope, $scope, $timeout, LxDepthService
 }
 
 function DialogDirective() {
+  'ngInject';
+
   function link(scope, el, attrs, ctrl) {
     attrs.$observe('id', function (newId) {
       ctrl.id = newId;
@@ -11861,7 +11878,6 @@ function DropdownController($document, $rootScope, $scope, $timeout, $window, Lx
 
   var _toggleEl;
 
-  lx.hasToggle = false;
   lx.isOpen = false;
   lx.uuid = LxUtilsService.generateUUID();
 
@@ -12115,7 +12131,7 @@ function DropdownDirective($timeout) {
     ctrl.registerMenu(menuEl);
 
     if (transclude.isSlotFilled('toggle')) {
-      ctrl.hasToggle = true;
+      el.addClass(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_3__[/* CSS_PREFIX */ "a"] + "-dropdown--has-toggle");
     }
 
     if (toggleEl.length > 0) {
@@ -12303,29 +12319,21 @@ function GridController() {
 
   function getClasses() {
     var classes = [];
+    var orientation = lx.orientation ? lx.orientation : _DEFAULT_PROPS.orientation;
+    var wrap = lx.wrap ? lx.wrap : _DEFAULT_PROPS.wrap;
+    classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_0__[/* CSS_PREFIX */ "a"] + "-grid--orientation-" + orientation);
+    classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_0__[/* CSS_PREFIX */ "a"] + "-grid--wrap-" + wrap);
 
-    if (angular.isDefined(lx.gutter)) {
+    if (lx.gutter) {
       classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_0__[/* CSS_PREFIX */ "a"] + "-grid--gutter-" + lx.gutter);
     }
 
-    if (angular.isDefined(lx.hAlign)) {
+    if (lx.hAlign) {
       classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_0__[/* CSS_PREFIX */ "a"] + "-grid--h-align-" + lx.hAlign);
     }
 
-    if (angular.isUndefined(lx.orientation)) {
-      classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_0__[/* CSS_PREFIX */ "a"] + "-grid--orientation-" + _DEFAULT_PROPS.orientation);
-    } else {
-      classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_0__[/* CSS_PREFIX */ "a"] + "-grid--orientation-" + lx.orientation);
-    }
-
-    if (angular.isDefined(lx.vAlign)) {
+    if (lx.vAlign) {
       classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_0__[/* CSS_PREFIX */ "a"] + "-grid--v-align-" + lx.vAlign);
-    }
-
-    if (angular.isUndefined(lx.wrap)) {
-      classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_0__[/* CSS_PREFIX */ "a"] + "-grid--wrap-" + _DEFAULT_PROPS.wrap);
-    } else {
-      classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_0__[/* CSS_PREFIX */ "a"] + "-grid--wrap-" + lx.wrap);
     }
 
     return classes;
@@ -12440,15 +12448,15 @@ function IconController() {
   function getClasses() {
     var classes = [];
 
-    if (angular.isDefined(lx.color)) {
+    if (lx.color) {
       classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_1__[/* CSS_PREFIX */ "a"] + "-icon--color-" + lx.color);
     }
 
-    if (angular.isDefined(lx.colorVariant)) {
+    if (lx.colorVariant) {
       classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_1__[/* CSS_PREFIX */ "a"] + "-icon--color-variant-" + lx.colorVariant);
     }
 
-    if (angular.isDefined(lx.size)) {
+    if (lx.size) {
       classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_1__[/* CSS_PREFIX */ "a"] + "-icon--size-" + lx.size);
     }
 
@@ -12508,11 +12516,11 @@ function LinkController() {
   function getClasses() {
     var classes = [];
 
-    if (angular.isDefined(lx.color)) {
+    if (lx.color) {
       classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_0__[/* CSS_PREFIX */ "a"] + "-link--color-" + lx.color);
     }
 
-    if (angular.isDefined(lx.colorVariant)) {
+    if (lx.colorVariant) {
       classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_0__[/* CSS_PREFIX */ "a"] + "-link--color-variant-" + lx.colorVariant);
     }
 
@@ -12619,6 +12627,21 @@ function ListController($element, $scope) {
     lx.activeItemIndex = -1;
   }
 
+  function getClasses() {
+    var classes = [];
+
+    if (lx.isClickable) {
+      classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_1__[/* CSS_PREFIX */ "a"] + "-list--is-clickable");
+    }
+
+    if (lx.customColors) {
+      classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_1__[/* CSS_PREFIX */ "a"] + "-custom-colors");
+    }
+
+    return classes;
+  }
+
+  lx.getClasses = getClasses;
   $element.on('keydown', _onKeyDown).on('focus', _resetActiveItemIndex);
   $scope.$on('$destroy', function () {
     $element.off('keydown', _onKeyDown).off('focus', _resetActiveItemIndex);
@@ -12626,6 +12649,8 @@ function ListController($element, $scope) {
 }
 
 function ListDirective() {
+  'ngInject';
+
   return {
     bindToController: true,
     controller: ListController,
@@ -12685,6 +12710,9 @@ function ListItemController($element, $scope) {
   'ngInject';
 
   var lx = this;
+  var _DEFAULT_PROPS = {
+    size: 'regular'
+  };
   lx.hasAfter = false;
   lx.hasBefore = false;
   lx.hasContent = false;
@@ -12698,6 +12726,23 @@ function ListItemController($element, $scope) {
     lx.parentController.activeItemIndex = $element.index("." + _lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_0__[/* CSS_PREFIX */ "a"] + "-list-item");
   }
 
+  function getClasses() {
+    var classes = [];
+    var size = lx.size ? lx.size : _DEFAULT_PROPS.size;
+    classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_0__[/* CSS_PREFIX */ "a"] + "-list-item--size-" + size);
+
+    if (lx.parentController.isClickable) {
+      classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_0__[/* CSS_PREFIX */ "a"] + "-list-item--is-clickable");
+    }
+
+    if (lx.isSelected) {
+      classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_0__[/* CSS_PREFIX */ "a"] + "-list-item--is-selected");
+    }
+
+    return classes;
+  }
+
+  lx.getClasses = getClasses;
   $element.on('focus', _registerIndex);
   $scope.$on('$destroy', function () {
     $element.off('focus', _registerIndex);
@@ -12925,14 +12970,36 @@ angular.module('lumx.notification').service('LxNotificationService', Notificatio
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ProgressDirective", function() { return ProgressDirective; });
-/* harmony import */ var _views_progress_html__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(47);
-/* harmony import */ var _views_progress_html__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_views_progress_html__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+/* harmony import */ var _views_progress_html__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(47);
+/* harmony import */ var _views_progress_html__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_views_progress_html__WEBPACK_IMPORTED_MODULE_1__);
+
 
 
 function ProgressController() {
   'ngInject';
 
   var lx = this;
+  var _DEFAULT_PROPS = {
+    theme: 'light',
+    variant: 'circular'
+  };
+
+  function getClasses() {
+    var classes = [];
+    var theme = lx.theme ? lx.theme : _DEFAULT_PROPS.theme;
+    var variant = lx.variant ? lx.variant : _DEFAULT_PROPS.variant;
+    classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_0__[/* CSS_PREFIX */ "a"] + "-progress--theme-" + theme);
+    classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_0__[/* CSS_PREFIX */ "a"] + "-progress--variant-" + variant);
+
+    if (lx.customColors) {
+      classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_0__[/* CSS_PREFIX */ "a"] + "-custom-colors");
+    }
+
+    return classes;
+  }
+
+  lx.getClasses = getClasses;
 }
 
 function ProgressDirective() {
@@ -12949,7 +13016,7 @@ function ProgressDirective() {
       theme: '@?lxTheme',
       variant: '@?lxVariant'
     },
-    template: _views_progress_html__WEBPACK_IMPORTED_MODULE_0___default.a
+    template: _views_progress_html__WEBPACK_IMPORTED_MODULE_1___default.a
   };
 }
 
@@ -12977,6 +13044,9 @@ function RadioButtonController(LxUtilsService) {
   'ngInject';
 
   var lx = this;
+  var _DEFAULT_PROPS = {
+    theme: 'light'
+  };
 
   var _modelController;
 
@@ -12986,6 +13056,20 @@ function RadioButtonController(LxUtilsService) {
   lx.hasTranscluded = false;
   lx.radioButtonValue = undefined;
   lx.viewValue = undefined;
+
+  function getClasses() {
+    var classes = [];
+    var state = lx.viewValue === lx.radioButtonValue ? 'checked' : 'unchecked';
+    var theme = lx.theme ? lx.theme : _DEFAULT_PROPS.theme;
+    classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_1__[/* CSS_PREFIX */ "a"] + "-radio-button--is-" + state);
+    classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_1__[/* CSS_PREFIX */ "a"] + "-radio-button--theme-" + theme);
+
+    if (lx.customColors) {
+      classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_1__[/* CSS_PREFIX */ "a"] + "-custom-colors");
+    }
+
+    return classes;
+  }
 
   function setModelController(modelController) {
     _modelController = modelController;
@@ -13005,6 +13089,7 @@ function RadioButtonController(LxUtilsService) {
     _modelController.$render();
   }
 
+  lx.getClasses = getClasses;
   lx.setModelController = setModelController;
   lx.updateViewValue = updateViewValue;
 }
@@ -13139,6 +13224,9 @@ function SelectController($document, $interpolate, $sce, $scope, $timeout, LxDro
   'ngInject';
 
   var lx = this;
+  var _DEFAULT_PROPS = {
+    theme: 'light'
+  };
 
   var _choiceTemplate;
 
@@ -13318,6 +13406,54 @@ function SelectController($document, $interpolate, $sce, $scope, $timeout, LxDro
     $document.on('keydown', _onKeyDown);
   }
 
+  function getClasses() {
+    var classes = [];
+    var mode = lx.multiple ? 'multiple' : 'unique';
+    var theme = lx.theme ? lx.theme : _DEFAULT_PROPS.theme;
+    var value = lx.isModelEmpty() ? 'is-empty' : 'has-value';
+    classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_7__[/* CSS_PREFIX */ "a"] + "-select--" + mode);
+    classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_7__[/* CSS_PREFIX */ "a"] + "-select--theme-" + theme);
+    classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_7__[/* CSS_PREFIX */ "a"] + "-select--" + value);
+
+    if (lx.hasError) {
+      classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_7__[/* CSS_PREFIX */ "a"] + "-select--has-error");
+    }
+
+    if (lx.isClearable && !lx.multiple && !lx.isModelEmpty()) {
+      classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_7__[/* CSS_PREFIX */ "a"] + "-select--has-input-clear");
+    }
+
+    if (lx.label) {
+      classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_7__[/* CSS_PREFIX */ "a"] + "-select--has-label");
+    }
+
+    if (lx.placeholder) {
+      classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_7__[/* CSS_PREFIX */ "a"] + "-select--has-placeholder");
+    }
+
+    if (lx.isDisabled) {
+      classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_7__[/* CSS_PREFIX */ "a"] + "-select--is-disabled");
+    }
+
+    if (lx.isFocus) {
+      classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_7__[/* CSS_PREFIX */ "a"] + "-select--is-focus");
+    }
+
+    if (lx.isOpen) {
+      classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_7__[/* CSS_PREFIX */ "a"] + "-select--is-open");
+    }
+
+    if (lx.isValid) {
+      classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_7__[/* CSS_PREFIX */ "a"] + "-select--is-valid");
+    }
+
+    if (lx.customColors) {
+      classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_7__[/* CSS_PREFIX */ "a"] + "-custom-colors");
+    }
+
+    return classes;
+  }
+
   function isChoicesArray() {
     return angular.isArray(lx.choices);
   }
@@ -13404,6 +13540,7 @@ function SelectController($document, $interpolate, $sce, $scope, $timeout, LxDro
   lx.displaySelected = displaySelected;
   lx.displaySubheader = displaySubheader;
   lx.enableKeyEvents = enableKeyEvents;
+  lx.getClasses = getClasses;
   lx.isChoicesArray = isChoicesArray;
   lx.isModelEmpty = isModelEmpty;
   lx.isSelected = isSelected;
@@ -13662,14 +13799,28 @@ angular.module('lumx.select').directive('lxSelectFilter', SelectFilterDirective)
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SideNavigationDirective", function() { return SideNavigationDirective; });
-/* harmony import */ var _views_side_navigation_html__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(50);
-/* harmony import */ var _views_side_navigation_html__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_views_side_navigation_html__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+/* harmony import */ var _views_side_navigation_html__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(50);
+/* harmony import */ var _views_side_navigation_html__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_views_side_navigation_html__WEBPACK_IMPORTED_MODULE_1__);
+
 
 
 function SideNavigationController() {
   'ngInject';
 
   var lx = this;
+
+  function getClasses() {
+    var classes = [];
+
+    if (lx.customColors) {
+      classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_0__[/* CSS_PREFIX */ "a"] + "-custom-colors");
+    }
+
+    return classes;
+  }
+
+  lx.getClasses = getClasses;
 }
 
 function SideNavigationDirective() {
@@ -13684,7 +13835,7 @@ function SideNavigationDirective() {
     scope: {
       customColors: '=?lxCustomColors'
     },
-    template: _views_side_navigation_html__WEBPACK_IMPORTED_MODULE_0___default.a,
+    template: _views_side_navigation_html__WEBPACK_IMPORTED_MODULE_1___default.a,
     transclude: true
   };
 }
@@ -13699,9 +13850,11 @@ angular.module('lumx.side-navigation').directive('lxSideNavigation', SideNavigat
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SideNavigationItemDirective", function() { return SideNavigationItemDirective; });
-/* harmony import */ var _lumx_icons__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
-/* harmony import */ var _views_side_navigation_item_html__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(51);
-/* harmony import */ var _views_side_navigation_item_html__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_views_side_navigation_item_html__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+/* harmony import */ var _lumx_icons__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
+/* harmony import */ var _views_side_navigation_item_html__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(51);
+/* harmony import */ var _views_side_navigation_item_html__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_views_side_navigation_item_html__WEBPACK_IMPORTED_MODULE_2__);
+
 
 
 
@@ -13709,11 +13862,26 @@ function SideNavigationItemController() {
   'ngInject';
 
   var lx = this;
+  var _DEFAULT_PROPS = {
+    emphasis: 'medium'
+  };
   lx.hasChildren = false;
   lx.icons = {
-    mdiChevronDown: _lumx_icons__WEBPACK_IMPORTED_MODULE_0__[/* mdiChevronDown */ "h"],
-    mdiChevronUp: _lumx_icons__WEBPACK_IMPORTED_MODULE_0__[/* mdiChevronUp */ "i"]
+    mdiChevronDown: _lumx_icons__WEBPACK_IMPORTED_MODULE_1__[/* mdiChevronDown */ "h"],
+    mdiChevronUp: _lumx_icons__WEBPACK_IMPORTED_MODULE_1__[/* mdiChevronUp */ "i"]
   };
+
+  function getClasses() {
+    var classes = [];
+    var emphasis = lx.emphasis ? lx.emphasis : _DEFAULT_PROPS.emphasis;
+    classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_0__[/* CSS_PREFIX */ "a"] + "-side-navigation-item--emphasis-" + emphasis);
+
+    if (lx.isSelected) {
+      classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_0__[/* CSS_PREFIX */ "a"] + "-side-navigation-item--is-selected");
+    }
+
+    return classes;
+  }
 
   function handleClick() {
     if (angular.isFunction(lx.onClick)) {
@@ -13723,6 +13891,7 @@ function SideNavigationItemController() {
     }
   }
 
+  lx.getClasses = getClasses;
   lx.handleClick = handleClick;
 }
 
@@ -13752,7 +13921,7 @@ function SideNavigationItemDirective() {
       label: '@lxLabel',
       onClick: '&?lxOnClick'
     },
-    template: _views_side_navigation_item_html__WEBPACK_IMPORTED_MODULE_1___default.a,
+    template: _views_side_navigation_item_html__WEBPACK_IMPORTED_MODULE_2___default.a,
     transclude: true
   };
 }
@@ -13781,6 +13950,10 @@ function SwitchController(LxUtilsService) {
   'ngInject';
 
   var lx = this;
+  var _DEFAULT_PROPS = {
+    position: 'left',
+    theme: 'light'
+  };
 
   var _modelController;
 
@@ -13789,6 +13962,22 @@ function SwitchController(LxUtilsService) {
   lx.hasLabel = false;
   lx.hasTranscluded = false;
   lx.viewValue = undefined;
+
+  function getClasses() {
+    var classes = [];
+    var position = lx.position ? lx.position : _DEFAULT_PROPS.position;
+    var state = lx.viewValue ? 'checked' : 'unchecked';
+    var theme = lx.theme ? lx.theme : _DEFAULT_PROPS.theme;
+    classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_1__[/* CSS_PREFIX */ "a"] + "-switch--position-" + position);
+    classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_1__[/* CSS_PREFIX */ "a"] + "-switch--is-" + state);
+    classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_1__[/* CSS_PREFIX */ "a"] + "-switch--theme-" + theme);
+
+    if (lx.customColors) {
+      classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_1__[/* CSS_PREFIX */ "a"] + "-custom-colors");
+    }
+
+    return classes;
+  }
 
   function setModelController(modelController) {
     _modelController = modelController;
@@ -13809,6 +13998,7 @@ function SwitchController(LxUtilsService) {
     _modelController.$render();
   }
 
+  lx.getClasses = getClasses;
   lx.setModelController = setModelController;
   lx.updateViewValue = updateViewValue;
 }
@@ -13883,14 +14073,41 @@ angular.module('lumx.switch').directive('lxSwitch', SwitchDirective);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TableDirective", function() { return TableDirective; });
-/* harmony import */ var _views_table_html__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(53);
-/* harmony import */ var _views_table_html__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_views_table_html__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+/* harmony import */ var _views_table_html__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(53);
+/* harmony import */ var _views_table_html__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_views_table_html__WEBPACK_IMPORTED_MODULE_1__);
+
 
 
 function TableController() {
   'ngInject';
 
   var lx = this;
+  var _DEFAULT_PROPS = {
+    theme: 'light'
+  };
+
+  function getClasses() {
+    var classes = [];
+    var theme = lx.theme ? lx.theme : _DEFAULT_PROPS.theme;
+    classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_0__[/* CSS_PREFIX */ "a"] + "-table--theme-" + theme);
+
+    if (lx.hasBefore) {
+      classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_0__[/* CSS_PREFIX */ "a"] + "-table--has-before");
+    }
+
+    if (lx.hasDividers) {
+      classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_0__[/* CSS_PREFIX */ "a"] + "-table--has-dividers");
+    }
+
+    if (lx.isClickable) {
+      classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_0__[/* CSS_PREFIX */ "a"] + "-table--is-clickable");
+    }
+
+    return classes;
+  }
+
+  lx.getClasses = getClasses;
 }
 
 function TableDirective() {
@@ -13908,7 +14125,7 @@ function TableDirective() {
       isClickable: '=?lxIsClickable',
       theme: '@?lxTheme'
     },
-    template: _views_table_html__WEBPACK_IMPORTED_MODULE_0___default.a,
+    template: _views_table_html__WEBPACK_IMPORTED_MODULE_1___default.a,
     transclude: true
   };
 }
@@ -14187,8 +14404,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var core_js_modules_es_array_splice__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_splice__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(38);
 /* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _views_tabs_html__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(58);
-/* harmony import */ var _views_tabs_html__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_views_tabs_html__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(0);
+/* harmony import */ var _views_tabs_html__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(58);
+/* harmony import */ var _views_tabs_html__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_views_tabs_html__WEBPACK_IMPORTED_MODULE_4__);
+
 
 
 
@@ -14198,11 +14417,32 @@ function TabsController() {
   'ngInject';
 
   var lx = this;
+  var _DEFAULT_PROPS = {
+    layout: 'fixed',
+    position: 'left',
+    theme: 'light'
+  };
   lx.activeTab = angular.isDefined(lx.activeTab) ? lx.activeTab : 0;
   lx.tabs = [];
 
   function addTab(tabToAdd) {
     lx.tabs.push(tabToAdd);
+  }
+
+  function getClasses() {
+    var classes = [];
+    var layout = lx.layout ? lx.layout : _DEFAULT_PROPS.layout;
+    var position = lx.position ? lx.position : _DEFAULT_PROPS.position;
+    var theme = lx.theme ? lx.theme : _DEFAULT_PROPS.theme;
+    classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_3__[/* CSS_PREFIX */ "a"] + "-tabs--layout-" + layout);
+    classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_3__[/* CSS_PREFIX */ "a"] + "-tabs--position-" + position);
+    classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_3__[/* CSS_PREFIX */ "a"] + "-tabs--theme-" + theme);
+
+    if (lx.customColors) {
+      classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_3__[/* CSS_PREFIX */ "a"] + "-custom-colors");
+    }
+
+    return classes;
   }
 
   function isTabActive(tabIndex) {
@@ -14237,6 +14477,7 @@ function TabsController() {
   }
 
   lx.addTab = addTab;
+  lx.getClasses = getClasses;
   lx.isTabActive = isTabActive;
   lx.removeTab = removeTab;
   lx.setActiveTab = setActiveTab;
@@ -14259,7 +14500,7 @@ function TabsDirective() {
       position: '@?lxPosition',
       theme: '@?lxTheme'
     },
-    template: _views_tabs_html__WEBPACK_IMPORTED_MODULE_3___default.a,
+    template: _views_tabs_html__WEBPACK_IMPORTED_MODULE_4___default.a,
     transclude: true
   };
 }
@@ -14291,6 +14532,9 @@ function TextFieldController(LxUtilsService) {
   'ngInject';
 
   var lx = this;
+  var _DEFAULT_PROPS = {
+    theme: 'light'
+  };
 
   var _modelController;
 
@@ -14313,6 +14557,46 @@ function TextFieldController(LxUtilsService) {
     _modelController.$render();
   }
 
+  function getClasses() {
+    var classes = [];
+    var theme = lx.theme ? lx.theme : _DEFAULT_PROPS.theme;
+    classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_1__[/* CSS_PREFIX */ "a"] + "-text-field--theme-" + theme);
+
+    if (lx.hasChips) {
+      classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_1__[/* CSS_PREFIX */ "a"] + "-text-field--has-chips");
+    }
+
+    if (lx.hasError) {
+      classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_1__[/* CSS_PREFIX */ "a"] + "-text-field--has-error");
+    }
+
+    if (lx.icon) {
+      classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_1__[/* CSS_PREFIX */ "a"] + "-text-field--has-icon");
+    }
+
+    if (lx.isClearable && lx.hasValue()) {
+      classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_1__[/* CSS_PREFIX */ "a"] + "-text-field--has-input-clear");
+    }
+
+    if (lx.label) {
+      classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_1__[/* CSS_PREFIX */ "a"] + "-text-field--has-label");
+    }
+
+    if (lx.hasValue()) {
+      classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_1__[/* CSS_PREFIX */ "a"] + "-text-field--has-value");
+    }
+
+    if (lx.isValid) {
+      classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_1__[/* CSS_PREFIX */ "a"] + "-text-field--is-valid");
+    }
+
+    if (lx.customColors) {
+      classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_1__[/* CSS_PREFIX */ "a"] + "-custom-colors");
+    }
+
+    return classes;
+  }
+
   function hasValue() {
     if (angular.isUndefined(_modelController) || angular.isUndefined(_modelController.$viewValue)) {
       return false;
@@ -14326,6 +14610,7 @@ function TextFieldController(LxUtilsService) {
   }
 
   lx.clearModel = clearModel;
+  lx.getClasses = getClasses;
   lx.hasValue = hasValue;
   lx.setModelController = setModelController;
 }
@@ -14455,6 +14740,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 function ThumbnailController() {
+  'ngInject';
+
   var lx = this;
   var _DEFAULT_PROPS = {
     align: 'left',
@@ -14475,37 +14762,21 @@ function ThumbnailController() {
 
   function getClasses() {
     var classes = [];
-
-    if (angular.isUndefined(lx.align)) {
-      classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_0__[/* CSS_PREFIX */ "a"] + "-thumbnail--align-" + _DEFAULT_PROPS.align);
-    } else {
-      classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_0__[/* CSS_PREFIX */ "a"] + "-thumbnail--align-" + lx.align);
-    }
-
-    if (angular.isUndefined(lx.aspectRatio)) {
-      classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_0__[/* CSS_PREFIX */ "a"] + "-thumbnail--aspect-ratio-" + _DEFAULT_PROPS.aspectRatio);
-    } else {
-      classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_0__[/* CSS_PREFIX */ "a"] + "-thumbnail--aspect-ratio-" + lx.aspectRatio);
-    }
+    var align = lx.align ? lx.align : _DEFAULT_PROPS.align;
+    var aspectRatio = lx.aspectRatio ? lx.aspectRatio : _DEFAULT_PROPS.aspectRatio;
+    var theme = lx.theme ? lx.theme : _DEFAULT_PROPS.theme;
+    var variant = lx.variant ? lx.variant : _DEFAULT_PROPS.variant;
+    classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_0__[/* CSS_PREFIX */ "a"] + "-thumbnail--align-" + align);
+    classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_0__[/* CSS_PREFIX */ "a"] + "-thumbnail--aspect-ratio-" + aspectRatio);
+    classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_0__[/* CSS_PREFIX */ "a"] + "-thumbnail--theme-" + theme);
+    classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_0__[/* CSS_PREFIX */ "a"] + "-thumbnail--variant-" + variant);
 
     if (lx.fillHeight) {
       classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_0__[/* CSS_PREFIX */ "a"] + "-thumbnail--fill-height");
     }
 
-    if (angular.isDefined(lx.size)) {
+    if (lx.size) {
       classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_0__[/* CSS_PREFIX */ "a"] + "-thumbnail--size-" + lx.size);
-    }
-
-    if (angular.isUndefined(lx.theme)) {
-      classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_0__[/* CSS_PREFIX */ "a"] + "-thumbnail--theme-" + _DEFAULT_PROPS.theme);
-    } else {
-      classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_0__[/* CSS_PREFIX */ "a"] + "-thumbnail--theme-" + lx.theme);
-    }
-
-    if (angular.isUndefined(lx.variant)) {
-      classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_0__[/* CSS_PREFIX */ "a"] + "-thumbnail--variant-" + _DEFAULT_PROPS.variant);
-    } else {
-      classes.push(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_0__[/* CSS_PREFIX */ "a"] + "-thumbnail--variant-" + lx.variant);
     }
 
     return classes;
