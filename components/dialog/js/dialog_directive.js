@@ -156,7 +156,7 @@ function DialogController(
                 _dialog.remove();
             } else {
                 _dialog
-                    .hide()
+                    .removeClass(`${CSS_PREFIX}-dialog--is-shown`)
                     .removeClass(`${CSS_PREFIX}-dialog--is-hidden`)
                     .appendTo(_parentElement);
             }
@@ -246,7 +246,7 @@ function DialogController(
         _dialog
             .css('z-index', LxDepthService.get() + 1)
             .appendTo('body')
-            .show();
+            .addClass(`${CSS_PREFIX}-dialog--is-shown`);
 
         $timeout(() => {
             $rootScope.$broadcast('lx-dialog__open-start', lx.id, params);
