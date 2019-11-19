@@ -11549,7 +11549,7 @@ function DialogController($element, $rootScope, $scope, $timeout, LxDepthService
       if (_isAlertDialog || _isConfirmDialog) {
         _dialog.remove();
       } else {
-        _dialog.hide().removeClass(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_3__[/* CSS_PREFIX */ "a"] + "-dialog--is-hidden").appendTo(_parentElement);
+        _dialog.removeClass(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_3__[/* CSS_PREFIX */ "a"] + "-dialog--is-shown").removeClass(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_3__[/* CSS_PREFIX */ "a"] + "-dialog--is-hidden").appendTo(_parentElement);
       }
 
       lx.isOpen = false;
@@ -11614,7 +11614,7 @@ function DialogController($element, $rootScope, $scope, $timeout, LxDepthService
       _idEventScheduler = LxEventSchedulerService.register('keydown', _onKeyDown);
     }
 
-    _dialog.css('z-index', LxDepthService.get() + 1).appendTo('body').show();
+    _dialog.css('z-index', LxDepthService.get() + 1).appendTo('body').addClass(_lumx_core_js_constants__WEBPACK_IMPORTED_MODULE_3__[/* CSS_PREFIX */ "a"] + "-dialog--is-shown");
 
     $timeout(function () {
       $rootScope.$broadcast('lx-dialog__open-start', lx.id, params);
