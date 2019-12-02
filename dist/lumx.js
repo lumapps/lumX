@@ -11004,11 +11004,11 @@ function ChipController() {
     var color;
 
     if (lx.color) {
-      color = lx.color.color;
+      color = lx.color;
     } else if (angular.isDefined(lx.theme) && lx.theme) {
       color = lx.theme === 'light' ? 'dark' : 'light';
     } else {
-      color = _DEFAULT_PROPS.color.color;
+      color = _DEFAULT_PROPS.color;
     }
 
     var size = lx.size ? lx.size : _DEFAULT_PROPS.size;
