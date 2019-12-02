@@ -82,11 +82,13 @@ function ChipController() {
 
         let color;
         if (lx.color) {
-            ({ color } = lx.color);
+            // eslint-disable-next-line prefer-destructuring
+            color = lx.color;
         } else if (angular.isDefined(lx.theme) && lx.theme) {
             color = lx.theme === 'light' ? 'dark' : 'light';
         } else {
-            ({ color } = _DEFAULT_PROPS.color);
+            // eslint-disable-next-line prefer-destructuring
+            color = _DEFAULT_PROPS.color;
         }
 
         const size = lx.size ? lx.size : _DEFAULT_PROPS.size;
