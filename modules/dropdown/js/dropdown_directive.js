@@ -383,7 +383,7 @@
         function onDocumentClick() {
             $timeout(function nextDigest() {
                 LxDropdownService.close(lxDropdown.uuid, true);
-            })
+            }, 250)
         }
 
         function openDropdownMenu()
