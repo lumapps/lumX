@@ -1,0 +1,148 @@
+///*------------------------------------*\
+//    #TOOLTIP
+//\*------------------------------------*/
+
+// Tooltip
+.tooltip {
+	position: absolute;
+    z-index: 9999;
+	border-radius: $base-round;
+	opacity: 0;
+	overflow: hidden;
+	pointer-events: none;
+	@include transition-property(opacity, transform);
+    @include transition-duration(0.6s);
+   	@include transition-timing-function($ease-out-quint);
+}
+
+.tooltip--is-active {
+	opacity: 1;
+
+	&.tooltip--top {
+        @include mq($until: desktop) {
+            @include transform(translateY(-24px));
+        }
+
+        @include mq($from: desktop) {
+            @include transform(translateY(-14px));
+        }
+	}
+
+	&.tooltip--bottom {
+        @include mq($until: desktop) {
+            @include transform(translateY(24px));
+        }
+
+        @include mq($from: desktop) {
+            @include transform(translateY(14px));
+        }
+	}
+
+	&.tooltip--left {
+        @include mq($until: desktop) {
+            @include transform(translateX(-24px));
+        }
+
+        @include mq($from: desktop) {
+            @include transform(translateX(-14px));
+        }
+	}
+
+	&.tooltip--right {
+        @include mq($until: desktop) {
+            @include transform(translateX(24px));
+        }
+
+        @include mq($from: desktop) {
+            @include transform(translateX(14px));
+        }
+	}
+}
+
+	// Tooltip background
+	.tooltip__background {
+		@include position(absolute, 0 0 0 0);
+		z-index: -1;
+		border-radius: 50%;
+        background-color: $grey-700;
+		@include transform(scale(0) translateY(50%));
+		@include transition-property(transform);
+   		@include transition-duration(0.6s);
+   		@include transition-timing-function($ease-out-quint);
+	}
+
+	// Tooltip label
+	.tooltip__label {
+		display: block;
+        color: $white-1;
+		white-space: nowrap;
+
+        @include mq($until: desktop) {
+            padding: 0 $base-spacing-unit * 2;
+            @include font-size(14px);
+            line-height: 32px;
+        }
+
+        @include mq($from: desktop) {
+            padding: 0 $base-spacing-unit;
+            @include font-size(10px);
+            line-height: 22px;
+        }
+	}
+
+
+
+
+
+// Tooltip direction modifiers
+.tooltip--top {
+	.tooltip__background {
+		@include transform(scale(0) translateY(50%));
+		@include transform-origin(center bottom);
+	}
+}
+
+.tooltip--top.tooltip--is-active {
+	.tooltip__background {
+		@include transform(scale(3) translateY(50%));
+	}
+}
+
+.tooltip--bottom {
+	.tooltip__background {
+		@include transform(scale(0) translateY(-50%));
+		@include transform-origin(center top);
+	}
+}
+
+.tooltip--bottom.tooltip--is-active {
+	.tooltip__background {
+		@include transform(scale(3) translateY(-50%));
+	}
+}
+
+.tooltip--left {
+	.tooltip__background {
+		@include transform(scale(0) translateX(50%));
+		@include transform-origin(right center);
+	}
+}
+
+.tooltip--left.tooltip--is-active {
+	.tooltip__background {
+		@include transform(scale(3) translateX(50%));
+	}
+}
+
+.tooltip--right {
+	.tooltip__background {
+		@include transform(scale(0) translateX(-50%));
+		@include transform-origin(left center);
+	}
+}
+
+.tooltip--right.tooltip--is-active {
+	.tooltip__background {
+		@include transform(scale(3) translateX(-50%));
+	}
+}

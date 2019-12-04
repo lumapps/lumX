@@ -1,0 +1,114 @@
+///*------------------------------------*\
+//    #DIALOG
+//\*------------------------------------*/
+
+// Dialog vars
+$dialog-margin: $base-spacing-unit * 4;
+
+
+
+
+
+// Dialog filter
+.dialog-filter {
+    @include position(fixed, 0 0 0 0);
+    background-color: rgba(0,0,0,0.6);
+    opacity: 0;
+    @include transition-property(opacity);
+    @include transition-duration(0.6s);
+    @include transition-timing-function($ease-out-quint);
+}
+
+.dialog-filter--is-shown {
+    opacity: 1;
+}
+
+
+
+
+
+// Dialog
+.dialog {
+    display: none;
+    @include position(fixed, $dialog-margin null null 50%);
+    border-radius: $base-round;
+    background-color: $white;
+    opacity: 0;
+    overflow: hidden;
+    @include elevation(24);
+    @include transform(translateY(-50px));
+    @include transition-property(opacity, transform);
+    @include transition-duration(0.6s);
+    @include transition-timing-function($ease-out-quint);
+
+    @include mq($until: desktop) {
+        width: 80%;
+        margin-left: -40%;
+    }
+}
+
+.dialog--alert {
+    width: 400px;
+    margin-left: -200px;
+}
+
+.dialog--s {
+    @include mq($from: desktop) {
+        width: 250px;
+        margin-left: -125px;
+    }
+}
+
+.dialog--m {
+    @include mq($from: desktop) {
+        width: 500px;
+        margin-left: -250px;
+    }
+}
+
+.dialog--l {
+    @include mq($from: desktop) {
+        width: 800px;
+        margin-left: -400px;
+    }
+}
+
+.dialog--is-shown {
+    opacity: 1;
+    @include transform(translateY(0));
+}
+
+.dialog--is-fixed {
+    bottom: $dialog-margin;
+
+    .dialog__header {
+        @include position(absolute, 0 0 null 0);
+    }
+
+    .dialog__scrollable {
+        @include position(absolute, null 0 null 0);
+        z-index: 1;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+
+    .dialog__footer {
+        @include position(absolute, null 0 0 0);
+        border-top: 1px solid $black-4;
+    }
+}
+
+    // Dialog: footer
+    .dialog__footer {
+        @include display(flex);
+        @include justify-content(flex-end);
+        padding: $base-spacing-unit;
+
+        .btn {
+            margin-left: $base-spacing-unit;
+
+            &:first-child {
+                margin-left: 0;
+            }
+        }
+    }

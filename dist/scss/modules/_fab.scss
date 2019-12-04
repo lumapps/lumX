@@ -1,0 +1,161 @@
+///*------------------------------------*\
+//    #OBJECTS-FAB
+//\*------------------------------------*/
+
+// FAB base styles
+.fab {
+    display: inline-block;
+    vertical-align: top;
+    position: relative;
+
+    &.lx-fab--trigger-on-hover:hover,
+    &.lx-fab--trigger-on-click.lx-fab--is-open {
+        .fab__primary .mdi {
+            &:nth-of-type(1) {
+                opacity: 0;
+                @include transform(rotate(45deg));
+            }
+
+            &:last-child {
+                opacity: 1;
+                @include transform(rotate(0));
+            }
+        }
+
+        .fab__actions {
+            pointer-events: auto;
+
+            .btn {
+                opacity: 1;
+            }
+
+            &.fab__actions--up .btn {
+                @include transform(scale(1) translateY(-($base-spacing-unit * 2)));
+            }
+
+            &.fab__actions--right .btn {
+                @include transform(scale(1) translateX($base-spacing-unit * 2));
+            }
+
+            &.fab__actions--down .btn {
+                @include transform(scale(1) translateY($base-spacing-unit * 2));
+            }
+
+            &.fab__actions--left .btn {
+                @include transform(scale(1) translateX(-($base-spacing-unit * 2)));
+            }
+        }
+    }
+}
+
+    // FAB primary button
+    .fab__primary {
+        .mdi {
+            @include position(absolute, 0 0 0 0);
+            @include transition-property(opacity, transform);
+            @include transition-duration(0.4s);
+            @include transition-timing-function($ease-out-quint);
+
+            &:nth-of-type(1) {
+                opacity: 1;
+                @include transform(rotate(0));
+            }
+
+            &:last-child {
+                opacity: 0;
+                @include transform(rotate(-45deg));
+            }
+        }
+    }
+
+    // FAB actions
+    .fab__actions {
+        pointer-events: none;
+
+        .btn {
+            display: block;
+            opacity: 0;
+            @include transform(scale(0.6));
+            @include transition-property(opacity, transform);
+            @include transition-duration(0.4s);
+            @include transition-timing-function($ease-out-quint);
+        }
+    }
+
+    // FAB actions directions
+    .fab__actions--up,
+    .fab__actions--left {
+        .btn {
+            @for $i from 1 through 10 {
+                &:nth-child(#{$i}) {
+                    @include transition-delay(0.02s * (10 / $i));
+                }
+            }
+        }
+    }
+
+    .fab__actions--down,
+    .fab__actions--right {
+        .btn {
+            @for $i from 1 through 10 {
+                &:nth-child(#{$i}) {
+                    @include transition-delay(0.05s * $i);
+                }
+            }
+        }
+    }
+
+    .fab__actions--left,
+    .fab__actions--right {
+        @include display(flex);
+        @include flex-direction(row);
+        @include flex-wrap(nowrap);
+    }
+
+    .fab__actions--up {
+        @include position(absolute, null null $size-xl 7px);
+
+        .btn {
+            margin-bottom: $base-spacing-unit * 2;
+
+            &:last-child {
+                margin-bottom: 0;
+            }
+        }
+    }
+
+    .fab__actions--down {
+        @include position(absolute, $size-xl null null 7px);
+
+        .btn {
+            margin-top: $base-spacing-unit * 2;
+
+            &:first-child {
+                margin-top: 0;
+            }
+        }
+    }
+
+    .fab__actions--left {
+        @include position(absolute, null $size-xl 7px null);
+
+        .btn {
+            margin-right: $base-spacing-unit * 2;
+
+            &:last-child {
+                margin-right: 0;
+            }
+        }
+    }
+
+    .fab__actions--right {
+        @include position(absolute, null null 7px $size-xl);
+
+        .btn {
+            margin-left: $base-spacing-unit * 2;
+
+            &:first-child {
+                margin-left: 0;
+            }
+        }
+    }

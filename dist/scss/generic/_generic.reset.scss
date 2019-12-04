@@ -1,0 +1,38 @@
+///* ========================================================================
+//   #GENERIC-RESET
+//   ======================================================================== */
+
+body,
+h1, h2, h3, h4, h5, h6,
+blockquote, p, pre,
+dl, dd, ol, ul,
+figure,
+hr,
+fieldset, legend {
+    margin:  0;
+    padding: 0;
+}
+
+li > {
+    ol,
+    ul {
+        margin-bottom: 0;
+    }
+}
+
+table {
+    border-spacing: 0;
+}
+
+fieldset {
+    min-width: 0;
+    border: 0;
+}
+
+button,
+input,
+optgroup,
+select,
+textarea {
+    font: inherit;
+}
